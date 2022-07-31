@@ -13,11 +13,11 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles.Tests
+ *  Product:  SimpleDB.Tests
  *  
  *  File: ForeignKeyManagerTests.cs
  *
- *  Purpose:  ForeignKeyManagerTests tests for text based storage
+ *  Purpose:  ForeignKeyManagerTests tests for SimpleDB
  *
  *  Date        Name                Reason
  *  02/06/2022  Simon Carter        Initially Created
@@ -30,15 +30,13 @@ using System.Diagnostics.CodeAnalysis;
 using io = System.IO;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using PluginManager.SimpleDB;
 using AspNetCore.PluginManager.Tests.Shared;
-using PluginManager.SimpleDB.Tests.Mocks;
-using PluginManager.SimpleDB.Internal;
+using SimpleDB.Tests.Mocks;
+using SimpleDB.Internal;
 
-namespace PluginManager.SimpleDB.Tests
+namespace SimpleDB.Tests
 {
-    [TestClass]
+	[TestClass]
     [ExcludeFromCodeCoverage]
     public class ForeignKeyManagerTests
     {
@@ -99,9 +97,9 @@ namespace PluginManager.SimpleDB.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ITextTableInitializer initializer = new TextTableInitializer(directory);
+                ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
 
-                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
                 List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
                 for (int i = 0; i < 5; i++)
@@ -109,7 +107,7 @@ namespace PluginManager.SimpleDB.Tests
 
                 mockUsers.Insert(testData);
 
-                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new SimpleDBOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
                 mockAddresses.Insert(new MockTableAddressRow(10));
             }
             finally
@@ -126,9 +124,9 @@ namespace PluginManager.SimpleDB.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ITextTableInitializer initializer = new TextTableInitializer(directory);
+                ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
 
-                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
                 mockUsers.ResetSequence(10, 10);
                 List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
@@ -137,7 +135,7 @@ namespace PluginManager.SimpleDB.Tests
 
                 mockUsers.Insert(testData);
 
-                using TextTableOperations<MockTableForeignKeyDefaultAllowed> mockAddresses = new TextTableOperations<MockTableForeignKeyDefaultAllowed>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableForeignKeyDefaultAllowed> mockAddresses = new SimpleDBOperations<MockTableForeignKeyDefaultAllowed>(initializer, sut, new MockPluginClassesService());
                 mockAddresses.Insert(new MockTableForeignKeyDefaultAllowed(0));
             }
             finally
@@ -155,9 +153,9 @@ namespace PluginManager.SimpleDB.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ITextTableInitializer initializer = new TextTableInitializer(directory);
+                ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
 
-                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
                 List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
                 for (int i = 0; i < 5; i++)
@@ -165,7 +163,7 @@ namespace PluginManager.SimpleDB.Tests
 
                 mockUsers.Insert(testData);
 
-                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new SimpleDBOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
                 mockAddresses.Insert(new MockTableAddressRow(3));
 
                 MockTableAddressRow addressRow = mockAddresses.Select(0);
@@ -189,9 +187,9 @@ namespace PluginManager.SimpleDB.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ITextTableInitializer initializer = new TextTableInitializer(directory);
+                ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
 
-                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
                 List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
                 for (int i = 0; i < 5; i++)
@@ -199,7 +197,7 @@ namespace PluginManager.SimpleDB.Tests
 
                 mockUsers.Insert(testData);
 
-                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new SimpleDBOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
                 mockAddresses.Insert(new MockTableAddressRow(3));
 
                 MockTableAddressRow addressRow = mockAddresses.Select(0);
@@ -221,9 +219,9 @@ namespace PluginManager.SimpleDB.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ITextTableInitializer initializer = new TextTableInitializer(directory);
+                ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
 
-                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
                 List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
                 for (int i = 0; i < 5; i++)
@@ -231,7 +229,7 @@ namespace PluginManager.SimpleDB.Tests
 
                 mockUsers.Insert(testData);
 
-                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new SimpleDBOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
                 mockAddresses.Insert(new MockTableAddressRow(3));
             }
             finally
@@ -248,9 +246,9 @@ namespace PluginManager.SimpleDB.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ITextTableInitializer initializer = new TextTableInitializer(directory);
+                ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
 
-                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
                 List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
                 for (int i = 0; i < 5; i++)
@@ -258,7 +256,7 @@ namespace PluginManager.SimpleDB.Tests
 
                 mockUsers.Insert(testData);
 
-                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new SimpleDBOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
                 mockAddresses.Insert(new MockTableAddressRow(3));
 
                 MockTableAddressRow addressRow = mockAddresses.Select(0);
@@ -281,9 +279,9 @@ namespace PluginManager.SimpleDB.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ITextTableInitializer initializer = new TextTableInitializer(directory);
+                ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
 
-                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
                 List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
                 for (int i = 0; i < 5; i++)
@@ -291,7 +289,7 @@ namespace PluginManager.SimpleDB.Tests
 
                 mockUsers.Insert(testData);
 
-                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new SimpleDBOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
                 mockAddresses.Insert(new MockTableAddressRow(4));
                 mockAddresses.Truncate();
 

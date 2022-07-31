@@ -28,15 +28,15 @@ using Middleware;
 using Middleware.Users;
 
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.SimpleDB;
+using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
     internal class UserSearch : IUserSearch
     {
-        private readonly ITextTableOperations<UserDataRow> _users;
+        private readonly ISimpleDBOperations<UserDataRow> _users;
 
-        public UserSearch(ITextTableOperations<UserDataRow> users)
+        public UserSearch(ISimpleDBOperations<UserDataRow> users)
         {
             _users = users ?? throw new ArgumentNullException(nameof(users));
         }

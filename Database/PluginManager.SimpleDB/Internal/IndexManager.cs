@@ -13,11 +13,11 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  SimpleDB
  *  
  *  File: IndexManager.cs
  *
- *  Purpose:  IndexManager for text based storage
+ *  Purpose:  IndexManager for SimpleDB
  *
  *  Date        Name                Reason
  *  05/06/2022  Simon Carter        Initially Created
@@ -28,7 +28,7 @@ using Shared.Classes;
 
 using SharedPluginFeatures.Interfaces;
 
-namespace PluginManager.SimpleDB.Internal
+namespace SimpleDB.Internal
 {
     /// <summary>
     /// This saves all index in memory and is rebuilt every time the file is loaded, this could

@@ -27,7 +27,7 @@ using Middleware;
 using Middleware.Downloads;
 
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.SimpleDB;
+using SimpleDB;
 
 using Shared.Classes;
 
@@ -40,16 +40,16 @@ namespace PluginManager.DAL.TextFiles.Providers
         #region Private Members
 
         private readonly IMemoryCache _memoryCache;
-        private readonly ITextTableOperations<DownloadItemsDataRow> _downloadItemData;
-        private readonly ITextTableOperations<DownloadCategoryDataRow> _downloadCategoryData;
+        private readonly ISimpleDBOperations<DownloadItemsDataRow> _downloadItemData;
+        private readonly ISimpleDBOperations<DownloadCategoryDataRow> _downloadCategoryData;
 
         #endregion Private Members
 
         #region Constructors
 
         public DownloadProvider(IMemoryCache memoryCache,
-            ITextTableOperations<DownloadItemsDataRow> downloadItemData,
-            ITextTableOperations<DownloadCategoryDataRow> downloadCategoryData)
+            ISimpleDBOperations<DownloadItemsDataRow> downloadItemData,
+            ISimpleDBOperations<DownloadCategoryDataRow> downloadCategoryData)
         {
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _downloadItemData = downloadItemData ?? throw new ArgumentNullException(nameof(downloadItemData));

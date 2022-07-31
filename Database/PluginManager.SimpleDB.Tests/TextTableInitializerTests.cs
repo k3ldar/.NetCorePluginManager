@@ -13,11 +13,11 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles.Tests
+ *  Product:  SimpleDB.Tests
  *  
  *  File: TextTableInitializerTests.cs
  *
- *  Purpose:  TextTableInitializerTests tests for text based storage
+ *  Purpose:  TextTableInitializerTests tests for SimpleDB
  *
  *  Date        Name                Reason
  *  30/05/2022  Simon Carter        Initially Created
@@ -32,12 +32,12 @@ using AspNetCore.PluginManager.Tests.Shared;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using PluginManager.SimpleDB.Internal;
-using PluginManager.SimpleDB.Tests.Mocks;
+using SimpleDB.Internal;
+using SimpleDB.Tests.Mocks;
 
 #pragma warning disable CA1806
 
-namespace PluginManager.SimpleDB.Tests
+namespace SimpleDB.Tests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
@@ -49,7 +49,7 @@ namespace PluginManager.SimpleDB.Tests
         {
             try
             {
-                new TextTableInitializer(path: null);
+                new SimpleDBInitializer(path: null);
             }
             catch (ArgumentNullException e)
             {
@@ -64,7 +64,7 @@ namespace PluginManager.SimpleDB.Tests
         {
             try
             {
-                new TextTableInitializer("");
+                new SimpleDBInitializer("");
             }
             catch (ArgumentNullException e)
             {
@@ -80,7 +80,7 @@ namespace PluginManager.SimpleDB.Tests
             string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
             {
-                new TextTableInitializer(directory);
+                new SimpleDBInitializer(directory);
             }
             catch (ArgumentException e)
             {
@@ -97,7 +97,7 @@ namespace PluginManager.SimpleDB.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                TextTableInitializer sut = new TextTableInitializer(directory);
+                SimpleDBInitializer sut = new SimpleDBInitializer(directory);
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
             }
@@ -115,7 +115,7 @@ namespace PluginManager.SimpleDB.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                TextTableInitializer sut = new TextTableInitializer(directory);
+                SimpleDBInitializer sut = new SimpleDBInitializer(directory);
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
 
@@ -135,11 +135,11 @@ namespace PluginManager.SimpleDB.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                TextTableInitializer sut = new TextTableInitializer(directory);
+                SimpleDBInitializer sut = new SimpleDBInitializer(directory);
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
 
-                using (TextTableOperations<MockRow> mockTable = new TextTableOperations<MockRow>(sut, new ForeignKeyManager(), new MockPluginClassesService()))
+                using (SimpleDBOperations<MockRow> mockTable = new SimpleDBOperations<MockRow>(sut, new ForeignKeyManager(), new MockPluginClassesService()))
                     sut.RegisterTable(mockTable);
             }
             finally
@@ -155,13 +155,13 @@ namespace PluginManager.SimpleDB.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                TextTableInitializer sut = new TextTableInitializer(directory);
+                SimpleDBInitializer sut = new SimpleDBInitializer(directory);
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
 
-                using (TextTableOperations<MockRow> mockTable = new TextTableOperations<MockRow>(sut, new ForeignKeyManager(), new MockPluginClassesService()))
+                using (SimpleDBOperations<MockRow> mockTable = new SimpleDBOperations<MockRow>(sut, new ForeignKeyManager(), new MockPluginClassesService()))
                 {
-                    IReadOnlyDictionary<string, ITextTable> tables = sut.Tables;
+                    IReadOnlyDictionary<string, ISimpleDBTable> tables = sut.Tables;
                     Assert.AreEqual(1, tables.Count);
                     Assert.IsTrue(tables.ContainsKey("MockTable"));
                 }
@@ -179,18 +179,18 @@ namespace PluginManager.SimpleDB.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                TextTableInitializer sut = new TextTableInitializer(directory);
+                SimpleDBInitializer sut = new SimpleDBInitializer(directory);
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
                 MockForeignKeyManager foreignKeyManager = new MockForeignKeyManager();
                 Assert.AreEqual(0, foreignKeyManager.RegisteredTables.Count);
 
-                using (TextTableOperations<MockRow> mockTable = new TextTableOperations<MockRow>(sut, foreignKeyManager, new MockPluginClassesService()))
+                using (SimpleDBOperations<MockRow> mockTable = new SimpleDBOperations<MockRow>(sut, foreignKeyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(1, foreignKeyManager.RegisteredTables.Count);
                     Assert.IsTrue(foreignKeyManager.RegisteredTables.Contains("MockTable"));
 
-                    IReadOnlyDictionary<string, ITextTable> tables = sut.Tables;
+                    IReadOnlyDictionary<string, ISimpleDBTable> tables = sut.Tables;
                     Assert.AreEqual(1, tables.Count);
                     Assert.IsTrue(tables.ContainsKey("MockTable"));
                 }

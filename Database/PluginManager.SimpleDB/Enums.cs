@@ -13,18 +13,18 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  SimpleDB
  *  
  *  File: Enums.cs
  *
- *  Purpose:  Enums for text based storage
+ *  Purpose:  Enums for SimpleDB
  *
  *  Date        Name                Reason
  *  23/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace PluginManager.SimpleDB
+namespace SimpleDB
 {
     /// <summary>
     /// Type of compression to use when reading/writing data from disk

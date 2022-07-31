@@ -13,30 +13,27 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles.Tests
+ *  Product:  SimpleDB
  *  
- *  File: ITextTable.cs
+ *  File: ISimpleDBInitializer.cs
  *
- *  Purpose:  ITextTable interface for text based storage
+ *  Purpose:  ISimpleDBInitializer interface for SimpleDB
  *
  *  Date        Name                Reason
- *  31/05/2022  Simon Carter        Initially Created
+ *  23/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace PluginManager.SimpleDB
+namespace SimpleDB
 {
-
-
-    /// <summary>
-    /// add before/after insert/delete/update and add foreign key attributes and unique index attributes which can be validated
-    /// </summary>
-    public interface ITextTable
+    public interface ISimpleDBInitializer
     {
-        string TableName { get; }
+        string Path { get; }
 
-        bool IdExists(long id);
+        void RegisterTable(ISimpleDBTable textTable);
 
-        bool IdIsInUse(string propertyName, long value);
+        void UnregisterTable(ISimpleDBTable textTable);
+
+        IReadOnlyDictionary<string, ISimpleDBTable> Tables { get; }
     }
 }

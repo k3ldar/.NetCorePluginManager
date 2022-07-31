@@ -13,19 +13,18 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles.Tests
+ *  Product:  SimpleDB.Tests
  *  
  *  File: MockRowCompressed.cs
  *
- *  Purpose:  MockRowCompressed for text based storage
- *
+ *  Purpose:  MockRowCompressed for SimpleDB
  *  Date        Name                Reason
  *  23/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Diagnostics.CodeAnalysis;
 
-namespace PluginManager.SimpleDB.Tests.Mocks
+namespace SimpleDB.Tests.Mocks
 {
     [ExcludeFromCodeCoverage]
     [Table("MockTable", CompressionType.Brotli, cachingStrategy: CachingStrategy.Memory)]

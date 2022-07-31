@@ -13,23 +13,23 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  SimpleDB
  *  
  *  File: ForeignKeyAttribute.cs
  *
- *  Purpose:  ForeignKeyAttribute for text based storage
+ *  Purpose:  ForeignKeyAttribute for SimpleDB
  *
  *  Date        Name                Reason
  *  02/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace PluginManager.SimpleDB
+namespace SimpleDB
 {
-    /// <summary>
-    /// Provides foreign key functionality for text based storage
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+	/// <summary>
+	/// Provides foreign key functionality for SimpleDB
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
     public class ForeignKeyAttribute : Attribute
     {
         private ForeignKeyAttribute(string tableName, string propertyName, bool allowDefault)

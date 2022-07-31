@@ -36,7 +36,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Blog.Plugin
 {
-    public class Startup
+	public class Startup
     {
         public Startup(IConfiguration configuration)
         {

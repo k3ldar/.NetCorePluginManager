@@ -41,7 +41,7 @@ using Middleware.DynamicContent;
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.SimpleDB;
+using SimpleDB;
 using PluginManager.Tests.Mocks;
 
 using SharedPluginFeatures;
@@ -61,21 +61,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
-
-                List<object> servicesList = new List<object>()
-                {
-                    new DownloadItemsDataRowDefaults(),
-                    new UserDataRowDefaults(settingsProvider)
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<ISettingsProvider>(settingsProvider);
-                services.AddSingleton<IMemoryCache>(new MockMemoryCache());
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -85,7 +71,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
                     Assert.IsNotNull(sut);
 
-                    ITextTableOperations<ContentPageDataRow> pageTable = provider.GetService<ITextTableOperations<ContentPageDataRow>>();
+                    ISimpleDBOperations<ContentPageDataRow> pageTable = provider.GetService<ISimpleDBOperations<ContentPageDataRow>>();
                     Assert.IsNotNull(pageTable);
                     Assert.AreEqual(0, pageTable.RecordCount);
 
@@ -108,21 +94,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
-
-                List<object> servicesList = new List<object>()
-                {
-                    new DownloadItemsDataRowDefaults(),
-                    new UserDataRowDefaults(settingsProvider)
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<ISettingsProvider>(settingsProvider);
-                services.AddSingleton<IMemoryCache>(new MockMemoryCache());
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -132,11 +104,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
                     Assert.IsNotNull(sut);
 
-                    ITextTableOperations<ContentPageDataRow> pageTable = provider.GetService<ITextTableOperations<ContentPageDataRow>>();
+                    ISimpleDBOperations<ContentPageDataRow> pageTable = provider.GetService<ISimpleDBOperations<ContentPageDataRow>>();
                     Assert.IsNotNull(pageTable);
                     Assert.AreEqual(0, pageTable.RecordCount);
 
-                    ITextTableOperations<ContentPageItemDataRow> pageItemsTable = provider.GetService<ITextTableOperations<ContentPageItemDataRow>>();
+                    ISimpleDBOperations<ContentPageItemDataRow> pageItemsTable = provider.GetService<ISimpleDBOperations<ContentPageItemDataRow>>();
                     Assert.IsNotNull(pageItemsTable);
                     Assert.AreEqual(0, pageItemsTable.RecordCount);
 
@@ -172,21 +144,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
-
-                List<object> servicesList = new List<object>()
-                {
-                    new DownloadItemsDataRowDefaults(),
-                    new UserDataRowDefaults(settingsProvider)
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<ISettingsProvider>(settingsProvider);
-                services.AddSingleton<IMemoryCache>(new MockMemoryCache());
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -196,11 +154,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
                     Assert.IsNotNull(sut);
 
-                    ITextTableOperations<ContentPageDataRow> pageTable = provider.GetService<ITextTableOperations<ContentPageDataRow>>();
+                    ISimpleDBOperations<ContentPageDataRow> pageTable = provider.GetService<ISimpleDBOperations<ContentPageDataRow>>();
                     Assert.IsNotNull(pageTable);
                     Assert.AreEqual(0, pageTable.RecordCount);
 
-                    ITextTableOperations<ContentPageItemDataRow> pageItemsTable = provider.GetService<ITextTableOperations<ContentPageItemDataRow>>();
+                    ISimpleDBOperations<ContentPageItemDataRow> pageItemsTable = provider.GetService<ISimpleDBOperations<ContentPageItemDataRow>>();
                     Assert.IsNotNull(pageItemsTable);
                     Assert.AreEqual(0, pageItemsTable.RecordCount);
 
@@ -236,21 +194,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
-
-                List<object> servicesList = new List<object>()
-                {
-                    new DownloadItemsDataRowDefaults(),
-                    new UserDataRowDefaults(settingsProvider)
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<ISettingsProvider>(settingsProvider);
-                services.AddSingleton<IMemoryCache>(new MockMemoryCache());
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -260,11 +204,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
                     Assert.IsNotNull(sut);
 
-                    ITextTableOperations<ContentPageDataRow> pageTable = provider.GetService<ITextTableOperations<ContentPageDataRow>>();
+                    ISimpleDBOperations<ContentPageDataRow> pageTable = provider.GetService<ISimpleDBOperations<ContentPageDataRow>>();
                     Assert.IsNotNull(pageTable);
                     Assert.AreEqual(0, pageTable.RecordCount);
 
-                    ITextTableOperations<ContentPageItemDataRow> pageItemsTable = provider.GetService<ITextTableOperations<ContentPageItemDataRow>>();
+                    ISimpleDBOperations<ContentPageItemDataRow> pageItemsTable = provider.GetService<ISimpleDBOperations<ContentPageItemDataRow>>();
                     Assert.IsNotNull(pageItemsTable);
                     Assert.AreEqual(0, pageItemsTable.RecordCount);
 
@@ -303,21 +247,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
-
-                List<object> servicesList = new List<object>()
-                {
-                    new DownloadItemsDataRowDefaults(),
-                    new UserDataRowDefaults(settingsProvider)
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<ISettingsProvider>(settingsProvider);
-                services.AddSingleton<IMemoryCache>(new MockMemoryCache());
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -327,11 +257,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
                     Assert.IsNotNull(sut);
 
-                    ITextTableOperations<ContentPageDataRow> pageTable = provider.GetService<ITextTableOperations<ContentPageDataRow>>();
+                    ISimpleDBOperations<ContentPageDataRow> pageTable = provider.GetService<ISimpleDBOperations<ContentPageDataRow>>();
                     Assert.IsNotNull(pageTable);
                     Assert.AreEqual(0, pageTable.RecordCount);
 
-                    ITextTableOperations<ContentPageItemDataRow> pageItemsTable = provider.GetService<ITextTableOperations<ContentPageItemDataRow>>();
+                    ISimpleDBOperations<ContentPageItemDataRow> pageItemsTable = provider.GetService<ISimpleDBOperations<ContentPageItemDataRow>>();
                     Assert.IsNotNull(pageItemsTable);
                     Assert.AreEqual(0, pageItemsTable.RecordCount);
 
@@ -370,21 +300,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
-
-                List<object> servicesList = new List<object>()
-                {
-                    new DownloadItemsDataRowDefaults(),
-                    new UserDataRowDefaults(settingsProvider)
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<ISettingsProvider>(settingsProvider);
-                services.AddSingleton<IMemoryCache>(new MockMemoryCache());
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -394,11 +310,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
                     Assert.IsNotNull(sut);
 
-                    ITextTableOperations<ContentPageDataRow> pageTable = provider.GetService<ITextTableOperations<ContentPageDataRow>>();
+                    ISimpleDBOperations<ContentPageDataRow> pageTable = provider.GetService<ISimpleDBOperations<ContentPageDataRow>>();
                     Assert.IsNotNull(pageTable);
                     Assert.AreEqual(0, pageTable.RecordCount);
 
-                    ITextTableOperations<ContentPageItemDataRow> pageItemsTable = provider.GetService<ITextTableOperations<ContentPageItemDataRow>>();
+                    ISimpleDBOperations<ContentPageItemDataRow> pageItemsTable = provider.GetService<ISimpleDBOperations<ContentPageItemDataRow>>();
                     Assert.IsNotNull(pageItemsTable);
                     Assert.AreEqual(0, pageItemsTable.RecordCount);
 
@@ -437,24 +353,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
-
-                List<object> servicesList = new List<object>()
-                {
-                    new DownloadItemsDataRowDefaults(),
-                    new UserDataRowDefaults(settingsProvider),
-                    new HorizontalRuleTemplate(),
-                    new HtmlTextTemplate(),
-                    new YouTubeVideoTemplate(),
-            };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<ISettingsProvider>(settingsProvider);
-                services.AddSingleton<IMemoryCache>(new MockMemoryCache());
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -484,21 +383,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
-
-                List<object> servicesList = new List<object>()
-                {
-                    new DownloadItemsDataRowDefaults(),
-                    new UserDataRowDefaults(settingsProvider)
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<ISettingsProvider>(settingsProvider);
-                services.AddSingleton<IMemoryCache>(new MockMemoryCache());
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -508,11 +393,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
                     Assert.IsNotNull(sut);
 
-                    ITextTableOperations<ContentPageDataRow> pageTable = provider.GetService<ITextTableOperations<ContentPageDataRow>>();
+                    ISimpleDBOperations<ContentPageDataRow> pageTable = provider.GetService<ISimpleDBOperations<ContentPageDataRow>>();
                     Assert.IsNotNull(pageTable);
                     Assert.AreEqual(0, pageTable.RecordCount);
 
-                    ITextTableOperations<ContentPageItemDataRow> pageItemsTable = provider.GetService<ITextTableOperations<ContentPageItemDataRow>>();
+                    ISimpleDBOperations<ContentPageItemDataRow> pageItemsTable = provider.GetService<ISimpleDBOperations<ContentPageItemDataRow>>();
                     Assert.IsNotNull(pageItemsTable);
                     Assert.AreEqual(0, pageItemsTable.RecordCount);
 
@@ -535,24 +420,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
-
-                List<object> servicesList = new List<object>()
-                {
-                    new DownloadItemsDataRowDefaults(),
-                    new UserDataRowDefaults(settingsProvider),
-                    new HorizontalRuleTemplate(),
-                    new HtmlTextTemplate(),
-                    new YouTubeVideoTemplate(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<ISettingsProvider>(settingsProvider);
-                services.AddSingleton<IMemoryCache>(new MockMemoryCache());
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -562,11 +430,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
                     Assert.IsNotNull(sut);
 
-                    ITextTableOperations<ContentPageDataRow> pageTable = provider.GetService<ITextTableOperations<ContentPageDataRow>>();
+                    ISimpleDBOperations<ContentPageDataRow> pageTable = provider.GetService<ISimpleDBOperations<ContentPageDataRow>>();
                     Assert.IsNotNull(pageTable);
                     Assert.AreEqual(0, pageTable.RecordCount);
 
-                    ITextTableOperations<ContentPageItemDataRow> pageItemsTable = provider.GetService<ITextTableOperations<ContentPageItemDataRow>>();
+                    ISimpleDBOperations<ContentPageItemDataRow> pageItemsTable = provider.GetService<ISimpleDBOperations<ContentPageItemDataRow>>();
                     Assert.IsNotNull(pageItemsTable);
                     Assert.AreEqual(0, pageItemsTable.RecordCount);
 
@@ -630,24 +498,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
-
-                List<object> servicesList = new List<object>()
-                {
-                    new DownloadItemsDataRowDefaults(),
-                    new UserDataRowDefaults(settingsProvider),
-                    new HorizontalRuleTemplate(),
-                    new HtmlTextTemplate(),
-                    new YouTubeVideoTemplate(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<ISettingsProvider>(settingsProvider);
-                services.AddSingleton<IMemoryCache>(new MockMemoryCache());
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -657,11 +508,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
                     Assert.IsNotNull(sut);
 
-                    ITextTableOperations<ContentPageDataRow> pageTable = provider.GetService<ITextTableOperations<ContentPageDataRow>>();
+                    ISimpleDBOperations<ContentPageDataRow> pageTable = provider.GetService<ISimpleDBOperations<ContentPageDataRow>>();
                     Assert.IsNotNull(pageTable);
                     Assert.AreEqual(0, pageTable.RecordCount);
 
-                    ITextTableOperations<ContentPageItemDataRow> pageItemsTable = provider.GetService<ITextTableOperations<ContentPageItemDataRow>>();
+                    ISimpleDBOperations<ContentPageItemDataRow> pageItemsTable = provider.GetService<ISimpleDBOperations<ContentPageItemDataRow>>();
                     Assert.IsNotNull(pageItemsTable);
                     Assert.AreEqual(0, pageItemsTable.RecordCount);
 
@@ -731,24 +582,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
-
-                List<object> servicesList = new List<object>()
-                {
-                    new DownloadItemsDataRowDefaults(),
-                    new UserDataRowDefaults(settingsProvider),
-                    new HorizontalRuleTemplate(),
-                    new HtmlTextTemplate(),
-                    new YouTubeVideoTemplate(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<ISettingsProvider>(settingsProvider);
-                services.AddSingleton<IMemoryCache>(new MockMemoryCache());
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -758,11 +592,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
                     Assert.IsNotNull(sut);
 
-                    ITextTableOperations<ContentPageDataRow> pageTable = provider.GetService<ITextTableOperations<ContentPageDataRow>>();
+                    ISimpleDBOperations<ContentPageDataRow> pageTable = provider.GetService<ISimpleDBOperations<ContentPageDataRow>>();
                     Assert.IsNotNull(pageTable);
                     Assert.AreEqual(0, pageTable.RecordCount);
 
-                    ITextTableOperations<ContentPageItemDataRow> pageItemsTable = provider.GetService<ITextTableOperations<ContentPageItemDataRow>>();
+                    ISimpleDBOperations<ContentPageItemDataRow> pageItemsTable = provider.GetService<ISimpleDBOperations<ContentPageItemDataRow>>();
                     Assert.IsNotNull(pageItemsTable);
                     Assert.AreEqual(0, pageItemsTable.RecordCount);
 

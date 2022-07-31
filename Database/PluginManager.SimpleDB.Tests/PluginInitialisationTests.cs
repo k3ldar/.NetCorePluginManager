@@ -13,11 +13,11 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles.Tests
+ *  Product:  SimpleDB.Tests
  *  
  *  File: PluginInitialisationTests.cs
  *
- *  Purpose:  PluginInitialisation Tests for text based storage
+ *  Purpose:  PluginInitialisation Tests for SimpleDB
  *
  *  Date        Name                Reason
  *  31/05/2022  Simon Carter        Initially Created
@@ -31,7 +31,7 @@ using PluginManager.Abstractions;
 using SharedPluginFeatures;
 using PluginManager.Tests.Mocks;
 
-namespace PluginManager.SimpleDB.Tests
+namespace SimpleDB.Tests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]

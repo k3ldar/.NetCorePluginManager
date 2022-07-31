@@ -13,7 +13,7 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  SimpleDB
  *  
  *  File: BatchUpdateDictionary.cs
  *
@@ -24,11 +24,10 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using SharedPluginFeatures.Interfaces;
-using PluginManager.SimpleDB;
 
-namespace PluginManager.SimpleDB.Internal
+namespace SimpleDB.Internal
 {
-    internal sealed class BatchUpdateDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IBatchUpdate
+	internal sealed class BatchUpdateDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IBatchUpdate
         where TValue : IIndexManager, IBatchUpdate
     {
         public bool IsUpdating { get; private set; }

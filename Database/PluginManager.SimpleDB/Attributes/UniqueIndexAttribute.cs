@@ -13,18 +13,18 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  SimpleDB
  *  
  *  File: UniqueIndexAttribute.cs
  *
- *  Purpose:  UniqueIndexAttribute for text based storage
+ *  Purpose:  UniqueIndexAttribute for SimpleDB
  *
  *  Date        Name                Reason
  *  04/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace PluginManager.SimpleDB
+namespace SimpleDB
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
     public class UniqueIndexAttribute : Attribute

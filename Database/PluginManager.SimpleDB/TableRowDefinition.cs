@@ -13,7 +13,7 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  SimpleDB
  *  
  *  File: TableRowDefinition.cs
  *
@@ -25,7 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Text.Json.Serialization;
 
-namespace PluginManager.SimpleDB
+namespace SimpleDB
 {
     /// <summary>
     /// Base class for all table row types

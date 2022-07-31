@@ -13,21 +13,21 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles.Tests
+ *  Product:  SimpleDB.Tests
  *  
  *  File: MockTextTable.cs
  *
- *  Purpose:  MockTextTable for text based storage
- *
+ *  Purpose:  MockTextTable for SimpleDB
+ *  
  *  Date        Name                Reason
  *  02/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
-namespace PluginManager.SimpleDB.Tests.Mocks
+namespace SimpleDB.Tests.Mocks
 {
-	public class MockTextTable : ITextTable
+	public class MockTextTable : ISimpleDBTable
     {
         private readonly string _tableName;
         private readonly bool _idExists;

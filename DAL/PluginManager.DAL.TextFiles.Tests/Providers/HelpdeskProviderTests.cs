@@ -38,7 +38,7 @@ using Middleware.Helpdesk;
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.SimpleDB;
+using SimpleDB;
 using PluginManager.Tests.Mocks;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
@@ -61,20 +61,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -113,20 +100,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -165,20 +139,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -217,20 +178,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -260,20 +208,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -282,7 +217,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
 
-                    ITextTableOperations<FeedbackDataRow> feedbackData = provider.GetRequiredService<ITextTableOperations<FeedbackDataRow>>();
+                    ISimpleDBOperations<FeedbackDataRow> feedbackData = provider.GetRequiredService<ISimpleDBOperations<FeedbackDataRow>>();
                     Assert.IsNotNull(feedbackData);
 
                     feedbackData.Insert(new List<FeedbackDataRow> 
@@ -315,20 +250,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -337,7 +259,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
 
-                    ITextTableOperations<FeedbackDataRow> feedbackData = provider.GetRequiredService<ITextTableOperations<FeedbackDataRow>>();
+                    ISimpleDBOperations<FeedbackDataRow> feedbackData = provider.GetRequiredService<ISimpleDBOperations<FeedbackDataRow>>();
                     Assert.IsNotNull(feedbackData);
 
                     feedbackData.Insert(new List<FeedbackDataRow>
@@ -372,20 +294,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -394,7 +303,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
 
-                    ITextTableOperations<FeedbackDataRow> feedbackData = provider.GetRequiredService<ITextTableOperations<FeedbackDataRow>>();
+                    ISimpleDBOperations<FeedbackDataRow> feedbackData = provider.GetRequiredService<ISimpleDBOperations<FeedbackDataRow>>();
                     Assert.IsNotNull(feedbackData);
 
                     feedbackData.Insert(new List<FeedbackDataRow>
@@ -429,20 +338,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -451,7 +347,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
 
-                    ITextTableOperations<FeedbackDataRow> feedbackData = provider.GetRequiredService<ITextTableOperations<FeedbackDataRow>>();
+                    ISimpleDBOperations<FeedbackDataRow> feedbackData = provider.GetRequiredService<ISimpleDBOperations<FeedbackDataRow>>();
                     Assert.IsNotNull(feedbackData);
                     Assert.AreEqual(0, feedbackData.RecordCount);
 
@@ -488,20 +384,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -533,20 +416,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -578,20 +448,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -623,20 +480,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -668,25 +512,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TicketDataRow> tickeData = provider.GetRequiredService<ITextTableOperations<TicketDataRow>>();
-                    ITextTableOperations<TicketMessageDataRow> ticketMessageData = provider.GetRequiredService<ITextTableOperations<TicketMessageDataRow>>();
+                    ISimpleDBOperations<TicketDataRow> tickeData = provider.GetRequiredService<ISimpleDBOperations<TicketDataRow>>();
+                    ISimpleDBOperations<TicketMessageDataRow> ticketMessageData = provider.GetRequiredService<ISimpleDBOperations<TicketMessageDataRow>>();
 
                     MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
@@ -728,20 +559,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -772,25 +590,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TicketDataRow> tickeData = provider.GetRequiredService<ITextTableOperations<TicketDataRow>>();
-                    ITextTableOperations<TicketMessageDataRow> ticketMessageData = provider.GetRequiredService<ITextTableOperations<TicketMessageDataRow>>();
+                    ISimpleDBOperations<TicketDataRow> tickeData = provider.GetRequiredService<ISimpleDBOperations<TicketDataRow>>();
+                    ISimpleDBOperations<TicketMessageDataRow> ticketMessageData = provider.GetRequiredService<ISimpleDBOperations<TicketMessageDataRow>>();
 
                     MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
@@ -826,25 +631,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TicketDataRow> tickeData = provider.GetRequiredService<ITextTableOperations<TicketDataRow>>();
-                    ITextTableOperations<TicketMessageDataRow> ticketMessageData = provider.GetRequiredService<ITextTableOperations<TicketMessageDataRow>>();
+                    ISimpleDBOperations<TicketDataRow> tickeData = provider.GetRequiredService<ISimpleDBOperations<TicketDataRow>>();
+                    ISimpleDBOperations<TicketMessageDataRow> ticketMessageData = provider.GetRequiredService<ISimpleDBOperations<TicketMessageDataRow>>();
 
                     MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
@@ -876,25 +668,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TicketDataRow> tickeData = provider.GetRequiredService<ITextTableOperations<TicketDataRow>>();
-                    ITextTableOperations<TicketMessageDataRow> ticketMessageData = provider.GetRequiredService<ITextTableOperations<TicketMessageDataRow>>();
+                    ISimpleDBOperations<TicketDataRow> tickeData = provider.GetRequiredService<ISimpleDBOperations<TicketDataRow>>();
+                    ISimpleDBOperations<TicketMessageDataRow> ticketMessageData = provider.GetRequiredService<ISimpleDBOperations<TicketMessageDataRow>>();
 
                     MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
@@ -930,25 +709,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TicketDataRow> ticketData = provider.GetRequiredService<ITextTableOperations<TicketDataRow>>();
-                    ITextTableOperations<TicketMessageDataRow> ticketMessageData = provider.GetRequiredService<ITextTableOperations<TicketMessageDataRow>>();
+                    ISimpleDBOperations<TicketDataRow> ticketData = provider.GetRequiredService<ISimpleDBOperations<TicketDataRow>>();
+                    ISimpleDBOperations<TicketMessageDataRow> ticketMessageData = provider.GetRequiredService<ISimpleDBOperations<TicketMessageDataRow>>();
                     Assert.AreEqual(0, ticketData.RecordCount);
                     Assert.AreEqual(0, ticketMessageData.RecordCount);
 
@@ -1001,24 +767,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<FAQDataRow> faqData = provider.GetRequiredService<ITextTableOperations<FAQDataRow>>();
+                    ISimpleDBOperations<FAQDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FAQDataRow>>();
                     Assert.AreEqual(0, faqData.RecordCount);
 
                     MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
@@ -1052,52 +805,39 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
                     MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
-                    ITextTableOperations<FAQDataRow> faqData = provider.GetRequiredService<ITextTableOperations<FAQDataRow>>();
+                    ISimpleDBOperations<FAQDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FAQDataRow>>();
                     Assert.AreEqual(0, faqData.RecordCount);
 
-                    ITextTableOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ITextTableOperations<FAQItemDataRow>>();
+                    ISimpleDBOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FAQItemDataRow>>();
                     Assert.AreEqual(0, faqItemData.RecordCount);
 
                     faqData.Insert(new List<FAQDataRow>()
                     {
                         new FAQDataRow() { Name = "group 1", Description = "Group 1 description" },
                         new FAQDataRow() { Name = "group 2", Description = "Group 2 description" },
-                        new FAQDataRow() { Name = "group 2a", Description = "Group 2a description", Parent = 1 }
+                        new FAQDataRow() { Name = "group 2a", Description = "Group 2a description", Parent = 2 }
                     });
 
                     int itemNumber = 0;
                     faqItemData.Insert(new List<FAQItemDataRow>()
                     {
-                        new FAQItemDataRow() { ParentId = 0, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 0, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 0, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
                         new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
                         new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
                         new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
                         new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
                         new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
                     });
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -1108,14 +848,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.AreEqual(3, faqData.RecordCount);
 
-                    List<KnowledgeBaseGroup> groups = sut.GetKnowledgebaseGroups(0, null);
+                    List<KnowledgeBaseGroup> groups = sut.GetKnowledgebaseGroups(2, null);
 
                     Assert.IsNotNull(groups);
                     Assert.AreEqual(2, groups.Count);
                     Assert.AreEqual(3, groups[0].Items.Count);
                     Assert.AreEqual(5, groups[1].Items.Count);
 
-                    List<KnowledgeBaseGroup> subGroups = sut.GetKnowledgebaseGroups(0, groups[1]);
+                    List<KnowledgeBaseGroup> subGroups = sut.GetKnowledgebaseGroups(1, groups[1]);
 
                     Assert.IsNotNull(subGroups);
                     Assert.AreEqual(1, subGroups.Count);
@@ -1136,31 +876,17 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                    new FAQDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
                     MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
-                    ITextTableOperations<FAQDataRow> faqData = provider.GetRequiredService<ITextTableOperations<FAQDataRow>>();
+                    ISimpleDBOperations<FAQDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FAQDataRow>>();
                     Assert.AreEqual(0, faqData.RecordCount);
 
-                    ITextTableOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ITextTableOperations<FAQItemDataRow>>();
+                    ISimpleDBOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FAQItemDataRow>>();
                     Assert.AreEqual(0, faqItemData.RecordCount);
 
                     faqData.Insert(new List<FAQDataRow>()
@@ -1214,31 +940,17 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                    new FAQDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
                     MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
-                    ITextTableOperations<FAQDataRow> faqData = provider.GetRequiredService<ITextTableOperations<FAQDataRow>>();
+                    ISimpleDBOperations<FAQDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FAQDataRow>>();
                     Assert.AreEqual(0, faqData.RecordCount);
 
-                    ITextTableOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ITextTableOperations<FAQItemDataRow>>();
+                    ISimpleDBOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FAQItemDataRow>>();
                     Assert.AreEqual(0, faqItemData.RecordCount);
 
                     faqData.Insert(new List<FAQDataRow>()
@@ -1293,31 +1005,17 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                    new FAQDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
                     MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
-                    ITextTableOperations<FAQDataRow> faqData = provider.GetRequiredService<ITextTableOperations<FAQDataRow>>();
+                    ISimpleDBOperations<FAQDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FAQDataRow>>();
                     Assert.AreEqual(0, faqData.RecordCount);
 
-                    ITextTableOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ITextTableOperations<FAQItemDataRow>>();
+                    ISimpleDBOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FAQItemDataRow>>();
                     Assert.AreEqual(0, faqItemData.RecordCount);
 
                     faqData.Insert(new List<FAQDataRow>()
@@ -1371,31 +1069,17 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                    new FAQDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
                     MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
-                    ITextTableOperations<FAQDataRow> faqData = provider.GetRequiredService<ITextTableOperations<FAQDataRow>>();
+                    ISimpleDBOperations<FAQDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FAQDataRow>>();
                     Assert.AreEqual(0, faqData.RecordCount);
 
-                    ITextTableOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ITextTableOperations<FAQItemDataRow>>();
+                    ISimpleDBOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FAQItemDataRow>>();
                     Assert.AreEqual(0, faqItemData.RecordCount);
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -1425,31 +1109,17 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> classServices = new List<object>()
-                {
-                    new TicketDepartmentsDataRowDefaults(),
-                    new TicketStatusDataRowDefaults(),
-                    new TicketPrioritiesDataRowDefaults(),
-                    new FAQDataRowDefaults(),
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
                     MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
-                    ITextTableOperations<FAQDataRow> faqData = provider.GetRequiredService<ITextTableOperations<FAQDataRow>>();
+                    ISimpleDBOperations<FAQDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FAQDataRow>>();
                     Assert.AreEqual(0, faqData.RecordCount);
 
-                    ITextTableOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ITextTableOperations<FAQItemDataRow>>();
+                    ISimpleDBOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FAQItemDataRow>>();
                     Assert.AreEqual(0, faqItemData.RecordCount);
 
                     faqData.Insert(new List<FAQDataRow>()

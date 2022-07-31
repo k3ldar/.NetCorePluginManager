@@ -13,7 +13,7 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  SimpleDB
  *  
  *  File: ForeignKeyRelationship.cs
  *
@@ -24,7 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace PluginManager.SimpleDB.Internal
+namespace SimpleDB.Internal
 {
     internal sealed class ForeignKeyRelationship
     {

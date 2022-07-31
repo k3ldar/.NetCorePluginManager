@@ -13,11 +13,11 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  SimpleDB
  *  
- *  File: TextTableOperations.cs
+ *  File: SimpleDBOperations.cs
  *
- *  Purpose:  TextTableOperations for text based storage
+ *  Purpose:  SimpleDBOperations for SimpleDB
  *
  *  Date        Name                Reason
  *  23/05/2022  Simon Carter        Initially Created
@@ -32,7 +32,7 @@ using PluginManager.Abstractions;
 
 using Shared.Classes;
 
-namespace PluginManager.SimpleDB.Internal
+namespace SimpleDB.Internal
 {
     /// <summary>
     /// Internal structure for file is:
@@ -50,7 +50,7 @@ namespace PluginManager.SimpleDB.Internal
     /// int         Length of data stored on disk
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal sealed class TextTableOperations<T> : ITextTableOperations<T>, ITextTable
+    internal sealed class SimpleDBOperations<T> : ISimpleDBOperations<T>, ISimpleDBTable
         where T : TableRowDefinition
     {
         #region Private Classes
@@ -109,7 +109,7 @@ namespace PluginManager.SimpleDB.Internal
         private readonly object _lockObject = new object();
         private readonly TableAttribute _tableAttributes;
         private readonly Dictionary<string, ForeignKeyRelation> _foreignKeys;
-        private readonly ITextTableInitializer _initializer;
+        private readonly ISimpleDBInitializer _initializer;
         private readonly IForeignKeyManager _foreignKeyManager;
         private readonly BatchUpdateDictionary<string, IIndexManager> _indexes;
         private readonly Dictionary<TriggerType, List<ITableTriggers<T>>> _triggersMap;
@@ -117,7 +117,7 @@ namespace PluginManager.SimpleDB.Internal
 
         #region Constructors / Destructors
 
-        public TextTableOperations(ITextTableInitializer readerWriterInitializer, 
+        public SimpleDBOperations(ISimpleDBInitializer readerWriterInitializer, 
             IForeignKeyManager foreignKeyManager, IPluginClassesService pluginClassesService)
         {
             _initializer = readerWriterInitializer ?? throw new ArgumentNullException(nameof(readerWriterInitializer));
@@ -188,7 +188,7 @@ namespace PluginManager.SimpleDB.Internal
             RebuildAllMissingIndexes();
         }
 
-        ~TextTableOperations()
+        ~SimpleDBOperations()
         {
             Dispose(false);
         }
@@ -268,7 +268,7 @@ namespace PluginManager.SimpleDB.Internal
         public IReadOnlyList<T> Select()
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
+                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
@@ -279,20 +279,20 @@ namespace PluginManager.SimpleDB.Internal
         public T Select(long id)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
+                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
             return InternalReadAllRecords().Where(r => r.Id.Equals(id)).FirstOrDefault();
         }
 
         public void Insert(List<T> records)
         {
-            Insert(records, new TextTableInsertOptions());
+            Insert(records, new InsertOptions());
         }
 
-        public void Insert(List<T> records, TextTableInsertOptions insertOptions)
+        public void Insert(List<T> records, InsertOptions insertOptions)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
+                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
             if (records == null)
                 throw new ArgumentNullException(nameof(records));
@@ -300,29 +300,29 @@ namespace PluginManager.SimpleDB.Internal
             if (records.Count == 0)
                 throw new ArgumentException("Does not contain any records", nameof(records));
 
-            InternalInsertRecords(records, insertOptions ?? new TextTableInsertOptions());
+            InternalInsertRecords(records, insertOptions ?? new InsertOptions());
         }
 
         public void Insert(T record)
         {
-            Insert(record, new TextTableInsertOptions());
+            Insert(record, new InsertOptions());
         }
 
-        public void Insert(T record, TextTableInsertOptions insertOptions)
+        public void Insert(T record, InsertOptions insertOptions)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
+                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
             if (record == null)
                 throw new ArgumentNullException(nameof(record));
 
-            InternalInsertRecords(new List<T> { record }, insertOptions ?? new TextTableInsertOptions());
+            InternalInsertRecords(new List<T> { record }, insertOptions ?? new InsertOptions());
         }
 
         public void Delete(List<T> records)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
+                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
             if (records == null)
                 throw new ArgumentNullException(nameof(records));
@@ -338,7 +338,7 @@ namespace PluginManager.SimpleDB.Internal
         public void Delete(T record)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
+                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
             if (record == null)
                 throw new ArgumentNullException(nameof(record));
@@ -349,7 +349,7 @@ namespace PluginManager.SimpleDB.Internal
         public void Update(List<T> records)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
+                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
             if (records == null)
                 throw new ArgumentNullException(nameof(records));
@@ -360,7 +360,7 @@ namespace PluginManager.SimpleDB.Internal
         public void Update(T record)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
+                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
             if (record == null)
                 throw new ArgumentNullException(nameof(record));
@@ -371,7 +371,7 @@ namespace PluginManager.SimpleDB.Internal
         public void InsertOrUpdate(T record)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
+                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
             if (record == null)
                 throw new ArgumentNullException(nameof(record));
@@ -379,7 +379,7 @@ namespace PluginManager.SimpleDB.Internal
             if (IdExists(record.Id))
                 InternalUpdateRecords(new List<T> { record }); 
             else
-                InternalInsertRecords(new List<T>() { record }, new TextTableInsertOptions());
+                InternalInsertRecords(new List<T>() { record }, new InsertOptions());
         }
 
         public void ForceWrite()
@@ -393,7 +393,7 @@ namespace PluginManager.SimpleDB.Internal
         public long NextSequence()
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
+                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
             return NextSequence(DefaultSequenceIncrement);
         }
@@ -401,7 +401,7 @@ namespace PluginManager.SimpleDB.Internal
         public long NextSequence(long increment)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
+                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
             return InternalNextSequence(increment);
         }
@@ -409,7 +409,7 @@ namespace PluginManager.SimpleDB.Internal
         public long NextSecondarySequence(long increment)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
+                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
             return InternalNextSecondarySequence(increment);
         }
@@ -417,7 +417,7 @@ namespace PluginManager.SimpleDB.Internal
         public void ResetSequence(long primarySequence, long secondarySequence)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
+                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
@@ -672,7 +672,7 @@ namespace PluginManager.SimpleDB.Internal
             }
         }
 
-        private void InternalInsertRecords(List<T> records, TextTableInsertOptions textTableInsertOptions)
+        private void InternalInsertRecords(List<T> records, InsertOptions textTableInsertOptions)
         {
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {

@@ -13,11 +13,11 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles.Tests
+ *  Product:  SimpleDB.Tests
  *  
  *  File: MockRowMultipleIndex.cs
  *
- *  Purpose:  MockRow for text based storage with named index
+ *  Purpose:  MockRow for SimpleDB storage with named index
  *
  *  Date        Name                Reason
  *  20/07/2022  Simon Carter        Initially Created
@@ -25,7 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Diagnostics.CodeAnalysis;
 
-namespace PluginManager.SimpleDB.Tests.Mocks
+namespace SimpleDB.Tests.Mocks
 {
     [ExcludeFromCodeCoverage]
     [Table("MockTableIndex", cachingStrategy: CachingStrategy.Memory)]

@@ -39,7 +39,7 @@ using Middleware.Downloads;
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.SimpleDB;
+using SimpleDB;
 using PluginManager.Tests.Mocks;
 
 using SharedPluginFeatures;
@@ -58,21 +58,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
-
-                List<object> servicesList = new List<object>()
-                {
-                    new DownloadItemsDataRowDefaults(),
-                    new UserDataRowDefaults(settingsProvider)
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<ISettingsProvider>(settingsProvider);
-                services.AddSingleton<IMemoryCache>(new MockMemoryCache());
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -82,7 +68,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     DownloadProvider sut = (DownloadProvider)provider.GetService<IDownloadProvider>();
                     Assert.IsNotNull(sut);
 
-                    ITextTableOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ITextTableOperations<DownloadCategoryDataRow>>();
+                    ISimpleDBOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ISimpleDBOperations<DownloadCategoryDataRow>>();
                     Assert.IsNotNull(downloadCategoriesTable);
 
                     downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
@@ -92,7 +78,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         new DownloadCategoryDataRow() { Name = "Cat 3" },
                     });
 
-                    ITextTableOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ITextTableOperations<DownloadItemsDataRow>>();
+                    ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
                     Assert.IsNotNull(downloadItemsTable);
 
                     downloadItemsTable.Insert(new List<DownloadItemsDataRow>()
@@ -133,21 +119,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
-
-                List<object> servicesList = new List<object>()
-                {
-                    new DownloadItemsDataRowDefaults(),
-                    new UserDataRowDefaults(settingsProvider)
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<ISettingsProvider>(settingsProvider);
-                services.AddSingleton<IMemoryCache>(new MockMemoryCache());
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -157,7 +129,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     DownloadProvider sut = (DownloadProvider)provider.GetService<IDownloadProvider>();
                     Assert.IsNotNull(sut);
 
-                    ITextTableOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ITextTableOperations<DownloadCategoryDataRow>>();
+                    ISimpleDBOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ISimpleDBOperations<DownloadCategoryDataRow>>();
                     Assert.IsNotNull(downloadCategoriesTable);
 
                     downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
@@ -167,7 +139,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         new DownloadCategoryDataRow() { Name = "Cat 3" },
                     });
 
-                    ITextTableOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ITextTableOperations<DownloadItemsDataRow>>();
+                    ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
                     Assert.IsNotNull(downloadItemsTable);
 
                     downloadItemsTable.Insert(new List<DownloadItemsDataRow>()
@@ -208,21 +180,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
-
-                List<object> servicesList = new List<object>()
-                {
-                    new DownloadItemsDataRowDefaults(),
-                    new UserDataRowDefaults(settingsProvider)
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<ISettingsProvider>(settingsProvider);
-                services.AddSingleton<IMemoryCache>(new MockMemoryCache());
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -232,7 +190,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     DownloadProvider sut = (DownloadProvider)provider.GetService<IDownloadProvider>();
                     Assert.IsNotNull(sut);
 
-                    ITextTableOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ITextTableOperations<DownloadCategoryDataRow>>();
+                    ISimpleDBOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ISimpleDBOperations<DownloadCategoryDataRow>>();
                     Assert.IsNotNull(downloadCategoriesTable);
 
                     downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
@@ -242,7 +200,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         new DownloadCategoryDataRow() { Name = "Cat 3" },
                     });
 
-                    ITextTableOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ITextTableOperations<DownloadItemsDataRow>>();
+                    ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
                     Assert.IsNotNull(downloadItemsTable);
 
                     downloadItemsTable.Insert(new List<DownloadItemsDataRow>()
@@ -283,21 +241,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
-
-                List<object> servicesList = new List<object>()
-                {
-                    new DownloadItemsDataRowDefaults(),
-                    new UserDataRowDefaults(settingsProvider)
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<ISettingsProvider>(settingsProvider);
-                services.AddSingleton<IMemoryCache>(new MockMemoryCache());
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -325,21 +269,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
-
-                List<object> servicesList = new List<object>()
-                {
-                    new DownloadItemsDataRowDefaults(),
-                    new UserDataRowDefaults(settingsProvider)
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<ISettingsProvider>(settingsProvider);
-                services.AddSingleton<IMemoryCache>(new MockMemoryCache());
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -349,7 +279,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     DownloadProvider sut = (DownloadProvider)provider.GetService<IDownloadProvider>();
                     Assert.IsNotNull(sut);
 
-                    ITextTableOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ITextTableOperations<DownloadCategoryDataRow>>();
+                    ISimpleDBOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ISimpleDBOperations<DownloadCategoryDataRow>>();
                     Assert.IsNotNull(downloadCategoriesTable);
 
                     downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
@@ -357,7 +287,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         new DownloadCategoryDataRow() { Name = "Cat 1" },
                     });
 
-                    ITextTableOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ITextTableOperations<DownloadItemsDataRow>>();
+                    ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
                     Assert.IsNotNull(downloadItemsTable);
 
                     downloadItemsTable.Insert(new List<DownloadItemsDataRow>()
@@ -385,21 +315,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
-
-                List<object> servicesList = new List<object>()
-                {
-                    new DownloadItemsDataRowDefaults(),
-                    new UserDataRowDefaults(settingsProvider)
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<ISettingsProvider>(settingsProvider);
-                services.AddSingleton<IMemoryCache>(new MockMemoryCache());
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -409,7 +325,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     DownloadProvider sut = (DownloadProvider)provider.GetService<IDownloadProvider>();
                     Assert.IsNotNull(sut);
 
-                    ITextTableOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ITextTableOperations<DownloadCategoryDataRow>>();
+                    ISimpleDBOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ISimpleDBOperations<DownloadCategoryDataRow>>();
                     Assert.IsNotNull(downloadCategoriesTable);
 
                     downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
@@ -417,7 +333,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         new DownloadCategoryDataRow() { Name = "Cat 1" },
                     });
 
-                    ITextTableOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ITextTableOperations<DownloadItemsDataRow>>();
+                    ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
                     Assert.IsNotNull(downloadItemsTable);
 
                     downloadItemsTable.Insert(new List<DownloadItemsDataRow>()
@@ -445,21 +361,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
-
-                List<object> servicesList = new List<object>()
-                {
-                    new DownloadItemsDataRowDefaults(),
-                    new UserDataRowDefaults(settingsProvider)
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<ISettingsProvider>(settingsProvider);
-                services.AddSingleton<IMemoryCache>(new MockMemoryCache());
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -469,7 +371,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     DownloadProvider sut = (DownloadProvider)provider.GetService<IDownloadProvider>();
                     Assert.IsNotNull(sut);
 
-                    ITextTableOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ITextTableOperations<DownloadCategoryDataRow>>();
+                    ISimpleDBOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ISimpleDBOperations<DownloadCategoryDataRow>>();
                     Assert.IsNotNull(downloadCategoriesTable);
 
                     downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
@@ -477,7 +379,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         new DownloadCategoryDataRow() { Name = "Cat 1" },
                     });
 
-                    ITextTableOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ITextTableOperations<DownloadItemsDataRow>>();
+                    ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
                     Assert.IsNotNull(downloadItemsTable);
 
                     downloadItemsTable.Insert(new List<DownloadItemsDataRow>()
@@ -513,21 +415,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
-
-                List<object> servicesList = new List<object>()
-                {
-                    new DownloadItemsDataRowDefaults(),
-                    new UserDataRowDefaults(settingsProvider)
-                };
-
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<ISettingsProvider>(settingsProvider);
-                services.AddSingleton<IMemoryCache>(new MockMemoryCache());
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -537,7 +425,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     DownloadProvider sut = (DownloadProvider)provider.GetService<IDownloadProvider>();
                     Assert.IsNotNull(sut);
 
-                    ITextTableOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ITextTableOperations<DownloadCategoryDataRow>>();
+                    ISimpleDBOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ISimpleDBOperations<DownloadCategoryDataRow>>();
                     Assert.IsNotNull(downloadCategoriesTable);
 
                     downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
@@ -545,7 +433,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         new DownloadCategoryDataRow() { Name = "Cat 1" },
                     });
 
-                    ITextTableOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ITextTableOperations<DownloadItemsDataRow>>();
+                    ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
                     Assert.IsNotNull(downloadItemsTable);
 
                     downloadItemsTable.Insert(new List<DownloadItemsDataRow>()

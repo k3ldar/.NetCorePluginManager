@@ -13,11 +13,11 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles.Tests
+ *  Product:  SimpleDB.Tests
  *  
  *  File: MockLazyWriteRow.cs
  *
- *  Purpose:  MockRow for lazy write text based storage
+ *  Purpose:  MockLazyWriteRow for lazy write SimpleDB
  *
  *  Date        Name                Reason
  *  24/07/2022  Simon Carter        Initially Created
@@ -25,11 +25,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Diagnostics.CodeAnalysis;
 
-using PluginManager.SimpleDB;
-
-namespace PluginManager.SimpleDB.Tests.Mocks
+namespace SimpleDB.Tests.Mocks
 {
-    [ExcludeFromCodeCoverage]
+	[ExcludeFromCodeCoverage]
     [Table("MockLazyWriteTable", WriteStrategy.Lazy)]
     public class MockLazyWriteRow : TableRowDefinition
     {

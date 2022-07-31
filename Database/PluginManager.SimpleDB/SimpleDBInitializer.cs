@@ -13,39 +13,38 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  SimpleDB
  *  
- *  File: TextTableInitializer.cs
+ *  File: SimpleDBInitializer.cs
  *
- *  Purpose:  TextTableInitializer for text based storage
+ *  Purpose:  SimpleDB Initializer for SimpleDB
  *
  *  Date        Name                Reason
  *  23/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using PluginManager.Abstractions;
-using PluginManager.SimpleDB;
 
 using Shared.Classes;
 
 #pragma warning disable CA2208
 
-namespace PluginManager.SimpleDB
+namespace SimpleDB
 {
-    public sealed class TextTableInitializer : ITextTableInitializer
+	public sealed class SimpleDBInitializer : ISimpleDBInitializer
     {
         public const uint DefaultMinimumVersion = 1;
 
         private uint _minimumVersion = DefaultMinimumVersion;
-        private readonly Dictionary<string, ITextTable> _tables = new Dictionary<string, ITextTable>();
+        private readonly Dictionary<string, ISimpleDBTable> _tables = new Dictionary<string, ISimpleDBTable>();
         private readonly object _lock = new object();
 
-        public TextTableInitializer(ISettingsProvider settingsProvider)
+        public SimpleDBInitializer(ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
-            TextFileSettings settings = settingsProvider.GetSettings<TextFileSettings>(nameof(TextFileSettings));
+            SimpleDBSettings settings = settingsProvider.GetSettings<SimpleDBSettings>(nameof(SimpleDBSettings));
 
             if (settings == null)
                 throw new InvalidOperationException();
@@ -60,7 +59,7 @@ namespace PluginManager.SimpleDB
             EncryptionKey = settings.EnycryptionKey;
         }
 
-        public TextTableInitializer(string path)
+        public SimpleDBInitializer(string path)
         {
             if (String.IsNullOrEmpty(path))
                 throw new ArgumentNullException(nameof(path));
@@ -92,7 +91,7 @@ namespace PluginManager.SimpleDB
             }
         }
 
-        public void RegisterTable(ITextTable textTable)
+        public void RegisterTable(ISimpleDBTable textTable)
         {
             if (textTable == null)
                 throw new ArgumentNullException(nameof(textTable));
@@ -109,7 +108,7 @@ namespace PluginManager.SimpleDB
             }
         }
 
-        public void UnregisterTable(ITextTable textTable)
+        public void UnregisterTable(ISimpleDBTable textTable)
         {
             if (textTable == null)
                 throw new ArgumentNullException(nameof(textTable));
@@ -126,11 +125,11 @@ namespace PluginManager.SimpleDB
             }
         }
 
-        public IReadOnlyDictionary<string, ITextTable> Tables
+        public IReadOnlyDictionary<string, ISimpleDBTable> Tables
         {
             get
             {
-                return new Dictionary<string, ITextTable>(_tables);
+                return new Dictionary<string, ISimpleDBTable>(_tables);
             }
         }
     }

@@ -13,11 +13,11 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  SimpleDB
  *  
  *  File: UniqueIndexException.cs
  *
- *  Purpose:  Unique index exception for text based storage
+ *  Purpose:  Unique index exception for SimpleDB
  *
  *  Date        Name                Reason
  *  09/06/2022  Simon Carter        Initially Created
@@ -26,7 +26,7 @@
 
 using System.Runtime.Serialization;
 
-namespace PluginManager.SimpleDB
+namespace SimpleDB
 {
     [Serializable]
     public class UniqueIndexException : Exception

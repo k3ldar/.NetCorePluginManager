@@ -13,18 +13,18 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  SimpleDB
  *  
  *  File: SortAscending.cs
  *
- *  Purpose:  SortAscending for text based storage
+ *  Purpose:  SortAscending for SimpleDB
  *
  *  Date        Name                Reason
  *  05/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace PluginManager.SimpleDB.Internal
+namespace SimpleDB.Internal
 {
     internal class SortAscending : IComparer<long>
     {

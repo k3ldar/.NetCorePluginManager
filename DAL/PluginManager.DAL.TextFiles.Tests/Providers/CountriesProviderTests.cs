@@ -40,8 +40,8 @@ using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 
-using PluginManager.SimpleDB;
-using PluginManager.SimpleDB.Tests.Mocks;
+using SimpleDB;
+using SimpleDB.Tests.Mocks;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
@@ -105,16 +105,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<CountryDataRow> countryTable = provider.GetRequiredService<ITextTableOperations<CountryDataRow>>();
+                    ISimpleDBOperations<CountryDataRow> countryTable = provider.GetRequiredService<ISimpleDBOperations<CountryDataRow>>();
                     Assert.IsNotNull(countryTable);
 
                     ICountryProvider sut = provider.GetRequiredService<ICountryProvider>();
@@ -124,10 +119,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     IReadOnlyList<CountryDataRow> countries = countryTable.Select();
                     Assert.IsNotNull(countries);
-                    Assert.AreEqual(1, countries.Count);
-                    Assert.AreEqual("Unknown", countries[0].Name);
-                    Assert.AreEqual("UK", countries[0].Code);
-                    Assert.IsFalse(countries[0].Visible);
+                    Assert.AreEqual(252, countries.Count);
+                    Assert.AreEqual("Unknown", countries[251].Name);
+                    Assert.AreEqual("UK", countries[251].Code);
+                    Assert.IsFalse(countries[251].Visible);
                 }
             }
             finally
@@ -145,15 +140,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<CountryDataRow> countryTable = provider.GetRequiredService<ITextTableOperations<CountryDataRow>>();
+                    ISimpleDBOperations<CountryDataRow> countryTable = provider.GetRequiredService<ISimpleDBOperations<CountryDataRow>>();
                     Assert.IsNotNull(countryTable);
 
                     ICountryProvider sut = provider.GetRequiredService<ICountryProvider>();
@@ -163,10 +154,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     IReadOnlyList<CountryDataRow> countries = countryTable.Select();
                     Assert.IsNotNull(countries);
-                    Assert.AreEqual(1, countries.Count);
-                    Assert.AreEqual("Unknown", countries[0].Name);
-                    Assert.AreEqual("UK", countries[0].Code);
-                    Assert.IsFalse(countries[0].Visible);
+                    Assert.AreEqual(252, countries.Count);
+                    Assert.AreEqual("Unknown", countries[251].Name);
+                    Assert.AreEqual("UK", countries[251].Code);
+                    Assert.IsFalse(countries[251].Visible);
 
                     sut.CountryCreate("Unknown", "UK", false);
                 }
@@ -185,25 +176,18 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<CountryDataRow> countryTable = provider.GetRequiredService<ITextTableOperations<CountryDataRow>>();
+                    ISimpleDBOperations<CountryDataRow> countryTable = provider.GetRequiredService<ISimpleDBOperations<CountryDataRow>>();
                     Assert.IsNotNull(countryTable);
 
                     ICountryProvider sut = provider.GetRequiredService<ICountryProvider>();
 
                     Assert.IsNotNull(sut);
-                    sut.CountryCreate("Unknown", "UK", false);
-                    sut.CountryCreate("USA", "US", true);
-                    sut.CountryCreate("Great Britain", "GB", true);
 
-                    bool updated = sut.CountryUpdate(new Country("we do not know", "ZZ", true));
+                    bool updated = sut.CountryUpdate(new Country("we do not know", "XX", true));
                     Assert.IsFalse(updated);
                 }
             }
@@ -221,33 +205,27 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<CountryDataRow> countryTable = provider.GetRequiredService<ITextTableOperations<CountryDataRow>>();
+                    ISimpleDBOperations<CountryDataRow> countryTable = provider.GetRequiredService<ISimpleDBOperations<CountryDataRow>>();
                     Assert.IsNotNull(countryTable);
 
                     ICountryProvider sut = provider.GetRequiredService<ICountryProvider>();
 
                     Assert.IsNotNull(sut);
-                    sut.CountryCreate("Unknown", "UK", false);
-                    sut.CountryCreate("USA", "US", true);
-                    sut.CountryCreate("Great Britain", "GB", true);
+                    sut.CountryCreate("Unknown", "XX", false);
 
-                    Assert.IsNull(sut.GetVisibleCountries().Where(c => c.Code.Equals("UK")).FirstOrDefault());
+                    Assert.IsNull(sut.GetVisibleCountries().Where(c => c.Code.Equals("XX")).FirstOrDefault());
 
-                    bool updated = sut.CountryUpdate(new Country("we do not know", "UK", true));
+                    bool updated = sut.CountryUpdate(new Country("we do not know", "XX", true));
                     Assert.IsTrue(updated);
-                    Country country = sut.GetVisibleCountries().Where(c => c.Code.Equals("UK")).FirstOrDefault();
+                    Country country = sut.GetVisibleCountries().Where(c => c.Code.Equals("XX")).FirstOrDefault();
 
                     Assert.IsNotNull(country);
                     Assert.AreEqual("we do not know", country.Name);
-                    Assert.AreEqual("UK", country.Code);
+                    Assert.AreEqual("XX", country.Code);
                     Assert.IsTrue(country.Visible);
                 }
             }
@@ -265,27 +243,20 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<CountryDataRow> countryTable = provider.GetRequiredService<ITextTableOperations<CountryDataRow>>();
+                    ISimpleDBOperations<CountryDataRow> countryTable = provider.GetRequiredService<ISimpleDBOperations<CountryDataRow>>();
                     Assert.IsNotNull(countryTable);
 
                     ICountryProvider sut = provider.GetRequiredService<ICountryProvider>();
 
                     Assert.IsNotNull(sut);
-                    sut.CountryCreate("Unknown", "UK", false);
-                    sut.CountryCreate("USA", "US", true);
-                    sut.CountryCreate("Great Britain", "GB", true);
 
                     List<Country> allCountries = sut.GetAllCountries();
                     Assert.IsNotNull(allCountries);
-                    Assert.AreEqual(3, allCountries.Count);
+                    Assert.AreEqual(251, allCountries.Count);
                 }
             }
             finally
@@ -302,25 +273,18 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<CountryDataRow> countryTable = provider.GetRequiredService<ITextTableOperations<CountryDataRow>>();
+                    ISimpleDBOperations<CountryDataRow> countryTable = provider.GetRequiredService<ISimpleDBOperations<CountryDataRow>>();
                     Assert.IsNotNull(countryTable);
 
                     ICountryProvider sut = provider.GetRequiredService<ICountryProvider>();
 
                     Assert.IsNotNull(sut);
-                    sut.CountryCreate("Unknown", "UK", false);
-                    sut.CountryCreate("USA", "US", true);
-                    sut.CountryCreate("Great Britain", "GB", true);
 
-                    bool updated = sut.CountryDelete(new Country("we do not know", "ZZ", true));
+                    bool updated = sut.CountryDelete(new Country("we do not know", "XX", true));
                     Assert.IsFalse(updated);
                 }
             }
@@ -338,30 +302,24 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<CountryDataRow> countryTable = provider.GetRequiredService<ITextTableOperations<CountryDataRow>>();
+                    ISimpleDBOperations<CountryDataRow> countryTable = provider.GetRequiredService<ISimpleDBOperations<CountryDataRow>>();
                     Assert.IsNotNull(countryTable);
 
                     ICountryProvider sut = provider.GetRequiredService<ICountryProvider>();
 
                     Assert.IsNotNull(sut);
-                    sut.CountryCreate("Unknown", "UK", false);
-                    sut.CountryCreate("USA", "US", true);
-                    sut.CountryCreate("Great Britain", "GB", true);
+                    sut.CountryCreate("Unknown", "XX", false);
 
-                    bool updated = sut.CountryDelete(new Country("we do not know", "UK", true));
+                    bool updated = sut.CountryDelete(new Country("we do not know", "XX", true));
                     Assert.IsTrue(updated);
 
                     List<Country> allCountries = sut.GetAllCountries();
 
-                    Assert.IsFalse(allCountries.Where(c => c.Code.Equals("UK")).Any());
+                    Assert.IsFalse(allCountries.Where(c => c.Code.Equals("XX")).Any());
                 }
             }
             finally
@@ -378,15 +336,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new CountryDataRowDefaults() }));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<CountryDataRow> countryTable = provider.GetRequiredService<ITextTableOperations<CountryDataRow>>();
+                    ISimpleDBOperations<CountryDataRow> countryTable = provider.GetRequiredService<ISimpleDBOperations<CountryDataRow>>();
                     Assert.IsNotNull(countryTable);
 
                     Assert.AreEqual(251, countryTable.RecordCount);

@@ -13,7 +13,7 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  SimpleDB
  *  
  *  File: ForeignKeyManager.cs
  *
@@ -27,12 +27,12 @@ using Shared.Classes;
 
 #pragma warning disable CA2208
 
-namespace PluginManager.SimpleDB.Internal
+namespace SimpleDB.Internal
 {
     internal class ForeignKeyManager : IForeignKeyManager
     {
         private readonly object _lock = new object();
-        private readonly Dictionary<string, ITextTable> _foreignKeys = new Dictionary<string, ITextTable>();
+        private readonly Dictionary<string, ISimpleDBTable> _foreignKeys = new Dictionary<string, ISimpleDBTable>();
         private readonly List<ForeignKeyRelationship> _foreignKeyRelationships = new List<ForeignKeyRelationship>();
 
         public void AddRelationShip(string table, string targetTable, string propertyName, string targetPropertyName)
@@ -52,7 +52,7 @@ namespace PluginManager.SimpleDB.Internal
             _foreignKeyRelationships.Add(new ForeignKeyRelationship(table, targetTable, propertyName, targetPropertyName));
         }
 
-        public void RegisterTable(ITextTable table)
+        public void RegisterTable(ISimpleDBTable table)
         {
             if (table == null)
                 throw new ArgumentNullException(nameof(table));
@@ -66,7 +66,7 @@ namespace PluginManager.SimpleDB.Internal
             }
         }
 
-        public void UnregisterTable(ITextTable table)
+        public void UnregisterTable(ISimpleDBTable table)
         {
             if (table == null)
                 throw new ArgumentNullException(nameof(table));

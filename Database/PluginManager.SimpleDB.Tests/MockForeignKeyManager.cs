@@ -13,7 +13,7 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles.Tests
+ *  Product:  SimpleDB.Tests
  *  
  *  File: MockForeignKeyManager.cs
  *
@@ -26,11 +26,9 @@
 using System;
 using System.Collections.Generic;
 
-using PluginManager.SimpleDB;
-
-namespace PluginManager.SimpleDB.Tests
+namespace SimpleDB.Tests
 {
-    internal class MockForeignKeyManager : IForeignKeyManager
+	internal class MockForeignKeyManager : IForeignKeyManager
     {
         public List<string> RegisteredTables = new List<string>();
 
@@ -44,12 +42,12 @@ namespace PluginManager.SimpleDB.Tests
             throw new NotImplementedException();
         }
 
-        public void RegisterTable(ITextTable table)
+        public void RegisterTable(ISimpleDBTable table)
         {
             RegisteredTables.Add(table.TableName);
         }
 
-        public void UnregisterTable(ITextTable table)
+        public void UnregisterTable(ISimpleDBTable table)
         {
             RegisteredTables.Remove(table.TableName);
         }

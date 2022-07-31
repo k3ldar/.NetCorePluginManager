@@ -13,18 +13,18 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  SimpleDB
  *  
  *  File: ForeignKeyException.cs
  *
- *  Purpose:  ForeignKeyException for text based storage
+ *  Purpose:  ForeignKeyException for SimpleDB
  *
  *  Date        Name                Reason
  *  02/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace PluginManager.SimpleDB
+namespace SimpleDB
 {
     public sealed class ForeignKeyException : Exception
     {

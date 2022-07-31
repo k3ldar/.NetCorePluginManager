@@ -30,7 +30,7 @@ using Middleware.Products;
 using Middleware.ShoppingCart;
 
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.SimpleDB;
+using SimpleDB;
 
 using Shared.Classes;
 
@@ -53,21 +53,21 @@ namespace PluginManager.DAL.TextFiles.Providers
         private readonly string _encryptionKey;
         private readonly decimal _defaultTaxRate;
         private readonly string _defaultCurrency;
-        private readonly ITextTableOperations<ShoppingCartDataRow> _shoppingCartData;
-        private readonly ITextTableOperations<ShoppingCartItemDataRow> _shoppingCartItemData;
-        private readonly ITextTableOperations<OrderDataRow> _orderData;
-        private readonly ITextTableOperations<OrderItemDataRow> _orderItemsData;
-        private readonly ITextTableOperations<VoucherDataRow> _voucherData;
-        private readonly ITextTableOperations<UserDataRow> _userDataRow;
+        private readonly ISimpleDBOperations<ShoppingCartDataRow> _shoppingCartData;
+        private readonly ISimpleDBOperations<ShoppingCartItemDataRow> _shoppingCartItemData;
+        private readonly ISimpleDBOperations<OrderDataRow> _orderData;
+        private readonly ISimpleDBOperations<OrderItemDataRow> _orderItemsData;
+        private readonly ISimpleDBOperations<VoucherDataRow> _voucherData;
+        private readonly ISimpleDBOperations<UserDataRow> _userDataRow;
 
         #endregion Private Members
 
         #region Constructors
 
-        public ShoppingCartProvider(ITextTableOperations<ShoppingCartDataRow> shoppingCartData,
-            ITextTableOperations<ShoppingCartItemDataRow> shoppingCartItemData, 
-            ITextTableOperations<OrderDataRow> orderData, ITextTableOperations<OrderItemDataRow> orderItemsData,
-            ITextTableOperations<VoucherDataRow> voucherData, ITextTableOperations<UserDataRow> userDataRow,
+        public ShoppingCartProvider(ISimpleDBOperations<ShoppingCartDataRow> shoppingCartData,
+            ISimpleDBOperations<ShoppingCartItemDataRow> shoppingCartItemData, 
+            ISimpleDBOperations<OrderDataRow> orderData, ISimpleDBOperations<OrderItemDataRow> orderItemsData,
+            ISimpleDBOperations<VoucherDataRow> voucherData, ISimpleDBOperations<UserDataRow> userDataRow,
             IProductProvider productProvider, IAccountProvider accountProvider, IApplicationSettingsProvider settingsProvider)
         {
             _shoppingCartData = shoppingCartData ?? throw new ArgumentNullException(nameof(shoppingCartData));
@@ -384,7 +384,7 @@ namespace PluginManager.DAL.TextFiles.Providers
                 TotalItems = 0,
             };
 
-            _shoppingCartData.Insert(cartDataRow, new TextTableInsertOptions(id < 0));
+            _shoppingCartData.Insert(cartDataRow, new InsertOptions(id < 0));
             return cartDataRow;
         }
 

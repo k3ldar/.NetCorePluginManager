@@ -25,7 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using PluginManager.Abstractions;
 
-using PluginManager.SimpleDB;
+using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
@@ -35,7 +35,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 
         public UserDataRowDefaults(ISettingsProvider settingsProvider)
         {
-            TextFileSettings settings = settingsProvider.GetSettings<TextFileSettings>(nameof(TextFileSettings));
+            SimpleDBSettings settings = settingsProvider.GetSettings<SimpleDBSettings>(nameof(SimpleDBSettings));
 
             if (settings == null)
                 throw new InvalidOperationException();

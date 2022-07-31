@@ -13,27 +13,32 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  SimpleDB
  *  
- *  File: IReaderWriterInitializer.cs
+ *  File: InsertOptions.cs
  *
- *  Purpose:  IReaderWriterInitializer for text based storage
+ *  Purpose:  Insert options for SimpleDB
  *
  *  Date        Name                Reason
- *  23/05/2022  Simon Carter        Initially Created
+ *  06/07/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace PluginManager.SimpleDB
+namespace SimpleDB
 {
-    public interface ITextTableInitializer
+    public sealed class InsertOptions
     {
-        string Path { get; }
+        public InsertOptions()
+            : this(true)
+        {
 
-        void RegisterTable(ITextTable textTable);
+        }
 
-        void UnregisterTable(ITextTable textTable);
+        public InsertOptions(bool assignPrimaryKey)
+        {
+            AssignPrimaryKey = assignPrimaryKey;
+        }
 
-        IReadOnlyDictionary<string, ITextTable> Tables { get; }
+        public bool AssignPrimaryKey { get; }
     }
 }

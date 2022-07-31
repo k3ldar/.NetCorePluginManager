@@ -26,7 +26,7 @@
 using SharedPluginFeatures;
 
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.SimpleDB;
+using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
@@ -34,13 +34,13 @@ namespace PluginManager.DAL.TextFiles.Providers
     {
         #region Private Members
 
-        private readonly ITextTableOperations<SeoDataRow> _seoData;
+        private readonly ISimpleDBOperations<SeoDataRow> _seoData;
 
         #endregion Private Members
 
         #region Constructors
 
-        public SeoProvider(ITextTableOperations<SeoDataRow> seoData)
+        public SeoProvider(ISimpleDBOperations<SeoDataRow> seoData)
         {
             _seoData = seoData ?? throw new ArgumentNullException(nameof(seoData));
         }

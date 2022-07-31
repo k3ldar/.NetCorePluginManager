@@ -26,15 +26,15 @@
 using Middleware;
 
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.SimpleDB;
+using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
     internal class CountryProvider : ICountryProvider
     {
-        private readonly ITextTableOperations<CountryDataRow> _countries;
+        private readonly ISimpleDBOperations<CountryDataRow> _countries;
 
-        public CountryProvider(ITextTableOperations<CountryDataRow> countries)
+        public CountryProvider(ISimpleDBOperations<CountryDataRow> countries)
         {
             _countries = countries ?? throw new ArgumentNullException(nameof(countries));
         }

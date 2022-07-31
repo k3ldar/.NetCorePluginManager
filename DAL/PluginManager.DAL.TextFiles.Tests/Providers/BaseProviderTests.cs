@@ -25,18 +25,30 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
+
+using AspNetCore.PluginManager.Tests.Shared;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware;
 
+using SimpleDB.Internal;
+using SimpleDB;
+using SharedPluginFeatures;
+using PluginManager.Abstractions;
+using PluginManager.DAL.TextFiles.Tables;
+using System.Collections.Generic;
+using DynamicContent.Plugin.Templates;
+using PluginManager.DAL.TextFiles.Tables.Products;
+
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
     [ExcludeFromCodeCoverage]
     public class BaseProviderTests
     {
-        protected const string TestPathSettings = "{\"TextFileSettings\":{\"Path\":\"$$\"}}";
+        protected const string TestPathSettings = "{\"SimpleDBSettings\":{\"Path\":\"$$\"}}";
 
         protected IProductProvider GetTestProductProvider(ServiceProvider provider, bool addProducts = true)
         {
@@ -57,5 +69,55 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
             return Result;
         }
-    }
+
+		protected ServiceCollection CreateDefaultServiceCollection(string directory, out MockPluginClassesService mockPluginClassesService)
+		{
+			PluginInitialisation initialisation = new PluginInitialisation();
+			ServiceCollection services = new ServiceCollection();
+
+			services.AddSingleton<IMemoryCache, MockMemoryCache>();
+			services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
+			services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+			services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+			services.AddSingleton<ISimpleDBInitializer, SimpleDBInitializer>();
+
+			services.AddSingleton(typeof(ISimpleDBOperations<>), typeof(SimpleDBOperations<>));
+
+			ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
+
+			List<object> classServices = new List<object>()
+				{
+					new TicketDepartmentsDataRowDefaults(),
+					new TicketStatusDataRowDefaults(),
+					new TicketPrioritiesDataRowDefaults(),
+					new DownloadItemsDataRowDefaults(),
+					new UserDataRowDefaults(settingsProvider),
+					new HorizontalRuleTemplate(),
+					new HtmlTextTemplate(),
+					new YouTubeVideoTemplate(),
+					new SettingsDataRowDefaults(),
+					new ProductGroupDataRowDefaults(),
+					new ProductGroupDataTriggers(),
+					new ProductDataTriggers(),
+					new ShoppingCartDataRowDefaults(),
+					new AddressDataRowDefaults(),
+					new VoucherDataRowTriggers(),
+					new ExternalUsersDataRowDefaults(),
+					new CountryDataRowDefaults(),
+					new FAQDataRowDefaults(),
+					new InvoiceDataRowTriggers(),
+					new InvoiceItemDataRowTriggers(),
+					new TicketDepartmentsDataRowDefaults(),
+				};
+
+			mockPluginClassesService = new MockPluginClassesService(classServices);
+
+			services.AddSingleton<ISettingsProvider>(settingsProvider);
+			services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+
+			initialisation.BeforeConfigureServices(services);
+
+			return services;
+		}
+	}
 }

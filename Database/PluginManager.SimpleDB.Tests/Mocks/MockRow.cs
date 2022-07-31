@@ -13,11 +13,11 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles.Tests
+ *  Product:  SimpleDB.Tests
  *  
  *  File: MockRow.cs
  *
- *  Purpose:  MockRow for text based storage
+ *  Purpose:  MockRow for SimpleDB
  *
  *  Date        Name                Reason
  *  23/05/2022  Simon Carter        Initially Created
@@ -25,11 +25,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Diagnostics.CodeAnalysis;
 
-using PluginManager.SimpleDB;
-
-namespace PluginManager.SimpleDB.Tests.Mocks
+namespace SimpleDB.Tests.Mocks
 {
-    [ExcludeFromCodeCoverage]
+	[ExcludeFromCodeCoverage]
     [Table("MockTable", cachingStrategy: CachingStrategy.Memory)]
 	public sealed class MockRow : TableRowDefinition
     {

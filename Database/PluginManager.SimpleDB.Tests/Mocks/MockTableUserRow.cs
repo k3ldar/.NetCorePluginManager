@@ -13,11 +13,11 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles.Tests
+ *  Product:  SimpleDB.Tests
  *  
  *  File: MockTableUserRow.cs
  *
- *  Purpose:  MockTableUserRow for text based storage
+ *  Purpose:  MockTableUserRow for SimpleDB
  *
  *  Date        Name                Reason
  *  02/06/2022  Simon Carter        Initially Created
@@ -25,7 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Diagnostics.CodeAnalysis;
 
-namespace PluginManager.SimpleDB.Tests.Mocks
+namespace SimpleDB.Tests.Mocks
 {
     [ExcludeFromCodeCoverage]
     [Table("MockTableUser", cachingStrategy: CachingStrategy.Memory)]

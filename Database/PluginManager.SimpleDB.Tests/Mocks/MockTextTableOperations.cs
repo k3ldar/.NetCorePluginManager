@@ -13,11 +13,11 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles.Tests
+ *  Product:  SimpleDB.Tests
  *  
  *  File: MockTextTableOperations.cs
  *
- *  Purpose:  MockTextTableOperations for text based storage
+ *  Purpose:  MockTextTableOperations for SimpleDB
  *
  *  Date        Name                Reason
  *  07/06/2022  Simon Carter        Initially Created
@@ -26,9 +26,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace PluginManager.SimpleDB.Tests.Mocks
+namespace SimpleDB.Tests.Mocks
 {
-    public class MockTextTableOperations<T> : ITextTableOperations<T>, ITextTable
+    public class MockTextTableOperations<T> : ISimpleDBOperations<T>, ISimpleDBTable
         where T : TableRowDefinition
     {
         public int DataLength => throw new NotImplementedException();
@@ -128,12 +128,12 @@ namespace PluginManager.SimpleDB.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public void Insert(List<T> records, TextTableInsertOptions insertOptions)
+        public void Insert(List<T> records, InsertOptions insertOptions)
         {
             throw new NotImplementedException();
         }
 
-        public void Insert(T records, TextTableInsertOptions insertOptions)
+        public void Insert(T records, InsertOptions insertOptions)
         {
             throw new NotImplementedException();
         }

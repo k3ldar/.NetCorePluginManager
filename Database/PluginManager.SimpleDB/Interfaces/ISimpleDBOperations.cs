@@ -13,20 +13,21 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  SimpleDB
  *  
- *  File: ITextReaderWriter.cs
+ *  File: ISimpleDBOperations.cs
  *
- *  Purpose:  ITextReaderWriter<T> for text based storage
+ *  Purpose:  ISimpleDBOperations<T> interface used by consumers to perform
+ *			  operations on a table
  *
  *  Date        Name                Reason
  *  23/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace PluginManager.SimpleDB
+namespace SimpleDB
 {
-    public interface ITextTableOperations<T> : IDisposable
+    public interface ISimpleDBOperations<T> : IDisposable
         where T : TableRowDefinition
     {
         /// <summary>
@@ -53,7 +54,7 @@ namespace PluginManager.SimpleDB
         /// </summary>
         /// <param name="records"></param>
         /// <param name="insertOptions"></param>
-        void Insert(List<T> records, TextTableInsertOptions insertOptions);
+        void Insert(List<T> records, InsertOptions insertOptions);
 
         /// <summary>
         /// Inserts a single new record, new primary key will be assigned to each record
@@ -66,7 +67,7 @@ namespace PluginManager.SimpleDB
         /// </summary>
         /// <param name="records"></param>
         /// <param name="insertOptions"></param>
-        void Insert(T records, TextTableInsertOptions insertOptions);
+        void Insert(T records, InsertOptions insertOptions);
 
         /// <summary>
         /// Removes a batch of records

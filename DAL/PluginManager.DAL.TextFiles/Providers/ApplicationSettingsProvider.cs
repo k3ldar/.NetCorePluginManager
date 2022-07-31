@@ -27,7 +27,7 @@
 using System.Reflection;
 
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.SimpleDB;
+using SimpleDB;
 
 using SharedPluginFeatures;
 
@@ -35,14 +35,14 @@ namespace PluginManager.DAL.TextFiles.Providers
 {
     internal class SettingsProvider : IApplicationSettingsProvider
     {
-        private readonly ITextTableOperations<SettingsDataRow> _settingsData;
+        private readonly ISimpleDBOperations<SettingsDataRow> _settingsData;
 
         public sealed class SettingValue
         {
             public string Value { get; set; }
         }
 
-        public SettingsProvider(ITextTableOperations<SettingsDataRow> settingsData)
+        public SettingsProvider(ISimpleDBOperations<SettingsDataRow> settingsData)
         {
             _settingsData = settingsData ?? throw new ArgumentNullException(nameof(settingsData));
         }

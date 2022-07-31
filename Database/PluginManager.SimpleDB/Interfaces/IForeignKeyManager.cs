@@ -13,7 +13,7 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  SimpleDB
  *  
  *  File: ForeignKeyManager.cs
  *
@@ -24,15 +24,15 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace PluginManager.SimpleDB
+namespace SimpleDB
 {
     public interface IForeignKeyManager
     {
         void AddRelationShip(string sourceTable, string targetTable, string propertyName, string targetPropertyName);
 
-        void RegisterTable(ITextTable table);
+        void RegisterTable(ISimpleDBTable table);
 
-        void UnregisterTable(ITextTable table);
+        void UnregisterTable(ISimpleDBTable table);
 
         bool ValueExists(string tableName, long id);
 

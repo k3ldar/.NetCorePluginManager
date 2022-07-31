@@ -95,9 +95,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginManager.DAL.TextFiles
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{8522A683-113C-49D8-BA64-E6677D72A5E9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginManager.SimpleDB", "Database\PluginManager.SimpleDB\PluginManager.SimpleDB.csproj", "{615AE0C8-2986-49AB-9B84-139E252CCB59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleDB", "Database\PluginManager.SimpleDB\SimpleDB.csproj", "{615AE0C8-2986-49AB-9B84-139E252CCB59}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginManager.SimpleDB.Tests", "Database\PluginManager.SimpleDB.Tests\PluginManager.SimpleDB.Tests.csproj", "{3FBEACE4-FF52-40B2-A1CA-93A157B3099A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleDB.Tests", "Database\PluginManager.SimpleDB.Tests\SimpleDB.Tests.csproj", "{3FBEACE4-FF52-40B2-A1CA-93A157B3099A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

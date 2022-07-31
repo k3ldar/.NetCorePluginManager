@@ -28,7 +28,7 @@ using Middleware.Products;
 using Middleware.ShoppingCart;
 
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.SimpleDB;
+using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
@@ -36,13 +36,13 @@ namespace PluginManager.DAL.TextFiles.Providers
     {
         #region Private Members
 
-        private readonly ITextTableOperations<StockDataRow> _stock;
+        private readonly ISimpleDBOperations<StockDataRow> _stock;
 
         #endregion Private Members
 
         #region Constructors
 
-        public StockProvider(ITextTableOperations<StockDataRow> stock)
+        public StockProvider(ISimpleDBOperations<StockDataRow> stock)
         {
             _stock = stock ?? throw new ArgumentNullException(nameof(stock));
         }

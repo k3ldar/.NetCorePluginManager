@@ -34,7 +34,7 @@ using Middleware.Helpdesk;
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.SimpleDB;
+using SimpleDB;
 
 using SharedPluginFeatures;
 
@@ -76,56 +76,56 @@ namespace PluginManager.DAL.TextFiles
         public void AfterConfigure(in IApplicationBuilder app)
         {
             // initialize all tables
-            _ = app.ApplicationServices.GetService<ITextTableOperations<AddressDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<AddressDataRow>>();
 
-            _ = app.ApplicationServices.GetService<ITextTableOperations<BlogDataRow>>();
-            _ = app.ApplicationServices.GetService<ITextTableOperations<BlogCommentDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<BlogDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<BlogCommentDataRow>>();
 
-            _ = app.ApplicationServices.GetService<ITextTableOperations<CountryDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<CountryDataRow>>();
 
-            _ = app.ApplicationServices.GetService<ITextTableOperations<DownloadCategoryDataRow>>();
-            _ = app.ApplicationServices.GetService<ITextTableOperations<DownloadItemsDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<DownloadCategoryDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
 
-            _ = app.ApplicationServices.GetService < ITextTableOperations < ContentPageDataRow>>();
-            _ = app.ApplicationServices.GetService<ITextTableOperations<ContentPageItemDataRow>>();
+            _ = app.ApplicationServices.GetService < ISimpleDBOperations < ContentPageDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<ContentPageItemDataRow>>();
 
-            _ = app.ApplicationServices.GetService<ITextTableOperations<ExternalUsersDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<ExternalUsersDataRow>>();
 
-            _ = app.ApplicationServices.GetService<ITextTableOperations<FeedbackDataRow>>();
-            _ = app.ApplicationServices.GetService<ITextTableOperations<TicketDataRow>>();
-            _ = app.ApplicationServices.GetService<ITextTableOperations<TicketDepartmentsDataRow>>();
-            _ = app.ApplicationServices.GetService<ITextTableOperations<TicketMessageDataRow>>();
-            _ = app.ApplicationServices.GetService<ITextTableOperations<TicketPrioritiesDataRow>>();
-            _ = app.ApplicationServices.GetService<ITextTableOperations<TicketStatusDataRow>>();
-            _ = app.ApplicationServices.GetService<ITextTableOperations<FAQDataRow>>();
-            _ = app.ApplicationServices.GetService<ITextTableOperations<FAQItemDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<FeedbackDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<TicketDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<TicketDepartmentsDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<TicketMessageDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<TicketPrioritiesDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<TicketStatusDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<FAQDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<FAQItemDataRow>>();
 
-            _ = app.ApplicationServices.GetService<ITextTableOperations<InvoiceDataRow>>();
-            _ = app.ApplicationServices.GetService<ITextTableOperations<InvoiceItemDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<InvoiceDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<InvoiceItemDataRow>>();
 
-            _ = app.ApplicationServices.GetService<ITextTableOperations<LicenseTypeDataRow>>();
-            _ = app.ApplicationServices.GetService<ITextTableOperations<LicenseDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<LicenseTypeDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<LicenseDataRow>>();
 
-            _ = app.ApplicationServices.GetService<ITextTableOperations<OrderDataRow>>();
-            _ = app.ApplicationServices.GetService<ITextTableOperations<OrderItemDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<OrderDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<OrderItemDataRow>>();
 
-            _ = app.ApplicationServices.GetService<ITextTableOperations<ProductDataRow>>();
-            _ = app.ApplicationServices.GetService<ITextTableOperations<ProductGroupDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<ProductDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<ProductGroupDataRow>>();
 
-            _ = app.ApplicationServices.GetService<ITextTableOperations<SeoDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<SeoDataRow>>();
 
-            _ = app.ApplicationServices.GetService<ITextTableOperations<SettingsDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<SettingsDataRow>>();
 
-            _ = app.ApplicationServices.GetService<ITextTableOperations<ShoppingCartDataRow>>();
-            _ = app.ApplicationServices.GetService<ITextTableOperations<ShoppingCartItemDataRow>>();
-            _ = app.ApplicationServices.GetService<ITextTableOperations<VoucherDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<ShoppingCartDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<ShoppingCartItemDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<VoucherDataRow>>();
 
-            _ = app.ApplicationServices.GetService<ITextTableOperations<StockDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<StockDataRow>>();
 
-            _ = app.ApplicationServices.GetService<ITextTableOperations<UserApiDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<UserApiDataRow>>();
 
-            _ = app.ApplicationServices.GetService<ITextTableOperations<UserDataRow>>();
-            _ = app.ApplicationServices.GetService<ITextTableOperations<UserClaimsDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<UserDataRow>>();
+            _ = app.ApplicationServices.GetService<ISimpleDBOperations<UserClaimsDataRow>>();
 
         }
 

@@ -13,28 +13,30 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles.Tests
+ *  Product:  SimpleDB
  *  
- *  File: TextFileSettings.cs
+ *  File: ITextTable.cs
  *
- *  Purpose:  TextFileSettings for text based storage
+ *  Purpose:  ISimpleDBTable interface for SimpleDB
  *
  *  Date        Name                Reason
  *  31/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-using AppSettings;
-
-namespace PluginManager.SimpleDB
+namespace SimpleDB
 {
-    public class TextFileSettings
-    {
-        
-        public string Path { get; set; }
 
-        [SettingString(false, SharedPluginFeatures.Constants.MinimumKeyLength, SharedPluginFeatures.Constants.MaximumKeyLength)]
-        [SettingDefault("DSFOIRTEWRasd/flkqw409r sdaedf2134A")]
-        public string EnycryptionKey { get; set; }
+
+    /// <summary>
+    /// add before/after insert/delete/update and add foreign key attributes and unique index attributes which can be validated
+    /// </summary>
+    public interface ISimpleDBTable
+    {
+        string TableName { get; }
+
+        bool IdExists(long id);
+
+        bool IdIsInUse(string propertyName, long value);
     }
 }

@@ -40,7 +40,7 @@ using Middleware.Users;
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.SimpleDB;
+using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
@@ -63,11 +63,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -83,9 +79,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         Assert.IsTrue(created);
                     }
 
-                    ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
+                    ISimpleDBOperations<UserDataRow> userTable = (ISimpleDBOperations<UserDataRow>)provider.GetService(typeof(ISimpleDBOperations<UserDataRow>));
                     Assert.IsNotNull(userTable);
-                    Assert.AreEqual(10, userTable.RecordCount);
+                    Assert.AreEqual(11, userTable.RecordCount);
 
                     IUserSearch sut = provider.GetRequiredService<IUserSearch>();
 
@@ -94,12 +90,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     List<SearchUser> users = sut.GetUsers(1, 6, String.Empty, String.Empty);
                     Assert.IsNotNull(users);
                     Assert.AreEqual(6, users.Count);
-                    Assert.AreEqual("Joe 0 Bloggs", users[0].Name);
-                    Assert.AreEqual("Joe 1 Bloggs", users[1].Name);
-                    Assert.AreEqual("Joe 2 Bloggs", users[2].Name);
-                    Assert.AreEqual("Joe 3 Bloggs", users[3].Name);
-                    Assert.AreEqual("Joe 4 Bloggs", users[4].Name);
-                    Assert.AreEqual("Joe 5 Bloggs", users[5].Name);
+                    Assert.AreEqual("admin user", users[0].Name);
+                    Assert.AreEqual("Joe 0 Bloggs", users[1].Name);
+                    Assert.AreEqual("Joe 1 Bloggs", users[2].Name);
+                    Assert.AreEqual("Joe 2 Bloggs", users[3].Name);
+                    Assert.AreEqual("Joe 3 Bloggs", users[4].Name);
+                    Assert.AreEqual("Joe 4 Bloggs", users[5].Name);
                 }
             }
             finally
@@ -116,11 +112,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -136,9 +128,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         Assert.IsTrue(created);
                     }
 
-                    ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
+                    ISimpleDBOperations<UserDataRow> userTable = (ISimpleDBOperations<UserDataRow>)provider.GetService(typeof(ISimpleDBOperations<UserDataRow>));
                     Assert.IsNotNull(userTable);
-                    Assert.AreEqual(10, userTable.RecordCount);
+                    Assert.AreEqual(11, userTable.RecordCount);
 
                     IUserSearch sut = provider.GetRequiredService<IUserSearch>();
 
@@ -147,9 +139,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     List<SearchUser> users = sut.GetUsers(3, 3, String.Empty, String.Empty);
                     Assert.IsNotNull(users);
                     Assert.AreEqual(3, users.Count);
-                    Assert.AreEqual("Joe 6 Bloggs", users[0].Name);
-                    Assert.AreEqual("Joe 7 Bloggs", users[1].Name);
-                    Assert.AreEqual("Joe 8 Bloggs", users[2].Name);
+                    Assert.AreEqual("Joe 5 Bloggs", users[0].Name);
+                    Assert.AreEqual("Joe 6 Bloggs", users[1].Name);
+                    Assert.AreEqual("Joe 7 Bloggs", users[2].Name);
                 }
             }
             finally

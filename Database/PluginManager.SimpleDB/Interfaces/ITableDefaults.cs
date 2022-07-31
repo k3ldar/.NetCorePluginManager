@@ -13,7 +13,7 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  SimpleDB
  *  
  *  File: ITableDefaults.cs
  *
@@ -23,10 +23,9 @@
  *  09/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-namespace PluginManager.SimpleDB
+namespace SimpleDB
 {
-    public interface ITableDefaults<T>
+	public interface ITableDefaults<T>
         where T : TableRowDefinition
     {
         /// <summary>

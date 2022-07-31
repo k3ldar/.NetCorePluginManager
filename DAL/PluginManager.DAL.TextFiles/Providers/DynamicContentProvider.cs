@@ -32,7 +32,7 @@ using Middleware.DynamicContent;
 
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.SimpleDB;
+using SimpleDB;
 
 using SharedPluginFeatures;
 using SharedPluginFeatures.DynamicContent;
@@ -47,15 +47,15 @@ namespace PluginManager.DAL.TextFiles.Providers
         
         private readonly IPluginClassesService _pluginClassesService;
         private readonly IMemoryCache _memoryCache;
-        private readonly ITextTableOperations<ContentPageDataRow> _pageData;
-        private readonly ITextTableOperations<ContentPageItemDataRow> _pageItemsData;
+        private readonly ISimpleDBOperations<ContentPageDataRow> _pageData;
+        private readonly ISimpleDBOperations<ContentPageItemDataRow> _pageItemsData;
 
         #endregion Private Members
 
         #region Constructors
 
         public DynamicContentProvider(IPluginClassesService pluginClassesService, IMemoryCache memoryCache, 
-            ITextTableOperations<ContentPageDataRow> pageData, ITextTableOperations<ContentPageItemDataRow> pageItemsData)
+            ISimpleDBOperations<ContentPageDataRow> pageData, ISimpleDBOperations<ContentPageItemDataRow> pageItemsData)
         {
             _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));

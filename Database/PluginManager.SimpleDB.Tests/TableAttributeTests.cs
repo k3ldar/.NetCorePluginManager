@@ -13,11 +13,11 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles.Tests
+ *  Product:  SimpleDB.Tests
  *  
  *  File: TableAttributeTests.cs
  *
- *  Purpose:  TableAttributeTests tests for text based storage
+ *  Purpose:  TableAttributeTests tests for SimpleDB
  *
  *  Date        Name                Reason
  *  30/05/2022  Simon Carter        Initially Created
@@ -30,7 +30,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 #pragma warning disable CA1806
 
-namespace PluginManager.SimpleDB.Tests
+namespace SimpleDB.Tests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]

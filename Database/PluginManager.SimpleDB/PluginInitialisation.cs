@@ -13,7 +13,7 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  SimpleDB
  *  
  *  File: PluginInitialisation.cs
  *
@@ -27,11 +27,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
-using PluginManager.SimpleDB.Internal;
+using SimpleDB.Internal;
 
 using SharedPluginFeatures;
 
-namespace PluginManager.SimpleDB
+namespace SimpleDB
 {
     public class PluginInitialisation : IPlugin, IPluginVersion, IInitialiseEvents
     {
@@ -79,9 +79,8 @@ namespace PluginManager.SimpleDB
         public void BeforeConfigureServices(in IServiceCollection services)
         {
             services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
-            services.AddSingleton<ITextTableInitializer, TextTableInitializer>();
-
-            services.AddSingleton(typeof(ITextTableOperations<>), typeof(TextTableOperations<>));
+            services.AddSingleton<ISimpleDBInitializer, SimpleDBInitializer>();
+            services.AddSingleton(typeof(ISimpleDBOperations<>), typeof(SimpleDBOperations<>));
         }
 
         public void AfterConfigureServices(in IServiceCollection services)

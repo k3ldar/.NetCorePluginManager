@@ -13,32 +13,28 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  SimpleDB
  *  
- *  File: TextTableInsertOptions.cs
+ *  File: SimpleDBSettings.cs
  *
- *  Purpose:  Insert options for text based storage
+ *  Purpose:  Settings for SimpleDB
  *
  *  Date        Name                Reason
- *  06/07/2022  Simon Carter        Initially Created
+ *  31/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace PluginManager.SimpleDB
+using AppSettings;
+
+namespace SimpleDB
 {
-    public sealed class TextTableInsertOptions
+    public class SimpleDBSettings
     {
-        public TextTableInsertOptions()
-            : this(true)
-        {
+        
+        public string Path { get; set; }
 
-        }
-
-        public TextTableInsertOptions(bool assignPrimaryKey)
-        {
-            AssignPrimaryKey = assignPrimaryKey;
-        }
-
-        public bool AssignPrimaryKey { get; }
+        [SettingString(false, SharedPluginFeatures.Constants.MinimumKeyLength, SharedPluginFeatures.Constants.MaximumKeyLength)]
+        [SettingDefault("DSFOIRTEWRasd/flkqw409r sdaedf2134A")]
+        public string EnycryptionKey { get; set; }
     }
 }

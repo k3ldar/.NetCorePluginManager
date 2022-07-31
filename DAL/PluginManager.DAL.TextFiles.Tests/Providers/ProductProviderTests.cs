@@ -41,8 +41,8 @@ using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 using PluginManager.DAL.TextFiles.Tables.Products;
-using PluginManager.SimpleDB;
-using PluginManager.SimpleDB.Tests.Mocks;
+using SimpleDB;
+using SimpleDB.Tests.Mocks;
 
 using SharedPluginFeatures;
 
@@ -81,22 +81,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults()
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ITextTableOperations<ProductGroupDataRow>>();
+                    ISimpleDBOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ISimpleDBOperations<ProductGroupDataRow>>();
                     Assert.IsNotNull(prodGroups);
 
                     IReadOnlyList<ProductGroupDataRow> allRows = prodGroups.Select();
@@ -120,18 +109,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults()
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -157,25 +135,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults()
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ITextTableOperations<ProductGroupDataRow>>();
+                    ISimpleDBOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ISimpleDBOperations<ProductGroupDataRow>>();
                     Assert.IsNotNull(prodGroups);
 
-                    prodGroups.Insert(new ProductGroupDataRow() { Description = "test" });
+                    prodGroups.Insert(new ProductGroupDataRow() { Description = "test group" });
 
                     IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
@@ -199,31 +166,20 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults()
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ITextTableOperations<ProductGroupDataRow>>();
+                    ISimpleDBOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ISimpleDBOperations<ProductGroupDataRow>>();
                     Assert.IsNotNull(prodGroups);
 
-                    prodGroups.Insert(new ProductGroupDataRow() { Description = "test" });
+                    prodGroups.Insert(new ProductGroupDataRow() { Description = "test group" });
 
 
-                    ITextTableOperations<ProductDataRow> prodData = provider.GetRequiredService<ITextTableOperations<ProductDataRow>>();
+                    ISimpleDBOperations<ProductDataRow> prodData = provider.GetRequiredService<ISimpleDBOperations<ProductDataRow>>();
                     Assert.IsNotNull(prodData);
 
-                    prodData.Insert(new ProductDataRow() { Description = "test", ProductGroupId = 1 });
+                    prodData.Insert(new ProductDataRow() { Description = "test product description which should be at least 20 chars", Name = "product name", ProductGroupId = 1 });
 
                     IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
@@ -247,25 +203,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults()
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ITextTableOperations<ProductGroupDataRow>>();
+                    ISimpleDBOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ISimpleDBOperations<ProductGroupDataRow>>();
                     Assert.IsNotNull(prodGroups);
 
-                    prodGroups.Insert(new ProductGroupDataRow() { Description = "test" });
+                    prodGroups.Insert(new ProductGroupDataRow() { Description = "test group" });
 
                     IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
@@ -289,25 +234,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults()
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ITextTableOperations<ProductGroupDataRow>>();
+                    ISimpleDBOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ISimpleDBOperations<ProductGroupDataRow>>();
                     Assert.IsNotNull(prodGroups);
 
-                    prodGroups.Insert(new ProductGroupDataRow() { Description = "test" });
+                    prodGroups.Insert(new ProductGroupDataRow() { Description = "test group" });
 
                     IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
@@ -330,18 +264,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults()
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -367,18 +290,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults()
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -405,22 +317,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults()
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ITextTableOperations<ProductGroupDataRow>>();
+                    ISimpleDBOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ISimpleDBOperations<ProductGroupDataRow>>();
                     Assert.IsNotNull(prodGroups);
 
                     prodGroups.Insert(new ProductGroupDataRow() { Description = "test 1", SortOrder = 5 });
@@ -454,19 +355,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers()
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -492,19 +381,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers()
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -530,19 +407,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers()
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -568,19 +433,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers()
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -606,19 +459,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers()
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -629,7 +470,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsTrue(result);
                     Assert.AreEqual("", errorMessage);
 
-                    ITextTableOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ITextTableOperations<ProductGroupDataRow>>();
+                    ISimpleDBOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ISimpleDBOperations<ProductGroupDataRow>>();
                     Assert.IsNotNull(prodGroups);
                     Assert.AreEqual(2, prodGroups.RecordCount);
 
@@ -651,19 +492,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers()
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -688,24 +517,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<ProductDataRow> productsData = provider.GetRequiredService<ITextTableOperations<ProductDataRow>>();
+                    ISimpleDBOperations<ProductDataRow> productsData = provider.GetRequiredService<ISimpleDBOperations<ProductDataRow>>();
                     Assert.IsNotNull(productsData);
 
                     productsData.Insert(new ProductDataRow()
@@ -740,24 +556,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<ProductGroupDataRow> productsGroupData = provider.GetRequiredService<ITextTableOperations<ProductGroupDataRow>>();
+                    ISimpleDBOperations<ProductGroupDataRow> productsGroupData = provider.GetRequiredService<ISimpleDBOperations<ProductGroupDataRow>>();
                     Assert.IsNotNull(productsGroupData);
 
                     productsGroupData.Insert(new ProductGroupDataRow()
@@ -765,7 +568,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         Description = "New Product Group"
                     });
 
-                    ITextTableOperations<ProductDataRow> productsData = provider.GetRequiredService<ITextTableOperations<ProductDataRow>>();
+                    ISimpleDBOperations<ProductDataRow> productsData = provider.GetRequiredService<ISimpleDBOperations<ProductDataRow>>();
                     Assert.IsNotNull(productsData);
 
                     for (int i = 0; i < 30; i++)
@@ -810,20 +613,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -850,20 +640,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -894,20 +671,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -934,20 +698,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -974,20 +725,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -1014,20 +752,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {

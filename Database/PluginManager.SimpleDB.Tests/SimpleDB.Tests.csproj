@@ -16,7 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Tests\AspNetCore.PluginManager.Tests\AspNetCore.PluginManager.Tests.csproj" />
     <ProjectReference Include="..\..\Tests\PluginManager.Tests\PluginManager.Tests.csproj" />
-    <ProjectReference Include="..\PluginManager.SimpleDB\PluginManager.SimpleDB.csproj" />
+    <ProjectReference Include="..\PluginManager.SimpleDB\SimpleDB.csproj" />
   </ItemGroup>
 
   <ItemGroup>
