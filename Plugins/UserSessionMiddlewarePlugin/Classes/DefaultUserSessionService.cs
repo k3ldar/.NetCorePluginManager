@@ -34,6 +34,8 @@ using System.Text;
 
 using Microsoft.AspNetCore.Hosting;
 
+using Middleware;
+
 using Newtonsoft.Json;
 
 using PluginManager.Abstractions;
@@ -44,22 +46,28 @@ using SharedPluginFeatures;
 
 using UserSessionMiddleware.Plugin.Classes.SessionData;
 
+using Middleware.SessionData;
+
 namespace UserSessionMiddleware.Plugin.Classes
 {
     /// <summary>
     /// Default IUserSessionService implementation that will be used if no other IUserSessionService
     /// instances have been registered
     /// </summary>
-    public sealed class DefaultUserSessionService : ThreadManager, IUserSessionService
-    {
+    public sealed class DefaultUserSessionService : ThreadManager, IUserSessionService, ISessionStatisticsProvider, IUrlHashProvider
+	{
         #region Private Members
 
         private readonly string _rootPath;
         private static readonly object _lockObject = new object();
         private static readonly Stack<UserSession> _closedSessions = new Stack<UserSession>();
-        private static SessionPageViews _sessionPageViews;
+
+#pragma warning disable IDE0044
+		private static SessionPageViews _sessionPageViews;
         private static SessionInitialReferrers _initialReferrers;
-        private static List<SessionHourly> _hourlySessionDataHuman;
+#pragma warning restore IDE0044
+
+		private static List<SessionHourly> _hourlySessionDataHuman;
         private static List<SessionDaily> _dailySessionDataHuman;
         private static List<SessionWeekly> _weeklySessionDataHuman;
         private static List<SessionMonthly> _monthlySessionDataHuman;
@@ -123,7 +131,7 @@ namespace UserSessionMiddleware.Plugin.Classes
             _geoIpProvider = geoIpProvider ?? throw new ArgumentNullException(nameof(geoIpProvider));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-            UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(Constants.UserSessionConfiguration);
+            UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(SharedPluginFeatures.Constants.UserSessionConfiguration);
 
             if (!settings.EnableDefaultSessionService)
                 return;
@@ -157,8 +165,8 @@ namespace UserSessionMiddleware.Plugin.Classes
             _maxYears = settings.MaxYearlyData;
 
 
-            LoadSessionData(_pageViewFile, ref _sessionPageViews);
-            LoadSessionData(_referrerFile, ref _initialReferrers);
+			LoadSessionData(_pageViewFile, ref _sessionPageViews);
+			LoadSessionData(_referrerFile, ref _initialReferrers);
             LoadSessionData(_sessionHourlyFileHuman, ref _hourlySessionDataHuman);
             LoadSessionData(_sessionDailyFileHuman, ref _dailySessionDataHuman);
             LoadSessionData(_sessionWeeklyFileHuman, ref _weeklySessionDataHuman);
@@ -254,11 +262,16 @@ namespace UserSessionMiddleware.Plugin.Classes
             return !base.HasCancelled();
         }
 
-        #endregion ThreadManager Methods
+		#endregion ThreadManager Methods
 
-        #region Internal Methods
+		#region ISessionStatisticsProvider Methods
 
-        internal static string GetUrlHash(in string url)
+		/// <summary>
+		/// Retreives a hash of a url
+		/// </summary>
+		/// <param name="url"></param>
+		/// <returns></returns>
+		public string GetUrlHash(in string url)
         {
             using (SHA256 sha256Hash = SHA256.Create())
             {
@@ -266,7 +279,12 @@ namespace UserSessionMiddleware.Plugin.Classes
             }
         }
 
-        internal static List<SessionDaily> GetDailyData(bool isBot)
+		/// <summary>
+		/// Retrieves daily data
+		/// </summary>
+		/// <param name="isBot"></param>
+		/// <returns></returns>
+		public List<SessionDaily> GetDailyData(bool isBot)
         {
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
@@ -277,7 +295,12 @@ namespace UserSessionMiddleware.Plugin.Classes
             }
         }
 
-        internal static List<SessionHourly> GetHourlyData(bool isBot)
+		/// <summary>
+		/// Retrieves hourly data
+		/// </summary>
+		/// <param name="isBot"></param>
+		/// <returns></returns>
+		public List<SessionHourly> GetHourlyData(bool isBot)
         {
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
@@ -288,7 +311,12 @@ namespace UserSessionMiddleware.Plugin.Classes
             }
         }
 
-        internal static List<SessionWeekly> GetWeeklyData(bool isBot)
+		/// <summary>
+		/// Retrieves weekly data
+		/// </summary>
+		/// <param name="isBot"></param>
+		/// <returns></returns>
+		public List<SessionWeekly> GetWeeklyData(bool isBot)
         {
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
@@ -299,7 +327,12 @@ namespace UserSessionMiddleware.Plugin.Classes
             }
         }
 
-        internal static List<SessionMonthly> GetMonthlyData(bool isBot)
+		/// <summary>
+		/// Retrieves monthly data
+		/// </summary>
+		/// <param name="isBot"></param>
+		/// <returns></returns>
+		public List<SessionMonthly> GetMonthlyData(bool isBot)
         {
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
@@ -310,7 +343,12 @@ namespace UserSessionMiddleware.Plugin.Classes
             }
         }
 
-        internal static List<SessionYearly> GetYearlyData(bool isBot)
+		/// <summary>
+		/// Retrieves yearly data
+		/// </summary>
+		/// <param name="isBot"></param>
+		/// <returns></returns>
+		public List<SessionYearly> GetYearlyData(bool isBot)
         {
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
@@ -321,7 +359,11 @@ namespace UserSessionMiddleware.Plugin.Classes
             }
         }
 
-        internal static List<SessionUserAgent> GetUserAgents()
+		/// <summary>
+		/// Retrieves user agent data
+		/// </summary>
+		/// <returns></returns>
+		public List<SessionUserAgent> GetUserAgents()
         {
             List<SessionYearly> yearlySessions = CopySessionData<List<SessionYearly>>(_yearlySessionDataBot);
 
@@ -335,7 +377,11 @@ namespace UserSessionMiddleware.Plugin.Classes
             return Result;
         }
 
-        private static List<SessionUserAgent> AmalgamateSessionData(List<SessionYearly> yearlySessions, ref List<SessionUserAgent> Result)
+		#endregion ISessionStatisticsProvider Methods
+
+		#region Private Methods
+
+		private static List<SessionUserAgent> AmalgamateSessionData(List<SessionYearly> yearlySessions, ref List<SessionUserAgent> Result)
         {
             foreach (SessionYearly year in yearlySessions)
             {
@@ -372,11 +418,6 @@ namespace UserSessionMiddleware.Plugin.Classes
 
             return Result.OrderBy(o => o.IsBot).ThenByDescending(d => d.Count).ToList();
         }
-
-        #endregion Internal Methods
-
-        #region Private Methods
-
         private static string GetHash(HashAlgorithm hashAlgorithm, string input)
         {
 
@@ -438,9 +479,13 @@ namespace UserSessionMiddleware.Plugin.Classes
 
                 sessionData = new T();
             }
-        }
 
-        private static T CopySessionData<T>(object value)
+			if (sessionData is IUrlHash)
+				((IUrlHash)sessionData).SetUrlHash(this);
+
+		}
+
+		private static T CopySessionData<T>(object value)
         {
             if (value == null)
                 return default;

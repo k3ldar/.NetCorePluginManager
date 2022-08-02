@@ -2415,6 +2415,243 @@
             </summary>
             <param name="keywordLength">Length of keyword being searched.</param>
         </member>
+        <member name="T:Middleware.SessionData.SessionBaseData">
+            <summary>
+            Base session data for Hourly, Daily, Weekly Monthly and Yearly
+            </summary>
+        </member>
+        <member name="M:Middleware.SessionData.SessionBaseData.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.TotalVisits">
+            <summary>
+            Total number of visits
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.HumanVisits">
+            <summary>
+            Total number of human visits
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.MobileVisits">
+            <summary>
+            Total number of visits from a mobile device
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.BotVisits">
+            <summary>
+            Total number of visits from a Bot
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.Bounced">
+            <summary>
+            Total number of human visitors who have bounced
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.TotalPages">
+            <summary>
+            Total number of pages viewed
+            </summary>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.TotalSales">
+            <summary>
+            Total cost of all sales
+            </summary>
+            <value>decimal</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.Conversions">
+            <summary>
+            Number of conversions from visits to sales
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.MobileConversions">
+            <summary>
+            Number of daily conversions from visits to sales on mobile devices
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.ReferrerUnknown">
+            <summary>
+            Unknown referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.ReferDirect">
+            <summary>
+            Direct referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.ReferOrganic">
+            <summary>
+            Organic referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.ReferBing">
+            <summary>
+            Bing referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.ReferGoogle">
+            <summary>
+            Google referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.ReferYahoo">
+            <summary>
+            Yahoo referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.ReferFacebook">
+            <summary>
+            Facebook referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.ReferTwitter">
+            <summary>
+            Twitter referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.ReferOther">
+            <summary>
+            Other referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.CountryData">
+            <summary>
+            Counts by country for the specified period
+            </summary>
+            <value>Dictionary&lt;string, uint&gt;</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.UserAgents">
+            <summary>
+            Counts by user agent for the specified period
+            </summary>
+            <value>Dictionary&lt;string, uint&gt;</value>
+        </member>
+        <member name="T:Middleware.SessionData.SessionDaily">
+            <summary>
+            Daily visitor statistics
+            </summary>
+        </member>
+        <member name="M:Middleware.SessionData.SessionDaily.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Middleware.SessionData.SessionDaily.Date">
+            <summary>
+            Date of Visit
+            </summary>
+        </member>
+        <member name="T:Middleware.SessionData.SessionHourly">
+            <summary>
+            Hourly visitor statistics
+            </summary>
+        </member>
+        <member name="M:Middleware.SessionData.SessionHourly.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Middleware.SessionData.SessionHourly.Date">
+            <summary>
+            Date of Visit
+            </summary>
+        </member>
+        <member name="P:Middleware.SessionData.SessionHourly.Hour">
+            <summary>
+            Hour the visit was made
+            </summary>
+        </member>
+        <member name="P:Middleware.SessionData.SessionHourly.Quarter">
+            <summary>
+            Retrieves the hour quarter
+            </summary>
+        </member>
+        <member name="T:Middleware.SessionData.SessionMonthly">
+            <summary>
+            Monthly session data
+            </summary>
+        </member>
+        <member name="M:Middleware.SessionData.SessionMonthly.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Middleware.SessionData.SessionMonthly.Month">
+            <summary>
+            Month of Visit
+            </summary>
+        </member>
+        <member name="T:Middleware.SessionData.SessionUserAgent">
+            <summary>
+            User agent session usage data
+            </summary>
+        </member>
+        <member name="P:Middleware.SessionData.SessionUserAgent.UserAgent">
+            <summary>
+            User agent name
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionUserAgent.Count">
+            <summary>
+            Number of times it has appeared
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionUserAgent.IsBot">
+            <summary>
+            Indicates whether it was recognised as a bot or not
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="T:Middleware.SessionData.SessionWeekly">
+            <summary>
+            Weekly visitor statistics
+            </summary>
+        </member>
+        <member name="M:Middleware.SessionData.SessionWeekly.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Middleware.SessionData.SessionWeekly.Week">
+            <summary>
+            Week of Visit
+            </summary>
+        </member>
+        <member name="T:Middleware.SessionData.SessionYearly">
+            <summary>
+            Yearly session data
+            </summary>
+        </member>
+        <member name="M:Middleware.SessionData.SessionYearly.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Middleware.SessionData.SessionYearly.Year">
+            <summary>
+            Year of visit
+            </summary>
+        </member>
         <member name="T:Middleware.ShoppingCart.ShoppingCartDetail">
             <summary>
             Provides detailed information about shopping a users shopping cart.  Descends from ShoppingCartSummary
@@ -3778,6 +4015,47 @@
             <param name="searchId">Name of search to be found.</param>
             <returns>List&lt;SearchResponseItem&gt;</returns>
         </member>
+        <member name="T:Middleware.ISessionStatisticsProvider">
+            <summary>
+            Session statistics provider
+            </summary>
+        </member>
+        <member name="M:Middleware.ISessionStatisticsProvider.GetDailyData(System.Boolean)">
+            <summary>
+            Retrieves Daily data
+            </summary>
+            <returns>List&lt;SessionDaily&gt;</returns>
+        </member>
+        <member name="M:Middleware.ISessionStatisticsProvider.GetHourlyData(System.Boolean)">
+            <summary>
+            Retrieves Hourly data
+            </summary>
+            <returns>List&lt;SessionHourly&gt;</returns>
+        </member>
+        <member name="M:Middleware.ISessionStatisticsProvider.GetWeeklyData(System.Boolean)">
+            <summary>
+            Retrieves weekly data
+            </summary>
+            <returns>List&lt;SessionWeekly&gt;</returns>
+        </member>
+        <member name="M:Middleware.ISessionStatisticsProvider.GetMonthlyData(System.Boolean)">
+            <summary>
+            Retrieves Monthly data
+            </summary>
+            <returns>List&lt;SessionMonthly&gt;</returns>
+        </member>
+        <member name="M:Middleware.ISessionStatisticsProvider.GetYearlyData(System.Boolean)">
+            <summary>
+            Retrieves yearly data
+            </summary>
+            <returns>List&lt;SessionYearly&gt;</returns>
+        </member>
+        <member name="M:Middleware.ISessionStatisticsProvider.GetUserAgents">
+            <summary>
+            Retrieves user agent data
+            </summary>
+            <returns>List&lt;SessionUserAgent&gt;</returns>
+        </member>
         <member name="T:Middleware.IShoppingCartProvider">
             <summary>
             Shopping cart provider interface, used to query shopping cart data.  
@@ -3921,6 +4199,17 @@
             <summary>
             Indicates whether we are just verifying the details or performing a login
             </summary>
+        </member>
+        <member name="T:Middleware.IUrlHashProvider">
+            <summary>
+            Interface for retrieving a hash of url
+            </summary>
+        </member>
+        <member name="M:Middleware.IUrlHashProvider.GetUrlHash(System.String@)">
+            <summary>
+            Retrieves a hash value for a url
+            </summary>
+            <returns>string</returns>
         </member>
         <member name="T:Middleware.IUserApiQueryProvider">
             <summary>

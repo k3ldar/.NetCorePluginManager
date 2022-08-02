@@ -58,6 +58,54 @@
             <param name="parameters"></param>
             <returns></returns>
         </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.DefaultUserSessionService.GetUrlHash(System.String@)">
+            <summary>
+            Retreives a hash of a url
+            </summary>
+            <param name="url"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.DefaultUserSessionService.GetDailyData(System.Boolean)">
+            <summary>
+            Retrieves daily data
+            </summary>
+            <param name="isBot"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.DefaultUserSessionService.GetHourlyData(System.Boolean)">
+            <summary>
+            Retrieves hourly data
+            </summary>
+            <param name="isBot"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.DefaultUserSessionService.GetWeeklyData(System.Boolean)">
+            <summary>
+            Retrieves weekly data
+            </summary>
+            <param name="isBot"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.DefaultUserSessionService.GetMonthlyData(System.Boolean)">
+            <summary>
+            Retrieves monthly data
+            </summary>
+            <param name="isBot"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.DefaultUserSessionService.GetYearlyData(System.Boolean)">
+            <summary>
+            Retrieves yearly data
+            </summary>
+            <param name="isBot"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.DefaultUserSessionService.GetUserAgents">
+            <summary>
+            Retrieves user agent data
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.DefaultSessionTimingsSubMenu">
             <summary>
             Returns Timings information for all time spent processing default user session requests and can 
@@ -72,174 +120,16 @@
             </summary>
             <returns>string</returns>
         </member>
-        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData">
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.IUrlHash">
             <summary>
-            Base session data for Hourly, Daily, Weekly Monthly and Yearly
+            Interface for setting a Url hash
             </summary>
         </member>
-        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.#ctor">
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.IUrlHash.SetUrlHash(Middleware.IUrlHashProvider)">
             <summary>
-            Default constructor
+            Allows the setting of an IUrlHashProvider
             </summary>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.TotalVisits">
-            <summary>
-            Total number of visits
-            </summary>
-            <value>uint</value>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.HumanVisits">
-            <summary>
-            Total number of human visits
-            </summary>
-            <value>uint</value>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.MobileVisits">
-            <summary>
-            Total number of visits from a mobile device
-            </summary>
-            <value>uint</value>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.BotVisits">
-            <summary>
-            Total number of visits from a Bot
-            </summary>
-            <value>uint</value>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.Bounced">
-            <summary>
-            Total number of human visitors who have bounced
-            </summary>
-            <value>uint</value>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.TotalPages">
-            <summary>
-            Total number of pages viewed
-            </summary>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.TotalSales">
-            <summary>
-            Total cost of all sales
-            </summary>
-            <value>decimal</value>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.Conversions">
-            <summary>
-            Number of conversions from visits to sales
-            </summary>
-            <value>uint</value>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.MobileConversions">
-            <summary>
-            Number of daily conversions from visits to sales on mobile devices
-            </summary>
-            <value>uint</value>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.ReferrerUnknown">
-            <summary>
-            Unknown referrer count
-            </summary>
-            <value>uint</value>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.ReferDirect">
-            <summary>
-            Direct referrer count
-            </summary>
-            <value>uint</value>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.ReferOrganic">
-            <summary>
-            Organic referrer count
-            </summary>
-            <value>uint</value>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.ReferBing">
-            <summary>
-            Bing referrer count
-            </summary>
-            <value>uint</value>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.ReferGoogle">
-            <summary>
-            Google referrer count
-            </summary>
-            <value>uint</value>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.ReferYahoo">
-            <summary>
-            Yahoo referrer count
-            </summary>
-            <value>uint</value>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.ReferFacebook">
-            <summary>
-            Facebook referrer count
-            </summary>
-            <value>uint</value>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.ReferTwitter">
-            <summary>
-            Twitter referrer count
-            </summary>
-            <value>uint</value>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.ReferOther">
-            <summary>
-            Other referrer count
-            </summary>
-            <value>uint</value>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.CountryData">
-            <summary>
-            Counts by country for the specified period
-            </summary>
-            <value>Dictionary&lt;string, uint&gt;</value>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.UserAgents">
-            <summary>
-            Counts by user agent for the specified period
-            </summary>
-            <value>Dictionary&lt;string, uint&gt;</value>
-        </member>
-        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionDaily">
-            <summary>
-            Daily visitor statistics
-            </summary>
-        </member>
-        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.SessionDaily.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionDaily.Date">
-            <summary>
-            Date of Visit
-            </summary>
-        </member>
-        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionHourly">
-            <summary>
-            Hourly visitor statistics
-            </summary>
-        </member>
-        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.SessionHourly.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionHourly.Date">
-            <summary>
-            Date of Visit
-            </summary>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionHourly.Hour">
-            <summary>
-            Hour the visit was made
-            </summary>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionHourly.Quarter">
-            <summary>
-            Retrieves the hour quarter
-            </summary>
+            <param name="urlHashProvider"></param>
         </member>
         <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionInitialReferrer">
             <summary>
@@ -295,24 +185,16 @@
             </summary>
             <param name="referalUrl"></param>
         </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.SessionInitialReferrers.SetUrlHash(Middleware.IUrlHashProvider)">
+            <summary>
+            Sets the url hash provider interface
+            </summary>
+            <param name="urlHashProvider"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
         <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionItem">
             <summary>
             Contains the necessary details from a user session which can be used to create statistics
-            </summary>
-        </member>
-        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionMonthly">
-            <summary>
-            Monthly session data
-            </summary>
-        </member>
-        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.SessionMonthly.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionMonthly.Month">
-            <summary>
-            Month of Visit
             </summary>
         </member>
         <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionPageView">
@@ -397,58 +279,12 @@
             <param name="isBot">Was the visit from a bot</param>
             <param name="bounced">Did the visit end at this page (human visits only)</param>
         </member>
-        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionUserAgent">
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.SessionPageViews.SetUrlHash(Middleware.IUrlHashProvider)">
             <summary>
-            User agent session usage data
+            Sets the url hash provider interface
             </summary>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionUserAgent.UserAgent">
-            <summary>
-            User agent name
-            </summary>
-            <value>string</value>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionUserAgent.Count">
-            <summary>
-            Number of times it has appeared
-            </summary>
-            <value>uint</value>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionUserAgent.IsBot">
-            <summary>
-            Indicates whether it was recognised as a bot or not
-            </summary>
-            <value>bool</value>
-        </member>
-        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionWeekly">
-            <summary>
-            Weekly visitor statistics
-            </summary>
-        </member>
-        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.SessionWeekly.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionWeekly.Week">
-            <summary>
-            Week of Visit
-            </summary>
-        </member>
-        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionYearly">
-            <summary>
-            Yearly session data
-            </summary>
-        </member>
-        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.SessionYearly.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionYearly.Year">
-            <summary>
-            Year of visit
-            </summary>
+            <param name="urlHashProvider"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
         </member>
         <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.BotVisitsDailySubMenu">
             <summary>

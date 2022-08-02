@@ -11,9 +11,9 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  UserSessionMiddleware.Plugin
+ *  Product:  Middleware.Plugin
  *  
  *  File: SessionMonthly.cs
  *
@@ -21,22 +21,23 @@
  *
  *  Date        Name                Reason
  *  12/09/2020  Simon Carter        Initially Created
+ *  02/08/2022	Simon Carter		Moved to middleware
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace UserSessionMiddleware.Plugin.Classes.SessionData
+namespace Middleware.SessionData
 {
     /// <summary>
-    /// Yearly session data
+    /// Monthly session data
     /// </summary>
-    public class SessionYearly : SessionBaseData
+    public sealed class SessionMonthly : SessionYearly
     {
         #region Constructors
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        public SessionYearly()
+        public SessionMonthly()
             : base()
         {
 
@@ -47,9 +48,9 @@ namespace UserSessionMiddleware.Plugin.Classes.SessionData
         #region Properties
 
         /// <summary>
-        /// Year of visit
+        /// Month of Visit
         /// </summary>
-        public int Year { get; set; }
+        public int Month { get; set; }
 
         #endregion Properties
     }

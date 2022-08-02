@@ -11,47 +11,43 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  UserSessionMiddleware.Plugin
+ *  Product:  Middleware.Plugin
  *  
- *  File: SessionDaily.cs
+ *  File: SessionUserAgent.cs
  *
- *  Purpose:  Daily session data
+ *  Purpose:  Session user agent
  *
  *  Date        Name                Reason
- *  12/09/2020  Simon Carter        Initially Created
+ *  28/09/2020  Simon Carter        Initially Created
+ *  02/08/2022	Simon Carter		Moved to middleware
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 
-namespace UserSessionMiddleware.Plugin.Classes.SessionData
+namespace Middleware.SessionData
 {
     /// <summary>
-    /// Daily visitor statistics
+    /// User agent session usage data
     /// </summary>
-    public sealed class SessionDaily : SessionBaseData
+    public sealed class SessionUserAgent
     {
-        #region Constructors
+        /// <summary>
+        /// User agent name
+        /// </summary>
+        /// <value>string</value>
+        public string UserAgent { get; set; }
 
         /// <summary>
-        /// Default constructor
+        /// Number of times it has appeared
         /// </summary>
-        public SessionDaily()
-            : base()
-        {
-
-        }
-
-        #endregion Constructors
-
-        #region Properties
+        /// <value>uint</value>
+        public uint Count { get; set; }
 
         /// <summary>
-        /// Date of Visit
+        /// Indicates whether it was recognised as a bot or not
         /// </summary>
-        public DateTime Date { get; set; }
-
-        #endregion Properties
+        /// <value>bool</value>
+        public bool IsBot { get; set; }
     }
 }

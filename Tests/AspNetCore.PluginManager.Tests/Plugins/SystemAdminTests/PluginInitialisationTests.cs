@@ -126,7 +126,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
             classServices.Add(new SpiderSettingsSubMenu());
             classServices.Add(new CurrentUserLocationMenu());
             classServices.Add(new UserDetailsMenu());
-            classServices.Add(new BotVisitsWeeklySubMenu(testSettingsProvider));
+            classServices.Add(new BotVisitsWeeklySubMenu(testSettingsProvider, new MockSessionStatisticsProvider()));
 
             MockPluginClassesService pluginClassesService = new MockPluginClassesService(classServices);
 

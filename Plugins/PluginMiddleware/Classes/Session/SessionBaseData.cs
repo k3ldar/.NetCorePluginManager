@@ -11,9 +11,9 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  UserSessionMiddleware.Plugin
+ *  Product:  Middleware.Plugin
  *  
  *  File: SessionBaseData.cs
  *
@@ -21,12 +21,13 @@
  *
  *  Date        Name                Reason
  *  03/09/2020  Simon Carter        Initially Created
+ *  02/08/2022	Simon Carter		Moved to middleware
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 using System.Collections.Generic;
 
-namespace UserSessionMiddleware.Plugin.Classes.SessionData
+namespace Middleware.SessionData
 {
     /// <summary>
     /// Base session data for Hourly, Daily, Weekly Monthly and Yearly

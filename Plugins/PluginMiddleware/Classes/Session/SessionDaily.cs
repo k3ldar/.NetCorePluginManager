@@ -11,32 +11,34 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  UserSessionMiddleware.Plugin
+ *  Product:  Middleware.Plugin
  *  
- *  File: SessionWeekly.cs
+ *  File: SessionDaily.cs
  *
- *  Purpose:  Weekly session data
+ *  Purpose:  Daily session data
  *
  *  Date        Name                Reason
  *  12/09/2020  Simon Carter        Initially Created
+ *  02/08/2022	Simon Carter		Moved to middleware
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 
-namespace UserSessionMiddleware.Plugin.Classes.SessionData
+namespace Middleware.SessionData
 {
     /// <summary>
-    /// Weekly visitor statistics
+    /// Daily visitor statistics
     /// </summary>
-    public sealed class SessionWeekly : SessionYearly
+    public sealed class SessionDaily : SessionBaseData
     {
         #region Constructors
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        public SessionWeekly()
+        public SessionDaily()
             : base()
         {
 
@@ -47,9 +49,9 @@ namespace UserSessionMiddleware.Plugin.Classes.SessionData
         #region Properties
 
         /// <summary>
-        /// Week of Visit
+        /// Date of Visit
         /// </summary>
-        public int Week { get; set; }
+        public DateTime Date { get; set; }
 
         #endregion Properties
     }

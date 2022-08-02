@@ -28,6 +28,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
+using Middleware;
+using Middleware.SessionData;
+
 using Newtonsoft.Json;
 
 using PluginManager.Abstractions;
@@ -47,14 +50,21 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
     /// </summary>
     public sealed class VisitsMonthlySubMenu : SystemAdminSubMenu
     {
-        private readonly bool _enabled;
+		#region Private Members
 
-        public VisitsMonthlySubMenu(ISettingsProvider settingsProvider)
-        {
-            if (settingsProvider == null)
+		private readonly ISessionStatisticsProvider _sessionStatisticsProvider;
+		private readonly bool _enabled;
+
+		#endregion Private Members
+
+		public VisitsMonthlySubMenu(ISettingsProvider settingsProvider, ISessionStatisticsProvider sessionStatisticsProvider)
+		{
+			_sessionStatisticsProvider = sessionStatisticsProvider ?? throw new ArgumentNullException(nameof(sessionStatisticsProvider));
+
+			if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
-            UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(Constants.UserSessionConfiguration);
+            UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(SharedPluginFeatures.Constants.UserSessionConfiguration);
 
             _enabled = settings.EnableDefaultSessionService;
         }
@@ -84,7 +94,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
             Result.ChartTitle = "Monthly Visitor Statistics";
 
-            List<SessionMonthly> sessionData = DefaultUserSessionService.GetMonthlyData(false)
+            List<SessionMonthly> sessionData = _sessionStatisticsProvider.GetMonthlyData(false)
                 .OrderBy(o => o.Year)
                 .ThenBy(o => o.Month)
                 .Take(24)
@@ -101,9 +111,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
             foreach (SessionMonthly month in sessionData)
             {
                 List<Decimal> datavalues = new List<decimal>();
-                Result.DataValues.Add(
-                    month.Month.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat),
-                    datavalues);
+                Result.DataValues[month.Month.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat)] = datavalues;
 
                 datavalues.Add(month.HumanVisits);
                 datavalues.Add(month.MobileVisits);
@@ -115,7 +123,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
         public override string Image()
         {
-            return Constants.SystemImageChart;
+            return SharedPluginFeatures.Constants.SystemImageChart;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
