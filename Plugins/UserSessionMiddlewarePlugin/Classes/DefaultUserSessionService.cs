@@ -448,6 +448,7 @@ namespace UserSessionMiddleware.Plugin.Classes
 
             return Result;
         }
+
         private string GetPath(in string pathName)
         {
             string Result = Path.Combine(_rootPath, pathName);

@@ -86,6 +86,7 @@ namespace SimpleDB.Internal
         private const int SecondarySequenceStart = PrimarySequenceStart + sizeof(long);
         private const int DefaultStackSize = 1000000;
         private const int MaxStackAllocSize = DefaultStackSize / 4;
+		private const byte PageTypeData = 1;
 
 
         private const int StartOfRecordCount = TotalHeaderLength - ((sizeof(int) * 3) + sizeof(byte));

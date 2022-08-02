@@ -68,5 +68,12 @@ namespace PluginManager.DAL.TextFiles
         public const string DomainDynamicContent = "DynamicContent";
         public const string TableNameContentPage = "Page";
         public const string TableNameContentItem = "PageItems";
-    }
+
+		public const string DomainSessions = "Sessions";
+		public const string TableNameInitialReferrals = "InitialReferrals";
+		public const string TableNamePageViews = "PageViews";
+		public const string TableNameSession = "Sessions";
+		public const string TableNameSessionPages = "SessionPages";
+
+	}
 }

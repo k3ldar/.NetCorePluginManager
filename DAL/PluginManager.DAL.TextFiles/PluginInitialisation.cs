@@ -114,7 +114,13 @@ namespace PluginManager.DAL.TextFiles
 
             _ = app.ApplicationServices.GetService<ISimpleDBOperations<SeoDataRow>>();
 
-            _ = app.ApplicationServices.GetService<ISimpleDBOperations<SettingsDataRow>>();
+			_ = app.ApplicationServices.GetService<ISimpleDBOperations<InitialReferralsDataRow>>();
+			_ = app.ApplicationServices.GetService<ISimpleDBOperations<PageViewsDataRow>>();
+			_ = app.ApplicationServices.GetService<ISimpleDBOperations<SessionDataRow>>();
+			_ = app.ApplicationServices.GetService<ISimpleDBOperations<SessionPageDataRow>>();
+
+
+			_ = app.ApplicationServices.GetService<ISimpleDBOperations<SettingsDataRow>>();
 
             _ = app.ApplicationServices.GetService<ISimpleDBOperations<ShoppingCartDataRow>>();
             _ = app.ApplicationServices.GetService<ISimpleDBOperations<ShoppingCartItemDataRow>>();
@@ -175,7 +181,12 @@ namespace PluginManager.DAL.TextFiles
 
             services.AddSingleton(typeof(TableRowDefinition), typeof(SeoDataRow));
 
-            services.AddSingleton(typeof(TableRowDefinition), typeof(SettingsDataRow));
+			services.AddSingleton(typeof(TableRowDefinition), typeof(InitialReferralsDataRow));
+			services.AddSingleton(typeof(TableRowDefinition), typeof(PageViewsDataRow));
+			services.AddSingleton(typeof(TableRowDefinition), typeof(SessionDataRow));
+			services.AddSingleton(typeof(TableRowDefinition), typeof(SessionPageDataRow));
+
+			services.AddSingleton(typeof(TableRowDefinition), typeof(SettingsDataRow));
 
             services.AddSingleton(typeof(TableRowDefinition), typeof(ShoppingCartDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(ShoppingCartItemDataRow));
@@ -205,8 +216,11 @@ namespace PluginManager.DAL.TextFiles
             services.AddSingleton<IStockProvider, StockProvider>();
             services.AddSingleton<IUserApiQueryProvider, UserApiQueryProvider>();
             services.AddTransient<IUserSearch, UserSearch>();
-            services.AddTransient<IApplicationSettingsProvider, SettingsProvider> ();
-        }
+            services.AddTransient<IApplicationSettingsProvider, SettingsProvider>();
+			services.AddTransient<ISessionStatisticsProvider, UserSessionService>();
+			services.AddTransient<IUrlHashProvider, UserSessionService>();
+			services.AddTransient<IUserSessionService, UserSessionService>();
+		}
 
         public void AfterConfigureServices(in IServiceCollection services)
         {

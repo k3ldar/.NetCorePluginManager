@@ -42,6 +42,8 @@ using PluginManager.DAL.TextFiles.Tables;
 using System.Collections.Generic;
 using DynamicContent.Plugin.Templates;
 using PluginManager.DAL.TextFiles.Tables.Products;
+using PluginManager.Tests.Mocks;
+using PluginManager.DAL.TextFiles.Tables.Sessions;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
@@ -108,12 +110,15 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					new InvoiceDataRowTriggers(),
 					new InvoiceItemDataRowTriggers(),
 					new TicketDepartmentsDataRowDefaults(),
+					new SessionDataRowDefaults(),
 				};
 
 			mockPluginClassesService = new MockPluginClassesService(classServices);
 
 			services.AddSingleton<ISettingsProvider>(settingsProvider);
 			services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+
+			services.AddSingleton<ILogger>(new MockLogger());
 
 			initialisation.BeforeConfigureServices(services);
 
