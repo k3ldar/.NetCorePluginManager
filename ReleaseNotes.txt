@@ -2,6 +2,7 @@ Version 4.5.0
 =============
 #155 DAL Support for text based data
 #160 Move text based db to own project file
+#170 Add pageing to SimpleDB
 
 Version 4.4.0
 =============

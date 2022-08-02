@@ -34,23 +34,29 @@ using Shared.Classes;
 
 namespace SimpleDB.Internal
 {
-    /// <summary>
-    /// Internal structure for file is:
-    /// 
-    /// ushort      Internal version number
-    /// byte[2]     Header
-    /// long        Primary Sequence
-    /// long        Secondary Sequence
-    /// int         Reserved for future use
-    /// int         Reserved for future use
-    /// int         Reserved for future use
-    /// byte        Compression
-    /// int         RowCount
-    /// int         Length of data before compression
-    /// int         Length of data stored on disk
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    internal sealed class SimpleDBOperations<T> : ISimpleDBOperations<T>, ISimpleDBTable
+	/// <summary>
+	/// Internal structure for file is:
+	/// 
+	/// ushort      Internal version number					0
+	/// byte[2]     Header									2
+	/// long        Primary Sequence						4
+	/// long        Secondary Sequence						12
+	/// int         Reserved for future use					20
+	/// int         Reserved for future use					24
+	/// int         Reserved for future use					28
+	/// int         Page size								32
+	/// byte        Compression								36
+	/// int         Record Count							37
+	/// int         Length of data before compression		41
+	/// int         Length of data stored on disk			45
+	/// int			PageCount								49
+	///		this part repeats for all pages					53
+	/// int			page number
+	/// int			Page n Datastart
+	/// int			Next page start
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	internal sealed class SimpleDBOperations<T> : ISimpleDBOperations<T>, ISimpleDBTable
         where T : TableRowDefinition
     {
         #region Private Classes
@@ -81,15 +87,17 @@ namespace SimpleDB.Internal
         private const byte CompressionBrotli = 1;
         private const int RowCount = 0;
         private const int DefaultLength = 0;
-        private const int TotalHeaderLength = sizeof(ushort) + HeaderLength + sizeof(long) + sizeof(long) + (sizeof(int) * 3) + sizeof(byte) + sizeof(int) + sizeof(int) + sizeof(int);
+        private const int TotalHeaderLength = sizeof(ushort) + HeaderLength + sizeof(long) + sizeof(long) + (sizeof(int) * 4) + sizeof(byte) + sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int);
         private const int PrimarySequenceStart = HeaderLength + sizeof(ushort);
         private const int SecondarySequenceStart = PrimarySequenceStart + sizeof(long);
         private const int DefaultStackSize = 1000000;
         private const int MaxStackAllocSize = DefaultStackSize / 4;
 
 
-        private const int StartOfRecordCount = TotalHeaderLength - ((sizeof(int) * 3) + sizeof(byte));
-        private const int HeaderLength = 2;
+        private const int StartOfRecordCount = TotalHeaderLength - ((sizeof(int) * 4) + sizeof(byte));
+		private const int StartOfPageSize = StartOfRecordCount - (sizeof(byte) + sizeof(int));
+
+		private const int HeaderLength = 2;
         private const int DefaultSequenceIncrement = 1;
         private const int VersionStart = 0;
 
@@ -103,6 +111,7 @@ namespace SimpleDB.Internal
         private int _recordCount = 0;
         private int _dataLength = 0;
         private byte _compactPercent = 0;
+		private int _pageCount;
         private CompressionType _compressionAlgorithm = CompressionNone;
         private long _primarySequence = -1;
         private long _SecondarySequence = -1;
@@ -113,6 +122,7 @@ namespace SimpleDB.Internal
         private readonly IForeignKeyManager _foreignKeyManager;
         private readonly BatchUpdateDictionary<string, IIndexManager> _indexes;
         private readonly Dictionary<TriggerType, List<ITableTriggers<T>>> _triggersMap;
+		private PageSize _pageSize;
         private List<T> _allRecords = null;
 
         #region Constructors / Destructors
@@ -151,7 +161,7 @@ namespace SimpleDB.Internal
             _jsonSerializerOptions = new JsonSerializerOptions();
 
             bool tableCreated;
-            (tableCreated, _tableName) = ValidateTableName(_initializer.Path, _tableAttributes.Domain, _tableAttributes.TableName);
+            (tableCreated, _tableName) = ValidateTableName(_initializer.Path, _tableAttributes.Domain, _tableAttributes.TableName, _tableAttributes.PageSize);
             _fileStream = File.Open(_tableName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
 
             try
@@ -262,6 +272,10 @@ namespace SimpleDB.Internal
         public long SecondarySequence => _SecondarySequence;
 
         public byte CompactPercent => _compactPercent;
+
+		public int PageCount => _pageCount;
+
+		public PageSize PageSize => _pageSize;
 
         #endregion Properties
 
@@ -493,14 +507,38 @@ namespace SimpleDB.Internal
             int recordsCount = reader.ReadInt32();
             int uncompressedSize = reader.ReadInt32();
             int dataLength = reader.ReadInt32();
-            Span<byte> data = dataLength < MaxStackAllocSize ? stackalloc byte[dataLength] : new Byte[dataLength];
-
-            data = reader.ReadBytes(dataLength);
 
             if (dataLength == 0)
-                return new List<T>();
+				return new List<T>();
 
-            List<T> Result = null;
+			Span<byte> data = dataLength < MaxStackAllocSize ? stackalloc byte[dataLength] : new Byte[dataLength];
+
+			int totalPageCount = reader.ReadInt32();
+
+			if (totalPageCount != _pageCount)
+				throw new InvalidOperationException("Invalid page count");
+
+			int bytePosition = 0;
+
+			for (int i = 0; i < _pageCount; i++)
+			{
+				int pageNumber = reader.ReadInt32();
+
+				if (pageNumber != 1 + i)
+					throw new InvalidOperationException("Invalid page number");
+
+				long nextPage = reader.ReadInt64();
+				int sizeinPage = reader.ReadInt32();
+
+				Span<byte> pageData = reader.ReadBytes(sizeinPage);
+
+				for (int j = 0; j < sizeinPage; j++)
+				{
+					data[bytePosition++] = pageData[j];
+				}
+			}
+
+			List<T> Result = null;
 
             if (compressionType == CompressionType.Brotli)
             {
@@ -580,36 +618,42 @@ namespace SimpleDB.Internal
             if (forceWrite || _tableAttributes.WriteStrategy == WriteStrategy.Forced)
             {
                 byte[] data = JsonSerializer.SerializeToUtf8Bytes(recordsToSave, recordsToSave.GetType(), _jsonSerializerOptions);
-                Span<byte> compressedData = data.Length < MaxStackAllocSize ? compressedData = stackalloc byte[data.Length] : compressedData = new byte[data.Length];
 
                 int dataLength = data.Length;
                 bool isCompressed = false;
                 CompressionType compressionType = CompressionType.None;
 
-                if (_tableAttributes.Compression == CompressionType.Brotli)
-                {
-                    isCompressed = System.IO.Compression.BrotliEncoder.TryCompress(data, compressedData, out dataLength);
-
-                    if (isCompressed)
-                        compressionType = CompressionType.Brotli;
-                }
-
                 using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
                 writer.Seek(StartOfRecordCount, SeekOrigin.Begin);
-                writer.Write((byte)compressionType);
-                writer.Write(recordsToSave.Count);
-                writer.Write(data.Length);
 
-                if (isCompressed)
+                if (_tableAttributes.Compression == CompressionType.Brotli)
                 {
-                    writer.Write(dataLength);
-                    writer.Write(compressedData.ToArray(), 0, dataLength);
-                }
-                else
-                {
-                    writer.Write(data.Length);
-                    writer.Write(data);
-                }
+					Span<byte> compressedData = data.Length < MaxStackAllocSize ? compressedData = stackalloc byte[data.Length] : compressedData = new byte[data.Length];
+                    isCompressed = System.IO.Compression.BrotliEncoder.TryCompress(data, compressedData, out dataLength);
+
+					if (isCompressed)
+					{
+						compressionType = CompressionType.Brotli;
+						writer.Write((byte)compressionType);
+						writer.Write(recordsToSave.Count);
+						writer.Write(data.Length);
+						InternalSaveDataToPages(writer, compressedData.Slice(0, dataLength).ToArray());
+					}
+					else
+					{
+						writer.Write((byte)compressionType);
+						writer.Write(recordsToSave.Count);
+						writer.Write(data.Length);
+						InternalSaveDataToPages(writer, data);
+					}
+				}
+				else
+				{
+					writer.Write((byte)compressionType);
+					writer.Write(recordsToSave.Count);
+					writer.Write(data.Length);
+					InternalSaveDataToPages(writer, data);
+				}
 
                 _compactPercent = Convert.ToByte(Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position));
 
@@ -629,7 +673,39 @@ namespace SimpleDB.Internal
             }
         }
 
-        private void InternalDeleteRecords(List<T> records)
+		private void InternalSaveDataToPages(BinaryWriter writer, byte[] data)
+		{
+			_pageCount = data.Length / (int)_pageSize;
+
+			if (data.Length % (int)_pageSize > 0)
+				_pageCount++;
+
+			writer.Write(data.Length);
+			writer.Write(_pageCount);
+			int remainingData = data.Length;
+
+			for (int i = 0; i < _pageCount; i++)
+			{
+				long nextPageStart = _fileStream.Position + ((i + 1) * (int)_pageSize) + (sizeof(int) * 2) + sizeof(long);
+				int dataToWrite = remainingData > (int)_pageSize ? (int)_pageSize : remainingData;
+
+				// page number
+				writer.Write(i + 1);
+
+				// next page
+				writer.Write(nextPageStart);
+
+				// size of data on page
+				writer.Write(dataToWrite);
+
+				// write chunk of data
+				writer.Write(data, i * (int)_pageSize, dataToWrite);
+
+				remainingData -= dataToWrite;
+			}
+		}
+
+		private void InternalDeleteRecords(List<T> records)
         {
             VerifyIndexNotInUseAsForeignKey(records);
 
@@ -977,15 +1053,17 @@ namespace SimpleDB.Internal
             _ = reader.ReadInt32();
             _ = reader.ReadInt32();
             _ = reader.ReadInt32();
+			_pageSize = (PageSize)reader.ReadInt32();
             _compressionAlgorithm = (CompressionType)reader.ReadByte();
             _recordCount = reader.ReadInt32();
             _ = reader.ReadInt32();
             _dataLength = reader.ReadInt32();
+			_pageCount = reader.ReadInt32();
 
             _compactPercent = Convert.ToByte(Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position + _dataLength));
         }
 
-        private (bool, string) ValidateTableName(string path, string domain, string name)
+        private (bool, string) ValidateTableName(string path, string domain, string name, PageSize pageSize)
         {
             string extension = Path.GetExtension(name);
 
@@ -1006,7 +1084,7 @@ namespace SimpleDB.Internal
 
             if (!File.Exists(tableName))
             {
-                CreateTableHeaderRecords(tableName);
+                CreateTableHeaderRecords(tableName, pageSize);
                 tableCreated = true;
             }
 
@@ -1026,7 +1104,7 @@ namespace SimpleDB.Internal
             return version;
         }
 
-        private void CreateTableHeaderRecords(string fileName)
+        private void CreateTableHeaderRecords(string fileName, PageSize pageSize)
         {
             using FileStream stream = File.Open(fileName, FileMode.OpenOrCreate);
             using BinaryWriter writer = new BinaryWriter(stream, Encoding.UTF8, false);
@@ -1038,10 +1116,12 @@ namespace SimpleDB.Internal
             writer.Write((int)0);
             writer.Write((int)0);
             writer.Write((int)0);
+			writer.Write((int)pageSize);
             writer.Write((byte)_tableAttributes.Compression);
             writer.Write(RowCount);
             writer.Write(DefaultLength);
             writer.Write(DefaultLength);
+			writer.Write(DefaultLength);
 
             writer.Flush();
         }

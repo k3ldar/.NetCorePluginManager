@@ -209,12 +209,12 @@ namespace SimpleDB.Tests
                 {
                     sut.Insert(new MockRow());
                     fileInfo = new FileInfo(Path.Combine(directory, "MockTable.dat"));
-                    Assert.AreEqual(140, fileInfo.Length);
+                    Assert.AreEqual(164, fileInfo.Length);
                     Assert.AreEqual(1, sut.RecordCount);
                 }
 
                 fileInfo = new FileInfo(Path.Combine(directory, "MockTable.dat"));
-                Assert.AreEqual(140, fileInfo.Length);
+                Assert.AreEqual(164, fileInfo.Length);
 
                 using SimpleDBOperations<MockRow> sutRead = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService());
                 IReadOnlyList<MockRow> records = sutRead.Select();
@@ -244,12 +244,12 @@ namespace SimpleDB.Tests
                 {
                     sut.Insert(new MockLazyWriteRow("some data"));
                     fileInfo = new FileInfo(Path.Combine(directory, "MockLazyWriteTable.dat"));
-                    Assert.AreEqual(45, fileInfo.Length);
+                    Assert.AreEqual(53, fileInfo.Length);
                     Assert.AreEqual(1, sut.RecordCount);
                 }
 
                 fileInfo = new FileInfo(Path.Combine(directory, "MockLazyWriteTable.dat"));
-                Assert.AreEqual(159, fileInfo.Length);
+                Assert.AreEqual(183, fileInfo.Length);
 
                 using SimpleDBOperations<MockLazyWriteRow> sutRead = new SimpleDBOperations<MockLazyWriteRow>(initializer, keyManager, new MockPluginClassesService());
                 IReadOnlyList<MockLazyWriteRow> records = sutRead.Select();
@@ -739,14 +739,18 @@ namespace SimpleDB.Tests
                         testData.Add(new MockRow(i));
 
                     sut.Insert(testData);
+					Assert.AreEqual(PageSize.Size8192, sut.PageSize);
+					Assert.AreEqual(181, sut.PageCount);
                 }
 
                 using (SimpleDBOperations<MockRow> readSut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15168, readSut.RecordCount);
                     Assert.AreEqual(1475355, readSut.DataLength);
-                }
-            }
+					Assert.AreEqual(PageSize.Size8192, readSut.PageSize);
+					Assert.AreEqual(181, readSut.PageCount);
+				}
+			}
             finally
             {
                 io.Directory.Delete(directory, true);
@@ -771,9 +775,11 @@ namespace SimpleDB.Tests
                         testData.Add(new MockRow());
 
                     sut.Insert(testData);
-                }
+					Assert.AreEqual(PageSize.Size8192, sut.PageSize);
+					Assert.AreEqual(1, sut.PageCount);
+				}
 
-                using (SimpleDBOperations<MockRow> readSut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
+				using (SimpleDBOperations<MockRow> readSut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(5, readSut.RecordCount);
                     Assert.AreEqual(471, readSut.DataLength);
@@ -783,8 +789,11 @@ namespace SimpleDB.Tests
 
                     for (int i = 0; i < readSut.RecordCount; i++)
                         Assert.AreEqual(i, records[i].Id);
-                }
-            }
+
+					Assert.AreEqual(PageSize.Size8192, readSut.PageSize);
+					Assert.AreEqual(1, readSut.PageCount);
+				}
+			}
             finally
             {
                 io.Directory.Delete(directory, true);
@@ -809,14 +818,20 @@ namespace SimpleDB.Tests
                         testData.Add(new MockRowCompressed());
 
                     sut.Insert(testData);
-                }
+					Assert.AreEqual(PageSize.Size8192, sut.PageSize);
+					Assert.AreEqual(6, sut.PageCount);
+				}
 
-                using (SimpleDBOperations<MockRowCompressed> readSut = new SimpleDBOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
+				using (SimpleDBOperations<MockRowCompressed> readSut = new SimpleDBOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15168, readSut.RecordCount);
                     IReadOnlyList<MockRowCompressed> testData = readSut.Select();
-                }
-            }
+
+					Assert.AreEqual(PageSize.Size8192, readSut.PageSize);
+					Assert.AreEqual(6, readSut.PageCount);
+
+				}
+			}
             finally
             {
                 io.Directory.Delete(directory, true);
