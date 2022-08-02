@@ -33,7 +33,7 @@ namespace SimpleDB
             CompressionType compression = CompressionType.None,
             CachingStrategy cachingStrategy = CachingStrategy.None, 
             WriteStrategy writeStrategy = WriteStrategy.Forced)
-            : this (String.Empty, tableName, compression, cachingStrategy, writeStrategy)
+            : this (String.Empty, tableName, compression, cachingStrategy, writeStrategy, PageSize.Size8192)
         {
 
         }
@@ -55,11 +55,27 @@ namespace SimpleDB
 
         }
 
-        public TableAttribute(string domain, 
+		public TableAttribute(string tableName,
+			PageSize pageSize)
+			: this(String.Empty, tableName, CompressionType.None, CachingStrategy.None, WriteStrategy.Forced, pageSize)
+		{
+
+		}
+
+		public TableAttribute(string domain,
+			string tableName,
+			PageSize pageSize)
+			: this(domain, tableName, CompressionType.None, CachingStrategy.None, WriteStrategy.Forced, pageSize)
+		{
+
+		}
+
+		public TableAttribute(string domain, 
             string tableName, 
             CompressionType compression = CompressionType.None, 
             CachingStrategy cachingStrategy = CachingStrategy.None, 
-            WriteStrategy writeStrategy = WriteStrategy.Forced)
+            WriteStrategy writeStrategy = WriteStrategy.Forced,
+			PageSize pageSize = PageSize.Size8192)
         {
             if (domain == null)
                 throw new ArgumentNullException(nameof(domain));
@@ -84,6 +100,7 @@ namespace SimpleDB
             Compression = compression;
             CachingStrategy = writeStrategy == WriteStrategy.Lazy ? CachingStrategy.Memory : cachingStrategy;
             WriteStrategy = writeStrategy;
+			PageSize = pageSize;
         }
 
         public string Domain { get; }
@@ -95,5 +112,7 @@ namespace SimpleDB
         public CachingStrategy CachingStrategy { get; }
 
         public WriteStrategy WriteStrategy { get; }
+
+		public PageSize PageSize { get; }
     }
 }

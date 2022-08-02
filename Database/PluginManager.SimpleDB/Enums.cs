@@ -112,4 +112,25 @@ namespace SimpleDB
 
         AfterUpdate,
     }
+
+	/// <summary>
+	/// Database page sizes
+	/// </summary>
+	public enum PageSize : int
+	{
+		/// <summary>
+		/// Page size 4096 bytes long
+		/// </summary>
+		Size4096 = 4096,
+
+		/// <summary>
+		/// Page size 8192 bytes long
+		/// </summary>
+		Size8192 = 8192,
+
+		/// <summary>
+		/// Page size 16384 bytes long
+		/// </summary>
+		Size1634 = 16384,
+	}
 }
