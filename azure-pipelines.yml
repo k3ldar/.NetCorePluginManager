@@ -42,8 +42,8 @@ steps:
   displayName: Run unit tests
   enabled: false
   continueOnError: true
-  runSettingsFile: 'Tests\test.runsettings'
   inputs:
+    runSettingsFile: 'Tests\test.runsettings'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     testSelector: 'testAssemblies'
