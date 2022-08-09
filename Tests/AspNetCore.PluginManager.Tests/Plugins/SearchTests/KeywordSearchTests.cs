@@ -142,7 +142,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         }
 
         [TestMethod]
-        public void FindAllProvidersAndRetrieveInstanciatedClasses()
+		[Timeout(3000)]
+		public void FindAllProvidersAndRetrieveInstanciatedClasses()
         {
             Assert.IsFalse(sl.ThreadManager.Exists(DocumentationLoadThread));
 

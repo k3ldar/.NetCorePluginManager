@@ -42,6 +42,7 @@ steps:
   displayName: Run unit tests
   enabled: false
   continueOnError: true
+  runSettingsFile: 'Tests\test.runsettings'
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'

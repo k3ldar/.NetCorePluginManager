@@ -99,7 +99,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 
         [TestMethod]
         [TestCategory(TestsCategoryName)]
-        public void AfterConfigure_FailsToRegisterBreadcrumbs()
+		[Timeout(3000)]
+		public void AfterConfigure_FailsToRegisterBreadcrumbs()
         {
             Dictionary<Type, object> services = new Dictionary<Type, object>();
             MockServiceProvider testServiceProvider = new MockServiceProvider(services);
@@ -115,7 +116,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 
         [TestMethod]
         [TestCategory(TestsCategoryName)]
-        public void AfterConfigure_RegistersBreadCrumbs_Success()
+		[Timeout(3000)]
+		public void AfterConfigure_RegistersBreadCrumbs_Success()
         {
             MockBreadcrumbService mockBreadcrumbService = new MockBreadcrumbService();
             MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"UserSessionConfiguration\":{\"EnableDefaultSessionService\": true}}");
