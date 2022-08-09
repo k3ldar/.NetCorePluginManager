@@ -52,6 +52,8 @@ namespace SimpleDB.Internal
 	/// int			PageCount								49
 	///		this part repeats for all pages					53
 	/// int			page number
+	/// byte		page type
+	/// ushort		page version
 	/// int			Page n Datastart
 	/// int			Next page start
 	/// </summary>
@@ -93,6 +95,7 @@ namespace SimpleDB.Internal
         private const int DefaultStackSize = 1000000;
         private const int MaxStackAllocSize = DefaultStackSize / 4;
 		private const byte PageTypeData = 1;
+		private const ushort PageVersion = 1;
 
 
         private const int StartOfRecordCount = TotalHeaderLength - ((sizeof(int) * 4) + sizeof(byte));
@@ -524,18 +527,23 @@ namespace SimpleDB.Internal
 			for (int i = 0; i < _pageCount; i++)
 			{
 				int pageNumber = reader.ReadInt32();
+				byte pageType = reader.ReadByte();
+				ushort pageVersion = reader.ReadUInt16();
 
 				if (pageNumber != 1 + i)
 					throw new InvalidOperationException("Invalid page number");
 
-				long nextPage = reader.ReadInt64();
-				int sizeinPage = reader.ReadInt32();
-
-				Span<byte> pageData = reader.ReadBytes(sizeinPage);
-
-				for (int j = 0; j < sizeinPage; j++)
+				if (pageType == PageTypeData)
 				{
-					data[bytePosition++] = pageData[j];
+					long nextPage = reader.ReadInt64();
+					int sizeinPage = reader.ReadInt32();
+
+					Span<byte> pageData = reader.ReadBytes(sizeinPage);
+
+					for (int j = 0; j < sizeinPage; j++)
+					{
+						data[bytePosition++] = pageData[j];
+					}
 				}
 			}
 
@@ -692,6 +700,12 @@ namespace SimpleDB.Internal
 
 				// page number
 				writer.Write(i + 1);
+
+				// page type
+				writer.Write(PageTypeData);
+
+				// page version
+				writer.Write(PageVersion);
 
 				// next page
 				writer.Write(nextPageStart);

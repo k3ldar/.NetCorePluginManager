@@ -165,7 +165,7 @@ namespace Middleware.SessionData
         /// <summary>
         /// Counts by user agent for the specified period
         /// </summary>
-        /// <value>Dictionary&lt;string, uint&gt;</value>
+        /// <value>List&lt;string, uint&gt;</value>
         public List<SessionUserAgent> UserAgents { get; set; }
 
         #endregion Properties

@@ -47,6 +47,7 @@ using SharedPluginFeatures;
 using UserSessionMiddleware.Plugin.Classes.SessionData;
 
 using Middleware.SessionData;
+using System.Globalization;
 
 namespace UserSessionMiddleware.Plugin.Classes
 {
@@ -651,10 +652,10 @@ namespace UserSessionMiddleware.Plugin.Classes
             {
                 DateTime sessionDate = session.Created;
 
-#if NET_CORE_3X
+#if ISO_WEEK
                 int week = ISOWeek.GetWeekOfYear(sessionDate);
 #else
-                int week = (sessionDate.DayOfYear / 7) + 1;
+				int week = (sessionDate.DayOfYear / 7) + 1;
 #endif
 
                 List<SessionWeekly> weeklySessionData = session.IsBot ? _weeklySessionDataBot : _weeklySessionDataHuman;

@@ -99,7 +99,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 		#region Constructors
 
 		private UserSessionService()
-			: base(null, new TimeSpan(0, 0, 30))
+			: base(null, new TimeSpan(0, 0, 0, 0, 400), null, 0, 200, false)
 		{
 
 		}
@@ -173,7 +173,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 		#region IUserSessionService Methods
 
 		/// <summary>
-		/// User session is being closed
+		/// User session is being closed, session is moved to another thread to be saved
 		/// </summary>
 		/// <param name="userSession">UserSession</param>
 		public void Closing(in UserSession userSession)
@@ -210,8 +210,6 @@ namespace PluginManager.DAL.TextFiles.Providers
 				MobileModel = userSession.MobileModel,
 				MobileRedirect = userSession.MobileRedirect,
 				ReferralType = (int)userSession.Referal,
-				SaleAmount = userSession.CurrentSale,
-				SaleCurrency = userSession.CurrentSaleCurrency,
 				SessionId = userSession.SessionID,
 				UserAgent = userSession.UserAgent,
 				UserId = userSession.UserID
@@ -245,13 +243,16 @@ namespace PluginManager.DAL.TextFiles.Providers
 		}
 
 		/// <summary>
-		/// A user session is being requested to be saved
+		/// A user session is being requested to be saved, this only takes place when session
+		/// is closing so mark as saved for now
 		/// </summary>
 		/// <param name="userSession"></param>
 		public void Save(in UserSession userSession)
 		{
 			if (userSession == null)
 				throw new ArgumentNullException(nameof(userSession));
+
+			userSession.SaveStatus = SaveStatus.Saved;
 
 			SessionDataRow currentSessionData = _sessionData.Select(userSession.InternalSessionID);
 
@@ -285,7 +286,8 @@ namespace PluginManager.DAL.TextFiles.Providers
 		}
 
 		/// <summary>
-		/// A page view is requested to be saved
+		/// A page view is requested to be saved, the actual saving will only happen when 
+		/// the session is closing and in another thread
 		/// </summary>
 		/// <param name="session"></param>
 		public void SavePage(in UserSession session)
@@ -297,21 +299,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			foreach (PageViewData page in session.Pages)
 			{
-				if (page.SaveStatus.Equals(SaveStatus.Saved))
-					continue;
-
-				SessionPageDataRow pageData = new SessionPageDataRow()
-				{
-					IsPostBack = page.IsPostBack,
-					Referrer = page.Referrer,
-					SessionId = session.InternalSessionID,
-					TotalTime = page.TotalTime.Ticks,
-					Url = page.URL,
-				};
-
-				_sessionPageData.Insert(pageData);
-				page.ID = pageData.Id;
-				page.Saved();
+				page.SaveStatus = SaveStatus.Saved;
 			}
 		}
 
@@ -531,7 +519,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				foreach (UserSession session in sessionsToSave)
 				{
 					// update the country data if not already set
-					if (session.CountryCode.Equals("zz", StringComparison.InvariantCultureIgnoreCase))
+					if (session.CountryCode == null || session.CountryCode.Equals("zz", StringComparison.InvariantCultureIgnoreCase))
 					{
 						if (_geoIpProvider.GetIpAddressDetails(session.IPAddress, out string countryCode,
 							out string regionName, out string cityName, out decimal lat, out decimal lon,
@@ -541,16 +529,75 @@ namespace PluginManager.DAL.TextFiles.Providers
 						}
 					}
 
+					SessionDataRow sessionData = _sessionData.Select(session.InternalSessionID);
 
-					//if (session.Pages.Count > 0)
-					//{
-					//	_initialReferrers.Add(session.Pages[0].Referrer);
+					if (sessionData == null)
+					{
+						sessionData = new SessionDataRow()
+						{
+							CountryCode = session.CountryCode,
+							HostName = session.HostName,
+							InitialReferrer = session.InitialReferrer,
+							IpAddress = session.IPAddress,
+							IsBrowserMobile = session.IsBrowserMobile,
+							IsMobile = session.IsMobileDevice,
+							MobileManufacturer = session.MobileManufacturer,
+							MobileModel = session.MobileModel,
+							MobileRedirect = session.MobileRedirect,
+							ReferralType = (int)session.Referal,
+							SessionId = session.SessionID,
+							UserAgent = session.UserAgent,
+						};
+					}
 
-					//	foreach (PageViewData pageView in session.Pages)
-					//	{
-					//		_sessionPageViews.Add(pageView.URL, pageView.TimeStamp, pageView.TotalTime.TotalSeconds, session.IsBot, session.Bounced);
-					//	}
-					//}
+					sessionData.UserId = session.UserID;
+					sessionData.IsBot = session.IsBot;
+					sessionData.Bounced = false;
+					sessionData.SaleAmount = session.CurrentSale;
+					sessionData.SaleCurrency = session.CurrentSaleCurrency;
+
+					_sessionData.InsertOrUpdate(sessionData);
+
+					session.SaveStatus = SaveStatus.Saved;
+
+					if (session.Pages.Count > 0)
+					{
+						List<SessionPageDataRow> pages = new List<SessionPageDataRow>();
+
+						foreach (PageViewData page in session.Pages)
+						{
+							SessionPageDataRow pageData = new SessionPageDataRow()
+							{
+								IsPostBack = page.IsPostBack,
+								Referrer = page.Referrer,
+								SessionId = sessionData.Id,
+								TotalTime = page.TotalTime.Ticks,
+								Url = page.URL,
+							};
+
+							pages.Add(pageData);
+							page.ID = pageData.Id;
+							page.Saved();
+						}
+							
+						_sessionPageData.Insert(pages);
+
+						string pageHash = GetUrlHash(session.Pages[0].URL);
+						InitialReferralsDataRow referrer = _initialRefererData.Select().Where(rd => rd.Hash.Equals(pageHash)).FirstOrDefault();
+
+						if (referrer == null)
+						{
+							referrer = new InitialReferralsDataRow()
+							{
+								Hash = pageHash,
+								Url = session.Pages[0].URL,
+							};
+						}
+
+						referrer.Usage++;
+
+						_initialRefererData.InsertOrUpdate(referrer);
+					}
 
 					//UpdateHourlySessionData(session);
 					//UpdateDailySessionData(session);
@@ -558,18 +605,6 @@ namespace PluginManager.DAL.TextFiles.Providers
 					//UpdateMonthlySessionData(session);
 					//UpdateYearlySessionData(session);
 				}
-
-				//if (_sessionPageViews.IsDirty)
-				//{
-				//	SaveSessionData(_pageViewFile, _sessionPageViews);
-				//	_sessionPageViews.IsDirty = false;
-				//}
-
-				//if (_initialReferrers.IsDirty)
-				//{
-				//	SaveSessionData(_referrerFile, _initialReferrers);
-				//	_initialReferrers.IsDirty = false;
-				//}
 			}
 		}
 
@@ -643,7 +678,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 		//            {
 		//                DateTime sessionDate = session.Created;
 
-		//#if NET_CORE_3X
+		//#if ISO_WEEK
 		//                int week = ISOWeek.GetWeekOfYear(sessionDate);
 		//#else
 		//                int week = (sessionDate.DayOfYear / 7) + 1;

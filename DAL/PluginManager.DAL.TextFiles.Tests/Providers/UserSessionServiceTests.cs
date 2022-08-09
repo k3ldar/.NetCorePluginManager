@@ -374,6 +374,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISimpleDBOperations<SessionDataRow> sessionData = provider.GetRequiredService<ISimpleDBOperations<SessionDataRow>>();
 					Assert.IsNotNull(sessionData);
 					Assert.AreEqual(0, sessionData.RecordCount);
+
 					UserSession userSession = new UserSession(-1, DateTime.Now, "SN123", "The agent", "referrer site", "10.2.3.1",
 						"the host", true, true, false, ReferalType.Google, false, false, "Samsung", "Galax S7", 0, 1, 1, "GBP", 0);
 					Assert.AreEqual(0, userSession.Pages.Count);
@@ -388,7 +389,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.AreEqual(1, sessionData.RecordCount);
 					Assert.AreEqual(1, sessionData.PrimarySequence);
 					Assert.AreEqual(SaveStatus.Saved, userSession.Pages[0].SaveStatus);
-					Assert.AreEqual(0, userSession.Pages[0].ID);
+					Assert.AreEqual(-9223372036854775808, userSession.Pages[0].ID);
 				}
 			}
 			finally
@@ -399,6 +400,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 		}
 
 		[TestMethod]
+		[Timeout(3000)]
 		public void Closing_SessionIsSavedToDatabase_Success()
 		{
 			string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
@@ -422,8 +424,17 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISimpleDBOperations<SessionDataRow> sessionData = provider.GetRequiredService<ISimpleDBOperations<SessionDataRow>>();
 					Assert.IsNotNull(sessionData);
 					Assert.AreEqual(0, sessionData.RecordCount);
+
+					ISimpleDBOperations<SessionPageDataRow> sessionPageData = provider.GetRequiredService<ISimpleDBOperations<SessionPageDataRow>>();
+					Assert.IsNotNull(sessionPageData);
+					Assert.AreEqual(0, sessionPageData.RecordCount);
+
+					ISimpleDBOperations<InitialReferralsDataRow> referrer = provider.GetRequiredService<ISimpleDBOperations<InitialReferralsDataRow>>();
+					Assert.IsNotNull(referrer);
+					Assert.AreEqual(0, referrer.RecordCount);
+
 					UserSession userSession = new UserSession(-1, DateTime.Now, "SN123", "The agent", "referrer site", "10.2.3.1",
-						"the host", true, true, false, ReferalType.Google, false, false, "Samsung", "Galax S7", 0, 1, 1, "GBP", 0);
+						"the host", true, true, false, ReferalType.Google, false, false, "Samsung", "Galaxy S7", 0, 1, 1, "GBP", 0);
 					Assert.AreEqual(0, userSession.Pages.Count);
 
 					userSession.PageView("/test", "ref", false);
@@ -432,11 +443,26 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.AreEqual(SaveStatus.Pending, userSession.Pages[0].SaveStatus);
 					sut.Closing(userSession);
 
+					int i = 0;
+
+					while (i < 10)
+					{
+						System.Threading.Thread.Sleep(300);
+
+						if (sessionData.RecordCount > 0 && sessionPageData.RecordCount > 0 && referrer.RecordCount > 0)
+							break;
+
+						i++;
+					}
+
+					Assert.IsTrue(i < 10, "timed out waiting!");
+
 					Assert.AreEqual(SaveStatus.Saved, userSession.SaveStatus);
 					Assert.AreEqual(1, sessionData.RecordCount);
 					Assert.AreEqual(1, sessionData.PrimarySequence);
 					Assert.AreEqual(SaveStatus.Saved, userSession.Pages[0].SaveStatus);
-					Assert.AreEqual(0, userSession.Pages[0].ID);
+					Assert.AreEqual(1, sessionPageData.RecordCount);
+					Assert.AreEqual(1, referrer.RecordCount);
 				}
 			}
 			finally
