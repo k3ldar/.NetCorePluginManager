@@ -85,7 +85,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestMethod]
         [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_InvalidParam_DynamicContentProvider_Null_Throws_ArgumentNullException()
+		[Timeout(1500)]
+		public void Construct_InvalidParam_DynamicContentProvider_Null_Throws_ArgumentNullException()
         {
             INotificationService notificationService = new MockNotificationService();
 
@@ -252,7 +253,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void Run_ProcessesDynamicPages_WhenNewPageBecomesActive_Success()
+		[Timeout(3000)]
+		public void Run_ProcessesDynamicPages_WhenNewPageBecomesActive_Success()
         {
             DateTime currentDate = DateTime.Now.AddSeconds(1);
 

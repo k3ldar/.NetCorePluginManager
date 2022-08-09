@@ -131,7 +131,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
-        public void Finalise_DoesNotThrowException()
+		[Timeout(1500)]
+		public void Finalise_DoesNotThrowException()
         {
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
