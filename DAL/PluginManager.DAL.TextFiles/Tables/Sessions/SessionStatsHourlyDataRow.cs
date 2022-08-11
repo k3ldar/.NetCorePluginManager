@@ -15,12 +15,12 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: SessionPageDataRow.cs
+ *  File: SessionStatsHourlyDataRow.cs
  *
- *  Purpose:  Table definition for page view data
+ *  Purpose:  Hourly session statistics
  *
  *  Date        Name                Reason
- *  07/08/2022  Simon Carter        Initially Created
+ *  11/08/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -28,82 +28,59 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-	[Table(Constants.DomainSessions, Constants.TableNameSessionPages)]
-	internal class SessionPageDataRow : TableRowDefinition
+	[Table(Constants.DomainSessions, Constants.TableNameSessionStatsHourly)]
+	internal class SessionStatsHourlyDataRow : SessionStatsBaseData
 	{
-		private long _sessionId;
-		private string _url;
-		private long _totalTime;
-		private string _referrer;
-		private bool _isPostBack;
+		private int _hour;
+		private int _quarter;
+		private long _dateTicks;
 
-		[ForeignKey(Constants.TableNameSession)]
-		public long SessionId
+		[UniqueIndex("HourlySessionData")]
+		public long DateTicks
 		{
-			get => _sessionId;
+			get => _dateTicks;
 
 			set
 			{
-				if (value == _sessionId)
+				if (_dateTicks == value)
 					return;
 
-				_sessionId = value;
+				_dateTicks = value;
 				Update();
 			}
 		}
 
-		public string Url
+		public DateTime Date
 		{
-			get => _url;
+			get => new DateTime(_dateTicks, DateTimeKind.Utc);
+		}
+
+		[UniqueIndex("HourlySessionData")]
+		public int Hour
+		{
+			get => _hour;
 
 			set
 			{
-				if (value == _url)
+				if (_hour == value)
 					return;
 
-				_url = value;
+				_hour = value;
 				Update();
 			}
 		}
 
-		public long TotalTime
+		[UniqueIndex("HourlySessionData")]
+		public int Quarter
 		{
-			get => _totalTime;
+			get => _quarter;
 
 			set
 			{
-				if (value == _totalTime)
+				if (value == _quarter)
 					return;
 
-				_totalTime = value;
-				Update();
-			}
-		}
-
-		public string Referrer
-		{
-			get => _referrer;
-
-			set
-			{
-				if (value == _referrer)
-					return;
-
-				_referrer = value;
-				Update();
-			}
-		}
-
-		public bool IsPostBack
-		{
-			get => _isPostBack;
-
-			set
-			{
-				if (value == _isPostBack)
-					return;
-
-				_isPostBack = value;
+				_quarter = value;
 				Update();
 			}
 		}

@@ -82,38 +82,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 		}
 
 		[TestMethod]
-		public void GetUrlHash_ConvertsToSameHash_Success()
-		{
-			string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
-			try
-			{
-				ThreadManager.Initialise();
-				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
-				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
-				MockGeoIpProvider geoIp = new MockGeoIpProvider();
-				services.AddSingleton<IGeoIpProvider>(geoIp);
-
-				using (ServiceProvider provider = services.BuildServiceProvider())
-				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
-					initialisation.AfterConfigure(mockApplicationBuilder);
-
-					UserSessionService sut = provider.GetRequiredService<IUserSessionService>() as UserSessionService;
-					Assert.IsNotNull(sut);
-
-					string hash = sut.GetUrlHash("https://Some.url/");
-					Assert.AreEqual("ad13bc64bee70d6ba5df9afc6c3e2db8cafb6a8d557ad088a8a6373544b5b960", hash);
-				}
-			}
-			finally
-			{
-				ThreadManager.Finalise();
-				Directory.Delete(directory, true);
-			}
-		}
-
-		[TestMethod]
 		public void Created_SessionSavedToDatabase_Success()
 		{
 			string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
@@ -433,6 +401,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.IsNotNull(referrer);
 					Assert.AreEqual(0, referrer.RecordCount);
 
+					ISimpleDBOperations<SessionStatsYearlyDataRow> yearlyStats = provider.GetRequiredService<ISimpleDBOperations<SessionStatsYearlyDataRow>>();
+					Assert.IsNotNull(yearlyStats);
+					Assert.AreEqual(0, yearlyStats.RecordCount);
+
 					UserSession userSession = new UserSession(-1, DateTime.Now, "SN123", "The agent", "referrer site", "10.2.3.1",
 						"the host", true, true, false, ReferalType.Google, false, false, "Samsung", "Galaxy S7", 0, 1, 1, "GBP", 0);
 					Assert.AreEqual(0, userSession.Pages.Count);
@@ -449,7 +421,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					{
 						System.Threading.Thread.Sleep(300);
 
-						if (sessionData.RecordCount > 0 && sessionPageData.RecordCount > 0 && referrer.RecordCount > 0)
+						if (sessionData.RecordCount > 0 && sessionPageData.RecordCount > 0 && referrer.RecordCount > 0 && yearlyStats.RecordCount > 0)
 							break;
 
 						i++;

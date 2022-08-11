@@ -25,8 +25,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using System.Text;
 
 using Middleware;
 using Middleware.SessionData;
@@ -45,7 +43,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 	/// <summary>
 	/// IUserSessionService implementation that will be used with text based storage
 	/// </summary>
-	internal sealed class UserSessionService : ThreadManager, IUserSessionService, ISessionStatisticsProvider, IUrlHashProvider
+	internal sealed class UserSessionService : ThreadManager, IUserSessionService
 	{
 		#region Private Members
 
@@ -57,37 +55,15 @@ namespace PluginManager.DAL.TextFiles.Providers
 		private readonly ISimpleDBOperations<SessionPageDataRow> _sessionPageData;
 		private readonly ISimpleDBOperations<InitialReferralsDataRow> _initialRefererData;
 		private readonly ISimpleDBOperations<PageViewsDataRow> _pageViewsData;
-
-		//#pragma warning disable IDE0044
-		//		private static SessionPageViews _sessionPageViews;
-		//        private static SessionInitialReferrers _initialReferrers;
-		//#pragma warning restore IDE0044
-
-		//private static List<SessionHourly> _hourlySessionDataHuman;
-		//      private static List<SessionDaily> _dailySessionDataHuman;
-		//      private static List<SessionWeekly> _weeklySessionDataHuman;
-		//      private static List<SessionMonthly> _monthlySessionDataHuman;
-		//      private static List<SessionYearly> _yearlySessionDataHuman;
-		//      private static List<SessionHourly> _hourlySessionDataBot;
-		//      private static List<SessionDaily> _dailySessionDataBot;
-		//      private static List<SessionWeekly> _weeklySessionDataBot;
-		//      private static List<SessionMonthly> _monthlySessionDataBot;
-		//      private static List<SessionYearly> _yearlySessionDataBot;
+		private readonly ISimpleDBOperations<SessionStatsHourlyDataRow> _sessionDataHourly;
+		private readonly ISimpleDBOperations<SessionStatsDailyDataRow> _sessionDataDaily;
+		private readonly ISimpleDBOperations<SessionStatsWeeklyDataRow> _sessionDataWeekly;
+		private readonly ISimpleDBOperations<SessionStatsMonthlyDataRow> _sessionDataMonthly;
+		private readonly ISimpleDBOperations<SessionStatsYearlyDataRow> _sessionDataYearly;
+		private readonly IUrlHashProvider _urlHashProvider;
 		internal readonly static Timings _timingsSaveSessions = new Timings();
 		private readonly IGeoIpProvider _geoIpProvider;
 		private readonly ILogger _logger;
-		//private readonly string _pageViewFile;
-		//private readonly string _referrerFile;
-		//private readonly string _sessionHourlyFileHuman;
-		//private readonly string _sessionDailyFileHuman;
-		//private readonly string _sessionWeeklyFileHuman;
-		//private readonly string _sessionMonthlyFileHuman;
-		//private readonly string _sessionYearlyFileHuman;
-		//private readonly string _sessionHourlyFileBot;
-		//private readonly string _sessionDailyFileBot;
-		//private readonly string _sessionWeeklyFileBot;
-		//private readonly string _sessionMonthlyFileBot;
-		//private readonly string _sessionYearlyFileBot;
 		private readonly uint _maxHours;
 		private readonly uint _maxDays;
 		private readonly uint _maxWeeks;
@@ -110,13 +86,19 @@ namespace PluginManager.DAL.TextFiles.Providers
 		/// <param name="settingsProvider">ISettingsProvider instance</param>
 		/// <param name="geoIpProvider">IGeoIpProvider instance</param>
 		/// <param name="logger">ILogger instance</param>
-		public UserSessionService(IGeoIpProvider geoIpProvider, 
+		public UserSessionService(IGeoIpProvider geoIpProvider,
 			ILogger logger,
-			ISimpleDBOperations<SettingsDataRow> settingsData, 
+			IUrlHashProvider urlHashProvider,
+			ISimpleDBOperations<SettingsDataRow> settingsData,
 			ISimpleDBOperations<SessionDataRow> sessionData,
 			ISimpleDBOperations<SessionPageDataRow> sessionPageData,
-			ISimpleDBOperations<InitialReferralsDataRow> initialRefererData, 
-			ISimpleDBOperations<PageViewsDataRow> pageViewsData)
+			ISimpleDBOperations<InitialReferralsDataRow> initialRefererData,
+			ISimpleDBOperations<PageViewsDataRow> pageViewsData,
+			ISimpleDBOperations<SessionStatsHourlyDataRow> sessionDataHourly,
+			ISimpleDBOperations<SessionStatsDailyDataRow> sessionDataDaily,
+			ISimpleDBOperations<SessionStatsWeeklyDataRow> sessionDataWeekly,
+			ISimpleDBOperations<SessionStatsMonthlyDataRow> sessionDataMonthly,
+			ISimpleDBOperations<SessionStatsYearlyDataRow> sessionDataYearly)
 			: this()
 		{
 			if (settingsData == null)
@@ -124,46 +106,25 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			_geoIpProvider = geoIpProvider ?? throw new ArgumentNullException(nameof(geoIpProvider));
 			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			_urlHashProvider = urlHashProvider ?? throw new ArgumentNullException(nameof(urlHashProvider));
 
 			_sessionData = sessionData ?? throw new ArgumentNullException(nameof(sessionData));
 			_sessionPageData = sessionPageData ?? throw new ArgumentNullException(nameof(sessionPageData));
 			_initialRefererData = initialRefererData ?? throw new ArgumentNullException(nameof(initialRefererData));
 			_pageViewsData = pageViewsData ?? throw new ArgumentNullException(nameof(pageViewsData));
+			_sessionDataHourly = sessionDataHourly ?? throw new ArgumentNullException(nameof(sessionDataHourly));
+			_sessionDataDaily = sessionDataDaily ?? throw new ArgumentNullException(nameof(sessionDataDaily));
+			_sessionDataWeekly = sessionDataWeekly ?? throw new ArgumentNullException(nameof(sessionDataWeekly));
+			_sessionDataMonthly = sessionDataMonthly ?? throw new ArgumentNullException(nameof(sessionDataMonthly));
+			_sessionDataYearly = sessionDataYearly ?? throw new ArgumentNullException(nameof(sessionDataYearly));
 
 			ContinueIfGlobalException = true;
-
-			//_pageViewFile = GetFile(Path.Combine(_rootPath, "Sessions"), "PageViews.dat");
-			//_referrerFile = GetFile(Path.Combine(_rootPath, "Sessions"), "InitialReferrer.dat");
-			//_sessionHourlyFileHuman = GetFile(Path.Combine(_rootPath, "Sessions"), "HourlyHuman.dat");
-			//_sessionDailyFileHuman = GetFile(Path.Combine(_rootPath, "Sessions"), "DailyHuman.dat");
-			//_sessionWeeklyFileHuman = GetFile(Path.Combine(_rootPath, "Sessions"), "WeeklyHuman.dat");
-			//_sessionMonthlyFileHuman = GetFile(Path.Combine(_rootPath, "Sessions"), "MonthlyHuman.dat");
-			//_sessionYearlyFileHuman = GetFile(Path.Combine(_rootPath, "Sessions"), "YearlyHuman.dat");
-			//_sessionHourlyFileBot = GetFile(Path.Combine(_rootPath, "Sessions"), "HourlyBot.dat");
-			//_sessionDailyFileBot = GetFile(Path.Combine(_rootPath, "Sessions"), "DailyBot.dat");
-			//_sessionWeeklyFileBot = GetFile(Path.Combine(_rootPath, "Sessions"), "WeeklyBot.dat");
-			//_sessionMonthlyFileBot = GetFile(Path.Combine(_rootPath, "Sessions"), "MonthlyBot.dat");
-			//_sessionYearlyFileBot = GetFile(Path.Combine(_rootPath, "Sessions"), "YearlyBot.dat");
 
 			_maxHours = Convert.ToUInt32(settingsData.Select().Where(sd => sd.Name.Equals("SessionMaxHours")).First().Value);
 			_maxDays = Convert.ToUInt32(settingsData.Select().Where(sd => sd.Name.Equals("SessionMaxDays")).First().Value);
 			_maxWeeks = Convert.ToUInt32(settingsData.Select().Where(sd => sd.Name.Equals("SessionMaxWeeks")).First().Value);
 			_maxMonths = Convert.ToUInt32(settingsData.Select().Where(sd => sd.Name.Equals("SessionMaxMonths")).First().Value);
 			_maxYears = Convert.ToUInt32(settingsData.Select().Where(sd => sd.Name.Equals("SessionMaxYears")).First().Value);
-
-
-			//LoadSessionData(_pageViewFile, ref _sessionPageViews);
-			//LoadSessionData(_referrerFile, ref _initialReferrers);
-			//         LoadSessionData(_sessionHourlyFileHuman, ref _hourlySessionDataHuman);
-			//         LoadSessionData(_sessionDailyFileHuman, ref _dailySessionDataHuman);
-			//         LoadSessionData(_sessionWeeklyFileHuman, ref _weeklySessionDataHuman);
-			//         LoadSessionData(_sessionMonthlyFileHuman, ref _monthlySessionDataHuman);
-			//         LoadSessionData(_sessionYearlyFileHuman, ref _yearlySessionDataHuman);
-			//         LoadSessionData(_sessionHourlyFileBot, ref _hourlySessionDataBot);
-			//         LoadSessionData(_sessionDailyFileBot, ref _dailySessionDataBot);
-			//         LoadSessionData(_sessionWeeklyFileBot, ref _weeklySessionDataBot);
-			//         LoadSessionData(_sessionMonthlyFileBot, ref _monthlySessionDataBot);
-			//         LoadSessionData(_sessionYearlyFileBot, ref _yearlySessionDataBot);
 
 			ThreadManager.ThreadStart(this, ThreadName, ThreadPriority.BelowNormal);
 		}
@@ -321,185 +282,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		#endregion ThreadManager Methods
 
-		#region IUrlHashProvider
-
-		/// <summary>
-		/// Retreives a hash of a url
-		/// </summary>
-		/// <param name="url"></param>
-		/// <returns>string</returns>
-		public string GetUrlHash(in string url)
-		{
-			using (SHA256 sha256Hash = SHA256.Create())
-			{
-				byte[] data = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(url.ToLower()));
-
-				// Create a new Stringbuilder to collect the bytes
-				// and create a string.
-				StringBuilder sBuilder = new StringBuilder();
-
-				// Loop through each byte of the hashed data
-				// and format each one as a hexadecimal string.
-				for (int i = 0; i < data.Length; i++)
-				{
-					sBuilder.Append(data[i].ToString("x2"));
-				}
-
-				// Return the hexadecimal string.
-				return sBuilder.ToString();
-			}
-		}
-
-		#endregion IUrlHashProvider
-
-		#region ISessionStatisticsProvider Methods
-
-		/// <summary>
-		/// Retrieves daily data
-		/// </summary>
-		/// <param name="isBot"></param>
-		/// <returns></returns>
-		public List<SessionDaily> GetDailyData(bool isBot)
-		{
-			//using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-			//{
-			//    if (isBot)
-			//        return CopySessionData<List<SessionDaily>>(_dailySessionDataBot);
-
-			//    return CopySessionData<List<SessionDaily>>(_dailySessionDataHuman);
-			//}
-
-			throw new NotImplementedException();
-		}
-
-		/// <summary>
-		/// Retrieves hourly data
-		/// </summary>
-		/// <param name="isBot"></param>
-		/// <returns></returns>
-		public List<SessionHourly> GetHourlyData(bool isBot)
-		{
-			//using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-			//{
-			//    if (isBot)
-			//        return CopySessionData<List<SessionHourly>>(_hourlySessionDataBot);
-
-			//    return CopySessionData<List<SessionHourly>>(_hourlySessionDataHuman);
-			//}
-			throw new NotImplementedException();
-		}
-
-		/// <summary>
-		/// Retrieves weekly data
-		/// </summary>
-		/// <param name="isBot"></param>
-		/// <returns></returns>
-		public List<SessionWeekly> GetWeeklyData(bool isBot)
-		{
-			//using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-			//{
-			//    if (isBot)
-			//        return CopySessionData<List<SessionWeekly>>(_weeklySessionDataBot);
-
-			//    return CopySessionData<List<SessionWeekly>>(_weeklySessionDataHuman);
-			//}
-			throw new NotImplementedException();
-		}
-
-		/// <summary>
-		/// Retrieves monthly data
-		/// </summary>
-		/// <param name="isBot"></param>
-		/// <returns></returns>
-		public List<SessionMonthly> GetMonthlyData(bool isBot)
-		{
-			//using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-			//{
-			//    if (isBot)
-			//        return CopySessionData<List<SessionMonthly>>(_monthlySessionDataBot);
-
-			//    return CopySessionData<List<SessionMonthly>>(_monthlySessionDataHuman);
-			//}
-			throw new NotImplementedException();
-		}
-
-		/// <summary>
-		/// Retrieves yearly data
-		/// </summary>
-		/// <param name="isBot"></param>
-		/// <returns></returns>
-		public List<SessionYearly> GetYearlyData(bool isBot)
-		{
-			//using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-			//{
-			//    if (isBot)
-			//        return CopySessionData<List<SessionYearly>>(_yearlySessionDataBot);
-
-			//    return CopySessionData<List<SessionYearly>>(_yearlySessionDataHuman);
-			//}
-			throw new NotImplementedException();
-		}
-
-		/// <summary>
-		/// Retrieves user agent data
-		/// </summary>
-		/// <returns></returns>
-		public List<SessionUserAgent> GetUserAgents()
-		{
-			//List<SessionYearly> yearlySessions = CopySessionData<List<SessionYearly>>(_yearlySessionDataBot);
-
-			//List<SessionUserAgent> Result = null;
-
-			//AmalgamateSessionData(yearlySessions, ref Result);
-
-			//yearlySessions = CopySessionData<List<SessionYearly>>(_yearlySessionDataHuman);
-			//AmalgamateSessionData(yearlySessions, ref Result);
-
-			//return Result;
-			throw new NotImplementedException();
-		}
-
-		#endregion ISessionStatisticsProvider Methods
-
 		#region Private Methods
-
-		private static List<SessionUserAgent> AmalgamateSessionData(List<SessionYearly> yearlySessions, ref List<SessionUserAgent> Result)
-		{
-			foreach (SessionYearly year in yearlySessions)
-			{
-				if (Result == null)
-				{
-					Result = year.UserAgents;
-				}
-				else
-				{
-					foreach (SessionUserAgent item in year.UserAgents)
-					{
-						SessionUserAgent returnAgent = Result
-							.Where(r => r.UserAgent.Equals(item.UserAgent) && r.IsBot == item.IsBot)
-							.FirstOrDefault();
-
-						if (returnAgent == null)
-						{
-							returnAgent = new SessionUserAgent()
-							{
-								UserAgent = item.UserAgent,
-								IsBot = item.IsBot,
-								Count = 0
-							};
-							Result.Add(returnAgent);
-						}
-
-						returnAgent.Count++;
-					}
-				}
-			}
-
-			if (Result == null)
-				return new List<SessionUserAgent>();
-
-			return Result.OrderBy(o => o.IsBot).ThenByDescending(d => d.Count).ToList();
-		}
 
 		private void ProcessClosedSessions()
 		{
@@ -579,10 +362,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 							page.ID = pageData.Id;
 							page.Saved();
 						}
-							
+
 						_sessionPageData.Insert(pages);
 
-						string pageHash = GetUrlHash(session.Pages[0].URL);
+						string pageHash = _urlHashProvider.GetUrlHash(session.Pages[0].URL);
 						InitialReferralsDataRow referrer = _initialRefererData.Select().Where(rd => rd.Hash.Equals(pageHash)).FirstOrDefault();
 
 						if (referrer == null)
@@ -599,170 +382,164 @@ namespace PluginManager.DAL.TextFiles.Providers
 						_initialRefererData.InsertOrUpdate(referrer);
 					}
 
-					//UpdateHourlySessionData(session);
-					//UpdateDailySessionData(session);
-					//UpdateWeeklySessionData(session);
-					//UpdateMonthlySessionData(session);
-					//UpdateYearlySessionData(session);
+					UpdateHourlySessionData(session);
+					UpdateDailySessionData(session);
+					UpdateWeeklySessionData(session);
+					UpdateMonthlySessionData(session);
+					UpdateYearlySessionData(session);
 				}
 			}
 		}
 
-		//        private void UpdateHourlySessionData(UserSession session)
-		//        {
-		//            if (session == null)
-		//                return;
+		private void UpdateHourlySessionData(UserSession session)
+		{
+			if (session == null)
+				return;
 
-		//            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-		//            {
-		//                DateTime currentDate = session.Created;
-		//                int hour = currentDate.Hour;
-		//                int quarter = Math.Abs(currentDate.Minute / 15) + 1;
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				DateTime currentDate = session.Created;
+				int hour = currentDate.Hour;
+				int quarter = Math.Abs(currentDate.Minute / 15) + 1;
 
-		//                List<SessionHourly> hourlySessionData = session.IsBot ? _hourlySessionDataBot : _hourlySessionDataHuman;
+				SessionStatsHourlyDataRow hourly = _sessionDataHourly.Select()
+					.Where(h => h.IsBot.Equals(session.IsBot) && h.Date.Date.Equals(currentDate.Date) && h.Hour == hour && h.Quarter == quarter)
+					.FirstOrDefault();
 
-		//                SessionHourly hourly = hourlySessionData
-		//                    .Where(h => h.Date.Date.Equals(currentDate.Date) && h.Hour == hour && h.Quarter == quarter)
-		//                    .FirstOrDefault();
+				if (hourly == null)
+				{
+					hourly = new SessionStatsHourlyDataRow()
+					{
+						IsBot = session.IsBot,
+						DateTicks = currentDate.Date.Ticks,
+						Hour = hour,
+						Quarter = quarter,
+					};
+				}
 
-		//                if (hourly == null)
-		//                {
-		//                    hourly = new SessionHourly();
-		//                    hourly.Date = currentDate.Date;
-		//                    hourly.Hour = hour;
-		//                    hourly.Quarter = quarter;
-		//                    hourlySessionData.Add(hourly);
-		//                }
+				UpdateSessionData(session, hourly);
+				_sessionDataHourly.InsertOrUpdate(hourly);
+			}
+		}
 
-		//                UpdateSessionData(session, hourly);
+		private void UpdateDailySessionData(UserSession session)
+		{
+			if (session == null)
+				return;
 
-		//                while (hourlySessionData.Count > _maxHours)
-		//                    hourlySessionData.RemoveAt(0);
-		//            }
-		//        }
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				DateTime sessionDate = session.Created;
 
-		//        private void UpdateDailySessionData(UserSession session)
-		//        {
-		//            if (session == null)
-		//                return;
+				SessionStatsDailyDataRow daily = _sessionDataDaily.Select()
+					.Where(d => d.IsBot.Equals(session.IsBot) && d.Date.Date.Equals(sessionDate.Date))
+					.FirstOrDefault();
 
-		//            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-		//            {
-		//                DateTime sessionDate = session.Created;
-		//                List<SessionDaily> hourlySessionData = session.IsBot ? _dailySessionDataBot : _dailySessionDataHuman;
+				if (daily == null)
+				{
+					daily = new SessionStatsDailyDataRow()
+					{
+						IsBot = session.IsBot,
+						DateTicks = sessionDate.Date.Ticks,
+					};
+				}
 
-		//                SessionDaily daily = hourlySessionData
-		//                    .Where(h => h.Date.Date.Equals(sessionDate.Date))
-		//                    .FirstOrDefault();
+				UpdateSessionData(session, daily);
+				_sessionDataDaily.InsertOrUpdate(daily);
+			}
+		}
 
-		//                if (daily == null)
-		//                {
-		//                    daily = new SessionDaily();
-		//                    daily.Date = sessionDate.Date;
-		//                    hourlySessionData.Add(daily);
-		//                }
+		private void UpdateWeeklySessionData(UserSession session)
+		{
+			if (session == null)
+				return;
 
-		//                UpdateSessionData(session, daily);
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				DateTime sessionDate = session.Created;
 
-		//                while (hourlySessionData.Count > _maxDays)
-		//                    hourlySessionData.RemoveAt(0);
-		//            }
-		//        }
+#if ISO_WEEK
+		        int week = ISOWeek.GetWeekOfYear(sessionDate);
+#else
+				int week = (sessionDate.DayOfYear / 7) + 1;
+#endif
 
-		//        private void UpdateWeeklySessionData(UserSession session)
-		//        {
-		//            if (session == null)
-		//                return;
+				SessionStatsWeeklyDataRow weekly = _sessionDataWeekly.Select()
+					.Where(w => w.IsBot.Equals(session.IsBot) && w.Week.Equals(week) && w.Year == sessionDate.Year)
+					.FirstOrDefault();
 
-		//            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-		//            {
-		//                DateTime sessionDate = session.Created;
+				if (weekly == null)
+				{
+					weekly = new SessionStatsWeeklyDataRow()
+					{
+						IsBot = session.IsBot,
+						Year = sessionDate.Year,
+						Week = week,
+					};
+				}
 
-		//#if ISO_WEEK
-		//                int week = ISOWeek.GetWeekOfYear(sessionDate);
-		//#else
-		//                int week = (sessionDate.DayOfYear / 7) + 1;
-		//#endif
+				UpdateSessionData(session, weekly);
+				_sessionDataWeekly.InsertOrUpdate(weekly);
+			}
+		}
 
-		//                List<SessionWeekly> weeklySessionData = session.IsBot ? _weeklySessionDataBot : _weeklySessionDataHuman;
-		//                SessionWeekly weekly = weeklySessionData
-		//                    .Where(w => w.Week.Equals(week) && w.Year == sessionDate.Year)
-		//                    .FirstOrDefault();
+		private void UpdateMonthlySessionData(UserSession session)
+		{
+			if (session == null)
+				return;
 
-		//                if (weekly == null)
-		//                {
-		//                    weekly = new SessionWeekly();
-		//                    weekly.Week = week;
-		//                    weekly.Year = sessionDate.Year;
-		//                    weeklySessionData.Add(weekly);
-		//                }
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				DateTime sessionDate = session.Created;
 
-		//                UpdateSessionData(session, weekly);
+				SessionStatsMonthlyDataRow monthly = _sessionDataMonthly.Select()
+					.Where(m => m.IsBot.Equals(session.IsBot) && m.Month.Equals(sessionDate.Month) && m.Year == sessionDate.Year)
+					.FirstOrDefault();
 
-		//                while (weeklySessionData.Count > _maxWeeks)
-		//                    weeklySessionData.RemoveAt(0);
-		//            }
-		//        }
+				if (monthly == null)
+				{
+					monthly = new SessionStatsMonthlyDataRow()
+					{
+						IsBot = session.IsBot,
+						Month = sessionDate.Month,
+						Year = sessionDate.Year,
+					};
+				}
 
-		//        private void UpdateMonthlySessionData(UserSession session)
-		//        {
-		//            if (session == null)
-		//                return;
+				UpdateSessionData(session, monthly);
+				_sessionDataMonthly.InsertOrUpdate(monthly);
+			}
+		}
 
-		//            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-		//            {
-		//                DateTime sessionDate = session.Created;
+		private void UpdateYearlySessionData(UserSession session)
+		{
+			if (session == null)
+				return;
 
-		//                List<SessionMonthly> monthlySessionData = session.IsBot ? _monthlySessionDataBot : _monthlySessionDataHuman;
-		//                SessionMonthly monthly = monthlySessionData
-		//                    .Where(w => w.Month.Equals(sessionDate.Month) && w.Year == sessionDate.Year)
-		//                    .FirstOrDefault();
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				DateTime sessionDate = session.Created;
 
-		//                if (monthly == null)
-		//                {
-		//                    monthly = new SessionMonthly();
-		//                    monthly.Month = sessionDate.Month;
-		//                    monthly.Year = sessionDate.Year;
-		//                    monthlySessionData.Add(monthly);
-		//                }
+				SessionStatsYearlyDataRow yearly = _sessionDataYearly.Select()
+					.Where(y => y.IsBot.Equals(session.IsBot) && y.Year.Equals(sessionDate.Year))
+					.FirstOrDefault();
 
-		//                UpdateSessionData(session, monthly);
+				if (yearly == null)
+				{
+					yearly = new SessionStatsYearlyDataRow()
+					{
+						IsBot = session.IsBot,
+						Year = sessionDate.Year,
+					};
+				}
 
-		//                while (monthlySessionData.Count > _maxMonths)
-		//                    monthlySessionData.RemoveAt(0);
-		//            }
-		//        }
-
-		//        private void UpdateYearlySessionData(UserSession session)
-		//        {
-		//            if (session == null)
-		//                return;
-
-		//            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-		//            {
-		//                DateTime sessionDate = session.Created;
-		//                List<SessionYearly> yearlySessionData = session.IsBot ? _yearlySessionDataBot : _yearlySessionDataHuman;
-
-		//                SessionYearly yearly = yearlySessionData
-		//                    .Where(y => y.Year.Equals(sessionDate.Year))
-		//                    .FirstOrDefault();
-
-		//                if (yearly == null)
-		//                {
-		//                    yearly = new SessionYearly();
-		//                    yearly.Year = sessionDate.Year;
-		//                    yearlySessionData.Add(yearly);
-		//                }
-
-		//                UpdateSessionData(session, yearly);
-
-		//                while (yearlySessionData.Count > _maxYears)
-		//                    yearlySessionData.RemoveAt(0);
-		//            }
-		//        }
+				UpdateSessionData(session, yearly);
+				_sessionDataYearly.InsertOrUpdate(yearly);
+			}
+		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		private void UpdateSessionData(UserSession session, SessionBaseData baseSessionData)
+		private void UpdateSessionData(UserSession session, SessionStatsBaseData baseSessionData)
 		{
 			baseSessionData.TotalVisits++;
 
@@ -791,7 +568,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			switch (session.Referal)
 			{
 				case ReferalType.Unknown:
-					baseSessionData.ReferrerUnknown++;
+					baseSessionData.ReferUnknown++;
 					break;
 
 				case ReferalType.Direct:
@@ -827,27 +604,19 @@ namespace PluginManager.DAL.TextFiles.Providers
 					break;
 			}
 
-			if (!baseSessionData.CountryData.ContainsKey(session.CountryCode))
-				baseSessionData.CountryData.Add(session.CountryCode, 0);
+			string countryCode = session.CountryCode ?? "ZZ";
 
-			baseSessionData.CountryData[session.CountryCode]++;
+			if (!baseSessionData.CountryData.ContainsKey(countryCode))
+				baseSessionData.CountryData.Add(countryCode, 0);
 
-			SessionUserAgent returnAgent = baseSessionData.UserAgents
-				.Where(r => r.UserAgent.Equals(session.UserAgent) && r.IsBot == session.IsBot)
-				.FirstOrDefault();
+			baseSessionData.CountryData[countryCode]++;
 
-			if (returnAgent == null)
-			{
-				returnAgent = new SessionUserAgent()
-				{
-					UserAgent = session.UserAgent,
-					IsBot = session.IsBot,
-					Count = 0
-				};
-				baseSessionData.UserAgents.Add(returnAgent);
-			}
+			string userAgent = session.UserAgent ?? "Unknown";
 
-			returnAgent.Count++;
+			if (!baseSessionData.UserAgents.ContainsKey(userAgent))
+				baseSessionData.UserAgents.Add(userAgent, 0);
+
+			baseSessionData.UserAgents[userAgent]++;
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]

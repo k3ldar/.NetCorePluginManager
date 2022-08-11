@@ -15,12 +15,12 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: SessionPageDataRow.cs
+ *  File: SessionStatsYearlyDataRow.cs
  *
- *  Purpose:  Table definition for page view data
+ *  Purpose:  Yearly session statistics
  *
  *  Date        Name                Reason
- *  07/08/2022  Simon Carter        Initially Created
+ *  11/08/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -28,82 +28,21 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-	[Table(Constants.DomainSessions, Constants.TableNameSessionPages)]
-	internal class SessionPageDataRow : TableRowDefinition
+	[Table(Constants.DomainSessions, Constants.TableNameSessionStatsYearly)]
+	internal class SessionStatsYearlyDataRow : SessionStatsBaseData
 	{
-		private long _sessionId;
-		private string _url;
-		private long _totalTime;
-		private string _referrer;
-		private bool _isPostBack;
+		private int _year;
 
-		[ForeignKey(Constants.TableNameSession)]
-		public long SessionId
+		public int Year
 		{
-			get => _sessionId;
+			get => _year;
 
 			set
 			{
-				if (value == _sessionId)
+				if (_year == value)
 					return;
 
-				_sessionId = value;
-				Update();
-			}
-		}
-
-		public string Url
-		{
-			get => _url;
-
-			set
-			{
-				if (value == _url)
-					return;
-
-				_url = value;
-				Update();
-			}
-		}
-
-		public long TotalTime
-		{
-			get => _totalTime;
-
-			set
-			{
-				if (value == _totalTime)
-					return;
-
-				_totalTime = value;
-				Update();
-			}
-		}
-
-		public string Referrer
-		{
-			get => _referrer;
-
-			set
-			{
-				if (value == _referrer)
-					return;
-
-				_referrer = value;
-				Update();
-			}
-		}
-
-		public bool IsPostBack
-		{
-			get => _isPostBack;
-
-			set
-			{
-				if (value == _isPostBack)
-					return;
-
-				_isPostBack = value;
+				_year = value;
 				Update();
 			}
 		}
