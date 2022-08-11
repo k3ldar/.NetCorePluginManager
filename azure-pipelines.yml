@@ -69,7 +69,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     targetFolder: '$(Build.ArtifactStagingDirectory)'
-    contents: '**\*.nuget'
+    contents: '**\*.nupkg'
     cleanTargetfolder: true
 
 - task: PublishBuildArtifacts@1    
