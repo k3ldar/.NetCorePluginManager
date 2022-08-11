@@ -40,14 +40,15 @@ steps:
     
 - task: VSTest@2
   displayName: Run unit tests
-  enabled: true
+  enabled: false
   continueOnError: true
   inputs:
+    runSettingsFile: 'Tests\test.runsettings'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     testSelector: 'testAssemblies'
     testAssemblyVer2: |
-      **\*test*.dll
+      **\*.tests.dll
       !**\*TestAdapter.dll
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
