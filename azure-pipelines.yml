@@ -40,15 +40,14 @@ steps:
     
 - task: VSTest@2
   displayName: Run unit tests
-  enabled: true
+  enabled: false
   continueOnError: true
   inputs:
-    runSettingsFile: 'Tests\test.runsettings'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     testSelector: 'testAssemblies'
     testAssemblyVer2: |
-      **\*.tests.dll
+      **\*test*.dll
       !**\*TestAdapter.dll
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
@@ -73,3 +72,8 @@ steps:
     ArtifactName: 'drop'
     publishLocation: 'Container'
     
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
