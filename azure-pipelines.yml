@@ -40,7 +40,7 @@ steps:
     
 - task: VSTest@2
   displayName: Run unit tests
-  enabled: false
+  enabled: true
   continueOnError: true
   inputs:
     platform: '$(buildPlatform)'
@@ -67,7 +67,9 @@ steps:
     
 - task: CopyFiles@2
   inputs:
-    targetFolder: '$(Build.ArtifactStagingDirectory)'    
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+    contents: **\*.nuget
+    cleanTargetfolder: true
 
 - task: PublishBuildArtifacts@1    
   displayName: 'Publish Artifact: drop'
