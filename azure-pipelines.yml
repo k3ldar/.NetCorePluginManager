@@ -65,15 +65,11 @@ steps:
     failTaskOnFailedTests: true
     testRunTitle: 'Publish Unit Tests'
     
-- task: PublishBuildArtifacts@1
-  displayName: Publish artifacts
+- task: CopyFiles@2
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-    
-- task: PublishBuildArtifacts@1
+    targetFolder: '$(Build.ArtifactStagingDirectory)'    
+
+- task: PublishBuildArtifacts@1    
+  displayName: 'Publish Artifact: drop'
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+    PathtoPublish: '$(build.artifactstagingdirectory)'
