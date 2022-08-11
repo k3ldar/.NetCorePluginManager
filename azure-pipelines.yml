@@ -68,7 +68,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     targetFolder: '$(Build.ArtifactStagingDirectory)'
-    contents: **\*.nuget
+    contents: '**\*.nuget'
     cleanTargetfolder: true
 
 - task: PublishBuildArtifacts@1    
