@@ -40,7 +40,7 @@ steps:
     
 - task: VSTest@2
   displayName: Run unit tests
-  enabled: true
+  enabled: false
   continueOnError: true
   inputs:
     runSettingsFile: 'Tests\test.runsettings'
@@ -66,10 +66,13 @@ steps:
     failTaskOnFailedTests: true
     testRunTitle: 'Publish Unit Tests'
     
-- task: PublishBuildArtifacts@1
-  displayName: Publish artifacts
+- task: CopyFiles@2
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-    
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+    contents: '**\*.nupkg'
+    cleanTargetfolder: true
+
+- task: PublishBuildArtifacts@1    
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
