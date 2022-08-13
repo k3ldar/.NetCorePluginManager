@@ -97,6 +97,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleDB", "Database\PluginManager.SimpleDB\SimpleDB.csproj", "{615AE0C8-2986-49AB-9B84-139E252CCB59}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{19AFBC9B-7D1B-4405-871F-00763C364C86}"
+	ProjectSection(SolutionItems) = preProject
+		Tests\Directory.Build.props = Tests\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleDB.Tests", "Tests\PluginManager.SimpleDB.Tests\SimpleDB.Tests.csproj", "{59B9833B-8752-4257-AB07-244555F71E96}"
 EndProject

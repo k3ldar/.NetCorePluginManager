@@ -53,7 +53,7 @@ steps:
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
     runOnlyImpactedTests: false
-    runInParallel: true
+    runInParallel: false
     codeCoverageEnabled: true
     distributionBatchType: 'basedOnExecutionTime'
 
