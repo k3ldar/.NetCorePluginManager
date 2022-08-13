@@ -39,7 +39,7 @@
   </PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
-		<DocumentationFile>..\..\Docs\XmlFiles\DownloadPlugin.xml</DocumentationFile>
+		<DocumentationFile>$(XmlDocsPath)\DownloadPlugin.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

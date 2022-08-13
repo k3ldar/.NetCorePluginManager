@@ -33,7 +33,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
-    <DocumentationFile>..\..\Docs\XmlFiles\Breadcrumb.Plugin.xml</DocumentationFile>
+    <DocumentationFile>$(XmlDocsPath)\Breadcrumb.Plugin.xml</DocumentationFile>
   </PropertyGroup>
     
   <ItemGroup>

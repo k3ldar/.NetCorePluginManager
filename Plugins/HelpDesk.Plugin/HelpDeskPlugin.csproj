@@ -41,7 +41,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
-		<DocumentationFile>..\..\Docs\XmlFiles\HelpdeskPlugin.xml</DocumentationFile>
+		<DocumentationFile>$(XmlDocsPath)\HelpdeskPlugin.xml</DocumentationFile>
 	</PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
