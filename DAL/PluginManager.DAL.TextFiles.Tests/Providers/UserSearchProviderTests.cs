@@ -37,14 +37,14 @@ using Middleware;
 using Middleware.Accounts;
 using Middleware.Users;
 
-using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
+
 using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
-    [TestClass]
+	[TestClass]
     [ExcludeFromCodeCoverage]
     public class UserSearchProviderTests : BaseProviderTests
     {

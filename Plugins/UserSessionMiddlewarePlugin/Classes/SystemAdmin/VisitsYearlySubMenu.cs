@@ -37,18 +37,16 @@ using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
-using UserSessionMiddleware.Plugin.Classes.SessionData;
-
 #pragma warning disable CS1591
 
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns data for yearly visits to be shown in a chart.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class VisitsYearlySubMenu : SystemAdminSubMenu
+	/// <summary>
+	/// Returns data for yearly visits to be shown in a chart.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public sealed class VisitsYearlySubMenu : SystemAdminSubMenu
     {
 		#region Private Members
 

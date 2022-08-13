@@ -36,7 +36,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware;
 
-using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 
@@ -45,7 +44,7 @@ using SimpleDB.Tests.Mocks;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
-    [TestClass]
+	[TestClass]
     [ExcludeFromCodeCoverage]
     public class CountriesProviderTests : BaseProviderTests
     {

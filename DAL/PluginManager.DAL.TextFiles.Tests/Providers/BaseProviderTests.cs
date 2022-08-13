@@ -25,7 +25,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
@@ -47,7 +46,7 @@ using PluginManager.DAL.TextFiles.Tables.Sessions;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
-    [ExcludeFromCodeCoverage]
+	[ExcludeFromCodeCoverage]
     public class BaseProviderTests
     {
         protected const string TestPathSettings = "{\"SimpleDBSettings\":{\"Path\":\"$$\"}}";

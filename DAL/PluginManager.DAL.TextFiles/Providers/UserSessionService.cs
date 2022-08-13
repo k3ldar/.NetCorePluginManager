@@ -27,7 +27,6 @@
 using System.Runtime.CompilerServices;
 
 using Middleware;
-using Middleware.SessionData;
 
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Tables;

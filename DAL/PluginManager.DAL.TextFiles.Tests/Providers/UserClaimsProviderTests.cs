@@ -36,13 +36,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Middleware.Accounts;
 
-using PluginManager.Abstractions;
-
 using SharedPluginFeatures;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
-    [TestClass]
+	[TestClass]
     [ExcludeFromCodeCoverage]
     public class UserClaimsProviderTests : BaseProviderTests
     {

@@ -366,10 +366,9 @@ namespace UserSessionMiddleware.Plugin.Classes
 		/// <returns></returns>
 		public List<SessionUserAgent> GetUserAgents()
         {
-            List<SessionYearly> yearlySessions = CopySessionData<List<SessionYearly>>(_yearlySessionDataBot);
-
             List<SessionUserAgent> Result = null;
 
+            List<SessionYearly> yearlySessions = CopySessionData<List<SessionYearly>>(_yearlySessionDataBot);
             AmalgamateSessionData(yearlySessions, ref Result);
 
             yearlySessions = CopySessionData<List<SessionYearly>>(_yearlySessionDataHuman);

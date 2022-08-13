@@ -24,10 +24,6 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-using Middleware.SessionData;
-
-using Newtonsoft.Json.Linq;
-
 using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables

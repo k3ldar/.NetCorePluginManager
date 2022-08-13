@@ -34,13 +34,11 @@ using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
-using UserSessionMiddleware.Plugin.Classes.SessionData;
-
 #pragma warning disable CS1591
 
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
-    public sealed class VisitsUserAgentSubMenu : SystemAdminSubMenu
+	public sealed class VisitsUserAgentSubMenu : SystemAdminSubMenu
     {
 		#region Private Members
 

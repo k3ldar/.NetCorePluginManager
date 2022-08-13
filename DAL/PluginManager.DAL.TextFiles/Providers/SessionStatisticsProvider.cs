@@ -27,12 +27,16 @@ using Middleware;
 using Middleware.SessionData;
 
 using PluginManager.DAL.TextFiles.Tables;
+
+using Shared.Classes;
+
 using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
 	internal class SessionStatisticsProvider : ISessionStatisticsProvider
 	{
+		private readonly object _lockObject = new object();
 		private readonly ISimpleDBOperations<SessionStatsHourlyDataRow> _sessionDataHourly;
 		private readonly ISimpleDBOperations<SessionStatsDailyDataRow> _sessionDataDaily;
 		private readonly ISimpleDBOperations<SessionStatsWeeklyDataRow> _sessionDataWeekly;
@@ -65,15 +69,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 		/// <returns></returns>
 		public List<SessionDaily> GetDailyData(bool isBot)
 		{
-			//using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-			//{
-			//    if (isBot)
-			//        return CopySessionData<List<SessionDaily>>(_dailySessionDataBot);
-
-			//    return CopySessionData<List<SessionDaily>>(_dailySessionDataHuman);
-			//}
-
-			throw new NotImplementedException();
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				return CopySessionData<SessionDaily, SessionStatsDailyDataRow>(_sessionDataDaily.Select().Where(d => d.IsBot.Equals(isBot)), isBot);
+			}
 		}
 
 		/// <summary>
@@ -83,14 +82,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 		/// <returns></returns>
 		public List<SessionHourly> GetHourlyData(bool isBot)
 		{
-			//using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-			//{
-			//    if (isBot)
-			//        return CopySessionData<List<SessionHourly>>(_hourlySessionDataBot);
-
-			//    return CopySessionData<List<SessionHourly>>(_hourlySessionDataHuman);
-			//}
-			throw new NotImplementedException();
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				return CopySessionData<SessionHourly, SessionStatsHourlyDataRow>(_sessionDataHourly.Select().Where(d => d.IsBot.Equals(isBot)), isBot);
+			}
 		}
 
 		/// <summary>
@@ -100,14 +95,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 		/// <returns></returns>
 		public List<SessionWeekly> GetWeeklyData(bool isBot)
 		{
-			//using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-			//{
-			//    if (isBot)
-			//        return CopySessionData<List<SessionWeekly>>(_weeklySessionDataBot);
-
-			//    return CopySessionData<List<SessionWeekly>>(_weeklySessionDataHuman);
-			//}
-			throw new NotImplementedException();
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				return CopySessionData<SessionWeekly, SessionStatsWeeklyDataRow>(_sessionDataWeekly.Select().Where(d => d.IsBot.Equals(isBot)), isBot);
+			}
 		}
 
 		/// <summary>
@@ -117,14 +108,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 		/// <returns></returns>
 		public List<SessionMonthly> GetMonthlyData(bool isBot)
 		{
-			//using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-			//{
-			//    if (isBot)
-			//        return CopySessionData<List<SessionMonthly>>(_monthlySessionDataBot);
-
-			//    return CopySessionData<List<SessionMonthly>>(_monthlySessionDataHuman);
-			//}
-			throw new NotImplementedException();
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				return CopySessionData<SessionMonthly, SessionStatsMonthlyDataRow>(_sessionDataMonthly.Select().Where(d => d.IsBot.Equals(isBot)), isBot);
+			}
 		}
 
 		/// <summary>
@@ -134,14 +121,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 		/// <returns></returns>
 		public List<SessionYearly> GetYearlyData(bool isBot)
 		{
-			//using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-			//{
-			//    if (isBot)
-			//        return CopySessionData<List<SessionYearly>>(_yearlySessionDataBot);
-
-			//    return CopySessionData<List<SessionYearly>>(_yearlySessionDataHuman);
-			//}
-			throw new NotImplementedException();
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				return CopySessionData<SessionYearly, SessionStatsYearlyDataRow>(_sessionDataYearly.Select().Where(d => d.IsBot.Equals(isBot)), isBot);
+			}
 		}
 
 		/// <summary>
@@ -150,22 +133,92 @@ namespace PluginManager.DAL.TextFiles.Providers
 		/// <returns></returns>
 		public List<SessionUserAgent> GetUserAgents()
 		{
-			//List<SessionYearly> yearlySessions = CopySessionData<List<SessionYearly>>(_yearlySessionDataBot);
+			List<SessionUserAgent> Result = null;
 
-			//List<SessionUserAgent> Result = null;
+			List<SessionYearly> yearlySessions = CopySessionData<SessionYearly, SessionStatsYearlyDataRow>(_sessionDataYearly.Select(), false);
+			AmalgamateSessionData(yearlySessions, ref Result);
 
-			//AmalgamateSessionData(yearlySessions, ref Result);
-
-			//yearlySessions = CopySessionData<List<SessionYearly>>(_yearlySessionDataHuman);
-			//AmalgamateSessionData(yearlySessions, ref Result);
-
-			//return Result;
-			throw new NotImplementedException();
+			return Result;
 		}
 
 		#endregion ISessionStatisticsProvider Methods
 
 		#region Private Methods
+
+		private static List<T> CopySessionData<T, D>(IEnumerable<D> baseData, bool isBot)
+			where T : SessionBaseData 
+			where D : SessionStatsBaseData
+		{
+			List<T> Result = new List<T>();
+
+			foreach (SessionStatsBaseData data in baseData)
+			{
+				T resultDataRow = (T)Activator.CreateInstance(typeof(T));
+
+				resultDataRow.ReferBing = data.ReferBing;
+				resultDataRow.ReferDirect = data.ReferDirect;
+				resultDataRow.ReferFacebook = data.ReferFacebook;
+				resultDataRow.ReferGoogle = data.ReferGoogle;
+				resultDataRow.ReferFacebook = data.ReferFacebook;
+				resultDataRow.ReferOrganic = data.ReferOrganic;
+				resultDataRow.ReferOther = data.ReferOther;
+				resultDataRow.ReferTwitter = data.ReferTwitter;
+				resultDataRow.ReferYahoo = data.ReferYahoo;
+				resultDataRow.ReferrerUnknown = data.ReferUnknown;
+				resultDataRow.BotVisits = data.BotVisits;
+				resultDataRow.HumanVisits = data.HumanVisits;
+				resultDataRow.TotalVisits = data.TotalVisits;
+				resultDataRow.MobileVisits = data.MobileVisits;
+				resultDataRow.Bounced = data.Bounced;
+				resultDataRow.TotalPages = data.TotalPages;
+				resultDataRow.TotalSales = data.TotalSales;
+				resultDataRow.Conversions = data.Conversions;
+
+				foreach (string key in data.UserAgents.Keys)
+				{
+					resultDataRow.UserAgents.Add(new SessionUserAgent()
+					{
+						IsBot = isBot,
+						Count = data.UserAgents[key],
+						UserAgent = key,
+					});
+				}
+
+				foreach (string key in data.CountryData.Keys)
+				{
+					resultDataRow.CountryData.Add(key, data.CountryData[key]);
+				}
+				
+				if (resultDataRow is SessionDaily sessionDaily)
+				{
+					sessionDaily.Date = ((SessionStatsDailyDataRow)data).Date;
+				}
+				else if (resultDataRow is SessionHourly sessionHourly)
+				{
+					sessionHourly.Date = ((SessionStatsHourlyDataRow)data).Date;
+					sessionHourly.Hour = ((SessionStatsHourlyDataRow)data).Hour;
+					sessionHourly.Quarter = ((SessionStatsHourlyDataRow)data).Quarter;
+				}
+				else if (resultDataRow is SessionWeekly sessionWeekly)
+				{
+					sessionWeekly.Year = ((SessionStatsWeeklyDataRow)data).Year;
+					sessionWeekly.Week = ((SessionStatsWeeklyDataRow)data).Week;
+				}
+				else if (resultDataRow is SessionMonthly sessionMonthly)
+				{
+					sessionMonthly.Year = ((SessionStatsMonthlyDataRow)data).Year;
+					sessionMonthly.Month = ((SessionStatsMonthlyDataRow)data).Month;
+				}
+				else if (resultDataRow is SessionYearly sessionYearly)
+				{
+					sessionYearly.Year = ((SessionStatsYearlyDataRow)data).Year;
+				}
+
+				Result.Add(resultDataRow);
+			}
+
+			return Result;
+		}
 
 		private static List<SessionUserAgent> AmalgamateSessionData(List<SessionYearly> yearlySessions, ref List<SessionUserAgent> Result)
 		{

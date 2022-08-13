@@ -37,18 +37,15 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Middleware;
 using Middleware.Products;
 
-using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.DAL.TextFiles.Tables.Products;
+
 using SimpleDB;
 using SimpleDB.Tests.Mocks;
 
-using SharedPluginFeatures;
-
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
-    [TestClass]
+	[TestClass]
     [ExcludeFromCodeCoverage]
     public class ProductProviderTests : BaseProviderTests
     {
