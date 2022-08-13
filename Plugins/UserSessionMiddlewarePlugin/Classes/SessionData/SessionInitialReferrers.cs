@@ -24,22 +24,31 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using Middleware;
 
 namespace UserSessionMiddleware.Plugin.Classes.SessionData
 {
     /// <summary>
     /// Contains a collection of initial referrers
     /// </summary>
-    public sealed class SessionInitialReferrers
-    {
-        #region Constructors
+    public sealed class SessionInitialReferrers : IUrlHash
+	{
+		#region Private Members
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public SessionInitialReferrers()
+		private IUrlHashProvider _urlHashProvider;
+
+		#endregion Private Members
+
+		#region Constructors
+
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public SessionInitialReferrers()
         {
             InitialReferrers = new List<SessionInitialReferrer>();
         }
@@ -71,7 +80,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SessionData
             if (string.IsNullOrEmpty(referalUrl))
                 return;
 
-            string hash = DefaultUserSessionService.GetUrlHash(referalUrl);
+            string hash = _urlHashProvider.GetUrlHash(referalUrl);
 
             SessionInitialReferrer referrer = InitialReferrers
                 .Where(ir => ir.Hash.Equals(hash))
@@ -87,6 +96,16 @@ namespace UserSessionMiddleware.Plugin.Classes.SessionData
             IsDirty = true;
         }
 
-        #endregion Public Methods
-    }
+		/// <summary>
+		/// Sets the url hash provider interface
+		/// </summary>
+		/// <param name="urlHashProvider"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public void SetUrlHash(IUrlHashProvider urlHashProvider)
+		{
+			_urlHashProvider = urlHashProvider ?? throw new ArgumentNullException(nameof(urlHashProvider));
+		}
+
+		#endregion Public Methods
+	}
 }

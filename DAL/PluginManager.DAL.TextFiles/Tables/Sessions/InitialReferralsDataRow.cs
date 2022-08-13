@@ -11,46 +11,70 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  UserSessionMiddleware.Plugin
+ *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: SessionMonthly.cs
+ *  File: InitialReferralsDataRow.cs
  *
- *  Purpose:  Monthly session data
+ *  Purpose:  Table definition for initial referrals data
  *
  *  Date        Name                Reason
- *  12/09/2020  Simon Carter        Initially Created
+ *  02/08/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace UserSessionMiddleware.Plugin.Classes.SessionData
+using SimpleDB;
+
+namespace PluginManager.DAL.TextFiles.Tables
 {
-    /// <summary>
-    /// Yearly session data
-    /// </summary>
-    public class SessionYearly : SessionBaseData
-    {
-        #region Constructors
+	[Table(Constants.DomainSessions, Constants.TableNameInitialReferrals)]
+	internal class InitialReferralsDataRow : TableRowDefinition
+	{
+		private string _hash;
+		private string _url;
+		private uint _usage;
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public SessionYearly()
-            : base()
-        {
+		public string Hash
+		{
+			get => _hash;
 
-        }
+			set
+			{
+				if (value == _hash)
+					return;
 
-        #endregion Constructors
+				_hash = value;
+				Update();
+			}
+		}
 
-        #region Properties
+		public string Url
+		{
+			get => _url;
 
-        /// <summary>
-        /// Year of visit
-        /// </summary>
-        public int Year { get; set; }
+			set
+			{
+				if (value == _url)
+					return;
 
-        #endregion Properties
-    }
+				_url = value;
+				Update();
+			}
+		}
+
+		public uint Usage
+		{
+			get => _usage;
+
+			set
+			{
+				if (value == _usage)
+					return;
+
+				_usage = value;
+				Update();
+			}
+		}
+	}
 }

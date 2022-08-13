@@ -11,46 +11,29 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2012 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  UserSessionMiddleware.Plugin
+ *  Product:  PluginMiddleware
  *  
- *  File: SessionMonthly.cs
+ *  File: IUrlHashProvider.cs
  *
- *  Purpose:  Monthly session data
+ *  Purpose:  Url hash provider
  *
  *  Date        Name                Reason
- *  12/09/2020  Simon Carter        Initially Created
+ *  02/08/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-namespace UserSessionMiddleware.Plugin.Classes.SessionData
+namespace Middleware
 {
-    /// <summary>
-    /// Monthly session data
-    /// </summary>
-    public sealed class SessionMonthly : SessionYearly
-    {
-        #region Constructors
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public SessionMonthly()
-            : base()
-        {
-
-        }
-
-        #endregion Constructors
-
-        #region Properties
-
-        /// <summary>
-        /// Month of Visit
-        /// </summary>
-        public int Month { get; set; }
-
-        #endregion Properties
-    }
+	/// <summary>
+	/// Interface for retrieving a hash of url
+	/// </summary>
+	public interface IUrlHashProvider
+	{
+		/// <summary>
+		/// Retrieves a hash value for a url
+		/// </summary>
+		/// <returns>string</returns>
+		string GetUrlHash(in string url);
+	}
 }

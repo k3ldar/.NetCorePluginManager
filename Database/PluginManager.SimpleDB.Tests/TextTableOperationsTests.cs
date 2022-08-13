@@ -209,12 +209,12 @@ namespace SimpleDB.Tests
                 {
                     sut.Insert(new MockRow());
                     fileInfo = new FileInfo(Path.Combine(directory, "MockTable.dat"));
-                    Assert.AreEqual(164, fileInfo.Length);
+                    Assert.AreEqual(167, fileInfo.Length);
                     Assert.AreEqual(1, sut.RecordCount);
                 }
 
                 fileInfo = new FileInfo(Path.Combine(directory, "MockTable.dat"));
-                Assert.AreEqual(164, fileInfo.Length);
+                Assert.AreEqual(167, fileInfo.Length);
 
                 using SimpleDBOperations<MockRow> sutRead = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService());
                 IReadOnlyList<MockRow> records = sutRead.Select();
@@ -249,7 +249,7 @@ namespace SimpleDB.Tests
                 }
 
                 fileInfo = new FileInfo(Path.Combine(directory, "MockLazyWriteTable.dat"));
-                Assert.AreEqual(183, fileInfo.Length);
+                Assert.AreEqual(186, fileInfo.Length);
 
                 using SimpleDBOperations<MockLazyWriteRow> sutRead = new SimpleDBOperations<MockLazyWriteRow>(initializer, keyManager, new MockPluginClassesService());
                 IReadOnlyList<MockLazyWriteRow> records = sutRead.Select();
@@ -469,6 +469,7 @@ namespace SimpleDB.Tests
         }
 
         [TestMethod]
+		[Timeout(3000)]
         public void CompactPercent_AfterMultipleRowsRemoved_IsAccurate_Success()
         {
             string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
@@ -801,6 +802,7 @@ namespace SimpleDB.Tests
         }
 
         [TestMethod]
+		[Timeout(5000)]
         public void Insert_Multiple_Writes15168Records_Compressed_Success()
         {
             string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());

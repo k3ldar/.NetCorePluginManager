@@ -30,6 +30,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
+using Middleware;
+
 using PluginManager;
 using PluginManager.Abstractions;
 
@@ -114,11 +116,12 @@ namespace UserSessionMiddleware.Plugin
 
             if (settingsProvider != null)
             {
-                UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(Constants.UserSessionConfiguration);
+                UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(SharedPluginFeatures.Constants.UserSessionConfiguration);
 
                 if (settings.EnableDefaultSessionService && !services.Any(x => x.ServiceType == typeof(IUserSessionService)))
                 {
                     services.TryAddSingleton<IUserSessionService, DefaultUserSessionService>();
+					services.TryAddSingleton<ISessionStatisticsProvider, DefaultUserSessionService>();
                 }
             }
         }

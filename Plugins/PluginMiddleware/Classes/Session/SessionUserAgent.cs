@@ -11,20 +11,21 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  UserSessionMiddleware.Plugin
+ *  Product:  Middleware.Plugin
  *  
- *  File: DefaultUserSessionService.cs
+ *  File: SessionUserAgent.cs
  *
- *  Purpose:  Default user session service
+ *  Purpose:  Session user agent
  *
  *  Date        Name                Reason
  *  28/09/2020  Simon Carter        Initially Created
+ *  02/08/2022	Simon Carter		Moved to middleware
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace UserSessionMiddleware.Plugin.Classes.SessionData
+namespace Middleware.SessionData
 {
     /// <summary>
     /// User agent session usage data

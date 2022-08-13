@@ -13,55 +13,28 @@
  *
  *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
- *  Product:  UserSessionMiddleware.Plugin
+ *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: SessionHourly.cs
+ *  File: MockGeoIpProvider.cs
  *
- *  Purpose:  Hourly session data
+ *  Purpose:  Mock IGeoIpProvider class
  *
  *  Date        Name                Reason
- *  03/09/2020  Simon Carter        Initially Created
+ *  06/08/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
-namespace UserSessionMiddleware.Plugin.Classes.SessionData
+using SharedPluginFeatures;
+
+namespace AspNetCore.PluginManager.Tests.Shared
 {
-    /// <summary>
-    /// Hourly visitor statistics
-    /// </summary>
-    public sealed class SessionHourly : SessionBaseData
-    {
-        #region Constructors
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public SessionHourly()
-            : base()
-        {
-
-        }
-
-        #endregion Constructors
-
-        #region Properties
-
-        /// <summary>
-        /// Date of Visit
-        /// </summary>
-        public DateTime Date { get; set; }
-
-        /// <summary>
-        /// Hour the visit was made
-        /// </summary>
-        public int Hour { get; set; }
-
-        /// <summary>
-        /// Retrieves the hour quarter
-        /// </summary>
-        public int Quarter { get; set; }
-
-        #endregion Properties
-    }
+	internal class MockGeoIpProvider : IGeoIpProvider
+	{
+		public bool GetIpAddressDetails(in string ipAddress, out string countryCode, out string region, out string cityName, 
+			out decimal latitude, out decimal longitude, out long uniqueId, out long ipFrom, out long ipTo)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

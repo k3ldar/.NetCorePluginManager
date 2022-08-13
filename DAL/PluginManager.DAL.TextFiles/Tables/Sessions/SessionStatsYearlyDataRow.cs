@@ -11,46 +11,40 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  UserSessionMiddleware.Plugin
+ *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: SessionWeekly.cs
+ *  File: SessionStatsYearlyDataRow.cs
  *
- *  Purpose:  Weekly session data
+ *  Purpose:  Yearly session statistics
  *
  *  Date        Name                Reason
- *  12/09/2020  Simon Carter        Initially Created
+ *  11/08/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace UserSessionMiddleware.Plugin.Classes.SessionData
+using SimpleDB;
+
+namespace PluginManager.DAL.TextFiles.Tables
 {
-    /// <summary>
-    /// Weekly visitor statistics
-    /// </summary>
-    public sealed class SessionWeekly : SessionYearly
-    {
-        #region Constructors
+	[Table(Constants.DomainSessions, Constants.TableNameSessionStatsYearly)]
+	internal class SessionStatsYearlyDataRow : SessionStatsBaseData
+	{
+		private int _year;
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public SessionWeekly()
-            : base()
-        {
+		public int Year
+		{
+			get => _year;
 
-        }
+			set
+			{
+				if (_year == value)
+					return;
 
-        #endregion Constructors
-
-        #region Properties
-
-        /// <summary>
-        /// Week of Visit
-        /// </summary>
-        public int Week { get; set; }
-
-        #endregion Properties
-    }
+				_year = value;
+				Update();
+			}
+		}
+	}
 }

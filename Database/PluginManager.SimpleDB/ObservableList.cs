@@ -15,7 +15,7 @@
  *
  *  Product:  SimpleDB
  *  
- *  File: TextFilesList.cs
+ *  File: ObservableList.cs
  *
  *  Purpose:  List with changed event
  *

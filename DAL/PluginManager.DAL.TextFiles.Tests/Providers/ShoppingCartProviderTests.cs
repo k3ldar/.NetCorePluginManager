@@ -42,7 +42,6 @@ using Middleware.ShoppingCart;
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.DAL.TextFiles.Tables.Products;
 using SimpleDB;
 
 using Shared.Classes;
@@ -51,7 +50,7 @@ using SharedPluginFeatures;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
-    [TestClass]
+	[TestClass]
     [ExcludeFromCodeCoverage]
     public class ShoppingCartProviderTests : BaseProviderTests
     {

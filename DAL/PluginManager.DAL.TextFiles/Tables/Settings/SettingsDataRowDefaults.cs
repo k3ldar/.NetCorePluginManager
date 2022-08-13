@@ -58,8 +58,33 @@ namespace PluginManager.DAL.TextFiles.Tables
                         {
                             Name = "DefaultCurrency",
                             Value = "GBP"
-                        }
-                    };
+                        },
+						new SettingsDataRow()
+						{
+							Name = "SessionMaxHours",
+							Value = "96"
+						},
+						new SettingsDataRow()
+						{
+							Name = "SessionMaxDays",
+							Value = "60"
+						},
+						new SettingsDataRow()
+						{
+							Name = "SessionMaxWeeks",
+							Value = "52"
+						},
+						new SettingsDataRow()
+						{
+							Name = "SessionMaxMonths",
+							Value = "180"
+						},
+						new SettingsDataRow()
+						{
+							Name = "SessionMaxYears",
+							Value = "10"
+						}
+					};
             }
 
             return null;

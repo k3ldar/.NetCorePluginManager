@@ -28,33 +28,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
+using Middleware;
+using Middleware.SessionData;
+
 using Newtonsoft.Json;
 
 using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
-using UserSessionMiddleware.Plugin.Classes.SessionData;
-
 #pragma warning disable CS1591
 
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns data for weekly visits to be shown in a chart.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class VisitsWeeklySubMenu : SystemAdminSubMenu
+	/// <summary>
+	/// Returns data for weekly visits to be shown in a chart.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public sealed class VisitsWeeklySubMenu : SystemAdminSubMenu
     {
-        private readonly bool _enabled;
+		#region Private Members
 
-        public VisitsWeeklySubMenu(ISettingsProvider settingsProvider)
-        {
-            if (settingsProvider == null)
+		private readonly ISessionStatisticsProvider _sessionStatisticsProvider;
+		private readonly bool _enabled;
+
+		#endregion Private Members
+
+		public VisitsWeeklySubMenu(ISettingsProvider settingsProvider, ISessionStatisticsProvider sessionStatisticsProvider)
+		{
+			_sessionStatisticsProvider = sessionStatisticsProvider ?? throw new ArgumentNullException(nameof(sessionStatisticsProvider));
+
+			if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
-            UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(Constants.UserSessionConfiguration);
+            UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(SharedPluginFeatures.Constants.UserSessionConfiguration);
 
             _enabled = settings.EnableDefaultSessionService;
         }
@@ -84,7 +92,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
             Result.ChartTitle = "Weekly Visitor Statistics";
 
-            List<SessionWeekly> sessionData = DefaultUserSessionService.GetWeeklyData(false)
+            List<SessionWeekly> sessionData = _sessionStatisticsProvider.GetWeeklyData(false)
                 .OrderBy(o => o.Year)
                 .ThenBy(o => o.Week)
                 .Take(26)
@@ -101,9 +109,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
             foreach (SessionWeekly week in sessionData)
             {
                 List<Decimal> datavalues = new List<decimal>();
-                Result.DataValues.Add(
-                    week.Week.ToString(Thread.CurrentThread.CurrentUICulture),
-                    datavalues);
+                Result.DataValues[week.Week.ToString(Thread.CurrentThread.CurrentUICulture)] = datavalues;
 
                 datavalues.Add(week.HumanVisits);
                 datavalues.Add(week.MobileVisits);
@@ -115,7 +121,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
         public override string Image()
         {
-            return Constants.SystemImageChart;
+            return SharedPluginFeatures.Constants.SystemImageChart;
         }
 
         public override Enums.SystemAdminMenuType MenuType()

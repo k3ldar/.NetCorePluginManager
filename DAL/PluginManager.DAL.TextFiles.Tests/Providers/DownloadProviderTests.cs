@@ -35,18 +35,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware;
 using Middleware.Downloads;
-
-using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 using SimpleDB;
 using PluginManager.Tests.Mocks;
 
-using SharedPluginFeatures;
-
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
-    [TestClass]
+	[TestClass]
     [ExcludeFromCodeCoverage]
     public class DownloadProviderTests : BaseProviderTests
     {

@@ -28,33 +28,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
+using Middleware;
+using Middleware.SessionData;
+
 using Newtonsoft.Json;
 
 using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
-using UserSessionMiddleware.Plugin.Classes.SessionData;
-
 #pragma warning disable CS1591
 
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns data for hourly visits to be shown in a chart.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class VisitsHourlySubMenu : SystemAdminSubMenu
+	/// <summary>
+	/// Returns data for hourly visits to be shown in a chart.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public sealed class VisitsHourlySubMenu : SystemAdminSubMenu
     {
-        private readonly bool _enabled;
+		#region Private Members
 
-        public VisitsHourlySubMenu(ISettingsProvider settingsProvider)
-        {
-            if (settingsProvider == null)
+		private readonly ISessionStatisticsProvider _sessionStatisticsProvider;
+		private readonly bool _enabled;
+
+		#endregion Private Members
+
+		public VisitsHourlySubMenu(ISettingsProvider settingsProvider, ISessionStatisticsProvider sessionStatisticsProvider)
+		{
+			_sessionStatisticsProvider = sessionStatisticsProvider ?? throw new ArgumentNullException(nameof(sessionStatisticsProvider));
+
+			if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
-            UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(Constants.UserSessionConfiguration);
+            UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(SharedPluginFeatures.Constants.UserSessionConfiguration);
 
             _enabled = settings.EnableDefaultSessionService;
         }
@@ -84,7 +92,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
             Result.ChartTitle = "Hourly Visitor Statistics";
 
-            List<SessionHourly> sessionData = DefaultUserSessionService.GetHourlyData(false)
+            List<SessionHourly> sessionData = _sessionStatisticsProvider.GetHourlyData(false)
                 .OrderBy(o => o.Date)
                 .ThenBy(h => h.Hour)
                 .ThenBy(q => q.Quarter)
@@ -102,9 +110,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
             foreach (SessionHourly hour in sessionData)
             {
                 List<Decimal> datavalues = new List<decimal>();
-                Result.DataValues.Add(
-                    $"{hour.Date.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern.Replace("y", ""))} H{hour.Hour.ToString(Thread.CurrentThread.CurrentUICulture)} Q{hour.Quarter}",
-                    datavalues);
+                Result.DataValues[$"{hour.Date.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern.Replace("y", ""))} H{hour.Hour.ToString(Thread.CurrentThread.CurrentUICulture)} Q{hour.Quarter}"] = datavalues;
 
                 datavalues.Add(hour.HumanVisits);
                 datavalues.Add(hour.MobileVisits);
@@ -116,7 +122,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
         public override string Image()
         {
-            return Constants.SystemImageChart;
+            return SharedPluginFeatures.Constants.SystemImageChart;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
