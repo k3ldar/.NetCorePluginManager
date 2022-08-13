@@ -212,7 +212,6 @@ namespace PluginManager.Tests
         }
 
         [TestMethod]
-		[Timeout(3000)]
 		public void NotificationService_Run_NotifiesAllInterestedListeners_Success()
         {
             ThreadManager.Initialise();
@@ -296,7 +295,6 @@ namespace PluginManager.Tests
         }
 
         [TestMethod]
-		[Timeout(5000)]
 		public void NotificationService_Run_NotifiesAllInterestedListeners_ExceedsQueueSize_Success()
         {
             ThreadManager.Initialise();
@@ -349,7 +347,6 @@ namespace PluginManager.Tests
         }
 
         [TestMethod]
-		[Timeout(5000)]
 		public void NotificationService_Run_NotifiesAllInterestedListeners_NoneFoundSuccess()
         {
             ThreadManager.Initialise();

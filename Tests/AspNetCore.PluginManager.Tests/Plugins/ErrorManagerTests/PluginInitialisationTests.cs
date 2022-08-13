@@ -105,7 +105,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ErrorManagerTests
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-		[Timeout(3000)]
 		public void Finalise_DoesNotThrowException()
         {
             ThreadManager.Initialise();

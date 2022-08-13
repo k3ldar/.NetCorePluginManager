@@ -40,7 +40,7 @@ steps:
     
 - task: VSTest@2
   displayName: Run unit tests
-  enabled: false
+  enabled: true
   continueOnError: true
   inputs:
     runSettingsFile: 'Tests\test.runsettings'
@@ -59,7 +59,7 @@ steps:
 
 - task: PublishTestResults@2
   displayName: Publish test results
-  enabled: false
+  enabled: true
   inputs:
     testResultsFormat: 'VSTest'
     testResultsFiles: '**/TEST-*.xml'

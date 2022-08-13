@@ -54,7 +54,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
-		[Timeout(1500)]
 		public void Construct_InitialisesPluginManager_Success()
         {
             Assert.IsFalse(PluginManagerService.HasInitialised);
@@ -68,7 +67,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
-		[Timeout(3000)]
 		public void ConfigureService_InvalidParamNull_Throws_ArgumentNullException()
         {
             Startup sut = new Startup();
@@ -78,7 +76,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
-		[Timeout(1500)]
 		public void ConfigureServices_EnableEndpointRoutingIsFalse_Success()
         {
             Startup sut = new Startup();
@@ -103,7 +100,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
-		[Timeout(1500)]
 		public void Configure_UseMvcIsCalled_CorrectDefaultRouteAdded()
         {
             IWebHost host = WebHost.CreateDefaultBuilder(new string[] { })

@@ -55,7 +55,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 	public class SessionStatisticsProviderTests : BaseProviderTests
 	{
 		[TestMethod]
-		[Timeout(6000)]
 		public void TestAllMethods_InOneHit_Success()
 		{
 			string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());

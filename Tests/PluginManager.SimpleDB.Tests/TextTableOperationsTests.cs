@@ -469,7 +469,6 @@ namespace SimpleDB.Tests
         }
 
         [TestMethod]
-		[Timeout(3000)]
         public void CompactPercent_AfterMultipleRowsRemoved_IsAccurate_Success()
         {
             string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
@@ -802,7 +801,6 @@ namespace SimpleDB.Tests
         }
 
         [TestMethod]
-		[Timeout(5000)]
         public void Insert_Multiple_Writes15168Records_Compressed_Success()
         {
             string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());

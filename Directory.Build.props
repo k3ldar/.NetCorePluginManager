@@ -10,8 +10,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <BaseOutputPath>$(SolutionDir)..\Output\$(Platform)\$(AssemblyName)</BaseOutputPath>
-    <XmlDocsPath>$(SolutionDir)..\Output\XmlDocs</XmlDocsPath>
+    <BaseOutputPath>$(SolutionDir)Output\$(Platform)</BaseOutputPath>
+    <XmlDocsPath>$(SolutionDir)Docs\XmlFiles</XmlDocsPath>
   </PropertyGroup>
   
   <PropertyGroup>

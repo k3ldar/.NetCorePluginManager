@@ -108,7 +108,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.5" />
     <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="9.0.1" />
     <PackageReference Include="SC.Shared.Library.Core.Windows" Version="1.0.0" />
-    <PackageReference Include="Subdomain.Plugin" Version="4.4.0" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
 
@@ -145,6 +144,12 @@
     <Folder Include="Views\Spider\" />
     <Folder Include="wwwroot\DynamicContent\" />
     <Folder Include="wwwroot\images\Download\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
