@@ -5,6 +5,10 @@ https://sicarterblog.wordpress.com/2018/10/02/asp-net-core-plugin-manager/
 
 ## Devops
 https://dev.azure.com/NetCorePluginManager/NetCorePluginManager
+https://ci.appveyor.com/project/k3ldar/netcorepluginmanager
+
+Build Status master: https://ci.appveyor.com/api/projects/status/o2ievlf7vrs2rn0x/branch/master?svg=true
+Build Status: https://ci.appveyor.com/api/projects/status/o2ievlf7vrs2rn0x?svg=true
 
 # Live Demo
 http://PluginManager.website
