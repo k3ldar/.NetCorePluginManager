@@ -248,14 +248,14 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             if (parent == null)
                 return _faq.Where(f => f.Parent == null).ToList();
 
-            int parentId = parent.Id;
+            long parentId = parent.Id;
 
             return _faq.Where(f => f.Parent != null && f.Parent.Id == parentId).ToList();
         }
 
-        public KnowledgeBaseGroup GetKnowledgebaseGroup(in long userId, in int id)
+        public KnowledgeBaseGroup GetKnowledgebaseGroup(in long userId, in long id)
         {
-            int searchId = id;
+            long searchId = id;
 
             foreach (KnowledgeBaseGroup group in _faq)
             {
@@ -266,7 +266,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return null;
         }
 
-        public bool GetKnowledgebaseItem(in long userId, in int id,
+        public bool GetKnowledgebaseItem(in long userId, in long id,
             out KnowledgeBaseItem knowledgebaseItem, out KnowledgeBaseGroup parentGroup)
         {
             foreach (KnowledgeBaseGroup group in _faq)
@@ -288,12 +288,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return false;
         }
 
-        public void KnowledbaseView(in KnowledgeBaseItem item)
+        public void KnowledgebaseView(in KnowledgeBaseItem item)
         {
             if (item == null)
                 throw new ArgumentNullException(nameof(item));
 
-            item.IncreastViewCount();
+            item.IncreaseViewCount();
         }
 
         #endregion Public FaQ Methods

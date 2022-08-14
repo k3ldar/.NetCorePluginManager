@@ -41,6 +41,8 @@ using ProductPlugin.Models;
 
 using SharedPluginFeatures;
 
+using static SharedPluginFeatures.Constants;
+
 #pragma warning disable CS1591, IDE0060
 
 namespace ProductPlugin.Controllers
@@ -53,12 +55,16 @@ namespace ProductPlugin.Controllers
     {
         #region Private Members
 
+        private const string InvalidModel = "Invalid Model";
+        private const string InvalidProduct = "Invalid Product";
+
         private readonly bool _hasShoppingCart;
         private readonly IProductProvider _productProvider;
         private readonly ProductPluginSettings _settings;
         private readonly IStockProvider _stockProvider;
         private readonly IMemoryCache _memoryCache;
         private readonly IImageProvider _imageProvider;
+        private readonly IShoppingCartProvider _shoppingCartProvider;
 
         #endregion Private Members
 
@@ -66,7 +72,7 @@ namespace ProductPlugin.Controllers
 
         public ProductController(IProductProvider productProvider, ISettingsProvider settingsProvider,
             IPluginHelperService pluginHelper, IStockProvider stockProvider, IMemoryCache memoryCache,
-            IImageProvider imageProvider)
+            IImageProvider imageProvider, IShoppingCartProvider shoppingCartProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
@@ -74,13 +80,14 @@ namespace ProductPlugin.Controllers
             if (pluginHelper == null)
                 throw new ArgumentNullException(nameof(pluginHelper));
 
-            _settings = settingsProvider.GetSettings<ProductPluginSettings>("Products");
+            _settings = settingsProvider.GetSettings<ProductPluginSettings>(Name);
 
             _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
             _stockProvider = stockProvider ?? throw new ArgumentNullException(nameof(stockProvider));
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _hasShoppingCart = pluginHelper.PluginLoaded(SharedPluginFeatures.Constants.PluginNameShoppingCart, out _);
             _imageProvider = imageProvider ?? throw new ArgumentNullException(nameof(imageProvider));
+            _shoppingCartProvider = shoppingCartProvider ?? throw new ArgumentNullException(nameof(shoppingCartProvider));
         }
 
         #endregion Constructors
@@ -102,7 +109,6 @@ namespace ProductPlugin.Controllers
         [HttpGet]
         [Route("/Products/{groupName}/{id?}/Page/{page}/")]
         [Route("/Products/{groupName}/{id?}/")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public IActionResult Index(string groupName, int? id, int? page)
         {
             ProductGroup group = null;
@@ -113,7 +119,10 @@ namespace ProductPlugin.Controllers
             if (group == null)
                 group = _productProvider.ProductGroupsGet().FirstOrDefault();
 
-            if (!page.HasValue || (page.HasValue && page.Value < 1))
+            if (group == null)
+                return RedirectToAction(nameof(Index));
+
+            if (!page.HasValue || page.Value < 1)
                 page = 1;
 
             List<Product> products = _productProvider.GetProducts(group, page.Value, (int)_settings.ProductsPerPage);
@@ -125,7 +134,6 @@ namespace ProductPlugin.Controllers
 
         [HttpGet]
         [Route("/Product/{id}/{productName}/")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public IActionResult Product(int id, string productName)
         {
             ProductModel model = GetProductModel(id);
@@ -141,11 +149,14 @@ namespace ProductPlugin.Controllers
         public IActionResult AddToCart(AddToCartModel model)
         {
             if (model == null)
-                throw new ArgumentNullException(nameof(model));
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidModel);
 
             Product product = _productProvider.GetProduct(model.Id);
-            IShoppingCartProvider provider = (IShoppingCartProvider)HttpContext.RequestServices.GetService(typeof(IShoppingCartProvider));
-            provider.AddToCart(GetUserSession(), GetCartSummary(), product, model.Quantity);
+
+            if (product == null)
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidProduct);
+
+            _shoppingCartProvider.AddToCart(GetUserSession(), GetCartSummary(), product, model.Quantity);
 
             return RedirectToAction("Product", "Product", new { id = model.Id, productName = BaseModel.RouteFriendlyName(product.Name) });
         }
@@ -156,23 +167,14 @@ namespace ProductPlugin.Controllers
 
         private ProductGroupModel GetProductGroupModel(in ProductGroup group, List<Product> products, in int page)
         {
-            if (group == null)
-                throw new ArgumentNullException(nameof(group));
-
-            if (products == null)
-                throw new ArgumentNullException(nameof(products));
-
-            if (page < 1)
-                throw new ArgumentOutOfRangeException(nameof(page));
-
-            List<ProductCategoryModel> modelCategories = new List<ProductCategoryModel>();
+            List<ProductCategoryModel> modelCategories = new();
 
             foreach (ProductGroup item in _productProvider.ProductGroupsGet())
             {
                 modelCategories.Add(new ProductCategoryModel(item.Id, item.Description, item.Url));
             }
 
-            ProductGroupModel Result = new ProductGroupModel(GetModelData(),
+            ProductGroupModel Result = new(GetModelData(),
                 modelCategories, group.Description, group.TagLine);
 
             foreach (Product product in products)
@@ -196,7 +198,7 @@ namespace ProductPlugin.Controllers
         {
             ProductModel Result;
 
-            List<ProductCategoryModel> modelCategories = new List<ProductCategoryModel>();
+            List<ProductCategoryModel> modelCategories = new();
 
             foreach (ProductGroup item in _productProvider.ProductGroupsGet())
             {
@@ -208,24 +210,16 @@ namespace ProductPlugin.Controllers
             if (product == null)
                 return null;
 
-            if (product != null)
-            {
-                _stockProvider.GetStockAvailability(product);
+            _stockProvider.GetStockAvailability(product);
 
-                if (_productProvider.ProductGroupGet(product.ProductGroupId) == null)
-                    return null;
+            if (_productProvider.ProductGroupGet(product.ProductGroupId) == null)
+                return null;
 
 
-
-                Result = new ProductModel(GetModelData(), modelCategories, product.Id, product.ProductGroupId,
-                    product.Name, product.Description, product.Features, product.VideoLink, GetImageNameArray(product),
-                    product.RetailPrice, product.Sku, product.NewProduct, product.BestSeller,
-                    _hasShoppingCart && product.RetailPrice > 0, product.StockAvailability);
-            }
-            else
-            {
-                Result = new ProductModel(GetModelData(), modelCategories);
-            }
+            Result = new ProductModel(GetModelData(), modelCategories, product.Id, product.ProductGroupId,
+                product.Name, product.Description, product.Features, product.VideoLink, GetImageNameArray(product),
+                product.RetailPrice, product.Sku, product.NewProduct, product.BestSeller,
+                _hasShoppingCart && product.RetailPrice > 0, product.StockAvailability);
 
 
 
@@ -242,11 +236,11 @@ namespace ProductPlugin.Controllers
 
         private string[] GetImageNameArray(Product product)
         {
-            List<Middleware.Images.ImageFile> images = _imageProvider.Images(SharedPluginFeatures.Constants.ProductImageFolderName, product.Sku)
+            List<Middleware.Images.ImageFile> images = _imageProvider.Images(ProductImageFolderName, product.Sku)
                     .Where(i => i.Name.Contains("_orig"))
                     .ToList();
 
-            List<string> imageNames = new List<string>();
+            List<string> imageNames = new();
             images.ForEach(i => imageNames.Add(i.Name.Substring(0, i.Name.IndexOf("_orig"))));
 
             return imageNames.ToArray();

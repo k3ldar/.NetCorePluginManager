@@ -207,7 +207,7 @@ namespace UserAccount.Plugin.Controllers
 
             if (deliveryAddress != null)
             {
-                model.AddressId = deliveryAddress.AddressId;
+                model.AddressId = deliveryAddress.Id;
                 model.AddressLine1 = deliveryAddress.AddressLine1;
                 model.AddressLine2 = deliveryAddress.AddressLine2;
                 model.AddressLine3 = deliveryAddress.AddressLine3;

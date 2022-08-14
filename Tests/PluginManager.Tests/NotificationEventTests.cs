@@ -212,7 +212,7 @@ namespace PluginManager.Tests
         }
 
         [TestMethod]
-        public void NotificationService_Run_NotifiesAllInterestedListeners_Success()
+		public void NotificationService_Run_NotifiesAllInterestedListeners_Success()
         {
             ThreadManager.Initialise();
             MockLogger testLogger = new MockLogger();
@@ -295,7 +295,7 @@ namespace PluginManager.Tests
         }
 
         [TestMethod]
-        public void NotificationService_Run_NotifiesAllInterestedListeners_ExceedsQueueSize_Success()
+		public void NotificationService_Run_NotifiesAllInterestedListeners_ExceedsQueueSize_Success()
         {
             ThreadManager.Initialise();
             MockLogger testLogger = new MockLogger();
@@ -347,7 +347,7 @@ namespace PluginManager.Tests
         }
 
         [TestMethod]
-        public void NotificationService_Run_NotifiesAllInterestedListeners_NoneFoundSuccess()
+		public void NotificationService_Run_NotifiesAllInterestedListeners_NoneFoundSuccess()
         {
             ThreadManager.Initialise();
             MockLogger testLogger = new MockLogger();

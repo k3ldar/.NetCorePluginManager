@@ -75,7 +75,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void ConfigureServices_EnableEndpointRoutingIsFalse_Success()
+		public void ConfigureServices_EnableEndpointRoutingIsFalse_Success()
         {
             ThreadManager.Initialise();
             try

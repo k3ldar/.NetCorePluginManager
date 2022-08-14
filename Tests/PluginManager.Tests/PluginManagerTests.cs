@@ -45,9 +45,15 @@ namespace PluginManager.Tests
     [ExcludeFromCodeCoverage]
     public class PluginManagerTests
     {
-        private const string BadEggPluginFilePath = "..\\..\\..\\..\\..\\Plugins\\BadEgg.Plugin\\bin\\Debug\\net5.0\\BadEgg.Plugin.dll";
-        private const string CompanyPluginFilePath = "..\\..\\..\\..\\..\\Plugins\\Company.Plugin\\bin\\Debug\\net5.0\\Company.Plugin.dll";
-        private const string CompanyPluginPath = "..\\..\\..\\..\\..\\Plugins\\Company.Plugin\\bin\\Debug\\net5.0\\";
+#if DEBUG
+		private const string Build = "Debug";
+#else
+		private const string Build = "Release";
+#endif
+
+		private const string BadEggPluginFilePath = "BadEgg.Plugin.dll";
+        private const string CompanyPluginFilePath = "Company.Plugin.dll";
+		private const string CompanyPluginPath = "";
 
         [TestInitialize]
         public void StartTest()
@@ -277,7 +283,7 @@ namespace PluginManager.Tests
         }
 
         [TestMethod]
-        public void CreatePluginAddSinglePluginConfigureCustomServices()
+		public void CreatePluginAddSinglePluginConfigureCustomServices()
         {
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
@@ -309,7 +315,7 @@ namespace PluginManager.Tests
         }
 
         [TestMethod]
-        public void CreatePluginAddSinglePluginConfigureCustomServicesCreateInstanceOf()
+		public void CreatePluginAddSinglePluginConfigureCustomServicesCreateInstanceOf()
         {
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
@@ -334,7 +340,7 @@ namespace PluginManager.Tests
         }
 
         [TestMethod]
-        public void CreatePluginAddSinglePluginConfigureCustomServicesGetPluginClass()
+		public void CreatePluginAddSinglePluginConfigureCustomServicesGetPluginClass()
         {
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
@@ -360,7 +366,7 @@ namespace PluginManager.Tests
         }
 
         [TestMethod]
-        public void CreatePluginAddSinglePluginensureItIsLoaded()
+		public void CreatePluginAddSinglePluginensureItIsLoaded()
         {
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
@@ -780,7 +786,7 @@ namespace PluginManager.Tests
         }
 
         [TestMethod]
-        public void PluginGetClassTypes_CreatePluginLoadSelf_FindClassDescendingFromClass()
+		public void PluginGetClassTypes_CreatePluginLoadSelf_FindClassDescendingFromClass()
         {
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
@@ -796,7 +802,7 @@ namespace PluginManager.Tests
         }
 
         [TestMethod]
-        public void PluginGetClassTypes_CreatePluginLoadSelfFindInterfaceDescendents()
+		public void PluginGetClassTypes_CreatePluginLoadSelfFindInterfaceDescendents()
         {
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
@@ -812,7 +818,7 @@ namespace PluginManager.Tests
         }
 
         [TestMethod]
-        public void PluginGetClasses_CreatePluginEnsureINotificationServiceRegistered()
+		public void PluginGetClasses_CreatePluginEnsureINotificationServiceRegistered()
         {
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
@@ -828,7 +834,7 @@ namespace PluginManager.Tests
         }
 
         [TestMethod]
-        public void CreatePluginEnsureIPluginClassesServiceRegistered()
+		public void CreatePluginEnsureIPluginClassesServiceRegistered()
         {
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
@@ -844,7 +850,7 @@ namespace PluginManager.Tests
         }
 
         [TestMethod]
-        public void CreatePluginEnsureIPluginHelperServiceRegistered()
+		public void CreatePluginEnsureIPluginHelperServiceRegistered()
         {
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
@@ -860,7 +866,7 @@ namespace PluginManager.Tests
         }
 
         [TestMethod]
-        public void CreatePluginEnsureIPluginTypesServiceRegistered()
+		public void CreatePluginEnsureIPluginTypesServiceRegistered()
         {
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
@@ -876,7 +882,7 @@ namespace PluginManager.Tests
         }
 
         [TestMethod]
-        public void CreatePluginEnsureILoggerRegistered()
+		public void CreatePluginEnsureILoggerRegistered()
         {
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
@@ -892,7 +898,7 @@ namespace PluginManager.Tests
         }
 
         [TestMethod]
-        public void CreatePluginEnsureISettingsProviderRegistered()
+		public void CreatePluginEnsureISettingsProviderRegistered()
         {
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))

@@ -27,6 +27,8 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
+using AspNetCore.PluginManager.Tests.Shared;
+
 namespace AspNetCore.PluginManager.Tests.MiddlewareTests
 {
     [ExcludeFromCodeCoverage]

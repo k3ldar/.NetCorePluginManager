@@ -14405,4 +14405,76 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Uptime</value>
     <comment>Uptime</comment>
   </data>
+  <data name="ManageProducts" xml:space="preserve">
+    <value>Manage Products</value>
+    <comment>Manage Products</comment>
+  </data>
+  <data name="NoProductsFound" xml:space="preserve">
+    <value>No products found</value>
+    <comment>No products found</comment>
+  </data>
+  <data name="AppErrorInvalidProductDescription" xml:space="preserve">
+    <value>Please provide a valid product description.</value>
+    <comment>Please provide a valid product description.</comment>
+  </data>
+  <data name="AppErrorInvalidProductPrice" xml:space="preserve">
+    <value>Product price must be at least zero.</value>
+    <comment>Product price must be at least zero.</comment>
+  </data>
+  <data name="AppErrorInvalidProductSku" xml:space="preserve">
+    <value>Please provide a valid SKU for the product.</value>
+    <comment>Please provide a valid SKU for the product.</comment>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+    <comment>Confirm</comment>
+  </data>
+  <data name="ConfirmDeleteWord" xml:space="preserve">
+    <value>Please write CONFIRM in the text box above and click delete</value>
+    <comment>Please write CONFIRM in the text box above and click delete</comment>
+  </data>
+  <data name="ManageProductGroups" xml:space="preserve">
+    <value>Manage Product Groups</value>
+    <comment>Manage Product Groups</comment>
+  </data>
+  <data name="NoProductsGroupsFound" xml:space="preserve">
+    <value>No product groups were found</value>
+    <comment>No product groups were found</comment>
+  </data>
+  <data name="AppErrorInvalidProductGroupDescription" xml:space="preserve">
+    <value>Please provide a valid product group description.</value>
+    <comment>Please provide a valid product group description.</comment>
+  </data>
+  <data name="AppMenuEditProducGroup" xml:space="preserve">
+    <value>Edit product group</value>
+    <comment>Edit product group</comment>
+  </data>
+  <data name="CreateProductGroup" xml:space="preserve">
+    <value>Create product group</value>
+    <comment>Create product group</comment>
+  </data>
+  <data name="AppMenuEditProductGroup" xml:space="preserve">
+    <value>Edit Product Group</value>
+    <comment>Edit Product Group</comment>
+  </data>
+  <data name="AppMenuNewProduct" xml:space="preserve">
+    <value>New Product</value>
+    <comment>New Product</comment>
+  </data>
+  <data name="AppMenuNewProductGroup" xml:space="preserve">
+    <value>New Product Group</value>
+    <comment>New Product Group</comment>
+  </data>
+  <data name="ProductGroupContainsProducts" xml:space="preserve">
+    <value>The product group contains products</value>
+    <comment>The product group contains products</comment>
+  </data>
+  <data name="ProductGroupMustHaveOneGroup" xml:space="preserve">
+    <value>There must be at least 1 product group</value>
+    <comment>There must be at least 1 product group</comment>
+  </data>
+  <data name="ProductGroupNotFound" xml:space="preserve">
+    <value>The product group could not be found</value>
+    <comment>The product group could not be found</comment>
+  </data>
 </root>

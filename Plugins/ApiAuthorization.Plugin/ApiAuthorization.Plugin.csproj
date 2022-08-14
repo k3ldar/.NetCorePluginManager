@@ -39,8 +39,16 @@
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
-    <DocumentationFile>..\..\Docs\XmlFiles\ApiAuthorization.Plugin.xml</DocumentationFile>
+    <DocumentationFile>$(XmlDocsPath)\ApiAuthorization.Plugin.xml</DocumentationFile>
   </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
+	  <WarningLevel>5</WarningLevel>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
+	  <WarningLevel>5</WarningLevel>
+	</PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="2.1.0" />

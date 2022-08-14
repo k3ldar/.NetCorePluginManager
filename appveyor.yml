@@ -1,0 +1,38 @@
+version: 1.0.{build}
+pull_requests:
+  do_not_increment_build_number: true
+image: Visual Studio 2022
+configuration: Release
+platform: Any CPU
+nuget:
+  disable_publish_on_pr: true
+  disable_publish_octopus: true
+before_build:
+- ps: >-
+    Install-Module -Name SignPath
+
+    nuget restore
+build:
+  project: AspNetCore.PluginManager.Solution.sln
+  parallel: true
+  verbosity: minimal
+after_build:
+- cmd: >-
+    7z a NugetFiles.zip %APPVEYOR_BUILD_FOLDER%\Output\AnyCPU\Release\*.nupkg
+- cmd: >-
+    7z a -r Website.zip %APPVEYOR_BUILD_FOLDER%\Output\AnyCPU\Release\net6.0\*.*
+test: off
+artifacts:
+- path: Nugetfiles.zip
+  name: Nuget Packages
+- path: Website.zip
+  name: Website
+- path: Output\Signed\**\*
+  name: Signed
+notifications:
+- provider: Email
+  to:
+  - s1cart3r@gmail.com
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: true

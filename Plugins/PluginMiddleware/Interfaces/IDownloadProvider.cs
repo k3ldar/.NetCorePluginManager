@@ -23,7 +23,6 @@
  *  05/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 using System.Collections.Generic;
 
 using Middleware.Downloads;
@@ -44,7 +43,7 @@ namespace Middleware
         /// </summary>
         /// <param name="userId">Id of the user requesting a download, if they are logged in.</param>
         /// <returns>List&lt;DownloadCategory&gt;</returns>
-        List<DownloadCategory> DownloadCategoriesGet(in Int64 userId);
+        List<DownloadCategory> DownloadCategoriesGet(in long userId);
 
         /// <summary>
         /// Publicy downloadable file Categories
@@ -57,7 +56,7 @@ namespace Middleware
         /// </summary>
         /// <param name="fileId">Unique id of the file being downloaded.</param>
         /// <returns>DownloadItem</returns>
-        DownloadItem GetDownloadItem(in int fileId);
+        DownloadItem GetDownloadItem(in long fileId);
 
         /// <summary>
         /// Retrieve File
@@ -65,20 +64,20 @@ namespace Middleware
         /// <param name="userId">Id of the user requesting a download, if they are logged in.</param>
         /// <param name="fileId">Unique id of the file being downloaded.</param>
         /// <returns>DownloadItem</returns>
-        DownloadItem GetDownloadItem(in Int64 userId, in int fileId);
+        DownloadItem GetDownloadItem(in long userId, in long fileId);
 
         /// <summary>
         /// File download by a user
         /// </summary>
         /// <param name="userId">Id of the user requesting a download, if they are logged in.</param>
         /// <param name="fileId">Unique id of the file being downloaded.</param>
-        void ItemDownloaded(in Int64 userId, in int fileId);
+        void ItemDownloaded(in long userId, in long fileId);
 
         /// <summary>
         /// File download by anyone
         /// </summary>
         /// <param name="fileId">Unique id of the file being downloaded.</param>
-        void ItemDownloaded(in int fileId);
+        void ItemDownloaded(in long fileId);
 
         #endregion Downloads
     }

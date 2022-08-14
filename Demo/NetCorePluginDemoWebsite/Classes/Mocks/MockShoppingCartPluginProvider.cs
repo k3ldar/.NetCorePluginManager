@@ -150,9 +150,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 Product product = _productProvider.GetProducts(1, 10000).Where(p => p.RetailPrice > 0).FirstOrDefault();
                 bool requiresShipping = !product.IsDownload;
 
-                items.Add(new ShoppingCartItem(product.Id, 1, product.RetailPrice, product.Name,
+                items.Add(new ShoppingCartItem(product.Id, 1, product.Id, product.RetailPrice, product.Name,
                     product.Description.Substring(0, Shared.Utilities.CheckMinMax(product.Description.Length, 0, 49)),
-                    product.Sku, product.Images, product.IsDownload, product.AllowBackorder, String.Empty));
+                    product.Sku, product.Images, product.IsDownload, product.AllowBackorder, String.Empty, DiscountType.None, 0));
                 ShoppingCartDetail cartDetail = new ShoppingCartDetail(shoppingCartId, 1,
                     product.RetailPrice, 20, 0, 10, System.Threading.Thread.CurrentThread.CurrentUICulture,
                     "Test Coupon", items, requiresShipping, "GBP");

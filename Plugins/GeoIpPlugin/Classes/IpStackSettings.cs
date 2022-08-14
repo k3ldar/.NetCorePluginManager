@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Net.Http;
 
 using AppSettings;
 
@@ -31,7 +32,7 @@ using PluginManager;
 
 using SharedPluginFeatures;
 
-#pragma warning disable CA1707
+#pragma warning disable CA1707, IDE1006
 
 namespace GeoIp.Plugin
 {
@@ -79,13 +80,12 @@ namespace GeoIp.Plugin
             ipFrom = 0;
             ipTo = 0;
 
-            System.Net.WebClient wc = new System.Net.WebClient();
+            HttpClient client = new HttpClient();
             try
             {
-                byte[] raw = wc.DownloadData($"http://api.ipstack.com/{ipAddress}?access_key={ApiKey}");
+                byte[] response = client.GetByteArrayAsync($"http://api.ipstack.com/{ipAddress}?access_key={ApiKey}").Result;
 
-                string webData = System.Text.Encoding.UTF8.GetString(raw);
-
+                string webData = System.Text.Encoding.UTF8.GetString(response);
                 IpStackData city = Newtonsoft.Json.JsonConvert.DeserializeObject<IpStackData>(webData);
 
                 if (!city.success)
@@ -109,8 +109,7 @@ namespace GeoIp.Plugin
             }
             finally
             {
-                wc.Dispose();
-                wc = null;
+                client.Dispose();
             }
         }
 
@@ -223,4 +222,4 @@ namespace GeoIp.Plugin
     }
 }
 
-#pragma warning disable CA1707
+#pragma warning restore CA1707, IDE1006

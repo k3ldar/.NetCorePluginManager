@@ -42,7 +42,7 @@
   </ItemGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
-    <DocumentationFile>..\..\Docs\XmlFiles\MemoryCache.Plugin.xml</DocumentationFile>
+    <DocumentationFile>$(XmlDocsPath)\MemoryCache.Plugin.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

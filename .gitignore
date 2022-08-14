@@ -376,3 +376,6 @@ ASALocalRun/
 /Demo/NetCorePluginDemoWebsite/Views/Spider/*
 /Demo/NetCorePluginDemoWebsite/wwwroot/images/Error/*
 /Demo/NetCorePluginDemoWebsite/wwwroot/images/login/*
+/Demo/NetCorePluginDemoWebsite/Views/Services/*
+/Demo/NetCorePluginDemoWebsite/wwwroot/js/*
+/Demo/NetCorePluginDemoWebsite/wwwroot/css/*

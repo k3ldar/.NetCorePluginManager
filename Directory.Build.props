@@ -1,10 +1,17 @@
 <Project>
+  
   <PropertyGroup>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
-	<NoWarn>CS1591</NoWarn>
+    <NoWarn>1701;1702;8032</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>Shared.Key.pfx</AssemblyOriginatorKeyFile>
     <Description>Plugin Manager</Description>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <BaseOutputPath>$(SolutionDir)Output\$(Platform)</BaseOutputPath>
+    <XmlDocsPath>$(SolutionDir)Docs\XmlFiles</XmlDocsPath>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -27,42 +34,42 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net6.0'">
-    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_6_0;NET_6_X</DefineConstants>
+    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_6_0;NET_6_X;ISO_WEEK</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net6.0'">
-    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_6_0;NET_6_X</DefineConstants>
+    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_6_0;NET_6_X;ISO_WEEK</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net5.0'">
-    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_5_0;NET_5_X</DefineConstants>
+    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_5_0;NET_5_X;ISO_WEEK</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net5.0'">
-    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_5_0;NET_5_X</DefineConstants>
+    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_5_0;NET_5_X;ISO_WEEK</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp3.1'">
-    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_CORE_3_1;NET_CORE_3_X</DefineConstants>
+    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_CORE_3_1;NET_CORE_3_X;ISO_WEEK</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netcoreapp3.1'">
-    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_CORE_3_1;NET_CORE_3_X</DefineConstants>
+    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_CORE_3_1;NET_CORE_3_X;ISO_WEEK</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
@@ -82,8 +89,18 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net5.0|AnyCPU'">
-    <NoWarn>1701;1702;</NoWarn>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netstandard2.1'">
+    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_STANDARD;ISO_WEEK</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netstandard2.1'">
+    <DefineConstants>CODE_ANALYSIS;NET_STANDARD;ISO_WEEK</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
 </Project>

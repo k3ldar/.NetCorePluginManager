@@ -28,21 +28,29 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Middleware;
+
 namespace UserSessionMiddleware.Plugin.Classes.SessionData
 {
     /// <summary>
     /// Contains a list of page views for all user sessions
     /// </summary>
-    public sealed class SessionPageViews
-    {
-        #region Constructors
+    public sealed class SessionPageViews : IUrlHash
+	{
+		#region Private Members
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public SessionPageViews()
-        {
-            PageViews = new List<SessionPageView>();
+		private IUrlHashProvider _urlHashProvider;
+
+		#endregion Private Members
+
+		#region Constructors
+
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public SessionPageViews()
+		{
+			PageViews = new List<SessionPageView>();
         }
 
         #endregion Constructors
@@ -76,7 +84,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SessionData
             if (String.IsNullOrEmpty(url))
                 return;
 
-            string hash = DefaultUserSessionService.GetUrlHash(url);
+            string hash = _urlHashProvider.GetUrlHash(url);
             SessionPageView currentSession = PageViews
                 .Where(pv => pv.Hash == hash && pv.Year == timeStamp.Year && pv.Month == timeStamp.Month)
                 .FirstOrDefault();
@@ -108,6 +116,16 @@ namespace UserSessionMiddleware.Plugin.Classes.SessionData
             IsDirty = true;
         }
 
-        #endregion Public Methods
-    }
+		/// <summary>
+		/// Sets the url hash provider interface
+		/// </summary>
+		/// <param name="urlHashProvider"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public void SetUrlHash(IUrlHashProvider urlHashProvider)
+		{
+			_urlHashProvider = urlHashProvider ?? throw new ArgumentNullException(nameof(urlHashProvider));
+		}
+
+		#endregion Public Methods
+	}
 }

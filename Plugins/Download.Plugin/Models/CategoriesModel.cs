@@ -38,7 +38,7 @@ namespace DownloadPlugin.Models
         /// </summary>
         /// <param name="id">Category id.</param>
         /// <param name="name">Category name.</param>
-        public CategoriesModel(in int id, in string name)
+        public CategoriesModel(in long id, in string name)
         {
             Id = id;
             Name = name;
@@ -52,7 +52,7 @@ namespace DownloadPlugin.Models
         /// Category id.
         /// </summary>
         /// <value>int</value>
-        public int Id { get; private set; }
+        public long Id { get; private set; }
 
         /// <summary>
         /// Category name.

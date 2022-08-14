@@ -31,6 +31,7 @@ using System.Text;
 using System.Web;
 
 using static Shared.Utilities;
+using SharedPluginFeatures;
 
 #pragma warning disable CS1591
 
@@ -172,6 +173,8 @@ namespace ShoppingCartPlugin.Classes.Paypoint
             PostItems.Add("currency", Currency);
         }
 
+#pragma warning disable SYSLIB0014 // Type or member is obsolete
+
         /// <summary>
         /// Posts data to a specified url. Note that this assumes that you have already url encoded the post data.
         /// </summary>
@@ -219,7 +222,9 @@ namespace ShoppingCartPlugin.Classes.Paypoint
             return result;
         }
 
-        private void EncodeAndAddItem(ref StringBuilder baseRequest, string key, string dataItem)
+#pragma warning restore SYSLIB0014 // Type or member is obsolete
+
+        private static void EncodeAndAddItem(ref StringBuilder baseRequest, string key, string dataItem)
         {
             if (baseRequest == null)
             {
@@ -228,11 +233,11 @@ namespace ShoppingCartPlugin.Classes.Paypoint
 
             if (baseRequest.Length != 0)
             {
-                baseRequest.Append("&");
+                baseRequest.Append(Constants.AmpersandChar);
             }
 
             baseRequest.Append(key);
-            baseRequest.Append("=");
+            baseRequest.Append(Constants.EqualsChar);
             baseRequest.Append(HttpUtility.UrlEncode(dataItem));
         }
 

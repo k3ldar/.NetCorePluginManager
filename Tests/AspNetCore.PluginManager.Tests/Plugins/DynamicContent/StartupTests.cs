@@ -55,7 +55,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
 
         [TestMethod]
-        public void Construct_InitialisesPluginManager_Success()
+		public void Construct_InitialisesPluginManager_Success()
         {
             Assert.IsFalse(PluginManagerService.HasInitialised);
 
@@ -75,7 +75,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
-        public void ConfigureServices_EnableEndpointRoutingIsFalse_Success()
+		public void ConfigureServices_EnableEndpointRoutingIsFalse_Success()
         {
             ThreadManager.Initialise();
             try
@@ -105,7 +105,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
-        public void Configure_UseMvcIsCalled_CorrectDefaultRouteAdded()
+		public void Configure_UseMvcIsCalled_CorrectDefaultRouteAdded()
         {
             ThreadManager.Initialise();
             try

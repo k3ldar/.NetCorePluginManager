@@ -29,6 +29,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Web;
 
+using AspNetCore.PluginManager.Tests.Shared;
+
 using BadEgg.Plugin.WebDefender;
 
 using Microsoft.AspNetCore.Http;

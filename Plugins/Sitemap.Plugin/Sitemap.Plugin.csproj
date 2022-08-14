@@ -33,7 +33,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
-    <DocumentationFile>..\..\Docs\XmlFiles\Sitemap.Plugin.xml</DocumentationFile>
+    <DocumentationFile>$(XmlDocsPath)\Sitemap.Plugin.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

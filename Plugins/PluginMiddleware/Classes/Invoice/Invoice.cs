@@ -47,7 +47,7 @@ namespace Middleware.Accounts.Invoices
         /// <param name="paymentStatus">Current payment status for the invoice.</param>
         /// <param name="deliveryAddress">The address where the invoice has been dispatched to.</param>
         /// <param name="invoiceItems">List of all invoice items.</param>
-        public Invoice(in int id, in DateTime date, in decimal postage, in CultureInfo culture,
+        public Invoice(in long id, in DateTime date, in decimal postage, in CultureInfo culture,
             in ProcessStatus processStatus, in PaymentStatus paymentStatus,
             DeliveryAddress deliveryAddress, List<InvoiceItem> invoiceItems)
         {
@@ -75,7 +75,7 @@ namespace Middleware.Accounts.Invoices
         /// Unique invoice id.
         /// </summary>
         /// <value>int</value>
-        public int Id { get; private set; }
+        public long Id { get; private set; }
 
         /// <summary>
         /// Date and time the invoice was created.

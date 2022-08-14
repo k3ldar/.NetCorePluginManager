@@ -31,6 +31,8 @@ using Middleware;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace HelpdeskPlugin.Models
 {
     public sealed class SubmitTicketViewModel : BaseModel
@@ -89,3 +91,5 @@ namespace HelpdeskPlugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

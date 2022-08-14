@@ -23,14 +23,8 @@
  *  30/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
@@ -39,10 +33,10 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager
 {
-    /// <summary>
-    /// Plugin Manager IMvcBuilder extension class.
-    /// </summary>
-    public static class ConfigurePluginManagerExtender
+	/// <summary>
+	/// Plugin Manager IMvcBuilder extension class.
+	/// </summary>
+	public static class ConfigurePluginManagerExtender
     {
         #region Public Static Methods
 

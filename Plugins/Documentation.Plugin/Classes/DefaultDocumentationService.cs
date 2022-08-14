@@ -65,9 +65,9 @@ namespace DocumentationPlugin.Classes
 
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _documentation = settingsProvider.GetSettings<DocumentationSettings>(nameof(DocumentationSettings));
-            _fileNameFile = Path.GetFullPath(Path.Combine(_documentation.Path, "Settings", "Files.dat"));
-            _xmlFilePath = Path.GetFullPath(Path.Combine(_documentation.Path, "XmlFiles"));
-            _customDataPath = Path.GetFullPath(Path.Combine(_documentation.Path, "Custom"));
+            _fileNameFile = Path.Combine(Path.GetFullPath(_documentation.Path), "Settings", "Files.dat");
+            _xmlFilePath = Path.Combine(Path.GetFullPath(_documentation.Path), "XmlFiles");
+            _customDataPath = Path.Combine(Path.GetFullPath(_documentation.Path), "Custom");
 
             if (!Directory.Exists(_documentation.Path))
                 Directory.CreateDirectory(_documentation.Path);

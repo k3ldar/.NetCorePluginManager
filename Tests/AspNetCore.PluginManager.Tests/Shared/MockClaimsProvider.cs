@@ -30,6 +30,8 @@ using System.Security.Claims;
 
 using Microsoft.AspNetCore.Authentication;
 
+using PluginManager.Abstractions;
+
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.Shared

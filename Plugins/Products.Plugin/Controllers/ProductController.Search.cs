@@ -27,6 +27,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 
 using Languages;
 
@@ -250,7 +252,7 @@ namespace ProductPlugin.Controllers
                             if (i == prices.Length - 1)
                             {
                                 priceGroups.Add(new ProductPriceInfo(
-                                    $"{LanguageStrings.Over} {FormatMoney(value, culture)}", lastValue, value));
+                                    $"{LanguageStrings.Over} {FormatMoney(value, culture)}", value, Decimal.MaxValue));
                             }
 
                             lastValue = value;
@@ -304,8 +306,21 @@ namespace ProductPlugin.Controllers
 
         private void GetSearchId(in ProductSearchViewModel model)
         {
-            model.SearchName = String.Empty;
-            model.SearchName = $"P{JsonConvert.SerializeObject(model).GetHashCode(StringComparison.InvariantCultureIgnoreCase)}";
+            // Use input string to calculate MD5 hash
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] inputBytes = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(model));
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                // Convert the byte array to hexadecimal string
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+
+                model.SearchName = $"P{sb.ToString()}";
+            }
         }
 
         #endregion Private Methods

@@ -78,7 +78,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
         public bool HasSaveUserInput { get; set; }
 
-        public int CreateCustomPage()
+        public long CreateCustomPage()
         {
             return 50;
         }
@@ -101,14 +101,14 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
             if (UseDefaultContent)
             {
-                Result.Add(new LookupListItem(GetPage1().Id, GetPage1().Name));
-                Result.Add(new LookupListItem(GetPage2().Id, GetPage2().Name));
-                Result.Add(new LookupListItem(GetPage3().Id, GetPage3().Name));
-                Result.Add(new LookupListItem(GetPage10().Id, GetPage10().Name));
+                Result.Add(new LookupListItem((int)GetPage1().Id, GetPage1().Name));
+                Result.Add(new LookupListItem((int)GetPage2().Id, GetPage2().Name));
+                Result.Add(new LookupListItem((int)GetPage3().Id, GetPage3().Name));
+                Result.Add(new LookupListItem((int)GetPage10().Id, GetPage10().Name));
             }
 
 
-            _dynamicContent.ForEach(dc => Result.Add(new LookupListItem(dc.Id, dc.Name)));
+            _dynamicContent.ForEach(dc => Result.Add(new LookupListItem((int)dc.Id, dc.Name)));
 
             return Result;
         }
@@ -130,7 +130,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
             return Result;
         }
 
-        public IDynamicContentPage GetCustomPage(int id)
+        public IDynamicContentPage GetCustomPage(long id)
         {
             if (UseDefaultContent && id == 1)
             {
@@ -165,12 +165,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
             return _templates;
         }
 
-        public bool PageNameExists(int id, string pageName)
+        public bool PageNameExists(long id, string pageName)
         {
             return GetCustomPages().Where(p => p.Id != id && p.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase)).Any();
         }
 
-        public bool RouteNameExists(int id, string routeName)
+        public bool RouteNameExists(long id, string routeName)
         {
             return GetCustomPages().Where(p => p.Id != id && p.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).Any();
         }

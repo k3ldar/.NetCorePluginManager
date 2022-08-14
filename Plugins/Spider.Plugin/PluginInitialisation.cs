@@ -23,8 +23,6 @@
  *  29/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -81,17 +79,11 @@ namespace Spider.Plugin
 
         #endregion IInitialiseEvents Methods
 
-        #region Internal Static Properties
-
-        internal static ILogger GetLogger { get; private set; }
-
-        #endregion Internal Static Properties
-
         #region IPlugin Methods
 
         public void Initialise(ILogger logger)
         {
-            GetLogger = logger ?? throw new ArgumentNullException(nameof(logger));
+
         }
 
         public void Finalise()

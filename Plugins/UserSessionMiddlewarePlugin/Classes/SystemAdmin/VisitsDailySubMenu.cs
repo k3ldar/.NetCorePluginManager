@@ -28,33 +28,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
+using Middleware;
+using Middleware.SessionData;
+
 using Newtonsoft.Json;
 
 using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
-using UserSessionMiddleware.Plugin.Classes.SessionData;
-
 #pragma warning disable CS1591
 
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns data for daily visits to be shown in a chart.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class VisitsDailySubMenu : SystemAdminSubMenu
+	/// <summary>
+	/// Returns data for daily visits to be shown in a chart.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public sealed class VisitsDailySubMenu : SystemAdminSubMenu
     {
-        private readonly bool _enabled;
+		#region Private Members
 
-        public VisitsDailySubMenu(ISettingsProvider settingsProvider)
-        {
-            if (settingsProvider == null)
+		private readonly ISessionStatisticsProvider _sessionStatisticsProvider;
+		private readonly bool _enabled;
+
+		#endregion Private Members
+
+		public VisitsDailySubMenu(ISettingsProvider settingsProvider, ISessionStatisticsProvider sessionStatisticsProvider)
+		{
+			_sessionStatisticsProvider = sessionStatisticsProvider ?? throw new ArgumentNullException(nameof(sessionStatisticsProvider));
+
+			if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
-            UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(Constants.UserSessionConfiguration);
+            UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(SharedPluginFeatures.Constants.UserSessionConfiguration);
 
             _enabled = settings.EnableDefaultSessionService;
         }
@@ -84,7 +92,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
             Result.ChartTitle = "Daily Visitor Statistics";
 
-            List<SessionDaily> sessionData = DefaultUserSessionService.GetDailyData(false)
+            List<SessionDaily> sessionData = _sessionStatisticsProvider.GetDailyData(false)
                 .OrderBy(o => o.Date)
                 .Take(30)
                 .ToList();
@@ -100,9 +108,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
             foreach (SessionDaily day in sessionData)
             {
                 List<Decimal> datavalues = new List<decimal>();
-                Result.DataValues.Add(
-                    day.Date.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern),
-                    datavalues);
+                Result.DataValues[day.Date.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern)] = datavalues;
 
                 datavalues.Add(day.HumanVisits);
                 datavalues.Add(day.MobileVisits);
@@ -114,7 +120,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
         public override string Image()
         {
-            return Constants.SystemImageChart;
+            return SharedPluginFeatures.Constants.SystemImageChart;
         }
 
         public override Enums.SystemAdminMenuType MenuType()

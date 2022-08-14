@@ -71,19 +71,19 @@ namespace ProductPlugin.Models
         }
 
         public ProductModel(in BaseModelData modelData,
-            in IEnumerable<ProductCategoryModel> productGroups)
-            : base(modelData, productGroups)
+            in List<ProductCategoryModel> productCategories)
+            : base(modelData, productCategories)
         {
 
         }
 
         public ProductModel(in BaseModelData modelData,
-            in IEnumerable<ProductCategoryModel> productGroups,
+            in List<ProductCategoryModel> productCategories,
             in int id, in int productGroupId, in string name, in string description, in string features,
             in string videoLink, in string[] images, in decimal retailPrice, in string sku,
             in bool newProduct, in bool bestSeller,
             in bool allowAddToBasket, in uint stockAvailability)
-            : this(modelData, productGroups)
+            : this(modelData, productCategories)
         {
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
@@ -128,6 +128,9 @@ namespace ProductPlugin.Models
 
         public string GetVideoLink()
         {
+            if (String.IsNullOrEmpty(VideoLink))
+                return String.Empty;
+
             string Result = VideoLink;
 
             if (Result.ToLower().StartsWith("https://www.facebook.com/video") ||
@@ -151,6 +154,9 @@ namespace ProductPlugin.Models
 
         public string[] FeatureList()
         {
+            if (String.IsNullOrEmpty(Features))
+                return new string[] { };
+
             string features = Features.Replace("\n", String.Empty);
             return features.Split('\r', StringSplitOptions.RemoveEmptyEntries);
         }

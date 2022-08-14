@@ -31,7 +31,6 @@ using System.Linq;
 
 using AspNetCore.PluginManager.DemoWebsite.Classes.Mocks;
 using AspNetCore.PluginManager.Tests.Controllers;
-using AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks;
 using AspNetCore.PluginManager.Tests.Shared;
 
 using DynamicContent.Plugin.Controllers;
@@ -3133,7 +3132,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("EditPage", sut.ActionName);
             Assert.AreEqual(1, sut.RouteValues.Keys.Count);
             Assert.IsTrue(sut.RouteValues.Keys.Contains("id"));
-            Assert.AreEqual(50, sut.RouteValues["id"]);
+            Assert.AreEqual(50L, sut.RouteValues["id"]);
         }
 
 

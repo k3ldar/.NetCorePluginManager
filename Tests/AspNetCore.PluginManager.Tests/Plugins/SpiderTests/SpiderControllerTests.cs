@@ -30,6 +30,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using AspNetCore.PluginManager.Tests.Controllers;
+using AspNetCore.PluginManager.Tests.Shared;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -44,8 +45,6 @@ using SharedPluginFeatures;
 using Spider.Plugin.Classes;
 using Spider.Plugin.Controllers;
 using Spider.Plugin.Models;
-
-using pm = PluginManager.Internal;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
 {

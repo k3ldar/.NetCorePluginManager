@@ -39,7 +39,7 @@
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
-    <DocumentationFile>..\..\Docs\XmlFiles\BadEgg.Plugin.xml</DocumentationFile>
+    <DocumentationFile>$(XmlDocsPath)\BadEgg.Plugin.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

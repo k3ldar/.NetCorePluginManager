@@ -52,7 +52,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
         #endregion Private Members
 
         [TestMethod]
-        public void LoadXmlFile()
+		public void LoadXmlFile()
         {
             GetDocuments();
             CacheItem cache = MemoryCache.GetCache().Get(consts.DocumentationListCache);

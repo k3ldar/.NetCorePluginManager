@@ -55,7 +55,7 @@ namespace UserSessionMiddleware.Plugin
         /// </summary>
         /// <value>string</value>
         [SettingDefault("Dfklaosre;lnfsdl;jlfaeu;dkkfcaskxcd3jf")]
-        [SettingString(false, 20, 60)]
+        [SettingString(false, Constants.MinimumKeyLength, Constants.MaximumKeyLength)]
         public string EncryptionKey { get; set; }
 
         /// <summary>

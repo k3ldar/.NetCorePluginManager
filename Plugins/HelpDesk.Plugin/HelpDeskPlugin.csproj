@@ -41,8 +41,32 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
-		<DocumentationFile>..\..\Docs\XmlFiles\HelpdeskPlugin.xml</DocumentationFile>
+		<DocumentationFile>$(XmlDocsPath)\HelpdeskPlugin.xml</DocumentationFile>
 	</PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
+    <WarningsAsErrors>$(WarningsAsErrors);NU1605;1591</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
+    <WarningsAsErrors>$(WarningsAsErrors);NU1605;1591</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net5.0|AnyCPU'">
+    <WarningsAsErrors>$(WarningsAsErrors);NU1605;1591</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net5.0|AnyCPU'">
+    <WarningsAsErrors>$(WarningsAsErrors);NU1605;1591</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp3.1|AnyCPU'">
+    <WarningsAsErrors>$(WarningsAsErrors);NU1605;1591</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp3.1|AnyCPU'">
+    <WarningsAsErrors>$(WarningsAsErrors);NU1605;1591</WarningsAsErrors>
+  </PropertyGroup>
 
 	<ItemGroup>
 		<Content Remove="Views\Helpdesk\FaQ.cshtml" />
@@ -117,14 +141,14 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="6.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="6.0.5" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
-    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="6.0.3" />
+    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="6.0.5" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="6.0.3" />
+    <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="6.0.5" />
     <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
   </ItemGroup>
 

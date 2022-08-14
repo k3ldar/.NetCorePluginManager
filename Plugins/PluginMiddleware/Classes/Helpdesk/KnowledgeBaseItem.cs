@@ -41,7 +41,7 @@ namespace Middleware.Helpdesk
         /// <param name="description">Description of the knowledgebase item.</param>
         /// <param name="viewCount">Number of times the knowledgebase item has been viewed.</param>
         /// <param name="content">Content for the knowledgebase item.</param>
-        public KnowledgeBaseItem(in int id, in string description,
+        public KnowledgeBaseItem(in long id, in string description,
             in int viewCount, in string content)
         {
             if (String.IsNullOrEmpty(description))
@@ -67,7 +67,7 @@ namespace Middleware.Helpdesk
         /// Unique id of the knowledgebase item.
         /// </summary>
         /// <value>int</value>
-        public int Id { get; private set; }
+        public long Id { get; private set; }
 
         /// <summary>
         /// Description of the knowledgebase item.
@@ -94,7 +94,7 @@ namespace Middleware.Helpdesk
         /// <summary>
         /// Increases the view count the item by one.
         /// </summary>
-        public void IncreastViewCount()
+        public void IncreaseViewCount()
         {
             ViewCount++;
         }

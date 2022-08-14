@@ -23,15 +23,11 @@
  *  21/03/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using PluginManager.Internal;
-using PluginManager.Tests.Mocks;
 
 namespace PluginManager.Tests
 {

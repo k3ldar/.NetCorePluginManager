@@ -24,18 +24,6 @@
  *  30/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection.PortableExecutable;
-
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.AspNetCore.Mvc.Razor.Compilation;
-using Microsoft.CodeAnalysis;
-using Microsoft.Extensions.DependencyModel;
-
-using PluginManager;
 
 #pragma warning disable CS0618
 

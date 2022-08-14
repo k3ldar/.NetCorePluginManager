@@ -7,7 +7,7 @@
 <div class="leftColumn">
     <h5 id="subHeader">@Localizer[nameof(Languages.LanguageStrings.Categories)]</h5>
     <ul>
-        @foreach (var item in Model.ProductGroups)
+        @foreach (var item in Model.ProductCategories)
         {
             if (String.IsNullOrEmpty(item.Url))
             {

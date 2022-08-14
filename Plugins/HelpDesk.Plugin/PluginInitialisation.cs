@@ -27,7 +27,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
 
-#pragma warning disable IDE0060
+#pragma warning disable IDE0060, CS1591
 
 namespace HelpdeskPlugin
 {
@@ -59,4 +59,4 @@ namespace HelpdeskPlugin
     }
 }
 
-#pragma warning restore IDE0060
+#pragma warning restore IDE0060, CS1591

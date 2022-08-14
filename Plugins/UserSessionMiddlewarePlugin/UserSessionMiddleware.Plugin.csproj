@@ -36,7 +36,7 @@
 
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
-    <DocumentationFile>..\..\Docs\XmlFiles\UserSessionMiddleware.Plugin.xml</DocumentationFile>
+    <DocumentationFile>$(XmlDocsPath)\UserSessionMiddleware.Plugin.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -54,6 +54,7 @@
     <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\..\Languages\Languages.csproj" />
     <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
+    <ProjectReference Include="..\PluginMiddleware\PluginMiddleware.csproj" />
   </ItemGroup>
 
 </Project>

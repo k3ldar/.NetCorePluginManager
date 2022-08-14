@@ -29,6 +29,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
+using AspNetCore.PluginManager.Tests.Shared;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware;
@@ -42,7 +44,6 @@ using SharedPluginFeatures;
 
 using static SharedPluginFeatures.Constants;
 
-using pm = PluginManager.Internal;
 using sl = Shared.Classes;
 
 #pragma warning disable IDE0059
@@ -141,7 +142,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         }
 
         [TestMethod]
-        public void FindAllProvidersAndRetrieveInstanciatedClasses()
+		public void FindAllProvidersAndRetrieveInstanciatedClasses()
         {
             Assert.IsFalse(sl.ThreadManager.Exists(DocumentationLoadThread));
 

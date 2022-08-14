@@ -35,6 +35,8 @@ using Middleware.Helpdesk;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace HelpdeskPlugin.Controllers
 {
     public partial class HelpdeskController
@@ -90,7 +92,7 @@ namespace HelpdeskPlugin.Controllers
 
         private FaqItemViewModel CreateFaQViewItemModel(KnowledgeBaseGroup parentGroup, KnowledgeBaseItem item)
         {
-            _helpdeskProvider.KnowledbaseView(item);
+            _helpdeskProvider.KnowledgebaseView(item);
 
             List<BreadcrumbItem> crumbs = GetBreadcrumbs().Take(2).ToList();
 
@@ -171,3 +173,5 @@ namespace HelpdeskPlugin.Controllers
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

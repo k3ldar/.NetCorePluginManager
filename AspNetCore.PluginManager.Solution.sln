@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28729.10
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.PluginManager", "NetCorePluginManager\AspNetCore.PluginManager.csproj", "{59FE93CB-B341-48E0-B161-6DDC79967ABD}"
 EndProject
@@ -72,6 +72,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9D6C1367-C141-4577-8E9C-5710C9D5E516}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
+		Tests\test.runsettings = Tests\test.runsettings
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Search.Plugin", "Plugins\Search.Plugin\Search.Plugin.csproj", "{70C2B003-79EB-4A0B-93BF-A499D19B8763}"
@@ -85,6 +87,23 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicContent.Plugin", "Plugins\DynamicContent.Plugin\DynamicContent.Plugin.csproj", "{8D931063-F3A2-45B1-85D4-5E1424D1A3A6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiAuthorization.Plugin", "Plugins\ApiAuthorization.Plugin\ApiAuthorization.Plugin.csproj", "{4C85A576-FC13-4CA0-B7DA-EF23A4EC5F90}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{CB762EBF-E92F-4B74-9877-9DD34FADBC78}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginManager.DAL.TextFiles", "DAL\PluginManager.DAL.TextFiles\PluginManager.DAL.TextFiles.csproj", "{17422B82-BF9A-42FE-ABB8-4497BDFE99B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{8522A683-113C-49D8-BA64-E6677D72A5E9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleDB", "Database\PluginManager.SimpleDB\SimpleDB.csproj", "{615AE0C8-2986-49AB-9B84-139E252CCB59}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{19AFBC9B-7D1B-4405-871F-00763C364C86}"
+	ProjectSection(SolutionItems) = preProject
+		Tests\Directory.Build.props = Tests\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleDB.Tests", "Tests\PluginManager.SimpleDB.Tests\SimpleDB.Tests.csproj", "{59B9833B-8752-4257-AB07-244555F71E96}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginManager.DAL.TextFiles.Tests", "Tests\PluginManager.DAL.TextFiles.Tests\PluginManager.DAL.TextFiles.Tests.csproj", "{2CA6425F-5474-43CC-AC87-47A4D49A8ADA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -248,9 +267,33 @@ Global
 		{4C85A576-FC13-4CA0-B7DA-EF23A4EC5F90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C85A576-FC13-4CA0-B7DA-EF23A4EC5F90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C85A576-FC13-4CA0-B7DA-EF23A4EC5F90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17422B82-BF9A-42FE-ABB8-4497BDFE99B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17422B82-BF9A-42FE-ABB8-4497BDFE99B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17422B82-BF9A-42FE-ABB8-4497BDFE99B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17422B82-BF9A-42FE-ABB8-4497BDFE99B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{615AE0C8-2986-49AB-9B84-139E252CCB59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{615AE0C8-2986-49AB-9B84-139E252CCB59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{615AE0C8-2986-49AB-9B84-139E252CCB59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{615AE0C8-2986-49AB-9B84-139E252CCB59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59B9833B-8752-4257-AB07-244555F71E96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59B9833B-8752-4257-AB07-244555F71E96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59B9833B-8752-4257-AB07-244555F71E96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59B9833B-8752-4257-AB07-244555F71E96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CA6425F-5474-43CC-AC87-47A4D49A8ADA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CA6425F-5474-43CC-AC87-47A4D49A8ADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CA6425F-5474-43CC-AC87-47A4D49A8ADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CA6425F-5474-43CC-AC87-47A4D49A8ADA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3365733A-7BCF-44EF-B30F-7DA94BBE4E74} = {19AFBC9B-7D1B-4405-871F-00763C364C86}
+		{D8695188-F19C-4A12-B01B-784860A8CC7E} = {19AFBC9B-7D1B-4405-871F-00763C364C86}
+		{17422B82-BF9A-42FE-ABB8-4497BDFE99B7} = {CB762EBF-E92F-4B74-9877-9DD34FADBC78}
+		{615AE0C8-2986-49AB-9B84-139E252CCB59} = {8522A683-113C-49D8-BA64-E6677D72A5E9}
+		{59B9833B-8752-4257-AB07-244555F71E96} = {19AFBC9B-7D1B-4405-871F-00763C364C86}
+		{2CA6425F-5474-43CC-AC87-47A4D49A8ADA} = {19AFBC9B-7D1B-4405-871F-00763C364C86}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {144AC182-32DC-41B2-9617-BBB390D27A65}

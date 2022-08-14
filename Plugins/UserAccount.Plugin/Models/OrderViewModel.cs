@@ -81,7 +81,7 @@ namespace UserAccount.Plugin.Models
 
         #region Properties
 
-        public int OrderId { get; private set; }
+        public long OrderId { get; private set; }
 
         public CultureInfo Culture { get; private set; }
 

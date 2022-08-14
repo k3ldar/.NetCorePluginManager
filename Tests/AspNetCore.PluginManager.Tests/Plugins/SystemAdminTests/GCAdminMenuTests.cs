@@ -46,7 +46,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void CreateValidInstance__Success()
+		public void CreateValidInstance__Success()
         {
             ThreadManager.Initialise();
             try

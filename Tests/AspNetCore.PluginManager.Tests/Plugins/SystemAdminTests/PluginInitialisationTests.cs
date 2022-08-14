@@ -99,7 +99,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 
         [TestMethod]
         [TestCategory(TestsCategoryName)]
-        public void AfterConfigure_FailsToRegisterBreadcrumbs()
+		public void AfterConfigure_FailsToRegisterBreadcrumbs()
         {
             Dictionary<Type, object> services = new Dictionary<Type, object>();
             MockServiceProvider testServiceProvider = new MockServiceProvider(services);
@@ -115,7 +115,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 
         [TestMethod]
         [TestCategory(TestsCategoryName)]
-        public void AfterConfigure_RegistersBreadCrumbs_Success()
+		public void AfterConfigure_RegistersBreadCrumbs_Success()
         {
             MockBreadcrumbService mockBreadcrumbService = new MockBreadcrumbService();
             MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"UserSessionConfiguration\":{\"EnableDefaultSessionService\": true}}");
@@ -126,7 +126,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
             classServices.Add(new SpiderSettingsSubMenu());
             classServices.Add(new CurrentUserLocationMenu());
             classServices.Add(new UserDetailsMenu());
-            classServices.Add(new BotVisitsWeeklySubMenu(testSettingsProvider));
+            classServices.Add(new BotVisitsWeeklySubMenu(testSettingsProvider, new MockSessionStatisticsProvider()));
 
             MockPluginClassesService pluginClassesService = new MockPluginClassesService(classServices);
 

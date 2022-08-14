@@ -83,9 +83,9 @@ namespace DynamicContent.Plugin.Internal
 
         #region IDynamicContentProvider Methods
 
-        public int CreateCustomPage()
+        public long CreateCustomPage()
         {
-            int Result = 1;
+            long Result = 1;
 
             using (TimedLock tl = TimedLock.Lock(_lockObject))
             {
@@ -112,13 +112,13 @@ namespace DynamicContent.Plugin.Internal
 
             using (TimedLock tl = TimedLock.Lock(_lockObject))
             {
-                _dynamicContent.ForEach(dc => Result.Add(new LookupListItem(dc.Id, dc.Name)));
+                _dynamicContent.ForEach(dc => Result.Add(new LookupListItem((int)dc.Id, dc.Name)));
             }
 
             return Result;
         }
 
-        public IDynamicContentPage GetCustomPage(int id)
+        public IDynamicContentPage GetCustomPage(long id)
         {
             using (TimedLock tl = TimedLock.Lock(_lockObject))
             {
@@ -144,7 +144,7 @@ namespace DynamicContent.Plugin.Internal
             }
         }
 
-        public bool PageNameExists(int id, string pageName)
+        public bool PageNameExists(long id, string pageName)
         {
             if (String.IsNullOrEmpty(pageName))
                 throw new ArgumentNullException(nameof(pageName));
@@ -155,7 +155,7 @@ namespace DynamicContent.Plugin.Internal
             }
         }
 
-        public bool RouteNameExists(int id, string routeName)
+        public bool RouteNameExists(long id, string routeName)
         {
             if (String.IsNullOrEmpty(routeName))
                 throw new ArgumentNullException(nameof(routeName));
@@ -304,7 +304,7 @@ namespace DynamicContent.Plugin.Internal
 
         private static void LoadDynamicContentVersion1(BinaryReader reader, DynamicContentPage dynamicContentPage)
         {
-            dynamicContentPage.Id = reader.ReadInt32();
+            dynamicContentPage.Id = reader.ReadInt64();
             dynamicContentPage.Name = ReadStringData(reader);
             dynamicContentPage.RouteName = ReadStringData(reader);
             dynamicContentPage.BackgroundColor = ReadStringData(reader);

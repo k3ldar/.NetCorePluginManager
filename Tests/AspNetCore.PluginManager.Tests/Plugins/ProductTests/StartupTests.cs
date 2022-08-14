@@ -26,18 +26,21 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
+using AspNetCore.PluginManager.Tests.Shared;
+
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Middleware.Interfaces;
 
 using PluginManager.Abstractions;
 using PluginManager.Internal;
 using PluginManager.Tests.Mocks;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+
 using ProductPlugin;
-using Middleware.Interfaces;
-using AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 {

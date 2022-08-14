@@ -27,13 +27,15 @@ using System;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace HelpdeskPlugin.Models
 {
     public sealed class FaqGroupItem : BaseModel
     {
         #region Constructors
 
-        public FaqGroupItem(in int id, in string description,
+        public FaqGroupItem(in long id, in string description,
             in int viewCount, in string content)
         {
             if (String.IsNullOrEmpty(description))
@@ -55,7 +57,7 @@ namespace HelpdeskPlugin.Models
 
         #region Properties
 
-        public int Id { get; private set; }
+        public long Id { get; private set; }
 
         public string Description { get; private set; }
 
@@ -66,3 +68,5 @@ namespace HelpdeskPlugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

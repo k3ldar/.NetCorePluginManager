@@ -45,7 +45,6 @@ namespace Middleware
         /// Constructor
         /// </summary>
         /// <param name="id">Shipping costs for the address.</param>
-        /// <param name="shipping">Shipping costs for the address.</param>
         /// <param name="businessName">Business name if applicable.</param>
         /// <param name="addressLine1">Address line 1.</param>
         /// <param name="addressLine2">Address line 2.</param>
@@ -54,11 +53,10 @@ namespace Middleware
         /// <param name="county">County/state name.</param>
         /// <param name="postcode">Postal or zip code.</param>
         /// <param name="country">Postal or zip code.</param>
-        public Address(in int id, in decimal shipping, in string businessName, in string addressLine1,
+        public Address(in long id, in string businessName, in string addressLine1,
             in string addressLine2, in string addressLine3, in string city, in string county, in string postcode, in string country)
         {
             Id = id;
-            Shipping = shipping;
             BusinessName = businessName;
             AddressLine1 = addressLine1;
             AddressLine2 = addressLine2;
@@ -77,13 +75,7 @@ namespace Middleware
         /// Unique id for the address.
         /// </summary>
         /// <value>int</value>
-        public int Id { get; set; }
-
-        /// <summary>
-        /// Shipping costs for the address.
-        /// </summary>
-        /// <value>decimal</value>
-        public decimal Shipping { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Business name if applicable.

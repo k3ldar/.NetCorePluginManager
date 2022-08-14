@@ -33,6 +33,7 @@ using System.Threading.Tasks;
 
 using AspNetCore.PluginManager.DemoWebsite.Classes;
 using AspNetCore.PluginManager.Tests.MiddlewareTests;
+using AspNetCore.PluginManager.Tests.Shared;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;

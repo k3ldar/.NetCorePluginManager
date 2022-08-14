@@ -24,7 +24,6 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 
 #if !NET_CORE_3_X
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +36,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Blog.Plugin
 {
-    public class Startup
+	public class Startup
     {
         public Startup(IConfiguration configuration)
         {

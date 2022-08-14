@@ -26,9 +26,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-using AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks;
-
-using DynamicContent.Plugin.Model;
+using AspNetCore.PluginManager.Tests.Shared;
 
 using ImageManager.Plugin.Models;
 

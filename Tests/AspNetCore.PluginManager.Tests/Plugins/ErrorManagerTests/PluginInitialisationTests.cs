@@ -105,7 +105,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ErrorManagerTests
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-        public void Finalise_DoesNotThrowException()
+		public void Finalise_DoesNotThrowException()
         {
             ThreadManager.Initialise();
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();

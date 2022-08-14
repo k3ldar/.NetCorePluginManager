@@ -36,7 +36,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
-    <DocumentationFile>..\..\Docs\XmlFiles\SieraDeltaGeoIp.Plugin.xml</DocumentationFile>
+    <DocumentationFile>$(XmlDocsPath)\SieraDeltaGeoIp.Plugin.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -47,8 +47,8 @@
 
   <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="2.1.0" />
-    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="8.5.4" />
-    <PackageReference Include="MySql.Data" Version="8.0.28" />
+    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="9.0.1" />
+    <PackageReference Include="MySql.Data" Version="8.0.29" />
     <PackageReference Include="SC.Shared.Library.Core" Version="3.4.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
   </ItemGroup>

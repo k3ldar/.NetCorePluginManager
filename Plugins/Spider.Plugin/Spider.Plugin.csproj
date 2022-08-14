@@ -35,7 +35,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
-    <DocumentationFile>..\..\Docs\XmlFiles\Spider.Plugin.xml</DocumentationFile>
+    <DocumentationFile>$(XmlDocsPath)\Spider.Plugin.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

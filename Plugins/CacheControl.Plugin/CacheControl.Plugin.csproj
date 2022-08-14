@@ -34,7 +34,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
-    <DocumentationFile>..\..\Docs\XmlFiles\CacheControl.Plugin.xml</DocumentationFile>
+    <DocumentationFile>$(XmlDocsPath)\CacheControl.Plugin.xml</DocumentationFile>
   </PropertyGroup>
   
   <ItemGroup>

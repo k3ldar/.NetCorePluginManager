@@ -358,7 +358,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new MockPluginClassesService(), GetSettingsProvider());
             Assert.AreEqual(4, sut.GetCustomPageList().Count);
-            int newPageId = sut.CreateCustomPage();
+            long newPageId = sut.CreateCustomPage();
 
             Assert.AreEqual(5, sut.GetCustomPageList().Count);
             Assert.AreEqual(4, newPageId);
@@ -406,7 +406,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
                 writer.Write(0);
                 writer.Write(0);
                 writer.Write(version);
-                writer.Write(0);
+                writer.Write(0L);
                 writer.Write(0);
                 writer.Write(0);
                 writer.Write(0);

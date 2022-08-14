@@ -29,7 +29,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 
-using AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks;
 using AspNetCore.PluginManager.Tests.Shared;
 
 using ImageManager.Plugin.Classes;
@@ -123,6 +122,52 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             object response = null;
             bool result = sut.EventRaised("", null, null, ref response);
             Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void EventRaised_ExceptionRaised_LoggedAndFails_ReturnsFalse()
+        {
+            string imagePath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+
+            try
+            {
+                ProductPluginSettings settings = new ProductPluginSettings()
+                {
+                    ResizeImages = true,
+                    ResizeWidths = "178xred;-1x114;200x-1;89x64;288x268x34",
+                    ResizeBackfillColor = "999z999#"
+                };
+
+                MockImageProvider mockImageProvider = MockImageProvider.CreateDefaultMockImageProviderWithSubgroupAndImage();
+                mockImageProvider.ThrowExceptionWhenAddingFile = true;
+                MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"Products\":" + JsonConvert.SerializeObject(settings) + "}");
+
+                ExtractImageResources(imagePath);
+                ImageUploadNotificationListener sut = CreateListener(mockImageProvider, testSettingsProvider);
+                Assert.IsNotNull(sut);
+
+                CachedImageUpload cachedImageUpload = new CachedImageUpload("Products");
+                cachedImageUpload.Files.Add(Path.Combine(imagePath, "life.jpg"));
+                cachedImageUpload.Files.Add(Path.Combine(imagePath, "racism is stupid.jpg"));
+
+                object response = null;
+                bool result = sut.EventRaised("ImageUploadedEvent", cachedImageUpload, "C256", ref response);
+                Assert.IsTrue(result);
+                Assert.IsNotNull(response);
+                Assert.IsInstanceOfType(response, typeof(List<string>));
+
+                // validate new files exist
+                Assert.IsFalse(ValidateImage(Path.Combine(imagePath, "Products", "C256", "C256_1_orig.jpg"), 480, 360));
+                Assert.IsFalse(ValidateImage(Path.Combine(imagePath, "Products", "C256", "C256_1_89.png"), 89, 64));
+                Assert.IsFalse(ValidateImage(Path.Combine(imagePath, "Products", "C256", "C256_2_orig.jpg"), 907, 960));
+                Assert.IsFalse(ValidateImage(Path.Combine(imagePath, "Products", "C256", "C256_2_89.png"), 89, 64));
+            }
+            finally
+            {
+                if (Directory.Exists(imagePath))
+                    Directory.Delete(imagePath, true);
+            }
         }
 
         [TestMethod]

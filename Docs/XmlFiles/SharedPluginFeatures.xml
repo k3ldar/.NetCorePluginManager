@@ -72,6 +72,11 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.Id">
+            <summary>
+            Unique id of control
+            </summary>
+        </member>
         <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.AssemblyQualifiedName">
             <summary>
             Gets the underlying assembly qualified name
@@ -1810,6 +1815,11 @@
             Rate at which discount has been applied to the shopping cart.
             </summary>
         </member>
+        <member name="P:SharedPluginFeatures.ShoppingCartSummary.DiscountType">
+            <summary>
+            Type of discount applied to the shopping cart
+            </summary>
+        </member>
         <member name="P:SharedPluginFeatures.ShoppingCartSummary.Discount">
             <summary>
             Total discount value applied to the shopping cart.
@@ -2319,6 +2329,16 @@
             Maximum password length, default to 40 characters
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.MinimumKeyLength">
+            <summary>
+            Minimum key length
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.MaximumKeyLength">
+            <summary>
+            Maximum key length
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.UserSession">
             <summary>
             Name of UserSession that is injected into the request pipeline
@@ -2437,6 +2457,16 @@
         <member name="F:SharedPluginFeatures.Constants.Underscore">
             <summary>
             Underscore (_) char constant
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.AmpersandChar">
+            <summary>
+            Ampersand (&amp;) char constant
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.EqualsChar">
+            <summary>
+            Equals (=) char constant
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.PluginSettingBreadcrumb">
@@ -2684,6 +2714,16 @@
             User can edit dynamic content
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.PolicyNameApiAuthorization">
+            <summary>
+            Name of policy for Api authorization
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PolicyNameManageProducts">
+            <summary>
+            Name of policy for managing products
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.ClaimNameManageContent">
             <summary>
             Claim name for allowing user to manage content
@@ -2737,6 +2777,11 @@
         <member name="F:SharedPluginFeatures.Constants.ClaimNameManageImages">
             <summary>
             Name of claim for managing images (add/delete etc) within image manager
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimNameManageProducts">
+            <summary>
+            Name of claim for managing products
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.ClaimIdentityUser">
@@ -3301,6 +3346,31 @@
             The control fits the size of the internal data
             </summary>
         </member>
+        <member name="T:SharedPluginFeatures.DiscountType">
+            <summary>
+            Type of discount that has been applied to an Invoice/Order
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DiscountType.None">
+            <summary>
+            Invoice/Order has no discount.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DiscountType.PercentageTotal">
+            <summary>
+            Invoice/Order has a percentage discount on the total.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DiscountType.PercentageSubTotal">
+            <summary>
+            Invoice/Order has a percentage discount on the sub total.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DiscountType.Value">
+            <summary>
+            Invoice/Order has a monetary value discount (i.e. GBP10)
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.HtmlHelper">
             <summary>
             Html Helper class, contains extension methods and other methods for use within MVC application
@@ -3336,6 +3406,68 @@
             <param name="policyName">Name of the policy</param>
             <param name="responseCode">Response code</param>
             <returns>bool</returns>
+        </member>
+        <member name="T:SharedPluginFeatures.IApplicationSettingsProvider">
+            <summary>
+            Application settings provider interface
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.IApplicationSettingsProvider.UpdateSetting``1(System.String,``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T">Type of setting value</typeparam>
+            <param name="name">Name of setting</param>
+            <param name="value">Setting value</param>
+        </member>
+        <member name="M:SharedPluginFeatures.IApplicationSettingsProvider.RetrieveSetting``1(System.String)">
+            <summary>
+            Retrieves a setting value of type T
+            </summary>
+            <typeparam name="T">Type of setting</typeparam>
+            <param name="name">Name of setting</param>
+            <returns>T</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IApplicationSettingsProvider.RetrieveSetting(System.String)">
+            <summary>
+            Retrieves a setting value
+            </summary>
+            <param name="name">Name of setting</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IApplicationSettingsProvider.RetrieveSetting(System.String,System.String)">
+            <summary>
+            Retrieves a setting
+            </summary>
+            <param name="name">Name of setting</param>
+            <param name="defaultValue">Default value if setting does not exist</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IApplicationSettingsProvider.DeleteSetting(System.String)">
+            <summary>
+            Deletes a setting if it exists
+            </summary>
+            <param name="name">Name of setting</param>
+        </member>
+        <member name="T:SharedPluginFeatures.Interfaces.IBatchUpdate">
+            <summary>
+            Interface for batch updates
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.Interfaces.IBatchUpdate.BeginUpdate">
+            <summary>
+            Batch update is starting
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.Interfaces.IBatchUpdate.EndUpdate">
+            <summary>
+            Batch update is ended
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.Interfaces.IBatchUpdate.IsUpdating">
+            <summary>
+            Indicates whether it is in batch update
+            </summary>
         </member>
         <member name="T:SharedPluginFeatures.IBotTrap">
             <summary>

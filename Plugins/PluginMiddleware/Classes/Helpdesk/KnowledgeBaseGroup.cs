@@ -45,7 +45,7 @@ namespace Middleware.Helpdesk
         /// <param name="viewCount">Number of times the group has been viewed.</param>
         /// <param name="parent">Knowledgebase group parent, or null if there is no parent.</param>
         /// <param name="items">List of KnowledgeBaseItem's that are within the group.</param>
-        public KnowledgeBaseGroup(in int id, in string name, in string description, in int order,
+        public KnowledgeBaseGroup(in long id, in string name, in string description, in int order,
             in int viewCount, in KnowledgeBaseGroup parent, in List<KnowledgeBaseItem> items)
         {
             if (String.IsNullOrEmpty(name))
@@ -73,8 +73,8 @@ namespace Middleware.Helpdesk
         /// <summary>
         /// Unique id of the knowledgebase group.
         /// </summary>
-        /// <value>int</value>
-        public int Id { get; private set; }
+        /// <value>long</value>
+        public long Id { get; private set; }
 
         /// <summary>
         /// Name of the knowledgebase group item.

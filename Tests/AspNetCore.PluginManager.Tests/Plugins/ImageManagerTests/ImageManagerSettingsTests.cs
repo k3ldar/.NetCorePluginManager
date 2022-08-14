@@ -23,16 +23,12 @@
  *  18/04/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
-using AspNetCore.PluginManager.Tests.Controllers;
-using AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks;
 using AspNetCore.PluginManager.Tests.Shared;
 
 using ImageManager.Plugin.Classes;
-using ImageManager.Plugin.Controllers;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -44,7 +40,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
     public class ImageManagerSettingsTests
     {
         private const string ImageManagerTestsCategory = "Image Manager Tests";
-        private const string DemoWebsiteImagePath = "..\\..\\..\\..\\..\\..\\.NetCorePluginManager\\Demo\\NetCorePluginDemoWebsite\\wwwroot\\images";
+        private const string DemoWebsiteImagePath = "..\\..\\..\\..\\Demo\\NetCorePluginDemoWebsite\\wwwroot\\images";
 
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]

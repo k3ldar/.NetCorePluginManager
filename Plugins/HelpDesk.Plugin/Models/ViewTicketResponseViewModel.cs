@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+#pragma warning disable CS1591
+
 namespace HelpdeskPlugin.Models
 {
     public sealed class ViewTicketResponseViewModel
@@ -57,3 +59,5 @@ namespace HelpdeskPlugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

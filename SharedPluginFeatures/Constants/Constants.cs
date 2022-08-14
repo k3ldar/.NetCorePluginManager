@@ -82,6 +82,16 @@ namespace SharedPluginFeatures
         /// </summary>
         public const int MaximumPasswordLength = 40;
 
+		/// <summary>
+		/// Minimum key length
+		/// </summary>
+        public const int MinimumKeyLength = 20;
+
+		/// <summary>
+		/// Maximum key length
+		/// </summary>
+        public const int MaximumKeyLength = 60;
+
         /// <summary>
         /// Name of UserSession that is injected into the request pipeline
         /// </summary>
@@ -201,6 +211,16 @@ namespace SharedPluginFeatures
         /// Underscore (_) char constant
         /// </summary>
         public const char Underscore = '_';
+
+        /// <summary>
+        /// Ampersand (&amp;) char constant
+        /// </summary>
+        public const char AmpersandChar = '&';
+
+        /// <summary>
+        /// Equals (=) char constant
+        /// </summary>
+        public const char EqualsChar = '=';
 
         /// <summary>
         /// Name of the Breadcrumb.Plugin module.
@@ -447,6 +467,16 @@ namespace SharedPluginFeatures
         public const string PolicyNameContentEditor = "ContentEditor";
 
         /// <summary>
+        /// Name of policy for Api authorization
+        /// </summary>
+        public const string PolicyNameApiAuthorization = "ApiAuthorization";
+
+        /// <summary>
+        /// Name of policy for managing products
+        /// </summary>
+        public const string PolicyNameManageProducts = "ManageProducts";
+
+        /// <summary>
         /// Claim name for allowing user to manage content
         /// </summary>
         public const string ClaimNameManageContent = "ManageContent";
@@ -499,6 +529,11 @@ namespace SharedPluginFeatures
         /// Name of claim for managing images (add/delete etc) within image manager
         /// </summary>
         public const string ClaimNameManageImages = "ManageImages";
+
+        /// <summary>
+        /// Name of claim for managing products
+        /// </summary>
+        public const string ClaimNameManageProducts = "ManageProducts";
 
         /// <summary>
         /// Name of claim identity for user claims

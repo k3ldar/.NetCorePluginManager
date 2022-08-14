@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+using SharedPluginFeatures;
+
 using static Shared.Utilities;
 
 #pragma warning disable IDE0047
@@ -50,7 +52,7 @@ namespace Middleware.Accounts.Orders
         /// <param name="discountType">Type of discount applied to the item.</param>
         /// <param name="discount">Discount amount applied to the item.</param>
         public OrderItem(in long id, in string description, in decimal cost,
-            in int taxRate, in decimal quantity, in ItemStatus status, in DiscountType discountType,
+            in decimal taxRate, in decimal quantity, in ItemStatus status, in DiscountType discountType,
             in decimal discount)
         {
             if (String.IsNullOrEmpty(description))
@@ -110,7 +112,7 @@ namespace Middleware.Accounts.Orders
         /// Rate of tax applied to the item within an order.
         /// </summary>
         /// <value>int</value>
-        public int TaxRate { get; private set; }
+        public decimal TaxRate { get; private set; }
 
         /// <summary>
         /// Quantity of items within an order.

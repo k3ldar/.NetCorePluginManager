@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 
 namespace Middleware.Blog
 {
@@ -33,6 +34,14 @@ namespace Middleware.Blog
     public sealed class BlogComment
     {
         #region Constructors
+
+		/// <summary>
+		/// Constructor
+		/// </summary>
+        public BlogComment()
+        {
+
+        }
 
         /// <summary>
         /// Default constructor
@@ -53,6 +62,8 @@ namespace Middleware.Blog
             if (String.IsNullOrEmpty(comment))
                 throw new ArgumentNullException(nameof(comment));
 
+            Comments = new List<BlogComment>();
+
             Id = id;
             ParentComment = parentComment;
             DateTime = dateTime;
@@ -70,43 +81,48 @@ namespace Middleware.Blog
         /// Unique id for the comment.
         /// </summary>
         /// <value>int</value>
-        public int Id { get; private set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Id of the parent comment.  Allows for nesting comments.
         /// </summary>
         /// <value>int?</value>
-        public int? ParentComment { get; private set; }
+        public int? ParentComment { get; set; }
 
         /// <summary>
         /// Date/Time the comment was made.
         /// </summary>
         /// <value>DateTime</value>
-        public DateTime DateTime { get; private set; }
+        public DateTime DateTime { get; set; }
 
         /// <summary>
         /// Name of user making the comment.
         /// </summary>
         /// <value>string</value>
-        public string Username { get; private set; }
+        public string Username { get; set; }
 
         /// <summary>
         /// Unique user id of user making the comment.
         /// </summary>
         /// <value>long</value>
-        public long UserId { get; private set; }
+        public long UserId { get; set; }
 
         /// <summary>
         /// Provides an option for comments to be reviewed prior to being displayed.
         /// </summary>
         /// <value>bool</value>
-        public bool Approved { get; private set; }
+        public bool Approved { get; set; }
 
         /// <summary>
         /// Comment made by a user.
         /// </summary>
         /// <value>string</value>
-        public string Comment { get; private set; }
+        public string Comment { get; set; }
+
+        /// <summary>
+        /// List of sub comments for the comment
+        /// </summary>
+        public List<BlogComment> Comments { get; set; }
 
         #endregion Properties
     }

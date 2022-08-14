@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 using AspNetCore.PluginManager.Tests.Shared;
@@ -50,14 +51,17 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
         [TestInitialize]
         public void InitializeMenuTests()
         {
+            for (int i = CacheManager.GetCount() - 1; i >= 0; i--)
+            {
+                string cacheName = CacheManager.GetCacheName(i);
+                Debug.Print($"Removing Cache: {cacheName}");
+                CacheManager.RemoveCacheManager(cacheName);
+            }
+
             ICacheManagerFactory cacheManagerFactory = new CacheManagerFactory();
             cacheManagerFactory.ClearAllCaches();
 
             cacheManagerFactory.RemoveCache("DefaultImageProvider");
-            //cacheManagerFactory.RemoveCache("");
-            //cacheManagerFactory.RemoveCache("");
-            //cacheManagerFactory.RemoveCache("");
-
 
             DefaultMemoryCache defaultMemoryCache = new DefaultMemoryCache(new MockSettingsProvider());
             defaultMemoryCache.RemoveAllCaches();

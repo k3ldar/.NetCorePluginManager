@@ -23,17 +23,49 @@
  *  13/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
 
+using SharedPluginFeatures;
+
 namespace AspNetCore.PluginManager
 {
-    internal sealed class PluginInstance : IPlugin
+    internal sealed class PluginInstance : IPlugin, IInitialiseEvents
     {
-        public void ConfigureServices(IServiceCollection services)
+        public void AfterConfigure(in IApplicationBuilder app)
         {
 
+        }
+
+        public void AfterConfigureServices(in IServiceCollection services)
+        {
+            //services.AddSingleton<IAuthorizationHandler, Handlers.ApiAuthorizationHandler>();
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy(Constants.PolicyNameApiAuthorization,
+            //        policy => policy.AddRequirements(new Handlers.ApiAuthorizationHandler()));
+            //});
+        }
+
+        public void BeforeConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void BeforeConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void Configure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
         }
 
         public void Finalise()

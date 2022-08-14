@@ -87,12 +87,13 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             webClaims.Add(new Claim(Constants.ClaimNameViewImageManager, "true"));
             webClaims.Add(new Claim(Constants.ClaimNameManageContent, "true"));
 
-            // Only enable imagemanager and permissions if the file exists to prevent malicious use
+            // Only enable the following if the file exists to prevent malicious use
             // when deployed live as a demo site
             if (File.Exists("t:\\testimages.tst"))
             {
                 webClaims.Add(new Claim(Constants.ClaimNameUserPermissions, "true"));
                 webClaims.Add(new Claim(Constants.ClaimNameManageImages, "true"));
+                webClaims.Add(new Claim(Constants.ClaimNameManageProducts, "true"));
             }
 
             Result.Add(new ClaimsIdentity(webClaims, Constants.ClaimIdentityWebsite));

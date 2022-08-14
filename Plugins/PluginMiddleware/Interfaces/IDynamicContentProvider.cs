@@ -41,7 +41,7 @@ namespace Middleware.DynamicContent
         /// Creates a new custom page and returns the id of the new page
         /// </summary>
         /// <returns>int</returns>
-        int CreateCustomPage();
+        long CreateCustomPage();
 
         /// <summary>
         /// Retrieves a list of custom pages
@@ -60,7 +60,7 @@ namespace Middleware.DynamicContent
         /// </summary>
         /// <param name="id">Id of page to find</param>
         /// <returns>IDynamicContentPage</returns>
-        IDynamicContentPage GetCustomPage(int id);
+        IDynamicContentPage GetCustomPage(long id);
 
         /// <summary>
         /// Retrieves all dynamic content templates
@@ -74,7 +74,7 @@ namespace Middleware.DynamicContent
         /// <param name="id">Id of current page</param>
         /// <param name="pageName">Name of page to be validated.</param>
         /// <returns>bool</returns>
-        bool PageNameExists(int id, string pageName);
+        bool PageNameExists(long id, string pageName);
 
         /// <summary>
         /// Determines whether a route name already exists
@@ -82,7 +82,7 @@ namespace Middleware.DynamicContent
         /// <param name="id">Id of current page</param>
         /// <param name="routeName">Name of route to be validated.</param>
         /// <returns></returns>
-        bool RouteNameExists(int id, string routeName);
+        bool RouteNameExists(long id, string routeName);
 
         /// <summary>
         /// Saves the dynamic content page

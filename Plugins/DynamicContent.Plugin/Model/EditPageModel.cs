@@ -43,7 +43,7 @@ namespace DynamicContent.Plugin.Model
             DynamicContents = new List<DynamicContentTemplate>();
         }
 
-        public EditPageModel(in BaseModelData modelData, string cacheId, int id,
+        public EditPageModel(in BaseModelData modelData, string cacheId, long id,
             string name, string routeName, DateTime activeFrom, DateTime activeTo,
             List<DynamicContentTemplate> dynamicContents, string backgroundColor,
             string backgroundImage)
@@ -76,7 +76,7 @@ namespace DynamicContent.Plugin.Model
 
         public string CacheId { get; set; }
 
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterNameOfPage))]
         [Display(Name = nameof(Languages.LanguageStrings.PageName))]

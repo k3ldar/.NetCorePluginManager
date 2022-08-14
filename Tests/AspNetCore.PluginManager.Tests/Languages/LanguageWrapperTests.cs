@@ -87,7 +87,7 @@ namespace AspNetCore.PluginManager.Tests.Language
         [TestMethod]
         public void GetInstalledLanguages_AllLanguageFilesFound_ReturnsDefaultCulture_da_DK()
         {
-            string path = Path.GetRelativePath(Directory.GetCurrentDirectory(), "..\\..\\..\\..\\..\\Languages\\bin\\debug\\netstandard2.0\\");
+            string path = Directory.GetCurrentDirectory();
             string[] languages = Languages.LanguageWrapper.GetInstalledLanguages(path, new CultureInfo("da-DK"));
 
             Assert.AreEqual(16, languages.Length);
@@ -99,7 +99,7 @@ namespace AspNetCore.PluginManager.Tests.Language
         [TestMethod]
         public void GetInstalledLanguages_AllLanguageFilesFound_ReturnsDefaultCulture_en_GB()
         {
-            string path = Path.GetRelativePath(Directory.GetCurrentDirectory(), "..\\..\\..\\..\\..\\Languages\\bin\\debug\\netstandard2.0\\");
+            string path = Directory.GetCurrentDirectory();
             string[] languages = Languages.LanguageWrapper.GetInstalledLanguages(path);
 
             Assert.AreEqual(16, languages.Length);

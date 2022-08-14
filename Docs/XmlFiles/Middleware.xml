@@ -14,12 +14,11 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:Middleware.Address.#ctor(System.Int32@,System.Decimal@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@)">
+        <member name="M:Middleware.Address.#ctor(System.Int64@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@)">
             <summary>
             Constructor
             </summary>
             <param name="id">Shipping costs for the address.</param>
-            <param name="shipping">Shipping costs for the address.</param>
             <param name="businessName">Business name if applicable.</param>
             <param name="addressLine1">Address line 1.</param>
             <param name="addressLine2">Address line 2.</param>
@@ -34,12 +33,6 @@
             Unique id for the address.
             </summary>
             <value>int</value>
-        </member>
-        <member name="P:Middleware.Address.Shipping">
-            <summary>
-            Shipping costs for the address.
-            </summary>
-            <value>decimal</value>
         </member>
         <member name="P:Middleware.Address.BusinessName">
             <summary>
@@ -99,7 +92,7 @@
             Constructor
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.DeliveryAddress.#ctor(System.Int32@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.Decimal@)">
+        <member name="M:Middleware.Accounts.DeliveryAddress.#ctor(System.Int64@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.Decimal@)">
             <summary>
             Constructor
             </summary>
@@ -113,12 +106,6 @@
             <param name="postcode">Postal or zip code.</param>
             <param name="country">Country name.</param>
             <param name="postageCost">Postage costs.</param>
-        </member>
-        <member name="P:Middleware.Accounts.DeliveryAddress.AddressId">
-            <summary>
-            Address id
-            </summary>
-            <value>int</value>
         </member>
         <member name="P:Middleware.Accounts.DeliveryAddress.PostageCost">
             <summary>
@@ -174,7 +161,7 @@
             Represents an invoice that is used for display within the website.  This is used by IAccountProvider and the UserAccount.Plugin module.
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.Invoices.Invoice.#ctor(System.Int32@,System.DateTime@,System.Decimal@,System.Globalization.CultureInfo@,Middleware.ProcessStatus@,Middleware.PaymentStatus@,Middleware.Accounts.DeliveryAddress,System.Collections.Generic.List{Middleware.Accounts.Invoices.InvoiceItem})">
+        <member name="M:Middleware.Accounts.Invoices.Invoice.#ctor(System.Int64@,System.DateTime@,System.Decimal@,System.Globalization.CultureInfo@,Middleware.ProcessStatus@,Middleware.PaymentStatus@,Middleware.Accounts.DeliveryAddress,System.Collections.Generic.List{Middleware.Accounts.Invoices.InvoiceItem})">
             <summary>
             Constructor
             </summary>
@@ -270,7 +257,7 @@
             Represents an individual invoice item within an Invoice used by IAccountProvider and UserAccount.Plugin module.
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.Invoices.InvoiceItem.#ctor(System.Int64@,System.String@,System.Decimal@,System.Int32@,System.Decimal@,Middleware.ItemStatus@,Middleware.DiscountType@,System.Decimal@)">
+        <member name="M:Middleware.Accounts.Invoices.InvoiceItem.#ctor(System.Int64@,System.String@,System.Decimal@,System.Decimal@,System.Decimal@,Middleware.ItemStatus@,SharedPluginFeatures.DiscountType@,System.Decimal@)">
             <summary>
             Constructor
             </summary>
@@ -366,7 +353,7 @@
             User licence.  Provides details on an individual user licence.
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.Licences.Licence.#ctor(System.Int32@,System.Int64@,Middleware.Accounts.Licences.LicenceType@,System.DateTime@,System.DateTime@,System.Boolean@,System.Boolean@,System.Byte@,System.Int32@,System.String@,System.String@)">
+        <member name="M:Middleware.Accounts.Licences.Licence.#ctor(System.Int64@,System.Int64@,Middleware.Accounts.Licences.LicenceType@,System.DateTime@,System.DateTime@,System.Boolean@,System.Boolean@,System.Byte@,System.Int64@,System.String@,System.String@)">
             <summary>
             Constructor
             </summary>
@@ -453,7 +440,7 @@
             List item for type of licences available.
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.Licences.LicenceType.#ctor(System.Int32@,System.String@)">
+        <member name="M:Middleware.Accounts.Licences.LicenceType.#ctor(System.Int64@,System.String@)">
             <summary>
             Constructor
             </summary>
@@ -477,7 +464,7 @@
             Represents a users order, primarily used by IAccountProvider within the UserAccount.Plugin module.
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.Orders.Order.#ctor(System.Int32@,System.DateTime@,System.Decimal@,System.Globalization.CultureInfo@,Middleware.ProcessStatus@,Middleware.Accounts.DeliveryAddress,System.Collections.Generic.List{Middleware.Accounts.Orders.OrderItem})">
+        <member name="M:Middleware.Accounts.Orders.Order.#ctor(System.Int64@,System.DateTime@,System.Decimal@,System.Globalization.CultureInfo@,Middleware.ProcessStatus@,Middleware.Accounts.DeliveryAddress,System.Collections.Generic.List{Middleware.Accounts.Orders.OrderItem})">
             <summary>
             Constructor
             </summary>
@@ -566,7 +553,7 @@
             Represents an item within an Order created by a user.  This is primarily used by IAccountProvider and the UserAccount.Plugin module.
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.Orders.OrderItem.#ctor(System.Int64@,System.String@,System.Decimal@,System.Int32@,System.Decimal@,Middleware.ItemStatus@,Middleware.DiscountType@,System.Decimal@)">
+        <member name="M:Middleware.Accounts.Orders.OrderItem.#ctor(System.Int64@,System.String@,System.Decimal@,System.Decimal@,System.Decimal@,Middleware.ItemStatus@,SharedPluginFeatures.DiscountType@,System.Decimal@)">
             <summary>
             Constructor
             </summary>
@@ -800,7 +787,7 @@
             <param name="userId">Unique user id.</param>
             <returns>List&lt;<see cref="T:Middleware.Accounts.DeliveryAddress"/>&gt;</returns>
         </member>
-        <member name="M:Middleware.Accounts.IAccountProvider.GetDeliveryAddress(System.Int64@,System.Int32@)">
+        <member name="M:Middleware.Accounts.IAccountProvider.GetDeliveryAddress(System.Int64@,System.Int64@)">
             <summary>
             Retrieves a specific delivery address for a user.
             </summary>
@@ -873,6 +860,11 @@
             Comment made by a user for a blog entry
             </summary>
         </member>
+        <member name="M:Middleware.Blog.BlogComment.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
         <member name="M:Middleware.Blog.BlogComment.#ctor(System.Int32@,System.Nullable{System.Int32}@,System.DateTime@,System.Int64@,System.String@,System.Boolean@,System.String@)">
             <summary>
             Default constructor
@@ -926,6 +918,11 @@
             Comment made by a user.
             </summary>
             <value>string</value>
+        </member>
+        <member name="P:Middleware.Blog.BlogComment.Comments">
+            <summary>
+            List of sub comments for the comment
+            </summary>
         </member>
         <member name="T:Middleware.Blog.BlogItem">
             <summary>
@@ -1097,7 +1094,7 @@
             Available download categories including a list of DownloadItem's that are available for the category.
             </summary>
         </member>
-        <member name="M:Middleware.Downloads.DownloadCategory.#ctor(System.Int32@,System.String@,System.Collections.Generic.List{Middleware.Downloads.DownloadItem}@)">
+        <member name="M:Middleware.Downloads.DownloadCategory.#ctor(System.Int64@,System.String@,System.Collections.Generic.List{Middleware.Downloads.DownloadItem}@)">
             <summary>
             Constructor
             </summary>
@@ -1109,7 +1106,7 @@
             <summary>
             Unique id for category.
             </summary>
-            <value>int</value>
+            <value>long</value>
         </member>
         <member name="P:Middleware.Downloads.DownloadCategory.Name">
             <summary>
@@ -1133,7 +1130,7 @@
             Constructor
             </summary>
         </member>
-        <member name="M:Middleware.Downloads.DownloadItem.#ctor(System.Int32@,System.String@,System.String@,System.String@,System.String@)">
+        <member name="M:Middleware.Downloads.DownloadItem.#ctor(System.Int64@,System.String@,System.String@,System.String@,System.String@)">
             <summary>
             Constructor
             </summary>
@@ -1143,7 +1140,7 @@
             <param name="version">Current version of downloadable item.</param>
             <param name="filename">Name of the physical file for the downlaod item.</param>
         </member>
-        <member name="M:Middleware.Downloads.DownloadItem.#ctor(System.Int32@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@)">
+        <member name="M:Middleware.Downloads.DownloadItem.#ctor(System.Int64@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@)">
             <summary>
             Constructor
             </summary>
@@ -1207,7 +1204,7 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:Middleware.DynamicContent.DynamicContentPage.#ctor(System.Int32)">
+        <member name="M:Middleware.DynamicContent.DynamicContentPage.#ctor(System.Int64)">
             <summary>
             Constructor
             </summary>
@@ -1290,7 +1287,7 @@
             </summary>
             <returns>List&lt;IDynamicContentPage&gt;</returns>
         </member>
-        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.GetCustomPage(System.Int32)">
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.GetCustomPage(System.Int64)">
             <summary>
             Retrieves dynamic page content by id
             </summary>
@@ -1303,7 +1300,7 @@
             </summary>
             <returns>List&lt;DynamicContentTemplate&gt;</returns>
         </member>
-        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.PageNameExists(System.Int32,System.String)">
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.PageNameExists(System.Int64,System.String)">
             <summary>
             Determines whether the page name already exists
             </summary>
@@ -1311,7 +1308,7 @@
             <param name="pageName">Name of page to be validated.</param>
             <returns>bool</returns>
         </member>
-        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.RouteNameExists(System.Int32,System.String)">
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.RouteNameExists(System.Int64,System.String)">
             <summary>
             Determines whether a route name already exists
             </summary>
@@ -1332,6 +1329,77 @@
             </summary>
             <param name="data">Form data to be saved</param>
             <returns>bool</returns>
+        </member>
+        <member name="T:Middleware.Classes.DefaultEmailSender">
+            <summary>
+            Default email sender class
+            </summary>
+        </member>
+        <member name="M:Middleware.Classes.DefaultEmailSender.#ctor(PluginManager.Abstractions.ISettingsProvider,PluginManager.Abstractions.ILogger)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="settingsProvider"></param>
+            <param name="logger"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="P:Middleware.Classes.DefaultEmailSender.IsValid">
+            <summary>
+            Determines if the connection details are valid or not
+            </summary>
+        </member>
+        <member name="P:Middleware.Classes.DefaultEmailSender.QueueLength">
+            <summary>
+            Returns the length of the queue of emails to send
+            </summary>
+        </member>
+        <member name="M:Middleware.Classes.DefaultEmailSender.SendEmail(System.String,System.String,System.String,System.String,System.Boolean,System.String[])">
+            <summary>
+            Sends an email
+            </summary>
+            <param name="recipientName"></param>
+            <param name="recipientEmail"></param>
+            <param name="message"></param>
+            <param name="subject"></param>
+            <param name="isHtml"></param>
+            <param name="attachments"></param>
+        </member>
+        <member name="M:Middleware.Classes.DefaultEmailSender.Run(System.Object)">
+            <summary>
+            Thread method used to process emails being sent
+            </summary>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Middleware.Classes.DefaultEmailSenderSettings">
+            <summary>
+            Default email sender details
+            </summary>
+        </member>
+        <member name="P:Middleware.Classes.DefaultEmailSenderSettings.Host">
+            <summary>
+            Email host server
+            </summary>
+        </member>
+        <member name="P:Middleware.Classes.DefaultEmailSenderSettings.Password">
+            <summary>
+            Email server password
+            </summary>
+        </member>
+        <member name="P:Middleware.Classes.DefaultEmailSenderSettings.Port">
+            <summary>
+            Email server port
+            </summary>
+        </member>
+        <member name="P:Middleware.Classes.DefaultEmailSenderSettings.SSL">
+            <summary>
+            Email uses ssl for sending emails
+            </summary>
+        </member>
+        <member name="P:Middleware.Classes.DefaultEmailSenderSettings.UserName">
+            <summary>
+            Email account username
+            </summary>
         </member>
         <member name="T:Middleware.Helpdesk.Feedback">
             <summary>
@@ -1501,7 +1569,7 @@
             Represents a knowledgebase group item.  Used with IHelpdeskProvider and HelpdeskPlugin module.
             </summary>
         </member>
-        <member name="M:Middleware.Helpdesk.KnowledgeBaseGroup.#ctor(System.Int32@,System.String@,System.String@,System.Int32@,System.Int32@,Middleware.Helpdesk.KnowledgeBaseGroup@,System.Collections.Generic.List{Middleware.Helpdesk.KnowledgeBaseItem}@)">
+        <member name="M:Middleware.Helpdesk.KnowledgeBaseGroup.#ctor(System.Int64@,System.String@,System.String@,System.Int32@,System.Int32@,Middleware.Helpdesk.KnowledgeBaseGroup@,System.Collections.Generic.List{Middleware.Helpdesk.KnowledgeBaseItem}@)">
             <summary>
             Constructor
             </summary>
@@ -1517,7 +1585,7 @@
             <summary>
             Unique id of the knowledgebase group.
             </summary>
-            <value>int</value>
+            <value>long</value>
         </member>
         <member name="P:Middleware.Helpdesk.KnowledgeBaseGroup.Name">
             <summary>
@@ -1560,7 +1628,7 @@
             Represents a knowledgebase item that is part of a KnowledgeBaseGroup and used by IHelpdeskProvider within the HelpdeskPlugin module.
             </summary>
         </member>
-        <member name="M:Middleware.Helpdesk.KnowledgeBaseItem.#ctor(System.Int32@,System.String@,System.Int32@,System.String@)">
+        <member name="M:Middleware.Helpdesk.KnowledgeBaseItem.#ctor(System.Int64@,System.String@,System.Int32@,System.String@)">
             <summary>
             Constructor
             </summary>
@@ -1593,7 +1661,7 @@
             </summary>
             <value>string</value>
         </member>
-        <member name="M:Middleware.Helpdesk.KnowledgeBaseItem.IncreastViewCount">
+        <member name="M:Middleware.Helpdesk.KnowledgeBaseItem.IncreaseViewCount">
             <summary>
             Increases the view count the item by one.
             </summary>
@@ -1685,7 +1753,7 @@
             <param name="parent">Group parent if there is one, otherwise null for groups at the top of the heirerarchy.</param>
             <returns>List&lt;KnowledgeBaseGroup&gt;</returns>
         </member>
-        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.GetKnowledgebaseGroup(System.Int64@,System.Int32@)">
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.GetKnowledgebaseGroup(System.Int64@,System.Int64@)">
             <summary>
             Retrieves an individual KnowledgeBaseGroup item.
             </summary>
@@ -1693,7 +1761,7 @@
             <param name="id">Id of the KnowledgeBaseGroup being retrieved.</param>
             <returns>KnowledgeBaseGroup</returns>
         </member>
-        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.GetKnowledgebaseItem(System.Int64@,System.Int32@,Middleware.Helpdesk.KnowledgeBaseItem@,Middleware.Helpdesk.KnowledgeBaseGroup@)">
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.GetKnowledgebaseItem(System.Int64@,System.Int64@,Middleware.Helpdesk.KnowledgeBaseItem@,Middleware.Helpdesk.KnowledgeBaseGroup@)">
             <summary>
             Retrieves an individual KnowledgeBaseItem.
             </summary>
@@ -1703,7 +1771,7 @@
             <param name="parentGroup">KnowledgeBaseGroup item which is the parent group of the item being retrieved.</param>
             <returns>bool.  True if KnowledgeBaseItem is being returned.</returns>
         </member>
-        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.KnowledbaseView(Middleware.Helpdesk.KnowledgeBaseItem@)">
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.KnowledgebaseView(Middleware.Helpdesk.KnowledgeBaseItem@)">
             <summary>
             Indicates that a KnowledgeBaseItem has been viewed.
             </summary>
@@ -1860,7 +1928,7 @@
             <param name="name">Name of the product.</param>
             <param name="description">Description of the product.</param>
             <param name="features">Product feature list.  This will be converted to a bullet list when displayed on a website.</param>
-            <param name="videoLink">The url for a video linkt to the product if one exists.</param>
+            <param name="videoLink">The url for a video link to the product if one exists.</param>
             <param name="images">List of images which represent the product.</param>
             <param name="retailPrice">Retail price of product.</param>
             <param name="sku">Unique product SKU.</param>
@@ -1876,7 +1944,7 @@
             <param name="name">Name of the product.</param>
             <param name="description">Description of the product.</param>
             <param name="features">Product feature list.  This will be converted to a bullet list when displayed on a website.</param>
-            <param name="videoLink">The url for a video linkt to the product if one exists.</param>
+            <param name="videoLink">The url for a video link to the product if one exists.</param>
             <param name="images">List of images which represent the product.</param>
             <param name="retailPrice">Retail price of product.</param>
             <param name="sku">Unique product SKU.</param>
@@ -1980,13 +2048,12 @@
             Displays information for a product group within a website.
             </summary>
         </member>
-        <member name="M:Middleware.Products.ProductGroup.#ctor(System.Int32@,System.String@,System.String@,System.Boolean@,System.Int32@,System.String@,System.String@)">
+        <member name="M:Middleware.Products.ProductGroup.#ctor(System.Int32@,System.String@,System.Boolean@,System.Int32@,System.String@,System.String@)">
             <summary>
             Constructor
             </summary>
             <param name="id">Unique id of product group.</param>
             <param name="description">Description for Product Group.</param>
-            <param name="seoDescription">Soe Description for Product Group.</param>
             <param name="showOnWebsite">Determines whether the product group is visible on the website or not.</param>
             <param name="sortOrder">Sort order in comparison to other product groups.</param>
             <param name="tagLine">Tag line displayed at the top of the page when thr group is shown.</param>
@@ -2001,12 +2068,6 @@
         <member name="P:Middleware.Products.ProductGroup.Description">
             <summary>
             Description for Product Group.
-            </summary>
-            <value>string</value>
-        </member>
-        <member name="P:Middleware.Products.ProductGroup.SeoDescripton">
-            <summary>
-            Soe Description for Product Group.
             </summary>
             <value>string</value>
         </member>
@@ -2354,6 +2415,243 @@
             </summary>
             <param name="keywordLength">Length of keyword being searched.</param>
         </member>
+        <member name="T:Middleware.SessionData.SessionBaseData">
+            <summary>
+            Base session data for Hourly, Daily, Weekly Monthly and Yearly
+            </summary>
+        </member>
+        <member name="M:Middleware.SessionData.SessionBaseData.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.TotalVisits">
+            <summary>
+            Total number of visits
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.HumanVisits">
+            <summary>
+            Total number of human visits
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.MobileVisits">
+            <summary>
+            Total number of visits from a mobile device
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.BotVisits">
+            <summary>
+            Total number of visits from a Bot
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.Bounced">
+            <summary>
+            Total number of human visitors who have bounced
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.TotalPages">
+            <summary>
+            Total number of pages viewed
+            </summary>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.TotalSales">
+            <summary>
+            Total cost of all sales
+            </summary>
+            <value>decimal</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.Conversions">
+            <summary>
+            Number of conversions from visits to sales
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.MobileConversions">
+            <summary>
+            Number of daily conversions from visits to sales on mobile devices
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.ReferrerUnknown">
+            <summary>
+            Unknown referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.ReferDirect">
+            <summary>
+            Direct referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.ReferOrganic">
+            <summary>
+            Organic referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.ReferBing">
+            <summary>
+            Bing referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.ReferGoogle">
+            <summary>
+            Google referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.ReferYahoo">
+            <summary>
+            Yahoo referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.ReferFacebook">
+            <summary>
+            Facebook referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.ReferTwitter">
+            <summary>
+            Twitter referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.ReferOther">
+            <summary>
+            Other referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.CountryData">
+            <summary>
+            Counts by country for the specified period
+            </summary>
+            <value>Dictionary&lt;string, uint&gt;</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionBaseData.UserAgents">
+            <summary>
+            Counts by user agent for the specified period
+            </summary>
+            <value>List&lt;string, uint&gt;</value>
+        </member>
+        <member name="T:Middleware.SessionData.SessionDaily">
+            <summary>
+            Daily visitor statistics
+            </summary>
+        </member>
+        <member name="M:Middleware.SessionData.SessionDaily.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Middleware.SessionData.SessionDaily.Date">
+            <summary>
+            Date of Visit
+            </summary>
+        </member>
+        <member name="T:Middleware.SessionData.SessionHourly">
+            <summary>
+            Hourly visitor statistics
+            </summary>
+        </member>
+        <member name="M:Middleware.SessionData.SessionHourly.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Middleware.SessionData.SessionHourly.Date">
+            <summary>
+            Date of Visit
+            </summary>
+        </member>
+        <member name="P:Middleware.SessionData.SessionHourly.Hour">
+            <summary>
+            Hour the visit was made
+            </summary>
+        </member>
+        <member name="P:Middleware.SessionData.SessionHourly.Quarter">
+            <summary>
+            Retrieves the hour quarter
+            </summary>
+        </member>
+        <member name="T:Middleware.SessionData.SessionMonthly">
+            <summary>
+            Monthly session data
+            </summary>
+        </member>
+        <member name="M:Middleware.SessionData.SessionMonthly.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Middleware.SessionData.SessionMonthly.Month">
+            <summary>
+            Month of Visit
+            </summary>
+        </member>
+        <member name="T:Middleware.SessionData.SessionUserAgent">
+            <summary>
+            User agent session usage data
+            </summary>
+        </member>
+        <member name="P:Middleware.SessionData.SessionUserAgent.UserAgent">
+            <summary>
+            User agent name
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionUserAgent.Count">
+            <summary>
+            Number of times it has appeared
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:Middleware.SessionData.SessionUserAgent.IsBot">
+            <summary>
+            Indicates whether it was recognised as a bot or not
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="T:Middleware.SessionData.SessionWeekly">
+            <summary>
+            Weekly visitor statistics
+            </summary>
+        </member>
+        <member name="M:Middleware.SessionData.SessionWeekly.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Middleware.SessionData.SessionWeekly.Week">
+            <summary>
+            Week of Visit
+            </summary>
+        </member>
+        <member name="T:Middleware.SessionData.SessionYearly">
+            <summary>
+            Yearly session data
+            </summary>
+        </member>
+        <member name="M:Middleware.SessionData.SessionYearly.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Middleware.SessionData.SessionYearly.Year">
+            <summary>
+            Year of visit
+            </summary>
+        </member>
         <member name="T:Middleware.ShoppingCart.ShoppingCartDetail">
             <summary>
             Provides detailed information about shopping a users shopping cart.  Descends from ShoppingCartSummary
@@ -2425,11 +2723,31 @@
             Resets the total cost and item count of all items within the cart.
             </summary>
         </member>
-        <member name="M:Middleware.ShoppingCart.ShoppingCartDetail.SetDeliveryAddress(Middleware.Address@)">
+        <member name="M:Middleware.ShoppingCart.ShoppingCartDetail.ClearVoucherData">
+            <summary>
+            Clears any voucher data associated with the shopping cart
+            </summary>
+        </member>
+        <member name="M:Middleware.ShoppingCart.ShoppingCartDetail.SetDeliveryAddress(Middleware.Accounts.DeliveryAddress@)">
             <summary>
             Sets the delivery address for the shopping cart, this is typically completed during the checkout phase.
             </summary>
             <param name="address">Address the user wants the cart shipping to.</param>
+        </member>
+        <member name="M:Middleware.ShoppingCart.ShoppingCartDetail.Clear">
+            <summary>
+            Clears and resets shopping cart
+            </summary>
+        </member>
+        <member name="M:Middleware.ShoppingCart.ShoppingCartDetail.UpdateDiscount(System.String,SharedPluginFeatures.DiscountType,System.Decimal)">
+            <summary>
+            Updates the discount for a shopping cart
+            </summary>
+            <param name="couponCode"></param>
+            <param name="discountType"></param>
+            <param name="discount"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         </member>
         <member name="T:Middleware.ShoppingCart.ShoppingCartItem">
             <summary>
@@ -2441,12 +2759,13 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:Middleware.ShoppingCart.ShoppingCartItem.#ctor(System.Int32@,System.Decimal@,System.Decimal@,System.String@,System.String@,System.String@,System.String[]@,System.Boolean@,System.Boolean@,System.String@)">
+        <member name="M:Middleware.ShoppingCart.ShoppingCartItem.#ctor(System.Int32@,System.Decimal@,System.Int64@,System.Decimal@,System.String@,System.String@,System.String@,System.String[]@,System.Boolean@,System.Boolean@,System.String@,SharedPluginFeatures.DiscountType@,System.Decimal@)">
             <summary>
             Constructor containing detailed items information.
             </summary>
             <param name="id">Unique id of shopping cart.</param>
             <param name="itemCount">Number of items in the cart.</param>
+            <param name="itemId"></param>
             <param name="itemCost">Cost of the items within shopping cart.</param>
             <param name="name">Name of the item within the shopping cart.</param>
             <param name="description">Description of item within the cart</param>
@@ -2455,12 +2774,15 @@
             <param name="isDownload">Indicates that the item is downloadable or not.</param>
             <param name="canBackOrder">Indicates that the item is on back order.</param>
             <param name="size">Size of item.</param>
+            <param name="discountType">Type of discount applied to the item</param>
+            <param name="discount">Discount amount</param>
         </member>
-        <member name="M:Middleware.ShoppingCart.ShoppingCartItem.#ctor(System.Int32@,System.Decimal@,System.Decimal@,System.Decimal@,System.String@,System.String@,System.String@,System.String[]@,System.Boolean@,System.Int32@,System.String@,System.Boolean@,System.String@)">
+        <member name="M:Middleware.ShoppingCart.ShoppingCartItem.#ctor(System.Int32@,System.Int64@,System.Decimal@,System.Decimal@,System.Decimal@,System.String@,System.String@,System.String@,System.String[]@,System.Boolean@,System.Int32@,System.String@,System.Boolean@,System.String@)">
             <summary>
             Constructor containing all detailed item information.
             </summary>
             <param name="id">Unique id of shopping cart.</param>
+            <param name="itemId">Id of the product item</param>
             <param name="itemCount">Number of items in the cart.</param>
             <param name="itemCost">Cost of the items within shopping cart.</param>
             <param name="taxRate">Tax rate applied to the item.</param>
@@ -2492,11 +2814,24 @@
             </summary>
             <param name="stockavailability">Current stock availability for the item.</param>
         </member>
+        <member name="M:Middleware.ShoppingCart.ShoppingCartItem.CostWithDiscountApplied">
+            <summary>
+            Retrieves the cost with any discounts applied
+            </summary>
+            <returns></returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
         <member name="P:Middleware.ShoppingCart.ShoppingCartItem.Id">
             <summary>
             Unique id of the shopping cart item.
             </summary>
             <value>int</value>
+        </member>
+        <member name="P:Middleware.ShoppingCart.ShoppingCartItem.ItemId">
+            <summary>
+            Id of the product item
+            </summary>
+            <value>long</value>
         </member>
         <member name="P:Middleware.ShoppingCart.ShoppingCartItem.ItemCount">
             <summary>
@@ -2574,6 +2909,26 @@
             <summary>
             Availability of stock for the item in the shopping cart.
             </summary>
+        </member>
+        <member name="P:Middleware.ShoppingCart.ShoppingCartItem.DiscountRate">
+            <summary>
+            Discount amount for specific product item
+            </summary>
+        </member>
+        <member name="P:Middleware.ShoppingCart.ShoppingCartItem.DiscountType">
+            <summary>
+            Type of discount
+            </summary>
+        </member>
+        <member name="M:Middleware.ShoppingCart.ShoppingCartItem.UpdateDiscountCode(System.String,SharedPluginFeatures.DiscountType,System.Decimal,System.Int32)">
+            <summary>
+            Updates the shopping cart with a shopping cart, if it exists
+            </summary>
+            <param name="voucherCode"></param>
+            <param name="discountType"></param>
+            <param name="discountRate"></param>
+            <param name="discountProductCount"></param>
+            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="T:Middleware.Users.SearchUser">
             <summary>
@@ -2959,31 +3314,6 @@
             Invoice/order item has been cancelled.
             </summary>
         </member>
-        <member name="T:Middleware.DiscountType">
-            <summary>
-            Type of discount that has been applied to an Invoice/Order
-            </summary>
-        </member>
-        <member name="F:Middleware.DiscountType.None">
-            <summary>
-            Invoice/Order has no discount.
-            </summary>
-        </member>
-        <member name="F:Middleware.DiscountType.PercentageTotal">
-            <summary>
-            Invoice/Order has a percentage discount on the total.
-            </summary>
-        </member>
-        <member name="F:Middleware.DiscountType.PercentageSubTotal">
-            <summary>
-            Invoice/Order has a percentage discount on the sub total.
-            </summary>
-        </member>
-        <member name="F:Middleware.DiscountType.Value">
-            <summary>
-            Invoice/Order has a monetary value discount (i.e. GBP10)
-            </summary>
-        </member>
         <member name="T:Middleware.LicenceCreate">
             <summary>
             Licence creation results.
@@ -3133,14 +3463,14 @@
             </summary>
             <returns>List&lt;DownloadCategory&gt;</returns>
         </member>
-        <member name="M:Middleware.IDownloadProvider.GetDownloadItem(System.Int32@)">
+        <member name="M:Middleware.IDownloadProvider.GetDownloadItem(System.Int64@)">
             <summary>
             Retrieve File
             </summary>
             <param name="fileId">Unique id of the file being downloaded.</param>
             <returns>DownloadItem</returns>
         </member>
-        <member name="M:Middleware.IDownloadProvider.GetDownloadItem(System.Int64@,System.Int32@)">
+        <member name="M:Middleware.IDownloadProvider.GetDownloadItem(System.Int64@,System.Int64@)">
             <summary>
             Retrieve File
             </summary>
@@ -3148,14 +3478,14 @@
             <param name="fileId">Unique id of the file being downloaded.</param>
             <returns>DownloadItem</returns>
         </member>
-        <member name="M:Middleware.IDownloadProvider.ItemDownloaded(System.Int64@,System.Int32@)">
+        <member name="M:Middleware.IDownloadProvider.ItemDownloaded(System.Int64@,System.Int64@)">
             <summary>
             File download by a user
             </summary>
             <param name="userId">Id of the user requesting a download, if they are logged in.</param>
             <param name="fileId">Unique id of the file being downloaded.</param>
         </member>
-        <member name="M:Middleware.IDownloadProvider.ItemDownloaded(System.Int32@)">
+        <member name="M:Middleware.IDownloadProvider.ItemDownloaded(System.Int64@)">
             <summary>
             File download by anyone
             </summary>
@@ -3213,6 +3543,27 @@
             Dynamic content that will be displayed within the page
             </summary>
             <value>List&lt;DynamicContentTemplate&gt;</value>
+        </member>
+        <member name="T:Middleware.IEmailSender">
+            <summary>
+            Interface for sending emails
+            </summary>
+        </member>
+        <member name="M:Middleware.IEmailSender.SendEmail(System.String,System.String,System.String,System.String,System.Boolean,System.String[])">
+            <summary>
+            Method for sending an email to a recipient
+            </summary>
+            <param name="recipientName"></param>
+            <param name="recipientEmail"></param>
+            <param name="message"></param>
+            <param name="subject"></param>
+            <param name="isHtml"></param>
+            <param name="attachments"></param>
+        </member>
+        <member name="P:Middleware.IEmailSender.QueueLength">
+            <summary>
+            Length of the queue
+            </summary>
         </member>
         <member name="T:Middleware.Interfaces.IImageProvider">
             <summary>
@@ -3526,6 +3877,27 @@
             <param name="id">Id of product group to retrieve.</param>
             <returns>ProductGroup</returns>
         </member>
+        <member name="M:Middleware.IProductProvider.ProductGroupSave(System.Int32@,System.String@,System.Boolean@,System.Int32@,System.String@,System.String@,System.String@)">
+            <summary>
+            Saves changes to a an existing product group or creates a new product group
+            </summary>
+            <param name="id">id of product group being saved if an existing product group, otherwise -1 for a new group</param>
+            <param name="description">Description of product group</param>
+            <param name="showOnWebsite">Indicates whether the group is shown on a website or not</param>
+            <param name="sortOrder">Sort order for product group relative to other groups</param>
+            <param name="tagLine">Tagline for product group, usually displayed at the top of the page, if set</param>
+            <param name="url">Specific url for product group, if available</param>
+            <param name="errorMessage">Error message when saving the group, if the result is false</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:Middleware.IProductProvider.ProductGroupDelete(System.Int32@,System.String@)">
+            <summary>
+            Deletes a product group
+            </summary>
+            <param name="id">Id of product group to be deleted</param>
+            <param name="errorMessage">error message if delete fails</param>
+            <returns>bool</returns>
+        </member>
         <member name="M:Middleware.IProductProvider.GetProducts(System.Int32@,System.Int32@)">
             <summary>
             Retrieves a group of products for display on the website.
@@ -3549,6 +3921,38 @@
             </summary>
             <param name="id">Id of product to retrieve.</param>
             <returns>Product</returns>
+        </member>
+        <member name="P:Middleware.IProductProvider.ProductCount">
+            <summary>
+            Retrieves the count of visible products
+            </summary>
+        </member>
+        <member name="M:Middleware.IProductProvider.ProductSave(System.Int32@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.Boolean@,System.Decimal@,System.String@,System.Boolean@,System.Boolean@,System.String@)">
+            <summary>
+            Saves changes to an existing product or creates a new product
+            </summary>
+            <param name="id">id of product being saved if an existing product, otherwise -1 for a new product</param>
+            <param name="productGroupId">Primary product id</param>
+            <param name="name">Product Name</param>
+            <param name="description">Product Description</param>
+            <param name="features">List of features for a product</param>
+            <param name="videoLink">Video link for a product</param>
+            <param name="newProduct">Indicates that this is a new product</param>
+            <param name="bestSeller">Indicates that this is a best seller</param>
+            <param name="retailPrice">Retail price (excluding taxes) for a product</param>
+            <param name="sku">Product SKU</param>
+            <param name="isDownload">Indicates whether it is a downloadable product or not</param>
+            <param name="allowBackOrder">Indicates that the product is available for back order if not currently available.</param>
+            <param name="errorMessage">Error message when saving the product, if the result is false</param>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.IProductProvider.ProductDelete(System.Int32@,System.String@)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="errorMessage"></param>
+            <returns></returns>
         </member>
         <member name="T:Middleware.ISearchKeywordProvider">
             <summary>
@@ -3610,6 +4014,47 @@
             </summary>
             <param name="searchId">Name of search to be found.</param>
             <returns>List&lt;SearchResponseItem&gt;</returns>
+        </member>
+        <member name="T:Middleware.ISessionStatisticsProvider">
+            <summary>
+            Session statistics provider
+            </summary>
+        </member>
+        <member name="M:Middleware.ISessionStatisticsProvider.GetDailyData(System.Boolean)">
+            <summary>
+            Retrieves Daily data
+            </summary>
+            <returns>List&lt;SessionDaily&gt;</returns>
+        </member>
+        <member name="M:Middleware.ISessionStatisticsProvider.GetHourlyData(System.Boolean)">
+            <summary>
+            Retrieves Hourly data
+            </summary>
+            <returns>List&lt;SessionHourly&gt;</returns>
+        </member>
+        <member name="M:Middleware.ISessionStatisticsProvider.GetWeeklyData(System.Boolean)">
+            <summary>
+            Retrieves weekly data
+            </summary>
+            <returns>List&lt;SessionWeekly&gt;</returns>
+        </member>
+        <member name="M:Middleware.ISessionStatisticsProvider.GetMonthlyData(System.Boolean)">
+            <summary>
+            Retrieves Monthly data
+            </summary>
+            <returns>List&lt;SessionMonthly&gt;</returns>
+        </member>
+        <member name="M:Middleware.ISessionStatisticsProvider.GetYearlyData(System.Boolean)">
+            <summary>
+            Retrieves yearly data
+            </summary>
+            <returns>List&lt;SessionYearly&gt;</returns>
+        </member>
+        <member name="M:Middleware.ISessionStatisticsProvider.GetUserAgents">
+            <summary>
+            Retrieves user agent data
+            </summary>
+            <returns>List&lt;SessionUserAgent&gt;</returns>
         </member>
         <member name="T:Middleware.IShoppingCartProvider">
             <summary>
@@ -3754,6 +4199,17 @@
             <summary>
             Indicates whether we are just verifying the details or performing a login
             </summary>
+        </member>
+        <member name="T:Middleware.IUrlHashProvider">
+            <summary>
+            Interface for retrieving a hash of url
+            </summary>
+        </member>
+        <member name="M:Middleware.IUrlHashProvider.GetUrlHash(System.String@)">
+            <summary>
+            Retrieves a hash value for a url
+            </summary>
+            <returns>string</returns>
         </member>
         <member name="T:Middleware.IUserApiQueryProvider">
             <summary>

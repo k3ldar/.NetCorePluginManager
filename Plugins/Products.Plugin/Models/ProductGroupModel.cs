@@ -41,7 +41,7 @@ namespace ProductPlugin.Models
         }
 
         public ProductGroupModel(in BaseModelData modelData,
-            in IEnumerable<ProductCategoryModel> productGroups,
+            in List<ProductCategoryModel> productGroups,
             in string description, in string tagLine)
             : base(modelData, productGroups)
         {
@@ -70,13 +70,13 @@ namespace ProductPlugin.Models
 
         #region Properties
 
-        public string Description { get; private set; }
+        public string Description { get; set; }
 
-        public string TagLine { get; private set; }
+        public string TagLine { get; set; }
 
         public string Pagination { get; internal set; }
 
-        public List<ProductCategoryProductModel> Products { get; private set; }
+        public List<ProductCategoryProductModel> Products { get; }
 
         #endregion Properties
     }

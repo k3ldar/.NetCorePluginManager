@@ -33,7 +33,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
-    <DocumentationFile>..\Docs\XmlFiles\AspNetCore.PluginManager.xml</DocumentationFile>
+    <DocumentationFile>$(XmlDocsPath)\AspNetCore.PluginManager.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -49,10 +49,6 @@
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>AspNetCore.PluginManager.Tests</_Parameter1>
     </AssemblyAttribute>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 
 </Project>

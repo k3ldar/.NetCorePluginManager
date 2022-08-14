@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- master
+- develop
 
 pool:
   vmImage: 'windows-latest'
@@ -16,19 +16,64 @@ variables:
 
 steps:
 - task: NuGetToolInstaller@1
+  displayName: Get nuget installer
 
 - task: NuGetCommand@2
+  displayName: Restore nuget packages
   inputs:
     restoreSolution: '$(solution)'
 
 - task: VSBuild@1
+  displayName: Build solution
   inputs:
     solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+    msbuildArgs: '/p:DeployOnBuild=false /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: VSTest@2
+    
+- task: VisualStudioTestPlatformInstaller@1
+  displayName: Install test platform
+  enabled: false
   inputs:
+    packageFeedSelector: 'nugetOrg'
+    versionSelector: 'latestPreRelease'
+    
+- task: VSTest@2
+  displayName: Run unit tests
+  enabled: false
+  continueOnError: true
+  inputs:
+    runSettingsFile: 'Tests\test.runsettings'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\*.tests.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)'
+    runOnlyImpactedTests: false
+    runInParallel: false
+    codeCoverageEnabled: true
+    distributionBatchType: 'basedOnExecutionTime'
+
+- task: PublishTestResults@2
+  displayName: Publish test results
+  enabled: false
+  inputs:
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '**/TEST-*.xml'
+    failTaskOnFailedTests: true
+    testRunTitle: 'Publish Unit Tests'
+    
+- task: CopyFiles@2
+  inputs:
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+    contents: '**\*.nupkg'
+    cleanTargetfolder: true
+
+- task: PublishBuildArtifacts@1    
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'

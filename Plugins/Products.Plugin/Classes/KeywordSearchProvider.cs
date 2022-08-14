@@ -47,9 +47,11 @@ namespace ProductPlugin.Classes
         #region Public Constants
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         public const string ContainsVideo = nameof(ContainsVideo);
         public const string ProductGroup = nameof(ProductGroup);
         public const string Price = nameof(Price);
+
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion Public Constants
@@ -151,7 +153,7 @@ namespace ProductPlugin.Classes
         {
             foreach (Product product in products)
             {
-                if (results.Count > searchOptions.MaximumSearchResults)
+                if (results.Count >= searchOptions.MaximumSearchResults)
                 {
                     return;
                 }
@@ -242,7 +244,7 @@ namespace ProductPlugin.Classes
 
             foreach (Product product in products)
             {
-                if (results.Count > searchOptions.MaximumSearchResults)
+                if (results.Count >= searchOptions.MaximumSearchResults)
                 {
                     return;
                 }

@@ -56,7 +56,7 @@ namespace Middleware.DynamicContent
         /// Constructor
         /// </summary>
         /// <param name="id">Id of page</param>
-        public DynamicContentPage(int id)
+        public DynamicContentPage(long id)
             : this()
         {
             Id = id;
@@ -69,7 +69,7 @@ namespace Middleware.DynamicContent
         /// <summary>
         /// Unique page id
         /// </summary>
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Name of dynamic page

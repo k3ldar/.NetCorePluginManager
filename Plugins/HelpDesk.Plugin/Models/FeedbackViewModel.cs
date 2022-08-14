@@ -28,6 +28,8 @@ using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace HelpdeskPlugin.Models
 {
     public class FeedbackViewModel : BaseModel
@@ -50,3 +52,5 @@ namespace HelpdeskPlugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

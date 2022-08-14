@@ -41,7 +41,7 @@ namespace Middleware.Downloads
         /// <param name="id">Unique id for category.</param>
         /// <param name="name">Name of download category.</param>
         /// <param name="downloads">List of all download items that are within the category.</param>
-        public DownloadCategory(in int id, in string name, in List<DownloadItem> downloads)
+        public DownloadCategory(in long id, in string name, in List<DownloadItem> downloads)
         {
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
@@ -58,8 +58,8 @@ namespace Middleware.Downloads
         /// <summary>
         /// Unique id for category.
         /// </summary>
-        /// <value>int</value>
-        public int Id { get; private set; }
+        /// <value>long</value>
+        public long Id { get; private set; }
 
         /// <summary>
         /// Name of download category.

@@ -56,7 +56,7 @@ namespace UserAccount.Plugin.Models
 
         #region Properties
 
-        public int AddressId { get; set; }
+        public long AddressId { get; set; }
 
         public bool ShowName { get; set; }
 
