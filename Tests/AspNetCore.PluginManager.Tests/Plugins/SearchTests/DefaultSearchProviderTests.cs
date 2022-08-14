@@ -71,7 +71,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         }
 
         [TestMethod]
-		[Timeout(3000)]
 		public void NormalSearchFindAllKeywordProdALoggedOut()
         {
             IPluginClassesService pluginServices = _testPluginDocs as IPluginClassesService;

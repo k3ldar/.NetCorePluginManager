@@ -52,7 +52,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
         #endregion Private Members
 
         [TestMethod]
-		[Timeout(3000)]
 		public void LoadXmlFile()
         {
             GetDocuments();

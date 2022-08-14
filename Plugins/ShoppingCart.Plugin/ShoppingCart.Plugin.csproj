@@ -39,7 +39,7 @@
   </PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
-		<DocumentationFile>..\..\Docs\XmlFiles\ShoppingCartPlugin.xml</DocumentationFile>
+		<DocumentationFile>$(XmlDocsPath)\ShoppingCartPlugin.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

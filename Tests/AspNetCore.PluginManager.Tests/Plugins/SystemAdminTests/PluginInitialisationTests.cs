@@ -99,7 +99,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 
         [TestMethod]
         [TestCategory(TestsCategoryName)]
-		[Timeout(3000)]
 		public void AfterConfigure_FailsToRegisterBreadcrumbs()
         {
             Dictionary<Type, object> services = new Dictionary<Type, object>();
@@ -116,7 +115,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 
         [TestMethod]
         [TestCategory(TestsCategoryName)]
-		[Timeout(3000)]
 		public void AfterConfigure_RegistersBreadCrumbs_Success()
         {
             MockBreadcrumbService mockBreadcrumbService = new MockBreadcrumbService();

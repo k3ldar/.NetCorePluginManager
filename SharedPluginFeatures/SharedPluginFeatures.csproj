@@ -33,7 +33,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
-    <DocumentationFile>..\Docs\XmlFiles\SharedPluginFeatures.xml</DocumentationFile>
+    <DocumentationFile>$(XmlDocsPath)\SharedPluginFeatures.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

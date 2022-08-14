@@ -34,6 +34,7 @@ steps:
     
 - task: VisualStudioTestPlatformInstaller@1
   displayName: Install test platform
+  enabled: false
   inputs:
     packageFeedSelector: 'nugetOrg'
     versionSelector: 'latestPreRelease'
@@ -53,7 +54,7 @@ steps:
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
     runOnlyImpactedTests: false
-    runInParallel: true
+    runInParallel: false
     codeCoverageEnabled: true
     distributionBatchType: 'basedOnExecutionTime'
 

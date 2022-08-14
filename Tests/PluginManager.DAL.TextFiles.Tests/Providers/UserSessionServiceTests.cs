@@ -364,7 +364,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 		}
 
 		[TestMethod]
-		[Timeout(3000)]
 		public void Closing_SessionIsSavedToDatabase_Success()
 		{
 			string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());

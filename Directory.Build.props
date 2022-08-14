@@ -8,6 +8,11 @@
     <AssemblyOriginatorKeyFile>Shared.Key.pfx</AssemblyOriginatorKeyFile>
     <Description>Plugin Manager</Description>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <BaseOutputPath>$(SolutionDir)Output\$(Platform)</BaseOutputPath>
+    <XmlDocsPath>$(SolutionDir)Docs\XmlFiles</XmlDocsPath>
+  </PropertyGroup>
   
   <PropertyGroup>
     <RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>

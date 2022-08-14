@@ -14,15 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\DAL\PluginManager.DAL.TextFiles\PluginManager.DAL.TextFiles.csproj" />
+    <ProjectReference Include="..\..\Database\PluginManager.SimpleDB\SimpleDB.csproj" />
     <ProjectReference Include="..\..\Tests\AspNetCore.PluginManager.Tests\AspNetCore.PluginManager.Tests.csproj" />
     <ProjectReference Include="..\..\Tests\PluginManager.Tests\PluginManager.Tests.csproj" />
-    <ProjectReference Include="..\PluginManager.SimpleDB\SimpleDB.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-      <_Parameter1>PluginManager.DAL.TextFiles.Tests</_Parameter1>
-    </AssemblyAttribute>
+    <ProjectReference Include="..\PluginManager.SimpleDB.Tests\SimpleDB.Tests.csproj" />
   </ItemGroup>
 
 </Project>

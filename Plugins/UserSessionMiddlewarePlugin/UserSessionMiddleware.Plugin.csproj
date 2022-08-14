@@ -36,7 +36,7 @@
 
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
-    <DocumentationFile>..\..\Docs\XmlFiles\UserSessionMiddleware.Plugin.xml</DocumentationFile>
+    <DocumentationFile>$(XmlDocsPath)\UserSessionMiddleware.Plugin.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

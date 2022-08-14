@@ -579,7 +579,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.BadEggTests
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-		[Timeout(1500)]
         public void ValidateAndBanIPAddresses_TooManyRequestsPerSecond_ReducedAfterInactivity()
         {
             ValidateConnections sut = new ValidateConnections(new TimeSpan(0, 1, 0), 2);

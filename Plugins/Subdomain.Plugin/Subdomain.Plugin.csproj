@@ -33,7 +33,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
-    <DocumentationFile>..\..\Docs\XmlFiles\Subdomain.Plugin.xml</DocumentationFile>
+    <DocumentationFile>$(XmlDocsPath)\Subdomain.Plugin.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
