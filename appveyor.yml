@@ -22,10 +22,7 @@ after_build:
 - cmd: >-
     7z a -r Website.zip %APPVEYOR_BUILD_FOLDER%\Output\AnyCPU\Release\net6.0\*.*
 
-test:
-  assemblies:
-    only:
-    - Output\UnitTests\Release\net6.0\*.Tests.dll
+
 artifacts:
 - path: Nugetfiles.zip
   name: Nuget Packages
