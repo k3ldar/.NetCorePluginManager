@@ -7,9 +7,9 @@ https://sicarterblog.wordpress.com/2018/10/02/asp-net-core-plugin-manager/
 https://dev.azure.com/NetCorePluginManager/NetCorePluginManager
 https://ci.appveyor.com/project/k3ldar/netcorepluginmanager
 
-master: !(https://ci.appveyor.com/api/projects/status/o2ievlf7vrs2rn0x/branch/master?svg=true)
+master: ![Build Status Master Branch](https://ci.appveyor.com/api/projects/status/o2ievlf7vrs2rn0x/branch/master?svg=true)
 
-Latest Branch: !(https://ci.appveyor.com/api/projects/status/o2ievlf7vrs2rn0x?svg=true)
+Latest Branch: ![Build Status Latest Build](https://ci.appveyor.com/api/projects/status/o2ievlf7vrs2rn0x?svg=true)
 
 # Live Demo
 http://PluginManager.website
