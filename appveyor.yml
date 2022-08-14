@@ -18,10 +18,8 @@ build:
   verbosity: minimal
 after_build:
 - cmd: >-
-    # 7z Nuget
     7z a NugetFiles.zip %APPVEYOR_BUILD_FOLDER%\Output\AnyCPU\Release\*.nupkg
 - cmd: >-
-    # 7z Website
     7z a -r Website.zip %APPVEYOR_BUILD_FOLDER%\Output\AnyCPU\Release\net6.0\*.*
 
 artifacts:
