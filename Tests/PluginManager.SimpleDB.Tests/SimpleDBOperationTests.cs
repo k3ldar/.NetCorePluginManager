@@ -42,7 +42,7 @@ namespace SimpleDB.Tests
 {
 	[TestClass]
     [ExcludeFromCodeCoverage]
-    public class TextTableOperationsTests
+    public class SimpleDBOperationTests
     {
         [TestMethod]
         public void Construct_ValidInstance_Success()
@@ -1243,7 +1243,28 @@ namespace SimpleDB.Tests
                 io.Directory.Delete(directory, true);
             }
         }
-    }
+
+		[TestMethod]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void Construct_TableRowHasStringsWithNoStringLengthAttribute_Throws_InvalidOperationException()
+		{
+			string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+			try
+			{
+				io.Directory.CreateDirectory(directory);
+				ISimpleDBInitializer initializer = CreateTestInitializer(directory);
+				IForeignKeyManager keyManager = new ForeignKeyManager();
+
+				using (SimpleDBOperations<MockTableNoStringLengths> sut = new SimpleDBOperations<MockTableNoStringLengths>(initializer, keyManager, new MockPluginClassesService()))
+				{
+				}
+			}
+			finally
+			{
+				io.Directory.Delete(directory, true);
+			}
+		}
+	}
 }
 
 #pragma warning restore CA1806

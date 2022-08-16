@@ -41,7 +41,7 @@ namespace SimpleDB.Tests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class TextTableInitializerTests
+    public class SimpleDbInitializerTests
     {
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]

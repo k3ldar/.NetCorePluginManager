@@ -105,9 +105,11 @@ namespace SimpleDB.Internal
         private const int DefaultSequenceIncrement = 1;
         private const int VersionStart = 0;
 
-        #endregion Constants
+		#endregion Constants
 
-        private readonly JsonSerializerOptions _jsonSerializerOptions;
+		#region Private Members
+
+		private readonly JsonSerializerOptions _jsonSerializerOptions;
         private readonly string _tableName;
         private readonly FileStream _fileStream;
         private readonly ushort _version;
@@ -129,9 +131,11 @@ namespace SimpleDB.Internal
 		private PageSize _pageSize;
         private List<T> _allRecords = null;
 
-        #region Constructors / Destructors
+		#endregion Private Members
 
-        public SimpleDBOperations(ISimpleDBInitializer readerWriterInitializer, 
+		#region Constructors / Destructors
+
+		public SimpleDBOperations(ISimpleDBInitializer readerWriterInitializer, 
             IForeignKeyManager foreignKeyManager, IPluginClassesService pluginClassesService)
         {
             _initializer = readerWriterInitializer ?? throw new ArgumentNullException(nameof(readerWriterInitializer));
@@ -261,7 +265,7 @@ namespace SimpleDB.Internal
 
         #endregion ITextTable
 
-        #region ITextReaderWriter<T>
+        #region ISimpleDBOperation<T>
 
         #region Properties
 
@@ -283,7 +287,15 @@ namespace SimpleDB.Internal
 
         #endregion Properties
 
-        public IReadOnlyList<T> Select()
+		public void ClearAllMemory()
+		{
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				_allRecords = null;
+			}
+		}
+
+		public IReadOnlyList<T> Select()
         {
             if (_disposed)
                 throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
@@ -450,13 +462,13 @@ namespace SimpleDB.Internal
             }
         }
 
-        #endregion Sequences
+		#endregion Sequences
 
-        #endregion ITextReaderWriter<T>
+		#endregion ISimpleDBOperation<T>
 
-        #region Disposable
+		#region Disposable
 
-        public void Dispose()
+		public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);

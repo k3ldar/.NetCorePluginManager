@@ -147,5 +147,10 @@ namespace SimpleDB.Tests.Mocks
         {
             throw new NotImplementedException();
         }
-    }
+
+		public void ClearAllMemory()
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

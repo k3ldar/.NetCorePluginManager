@@ -40,7 +40,12 @@ namespace SimpleDB.Tests.Mocks
 
         public string TableName => _tableName;
 
-        public bool IdExists(long id)
+		public void ClearAllMemory()
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool IdExists(long id)
         {
             return _idExists;
         }

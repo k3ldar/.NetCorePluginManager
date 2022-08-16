@@ -60,17 +60,30 @@ namespace SimpleDB
         }
 
         public SimpleDBInitializer(string path)
+			: this(path, null)
         {
-            if (String.IsNullOrEmpty(path))
-                throw new ArgumentNullException(nameof(path));
 
-            if (!Directory.Exists(path))
-                throw new ArgumentException($"Path does not exist: {path}", nameof(path));
-
-            Path = path;
         }
 
-        public string EncryptionKey { get; private set; }
+		public SimpleDBInitializer(string path, string encryptionKey)
+		{
+			if (String.IsNullOrEmpty(path))
+				throw new ArgumentNullException(nameof(path));
+
+			if (!Directory.Exists(path))
+				throw new ArgumentException($"Path does not exist: {path}", nameof(path));
+
+			Path = path;
+			EncryptionKey = encryptionKey;
+		}
+
+		public void ClearMemory()
+		{
+			foreach (string table in _tables.Keys)
+				_tables[table].ClearAllMemory();
+		}
+
+		internal string EncryptionKey { get; private set; }
 
 
         public string Path { get; private set; }

@@ -33,10 +33,31 @@ namespace SimpleDB
     /// </summary>
     public interface ISimpleDBTable
     {
+		/// <summary>
+		/// Name of the table
+		/// </summary>
         string TableName { get; }
 
+		/// <summary>
+		/// Determines whether an index works or not
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
         bool IdExists(long id);
 
+		/// <summary>
+		/// Determines whether an ID is in use on a specific property or not
+		/// </summary>
+		/// <param name="propertyName"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
         bool IdIsInUse(string propertyName, long value);
-    }
+
+
+		/// <summary>
+		/// Instructs the class to clear all cached items
+		/// </summary>
+		void ClearAllMemory();
+
+	}
 }

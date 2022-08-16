@@ -15,27 +15,38 @@
  *
  *  Product:  SimpleDB
  *  
- *  File: ISimpleDBInitializer.cs
+ *  File: SimpleDBHelper.cs
  *
- *  Purpose:  ISimpleDBInitializer interface for SimpleDB
+ *  Purpose:  SimpleDB Helper Methods
  *
  *  Date        Name                Reason
- *  23/05/2022  Simon Carter        Initially Created
+ *  14/08/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using Microsoft.Extensions.DependencyInjection;
+
+using SimpleDB.Internal;
 
 namespace SimpleDB
 {
-    public interface ISimpleDBInitializer
-    {
-        string Path { get; }
+	public static class SimpleDBHelper
+	{
+		public static IServiceCollection AddSimpleDB(this IServiceCollection services)
+		{
+			services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+			services.AddSingleton<ISimpleDBInitializer, SimpleDBInitializer>();
+			services.AddSingleton(typeof(ISimpleDBOperations<>), typeof(SimpleDBOperations<>));
 
-        void RegisterTable(ISimpleDBTable textTable);
+			return services;
+		}
 
-        void UnregisterTable(ISimpleDBTable textTable);
+		public static IServiceCollection AddSimpleDB(this IServiceCollection services, string path, string encryptionKey)
+		{
+			services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+			services.AddSingleton<ISimpleDBInitializer>(new SimpleDBInitializer(path, encryptionKey));
+			services.AddSingleton(typeof(ISimpleDBOperations<>), typeof(SimpleDBOperations<>));
 
-        IReadOnlyDictionary<string, ISimpleDBTable> Tables { get; }
-
-		void ClearMemory();
-    }
+			return services;
+		}
+	}
 }

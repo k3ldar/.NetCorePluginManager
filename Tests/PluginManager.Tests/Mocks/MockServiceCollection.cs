@@ -70,6 +70,18 @@ namespace PluginManager.Tests.Mocks
 
         public int ServicesRegistered { get; set; }
 
+		public T GetServiceInstance<T>(ServiceLifetime serviceLifetime)
+		{
+			ServiceDescriptor descriptor = _serviceDescriptors
+				.Where(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType.Equals(typeof(T)))
+				.FirstOrDefault();
+
+			if (descriptor == null)
+				return default(T);
+
+			return (T)descriptor.ImplementationInstance;
+		}
+
         public bool HasServiceRegistered<T>(ServiceLifetime serviceLifetime)
         {
             bool Result = _serviceDescriptors.Where(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && sd.ServiceType.Equals(typeof(T))).Any();
@@ -82,7 +94,19 @@ namespace PluginManager.Tests.Mocks
             return Result;
         }
 
-        public bool HasListenerRegistered<T>()
+		public bool HasServiceRegistered(ServiceLifetime serviceLifetime, Type serviceType)
+		{
+			bool Result = _serviceDescriptors.Where(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && sd.ServiceType.Equals(serviceType)).Any();
+
+			if (!Result)
+			{
+				Result = _serviceDescriptors.Where(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && GetNameWithoutGenericArity(sd.ServiceType).Equals(GetNameWithoutGenericArity(serviceType))).Any();
+			}
+
+			return Result;
+		}
+
+		public bool HasListenerRegistered<T>()
         {
             if (_notificationService == null)
                 return false;
