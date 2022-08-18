@@ -29,11 +29,14 @@ namespace SimpleDB
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public class TableAttribute : Attribute
     {
-        public TableAttribute(string tableName, 
+		private const int MinimumSlidingTimeoutMilliseconds = 1;
+		private int _SlidingMemoryTimeoutMilliseconds;
+
+		public TableAttribute(string tableName, 
             CompressionType compression = CompressionType.None,
             CachingStrategy cachingStrategy = CachingStrategy.None, 
             WriteStrategy writeStrategy = WriteStrategy.Forced)
-            : this (String.Empty, tableName, compression, cachingStrategy, writeStrategy, PageSize.Size8192)
+            : this (String.Empty, tableName, compression, cachingStrategy, writeStrategy)
         {
 
         }
@@ -55,27 +58,11 @@ namespace SimpleDB
 
         }
 
-		public TableAttribute(string tableName,
-			PageSize pageSize)
-			: this(String.Empty, tableName, CompressionType.None, CachingStrategy.None, WriteStrategy.Forced, pageSize)
-		{
-
-		}
-
-		public TableAttribute(string domain,
-			string tableName,
-			PageSize pageSize)
-			: this(domain, tableName, CompressionType.None, CachingStrategy.None, WriteStrategy.Forced, pageSize)
-		{
-
-		}
-
 		public TableAttribute(string domain, 
             string tableName, 
             CompressionType compression = CompressionType.None, 
             CachingStrategy cachingStrategy = CachingStrategy.None, 
-            WriteStrategy writeStrategy = WriteStrategy.Forced,
-			PageSize pageSize = PageSize.Size8192)
+            WriteStrategy writeStrategy = WriteStrategy.Forced)
         {
             if (domain == null)
                 throw new ArgumentNullException(nameof(domain));
@@ -100,8 +87,7 @@ namespace SimpleDB
             Compression = compression;
             CachingStrategy = writeStrategy == WriteStrategy.Lazy ? CachingStrategy.Memory : cachingStrategy;
             WriteStrategy = writeStrategy;
-			PageSize = pageSize;
-        }
+		}
 
         public string Domain { get; }
 
@@ -113,6 +99,36 @@ namespace SimpleDB
 
         public WriteStrategy WriteStrategy { get; }
 
-		public PageSize PageSize { get; }
-    }
+		public PageSize PageSize { get; set; } = PageSize.Size8192;
+
+		public int SlidingMemoryTimeoutMilliseconds 
+		{ 
+			get
+			{
+				return _SlidingMemoryTimeoutMilliseconds;
+			}
+
+			set
+			{
+				if (CachingStrategy != CachingStrategy.SlidingMemory)
+					throw new InvalidOperationException($"Table: {TableName} - {nameof(SlidingMemoryTimeoutMilliseconds)} can only be used with {CachingStrategy.SlidingMemory} caching strategy");
+
+				if (value < MinimumSlidingTimeoutMilliseconds)
+					throw new ArgumentOutOfRangeException(nameof(value));
+
+				_SlidingMemoryTimeoutMilliseconds = value;
+			}
+		}
+
+		public TimeSpan SlidingMemoryTimeout
+		{
+			get
+			{
+				if (CachingStrategy != CachingStrategy.SlidingMemory)
+					throw new InvalidOperationException($"Table: {TableName} - {nameof(SlidingMemoryTimeoutMilliseconds)} can only be used with {CachingStrategy.SlidingMemory} caching strategy");
+
+				return TimeSpan.FromMilliseconds(SlidingMemoryTimeoutMilliseconds);
+			}
+		}
+	}
 }

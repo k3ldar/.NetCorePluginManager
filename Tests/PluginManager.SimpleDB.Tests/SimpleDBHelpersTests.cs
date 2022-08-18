@@ -61,7 +61,7 @@ namespace SimpleDB.Tests
 			Assert.AreEqual(3, Result.ServicesRegistered);
 			Assert.AreSame(Result, mockServiceCollection);
 			Assert.IsTrue(Result.HasServiceRegistered<IForeignKeyManager>(ServiceLifetime.Singleton));
-			Assert.IsTrue(Result.HasServiceRegistered<ISimpleDBInitializer>(ServiceLifetime.Singleton));
+			Assert.IsTrue(Result.HasServiceRegistered<ISimpleDBManager>(ServiceLifetime.Singleton));
 			Assert.IsTrue(Result.HasServiceRegistered(ServiceLifetime.Singleton, typeof(ISimpleDBOperations<>)));
 		}
 
@@ -82,7 +82,7 @@ namespace SimpleDB.Tests
 			Assert.AreEqual(3, Result.ServicesRegistered);
 			Assert.AreSame(Result, mockServiceCollection);
 			Assert.IsTrue(Result.HasServiceRegistered<IForeignKeyManager>(ServiceLifetime.Singleton));
-			Assert.IsTrue(Result.HasServiceRegistered<ISimpleDBInitializer>(ServiceLifetime.Singleton));
+			Assert.IsTrue(Result.HasServiceRegistered<ISimpleDBManager>(ServiceLifetime.Singleton));
 			Assert.IsTrue(Result.HasServiceRegistered(ServiceLifetime.Singleton, typeof(ISimpleDBOperations<>)));
 		}
 
@@ -104,10 +104,10 @@ namespace SimpleDB.Tests
 				Assert.AreEqual(3, Result.ServicesRegistered);
 				Assert.AreSame(Result, mockServiceCollection);
 				Assert.IsTrue(Result.HasServiceRegistered<IForeignKeyManager>(ServiceLifetime.Singleton));
-				Assert.IsTrue(Result.HasServiceRegistered<ISimpleDBInitializer>(ServiceLifetime.Singleton));
+				Assert.IsTrue(Result.HasServiceRegistered<ISimpleDBManager>(ServiceLifetime.Singleton));
 				Assert.IsTrue(Result.HasServiceRegistered(ServiceLifetime.Singleton, typeof(ISimpleDBOperations<>)));
 
-				SimpleDBInitializer dbinitializer = mockServiceCollection.GetServiceInstance<ISimpleDBInitializer>(ServiceLifetime.Singleton) as SimpleDBInitializer;
+				SimpleDBManager dbinitializer = mockServiceCollection.GetServiceInstance<ISimpleDBManager>(ServiceLifetime.Singleton) as SimpleDBManager;
 				Assert.IsNotNull(dbinitializer);
 				Assert.AreEqual(directory, dbinitializer.Path);
 				Assert.AreEqual("EncKey", dbinitializer.EncryptionKey);

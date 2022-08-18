@@ -86,7 +86,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
                     
-                    ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
+                    ISimpleDBManager initializer = new SimpleDBManager(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
                     using (SimpleDBOperations<ExternalUsersDataRow> sut = new SimpleDBOperations<ExternalUsersDataRow>(initializer, keyManager, pluginClassesService))
                     {
@@ -116,7 +116,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
-                    ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
+                    ISimpleDBManager initializer = new SimpleDBManager(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
                     using (SimpleDBOperations<ExternalUsersDataRow> externalUserTable = new SimpleDBOperations<ExternalUsersDataRow>(initializer, keyManager, pluginClassesService))
                     {
@@ -162,7 +162,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
-                    ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
+                    ISimpleDBManager initializer = new SimpleDBManager(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
                     long userId = -1;
                     using (SimpleDBOperations<UserDataRow> userTable = new SimpleDBOperations<UserDataRow>(initializer, keyManager, pluginClassesService))
@@ -210,7 +210,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() });
 
-                    ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
+                    ISimpleDBManager initializer = new SimpleDBManager(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
                     long userId = -1;
                     using (SimpleDBOperations<UserDataRow> userTable = new SimpleDBOperations<UserDataRow>(initializer, keyManager, pluginClassesService))
@@ -258,7 +258,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
-                    ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
+                    ISimpleDBManager initializer = new SimpleDBManager(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
                     long userId = -1;
                     using (SimpleDBOperations<UserDataRow> userTable = new SimpleDBOperations<UserDataRow>(initializer, keyManager, pluginClassesService))

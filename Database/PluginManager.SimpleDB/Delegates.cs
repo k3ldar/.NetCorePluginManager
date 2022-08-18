@@ -15,27 +15,17 @@
  *
  *  Product:  SimpleDB
  *  
- *  File: ISimpleDBInitializer.cs
+ *  File: Delegates.cs
  *
- *  Purpose:  ISimpleDBInitializer interface for SimpleDB
+ *  Purpose:  Delegates for SimpleDB
  *
  *  Date        Name                Reason
- *  23/05/2022  Simon Carter        Initially Created
+ *  17/08/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+
 namespace SimpleDB
 {
-    public interface ISimpleDBInitializer
-    {
-        string Path { get; }
-
-        void RegisterTable(ISimpleDBTable textTable);
-
-        void UnregisterTable(ISimpleDBTable textTable);
-
-        IReadOnlyDictionary<string, ISimpleDBTable> Tables { get; }
-
-		void ClearMemory();
-    }
+	public delegate void SimpleDbEvent(ISimpleDBTable sender);
 }

@@ -39,6 +39,21 @@ namespace SimpleDB
         string TableName { get; }
 
 		/// <summary>
+		/// Retrieves the caching strategy for the table
+		/// </summary>
+		CachingStrategy CachingStrategy { get; }
+
+		/// <summary>
+		/// Retrieves the write strategy for the table
+		/// </summary>
+		WriteStrategy WriteStrategy { get; }
+
+		/// <summary>
+		/// Determines the sliding memory timeout for the table
+		/// </summary>
+		TimeSpan SlidingMemoryTimeout { get; }
+
+		/// <summary>
 		/// Determines whether an index works or not
 		/// </summary>
 		/// <param name="id"></param>
@@ -59,5 +74,7 @@ namespace SimpleDB
 		/// </summary>
 		void ClearAllMemory();
 
+
+		event SimpleDbEvent OnAction;
 	}
 }
