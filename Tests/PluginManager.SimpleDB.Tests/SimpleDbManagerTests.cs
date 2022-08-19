@@ -236,7 +236,7 @@ namespace SimpleDB.Tests
 
 					sutMemoryCleared = false;
 					mockTable.Insert(new MockRowSlidingMemory() { RowId = 1 });
-					//Assert.IsTrue(sutMemoryCleared);
+
 					int i = 0;
 
 					while (i < 10)
