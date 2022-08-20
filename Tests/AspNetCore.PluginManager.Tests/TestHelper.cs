@@ -24,11 +24,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AspNetCore.PluginManager.Tests
 {
@@ -41,7 +38,7 @@ namespace AspNetCore.PluginManager.Tests
 			string assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
 			_rootPath = Path.Combine(Path.GetFullPath(assemblyPath), "..\\..\\..\\..\\..\\", "Output", "TestFolders");
-			
+
 			if (!Directory.Exists(_rootPath))
 				Directory.CreateDirectory(_rootPath);
 		}

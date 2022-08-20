@@ -43,10 +43,13 @@
             </summary>
             <value>int</value>
         </member>
-        <member name="M:MemoryCache.Plugin.DefaultMemoryCache.RemoveAllCaches">
+        <member name="M:MemoryCache.Plugin.DefaultMemoryCache.#ctor(PluginManager.Abstractions.ISettingsProvider,System.Boolean,System.DateTime)">
             <summary>
-            Internal method for unit test purposes only!
+            Constructor used for internal unit testing only !!
             </summary>
+            <param name="settingsProvider"></param>
+            <param name="clearExisting"></param>
+            <param name="clearDate"></param>
         </member>
         <member name="T:MemoryCache.Plugin.MemoryCachePluginExtender">
             <summary>

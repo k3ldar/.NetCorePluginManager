@@ -56,7 +56,56 @@ namespace MemoryCache.Plugin
 
         public DefaultMemoryCache(ISettingsProvider settingsProvider)
         {
-            MemoryClassPluginSettings settings = settingsProvider.GetSettings<MemoryClassPluginSettings>("MemoryCachePluginConfiguration");
+			MemoryClassPluginSettings settings = settingsProvider.GetSettings<MemoryClassPluginSettings>("MemoryCachePluginConfiguration");
+
+			// create the caches
+			if (_cache == null)
+				_cache = new CacheManager(Constants.CacheNameDefault,
+					new TimeSpan(0, settings.DefaultCacheDuration, 0));
+
+			if (_cacheShort == null)
+				_cacheShort = new CacheManager(Constants.CacheNameShort,
+					new TimeSpan(0, settings.ShortCacheDuration, 0));
+
+			if (_extendingCache == null)
+				_extendingCache = new CacheManager(Constants.CacheNameExtending,
+					new TimeSpan(0, settings.DefaultCacheDuration, 0), true);
+
+			if (_permanentCache == null)
+				_permanentCache = new CacheManager(Constants.CacheNamePermanent,
+					new TimeSpan(5000, 0, 0, 0), true);
+		}
+
+		/// <summary>
+		/// Constructor used for internal unit testing only !!
+		/// </summary>
+		/// <param name="settingsProvider"></param>
+		/// <param name="clearExisting"></param>
+		/// <param name="clearDate"></param>
+		internal DefaultMemoryCache(ISettingsProvider settingsProvider, bool clearExisting, DateTime clearDate)
+		{
+			if (clearExisting && DateTime.UtcNow.AddDays(10).Date.Equals(clearDate.Date))
+			{
+				if (_cache != null)
+					CacheManager.RemoveCacheManager(_cache.Name);
+
+				_cache = null;
+				
+				if (_cacheShort != null)
+					CacheManager.RemoveCacheManager(_cacheShort.Name);
+				_cacheShort = null;
+				
+				if (_extendingCache != null)
+					CacheManager.RemoveCacheManager(_extendingCache.Name);
+				_extendingCache = null;
+				
+				if (_permanentCache != null)
+					CacheManager.RemoveCacheManager(_permanentCache.Name);
+
+				_permanentCache = null;
+			}
+
+			MemoryClassPluginSettings settings = settingsProvider.GetSettings<MemoryClassPluginSettings>("MemoryCachePluginConfiguration");
 
             // create the caches
             if (_cache == null)
@@ -74,7 +123,7 @@ namespace MemoryCache.Plugin
             if (_permanentCache == null)
                 _permanentCache = new CacheManager(Constants.CacheNamePermanent,
                     new TimeSpan(5000, 0, 0, 0), true);
-        }
+		}
 
         #endregion Constructors
 
@@ -107,24 +156,5 @@ namespace MemoryCache.Plugin
         }
 
         #endregion Public Methods
-
-        #region Internal Methods
-
-        /// <summary>
-        /// Internal method for unit test purposes only!
-        /// </summary>
-        internal void RemoveAllCaches()
-        {
-            CacheManager.RemoveCacheManager(_cache.Name);
-            _cache = null;
-            CacheManager.RemoveCacheManager(_cacheShort.Name);
-            _cacheShort = null;
-            CacheManager.RemoveCacheManager(_extendingCache.Name);
-            _extendingCache = null;
-            CacheManager.RemoveCacheManager(_permanentCache.Name);
-            _permanentCache = null;
-        }
-
-        #endregion Internal Methods
     }
 }

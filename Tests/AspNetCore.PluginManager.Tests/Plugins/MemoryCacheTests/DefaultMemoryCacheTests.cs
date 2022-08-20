@@ -23,6 +23,7 @@
  *  30/08/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 using AspNetCore.PluginManager.Tests.Shared;
@@ -46,58 +47,45 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
         [TestCategory(TestsCategory)]
         public void Construct_DefaultCachesAreCreated()
         {
-            DefaultMemoryCache sut = new DefaultMemoryCache(new MockSettingsProvider());
-            try
-            {
-                Assert.IsNotNull(sut);
+            DefaultMemoryCache sut = new DefaultMemoryCache(new MockSettingsProvider(), true, DateTime.UtcNow.AddDays(10));
 
-                Assert.IsNotNull(sut.GetCache());
-                Assert.IsNotNull(sut.GetExtendingCache());
-                Assert.IsNotNull(sut.GetPermanentCache());
-                Assert.IsNotNull(sut.GetShortCache());
-            }
-            finally
-            {
-                sut.RemoveAllCaches();
-            }
+            Assert.IsNotNull(sut);
+
+            Assert.IsNotNull(sut.GetCache());
+            Assert.IsNotNull(sut.GetExtendingCache());
+            Assert.IsNotNull(sut.GetPermanentCache());
+            Assert.IsNotNull(sut.GetShortCache());
         }
 
         [TestMethod]
         [TestCategory(TestsCategory)]
         public void ResetCaches_EnsureCachedItemsAreCleared()
         {
-            DefaultMemoryCache sut = new DefaultMemoryCache(new MockSettingsProvider());
-            try
-            {
-                Assert.IsNotNull(sut);
+            DefaultMemoryCache sut = new DefaultMemoryCache(new MockSettingsProvider(), true, DateTime.UtcNow.AddDays(10));
 
-                Assert.IsNotNull(sut.GetCache());
-                Assert.IsNotNull(sut.GetExtendingCache());
-                Assert.IsNotNull(sut.GetPermanentCache());
-                Assert.IsNotNull(sut.GetShortCache());
+            Assert.IsNotNull(sut);
 
-                sut.GetCache().Add("cache", new CacheItem("cache", true));
-                sut.GetExtendingCache().Add("extending cache", new CacheItem("extending cache", true));
-                sut.GetPermanentCache().Add("permanent cache", new CacheItem("permanent cache", true));
-                sut.GetShortCache().Add("short cache", new CacheItem("short cache", true));
+            Assert.IsNotNull(sut.GetCache());
+            Assert.IsNotNull(sut.GetExtendingCache());
+            Assert.IsNotNull(sut.GetPermanentCache());
+            Assert.IsNotNull(sut.GetShortCache());
 
-                Assert.IsNotNull(sut.GetCache().Get("cache"));
-                Assert.IsNotNull(sut.GetExtendingCache().Get("extending cache"));
-                Assert.IsNotNull(sut.GetPermanentCache().Get("permanent cache"));
-                Assert.IsNotNull(sut.GetShortCache().Get("short cache"));
+            sut.GetCache().Add("cache", new CacheItem("cache", true));
+            sut.GetExtendingCache().Add("extending cache", new CacheItem("extending cache", true));
+            sut.GetPermanentCache().Add("permanent cache", new CacheItem("permanent cache", true));
+            sut.GetShortCache().Add("short cache", new CacheItem("short cache", true));
 
-                sut.ResetCaches();
+            Assert.IsNotNull(sut.GetCache().Get("cache"));
+            Assert.IsNotNull(sut.GetExtendingCache().Get("extending cache"));
+            Assert.IsNotNull(sut.GetPermanentCache().Get("permanent cache"));
+            Assert.IsNotNull(sut.GetShortCache().Get("short cache"));
 
-                Assert.IsNull(sut.GetCache().Get("cache"));
-                Assert.IsNotNull(sut.GetExtendingCache().Get("extending cache"));
-                Assert.IsNotNull(sut.GetPermanentCache().Get("permanent cache"));
-                Assert.IsNull(sut.GetShortCache().Get("short cache"));
+            sut.ResetCaches();
 
-            }
-            finally
-            {
-                sut.RemoveAllCaches();
-            }
+            Assert.IsNull(sut.GetCache().Get("cache"));
+            Assert.IsNotNull(sut.GetExtendingCache().Get("extending cache"));
+            Assert.IsNotNull(sut.GetPermanentCache().Get("permanent cache"));
+            Assert.IsNull(sut.GetShortCache().Get("short cache"));
         }
     }
 }
