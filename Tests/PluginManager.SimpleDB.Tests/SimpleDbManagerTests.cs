@@ -32,6 +32,8 @@ using AspNetCore.PluginManager.Tests.Shared;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Shared.Classes;
+
 using SimpleDB.Internal;
 using SimpleDB.Tests.Mocks;
 
@@ -41,7 +43,7 @@ namespace SimpleDB.Tests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class TextTableInitializerTests
+    public class SimpleDbManagerTests
     {
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
@@ -49,7 +51,7 @@ namespace SimpleDB.Tests
         {
             try
             {
-                new SimpleDBInitializer(path: null);
+                new SimpleDBManager(path: null);
             }
             catch (ArgumentNullException e)
             {
@@ -64,7 +66,7 @@ namespace SimpleDB.Tests
         {
             try
             {
-                new SimpleDBInitializer("");
+                new SimpleDBManager("");
             }
             catch (ArgumentNullException e)
             {
@@ -80,7 +82,7 @@ namespace SimpleDB.Tests
             string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
             {
-                new SimpleDBInitializer(directory);
+                new SimpleDBManager(directory);
             }
             catch (ArgumentException e)
             {
@@ -97,7 +99,7 @@ namespace SimpleDB.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                SimpleDBInitializer sut = new SimpleDBInitializer(directory);
+                SimpleDBManager sut = new SimpleDBManager(directory);
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
             }
@@ -115,7 +117,7 @@ namespace SimpleDB.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                SimpleDBInitializer sut = new SimpleDBInitializer(directory);
+                SimpleDBManager sut = new SimpleDBManager(directory);
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
 
@@ -135,7 +137,7 @@ namespace SimpleDB.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                SimpleDBInitializer sut = new SimpleDBInitializer(directory);
+                SimpleDBManager sut = new SimpleDBManager(directory);
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
 
@@ -155,7 +157,7 @@ namespace SimpleDB.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                SimpleDBInitializer sut = new SimpleDBInitializer(directory);
+                SimpleDBManager sut = new SimpleDBManager(directory);
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
 
@@ -179,7 +181,7 @@ namespace SimpleDB.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                SimpleDBInitializer sut = new SimpleDBInitializer(directory);
+                SimpleDBManager sut = new SimpleDBManager(directory);
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
                 MockForeignKeyManager foreignKeyManager = new MockForeignKeyManager();
@@ -202,7 +204,63 @@ namespace SimpleDB.Tests
                 Directory.Delete(directory, true);
             }
         }
-    }
+
+		[TestMethod]
+		public void Run_ClearsMemoryViaThread_AfterRecordInserted_Success()
+		{
+			ThreadManager.Initialise();
+			string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+			try
+			{
+				Directory.CreateDirectory(directory);
+				bool sutMemoryCleared = false;
+				SimpleDBManager sut = new SimpleDBManager(directory);
+				sut.OnMemoryCleared += (sender) => sutMemoryCleared = true;
+				Assert.AreEqual(1u, sut.MinimumVersion);
+				Assert.AreEqual(directory, sut.Path);
+				MockForeignKeyManager foreignKeyManager = new MockForeignKeyManager();
+				Assert.AreEqual(0, foreignKeyManager.RegisteredTables.Count);
+
+				using (SimpleDBOperations<MockRowSlidingMemory> mockTable = new SimpleDBOperations<MockRowSlidingMemory>(sut, foreignKeyManager, new MockPluginClassesService()))
+				{
+					Assert.AreEqual(1, foreignKeyManager.RegisteredTables.Count);
+					Assert.IsTrue(foreignKeyManager.RegisteredTables.Contains("MockTableSlidingMemory"));
+
+					IReadOnlyDictionary<string, ISimpleDBTable> tables = sut.Tables;
+					Assert.AreEqual(1, tables.Count);
+					Assert.IsTrue(tables.ContainsKey("MockTableSlidingMemory"));
+
+					bool clearMemoryInvoked = false;
+
+					sut.OnMemoryCleared += (ISimpleDBTable table) => clearMemoryInvoked = true;
+
+					sutMemoryCleared = false;
+					mockTable.Insert(new MockRowSlidingMemory() { RowId = 1 });
+
+					int i = 0;
+
+					while (i < 10)
+					{
+						if (clearMemoryInvoked)
+							break;
+
+						System.Threading.Thread.Sleep(200);
+						i++;
+					}
+
+					Assert.IsTrue(clearMemoryInvoked);
+					Assert.IsTrue(sutMemoryCleared);
+				}
+
+				Assert.AreEqual(0, foreignKeyManager.RegisteredTables.Count);
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+				ThreadManager.Finalise();
+			}
+		}
+	}
 }
 
 #pragma warning restore CA1806

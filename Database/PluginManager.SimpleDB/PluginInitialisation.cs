@@ -78,9 +78,7 @@ namespace SimpleDB
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
-            services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
-            services.AddSingleton<ISimpleDBInitializer, SimpleDBInitializer>();
-            services.AddSingleton(typeof(ISimpleDBOperations<>), typeof(SimpleDBOperations<>));
+			services.AddSimpleDB();
         }
 
         public void AfterConfigureServices(in IServiceCollection services)

@@ -411,15 +411,20 @@ namespace PluginManager
         /// <param name="pluginName">Filename of plugin to be loaded.</param>
         /// <param name="copyLocal">If true, copies the plugin to a local temp area to load from.</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
-        public void PluginLoad(in string pluginName, in bool copyLocal)
+        public void PluginLoad(string pluginName, in bool copyLocal)
         {
             if (String.IsNullOrEmpty(pluginName))
                 throw new ArgumentNullException(nameof(pluginName));
 
             try
             {
-                if (!File.Exists(pluginName))
-                    throw new FileNotFoundException($"Assembly file not found: {nameof(pluginName)}");
+				if (!File.Exists(pluginName))
+				{
+					pluginName = Path.Combine(Assembly.GetExecutingAssembly().Location, pluginName);
+
+					if (!File.Exists(pluginName))
+						throw new FileNotFoundException($"Assembly file not found: {nameof(pluginName)}");
+				}
 
                 string pluginFile = copyLocal ? GetLocalCopyOfPlugin(pluginName) : pluginName;
 

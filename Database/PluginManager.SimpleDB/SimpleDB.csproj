@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Description>SimpleDB - Storage simplified, use your own classes to describe data which is then written and retrieved from storage.  Includes foriegn keys, unique indexes, before and after triggers for create, update and delete methods</Description>
+    <PackageReadmeFile>SimpleDB.md</PackageReadmeFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,6 +28,13 @@
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>PluginManager.DAL.TextFiles.Tests</_Parameter1>
     </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\Docs\Package\SimpleDB.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

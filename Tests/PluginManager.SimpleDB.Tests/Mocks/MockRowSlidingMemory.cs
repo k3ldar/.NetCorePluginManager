@@ -15,54 +15,22 @@
  *
  *  Product:  SimpleDB.Tests
  *  
- *  File: MockTextTable.cs
+ *  File: MockRowSlidingMemory.cs
  *
- *  Purpose:  MockTextTable for SimpleDB
- *  
+ *  Purpose:  MockRow for SimpleDB
+ *
  *  Date        Name                Reason
- *  02/06/2022  Simon Carter        Initially Created
+ *  18/08/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SimpleDB.Tests.Mocks
 {
-	public class MockTextTable : ISimpleDBTable
-    {
-        private readonly string _tableName;
-        private readonly bool _idExists;
-
-        public MockTextTable(string tableName, bool idExists)
-        {
-            _tableName = tableName;
-            _idExists = idExists;
-        }
-
-        public string TableName => _tableName;
-
-		public CachingStrategy CachingStrategy => throw new NotImplementedException();
-
-		public WriteStrategy WriteStrategy => throw new NotImplementedException();
-
-		public TimeSpan SlidingMemoryTimeout => throw new NotImplementedException();
-
-#pragma warning disable CS0067
-		public event SimpleDbEvent OnAction;
-#pragma warning restore CS0067
-
-		public void ClearAllMemory()
-		{
-			throw new NotImplementedException();
-		}
-
-		public bool IdExists(long id)
-        {
-            return _idExists;
-        }
-
-        public bool IdIsInUse(string propertyName, long value)
-        {
-            throw new NotImplementedException();
-        }
-    }
+	[ExcludeFromCodeCoverage]
+	[Table("MockTableSlidingMemory", cachingStrategy: CachingStrategy.SlidingMemory, SlidingMemoryTimeoutMilliseconds = 2)]
+	internal class MockRowSlidingMemory : TableRowDefinition
+	{
+		public int RowId { get; set; }
+	}
 }
