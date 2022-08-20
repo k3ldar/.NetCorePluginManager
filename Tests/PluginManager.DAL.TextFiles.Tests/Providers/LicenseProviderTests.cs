@@ -23,10 +23,7 @@
  *  16/07/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
@@ -40,18 +37,19 @@ using Middleware.Accounts.Licences;
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
+
 using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
-    [TestClass]
+	[TestClass]
     [ExcludeFromCodeCoverage]
     public class LicenseProviderTests : BaseProviderTests
     {
         [TestMethod]
         public void Construct_ValidInstance_Success()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -76,7 +74,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void LicenceTypesGet_NoLicenseTypesAvailable_ReturnsEmptyList()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -108,7 +106,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void LicenceTypesGet_MultipleLicenseTypesAvailable_ReturnsList()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -146,7 +144,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void LicencesGet_UserDoesNotExist_ReturnsEmptyList()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -175,7 +173,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void LicencesGet_FindsUserLicences_ReturnsList()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -252,7 +250,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void LicencesUpdateDomain_LicenseIsNull_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -278,7 +276,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void LicencesUpdateDomain_DomainIsNull_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -304,7 +302,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void LicencesUpdateDomain_UserNotFound_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -330,7 +328,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void LicenceUpdateDomain_DomainUpdated_IncrementCountUpdated_ReturnsTrue()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -419,7 +417,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void LicenceTrialCreate_LicenseTypeNull_Throws_ArgumentNullException()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -445,7 +443,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void LicenceTrialCreate_UserNotFound_ReturnsFailed()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -472,7 +470,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void LicenceTrialCreate_TrialLicenseAlreadyExists_ReturnsExisting()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -527,7 +525,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void LicenceTrialCreate_UserValidAndDoesNotHaveTrialLicense_ReturnsSuccess()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);

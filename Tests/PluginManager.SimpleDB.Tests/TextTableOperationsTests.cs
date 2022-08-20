@@ -23,8 +23,6 @@
  *  30/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -33,7 +31,6 @@ using AspNetCore.PluginManager.Tests.Shared;
 
 using io = System.IO;
 using SimpleDB.Tests.Mocks;
-using System.IO;
 using SimpleDB.Internal;
 
 #pragma warning disable CA1806
@@ -47,7 +44,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void Construct_ValidInstance_Success()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -73,7 +70,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Initialize_InvalidParam_ForeignKeyManagerNull_Throws_ArgumentNullException()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -89,7 +86,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void Initialize_TableCanNotBeDeletedOrWrittenWhilstOpen()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -105,7 +102,7 @@ namespace SimpleDB.Tests
                     }
                     catch (System.IO.IOException err)
                     {
-                        Assert.AreEqual($"The process cannot access the file '{directory}\\MockTable.dat' because it is being used by another process.", err.Message);
+                        Assert.IsTrue(err.Message.StartsWith("The process cannot access the file"));
                     }
                 }
             }
@@ -118,7 +115,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void Initialize_TableFileNotFound_CreatesNewTableFile_Success()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -138,7 +135,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Insert_Multiple_InvalidParamNull_Throws_ArgumentNullException()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -158,7 +155,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Insert_SingleRecord_InvalidParamNull_Throws_ArgumentNullException()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -178,7 +175,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(ObjectDisposedException))]
         public void Insert_SingleRecord_ClassAlreadyDisposed_Throws_ObjectDisposedException()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -197,7 +194,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void Insert_SingleRecord_ForcedWrite_Success()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -232,7 +229,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void Insert_SingleRecord_LazyWrite_Success()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -268,7 +265,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void Insert_SingleRecord_OtherRecordsExist_Success()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -299,7 +296,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(ObjectDisposedException))]
         public void Delete_SingleRecord_ObjectAlreadydisposed_Throws_ObjectDisposedException()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -320,7 +317,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Delete_SingleRecord_ArgNull_Throws_ArgumentNullException()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -339,7 +336,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void Delete_SingleRecord_RecordIsRemoved_Success()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -382,7 +379,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(ObjectDisposedException))]
         public void Delete_Multiple_ObjectAlreadydisposed_Throws_ObjectDisposedException()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -403,7 +400,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Delete_Multiple_ArgNull_Throws_ArgumentNullException()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -422,7 +419,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void Delete_Multiple_RecordIsRemoved_Success()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -471,7 +468,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void CompactPercent_AfterMultipleRowsRemoved_IsAccurate_Success()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -520,7 +517,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(ObjectDisposedException))]
         public void Update_SingleRecord_ObjectAlreadydisposed_Throws_ObjectDisposedException()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -541,7 +538,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Update_SingleRecord_ArgNull_Throws_ArgumentNullException()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -560,7 +557,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void Update_SingleRecord_RecordIsUpdated_Success()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -606,7 +603,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(ObjectDisposedException))]
         public void Update_Multiple_ObjectAlreadydisposed_Throws_ObjectDisposedException()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -627,7 +624,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Update_Multiple_ArgNull_Throws_ArgumentNullException()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -646,7 +643,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void Update_Multiple_RecordIsUpdated_Success()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -704,7 +701,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(ObjectDisposedException))]
         public void Insert_Multiple_ObjectAlreadyDisposed_Throws_ObjectDisposedException()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -724,7 +721,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void Insert_Multiple_Writes15168Records_Success()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -760,7 +757,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void Insert_Multiple_Writes5RecordsWithCorrectSequence_Success()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -803,7 +800,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void Insert_Multiple_Writes15168Records_Compressed_Success()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -842,7 +839,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(ObjectDisposedException))]
         public void Select_ById_ObjectDisposed_Throws_ObjectDisposedException()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -861,7 +858,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void Select_ById_InstanceNotFound_Returns_Null()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -881,7 +878,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void Select_ById_RecordFoundAndReturned_Success()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -923,7 +920,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(ObjectDisposedException))]
         public void NextSequence_ObjectAlreadyDisposed_Throws_ObjectDisposedException()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -943,7 +940,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void NextSequence_IncrementsAndIsSavedStraightAwayToFile_Success()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -969,7 +966,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(ObjectDisposedException))]
         public void ResetSequence_ObjectAlreadyDisposed_Throws_ObjectDisposedException()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -989,7 +986,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void ResetSequence_SetsCorrectValue_Success()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -1022,7 +1019,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void ImmutableId_AfterLoadedFromDisk_Throws_InvalidOperationException()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -1083,7 +1080,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void InsertOrUpdate_InsertMultipleNewRows_Success()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -1117,7 +1114,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void InsertOrUpdate_UpdateMultipleNewRows_Success()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -1188,7 +1185,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void Insert_IndexSpansMultipleProperties_Success()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -1223,7 +1220,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(UniqueIndexException))]
         public void Insert_IndexSpansMultipleProperties_ValueAlreadyIndexed_ThrowsUniqueIndexException()
         {
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);

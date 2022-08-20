@@ -128,7 +128,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void EventRaised_ExceptionRaised_LoggedAndFails_ReturnsFalse()
         {
-            string imagePath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string imagePath = TestHelper.GetTestPath();
 
             try
             {
@@ -338,7 +338,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void EventRaised_EventNameImageUploadedEvent_SingleFileMakes5CopiesInDifferentSizes_ReturnsTrue()
         {
-            string imagePath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string imagePath = TestHelper.GetTestPath();
 
             try
             {
@@ -383,7 +383,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void EventRaised_EventNameImageUploadedEvent_SingleFileMakes1CopiesInDifferentSize_ReturnsTrue()
         {
-            string imagePath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string imagePath = TestHelper.GetTestPath();
 
             try
             {
@@ -425,7 +425,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void EventRaised_EventNameImageUploadedEvent_TwoFilesMakes1CopyOfEachInDifferentSizes_ReturnsTrue()
         {
-            string imagePath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string imagePath = TestHelper.GetTestPath();
 
             try
             {

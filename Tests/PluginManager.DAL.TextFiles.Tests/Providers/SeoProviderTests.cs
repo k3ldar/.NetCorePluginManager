@@ -23,10 +23,7 @@
  *  07/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
@@ -64,7 +61,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddKeyword_RouteNull_Throws_ArgumentNullException()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -89,7 +86,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddKeyword_KeywordNull_Throws_ArgumentNullException()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -113,7 +110,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void AddKeyword_KeywordAddedToNewRoute_ReturnsTrue()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -149,7 +146,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void AddKeyword_DuplicateKeywordAddedToRoute_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -189,7 +186,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddKeywords_RouteNull_Throws_ArgumentNullException()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -213,7 +210,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void AddKeywords_KeywordsNull_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -238,7 +235,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void AddKeywords_AddMultipleWithDuplicates_OnlyUniqueItemsAdded()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -296,7 +293,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetSeoDataForRoute_NoDataFound_Returns_False()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -327,7 +324,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetSeoDataForRoute_DataFound_Returns_True()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -384,7 +381,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void RemoveKeyword_RouteIsNull_Throws_ArgumentNullException()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -407,7 +404,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void RemoveKeyword_KeywordIsNull_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -432,7 +429,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void RemoveKeyword_RouteNotFound_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -456,7 +453,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void RemoveKeyword_KeywordNotFound_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -497,7 +494,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void RemoveKeyword_KeywordFoundAndRemoved_ReturnsTrue()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -546,7 +543,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void RemoveKeywords_RouteIsNull_Throws_ArgumentNullException()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -570,7 +567,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void RemoveKeywords_KeywordsIsNull_Throws_ArgumentNullException()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -593,7 +590,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void RemoveKeywords_RouteNotFound_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -617,7 +614,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void RemoveKeywords_KeywordsFoundAndRemoved_ReturnsTrue()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -671,7 +668,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void UpdateDescription_RouteIsNull_Throws_ArgumentNullException()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -694,7 +691,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void UpdateDescription_DescriptionIsNull_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -719,7 +716,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void UpdateDescription_RouteNotFound_RouteCreated_ReturnsTrue()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -750,7 +747,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void UpdateDescription_DataFoundAndUpdated_Returns_True()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -798,7 +795,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void UpdateTitle_RouteIsNull_Throws_ArgumentNullException()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -821,7 +818,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void UpdateTitle_TitleIsNull_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -846,7 +843,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void UpdateTitle_RouteNotFound_CreateRoute_ReturnsTrue()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -877,7 +874,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void UpdateTitle_DataFoundAndUpdated_Returns_True()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -925,7 +922,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void UpdateAuthor_RouteIsNull_Throws_ArgumentNullException()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -948,7 +945,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void UpdateAuthor_AuthorIsNull_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -973,7 +970,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void UpdateAuthor_RouteNotFound_RouteCreated_ReturnsTrue()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -1004,7 +1001,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void UpdateAuthor_DataFoundAndUpdated_Returns_True()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);

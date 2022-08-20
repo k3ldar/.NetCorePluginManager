@@ -23,10 +23,6 @@
  *  18/07/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.IO;
-
 using AspNetCore.PluginManager.Tests.Shared;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -43,7 +39,7 @@ using PluginManager.Tests.Mocks;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
-    [TestClass]
+	[TestClass]
     public class HelpdeskProviderTests : BaseProviderTests
     {
         [TestMethod]
@@ -56,7 +52,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetTicketDepartments_ReturnsListOfDefaultDepartments()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -95,7 +91,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetTicketPriorities_ReturnsListOfDefaultPriorities()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -134,7 +130,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetTicketStatus_ReturnsListOfDefaultStatuses()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -173,7 +169,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetFeedback_AllFeedBack_ReturnsEmptyList()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -203,7 +199,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetFeedback_NoFeedbackAllowedOnWebsite_ReturnsEmptyList()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -245,7 +241,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetFeedback_OnlyFeedbackAllowedOnWebsite_ReturnsTwoItems()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -289,7 +285,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetFeedback_GetAllFeedback_ReturnsThreeItems()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -333,7 +329,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void SubmitFeedback_FeedbackShowOnWebsiteIsFalse_Success()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -379,7 +375,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void SubmitTicket_InvalidUserName_Null_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -411,7 +407,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void SubmitTicket_InvalidEmail_Null_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -443,7 +439,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void SubmitTicket_InvalidSubject_Null_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -475,7 +471,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void SubmitTicket_InvalidMessage_Null_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -507,7 +503,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void SubmitTicket_ValidTicketDetails_ReturnsTrue()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -554,7 +550,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetTicket_InvalidTicketId_ReturnsNull()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -585,7 +581,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetTicket_UseIdValidTicketDetails_ReturnsHelpdeskTicket()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -626,7 +622,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetTicket_UseEmailAndKeyInvalidTicketDetails_ReturnsNull()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -663,7 +659,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetTicket_UseEmailAndKeyValidTicketDetails_ReturnsHelpdeskTicket()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -704,7 +700,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void TicketRespond_ResponseAddedToExistingTicket_ReturnsTrue()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -762,7 +758,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetKnowledgebaseGroups_NoGroupsAvailable_ReturnsEmptyList()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -800,7 +796,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetKnowledgebaseGroups_GroupsAvailable_ReturnsAllGroupsWithAndWithoutParent()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -871,7 +867,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetKnowledgebaseGroup_GroupsAvailable_ReturnsCorrectGroupWithNullParent()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -935,7 +931,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetKnowledgebaseGroup_GroupsAvailable_ReturnsCorrectGroupWithParent()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -1000,7 +996,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void KnowledgebaseView_ViewCountIncremented()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -1064,7 +1060,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetKnowledgebaseItem_ItemNotFound_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -1104,7 +1100,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetKnowledgebaseItem_ItemFound_ReturnsTrue()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);

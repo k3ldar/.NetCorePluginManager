@@ -23,10 +23,7 @@
  *  25/07/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
@@ -49,7 +46,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void DownloadCategoriesGet_AnyUser_ReturnsCategoryListForAllUsers()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -110,7 +107,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void DownloadCategoriesGet_SpecificUser_ReturnsCategoryListForUser()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -171,7 +168,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void DownloadCategoriesGet_ReturnsCategoryListForAnyUser()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -232,7 +229,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetDownloadItem_ItemNotFound_ReturnsNull()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -260,7 +257,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetDownloadItem_AllUsers_ReturnsDownLoadItem()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -306,7 +303,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetDownloadItem_UsersSpecificFile_ReturnsDownLoadItem()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -352,7 +349,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ItemDownloaded_AllUsers_DownloadCountIncremented()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -406,7 +403,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ItemDownloaded_SpecificUser_DownloadCountIncremented()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);

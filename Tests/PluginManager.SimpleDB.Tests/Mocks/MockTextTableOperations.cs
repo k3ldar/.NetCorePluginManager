@@ -23,12 +23,10 @@
  *  07/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
 
 namespace SimpleDB.Tests.Mocks
 {
-    public class MockTextTableOperations<T> : ISimpleDBOperations<T>, ISimpleDBTable
+	public class MockTextTableOperations<T> : ISimpleDBOperations<T>, ISimpleDBTable
         where T : TableRowDefinition
     {
         public int DataLength => throw new NotImplementedException();

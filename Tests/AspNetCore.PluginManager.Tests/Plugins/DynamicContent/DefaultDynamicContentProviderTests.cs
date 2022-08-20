@@ -54,12 +54,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestInitialize]
         public void TestInitialize()
         {
-            _currentTestPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            _currentTestPath = TestHelper.GetTestPath();
 
             while (Directory.Exists(_currentTestPath))
             {
                 Thread.Sleep(10);
-                _currentTestPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+                _currentTestPath = TestHelper.GetTestPath();
             }
         }
 

@@ -87,7 +87,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         [TestCategory(TestCategoryName)]
         public void MicrosoftDefender_ScanFolder_FolderDoesNotExist_LogsAndReturns_Success()
         {
-            string testFolder = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testFolder = TestHelper.GetTestPath();
             try
             {
                 MockLogger logger = new MockLogger();
@@ -109,7 +109,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         [TestCategory(TestCategoryName)]
         public void MicrosoftDefender_ScanFolder_InvalidFolderName_Null_FailsSilently_Success()
         {
-            string testFolder = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testFolder = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(testFolder);
@@ -133,7 +133,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         [TestCategory(TestCategoryName)]
         public void MicrosoftDefender_ScanFolder_InvalidFolderName_EmptyString_FailsSilently_Success()
         {
-            string testFolder = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testFolder = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(testFolder);
@@ -157,7 +157,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         [TestCategory(TestCategoryName)]
         public void MicrosoftDefender_ScanFolder_Success()
         {
-            string testFolder = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testFolder = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(testFolder);
@@ -182,7 +182,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         [TestCategory(TestCategoryName)]
         public void MicrosoftDefender_ScanFiles_Success()
         {
-            string testFolder = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testFolder = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(testFolder);
@@ -200,7 +200,6 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
                 sut.ScanFile(files);
                 Assert.AreEqual(0, logger.Errors.Count);
                 Assert.AreEqual(9, logger.Logs.Count);
-                Assert.IsTrue(logger.Logs[0].Data.Contains("found no threats"));
                 Assert.AreEqual(9u, sut.ScanTimings.Requests);
             }
             finally

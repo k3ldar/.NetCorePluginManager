@@ -23,9 +23,7 @@
  *  11/08/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 
 using AspNetCore.PluginManager.DemoWebsite.Classes.Mocks;
 using AspNetCore.PluginManager.Tests.Shared;
@@ -51,7 +49,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 		[TestMethod]
 		public void Construct_ValidInstance_Success()
 		{
-			string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+			string directory = TestHelper.GetTestPath();
 			try
 			{
 				ThreadManager.Initialise();
@@ -79,7 +77,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 		[TestMethod]
 		public void GetUrlHash_ConvertsToSameHash_Success()
 		{
-			string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+			string directory = TestHelper.GetTestPath();
 			try
 			{
 				ThreadManager.Initialise();

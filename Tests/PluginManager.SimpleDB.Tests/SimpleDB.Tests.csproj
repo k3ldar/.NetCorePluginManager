@@ -4,6 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +21,10 @@
     <ProjectReference Include="..\..\Tests\PluginManager.Tests\PluginManager.Tests.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="AspNetCore.PluginManager.Tests"/>
+  </ItemGroup>
+  
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>PluginManager.DAL.TextFiles.Tests</_Parameter1>

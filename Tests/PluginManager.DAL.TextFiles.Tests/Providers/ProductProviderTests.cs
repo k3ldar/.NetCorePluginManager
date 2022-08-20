@@ -23,11 +23,7 @@
  *  07/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Linq;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
@@ -73,7 +69,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void Construct_ValidInstance_Success()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -101,7 +97,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ProductGroupDelete_OnlyOneGroupRemains_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -127,7 +123,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ProductGroupDelete_GroupNotFound_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -158,7 +154,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ProductGroupDelete_GroupContainsProducts_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -195,7 +191,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ProductGroupDelete_GroupDeleted_ReturnsTrue()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -226,7 +222,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ProductGroupGet_GroupNotFound_ReturnsNull()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -256,7 +252,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ProductGroupGet_GroupFound_ReturnsProductGroup()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -282,7 +278,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ProductGroupsGet_ReturnsDefaultProductGroup()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -309,7 +305,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ProductGroupsGet_ReturnsAllProductGroups_PreSorted()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -347,7 +343,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ProductGroupSave_ExistingRecord_DescriptionTooShort_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -373,7 +369,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ProductGroupSave_NewRecord_DescriptionTooShort_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -399,7 +395,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ProductGroupSave_NewRecord_DescriptionNull_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -425,7 +421,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ProductGroupSave_NewRecord_DescriptionTooLong_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -451,7 +447,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ProductGroupSave_NewRecord_CreatesProductGroup_ReturnsTrue()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -484,7 +480,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetProduct_ProductDoesNotExist_ReturnsNull()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -509,7 +505,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetProduct_ProductExists_ReturnsProduct()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -548,7 +544,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void GetProducts_FiveProductsFromPageTwo_ReturnsProducts()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -605,7 +601,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ProductSave_NewRecord_InvalidName_TooShort_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -632,7 +628,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ProductSave_ExistingRecord_InvalidName_TooShort_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -663,7 +659,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ProductSave_NewRecord_InvalidName_TooLong_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -690,7 +686,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ProductSave_NewRecord_InvalidName_Null_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -717,7 +713,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ProductSave_NewRecord_InvalidDescription_TooShort_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -744,7 +740,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ProductSave_NewRecord_InvalidDescription_Null_ReturnsFalse()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);

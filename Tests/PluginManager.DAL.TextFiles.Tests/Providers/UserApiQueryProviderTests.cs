@@ -23,10 +23,6 @@
  *  23/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.IO;
-
 using AspNetCore.PluginManager.Tests.Shared;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -48,7 +44,7 @@ using SharedPluginFeatures;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
-    [TestClass]
+	[TestClass]
     public class UserApiQueryProviderTests : BaseProviderTests
     {
         [TestMethod]
@@ -68,7 +64,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ApiSecret_InvalidParam_MerchantIDNull_Returns_False()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -99,7 +95,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ApiSecret_InvalidParam_ApiKeyNull_Returns_False()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -130,7 +126,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ApiSecret_RetrievedFromMemoryCache_Returns_True()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -166,7 +162,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ApiSecret_NotFound_Returns_False()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -197,7 +193,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ApiSecret_SecretFound_AddedToCache_Returns_True()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);

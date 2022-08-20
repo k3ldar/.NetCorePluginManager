@@ -44,14 +44,14 @@ namespace AspNetCore.PluginManager.Tests.Language
         [ExpectedException(typeof(DirectoryNotFoundException))]
         public void GetInstalledLanguages_InvalidPath_ReturnsNoInstalledLanguages()
         {
-            string path = Path.Combine(Path.GetTempPath(), "languages", DateTime.Now.Ticks.ToString());
+            string path = TestHelper.GetTestPath("languages");
             Languages.LanguageWrapper.GetInstalledLanguages(path);
         }
 
         [TestMethod]
         public void GetInstalledLanguages_NoLanguageFilesFound_ReturnsDefaultCulture_En_GB()
         {
-            string path = Path.Combine(Path.GetTempPath(), "languages", DateTime.Now.Ticks.ToString());
+            string path = TestHelper.GetTestPath("languages");
             Directory.CreateDirectory(path);
             try
             {
@@ -69,7 +69,7 @@ namespace AspNetCore.PluginManager.Tests.Language
         [TestMethod]
         public void GetInstalledLanguages_NoLanguageFilesFound_ReturnsDefaultCulture_da_DK()
         {
-            string path = Path.Combine(Path.GetTempPath(), "languages", DateTime.Now.Ticks.ToString());
+            string path = TestHelper.GetTestPath("languages");
             Directory.CreateDirectory(path);
             try
             {
