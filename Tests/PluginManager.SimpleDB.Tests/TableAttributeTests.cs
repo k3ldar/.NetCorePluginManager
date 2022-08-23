@@ -23,7 +23,6 @@
  *  30/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -32,7 +31,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SimpleDB.Tests
 {
-    [TestClass]
+	[TestClass]
     [ExcludeFromCodeCoverage]
     public class TableAttributeTests
     {

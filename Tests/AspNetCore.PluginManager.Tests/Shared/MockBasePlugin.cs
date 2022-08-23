@@ -72,12 +72,18 @@ namespace AspNetCore.PluginManager.Tests.Shared
         {
             lock (_testPluginDocs)
             {
-                while (_pluginLoadedDocs.HasValue && !_pluginLoadedDocs.Value)
+				TimeSpan timeOutSpan = new TimeSpan(0, 0, 30);
+				DateTime timeOutStart = DateTime.Now;
+				while (_pluginLoadedDocs.HasValue && !_pluginLoadedDocs.Value)
                 {
                     System.Threading.Thread.Sleep(30);
-                }
+					if (DateTime.Now - timeOutStart > timeOutSpan)
+					{
+						break;
+					}
+				}
 
-                if (_pluginLoadedDocs.HasValue && _pluginLoadedDocs.Value)
+				if (_pluginLoadedDocs.HasValue && _pluginLoadedDocs.Value)
                 {
                     return;
                 }
@@ -105,8 +111,11 @@ namespace AspNetCore.PluginManager.Tests.Shared
                 {
                     System.Threading.Thread.Sleep(100);
 
-                    if (DateTime.Now - startLoadDocs > docLoadTime)
-                        break;
+					if (DateTime.Now - startLoadDocs > docLoadTime)
+					{
+						_pluginLoadedDocs = null;
+						break;
+					}
                 }
 
                 Assert.IsFalse(sl.ThreadManager.Exists(Constants.DocumentationLoadThread));

@@ -114,8 +114,8 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestCategory(Category)]
         public void EpochDateTime_ReturnsValidEpochTime_Success()
         {
-            long localEpoch = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).Ticks;
             long epochTime = HmacGenerator.EpochDateTime();
+            long localEpoch = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).Ticks;
 
             Assert.IsTrue(epochTime > localEpoch - 1000, $"Difference: {localEpoch - epochTime}");
             Assert.IsTrue(epochTime < localEpoch + 1000, $"Difference: {epochTime - localEpoch}");

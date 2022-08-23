@@ -89,7 +89,7 @@ namespace AspNetCore.PluginManager.Tests.Documentation
 
             if (_memoryCache == null)
             {
-                _memoryCache = new DefaultMemoryCache(_settingsProvider);
+                _memoryCache = new DefaultMemoryCache(_settingsProvider, true, DateTime.UtcNow.AddDays(10));
             }
 
             if (_documentService == null)

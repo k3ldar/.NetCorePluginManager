@@ -34,14 +34,14 @@ steps:
     
 - task: VisualStudioTestPlatformInstaller@1
   displayName: Install test platform
-  enabled: false
+  enabled: true
   inputs:
     packageFeedSelector: 'nugetOrg'
     versionSelector: 'latestPreRelease'
     
 - task: VSTest@2
   displayName: Run unit tests
-  enabled: false
+  enabled: true
   continueOnError: true
   inputs:
     runSettingsFile: 'Tests\test.runsettings'
@@ -60,7 +60,7 @@ steps:
 
 - task: PublishTestResults@2
   displayName: Publish test results
-  enabled: false
+  enabled: true
   inputs:
     testResultsFormat: 'VSTest'
     testResultsFiles: '**/TEST-*.xml'

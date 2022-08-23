@@ -47,6 +47,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
+    <ProjectReference Include="..\..\Plugins\BadEgg.Plugin\BadEgg.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Company.Plugin\CompanyPlugin.csproj" />
   </ItemGroup>
 
   <ItemGroup>

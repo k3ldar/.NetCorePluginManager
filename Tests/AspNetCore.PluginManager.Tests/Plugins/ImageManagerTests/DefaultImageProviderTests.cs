@@ -121,7 +121,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(ImageManagerTestsCategory)]
         public void CreateGroup_GroupCreated_Success()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             string newGroupPath = Path.Combine(testPath, "TestGroup");
             DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
 
@@ -138,7 +138,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(ImageManagerTestsCategory)]
         public void CreateGroup_DuplicateGroupName_ReturnsFalse()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             string newGroupPath = Path.Combine(testPath, "TestGroup");
             DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
 
@@ -190,7 +190,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(ImageManagerTestsCategory)]
         public void DeleteGroup_GroupContainsItems_ReturnsSuccess()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             string newGroupPath = Path.Combine(testPath, "FirstGroup");
 
             DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -213,7 +213,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(ImageManagerTestsCategory)]
         public void Groups_Retrieve_Success()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             string newGroupPath = Path.Combine(testPath, "FirstGroup");
 
             DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -269,7 +269,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(ImageManagerTestsCategory)]
         public void Images_ValidGroupName_ReturnsListOfImages_Success()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             string newGroupPath = Path.Combine(testPath, "FirstGroup");
 
             DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -291,7 +291,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(ImageManagerTestsCategory)]
         public void Images_ValidateUri_Success()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             string newGroupPath = Path.Combine(testPath, "FirstGroup");
 
             DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -316,7 +316,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(ImageManagerTestsCategory)]
         public void Images_ValidateUri_WithoutGroupName_Success()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             string newGroupPath = testPath;
 
             if (!Directory.Exists(newGroupPath))
@@ -394,7 +394,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(ImageManagerTestsCategory)]
         public void Groups_ValidSubgroupName_ReturnsListOfImagesAndSubGroupNames_Success()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             string newGroupPath = Path.Combine(testPath, "FirstGroup");
             string subGroup1 = Path.Combine(newGroupPath, "SubGroup 1");
             string subGroup2 = Path.Combine(newGroupPath, "SubGroup 2");
@@ -439,7 +439,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(ImageManagerTestsCategory)]
         public void Groups_ValidGroupName_WithSubGroups_ReturnsListOfImagesAndSubGroupNames_Success()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             string newGroupPath = Path.Combine(testPath, "FirstGroup");
             string subGroup1 = Path.Combine(newGroupPath, "SubGroup 1");
             string subGroup2 = Path.Combine(newGroupPath, "SubGroup 2");
@@ -508,7 +508,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void GroupExists_InvalidParamGroupName_Null_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -528,7 +528,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void GroupExists_InvalidParamGroupName_EmptyString_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -548,7 +548,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void SubGroupExists_InvalidParamGroupName_Null_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -568,7 +568,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void SubGroupExists_InvalidParamGroupName_EmptyString_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -588,7 +588,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void SubGroupExists_InvalidParamSubroupName_Null_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -608,7 +608,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void SubGroupExists_InvalidParamSubroupName_EmptyString_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -628,7 +628,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void DeleteSubGroup_InvalidParamGroupName_Null_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -648,7 +648,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void DeleteSubGroup_InvalidParamGroupName_EmptyString_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -668,7 +668,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void DeleteSubGroup_InvalidParamSubroupName_Null_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -688,7 +688,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void DeleteSubGroup_InvalidParamSubroupName_EmptyString_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -708,7 +708,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddSubGroup_InvalidParamGroupName_Null_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -728,7 +728,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddSubGroup_InvalidParamGroupName_EmptyString_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -748,7 +748,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddSubGroup_InvalidParamSubgroupName_Null_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -768,7 +768,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddSubGroup_InvalidParamSubgroupName_EmptyString_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -788,7 +788,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ImageExists_InvalidParamGroupName_Null_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -808,7 +808,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ImageExists_InvalidParamGroupName_EmptyString_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -828,7 +828,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ImageExists_InvalidParamImageName_Null_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -848,7 +848,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ImageExists_InvalidParamImageName_EmptyString_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -867,7 +867,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(ImageManagerTestsCategory)]
         public void ImageExists_FileNotFound_ReturnsFalse()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 string newGroupPath = Path.Combine(testPath, "FirstGroup");
@@ -897,7 +897,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ImageExists_WithSubgroupInvalidParamGroupName_Null_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -917,7 +917,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ImageExists_WithSubgroupInvalidParamGroupName_EmptyString_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -937,7 +937,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ImageExists_WithSubgroupInvalidParamSubgroupName_Null_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -957,7 +957,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ImageExists_WithSubgroupInvalidParamSubgroupName_EmptyString_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -977,7 +977,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ImageExists_WithSubgroupInvalidParamImageName_Null_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -997,7 +997,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ImageExists_WithSubgroupInvalidParamImageName_EmptyString_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -1017,7 +1017,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ImageDelete_WithoutSubgroupInvalidParamGroupName_Null_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -1037,7 +1037,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ImageDelete_WithoutSubgroupInvalidParamGroupName_EmptyString_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -1057,7 +1057,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ImageDelete_WithoutSubgroupInvalidParamImageName_Null_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -1077,7 +1077,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ImageDelete_WithoutSubgroupInvalidParamImageName_EmptyString_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -1096,7 +1096,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(ImageManagerTestsCategory)]
         public void ImageDelete_FileNotFound_ReturnsFalse()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 string newGroupPath = Path.Combine(testPath, "FirstGroup");
@@ -1128,7 +1128,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(ImageManagerTestsCategory)]
         public void ImageDelete_FileFound_ReturnsTrue()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 string newGroupPath = Path.Combine(testPath, "FirstGroup");
@@ -1160,7 +1160,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ImageDelete_WithSubgroupInvalidParamGroupName_Null_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -1180,7 +1180,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ImageDelete_WithSubgroupInvalidParamGroupName_EmptyString_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -1200,7 +1200,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ImageDelete_WithSubgroupInvalidParamSubgroupName_Null_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -1220,7 +1220,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ImageDelete_WithSubgroupInvalidParamSubgroupName_EmptyString_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -1240,7 +1240,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ImageDelete_WithSubgroupInvalidParamImageName_Null_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -1260,7 +1260,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ImageDelete_WithSubgroupInvalidParamImageName_EmptyString_Throws_ArgumentNullException()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
@@ -1279,7 +1279,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(ImageManagerTestsCategory)]
         public void ImageDelete_WithSubgroup_FileNotFound_ReturnsFalse()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 string newGroupPath = Path.Combine(testPath, "FirstGroup");
@@ -1309,7 +1309,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(ImageManagerTestsCategory)]
         public void ImageDelete_WithSubgroup_FileFound_ReturnsTrue()
         {
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 string newGroupPath = Path.Combine(testPath, "FirstGroup");
@@ -1349,7 +1349,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         {
             DateTime fileCreated = DateTime.UtcNow;
 
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 string newGroupPath = Path.Combine(testPath, "TempImages");
@@ -1371,7 +1371,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         {
             DateTime fileCreated = DateTime.UtcNow;
 
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 string newGroupPath = Path.Combine(testPath, "TempImages");
@@ -1393,7 +1393,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         {
             DateTime fileCreated = DateTime.UtcNow;
 
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 string newGroupPath = Path.Combine(testPath, "TempImages");
@@ -1414,7 +1414,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         {
             DateTime fileCreated = DateTime.UtcNow;
 
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 string newGroupPath = Path.Combine(testPath, "TempImages");
@@ -1444,7 +1444,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         {
             DateTime fileCreated = DateTime.UtcNow;
 
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 string newGroupPath = Path.Combine(testPath, "TempImages");
@@ -1467,7 +1467,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         {
             DateTime fileCreated = DateTime.UtcNow;
 
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 string newGroupPath = Path.Combine(testPath, "TempImages");
@@ -1490,7 +1490,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         {
             DateTime fileCreated = DateTime.UtcNow;
 
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 string newGroupPath = Path.Combine(testPath, "TempImages");
@@ -1513,7 +1513,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         {
             DateTime fileCreated = DateTime.UtcNow;
 
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 string newGroupPath = Path.Combine(testPath, "TempImages");
@@ -1536,7 +1536,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         {
             DateTime fileCreated = DateTime.UtcNow;
 
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 string newGroupPath = Path.Combine(testPath, "TempImages");
@@ -1559,7 +1559,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         {
             DateTime fileCreated = DateTime.UtcNow;
 
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 string directoryName = Path.Combine(testPath, "Group");
@@ -1588,7 +1588,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         {
             DateTime fileCreated = DateTime.UtcNow;
 
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 string directoryName = Path.Combine(testPath, "Group");
@@ -1615,7 +1615,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         {
             DateTime fileCreated = DateTime.UtcNow;
 
-            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string testPath = TestHelper.GetTestPath();
             try
             {
                 string directoryName = Path.Combine(testPath, "Group", "Subgroup");

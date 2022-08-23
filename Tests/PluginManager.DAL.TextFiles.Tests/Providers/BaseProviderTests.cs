@@ -23,7 +23,6 @@
  *  06/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 using System.Diagnostics.CodeAnalysis;
 
 using AspNetCore.PluginManager.Tests.Shared;
@@ -38,7 +37,6 @@ using SimpleDB;
 using SharedPluginFeatures;
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Tables;
-using System.Collections.Generic;
 using DynamicContent.Plugin.Templates;
 using PluginManager.DAL.TextFiles.Tables.Products;
 using PluginManager.Tests.Mocks;

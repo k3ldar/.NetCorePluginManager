@@ -23,8 +23,6 @@
  *  02/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using io = System.IO;
@@ -93,7 +91,7 @@ namespace SimpleDB.Tests
         public void ForeignKey_InsertRecordWhenKeyDoesNotExists_Throws_ForeignKeyException()
         {
             ForeignKeyManager sut = new ForeignKeyManager();
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -120,7 +118,7 @@ namespace SimpleDB.Tests
         public void ForeignKey_InsertRecordWhenForeignKeyDoesNotExists_DefaultValueAllowed_DoesNotThrowException()
         {
             ForeignKeyManager sut = new ForeignKeyManager();
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -149,7 +147,7 @@ namespace SimpleDB.Tests
         public void ForeignKey_UpdateRecordWhenKeyDoesNotExists_Throws_ForeignKeyException()
         {
             ForeignKeyManager sut = new ForeignKeyManager();
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -183,7 +181,7 @@ namespace SimpleDB.Tests
         public void ForeignKey_DeleteForeignKeyWhenForeignKeyIsInUse_Throws_ForeignKeyException()
         {
             ForeignKeyManager sut = new ForeignKeyManager();
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -215,7 +213,7 @@ namespace SimpleDB.Tests
         public void ForeignKey_InsertRecordWhenKeyExists_Success()
         {
             ForeignKeyManager sut = new ForeignKeyManager();
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -242,7 +240,7 @@ namespace SimpleDB.Tests
         public void ForeignKey_UpdateRecordWhenKeyExists_Success()
         {
             ForeignKeyManager sut = new ForeignKeyManager();
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -275,7 +273,7 @@ namespace SimpleDB.Tests
         public void ForeignKey_DeleteRecordWhenKeyExists_Success()
         {
             ForeignKeyManager sut = new ForeignKeyManager();
-            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);

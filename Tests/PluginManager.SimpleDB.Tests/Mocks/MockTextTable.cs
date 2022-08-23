@@ -23,7 +23,6 @@
  *  02/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 
 namespace SimpleDB.Tests.Mocks
 {

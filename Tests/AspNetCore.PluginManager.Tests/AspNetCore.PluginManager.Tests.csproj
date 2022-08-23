@@ -166,4 +166,8 @@
 	</EmbeddedResource>
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy &quot;$(ProjectDir)appsettings.json&quot; &quot;$(TargetDir)&quot;" />
+  </Target>
+
 </Project>

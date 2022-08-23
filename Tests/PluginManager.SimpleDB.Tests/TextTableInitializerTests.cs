@@ -23,10 +23,7 @@
  *  30/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
@@ -39,7 +36,7 @@ using SimpleDB.Tests.Mocks;
 
 namespace SimpleDB.Tests
 {
-    [TestClass]
+	[TestClass]
     [ExcludeFromCodeCoverage]
     public class TextTableInitializerTests
     {
@@ -77,7 +74,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void Construct_DirectoryDoesNotExists_Throws_ArgumentException()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 new SimpleDBInitializer(directory);
@@ -93,7 +90,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void Construct_ValidInstance_Success()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -111,7 +108,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void RegisterTable_InvalidParam_Null_Throws_ArgumentNullException()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -131,7 +128,7 @@ namespace SimpleDB.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void RegisterTable_TableAlreadyRegistered_Throws_IOException()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -151,7 +148,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void RegisterTable_TableRegistered_Success()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);
@@ -175,7 +172,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void RegisterAndUnregisterTable_WithForeignKeyManager_Success()
         {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = TestHelper.GetTestPath();
             try
             {
                 Directory.CreateDirectory(directory);

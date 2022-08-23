@@ -546,7 +546,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
         [TestCategory(TestCategoryMiddleware)]
         public void Robots_SaveAndReloadCustomData()
         {
-            string rootPath = Path.GetTempPath();
+            string rootPath = TestHelper.CreateTestPath();
             ISaveData saveData = new FileStorageSaveData(new MockLogger(), rootPath);
             ILoadData loadData = new FileStorageLoadData(new MockLogger(), rootPath);
 
