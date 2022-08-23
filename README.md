@@ -11,6 +11,10 @@ master: ![Build Status Master Branch](https://ci.appveyor.com/api/projects/statu
 
 Latest Branch: ![Build Status Latest Build](https://ci.appveyor.com/api/projects/status/o2ievlf7vrs2rn0x?svg=true)
 
+Master: [![CodeQL](https://github.com/k3ldar/.NetCorePluginManager/actions/workflows/codeql-analysis.yml/badge.svg?branch=master)](https://github.com/k3ldar/.NetCorePluginManager/actions/workflows/codeql-analysis.yml)
+
+Develop: [![CodeQL](https://github.com/k3ldar/.NetCorePluginManager/actions/workflows/codeql-analysis.yml/badge.svg?branch=develop)](https://github.com/k3ldar/.NetCorePluginManager/actions/workflows/codeql-analysis.yml)
+
 # Live Demo
 http://PluginManager.website
 
