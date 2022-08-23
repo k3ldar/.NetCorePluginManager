@@ -111,7 +111,40 @@ namespace SimpleDB.Tests
             Assert.AreEqual(CachingStrategy.Memory, sut.CachingStrategy);
             Assert.AreEqual("table", sut.TableName);
         }
-    }
+
+		[TestMethod]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void SlidingMemoryTimeout_Set_CachingStrategyNotSlidingMemory_Throws_InvalidOperationException()
+		{
+			TableAttribute sut = new TableAttribute("table", CompressionType.Brotli, CachingStrategy.None);
+			sut.SlidingMemoryTimeoutMilliseconds = 0;
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentOutOfRangeException))]
+		public void SlidingMemoryTimeout_Set_ValueLessThanZero_Throws_ArgumentOutOfRangeException()
+		{
+			TableAttribute sut = new TableAttribute("table", CompressionType.Brotli, CachingStrategy.SlidingMemory);
+			sut.SlidingMemoryTimeoutMilliseconds = -1;
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentOutOfRangeException))]
+		public void SlidingMemoryTimeout_Set_ValueLessToZero_Throws_ArgumentOutOfRangeException()
+		{
+			TableAttribute sut = new TableAttribute("table", CompressionType.Brotli, CachingStrategy.SlidingMemory);
+			sut.SlidingMemoryTimeoutMilliseconds = 0;
+		}
+
+		[TestMethod]
+		public void SlidingMemoryTimeout_Set_Success()
+		{
+			TableAttribute sut = new TableAttribute("table", CompressionType.Brotli, CachingStrategy.SlidingMemory);
+			sut.SlidingMemoryTimeoutMilliseconds = 60000;
+
+			Assert.AreEqual(sut.SlidingMemoryTimeout, TimeSpan.FromMinutes(1));
+		}
+	}
 }
 
 #pragma warning restore CA1806

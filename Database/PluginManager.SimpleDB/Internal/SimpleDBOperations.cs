@@ -105,9 +105,11 @@ namespace SimpleDB.Internal
         private const int DefaultSequenceIncrement = 1;
         private const int VersionStart = 0;
 
-        #endregion Constants
+		#endregion Constants
 
-        private readonly JsonSerializerOptions _jsonSerializerOptions;
+		#region Private Members
+
+		private readonly JsonSerializerOptions _jsonSerializerOptions;
         private readonly string _tableName;
         private readonly FileStream _fileStream;
         private readonly ushort _version;
@@ -122,16 +124,19 @@ namespace SimpleDB.Internal
         private readonly object _lockObject = new object();
         private readonly TableAttribute _tableAttributes;
         private readonly Dictionary<string, ForeignKeyRelation> _foreignKeys;
-        private readonly ISimpleDBInitializer _initializer;
+        private readonly ISimpleDBManager _initializer;
         private readonly IForeignKeyManager _foreignKeyManager;
         private readonly BatchUpdateDictionary<string, IIndexManager> _indexes;
         private readonly Dictionary<TriggerType, List<ITableTriggers<T>>> _triggersMap;
 		private PageSize _pageSize;
         private List<T> _allRecords = null;
+		private readonly bool _isMemoryCaching;
 
-        #region Constructors / Destructors
+		#endregion Private Members
 
-        public SimpleDBOperations(ISimpleDBInitializer readerWriterInitializer, 
+		#region Constructors / Destructors
+
+		public SimpleDBOperations(ISimpleDBManager readerWriterInitializer, 
             IForeignKeyManager foreignKeyManager, IPluginClassesService pluginClassesService)
         {
             _initializer = readerWriterInitializer ?? throw new ArgumentNullException(nameof(readerWriterInitializer));
@@ -154,7 +159,11 @@ namespace SimpleDB.Internal
                 _SecondarySequence = tableDefaults.SecondarySequence;
             }
 
-            _triggersMap = new Dictionary<TriggerType, List<ITableTriggers<T>>>();
+			_isMemoryCaching = _tableAttributes.CachingStrategy == CachingStrategy.Memory || 
+				_tableAttributes.CachingStrategy == CachingStrategy.SlidingMemory ||
+				_tableAttributes.WriteStrategy == WriteStrategy.Lazy;
+
+			_triggersMap = new Dictionary<TriggerType, List<ITableTriggers<T>>>();
             List<ITableTriggers<T>> triggers = pluginClassesService.GetPluginClasses<ITableTriggers<T>>();
 
             foreach (TriggerType triggerType in Enum.GetValues(typeof(TriggerType)))
@@ -207,13 +216,13 @@ namespace SimpleDB.Internal
             Dispose(false);
         }
 
-        #endregion Constructors / Destructors
+		#endregion Constructors / Destructors
 
-        #region ITextTable
+		#region ISimpleDBTable
 
-        #region Properties
+		#region Properties
 
-        public string TableName
+		public string TableName
         {
             get
             {
@@ -224,11 +233,17 @@ namespace SimpleDB.Internal
             }
         }
 
-        #endregion Properties
+		public TimeSpan SlidingMemoryTimeout => _tableAttributes.SlidingMemoryTimeout;
 
-        #region Methods
+		public CachingStrategy CachingStrategy => _tableAttributes.CachingStrategy;
 
-        public bool IdExists(long id)
+		public WriteStrategy WriteStrategy => _tableAttributes.WriteStrategy;
+
+		#endregion Properties
+
+		#region Methods
+
+		public bool IdExists(long id)
         {
             return _indexes[nameof(TableRowDefinition.Id)].Contains(id);
         }
@@ -257,15 +272,21 @@ namespace SimpleDB.Internal
             return false;
         }
 
-        #endregion Methods
+		#endregion Methods
 
-        #endregion ITextTable
+		#region Events
 
-        #region ITextReaderWriter<T>
+		public event SimpleDbEvent OnAction;
 
-        #region Properties
+		#endregion Events
 
-        public ushort FileVersion => _version;
+		#endregion ISimpleDBTable
+
+		#region ISimpleDBOperation<T>
+
+		#region Properties
+
+		public ushort FileVersion => _version;
 
         public int DataLength => _dataLength;
 
@@ -283,7 +304,15 @@ namespace SimpleDB.Internal
 
         #endregion Properties
 
-        public IReadOnlyList<T> Select()
+		public void ClearAllMemory()
+		{
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject, TimeSpan.FromMilliseconds(30)))
+			{
+				_allRecords = null;
+			}
+		}
+
+		public IReadOnlyList<T> Select()
         {
             if (_disposed)
                 throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
@@ -450,13 +479,13 @@ namespace SimpleDB.Internal
             }
         }
 
-        #endregion Sequences
+		#endregion Sequences
 
-        #endregion ITextReaderWriter<T>
+		#endregion ISimpleDBOperation<T>
 
-        #region Disposable
+		#region Disposable
 
-        public void Dispose()
+		public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
@@ -502,8 +531,12 @@ namespace SimpleDB.Internal
 
         private List<T> InternalReadAllRecords()
         {
-            if (_allRecords != null)
-                return _allRecords;
+			OnAction?.Invoke(this);
+
+			if (_allRecords != null)
+			{
+				return _allRecords;
+			}
 
             using BinaryReader reader = new BinaryReader(_fileStream, Encoding.UTF8, true);
             _fileStream.Seek(StartOfRecordCount, SeekOrigin.Begin);
@@ -569,12 +602,12 @@ namespace SimpleDB.Internal
 
             Result.ForEach(r => { r.Immutable = true; r.Loaded = true; });
 
-            if (_tableAttributes.CachingStrategy == CachingStrategy.Memory)
+            if (_isMemoryCaching)
             {
                 _allRecords = Result;
             }
-
-            return Result;
+			
+			return Result;
         }
 
         private void InternalUpdateRecords(List<T> records)
@@ -671,7 +704,7 @@ namespace SimpleDB.Internal
 
             _recordCount = recordsToSave.Count;
 
-            if (_tableAttributes.CachingStrategy == CachingStrategy.Memory || _tableAttributes.WriteStrategy == WriteStrategy.Lazy)
+            if (_isMemoryCaching)
             {
                 _allRecords = recordsToSave;
                 _allRecords.ForEach(ar => { ar.Immutable = true; ar.Loaded = true; });
@@ -680,6 +713,8 @@ namespace SimpleDB.Internal
             {
                 _allRecords = null;
             }
+
+			OnAction?.Invoke(this);
         }
 
 		private void InternalSaveDataToPages(BinaryWriter writer, byte[] data)

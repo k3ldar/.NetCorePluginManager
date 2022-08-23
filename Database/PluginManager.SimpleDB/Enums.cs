@@ -74,6 +74,11 @@ namespace SimpleDB
         /// Records are held in memory to speed up retrieval
         /// </summary>
         Memory = 1,
+
+		/// <summary>
+		/// Data is held in memory for a specified amount of time, when the timeout expires with no use, memory is released
+		/// </summary>
+		SlidingMemory = 2,
     }
 
     /// <summary>

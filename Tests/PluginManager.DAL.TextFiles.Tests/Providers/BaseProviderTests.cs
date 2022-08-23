@@ -78,7 +78,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
 			services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
 			services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
-			services.AddSingleton<ISimpleDBInitializer, SimpleDBInitializer>();
+			services.AddSingleton<ISimpleDBManager, SimpleDBManager>();
 
 			services.AddSingleton(typeof(ISimpleDBOperations<>), typeof(SimpleDBOperations<>));
 

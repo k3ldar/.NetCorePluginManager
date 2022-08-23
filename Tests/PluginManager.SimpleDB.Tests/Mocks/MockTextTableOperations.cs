@@ -41,7 +41,17 @@ namespace SimpleDB.Tests.Mocks
 
         public string TableName => throw new NotImplementedException();
 
-        public void Delete(List<T> records)
+		public CachingStrategy CachingStrategy => throw new NotImplementedException();
+
+		public WriteStrategy WriteStrategy => throw new NotImplementedException();
+
+		public TimeSpan SlidingMemoryTimeout => throw new NotImplementedException();
+
+#pragma warning disable CS0067
+		public event SimpleDbEvent OnAction;
+#pragma warning restore CS0067
+
+		public void Delete(List<T> records)
         {
             throw new NotImplementedException();
         }
@@ -145,5 +155,10 @@ namespace SimpleDB.Tests.Mocks
         {
             throw new NotImplementedException();
         }
-    }
+
+		public void ClearAllMemory()
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

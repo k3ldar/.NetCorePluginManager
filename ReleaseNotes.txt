@@ -5,6 +5,7 @@ Version 4.5.0
 #170 Add pageing to SimpleDB
 #169 Convert session data to SimpleDB
 #174 AppVeyor devops support
+#178 Initial release of SimpleDB
 
 Version 4.4.0
 =============
