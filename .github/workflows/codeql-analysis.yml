@@ -16,7 +16,7 @@ on:
     branches: [ "trunk", "feature*", "develop", "master" ]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ "master", "develop" ]
+    branches: [ "develop" ]
   schedule:
     - cron: '37 23 * * 4'
 jobs:
