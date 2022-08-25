@@ -709,5 +709,10 @@ namespace SharedPluginFeatures
         /// Name of product image folder
         /// </summary>
         public const string ProductImageFolderName = "Products";
+
+		/// <summary>
+		/// Path for previous directory
+		/// </summary>
+		public const string InvalidPathPreviousDirectory = "..\\";
     }
 }
