@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using System.Text.Json;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
@@ -612,17 +613,30 @@ namespace SharedPluginFeatures
             return authenticationService;
         }
 
-        #endregion Authentication
+		#endregion Authentication
 
-        #region Generic JsonResult Responses
+		#region Generic JsonResult Responses
 
-        /// <summary>
-        /// Creates a generic JsonResult for an error with status code (http response)
-        /// </summary>
-        /// <param name="statusCode">Status code being returned.</param>
-        /// <param name="jsonData">Json data to be returned as part of the response.</param>
-        /// <returns>JsonResult</returns>
-        protected JsonResult GenerateJsonErrorResponse(int statusCode, string jsonData)
+		/// <summary>
+		/// Returns a generic serializer options isntance
+		/// </summary>
+		/// <returns>JsonSerializerOptions</returns>
+		protected JsonSerializerOptions GetSerializerOptions()
+		{
+			return new JsonSerializerOptions()
+			{
+				IgnoreReadOnlyFields = true,
+
+			};
+		}
+
+		/// <summary>
+		/// Creates a generic JsonResult for an error with status code (http response)
+		/// </summary>
+		/// <param name="statusCode">Status code being returned.</param>
+		/// <param name="jsonData">Json data to be returned as part of the response.</param>
+		/// <returns>JsonResult</returns>
+		protected JsonResult GenerateJsonErrorResponse(int statusCode, string jsonData)
         {
             if (String.IsNullOrEmpty(jsonData))
                 throw new ArgumentNullException(nameof(jsonData));
@@ -665,8 +679,21 @@ namespace SharedPluginFeatures
             };
         }
 
-        #endregion Generic JsonResult Responses
-    }
+		#endregion Generic JsonResult Responses
+
+		/// <summary>
+		/// Stub method for validating user input
+		/// </summary>
+		/// <param name="userInput"></param>
+		/// <param name="validationType"></param>
+		/// <returns></returns>
+		public static string ValidateUserInput(string userInput, ValidationType validationType)
+		{
+			return BaseCoreClass.ValidateUserInput(userInput, validationType);
+
+		}
+
+	}
 }
 
 #pragma warning restore CA1822

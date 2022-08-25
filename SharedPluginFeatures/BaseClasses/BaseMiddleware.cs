@@ -414,6 +414,6 @@ namespace SharedPluginFeatures
 
         #endregion Cookies
 
-        #endregion Protected Methods
-    }
+		#endregion Protected Methods
+	}
 }

@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Extensions.Hosting;
 
 using Middleware.Images;
@@ -45,7 +46,7 @@ namespace ImageManager.Plugin.Classes
     /// 
     /// The default provider is designed to work with physical folders and files
     /// </summary>
-    public class DefaultImageProvider : IImageProvider
+    public class DefaultImageProvider : BaseCoreClass, IImageProvider
     {
         #region Private Members
 
@@ -169,7 +170,7 @@ namespace ImageManager.Plugin.Classes
             if (String.IsNullOrEmpty(subgroupName))
                 throw new ArgumentNullException(nameof(subgroupName));
 
-            string groupPath = Path.Combine(_rootPath, groupName, subgroupName);
+            string groupPath = Path.Combine(_rootPath, ValidateUserInput(groupName, ValidationType.Path), ValidateUserInput(subgroupName, ValidationType.Path));
 
             if (!Directory.Exists(groupPath))
                 return new List<ImageFile>();
@@ -252,7 +253,7 @@ namespace ImageManager.Plugin.Classes
             if (String.IsNullOrEmpty(groupName))
                 throw new ArgumentNullException(nameof(groupName));
 
-            string groupPath = Path.Combine(_rootPath, groupName);
+            string groupPath = Path.Combine(_rootPath, ValidateUserInput(groupName, ValidationType.Path));
 
             string cacheNameGroup = $"Default Image Provider Image Group Exists - {groupName}";
             CacheItem imageCache = _imageProviderCache.Get(cacheNameGroup);
@@ -332,7 +333,7 @@ namespace ImageManager.Plugin.Classes
             if (String.IsNullOrEmpty(subgroupName))
                 throw new ArgumentNullException(nameof(subgroupName));
 
-            string groupPath = Path.Combine(_rootPath, groupName, subgroupName);
+            string groupPath = Path.Combine(_rootPath, ValidateUserInput(groupName, ValidationType.Path), ValidateUserInput(subgroupName, ValidationType.Path));
 
             string cacheNameGroup = $"Default Image Provider Image Subgroup Exists - {groupName} {subgroupName}";
             CacheItem imageCache = _imageProviderCache.Get(cacheNameGroup);

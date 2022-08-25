@@ -163,7 +163,7 @@ namespace LoginPlugin
 
                 UserLoginDetails loginDetails = new UserLoginDetails();
 
-                LoginResult loginResult = _loginProvider.Login(authParts[0], authParts[1],
+                LoginResult loginResult = _loginProvider.Login(ValidateUserInput(authParts[0], ValidationType.Name), ValidateUserInput(authParts[1], ValidationType.Password),
                     GetIpAddress(context), 1, ref loginDetails);
 
                 if (loginResult == LoginResult.Success)

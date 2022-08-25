@@ -166,7 +166,7 @@ namespace LoginPlugin.Controllers
 
             if (ModelState.IsValid)
             {
-                LoginResult loginResult = _loginProvider.Login(model.Username, model.Password, GetIpAddress(),
+                LoginResult loginResult = _loginProvider.Login(ValidateUserInput(model.Username, ValidationType.Name), ValidateUserInput(model.Password, ValidationType.Password), GetIpAddress(),
                     loginCacheItem.LoginAttempts, ref loginDetails);
 
                 switch (loginResult)
@@ -277,7 +277,7 @@ namespace LoginPlugin.Controllers
                     ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
             }
 
-            if (ModelState.IsValid && _loginProvider.ForgottenPassword(model.Username))
+            if (ModelState.IsValid && _loginProvider.ForgottenPassword(ValidateUserInput(model.Username, ValidationType.Name)))
             {
                 RemoveLoginAttempt();
                 return RedirectToAction(nameof(Index));

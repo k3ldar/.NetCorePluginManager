@@ -27,14 +27,13 @@ using System;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 
 using LoginPlugin.Classes;
 
 using Microsoft.AspNetCore.Mvc;
 
 using Middleware;
-
-using Newtonsoft.Json;
 
 using Shared.Classes;
 using Shared.Communication;
@@ -85,7 +84,7 @@ namespace LoginPlugin.Controllers
             parameters.Add(OAuthGrantType, OAuthAuthCode);
             string response = HttpPost.Post(FacebookOAuthAccessTokenUri, parameters);
 
-            TokenResponse facebookAccessToken = JsonConvert.DeserializeObject<TokenResponse>(response);
+            TokenResponse facebookAccessToken = JsonSerializer.Deserialize<TokenResponse>(response, GetSerializerOptions());
 
             TokenUserDetails userDetails = GetFacebookUserDetails(facebookAccessToken);
 
@@ -145,7 +144,7 @@ namespace LoginPlugin.Controllers
                     throw new Exception("Invalid signature");
                 }
 
-                FacebookRemoveUser fbUser = JsonConvert.DeserializeObject<FacebookRemoveUser>(json);
+                FacebookRemoveUser fbUser = JsonSerializer.Deserialize<FacebookRemoveUser>(json, GetSerializerOptions());
                 TokenUserDetails tokenUserDetails = new TokenUserDetails(fbUser);
                 _loginProvider.RemoveExternalUser(tokenUserDetails);
                 string confirmationUrl = String.Format(FacebookUserConfirmationUri, HttpContext.Request.Scheme, HttpContext.Request.Host, fbUser.UserId);
@@ -208,7 +207,7 @@ namespace LoginPlugin.Controllers
 
                 if (output.IsSuccessStatusCode)
                 {
-                    TokenUserDetails idData = JsonConvert.DeserializeObject<TokenUserDetails>(output.Content.ReadAsStringAsync().Result);
+                    TokenUserDetails idData = JsonSerializer.Deserialize<TokenUserDetails>(output.Content.ReadAsStringAsync().Result, GetSerializerOptions());
 
                     httpClient.CancelPendingRequests();
 
@@ -218,7 +217,7 @@ namespace LoginPlugin.Controllers
 
                     if (output.IsSuccessStatusCode)
                     {
-                        return JsonConvert.DeserializeObject<TokenUserDetails>(output.Content.ReadAsStringAsync().Result);
+                        return JsonSerializer.Deserialize<TokenUserDetails>(output.Content.ReadAsStringAsync().Result, GetSerializerOptions());
                     }
 
                 }
