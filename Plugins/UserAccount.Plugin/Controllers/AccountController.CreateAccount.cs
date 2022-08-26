@@ -76,7 +76,7 @@ namespace UserAccount.Plugin.Controllers
                     UserSession session = GetUserSession();
 
                     if (session != null)
-                        session.Login(userId, $"{model.FirstName} {model.Surname}", model.Email);
+                        session.Login(userId, $"{ValidateUserInput(model.FirstName, ValidationType.Name)} {ValidateUserInput(model.Surname, ValidationType.Name)}", ValidateUserInput(model.Email, ValidationType.Email));
 
                     if (String.IsNullOrEmpty(model.ReturnUrl))
                         return Redirect("/Account/");

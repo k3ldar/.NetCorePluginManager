@@ -458,4 +458,50 @@ namespace SharedPluginFeatures
         /// </summary>
         Value = 3
     }
+
+	/// <summary>
+	/// Type of validation
+	/// </summary>
+	public enum ValidationType
+	{
+		/// <summary>
+		/// Unknown strict validation
+		/// </summary>
+		Other,
+
+		/// <summary>
+		/// Email validation
+		/// </summary>
+		Email,
+
+		/// <summary>
+		/// Filename validation
+		/// </summary>
+		FileName,
+
+		/// <summary>
+		/// Path validation
+		/// </summary>
+		Path,
+
+		/// <summary>
+		/// Name validation
+		/// </summary>
+		Name,
+
+		/// <summary>
+		/// Password validation
+		/// </summary>
+		Password,
+
+		/// <summary>
+		/// Route name validation
+		/// </summary>
+		RouteName,
+
+		/// <summary>
+		/// Local Redirect uri
+		/// </summary>
+		RedirectUriLocal,
+	}
 }

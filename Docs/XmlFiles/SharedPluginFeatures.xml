@@ -905,6 +905,12 @@
             </summary>
             <returns>IAuthenticationService</returns>
         </member>
+        <member name="M:SharedPluginFeatures.BaseController.GetSerializerOptions">
+            <summary>
+            Returns a generic serializer options isntance
+            </summary>
+            <returns>JsonSerializerOptions</returns>
+        </member>
         <member name="M:SharedPluginFeatures.BaseController.GenerateJsonErrorResponse(System.Int32,System.String)">
             <summary>
             Creates a generic JsonResult for an error with status code (http response)
@@ -926,6 +932,14 @@
             <param name="responseData">Valid class instance that will be converted to json and set as Data for JsonResponseModel</param>
             <returns>JsonResult</returns>
             <exception cref="T:System.ArgumentNullException">Thrown if responseData is null</exception>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.ValidateUserInput(System.String,SharedPluginFeatures.ValidationType)">
+            <summary>
+            Stub method for validating user input
+            </summary>
+            <param name="userInput"></param>
+            <param name="validationType"></param>
+            <returns></returns>
         </member>
         <member name="T:SharedPluginFeatures.BaseMiddleware">
             <summary>
@@ -2959,6 +2973,11 @@
             Name of product image folder
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.InvalidPathPreviousDirectory">
+            <summary>
+            Path for previous directory
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.Enums">
             <summary>
             Standard Enum values shared across all plugin modules.
@@ -3369,6 +3388,51 @@
         <member name="F:SharedPluginFeatures.DiscountType.Value">
             <summary>
             Invoice/Order has a monetary value discount (i.e. GBP10)
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.ValidationType">
+            <summary>
+            Type of validation
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.ValidationType.Other">
+            <summary>
+            Unknown strict validation
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.ValidationType.Email">
+            <summary>
+            Email validation
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.ValidationType.FileName">
+            <summary>
+            Filename validation
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.ValidationType.Path">
+            <summary>
+            Path validation
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.ValidationType.Name">
+            <summary>
+            Name validation
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.ValidationType.Password">
+            <summary>
+            Password validation
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.ValidationType.RouteName">
+            <summary>
+            Route name validation
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.ValidationType.RedirectUriLocal">
+            <summary>
+            Local Redirect uri
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.HtmlHelper">
