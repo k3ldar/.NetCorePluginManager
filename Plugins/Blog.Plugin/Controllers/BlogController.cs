@@ -169,7 +169,7 @@ namespace Blog.Plugin.Controllers
 
                 _blogProvider.SaveBlog(blogItem);
 
-                return Redirect(model.Url);
+                return Redirect(ValidateUserInput(model.Url, ValidationType.RedirectUriLocal));
             }
 
             return View(model);

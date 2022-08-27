@@ -76,7 +76,7 @@ namespace SystemAdmin.Plugin.Controllers
             }
 
             if (!author.Equals(model.SeoAuthor))
-                _seoProvider.UpdateAuthor(model.SeoUrl, model.SeoAuthor);
+                _seoProvider.UpdateAuthor(ValidateUserInput(model.SeoUrl, ValidationType.RouteName), ValidateUserInput(model.SeoAuthor, ValidationType.Name));
 
             if (!metaDescription.Equals(model.SeoMetaDescription))
                 _seoProvider.UpdateDescription(model.SeoUrl, model.SeoMetaDescription);
