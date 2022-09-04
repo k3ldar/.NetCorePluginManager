@@ -27,6 +27,37 @@ using System;
 
 namespace Middleware
 {
+	/// <summary>
+	/// Resource type
+	/// </summary>
+	public enum ResourceType
+	{
+		/// <summary>
+		/// Text resource type
+		/// </summary>
+		Text = 1,
+
+		/// <summary>
+		/// Image resource type
+		/// </summary>
+		Image = 2,
+
+		/// <summary>
+		/// Uri resource type
+		/// </summary>
+		Uri = 3,
+
+		/// <summary>
+		/// Youtube resource type
+		/// </summary>
+		YouTube = 4,
+
+		/// <summary>
+		/// TikTok resource type
+		/// </summary>
+		TikTok = 5,
+	}
+
     /// <summary>
     /// Login results
     /// </summary>

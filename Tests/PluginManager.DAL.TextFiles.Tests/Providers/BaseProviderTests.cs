@@ -108,6 +108,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					new InvoiceItemDataRowTriggers(),
 					new TicketDepartmentsDataRowDefaults(),
 					new SessionDataRowDefaults(),
+					new ResourceCategoryTriggers(),
+					new ResourceItemTriggers(),
 				};
 
 			mockPluginClassesService = new MockPluginClassesService(classServices);

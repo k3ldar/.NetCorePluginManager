@@ -33,15 +33,22 @@ namespace SimpleDB
         /// <summary>
         /// Selects all rows
         /// </summary>
-        /// <returns></returns>
+        /// <returns>IReadOnlyList&lt;T&gt;</returns>
         IReadOnlyList<T> Select();
 
         /// <summary>
         /// Selects a single item based on unique id
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>T</returns>
         T Select(long id);
+
+		/// <summary>
+		/// Selects a list of items based on the predicate selectFilter
+		/// </summary>
+		/// <param name="selectFilter"></param>
+		/// <returns>IReadOnlyList&lt;T&gt;</returns>
+		IReadOnlyList<T> Select(Func<T, bool> predicate);
 
         /// <summary>
         /// Batch inserts multiple new records, new primary key will be assigned

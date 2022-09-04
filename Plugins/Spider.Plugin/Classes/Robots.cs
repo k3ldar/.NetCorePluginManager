@@ -290,7 +290,7 @@ namespace Spider.Plugin.Classes
             return Result;
         }
 
-        private Dictionary<string, List<IRobotRouteData>> SortAndFilterDenyRoutesByAgent(
+        private static Dictionary<string, List<IRobotRouteData>> SortAndFilterDenyRoutesByAgent(
             IActionDescriptorCollectionProvider routeProvider,
             IRouteDataService routeDataService,
             List<Type> spiderAttributes)
@@ -335,7 +335,7 @@ namespace Spider.Plugin.Classes
             return Result;
         }
 
-        private void AddUserAgentToDictionary(DenySpiderAttribute denySpiderAttribute,
+        private static void AddUserAgentToDictionary(DenySpiderAttribute denySpiderAttribute,
             in Dictionary<string, List<IRobotRouteData>> agentList)
         {
             if (!agentList.ContainsKey(denySpiderAttribute.UserAgent))

@@ -70,6 +70,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             services.AddSingleton<IUserSearch, MockUserSearch>();
             services.AddSingleton<IApplicationOverride, ApplicationOverrides>();
             services.AddSingleton<IUserApiQueryProvider, MockUserApiQueryProvider>();
+			services.AddSingleton<IResourceProvider, MockResourceProvider>();
 
             if (File.Exists("t:\\UseDefaultDynamicContentProvider.dat"))
                 services.AddSingleton<IDynamicContentProvider, MockDynamicContentProvider>();

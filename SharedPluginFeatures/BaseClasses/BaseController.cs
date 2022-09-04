@@ -511,8 +511,8 @@ namespace SharedPluginFeatures
                 GetSeoAuthor(),
                 GetSeoDescription(),
                 GetSeoKeyWords(),
-                HttpContext.User.HasClaim(Constants.ClaimNameManageSeo, "true") &&
-                IsUserLoggedIn(),
+                HttpContext.User.HasClaim(Constants.ClaimNameManageSeo, "true"),
+				IsUserLoggedIn(),
                 CookieExists(Constants.UserConsentCookie));
         }
 

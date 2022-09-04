@@ -14477,4 +14477,8 @@ You will shortly receive an email with the details of your order.</comment>
     <value>The product group could not be found</value>
     <comment>The product group could not be found</comment>
   </data>
+  <data name="ResourcesMain" xml:space="preserve">
+    <value>Main Resources</value>
+    <comment>Main Resources</comment>
+  </data>
 </root>

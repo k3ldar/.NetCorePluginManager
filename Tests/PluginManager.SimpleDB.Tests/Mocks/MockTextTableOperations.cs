@@ -160,5 +160,10 @@ namespace SimpleDB.Tests.Mocks
 		{
 			throw new NotImplementedException();
 		}
+
+		public IReadOnlyList<T> Select(Func<T, bool> predicate)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

@@ -77,6 +77,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Demo\NetCorePluginDemoWebsite\AspNetCore.PluginManager.DemoWebsite.csproj" />
+    <ProjectReference Include="..\..\Plugins\Resources.Plugin\Resources.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\SDGeoIpPlugin\SieraDeltaGeoIpPlugin.csproj" />
     <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />

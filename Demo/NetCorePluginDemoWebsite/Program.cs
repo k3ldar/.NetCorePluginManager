@@ -30,9 +30,13 @@ using AspNetCore.PluginManager.DemoWebsite.Classes;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
+using Middleware.Resources;
+
 using PluginManager;
 
 using Shared.Classes;
+
+using rp = Resources.Plugin;
 
 namespace AspNetCore.PluginManager.DemoWebsite
 {
@@ -87,6 +91,7 @@ namespace AspNetCore.PluginManager.DemoWebsite
                 PluginManagerService.UsePlugin(typeof(DemoWebsitePlugin.Plugin.PluginInitialisation));
                 PluginManagerService.UsePlugin(typeof(DemoApiPlugin.PluginInitialisation));
                 PluginManagerService.UsePlugin(typeof(DynamicContent.Plugin.PluginInitialisation));
+				PluginManagerService.UsePlugin(typeof(rp.PluginInitialisation));
 
                 CreateWebHostBuilder(args).Build().Run();
             }

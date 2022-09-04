@@ -15718,6 +15718,11 @@
               Looks up a localized string similar to Reschedule After.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.ResourcesMain">
+            <summary>
+              Looks up a localized string similar to Main Resources.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.RestrictIp">
             <summary>
               Looks up a localized string similar to Restrict Ip.

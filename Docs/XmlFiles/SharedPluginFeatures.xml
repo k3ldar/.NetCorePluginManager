@@ -1139,6 +1139,11 @@
             Indicates the user can manage Seo data.
             </summary>
         </member>
+        <member name="P:SharedPluginFeatures.BaseModel.UserIsLoggedIn">
+            <summary>
+            Indicates whether the user is logged in or not
+            </summary>
+        </member>
         <member name="P:SharedPluginFeatures.BaseModel.UserHasCookieConsent">
             <summary>
             Determines whether the user has a consent cookie or not
@@ -1217,6 +1222,11 @@
         <member name="P:SharedPluginFeatures.BaseModelData.CanManageSeoData">
             <summary>
             Indicates whether the user can manage Seo data.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.BaseModelData.UserIsLoggedIn">
+            <summary>
+            Indicates whether the user is logged in or not
             </summary>
         </member>
         <member name="P:SharedPluginFeatures.BaseModelData.UserHasConsentCookie">

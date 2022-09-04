@@ -52,7 +52,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\css\SystemAdmin.css" />
     <Content Remove="wwwroot\images\CustomPlugin.png" />
     <Content Remove="wwwroot\images\DependencyInjection.png" />
     <Content Remove="wwwroot\images\EmbeddedResources.png" />
@@ -67,6 +66,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Plugins\Resources.Plugin\Resources.Plugin.csproj" />
     <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
     <ProjectReference Include="..\..\Plugins\PluginMiddleware\PluginMiddleware.csproj" />
@@ -141,7 +141,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Spider\" />
+    <Folder Include="Views\Resources\" />
     <Folder Include="wwwroot\DynamicContent\" />
     <Folder Include="wwwroot\images\Download\" />
   </ItemGroup>

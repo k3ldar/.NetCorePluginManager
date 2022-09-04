@@ -133,6 +133,10 @@ namespace PluginManager.DAL.TextFiles
 
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<StockDataRow>>();
 
+			_ = app.ApplicationServices.GetService<ISimpleDBOperations<ResourceCategoryDataRow>>();
+			_ = app.ApplicationServices.GetService<ISimpleDBOperations<ResourceItemDataRow>>();
+			_ = app.ApplicationServices.GetService<ISimpleDBOperations<ResourceItemUserResponseDataRow>>();
+
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<UserApiDataRow>>();
 
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<UserDataRow>>();
@@ -184,6 +188,10 @@ namespace PluginManager.DAL.TextFiles
 			services.AddSingleton(typeof(TableRowDefinition), typeof(ProductDataRow));
 			services.AddSingleton(typeof(TableRowDefinition), typeof(ProductGroupDataRow));
 
+			services.AddSingleton(typeof(TableRowDefinition), typeof(ResourceCategoryDataRow));
+			services.AddSingleton(typeof(TableRowDefinition), typeof(ResourceItemDataRow));
+			services.AddSingleton(typeof(TableRowDefinition), typeof(ResourceItemUserResponseDataRow));
+
 			services.AddSingleton(typeof(TableRowDefinition), typeof(SeoDataRow));
 
 			services.AddSingleton(typeof(TableRowDefinition), typeof(InitialReferralsDataRow));
@@ -220,6 +228,7 @@ namespace PluginManager.DAL.TextFiles
 			services.AddSingleton<ILicenceProvider, LicenceProvider>();
 			services.AddSingleton<ILoginProvider, LoginProvider>();
 			services.AddSingleton<IProductProvider, ProductProvider>();
+			services.AddSingleton<IResourceProvider, ResourceProvider>();
 			services.AddSingleton<ISeoProvider, SeoProvider>();
 			services.AddSingleton<IShoppingCartProvider, ShoppingCartProvider>();
 			services.AddSingleton<IShoppingCartService, ShoppingCartProvider>();

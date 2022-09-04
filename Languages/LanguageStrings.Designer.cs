@@ -28055,6 +28055,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Main Resources.
+        /// </summary>
+        public static string ResourcesMain {
+            get {
+                return ResourceManager.GetString("ResourcesMain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Restrict Ip.
         /// </summary>
         public static string RestrictIp {

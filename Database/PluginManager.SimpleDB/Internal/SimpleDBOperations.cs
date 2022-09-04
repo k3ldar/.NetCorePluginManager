@@ -331,12 +331,26 @@ namespace SimpleDB.Internal
             return InternalReadAllRecords().Where(r => r.Id.Equals(id)).FirstOrDefault();
         }
 
+		public IReadOnlyList<T> Select(Func<T, bool> predicate)
+		{
+			if (_disposed)
+				throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
+
+			if (predicate == null)
+				throw new ArgumentNullException(nameof(predicate));
+
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				return InternalReadAllRecords().Where(predicate).ToList().AsReadOnly();
+			}
+		}
+
         public void Insert(List<T> records)
         {
             Insert(records, new InsertOptions());
         }
 
-        public void Insert(List<T> records, InsertOptions insertOptions)
+		public void Insert(List<T> records, InsertOptions insertOptions)
         {
             if (_disposed)
                 throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
@@ -679,7 +693,7 @@ namespace SimpleDB.Internal
 						writer.Write((byte)compressionType);
 						writer.Write(recordsToSave.Count);
 						writer.Write(data.Length);
-						InternalSaveDataToPages(writer, compressedData.Slice(0, dataLength).ToArray());
+						InternalSaveDataToPages(writer, compressedData[..dataLength].ToArray());
 					}
 					else
 					{
