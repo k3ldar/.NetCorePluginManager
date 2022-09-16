@@ -2186,7 +2186,7 @@
             Default Constructor
             </summary>
         </member>
-        <member name="M:Middleware.Resources.ResourceItem.#ctor(System.Int64,System.Int64,Middleware.ResourceType,System.Int64,System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Boolean)">
+        <member name="M:Middleware.Resources.ResourceItem.#ctor(System.Int64,System.Int64,Middleware.ResourceType,System.Int64,System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Boolean)">
             <summary>
             Constructor
             </summary>
@@ -2200,6 +2200,7 @@
             <param name="value">Resource item value</param>
             <param name="likes">Number of likes</param>
             <param name="dislikes">Number of dislikes</param>
+            <param name="viewCount">Number of views for the item</param>
             <param name="approved">Approved for public viewing</param>
         </member>
         <member name="P:Middleware.Resources.ResourceItem.Id">
@@ -2250,6 +2251,11 @@
         <member name="P:Middleware.Resources.ResourceItem.Dislikes">
             <summary>
             Number of dislikes
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceItem.ViewCount">
+            <summary>
+            Number of views for the resource item
             </summary>
         </member>
         <member name="P:Middleware.Resources.ResourceItem.Approved">
@@ -4171,7 +4177,7 @@
             <param name="categoryId">The id of the category</param>
             <returns>Resource</returns>
         </member>
-        <member name="M:Middleware.IResourceProvider.GetResourceItemFromId(System.Int64)">
+        <member name="M:Middleware.IResourceProvider.GetResourceItem(System.Int64)">
             <summary>
             Retrieves a resource item based on it's id
             </summary>
@@ -4185,6 +4191,12 @@
             <param name="id">id of resource item</param>
             <param name="userId">User liking post</param>
             <param name="like">Indicates whether the user liked/disliked the item</param>
+        </member>
+        <member name="M:Middleware.IResourceProvider.IncrementViewCount(System.Int64)">
+            <summary>
+            Increments the view count for a resource item
+            </summary>
+            <param name="resourceId"></param>
         </member>
         <member name="M:Middleware.IResourceProvider.AddResourceCategory(System.Int64,System.Nullable{System.Int64},System.String,System.String)">
             <summary>

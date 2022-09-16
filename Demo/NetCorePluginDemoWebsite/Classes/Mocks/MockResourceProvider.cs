@@ -47,8 +47,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 					new ResourceCategory(1, null, "Resource 1", "Resource desc 1", "black", "rgba(0,0,0,.03)", "/Images/Download/download.jpg", "resource-1"),
 					new ResourceCategory(2, null, "Resource 2", "Resource desc 2", "white", "red", null, "resource-2"),
 					new ResourceCategory(21, 2, "Resource 2 Child 1", "Resource desc 2 (1)", "black", "white", null, "resource-2-child-1"),
-					new ResourceCategory(21, 2, "Resource 2 Child 2", "Resource desc 2 (2)", "black", "white", null, "resource-2-child-2"),
-					new ResourceCategory(21, 2, "Resource 2 Child 3", "Resource desc 2 (3)", "black", "white", null, "resource-2-child-3"),
+					new ResourceCategory(22, 2, "Resource 2 Child 2", "Resource desc 2 (2)", "black", "white", null, "resource-2-child-2"),
+					new ResourceCategory(23, 2, "Resource 2 Child 3", "Resource desc 2 (3)", "black", "white", null, "resource-2-child-3"),
 					new ResourceCategory(3, null, "Resource 3", "Resource desc 2", "white", "black", null, "resource-3"),
 					new ResourceCategory(4, null, "Resource 4", "Resource desc 2", "black", "grey", null, "resource-4"),
 					new ResourceCategory(5, null, "Resource 5", "Resource desc 2", "white", "blue", null, "resource-5"),
@@ -61,7 +61,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 						ResourceItem item = new ResourceItem()
 						{
 							Id = (category.Id * 100) + i,
-							CategoryId = i,
+							CategoryId = category.Id,
 							Approved = true,
 							Description = $"Description of {category.Name} {i}",
 							Name = $"Child {i} for {category.Name}",
@@ -107,15 +107,15 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			return _resources.Where(r => r.ParentId.HasValue && r.ParentId.Value.Equals(parentId)).ToList();
 		}
 
-		public ResourceCategory GetResourceCategory(long routeId)
+		public ResourceCategory GetResourceCategory(long categoryId)
 		{
 			if (_resources == null)
 				GetAllResources();
 
-			return _resources.Where(r => r.Id.Equals(routeId)).FirstOrDefault();
+			return _resources.Where(r => r.Id.Equals(categoryId)).FirstOrDefault();
 		}
 
-		public ResourceItem GetResourceItemFromId(long id)
+		public ResourceItem GetResourceItem(long id)
 		{
 			if (_resources == null)
 				GetAllResources();
@@ -136,6 +136,13 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 				item.Dislikes++;
 
 			return item;
+		}
+
+		public void IncrementViewCount(long resourceId)
+		{
+			ResourceItem item = _items.FirstOrDefault(i => i.Id.Equals(resourceId));
+
+			item.ViewCount++;
 		}
 
 		public ResourceCategory AddResourceCategory(long userId, long? parent, string name, string description)

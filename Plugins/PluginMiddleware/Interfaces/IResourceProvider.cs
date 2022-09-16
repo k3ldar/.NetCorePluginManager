@@ -60,7 +60,7 @@ namespace Middleware
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		ResourceItem GetResourceItemFromId(long id);
+		ResourceItem GetResourceItem(long id);
 
 		/// <summary>
 		/// Increments the like count for a resource
@@ -69,6 +69,12 @@ namespace Middleware
 		/// <param name="userId">User liking post</param>
 		/// <param name="like">Indicates whether the user liked/disliked the item</param>
 		ResourceItem IncrementResourceItemResponse(long id, long userId, bool like);
+
+		/// <summary>
+		/// Increments the view count for a resource item
+		/// </summary>
+		/// <param name="resourceId"></param>
+		void IncrementViewCount(long resourceId);
 
 		/// <summary>
 		/// Creates a new resource category

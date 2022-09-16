@@ -15,27 +15,30 @@
  *
  *  Product:  Resources.Plugin
  *  
- *  File: ResourceItemModel.cs
+ *  File: ResourceViewItemModel.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  31/08/2022  Simon Carter        Initially Created
+ *  16/09/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Middleware;
+
+using SharedPluginFeatures;
 
 namespace Resources.Plugin.Models
 {
 	/// <summary>
 	/// Resource item model
 	/// </summary>
-	public sealed class ResourceItemModel
+	public sealed class ResourceViewItemModel : BaseModel
 	{
 
 		/// <summary>
 		/// Constructor
 		/// </summary>
+		/// <param name="baseModelData">Base model data</param>
 		/// <param name="id">Unique id for resource item</param>
 		/// <param name="categoryId">Category id</param>
 		/// <param name="resourceType">Resource type</param>
@@ -46,10 +49,11 @@ namespace Resources.Plugin.Models
 		/// <param name="value">Resource item value</param>
 		/// <param name="likes">Number of likes</param>
 		/// <param name="dislikes">Number of dislikes</param>
+		/// <param name="viewCount">Number of views for resource item</param>
 		/// <param name="approved">Approved for public viewing</param>
-		/// <param name="viewCount">Number of views for resource</param>
-		public ResourceItemModel(long id, long categoryId, ResourceType resourceType, long userId, string userName, 
-			string name, string description, string value, int likes, int dislikes, int viewCount, bool approved)
+		public ResourceViewItemModel(BaseModelData baseModelData, long id, long categoryId, ResourceType resourceType, 
+			long userId, string userName, string name, string description, string value, int likes, int dislikes, int viewCount, bool approved)
+			: base (baseModelData)
 		{
 			Id = id;
 			CategoryId = categoryId;
@@ -68,61 +72,61 @@ namespace Resources.Plugin.Models
 		/// <summary>
 		/// Unique id for resource item
 		/// </summary>
-		public long Id { get; set; }
+		public long Id { get; }
 
 		/// <summary>
 		/// Category Id
 		/// </summary>
-		public long CategoryId { get; set; }
+		public long CategoryId { get; }
 
 		/// <summary>
 		/// Resource type
 		/// </summary>
-		public ResourceType ResourceType { get; set; }
+		public ResourceType ResourceType { get; }
 
 		/// <summary>
 		/// Id of user who created the item
 		/// </summary>
-		public long UserId { get; set; }
+		public long UserId { get; }
 
 		/// <summary>
 		/// Name of user creating the resource
 		/// </summary>
-		public string UserName { get; set; }
+		public string UserName { get; }
 
 		/// <summary>
 		/// Name of resource item
 		/// </summary>
-		public string Name { get; set; }
+		public string Name { get; }
 
 		/// <summary>
 		/// Description of resource item
 		/// </summary>
-		public string Description { get; set; }
+		public string Description { get; }
 
 		/// <summary>
 		/// Value of resource item
 		/// </summary>
-		public string Value { get; set; }
+		public string Value { get; }
 
 		/// <summary>
 		/// Number of likes
 		/// </summary>
-		public int Likes { get; set; }
+		public int Likes { get; }
 
 		/// <summary>
 		/// Number of dislikes
 		/// </summary>
-		public int Dislikes { get; set; }
+		public int Dislikes { get;  }
 
 		/// <summary>
-		/// Number of views for resource
+		/// Number of views for resource item
 		/// </summary>
 		public int ViewCount { get; }
 
 		/// <summary>
 		/// Approved for public viewing
 		/// </summary>
-		public bool Approved { get; set; }
+		public bool Approved { get; }
 	}
 }

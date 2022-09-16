@@ -5,7 +5,8 @@
     ViewData["Title"] = @Model.SeoTitle;
 }
 
-<link rel="stylesheet" type="text/css" href="/css/documentation.css" />
+
+<link rel="stylesheet" href="/css/resources.css" />
 
 <h2>@Model.Name</h2>
 
@@ -66,18 +67,9 @@
                 switch (item.ResourceType)
                 {
                     case Middleware.ResourceType.YouTube:
-                        link = String.Format("https://www.youtube.com/watch?v={0}", item.Value);
-                        target = "target=\"_blank\"";
-                        break;
-
                     case Middleware.ResourceType.TikTok:
-                        string[] parts = item.Value.Split(';');
-                        link = String.Format("https://www.tiktok.com/@{0}/video/{1}", parts[0], parts[1]);
-                        target = "target=\"_blank\"";
-                        break;
-
                     case Middleware.ResourceType.Uri:
-                        link = item.Value;
+                        link = String.Format("/Resources/ViewExternal/{0}/", item.Id);
                         target = "target=\"_blank\"";
                         break;
 
@@ -108,6 +100,7 @@
                     <footer class="blockquote-footer">
                         <button type="button" class="btn btn-success btn-sm @enabled" onclick="itemResponse(@item.Id, true);"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span id="@itemLikeCount">@item.Likes</span></button>
                         <button type="button" class="btn btn-danger btn-sm @enabled" onclick="itemResponse(@item.Id, false);"><span class="glyphicon glyphicon-thumbs-down"></span> Dislike <span id="@itemDislikeCount">@item.Dislikes</span></button>
+                        <span>Views: @item.ViewCount</span>
                     </footer>
                 </div>
             }

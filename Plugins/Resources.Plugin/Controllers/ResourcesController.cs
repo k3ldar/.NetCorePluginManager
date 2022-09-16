@@ -153,9 +153,9 @@ namespace Resources.Plugin.Controllers
 
 		[HttpGet]
 		[Route("/Resources/View/{resourceItemId}/")]
-		public IActionResult View(long resourceItemId)
+		public IActionResult ViewResource(long resourceItemId)
 		{
-			ResourceItem resource = _resourceProvider.GetResourceItemFromId(resourceItemId);
+			ResourceItem resource = _resourceProvider.GetResourceItem(resourceItemId);
 
 			if (resource == null)
 				return RedirectToAction(nameof(Index));
@@ -169,7 +169,46 @@ namespace Resources.Plugin.Controllers
 					return RedirectToAction(nameof(ViewCategory), new { id = resource.CategoryId, categoryName = resourceCategory.RouteName });
 			}
 
-			throw new NotImplementedException();
+			_resourceProvider.IncrementViewCount(resource.Id);
+
+			return View(CreateResourceViewItemModel(resource));
+		}
+
+		[HttpGet]
+		[Route("/Resources/ViewExternal/{resourceItemId}/")]
+		public IActionResult ViewExternalResource(long resourceItemId)
+		{
+			ResourceItem resource = _resourceProvider.GetResourceItem(resourceItemId);
+
+			if (resource == null)
+				return RedirectToAction(nameof(Index));
+
+			string link = "";
+
+			switch (resource.ResourceType)
+			{
+				case Middleware.ResourceType.YouTube:
+					link = String.Format("https://www.youtube.com/watch?v={0}", resource.Value);
+					break;
+
+				case Middleware.ResourceType.TikTok:
+					string[] parts = resource.Value.Split(';');
+					link = String.Format("https://www.tiktok.com/@{0}/video/{1}", parts[0], parts[1]);
+					break;
+
+				case Middleware.ResourceType.Uri:
+					link = resource.Value;
+					break;
+
+				case Middleware.ResourceType.Text:
+				case Middleware.ResourceType.Image:
+					link = String.Format("/Resources/View/{0}/", resource.Id);
+					break;
+			}
+
+			_resourceProvider.IncrementViewCount(resource.Id);
+
+			return Redirect(link);
 		}
 
 		#endregion Controller Action Methods
@@ -190,7 +229,7 @@ namespace Resources.Plugin.Controllers
 					(ResourceType)resourceItem.ResourceType, resourceItem.UserId, 
 					resourceItem.UserName, resourceCategory.Name,
 					resourceItem.Description, resourceItem.Value, resourceItem.Likes,
-					resourceItem.Dislikes, resourceItem.Approved));
+					resourceItem.Dislikes, resourceItem.ViewCount, resourceItem.Approved));
 			}
 
 			List<ResourceCategoryModel> modelSubCategories = new List<ResourceCategoryModel>();
@@ -233,6 +272,36 @@ namespace Resources.Plugin.Controllers
 			}
 
 			return new ResourcesModel(GetModelData(), resources);
+		}
+
+		private ResourceViewItemModel CreateResourceViewItemModel(ResourceItem resourceItem)
+		{
+			ResourceCategory resourceCategory = _resourceProvider.GetResourceCategory(resourceItem.CategoryId);
+
+			ResourceViewItemModel Result = new ResourceViewItemModel(GetModelData(), resourceItem.Id, resourceItem.CategoryId,
+				(ResourceType)resourceItem.ResourceType, resourceItem.UserId,
+				resourceItem.UserName, resourceCategory.Name,
+				resourceItem.Description, resourceItem.Value, resourceItem.Likes,
+				resourceItem.Dislikes, resourceItem.ViewCount, resourceItem.Approved);
+
+			Result.Breadcrumbs.Clear();
+			Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.Home, "/", false));
+			Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, "/Resources/", false));
+			Result.Breadcrumbs.Add(new BreadcrumbItem(resourceCategory.Name, $"/Resources/Category/{resourceCategory.Id}/{resourceCategory.RouteName}/", false));
+
+			if (resourceCategory.ParentId.HasValue)
+			{
+				ResourceCategory parent = _resourceProvider.GetResourceCategory(resourceCategory.ParentId.Value);
+				do
+				{
+					Result.Breadcrumbs.Insert(2, new BreadcrumbItem(parent.Name, $"/Resources/Category/{parent.Id}/{parent.RouteName}/", false));
+					parent = parent.ParentId.HasValue ? _resourceProvider.GetResourceCategory(parent.ParentId.Value) : null;
+				} while (parent != null);
+			}
+
+			Result.Breadcrumbs.Add(new BreadcrumbItem(resourceItem.Name, $"/Resources/View/{resourceItem.Id}/", false));
+
+			return Result;
 		}
 
 		#endregion Private Methods

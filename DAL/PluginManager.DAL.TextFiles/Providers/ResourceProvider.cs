@@ -69,7 +69,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			return ConvertResourceCategoryDataRowToResourceCategory(_resourceCategories.Select(categoryId));
 		}
 
-		public ResourceItem GetResourceItemFromId(long id)
+		public ResourceItem GetResourceItem(long id)
 		{
 			return ConvertResourceItemDataRowToResourceItem(_resourceItems.Select(id));
 		}
@@ -129,6 +129,17 @@ namespace PluginManager.DAL.TextFiles.Providers
 			_resourceResponses.InsertOrUpdate(userResponse);
 
 			return ConvertResourceItemDataRowToResourceItem(resourceItemDataRow);
+		}
+
+		public void IncrementViewCount(long resourceId)
+		{
+			ResourceItemDataRow resourceItem = _resourceItems.Select(resourceId);
+
+			if (resourceItem == null)
+				return;
+
+			resourceItem.ViewCount++;
+			_resourceItems.Update(resourceItem);
 		}
 
 		public ResourceCategory AddResourceCategory(long userId, long? parentId, string name, string description)
@@ -204,6 +215,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 					resourceItemDataRow.Value,
 					resourceItemDataRow.Likes,
 					resourceItemDataRow.Dislikes,
+					resourceItemDataRow.ViewCount,
 					resourceItemDataRow.Approved);
 		}
 
@@ -228,6 +240,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 					resourceItemDataRow.Value,
 					resourceItemDataRow.Likes,
 					resourceItemDataRow.Dislikes,
+					resourceItemDataRow.ViewCount,
 					resourceItemDataRow.Approved));
 			}
 

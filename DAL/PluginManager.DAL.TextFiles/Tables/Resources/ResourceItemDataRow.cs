@@ -45,6 +45,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 		private string _value;
 		private int _likes;
 		private int _dislikes;
+		private int _viewCount;
 		private bool _approved;
 
 		[ForeignKey(Constants.TableNameResourceCateogories)]
@@ -185,6 +186,20 @@ namespace PluginManager.DAL.TextFiles.Tables
 					return;
 
 				_approved = value;
+				Update();
+			}
+		}
+
+		public int ViewCount
+		{
+			get => _viewCount;
+
+			set
+			{
+				if (_viewCount == value)
+					return;
+
+				_viewCount = value;
 				Update();
 			}
 		}

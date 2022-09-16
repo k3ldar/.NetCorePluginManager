@@ -23,11 +23,6 @@
  *  31/08/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Middleware.Resources
 {
@@ -57,8 +52,10 @@ namespace Middleware.Resources
 		/// <param name="value">Resource item value</param>
 		/// <param name="likes">Number of likes</param>
 		/// <param name="dislikes">Number of dislikes</param>
+		/// <param name="viewCount">Number of views for the item</param>
 		/// <param name="approved">Approved for public viewing</param>
-		public ResourceItem(long id, long categoryId, ResourceType resourceType, long userId, string userName, string name, string description, string value, int likes, int dislikes, bool approved)
+		public ResourceItem(long id, long categoryId, ResourceType resourceType, long userId, string userName, string name,
+			string description, string value, int likes, int dislikes, int viewCount, bool approved)
 		{
 			Id = id;
 			CategoryId = categoryId;
@@ -71,6 +68,7 @@ namespace Middleware.Resources
 			Likes = likes;
 			Dislikes = dislikes;
 			Approved = approved;
+			ViewCount = viewCount;
 		}
 
 		/// <summary>
@@ -122,6 +120,11 @@ namespace Middleware.Resources
 		/// Number of dislikes
 		/// </summary>
 		public int Dislikes { get; set; }
+
+		/// <summary>
+		/// Number of views for the resource item
+		/// </summary>
+		public int ViewCount { get; set; }
 
 		/// <summary>
 		/// Approved for public viewing
