@@ -24,8 +24,11 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace SimpleDB.Tests.Mocks
 {
+	[ExcludeFromCodeCoverage]
 	public class MockTextTableOperations<T> : ISimpleDBOperations<T>, ISimpleDBTable
         where T : TableRowDefinition
     {

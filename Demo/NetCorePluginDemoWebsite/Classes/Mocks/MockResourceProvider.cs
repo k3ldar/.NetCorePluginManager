@@ -23,8 +23,10 @@
  *  29/08/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 
 using Middleware;
 using Middleware.Resources;
@@ -42,11 +44,14 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			{
 				_resources = new List<ResourceCategory>()
 				{
-					new ResourceCategory(1, "Resource 1", "Resource desc 1", "black", "rgba(0,0,0,.03)", "/Images/Download/download.jpg", "resource-1"),
-					new ResourceCategory(2, "Resource 2", "Resource desc 2", "white", "red", null, "resource-2"),
-					new ResourceCategory(3, "Resource 3", "Resource desc 2", "white", "black", null, "resource-3"),
-					new ResourceCategory(4, "Resource 4", "Resource desc 2", "black", "grey", null, "resource-4"),
-					new ResourceCategory(5, "Resource 5", "Resource desc 2", "white", "blue", null, "resource-5"),
+					new ResourceCategory(1, null, "Resource 1", "Resource desc 1", "black", "rgba(0,0,0,.03)", "/Images/Download/download.jpg", "resource-1"),
+					new ResourceCategory(2, null, "Resource 2", "Resource desc 2", "white", "red", null, "resource-2"),
+					new ResourceCategory(21, 2, "Resource 2 Child 1", "Resource desc 2 (1)", "black", "white", null, "resource-2-child-1"),
+					new ResourceCategory(21, 2, "Resource 2 Child 2", "Resource desc 2 (2)", "black", "white", null, "resource-2-child-2"),
+					new ResourceCategory(21, 2, "Resource 2 Child 3", "Resource desc 2 (3)", "black", "white", null, "resource-2-child-3"),
+					new ResourceCategory(3, null, "Resource 3", "Resource desc 2", "white", "black", null, "resource-3"),
+					new ResourceCategory(4, null, "Resource 4", "Resource desc 2", "black", "grey", null, "resource-4"),
+					new ResourceCategory(5, null, "Resource 5", "Resource desc 2", "white", "blue", null, "resource-5"),
 				};
 
 				foreach (ResourceCategory category in _resources)
@@ -64,22 +69,57 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 							Value = "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
 						};
 
+						if (item.Id == 101)
+						{
+							item.ResourceType = ResourceType.YouTube;
+							item.Value = "OP1tBC6dBW0";
+						}
+						else if (item.Id == 202)
+						{
+							item.ResourceType = ResourceType.TikTok;
+							item.Value = $"visualstudio;7026423558041537839";
+						}
+						else if (item.Id == 303)
+						{
+							item.ResourceType = ResourceType.Uri;
+							item.Value = "https://www.pluginmanager.website/";
+						}
+						else if (item.Id == 404)
+						{
+							item.ResourceType = ResourceType.Image;
+							item.Value = "https://www.pluginmanager.website/images/PluginTechnology.png";
+						}
+
 						category.ResourceItems.Add(item);
 						_items.Add(item);
 					}
 				}
 			}
 
-			return _resources;
+			return _resources.Where(r => r.ParentId == null).ToList();
 		}
 
-		public ResourceCategory GetResourceFromRouteName(string routeName)
+		public List<ResourceCategory> GetAllResources(long parentId)
 		{
-			return GetAllResources().Where(r => r.RouteName.Equals(routeName)).FirstOrDefault();
+			if (_resources == null)
+				GetAllResources();
+
+			return _resources.Where(r => r.ParentId.HasValue && r.ParentId.Value.Equals(parentId)).ToList();
+		}
+
+		public ResourceCategory GetResourceCategory(long routeId)
+		{
+			if (_resources == null)
+				GetAllResources();
+
+			return _resources.Where(r => r.Id.Equals(routeId)).FirstOrDefault();
 		}
 
 		public ResourceItem GetResourceItemFromId(long id)
 		{
+			if (_resources == null)
+				GetAllResources();
+
 			return _items.Where(i => i.Id.Equals(id)).FirstOrDefault();
 		}
 
@@ -96,6 +136,22 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 				item.Dislikes++;
 
 			return item;
+		}
+
+		public ResourceCategory AddResourceCategory(long userId, long? parent, string name, string description)
+		{
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException(nameof(name));
+
+			return new ResourceCategory(1, parent, name, description, null, null, null, name);
+		}
+
+		public ResourceCategory UpdateResourceCategory(long userId, ResourceCategory category)
+		{
+			if (category == null)
+				throw new ArgumentNullException(nameof(category));
+
+			return category;
 		}
 	}
 }

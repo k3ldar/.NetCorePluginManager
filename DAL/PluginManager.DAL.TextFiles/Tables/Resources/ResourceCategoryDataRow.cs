@@ -30,13 +30,45 @@ namespace PluginManager.DAL.TextFiles.Tables
 	[Table(Constants.TableDomainResources, Constants.TableNameResourceCateogories)]
 	internal class ResourceCategoryDataRow : TableRowDefinition
 	{
+		private long _userId;
+		private long? _parentCategoryId;
 		private string _name;
 		private string _description;
 		private string _foreColor;
 		private string _backColor;
 		private string _image;
 		private string _routeName;
+		private bool _isVisible;
 
+		[ForeignKey(Constants.TableNameUsers, true)]
+		public long UserId
+		{
+			get => _userId;
+
+			set
+			{
+				if (_userId == value)
+					return;
+
+				_userId = value;
+				Update();
+			}
+		}
+
+		[ForeignKey(Constants.TableNameResourceCateogories, true)]
+		public long? ParentCategoryId
+		{
+			get => _parentCategoryId;
+
+			set
+			{
+				if (value == _parentCategoryId)
+					return;
+
+				_parentCategoryId = value;
+				Update();
+			}
+		}
 
 		[UniqueIndex]
 		public string Name
@@ -120,6 +152,20 @@ namespace PluginManager.DAL.TextFiles.Tables
 					return;
 
 				_routeName = value;
+				Update();
+			}
+		}
+
+		public bool IsVisible
+		{
+			get => _isVisible;
+
+			set
+			{
+				if (_isVisible == value)
+					return;
+
+				_isVisible = value;
 				Update();
 			}
 		}

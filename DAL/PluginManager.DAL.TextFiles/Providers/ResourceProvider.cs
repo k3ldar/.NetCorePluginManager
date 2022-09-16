@@ -56,12 +56,17 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		public List<ResourceCategory> GetAllResources()
 		{
-			return ConvertResourceDataRowsToResourceList(_resourceCategories.Select());
+			return ConvertResourceDataRowsToResourceList(_resourceCategories.Select().Where(r => !r.ParentCategoryId.HasValue).ToList());
 		}
 
-		public ResourceCategory GetResourceFromRouteName(string routeName)
+		public List<ResourceCategory> GetAllResources(long parentId)
 		{
-			return ConvertResourceCategoryDataRowToResourceItem(_resourceCategories.Select().Where(r => r.RouteName.Equals(routeName)).FirstOrDefault());
+			return ConvertResourceDataRowsToResourceList(_resourceCategories.Select().Where(r => r.ParentCategoryId.HasValue && r.ParentCategoryId.Equals(parentId)).ToList());
+		}
+
+		public ResourceCategory GetResourceCategory(long categoryId)
+		{
+			return ConvertResourceCategoryDataRowToResourceCategory(_resourceCategories.Select(categoryId));
 		}
 
 		public ResourceItem GetResourceItemFromId(long id)
@@ -126,6 +131,62 @@ namespace PluginManager.DAL.TextFiles.Providers
 			return ConvertResourceItemDataRowToResourceItem(resourceItemDataRow);
 		}
 
+		public ResourceCategory AddResourceCategory(long userId, long? parentId, string name, string description)
+		{
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException(nameof(name));
+
+			if (string.IsNullOrEmpty(description))
+				throw new ArgumentNullException(nameof(description));
+
+			UserDataRow userDataRow = _users.Select(userId);
+
+			if (userDataRow == null && userId != 0)
+				throw new ArgumentNullException(nameof(userId));
+
+			ResourceCategoryDataRow newCategoryRow = new ResourceCategoryDataRow()
+			{ 
+				ParentCategoryId = parentId,
+				Name = name,
+				Description = description,
+				UserId = userDataRow == null ? 0 : userDataRow.Id,
+			};
+
+			_resourceCategories.Insert(newCategoryRow);
+
+			return ConvertResourceCategoryDataRowToResourceCategory(newCategoryRow);
+		}
+
+		public ResourceCategory UpdateResourceCategory(long userId, ResourceCategory category)
+		{
+			if (category == null)
+				throw new ArgumentNullException(nameof(category));
+
+			ResourceCategoryDataRow categoryRow = _resourceCategories.Select(category.Id);
+
+			if (categoryRow == null)
+				throw new ArgumentOutOfRangeException(nameof(category));
+
+			UserDataRow userDataRow = _users.Select(userId);
+
+			if (userDataRow == null && userId != 0)
+				throw new ArgumentNullException(nameof(userId));
+
+			categoryRow.UserId = userId;
+			categoryRow.Name = category.Name;
+			categoryRow.RouteName = category.RouteName;
+			categoryRow.BackColor = category.BackColor;
+			categoryRow.ForeColor = category.ForeColor;
+			categoryRow.Image = category.Image;
+			categoryRow.Description = category.Description;
+
+			_resourceCategories.Update(categoryRow);
+
+			return (ConvertResourceCategoryDataRowToResourceCategory(categoryRow));
+		}
+
+		#region Private Methods
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private static ResourceItem ConvertResourceItemDataRowToResourceItem(ResourceItemDataRow resourceItemDataRow)
 		{
@@ -147,7 +208,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		private ResourceCategory ConvertResourceCategoryDataRowToResourceItem(ResourceCategoryDataRow resourceRow)
+		private ResourceCategory ConvertResourceCategoryDataRowToResourceCategory(ResourceCategoryDataRow resourceRow)
 		{
 			if (resourceRow == null)
 				return null;
@@ -170,7 +231,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 					resourceItemDataRow.Approved));
 			}
 
-			return new ResourceCategory(resourceRow.Id, resourceRow.Name, resourceRow.Description, resourceRow.ForeColor,
+			return new ResourceCategory(resourceRow.Id, resourceRow.ParentCategoryId, resourceRow.Name, resourceRow.Description, resourceRow.ForeColor,
 				resourceRow.BackColor, resourceRow.Image, resourceRow.RouteName, resources);
 		}
 
@@ -180,11 +241,13 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			foreach (ResourceCategoryDataRow row in resources)
 			{
-				result.Add(new ResourceCategory(row.Id, row.Name, row.Description, row.ForeColor, row.BackColor, row.Image, row.RouteName));
+				result.Add(new ResourceCategory(row.Id, null, row.Name, row.Description, row.ForeColor, row.BackColor, row.Image, row.RouteName));
 			}
 
 			return result;
 		}
+
+		#endregion Private Methods
 	}
 }
 

@@ -24,11 +24,13 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 
 namespace AspNetCore.PluginManager.Tests
 {
+	[ExcludeFromCodeCoverage]
 	public static class TestHelper
 	{
 		private static string _rootPath;

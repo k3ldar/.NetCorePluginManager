@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using Middleware;
 using Middleware.Products;
@@ -31,7 +32,8 @@ using Middleware.ShoppingCart;
 
 namespace AspNetCore.PluginManager.Tests.Shared
 {
-    public class MockStockProvider : IStockProvider
+	[ExcludeFromCodeCoverage]
+	public class MockStockProvider : IStockProvider
     {
         private readonly uint _stockCount;
 

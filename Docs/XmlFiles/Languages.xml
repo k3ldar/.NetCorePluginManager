@@ -12142,6 +12142,11 @@
               Looks up a localized string similar to Categories.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.CategoryNameExists">
+            <summary>
+              Looks up a localized string similar to The category name already exists.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.Celebrities">
             <summary>
               Looks up a localized string similar to Celebrities.
@@ -12470,6 +12475,11 @@
         <member name="P:Languages.LanguageStrings.CreateAnAccount">
             <summary>
               Looks up a localized string similar to Create an account.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.CreateCategory">
+            <summary>
+              Looks up a localized string similar to Create Category.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.Created">
@@ -13563,6 +13573,16 @@
         <member name="P:Languages.LanguageStrings.InvalidBlog">
             <summary>
               Looks up a localized string similar to The blog is invalid..
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.InvalidCategoryDescription">
+            <summary>
+              Looks up a localized string similar to Please enter a valid category description.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.InvalidCategoryName">
+            <summary>
+              Looks up a localized string similar to Please enter a valid category name.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.InvalidCompetition">

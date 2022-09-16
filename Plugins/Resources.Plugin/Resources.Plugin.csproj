@@ -39,8 +39,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Resources\CreateCategory.cshtml" />
     <Content Remove="Views\Resources\Index.cshtml" />
     <Content Remove="Views\Resources\ViewCategory.cshtml" />
+    <Content Remove="wwwroot\css\resources.css" />
   </ItemGroup>
 
   <ItemGroup>
@@ -70,8 +72,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Views\Resources\CreateCategory.cshtml" />
     <EmbeddedResource Include="Views\Resources\Index.cshtml" />
     <EmbeddedResource Include="Views\Resources\ViewCategory.cshtml" />
+    <EmbeddedResource Include="wwwroot\css\resources.css" />
   </ItemGroup>
 
   <ItemGroup>

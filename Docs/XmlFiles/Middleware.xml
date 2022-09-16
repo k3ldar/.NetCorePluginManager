@@ -2100,11 +2100,12 @@
             Resource class
             </summary>
         </member>
-        <member name="M:Middleware.Resources.ResourceCategory.#ctor(System.Int64,System.String,System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{Middleware.Resources.ResourceItem})">
+        <member name="M:Middleware.Resources.ResourceCategory.#ctor(System.Int64,System.Nullable{System.Int64},System.String,System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{Middleware.Resources.ResourceItem})">
             <summary>
             Constructor
             </summary>
             <param name="id">Unique id for resource category</param>
+            <param name="parentId">Parent id</param>
             <param name="name">Resource name</param>
             <param name="description">Resource description</param>
             <param name="foreColor">Resource text color</param>
@@ -2113,11 +2114,12 @@
             <param name="routeName">Route friendly name for resource</param>
             <param name="resourceItems">List of resource items belonging to the category</param>
         </member>
-        <member name="M:Middleware.Resources.ResourceCategory.#ctor(System.Int64,System.String,System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:Middleware.Resources.ResourceCategory.#ctor(System.Int64,System.Nullable{System.Int64},System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             Constructor
             </summary>
             <param name="id">Unique id for resource category</param>
+            <param name="parentId">Id of parent category or zero</param>
             <param name="name">Resource name</param>
             <param name="description">Resource description</param>
             <param name="foreColor">Resource text color</param>
@@ -2128,6 +2130,11 @@
         <member name="P:Middleware.Resources.ResourceCategory.Id">
             <summary>
             Unique id for resource category
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceCategory.ParentId">
+            <summary>
+            Id of parent category or zero
             </summary>
         </member>
         <member name="P:Middleware.Resources.ResourceCategory.Name">
@@ -4150,11 +4157,18 @@
             </summary>
             <returns>List&lt;Resource&gt;</returns>
         </member>
-        <member name="M:Middleware.IResourceProvider.GetResourceFromRouteName(System.String)">
+        <member name="M:Middleware.IResourceProvider.GetAllResources(System.Int64)">
             <summary>
-            Retrieves a resource using route name
+            Retrieves a list of all resources with a specific parent id
             </summary>
-            <param name="routeName">Name of route to find</param>
+            <param name="parentId"></param>
+            <returns>List&lt;Resource&gt;</returns>
+        </member>
+        <member name="M:Middleware.IResourceProvider.GetResourceCategory(System.Int64)">
+            <summary>
+            Retrieves a resource category with a specific id
+            </summary>
+            <param name="categoryId">The id of the category</param>
             <returns>Resource</returns>
         </member>
         <member name="M:Middleware.IResourceProvider.GetResourceItemFromId(System.Int64)">
@@ -4171,6 +4185,23 @@
             <param name="id">id of resource item</param>
             <param name="userId">User liking post</param>
             <param name="like">Indicates whether the user liked/disliked the item</param>
+        </member>
+        <member name="M:Middleware.IResourceProvider.AddResourceCategory(System.Int64,System.Nullable{System.Int64},System.String,System.String)">
+            <summary>
+            Creates a new resource category
+            </summary>
+            <param name="userId">User creating the category</param>
+            <param name="parent">Parent category id</param>
+            <param name="name">Name of the new category</param>
+            <param name="description">Description of the category</param>
+        </member>
+        <member name="M:Middleware.IResourceProvider.UpdateResourceCategory(System.Int64,Middleware.Resources.ResourceCategory)">
+            <summary>
+            Updates an existing resource category
+            </summary>
+            <param name="userId">Id of user</param>
+            <param name="category">Category to update</param>
+            <returns>ResourceCategory</returns>
         </member>
         <member name="T:Middleware.ISearchKeywordProvider">
             <summary>

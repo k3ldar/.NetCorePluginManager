@@ -97,7 +97,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 		{
 			ResourcesController sut = CreateResourceController();
 
-			IActionResult response = sut.ViewCategory(1, "not a resource");
+			IActionResult response = sut.ViewCategory(101, "not a resource");
 
 			RedirectToActionResult result = response as RedirectToActionResult;
 
@@ -187,6 +187,131 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 
 			Assert.AreEqual("{\"itemId\":102,\"likes\":1,\"dislikes\":0}", jsonResponseModel.ResponseData);
 			Assert.IsTrue(jsonResponseModel.Success);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateCategory_ReturnsCorrectViewAndModel_Success()
+		{
+			ResourcesController sut = CreateResourceController();
+
+			IActionResult response = sut.CreateCategory(parentId: null);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result);
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			CreateCategoryModel resourceModel = result.Model as CreateCategoryModel;
+
+			Assert.IsNotNull(resourceModel);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateCategory_Post_NullModel_RedirectsToIndex()
+		{
+			ResourcesController sut = CreateResourceController();
+
+			IActionResult response = sut.CreateCategory(model: null);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("Index", result.ActionName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateCategory_Post_NameExists_ReturnsModelStateError()
+		{
+			ResourcesController sut = CreateResourceController();
+
+			IActionResult response = sut.CreateCategory(new CreateCategoryModel() { Name = "Resource 1" });
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			CreateCategoryModel resourceModel = result.Model as CreateCategoryModel;
+
+			Assert.IsNotNull(resourceModel);
+
+			ViewResultContainsModelStateError(result, "Name", "The category name already exists");
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void View_ItemIdNotFound_RedirectsToIndex()
+		{
+			ResourcesController sut = CreateResourceController();
+
+			IActionResult response = sut.View(Int64.MaxValue);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("Index", result.ActionName);
+			Assert.IsNull(result.ControllerName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void View_ResourceItemIsTickTock_RedirectsToCategory()
+		{
+			ResourcesController sut = CreateResourceController();
+
+			IActionResult response = sut.View(101);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("ViewCategory", result.ActionName);
+			Assert.IsNull(result.ControllerName);
+			Assert.AreEqual(2, result.RouteValues.Count);
+			Assert.IsTrue(result.RouteValues.Keys.Contains("id"));
+			Assert.IsTrue(result.RouteValues.Keys.Contains("categoryName"));
+			Assert.IsTrue(result.RouteValues.Values.Contains("resource-1"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void View_ResourceItemIsYouTube_RedirectsToCategory()
+		{
+			ResourcesController sut = CreateResourceController();
+
+			IActionResult response = sut.View(202);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("ViewCategory", result.ActionName);
+			Assert.IsNull(result.ControllerName);
+			Assert.AreEqual(2, result.RouteValues.Count);
+			Assert.IsTrue(result.RouteValues.Keys.Contains("id"));
+			Assert.IsTrue(result.RouteValues.Keys.Contains("categoryName"));
+			Assert.IsTrue(result.RouteValues.Values.Contains("resource-2"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void View_ResourceItemIsUri_RedirectsToCategory()
+		{
+			ResourcesController sut = CreateResourceController();
+
+			IActionResult response = sut.View(303);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("ViewCategory", result.ActionName);
+			Assert.IsNull(result.ControllerName);
+			Assert.AreEqual(2, result.RouteValues.Count);
+			Assert.IsTrue(result.RouteValues.Keys.Contains("id"));
+			Assert.IsTrue(result.RouteValues.Keys.Contains("categoryName"));
+			Assert.IsTrue(result.RouteValues.Values.Contains("resource-3"));
 		}
 
 		private ResourcesController CreateResourceController()

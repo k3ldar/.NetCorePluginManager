@@ -23,6 +23,9 @@
  *  27/08/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+using System.Collections.Generic;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -38,8 +41,8 @@ namespace Resources.Plugin
     /// Implements IPlugin which allows the Resources.Plugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public sealed class PluginInitialisation : IPlugin, IInitialiseEvents
-    {
+    public sealed class PluginInitialisation : IPlugin, IInitialiseEvents, IClaimsService
+	{
         #region Constructors
 
         public PluginInitialisation()
@@ -57,10 +60,31 @@ namespace Resources.Plugin
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
+			if (services == null)
+				throw new ArgumentNullException(nameof(services));
 
-        }
+			services.AddAuthorization(options =>
+			{
+				options.AddPolicy(
+					Constants.PolicyNameAddResources,
+					policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameAddResources)
+						.RequireClaim(Constants.ClaimNameUserId)
+						.RequireClaim(Constants.ClaimNameUserEmail));
+			});
 
-        public void BeforeConfigure(in IApplicationBuilder app)
+			services.AddAuthorization(options =>
+			{
+				options.AddPolicy(
+					Constants.PolicyNameManageResources,
+					policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameManageResources)
+						.RequireClaim(Constants.ClaimNameUsername)
+						.RequireClaim(Constants.ClaimNameUserId)
+						.RequireClaim(Constants.ClaimNameUserEmail)
+						.RequireClaim(Constants.ClaimNameStaff));
+			});
+		}
+
+		public void BeforeConfigure(in IApplicationBuilder app)
         {
 
         }
@@ -99,8 +123,21 @@ namespace Resources.Plugin
             return 1;
         }
 
-        #endregion IPlugin Methods
-    }
+		#endregion IPlugin Methods
+
+		#region IClaimsService
+
+		public List<string> GetClaims()
+		{
+			return new List<string>()
+			{
+				Constants.ClaimNameAddResources,
+				Constants.ClaimNameManageResources,
+			};
+		}
+
+		#endregion IClaimsService
+	}
 }
 
 #pragma warning restore CS1591

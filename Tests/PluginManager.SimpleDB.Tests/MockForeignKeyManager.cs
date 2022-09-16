@@ -24,8 +24,11 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace SimpleDB.Tests
 {
+	[ExcludeFromCodeCoverage]
 	internal class MockForeignKeyManager : IForeignKeyManager
     {
         public List<string> RegisteredTables = new List<string>();

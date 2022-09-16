@@ -2748,6 +2748,16 @@
             Name of policy for managing products
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.PolicyNameAddResources">
+            <summary>
+            Name of policy for adding resources
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PolicyNameManageResources">
+            <summary>
+            Name of policy for managing resources
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.ClaimNameManageContent">
             <summary>
             Claim name for allowing user to manage content
@@ -2806,6 +2816,16 @@
         <member name="F:SharedPluginFeatures.Constants.ClaimNameManageProducts">
             <summary>
             Name of claim for managing products
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimNameAddResources">
+            <summary>
+            Name of claim for adding resources
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimNameManageResources">
+            <summary>
+            Name of claim for managing resources
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.ClaimIdentityUser">

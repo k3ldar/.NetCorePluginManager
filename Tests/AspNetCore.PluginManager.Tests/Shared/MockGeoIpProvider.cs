@@ -24,11 +24,13 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.Shared
 {
+	[ExcludeFromCodeCoverage]
 	internal class MockGeoIpProvider : IGeoIpProvider
 	{
 		public bool GetIpAddressDetails(in string ipAddress, out string countryCode, out string region, out string cityName, 

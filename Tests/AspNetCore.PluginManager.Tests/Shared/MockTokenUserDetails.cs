@@ -23,11 +23,14 @@
  *  16/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Diagnostics.CodeAnalysis;
+
 using Middleware;
 
 namespace AspNetCore.PluginManager.Tests.Shared
 {
-    public class MockTokenUserDetails : ITokenUserDetails
+	[ExcludeFromCodeCoverage]
+	public class MockTokenUserDetails : ITokenUserDetails
     {
         public MockTokenUserDetails(string email, string provider)
         {

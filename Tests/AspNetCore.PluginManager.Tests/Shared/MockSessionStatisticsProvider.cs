@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +35,7 @@ using Middleware.SessionData;
 
 namespace AspNetCore.PluginManager.Tests.Shared
 {
+	[ExcludeFromCodeCoverage]
 	internal class MockSessionStatisticsProvider : ISessionStatisticsProvider
 	{
 		public List<SessionDaily> GetDailyData(bool isBot)

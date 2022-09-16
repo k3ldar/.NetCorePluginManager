@@ -14481,4 +14481,20 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Main Resources</value>
     <comment>Main Resources</comment>
   </data>
+  <data name="CategoryNameExists" xml:space="preserve">
+    <value>The category name already exists</value>
+    <comment>The category name already exists</comment>
+  </data>
+  <data name="CreateCategory" xml:space="preserve">
+    <value>Create Category</value>
+    <comment>Create Category</comment>
+  </data>
+  <data name="InvalidCategoryDescription" xml:space="preserve">
+    <value>Please enter a valid category description</value>
+    <comment>Please enter a valid category description</comment>
+  </data>
+  <data name="InvalidCategoryName" xml:space="preserve">
+    <value>Please enter a valid category name</value>
+    <comment>Please enter a valid category name</comment>
+  </data>
 </root>

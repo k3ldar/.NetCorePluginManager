@@ -42,11 +42,18 @@ namespace Middleware
 		List<ResourceCategory> GetAllResources();
 
 		/// <summary>
-		/// Retrieves a resource using route name
+		/// Retrieves a list of all resources with a specific parent id
 		/// </summary>
-		/// <param name="routeName">Name of route to find</param>
+		/// <param name="parentId"></param>
+		/// <returns>List&lt;Resource&gt;</returns>
+		List<ResourceCategory> GetAllResources(long parentId);
+
+		/// <summary>
+		/// Retrieves a resource category with a specific id
+		/// </summary>
+		/// <param name="categoryId">The id of the category</param>
 		/// <returns>Resource</returns>
-		ResourceCategory GetResourceFromRouteName(string routeName);
+		ResourceCategory GetResourceCategory(long categoryId);
 
 		/// <summary>
 		/// Retrieves a resource item based on it's id
@@ -62,5 +69,22 @@ namespace Middleware
 		/// <param name="userId">User liking post</param>
 		/// <param name="like">Indicates whether the user liked/disliked the item</param>
 		ResourceItem IncrementResourceItemResponse(long id, long userId, bool like);
+
+		/// <summary>
+		/// Creates a new resource category
+		/// </summary>
+		/// <param name="userId">User creating the category</param>
+		/// <param name="parent">Parent category id</param>
+		/// <param name="name">Name of the new category</param>
+		/// <param name="description">Description of the category</param>
+		ResourceCategory AddResourceCategory(long userId, long? parent, string name, string description);
+
+		/// <summary>
+		/// Updates an existing resource category
+		/// </summary>
+		/// <param name="userId">Id of user</param>
+		/// <param name="category">Category to update</param>
+		/// <returns>ResourceCategory</returns>
+		ResourceCategory UpdateResourceCategory(long userId, ResourceCategory category);
 	}
 }

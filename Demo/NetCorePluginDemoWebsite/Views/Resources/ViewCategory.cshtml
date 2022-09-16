@@ -2,68 +2,143 @@
 @using SharedPluginFeatures
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @{
-ViewData["Title"] = @Model.SeoTitle;
+    ViewData["Title"] = @Model.SeoTitle;
 }
+
 <link rel="stylesheet" type="text/css" href="/css/documentation.css" />
+
 <h2>@Model.Name</h2>
+
 <div class="docContainer">
-<div class="row">
-<div class="col">
-<p>@Model.Description</p>
-</div>
-</div>
-<div class="row">
-<div class="col">
-@foreach (var item in Model.ResourceItems)
-{
-string resStyle = "";
-string resStyleBody = "";
-string itemLikeCount = $"likeCount{item.Id}";
-string itemDislikeCount = $"dislikeCount{item.Id}";
-string enabled = Model.UserIsLoggedIn ? "" : " disabled";
-resStyleBody = resStyle;
-if (!String.IsNullOrEmpty(resStyle))
-resStyle = $" style=\"{resStyle}\"";
-if (!String.IsNullOrEmpty(resStyleBody))
-resStyleBody = $"style=\"{resStyleBody}\"";
-<div class="card">
-<div class="card-header" @Html.Raw(resStyle)>
-@item.Name
-</div>
-<div class="card-body" @Html.Raw(resStyleBody)>
-<p class="card-text">@item.Description</p>
-</div>
-<footer class="blockquote-footer">
-<button type="button" class="btn btn-success btn-sm @enabled" onclick="itemResponse(@item.Id, true);"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span id="@itemLikeCount">@item.Likes</span></button>
-<button type="button" class="btn btn-danger btn-sm @enabled" onclick="itemResponse(@item.Id, false);"><span class="glyphicon glyphicon-thumbs-down"></span> Dislike <span id="@itemDislikeCount">@item.Dislikes</span></button>
-</footer>
-</div>
-}
-</div>
-</div>
+    <div class="row">
+        <div class="col">
+            <p>@Model.Description</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            @foreach (var item in Model.Categories)
+            {
+                string resStyle = "";
+                string resStyleBody = "";
+
+                if (!String.IsNullOrEmpty(item.ForeColor))
+                    resStyle += $"color: {item.ForeColor};";
+
+                if (!String.IsNullOrEmpty(item.BackColor))
+                    resStyle += $"background-color: {item.BackColor};border-color: {item.BackColor};";
+
+                resStyleBody = resStyle;
+
+                if (!String.IsNullOrEmpty(resStyle))
+                    resStyle = $" style=\"{resStyle}\"";
+
+                if (!String.IsNullOrEmpty(item.Image))
+                    resStyleBody = $"{resStyleBody};background:url('{item.Image}') no-repeat center;background-size:80% 80%;";
+
+                if (!String.IsNullOrEmpty(resStyleBody))
+                    resStyleBody = $"style=\"{resStyleBody}\"";
+
+                <div class="card">
+                    <div class="card-header" @Html.Raw(resStyle)>
+                        @item.Name
+                    </div>
+                    <div class="card-body" @Html.Raw(resStyleBody)>
+                        <p class="card-text">@item.Description</p>
+                    </div>
+                    <footer class="blockquote-footer"><a href="/Resources/Category/@item.Id/@item.RouteName/" class="card-link">@Localizer[nameof(Languages.LanguageStrings.SeeMore)]</a></footer>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            @foreach (var item in Model.ResourceItems)
+            {
+                string resStyle = "";
+                string resStyleBody = "";
+                string itemLikeCount = $"likeCount{item.Id}";
+                string itemDislikeCount = $"dislikeCount{item.Id}";
+                string enabled = Model.UserIsLoggedIn ? "" : " disabled";
+                string link = "";
+                string target = "";
+
+                switch (item.ResourceType)
+                {
+                    case Middleware.ResourceType.YouTube:
+                        link = String.Format("https://www.youtube.com/watch?v={0}", item.Value);
+                        target = "target=\"_blank\"";
+                        break;
+
+                    case Middleware.ResourceType.TikTok:
+                        string[] parts = item.Value.Split(';');
+                        link = String.Format("https://www.tiktok.com/@{0}/video/{1}", parts[0], parts[1]);
+                        target = "target=\"_blank\"";
+                        break;
+
+                    case Middleware.ResourceType.Uri:
+                        link = item.Value;
+                        target = "target=\"_blank\"";
+                        break;
+
+                    case Middleware.ResourceType.Text:
+                    case Middleware.ResourceType.Image:
+                        link = String.Format("/Resources/View/{0}", item.Id);
+                        break;
+
+                }
+
+                resStyleBody = resStyle;
+
+                if (!String.IsNullOrEmpty(resStyle))
+                    resStyle = $" style=\"{resStyle}\"";
+
+                if (!String.IsNullOrEmpty(resStyleBody))
+                    resStyleBody = $"style=\"{resStyleBody}\"";
+
+                <div class="card">
+                    <div class="card-header" @Html.Raw(resStyle)>
+                        @item.Name
+                    </div>
+                    <div class="card-body" @Html.Raw(resStyleBody)>
+                        <a href="@link" @target>
+                            <p class="card-text">@item.Description</p>
+                        </a>
+                    </div>
+                    <footer class="blockquote-footer">
+                        <button type="button" class="btn btn-success btn-sm @enabled" onclick="itemResponse(@item.Id, true);"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span id="@itemLikeCount">@item.Likes</span></button>
+                        <button type="button" class="btn btn-danger btn-sm @enabled" onclick="itemResponse(@item.Id, false);"><span class="glyphicon glyphicon-thumbs-down"></span> Dislike <span id="@itemDislikeCount">@item.Dislikes</span></button>
+                    </footer>
+                </div>
+            }
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
-function itemResponse(id, v) {
-let json = {
-id: id,
-value: v
-};
-$.ajax({
-type: 'POST',
-url: '/Resources/ItemResponse/',
-data: json,
-cache: false,
-success: function (response) {
-if (response.success) {
-let responseData = JSON.parse(response.responseData);
-let likeName = "likeCount" + responseData.itemId;
-let likeSpan = document.getElementById(likeName);
-likeSpan.innerText = responseData.likes;
-let dislikeName = "dislikeCount" + responseData.itemId;
-let dislikeSpan = document.getElementById(dislikeName);
-dislikeSpan.innerText = responseData.dislikes;
-}
-},
-});
-};
+
+    function itemResponse(id, v) {
+        let json = {
+            id: id,
+            value: v
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/Resources/ItemResponse/',
+            data: json,
+            cache: false,
+            success: function (response) {
+                if (response.success) {
+                    let responseData = JSON.parse(response.responseData);
+                    let likeName = "likeCount" + responseData.itemId;
+                    let likeSpan = document.getElementById(likeName);
+                    likeSpan.innerText = responseData.likes;
+                    let dislikeName = "dislikeCount" + responseData.itemId;
+                    let dislikeSpan = document.getElementById(dislikeName);
+                    dislikeSpan.innerText = responseData.dislikes;
+                }
+            },
+        });
+    };
+
 </script>

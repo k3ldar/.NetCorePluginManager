@@ -151,7 +151,7 @@ namespace SystemAdmin.Plugin
 
         #region Private Methods
 
-        private void RegisterBreadcrumbs(in IBreadcrumbService breadcrumbService,
+        private static void RegisterBreadcrumbs(in IBreadcrumbService breadcrumbService,
             in ISystemAdminHelperService systemAdminHelper)
         {
             string parentRoute = "/SystemAdmin";

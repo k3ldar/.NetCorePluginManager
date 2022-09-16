@@ -41,4 +41,12 @@ resStyleBody = $"style=\"{resStyleBody}\"";
 }
 </div>
 </div>
+@if (Model.UserIsLoggedIn && Context.User.HasClaim(SharedPluginFeatures.Constants.ClaimNameAddResources, "true"))
+{
+<div class="row">
+<div class="col">
+<a href="/Resources/CreateCategory" class="btn btn-info" role="button">@Localizer[nameof(Languages.LanguageStrings.CreateCategory)]</a>
+</div>
+</div>
+}
 </div>

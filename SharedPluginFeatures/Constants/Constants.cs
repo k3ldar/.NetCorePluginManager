@@ -476,10 +476,20 @@ namespace SharedPluginFeatures
         /// </summary>
         public const string PolicyNameManageProducts = "ManageProducts";
 
-        /// <summary>
-        /// Claim name for allowing user to manage content
-        /// </summary>
-        public const string ClaimNameManageContent = "ManageContent";
+		/// <summary>
+		/// Name of policy for adding resources
+		/// </summary>
+		public const string PolicyNameAddResources = "AddResources";
+
+		/// <summary>
+		/// Name of policy for managing resources
+		/// </summary>
+		public const string PolicyNameManageResources = "ManageResources";
+
+		/// <summary>
+		/// Claim name for allowing user to manage content
+		/// </summary>
+		public const string ClaimNameManageContent = "ManageContent";
         /// <summary>
         /// Claim name for administrators
         /// </summary>
@@ -534,6 +544,16 @@ namespace SharedPluginFeatures
         /// Name of claim for managing products
         /// </summary>
         public const string ClaimNameManageProducts = "ManageProducts";
+
+		/// <summary>
+		/// Name of claim for adding resources
+		/// </summary>
+		public const string ClaimNameAddResources = "AddResources";
+
+		/// <summary>
+		/// Name of claim for managing resources
+		/// </summary>
+		public const string ClaimNameManageResources = "ManageResources";
 
         /// <summary>
         /// Name of claim identity for user claims

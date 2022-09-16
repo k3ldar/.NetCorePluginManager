@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,8 +45,8 @@ namespace ProductPlugin
     /// Implements IPlugin and IPluginVersion which allows the ProductsPlugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public class PluginInitialisation : IPlugin, IInitialiseEvents
-    {
+    public class PluginInitialisation : IPlugin, IInitialiseEvents, IClaimsService
+	{
         #region IPlugin
 
         public void ConfigureServices(IServiceCollection services)
@@ -115,8 +116,20 @@ namespace ProductPlugin
 
         }
 
-        #endregion IInitialiseEvents Methods
-    }
+		#endregion IInitialiseEvents Methods
+
+		#region IClaimsService
+
+		public List<string> GetClaims()
+		{
+			return new List<string>()
+			{ 
+				Constants.ClaimNameManageProducts,
+			};
+		}
+
+		#endregion IClaimsService
+	}
 }
 
 #pragma warning restore CS1591

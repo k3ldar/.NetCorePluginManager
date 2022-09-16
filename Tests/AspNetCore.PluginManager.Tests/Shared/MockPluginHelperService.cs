@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 using PluginManager;
@@ -32,7 +33,8 @@ using PluginManager.Abstractions;
 
 namespace AspNetCore.PluginManager.Tests.Shared
 {
-    public class MockPluginHelperService : IPluginHelperService
+	[ExcludeFromCodeCoverage]
+	public class MockPluginHelperService : IPluginHelperService
     {
         private readonly List<string> _loadedPlugins;
 

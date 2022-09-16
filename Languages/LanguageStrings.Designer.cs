@@ -21639,6 +21639,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The category name already exists.
+        /// </summary>
+        public static string CategoryNameExists {
+            get {
+                return ResourceManager.GetString("CategoryNameExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Celebrities.
         /// </summary>
         public static string Celebrities {
@@ -22229,6 +22238,15 @@ namespace Languages {
         public static string CreateAnAccount {
             get {
                 return ResourceManager.GetString("CreateAnAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Category.
+        /// </summary>
+        public static string CreateCategory {
+            get {
+                return ResourceManager.GetString("CreateCategory", resourceCulture);
             }
         }
         
@@ -24178,6 +24196,24 @@ namespace Languages {
         public static string InvalidBlog {
             get {
                 return ResourceManager.GetString("InvalidBlog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid category description.
+        /// </summary>
+        public static string InvalidCategoryDescription {
+            get {
+                return ResourceManager.GetString("InvalidCategoryDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid category name.
+        /// </summary>
+        public static string InvalidCategoryName {
+            get {
+                return ResourceManager.GetString("InvalidCategoryName", resourceCulture);
             }
         }
         

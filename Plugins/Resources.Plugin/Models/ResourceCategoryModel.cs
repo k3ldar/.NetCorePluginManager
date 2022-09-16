@@ -75,8 +75,10 @@ namespace Resources.Plugin.Models
 		/// <param name="backColor">Back color for resource</param>
 		/// <param name="image">Image to be displayed in background for the resource</param>
 		/// <param name="routeName">Route friendly name</param>
+		/// <param name="categories">List of sub categories for the resource</param>
 		/// <param name="resourceItems">List of resource items</param>
-		public ResourceCategoryModel(BaseModelData modelData, long id, string name, string description, string foreColor, string backColor, string image, string routeName, List<ResourceItemModel> resourceItems)
+		public ResourceCategoryModel(BaseModelData modelData, long id, string name, string description, string foreColor, 
+			string backColor, string image, string routeName, List<ResourceCategoryModel> categories, List<ResourceItemModel> resourceItems)
 			: base(modelData)
 		{
 			Id = id;
@@ -86,6 +88,7 @@ namespace Resources.Plugin.Models
 			BackColor = backColor;
 			Image = image;
 			RouteName = routeName;
+			Categories = categories ?? throw new ArgumentNullException(nameof(categories));
 			ResourceItems = resourceItems ?? throw new ArgumentNullException(nameof(resourceItems));
 		}
 
@@ -127,6 +130,11 @@ namespace Resources.Plugin.Models
 		/// Route friendly name for resource
 		/// </summary>
 		public string RouteName { get; }
+
+		/// <summary>
+		/// List of resource sub categories
+		/// </summary>
+		public List<ResourceCategoryModel> Categories { get; }
 
 		/// <summary>
 		/// List of resource items

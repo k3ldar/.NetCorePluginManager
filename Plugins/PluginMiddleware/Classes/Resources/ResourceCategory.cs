@@ -40,6 +40,7 @@ namespace Middleware.Resources
 		/// Constructor
 		/// </summary>
 		/// <param name="id">Unique id for resource category</param>
+		/// <param name="parentId">Parent id</param>
 		/// <param name="name">Resource name</param>
 		/// <param name="description">Resource description</param>
 		/// <param name="foreColor">Resource text color</param>
@@ -47,9 +48,10 @@ namespace Middleware.Resources
 		/// <param name="image">Image to be used for background of resource</param>
 		/// <param name="routeName">Route friendly name for resource</param>
 		/// <param name="resourceItems">List of resource items belonging to the category</param>
-		public ResourceCategory(long id, string name, string description, string foreColor, string backColor, string image, string routeName, List<ResourceItem> resourceItems)
+		public ResourceCategory(long id, long? parentId, string name, string description, string foreColor, string backColor, string image, string routeName, List<ResourceItem> resourceItems)
 		{
 			Id = id;
+			ParentId = parentId;
 			ResourceItems = resourceItems ?? throw new ArgumentNullException(nameof(resourceItems));
 			Name = name;
 			Description = description;
@@ -63,14 +65,15 @@ namespace Middleware.Resources
 		/// Constructor
 		/// </summary>
 		/// <param name="id">Unique id for resource category</param>
+		/// <param name="parentId">Id of parent category or zero</param>
 		/// <param name="name">Resource name</param>
 		/// <param name="description">Resource description</param>
 		/// <param name="foreColor">Resource text color</param>
 		/// <param name="backColor">Resource back color</param>
 		/// <param name="image">Image to be used for background of resource</param>
 		/// <param name="routeName">Route friendly name for resource</param>
-		public ResourceCategory(long id, string name, string description, string foreColor, string backColor, string image, string routeName)
-			: this (id, name, description, foreColor, backColor, image, routeName, new List<ResourceItem>())
+		public ResourceCategory(long id, long? parentId, string name, string description, string foreColor, string backColor, string image, string routeName)
+			: this (id, parentId, name, description, foreColor, backColor, image, routeName, new List<ResourceItem>())
 		{
 		}
 
@@ -78,6 +81,11 @@ namespace Middleware.Resources
 		/// Unique id for resource category
 		/// </summary>
 		public long Id { get; set; }
+
+		/// <summary>
+		/// Id of parent category or zero
+		/// </summary>
+		public long? ParentId { get; set; }
 
 		/// <summary>
 		/// Name of resource
