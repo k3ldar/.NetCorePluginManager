@@ -34,6 +34,8 @@ using AspNetCore.PluginManager.Tests.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Middleware.Resources;
+
 using Resources.Plugin.Controllers;
 using Resources.Plugin.Models;
 
@@ -244,11 +246,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 
 		[TestMethod]
 		[TestCategory(TestCategoryName)]
-		public void View_ItemIdNotFound_RedirectsToIndex()
+		public void ViewResource_ItemIdNotFound_RedirectsToIndex()
 		{
 			ResourcesController sut = CreateResourceController();
 
-			IActionResult response = sut.View(Int64.MaxValue);
+			IActionResult response = sut.ViewResource(Int64.MaxValue);
 
 			RedirectToActionResult result = response as RedirectToActionResult;
 
@@ -259,11 +261,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 
 		[TestMethod]
 		[TestCategory(TestCategoryName)]
-		public void View_ResourceItemIsTickTock_RedirectsToCategory()
+		public void ViewResource_ResourceItemIsTickTock_RedirectsToCategory()
 		{
 			ResourcesController sut = CreateResourceController();
 
-			IActionResult response = sut.View(101);
+			IActionResult response = sut.ViewResource(101);
 
 			RedirectToActionResult result = response as RedirectToActionResult;
 
@@ -278,11 +280,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 
 		[TestMethod]
 		[TestCategory(TestCategoryName)]
-		public void View_ResourceItemIsYouTube_RedirectsToCategory()
+		public void ViewResource_ResourceItemIsYouTube_RedirectsToCategory()
 		{
 			ResourcesController sut = CreateResourceController();
 
-			IActionResult response = sut.View(202);
+			IActionResult response = sut.ViewResource(202);
 
 			RedirectToActionResult result = response as RedirectToActionResult;
 
@@ -297,11 +299,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 
 		[TestMethod]
 		[TestCategory(TestCategoryName)]
-		public void View_ResourceItemIsUri_RedirectsToCategory()
+		public void ViewResource_ResourceItemIsUri_RedirectsToCategory()
 		{
 			ResourcesController sut = CreateResourceController();
 
-			IActionResult response = sut.View(303);
+			IActionResult response = sut.ViewResource(303);
 
 			RedirectToActionResult result = response as RedirectToActionResult;
 
@@ -314,9 +316,139 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 			Assert.IsTrue(result.RouteValues.Values.Contains("resource-3"));
 		}
 
-		private ResourcesController CreateResourceController()
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ViewResource_ResourceItemIsText_IncrementsViewCountRedirectsToCategory()
 		{
-			ResourcesController Result = new ResourcesController(new MockResourceProvider());
+			MockResourceProvider mockResourceProvider = new MockResourceProvider();
+			ResourceItem resourceItem = mockResourceProvider.GetResourceItem(405);
+			Assert.IsNotNull(resourceItem);
+			Assert.AreEqual(0, resourceItem.ViewCount);
+			ResourcesController sut = CreateResourceController(mockResourceProvider);
+
+			IActionResult response = sut.ViewResource(405);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result);
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			ResourceViewItemModel resourceModel = result.Model as ResourceViewItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreEqual(405, resourceModel.Id);
+
+			resourceItem = mockResourceProvider.GetResourceItem(405);
+			Assert.IsNotNull(resourceItem);
+			Assert.AreEqual(1, resourceItem.ViewCount);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ViewExternalResource_InvalidResourceItemId_RedirectsToAction()
+		{
+			ResourcesController sut = CreateResourceController();
+
+			IActionResult response = sut.ViewExternalResource(2365);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("Index", result.ActionName);
+			Assert.IsNull(result.ControllerName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ViewExternalResource_YoutubeResource_RedirectsToYoutube()
+		{
+			ResourcesController sut = CreateResourceController();
+
+			IActionResult response = sut.ViewExternalResource(101);
+
+			RedirectResult result = response as RedirectResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("https://www.youtube.com/watch?v=OP1tBC6dBW0", result.Url);
+			Assert.IsFalse(result.Permanent);
+			Assert.IsFalse(result.PreserveMethod);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ViewExternalResource_TikTokResource_RedirectsToTikTok()
+		{
+			ResourcesController sut = CreateResourceController();
+
+			IActionResult response = sut.ViewExternalResource(202);
+
+			RedirectResult result = response as RedirectResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("https://www.tiktok.com/@visualstudio/video/7026423558041537839", result.Url);
+			Assert.IsFalse(result.Permanent);
+			Assert.IsFalse(result.PreserveMethod);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ViewExternalResource_UriResource_RedirectsToUri()
+		{
+			ResourcesController sut = CreateResourceController();
+
+			IActionResult response = sut.ViewExternalResource(303);
+
+			RedirectResult result = response as RedirectResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("https://www.pluginmanager.website/", result.Url);
+			Assert.IsFalse(result.Permanent);
+			Assert.IsFalse(result.PreserveMethod);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ViewExternalResource_ImageResource_RedirectsToResourcesView()
+		{
+			ResourcesController sut = CreateResourceController();
+
+			IActionResult response = sut.ViewExternalResource(404);
+
+			RedirectResult result = response as RedirectResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("/Resources/View/404/", result.Url);
+			Assert.IsFalse(result.Permanent);
+			Assert.IsFalse(result.PreserveMethod);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ViewExternalResource_TextResource_IncrementsViewCountRedirectsToResourcesView()
+		{
+			MockResourceProvider mockResourceProvider = new MockResourceProvider();
+			ResourceItem resourceItem = mockResourceProvider.GetResourceItem(405);
+			Assert.IsNotNull(resourceItem);
+			Assert.AreEqual(0, resourceItem.ViewCount);
+			ResourcesController sut = CreateResourceController(mockResourceProvider);
+			IActionResult response = sut.ViewExternalResource(405);
+
+			RedirectResult result = response as RedirectResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("/Resources/View/405/", result.Url);
+			Assert.IsFalse(result.Permanent);
+			Assert.IsFalse(result.PreserveMethod);
+
+			resourceItem = mockResourceProvider.GetResourceItem(405);
+			Assert.IsNotNull(resourceItem);
+			Assert.AreEqual(1, resourceItem.ViewCount);
+		}
+
+		private ResourcesController CreateResourceController(MockResourceProvider mockResourceProvider = null)
+		{
+			ResourcesController Result = new ResourcesController(mockResourceProvider ?? new MockResourceProvider());
 
 			Result.ControllerContext = CreateTestControllerContext();
 

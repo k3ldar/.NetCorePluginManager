@@ -6,3 +6,66 @@
 .form-check {
     margin-left: 20px;
 }
+
+.resContainer {
+    display: inline-block;
+    width: 100%;
+    margin: 5px 15px 5px 15px;
+}
+
+@media (min-width: 576px) {
+    .card {
+        width: 100%;
+        float: left;
+        margin: 0 10px 15px 0;
+        height: 250px;
+    }
+}
+
+@media (min-width: 768px) {
+    .card {
+        width: 45%;
+        float: left;
+        margin: 0 10px 15px 0;
+        height: 250px;
+    }
+}
+
+@media (min-width: 992px) {
+    .resContents {
+        font-size: 12px;
+    }
+
+        .resContents h3 {
+            font-size: 15px;
+        }
+
+        .resContents ul li {
+            font-size: 14px;
+        }
+
+    .resReferences {
+        font-size: 14px;
+    }
+
+        .resReferences h3 {
+            font-size: 15px;
+        }
+
+    .card {
+        width: 30%;
+        float: left;
+        margin: 0 10px 15px 0;
+        height: 250px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .card {
+        width: 23%;
+        float: left;
+        margin: 0 10px 15px 0;
+        height: 250px;
+    }
+}
+
