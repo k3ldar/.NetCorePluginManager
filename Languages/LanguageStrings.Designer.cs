@@ -21648,6 +21648,24 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Category Submitted.
+        /// </summary>
+        public static string CategorySubmitted {
+            get {
+                return ResourceManager.GetString("CategorySubmitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category &apos;{0}&apos; has been updated.
+        /// </summary>
+        public static string CategoryUpdated {
+            get {
+                return ResourceManager.GetString("CategoryUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Celebrities.
         /// </summary>
         public static string Celebrities {
@@ -23070,6 +23088,15 @@ namespace Languages {
         public static string Edit {
             get {
                 return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Category.
+        /// </summary>
+        public static string EditCategory {
+            get {
+                return ResourceManager.GetString("EditCategory", resourceCulture);
             }
         }
         
@@ -25379,6 +25406,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manage Categories.
+        /// </summary>
+        public static string ManageCategories {
+            get {
+                return ResourceManager.GetString("ManageCategories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manage Product Groups.
         /// </summary>
         public static string ManageProductGroups {
@@ -26236,6 +26272,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Parent.
+        /// </summary>
+        public static string NoParent {
+            get {
+                return ResourceManager.GetString("NoParent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No products found.
         /// </summary>
         public static string NoProductsFound {
@@ -26772,6 +26817,15 @@ namespace Languages {
         public static string Papers {
             get {
                 return ResourceManager.GetString("Papers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent.
+        /// </summary>
+        public static string Parent {
+            get {
+                return ResourceManager.GetString("Parent", resourceCulture);
             }
         }
         

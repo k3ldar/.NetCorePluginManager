@@ -12,8 +12,10 @@ else
 {
 data = $"<div>{Model.Value}</div>";
 }
+bool enabled = Model.UserIsLoggedIn && Context.User.HasClaim(SharedPluginFeatures.Constants.ClaimNameAddResources, "true");
 }
 <link rel="stylesheet" href="/css/resources.css" />
+<script src="/js/resources.js"></script>
 <h2>@Model.Name</h2>
 <div class="docContainer">
 <div class="row">
@@ -28,38 +30,7 @@ data = $"<div>{Model.Value}</div>";
 </div>
 <div class="row res-row">
 <div class="col">
-@{
-string itemLikeCount = $"likeCount{Model.Id}";
-string itemDislikeCount = $"dislikeCount{Model.Id}";
-string enabled = Model.UserIsLoggedIn ? "" : " disabled";
-<button type="button" class="btn btn-success btn-sm @enabled" onclick="itemResponse(@Model.Id, true);"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span id="@itemLikeCount">@Model.Likes</span></button>
-<button type="button" class="btn btn-danger btn-sm @enabled" onclick="itemResponse(@Model.Id, false);"><span class="glyphicon glyphicon-thumbs-down"></span> Dislike <span id="@itemDislikeCount">@Model.Dislikes</span></button>
-}
+@await Html.PartialAsync("_ResourceStats.cshtml", new Resources.Plugin.Models.ResourceItemResponseModel(Model.Id, Model.Likes, Model.Dislikes, Model.ViewCount, enabled))
 </div>
 </div>
 </div>
-<script type="text/javascript">
-function itemResponse(id, v) {
-let json = {
-id: id,
-value: v
-};
-$.ajax({
-type: 'POST',
-url: '/Resources/ItemResponse/',
-data: json,
-cache: false,
-success: function (response) {
-if (response.success) {
-let responseData = JSON.parse(response.responseData);
-let likeName = "likeCount" + responseData.itemId;
-let likeSpan = document.getElementById(likeName);
-likeSpan.innerText = responseData.likes;
-let dislikeName = "dislikeCount" + responseData.itemId;
-let dislikeSpan = document.getElementById(dislikeName);
-dislikeSpan.innerText = responseData.dislikes;
-}
-},
-});
-};
-</script>

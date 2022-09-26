@@ -48,16 +48,22 @@ namespace SharedPluginFeatures
     /// </summary>
     public class BaseController : Controller
     {
-        #region User Sessions
+		#region Private Members
 
-        /// <summary>
-        /// Retrieves the current users UserSession instance which contains data for the user.
-        /// 
-        /// Requires UserSessionMiddleware.Plugin module to be loaded.
-        /// </summary>
-        /// <returns>null if the UserSessionMiddleware.Plugin is not loaded otherwise a valid UserSession item representing 
-        /// the current users session.</returns>
-        protected UserSession GetUserSession()
+		private const string GrowlTempDataKeyName = "growl";
+
+		#endregion Private Members
+
+		#region User Sessions
+
+		/// <summary>
+		/// Retrieves the current users UserSession instance which contains data for the user.
+		/// 
+		/// Requires UserSessionMiddleware.Plugin module to be loaded.
+		/// </summary>
+		/// <returns>null if the UserSessionMiddleware.Plugin is not loaded otherwise a valid UserSession item representing 
+		/// the current users session.</returns>
+		protected UserSession GetUserSession()
         {
             if (HttpContext.Items.ContainsKey(Constants.UserSession))
             {
@@ -318,8 +324,28 @@ namespace SharedPluginFeatures
         {
             string Result = String.Empty;
 
-            if (TempData.ContainsKey("growl"))
-                Result = (string)TempData["growl"];
+			IMemoryCache memoryCache = HttpContext.RequestServices.GetService(typeof(IMemoryCache)) as IMemoryCache;
+
+			if (memoryCache != null)
+			{
+				string cacheName = $"{UserId()}{GrowlTempDataKeyName}";
+
+				CacheItem tempCache = memoryCache.GetShortCache().Get(cacheName);
+
+				if (tempCache != null)
+				{
+					Result = tempCache.Value as string;
+					memoryCache.GetShortCache().Remove(tempCache);
+				}
+			}
+			else
+			{
+				if (TempData.ContainsKey(GrowlTempDataKeyName))
+				{
+					Result = (string)TempData[GrowlTempDataKeyName];
+					TempData.Remove(GrowlTempDataKeyName);
+				}
+			}
 
             return Result;
         }
@@ -330,7 +356,18 @@ namespace SharedPluginFeatures
         /// <param name="s"></param>
         protected void GrowlAdd(string s)
         {
-            TempData["growl"] = s;
+			IMemoryCache memoryCache = HttpContext.RequestServices.GetService(typeof(IMemoryCache)) as IMemoryCache;
+
+			if (memoryCache != null)
+			{
+				string cacheName = $"{UserId()}{GrowlTempDataKeyName}";
+				memoryCache.GetShortCache().Add(cacheName, new CacheItem(cacheName, s));
+			}
+			else
+			{
+				TempData.Add(GrowlTempDataKeyName, s);
+				TempData.Keep(GrowlTempDataKeyName);
+			}
         }
 
         #endregion Growl

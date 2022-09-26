@@ -164,7 +164,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 							Description = $"test resource {i}",
 							ForeColor = "black",
 							BackColor = "white",
-							RouteName = $"resource-{i}"
+							RouteName = $"resource-{i}",
+							IsVisible = true,
 						});
 					}
 
@@ -814,7 +815,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.UpdateResourceCategory(0, new ResourceCategory(23, null, "name", "desc", null, null, null, "name"));
+					sut.UpdateResourceCategory(0, new ResourceCategory(23, 0, "name", "desc", null, null, null, "name", true));
 				}
 			}
 			finally
@@ -851,7 +852,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.UpdateResourceCategory(21, new ResourceCategory(0, null, "name", "desc", null, null, null, "name"));
+					sut.UpdateResourceCategory(21, new ResourceCategory(0, 0, "name", "desc", null, null, null, "name", true));
 				}
 			}
 			finally
@@ -904,7 +905,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					ResourceCategory updateCategory = new ResourceCategory(0, null, "new name", "desc", "black", "white", "image", "custom");
+					ResourceCategory updateCategory = new ResourceCategory(0, 0, "new name", "desc", "black", "white", "image", "custom", true);
 					ResourceCategory result = sut.UpdateResourceCategory(1, updateCategory);
 
 					Assert.IsNotNull(result);
@@ -957,7 +958,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 							Description = $"test resource {i}",
 							ForeColor = "black",
 							BackColor = "white",
-							ParentCategoryId = i < 5 ? null : 2,
+							ParentCategoryId = i < 5 ? 0 : 2,
+							IsVisible = true,
 						});
 					}
 
@@ -1002,7 +1004,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 							Description = $"test resource {i}",
 							ForeColor = "black",
 							BackColor = "white",
-							ParentCategoryId = i < 5 ? null :  i < 8 ? 2 : 3,
+							ParentCategoryId = i < 5 ? 0 :  i < 8 ? 2 : 3,
+							IsVisible = true,
 						});
 					}
 

@@ -1,0 +1,16 @@
+﻿@model SharedPluginFeatures.BaseModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = Model.SeoTitle;
+}
+<link rel="stylesheet" href="/css/resources.css" />
+<div class="row res-row">
+<div class="col">
+<h1>@Localizer[nameof(Languages.LanguageStrings.CategorySubmitted)]</h1>
+</div>
+</div>
+<div class="row res-row">
+<div class="col">
+<p>Thank you for submitting a new category, it should appear shortly.</p>
+</div>
+</div>

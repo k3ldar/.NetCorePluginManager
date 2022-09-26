@@ -89,7 +89,6 @@ namespace ErrorManager.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.MissingLink))]
         public IActionResult NotFound404()
         {
-            Response.StatusCode = 404;
             Error404Model model;
 
             ErrorManagerSettings settings = _settingsProvider.GetSettings<ErrorManagerSettings>("ErrorManager");

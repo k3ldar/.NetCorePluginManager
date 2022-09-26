@@ -379,3 +379,4 @@ ASALocalRun/
 /Demo/NetCorePluginDemoWebsite/Views/Services/*
 /Demo/NetCorePluginDemoWebsite/wwwroot/js/*
 /Demo/NetCorePluginDemoWebsite/wwwroot/css/*
+/Tests/AspNetCore.PluginManager.Tests/Output/TestFolders/

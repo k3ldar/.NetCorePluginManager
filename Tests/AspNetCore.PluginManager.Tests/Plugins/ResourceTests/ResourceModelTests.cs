@@ -53,8 +53,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 		{
 			List<ResourceCategoryModel> resourceModels = new List<ResourceCategoryModel>()
 			{
-				new ResourceCategoryModel(1, "test 1", "desc 1", "black", "white", null, "test-1"),
-				new ResourceCategoryModel(2, "test 2", "desc 2", "ginger", "green", null, "test-2"),
+				new ResourceCategoryModel(1, "test 1", "desc 1", "black", "white", null, "test-1", true, 0),
+				new ResourceCategoryModel(2, "test 2", "desc 2", "ginger", "green", null, "test-2", true, 0),
 			};
 
 			ResourcesModel sut = new ResourcesModel(GenerateTestBaseModelData(), resourceModels);

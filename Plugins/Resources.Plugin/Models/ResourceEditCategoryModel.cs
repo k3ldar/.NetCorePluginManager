@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 using SharedPluginFeatures;
 
@@ -33,12 +35,12 @@ namespace Resources.Plugin.Models
 	/// <summary>
 	/// Resource model
 	/// </summary>
-	public sealed class ResourceCategoryModel : BaseModel
+	public sealed class ResourceEditCategoryModel : BaseModel
 	{
 		/// <summary>
 		/// Standard Constructor
 		/// </summary>
-		public ResourceCategoryModel()
+		public ResourceEditCategoryModel()
 		{
 
 		}
@@ -46,6 +48,7 @@ namespace Resources.Plugin.Models
 		/// <summary>
 		/// Constructor
 		/// </summary>
+		/// <param name="modelData">Generic model data</param>
 		/// <param name="id">Unique id for resource</param>
 		/// <param name="name">Resource name</param>
 		/// <param name="description">Resource description</param>
@@ -55,38 +58,10 @@ namespace Resources.Plugin.Models
 		/// <param name="routeName">Route friendly name</param>
 		/// <param name="isVisible">Indicates whether the category is visible or not</param>
 		/// <param name="parentId">Parent id of category or zero if no parent found</param>
-		public ResourceCategoryModel(long id, string name, string description, string foreColor,
-			string backColor, string image, string routeName, bool isVisible, long parentId)
-		{
-			Id = id;
-			Name = name;
-			Description = description;
-			ForeColor = foreColor;
-			BackColor = backColor;
-			Image = image;
-			RouteName = routeName;
-			IsVisible = isVisible;
-			ParentId = parentId;
-		}
-
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// <param name="modelData">Base model data</param>
-		/// <param name="id">Unique id for resource</param>
-		/// <param name="name">Resource name</param>
-		/// <param name="description">Resource description</param>
-		/// <param name="foreColor">Resource text color</param>
-		/// <param name="backColor">Back color for resource</param>
-		/// <param name="image">Image to be displayed in background for the resource</param>
-		/// <param name="routeName">Route friendly name</param>
-		/// <param name="categories">List of sub categories for the resource</param>
-		/// <param name="resourceItems">List of resource items</param>
-		/// <param name="isVisible">Indicates whether the category is visible or not</param>
-		/// <param name="parentId">Parent id of category or zero if no parent found</param>
-		public ResourceCategoryModel(BaseModelData modelData, long id, string name, string description, string foreColor, 
-			string backColor, string image, string routeName, bool isVisible, long parentId,
-			List<ResourceCategoryModel> categories, List<ResourceItemModel> resourceItems)
+		/// <param name="allCategories">List of all categories except current category</param>
+		public ResourceEditCategoryModel(BaseModelData modelData, long id, string name, string description, string foreColor,
+			string backColor, string image, string routeName, bool isVisible, long parentId, 
+			List<NameIdModel> allCategories)
 			: base(modelData)
 		{
 			Id = id;
@@ -98,8 +73,7 @@ namespace Resources.Plugin.Models
 			RouteName = routeName;
 			IsVisible = isVisible;
 			ParentId = parentId;
-			Categories = categories ?? throw new ArgumentNullException(nameof(categories));
-			ResourceItems = resourceItems ?? throw new ArgumentNullException(nameof(resourceItems));
+			AllCategories = allCategories ?? throw new ArgumentNullException(nameof(allCategories));
 		}
 
 		/// <summary>
@@ -111,24 +85,32 @@ namespace Resources.Plugin.Models
 		/// Name of resource
 		/// </summary>
 		/// <value>string</value>
+		[Required]
+		[Display(Name = nameof(Languages.LanguageStrings.Name))]
+		[StringLength(30, MinimumLength = 5)]
 		public string Name { get; set; }
 
 		/// <summary>
 		/// Resource description
 		/// </summary>
 		/// <value>string</value>
+		[Required]
+		[Display(Name = nameof(Languages.LanguageStrings.Description))]
+		[StringLength(100, MinimumLength = 15)]
 		public string Description { get; set; }
 
 		/// <summary>
 		/// Resource color
 		/// </summary>
 		/// <value>string</value>
+		[Required]
 		public string ForeColor { get; set; } = "#000";
 
 		/// <summary>
 		/// Resource color
 		/// </summary>
 		/// <value>string</value>
+		[Required]
 		public string BackColor { get; set; } = "#FFFFFF";
 
 		/// <summary>
@@ -144,21 +126,17 @@ namespace Resources.Plugin.Models
 		/// <summary>
 		/// Indicates whether the category is visible or not
 		/// </summary>
-		public bool IsVisible { get; }
+		public bool IsVisible { get; set; }
 
 		/// <summary>
 		/// Parent id or zero if no parent
 		/// </summary>
-		public long ParentId { get; }
+		[Display(Name = nameof(Languages.LanguageStrings.Parent))]
+		public long ParentId { get; set; }
 
 		/// <summary>
-		/// List of resource sub categories
+		/// List of all categories
 		/// </summary>
-		public List<ResourceCategoryModel> Categories { get; }
-
-		/// <summary>
-		/// List of resource items
-		/// </summary>
-		public List<ResourceItemModel> ResourceItems { get; }
+		public List<NameIdModel> AllCategories { get; }
 	}
 }

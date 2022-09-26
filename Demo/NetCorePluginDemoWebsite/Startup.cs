@@ -78,7 +78,7 @@ namespace AspNetCore.PluginManager.DemoWebsite
             {
                 // Set a short timeout for easy testing.
                 //options.IdleTimeout = TimeSpan.FromSeconds(10);
-                //options.Cookie.HttpOnly = false;
+                options.Cookie.HttpOnly = false;
             });
 
             services.AddLogging();

@@ -1,0 +1,15 @@
+﻿@model Resources.Plugin.Models.ResourceItemResponseModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+
+    string itemLikeCount = $"likeCount{Model.Id}";
+    string itemDislikeCount = $"dislikeCount{Model.Id}";
+    string enabled = Model.IsEnabled ? "" : " disabled";
+    string likeName = $"itemLikeCount{Model.Id}";
+    string dislikeName = $"itemDislikeCount{Model.Id}";
+}
+
+<button type="button" class="btn btn-success btn-sm @enabled" onclick="resources.itemResponse(@Model.Id, true);"><span class="glyphicon glyphicon-thumbs-up"></span> Like <span id="@likeName">@Model.Likes</span></button>
+<button type="button" class="btn btn-danger btn-sm @enabled" onclick="resources.itemResponse(@Model.Id, false);"><span class="glyphicon glyphicon-thumbs-down"></span> Dislike <span id="@dislikeName">@Model.Dislikes</span></button>
+<span>Views: @Model.ViewCount</span>

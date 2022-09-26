@@ -26,15 +26,20 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Security.Claims;
 
 using AspNetCore.PluginManager.DemoWebsite.Classes.Mocks;
 using AspNetCore.PluginManager.Tests.Controllers;
 using AspNetCore.PluginManager.Tests.Shared;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware.Resources;
+
+using PluginManager.Tests.Mocks;
 
 using Resources.Plugin.Controllers;
 using Resources.Plugin.Models;
@@ -197,7 +202,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 		{
 			ResourcesController sut = CreateResourceController();
 
-			IActionResult response = sut.CreateCategory(parentId: null);
+			IActionResult response = sut.CreateCategory(parentId: 0);
 
 			ViewResult result = response as ViewResult;
 
@@ -242,6 +247,140 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 			Assert.IsNotNull(resourceModel);
 
 			ViewResultContainsModelStateError(result, "Name", "The category name already exists");
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateCategory_UserHasNoClaimToManageResources_RedirectsToCategorySubmitted()
+		{
+			ResourcesController sut = CreateResourceController(null, new MockHttpContext());
+
+			IActionResult response = sut.CreateCategory(new CreateCategoryModel() { Name = "My new Resource" });
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("CategorySubmitted", result.ActionName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateCategory_UserHasClaimToManageResources_RedirectsToManageCategories()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(Constants.ClaimNameManageResources, "true"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, Constants.ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+			ResourcesController sut = CreateResourceController(null, requestContext);
+
+			IActionResult response = sut.CreateCategory(new CreateCategoryModel() { Name = "My new Resource" });
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("ManageCategories", result.ActionName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CategoryEdit_CategoryNotFound_RedirectsToManageCategories()
+		{
+			ResourcesController sut = CreateResourceController(null, new MockHttpContext());
+
+			IActionResult response = sut.CategoryEdit(23698745);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("ManageCategories", result.ActionName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CategoryEdit_CategoryFound_ReturnsValidViewAndModel()
+		{
+			ResourcesController sut = CreateResourceController(null, new MockHttpContext());
+
+			IActionResult response = sut.CategoryEdit(2);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+			
+			ResourceCategoryModel resourceModel = result.Model as ResourceCategoryModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreEqual("Resource desc 2", resourceModel.Description);
+			Assert.AreEqual("Resource 2", resourceModel.Name);
+			Assert.AreEqual(2, resourceModel.Id);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CategoryEdit_ModelIsNull_RedirectsToManageCategories()
+		{
+			ResourcesController sut = CreateResourceController(null, new MockHttpContext());
+
+			IActionResult response = sut.CategoryEdit(null);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("ManageCategories", result.ActionName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CategoryEdit_ModelIsSameNameAsExisting_ReturnsModelStateError()
+		{
+			ResourcesController sut = CreateResourceController(null, new MockHttpContext());
+
+			ResourceCategoryModel model = new ResourceCategoryModel() { Name = "Resource 1" };
+			IActionResult response = sut.CategoryEdit(model);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			ResourceCategoryModel resourceModel = result.Model as ResourceCategoryModel;
+
+			Assert.IsNotNull(resourceModel);
+
+			ViewResultContainsModelStateError(result, "Name", "The category name already exists");
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CategoryEdit_UpdateAllowd_ReturnsRedirectToActionWithGrowlMessage()
+		{
+			Dictionary<Type, object> services = new Dictionary<Type, object>();
+
+			ITempDataProvider tempDataProvider = new MockTempDataProvider();
+			services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
+
+			MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
+			services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
+
+			MockServiceProvider mockServiceProvider = new MockServiceProvider(services);
+
+			ResourcesController sut = CreateResourceController(null, new MockHttpContext(), mockServiceProvider);
+
+			ResourceCategoryModel model = new ResourceCategoryModel() { Name = "Test New Resource" };
+			IActionResult response = sut.CategoryEdit(model);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("ManageCategories", result.ActionName);
+			Assert.AreEqual(1, sut.TempData.Count);
+			Assert.AreEqual("Category 'Test New Resource' has been updated", sut.TempData["growl"]);
 		}
 
 		[TestMethod]
@@ -446,11 +585,13 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 			Assert.AreEqual(1, resourceItem.ViewCount);
 		}
 
-		private ResourcesController CreateResourceController(MockResourceProvider mockResourceProvider = null)
+		private ResourcesController CreateResourceController(MockResourceProvider mockResourceProvider = null, 
+			MockHttpContext mockContext = null, MockServiceProvider mockServiceProvider = null)
 		{
+
 			ResourcesController Result = new ResourcesController(mockResourceProvider ?? new MockResourceProvider());
 
-			Result.ControllerContext = CreateTestControllerContext();
+			Result.ControllerContext = CreateTestControllerContext(null, null, mockServiceProvider, null, mockContext);
 
 			return Result;
 		}

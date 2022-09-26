@@ -7,6 +7,7 @@
 
 
 <link rel="stylesheet" href="/css/resources.css" />
+<script src="/js/resources.js"></script>
 
 <h2>Some data</h2>
 
@@ -45,9 +46,10 @@
                         @item.Name
                     </div>
                     <div class="card-body" @Html.Raw(resStyleBody)>
-                        <p class="card-text">@item.Description</p>
+                        <a href="/Resources/Category/@item.Id/@item.RouteName/" class="card-link" style="display:inline-block;width:100%;height:100%;">
+                            <p class="card-text">@item.Description</p>
+                        </a>
                     </div>
-                    <footer class="blockquote-footer"><a href="/Resources/Category/@item.Id/@item.RouteName/" class="card-link">@Localizer[nameof(Languages.LanguageStrings.SeeMore)]</a></footer>
                 </div>
             }
         </div>
@@ -55,10 +57,6 @@
 
     @if (Model.UserIsLoggedIn && Context.User.HasClaim(SharedPluginFeatures.Constants.ClaimNameAddResources, "true"))
     {
-        <div class="row">
-            <div class="col">
-                <a href="/Resources/CreateCategory" class="btn btn-info" role="button">@Localizer[nameof(Languages.LanguageStrings.CreateCategory)]</a>
-            </div>
-        </div>
+        @await Html.PartialAsync("_CreateCategory.cshtml", new Resources.Plugin.Models.IdModel(0))
     }
 </div>

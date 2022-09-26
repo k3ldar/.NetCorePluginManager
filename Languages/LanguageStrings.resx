@@ -14497,4 +14497,28 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Please enter a valid category name</value>
     <comment>Please enter a valid category name</comment>
   </data>
+  <data name="CategorySubmitted" xml:space="preserve">
+    <value>Category Submitted</value>
+    <comment>Category Submitted</comment>
+  </data>
+  <data name="ManageCategories" xml:space="preserve">
+    <value>Manage Categories</value>
+    <comment>Manage Categories</comment>
+  </data>
+  <data name="CategoryUpdated" xml:space="preserve">
+    <value>Category '{0}' has been updated</value>
+    <comment>Category '{0}' has been updated</comment>
+  </data>
+  <data name="EditCategory" xml:space="preserve">
+    <value>Edit Category</value>
+    <comment>Edit Category</comment>
+  </data>
+  <data name="NoParent" xml:space="preserve">
+    <value>No Parent</value>
+    <comment>No Parent</comment>
+  </data>
+  <data name="Parent" xml:space="preserve">
+    <value>Parent</value>
+    <comment>Parent</comment>
+  </data>
 </root>

@@ -83,7 +83,7 @@ namespace Middleware
 		/// <param name="parent">Parent category id</param>
 		/// <param name="name">Name of the new category</param>
 		/// <param name="description">Description of the category</param>
-		ResourceCategory AddResourceCategory(long userId, long? parent, string name, string description);
+		ResourceCategory AddResourceCategory(long userId, long parent, string name, string description);
 
 		/// <summary>
 		/// Updates an existing resource category
@@ -92,5 +92,11 @@ namespace Middleware
 		/// <param name="category">Category to update</param>
 		/// <returns>ResourceCategory</returns>
 		ResourceCategory UpdateResourceCategory(long userId, ResourceCategory category);
+
+		/// <summary>
+		/// Retrieves all resource categorys for administration purposes
+		/// </summary>
+		/// <returns></returns>
+		List<ResourceCategory> RetrieveAllCategories();
 	}
 }

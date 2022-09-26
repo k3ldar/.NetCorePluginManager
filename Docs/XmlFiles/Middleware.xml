@@ -2100,7 +2100,7 @@
             Resource class
             </summary>
         </member>
-        <member name="M:Middleware.Resources.ResourceCategory.#ctor(System.Int64,System.Nullable{System.Int64},System.String,System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{Middleware.Resources.ResourceItem})">
+        <member name="M:Middleware.Resources.ResourceCategory.#ctor(System.Int64,System.Int64,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Collections.Generic.List{Middleware.Resources.ResourceItem})">
             <summary>
             Constructor
             </summary>
@@ -2113,8 +2113,9 @@
             <param name="image">Image to be used for background of resource</param>
             <param name="routeName">Route friendly name for resource</param>
             <param name="resourceItems">List of resource items belonging to the category</param>
+            <param name="isVisible">Indicates whether the category is visible to users or not</param>
         </member>
-        <member name="M:Middleware.Resources.ResourceCategory.#ctor(System.Int64,System.Nullable{System.Int64},System.String,System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:Middleware.Resources.ResourceCategory.#ctor(System.Int64,System.Int64,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
             <summary>
             Constructor
             </summary>
@@ -2126,6 +2127,7 @@
             <param name="backColor">Resource back color</param>
             <param name="image">Image to be used for background of resource</param>
             <param name="routeName">Route friendly name for resource</param>
+            <param name="isVisible">Indicates whether the category is visible to users or not</param>
         </member>
         <member name="P:Middleware.Resources.ResourceCategory.Id">
             <summary>
@@ -2169,6 +2171,11 @@
         <member name="P:Middleware.Resources.ResourceCategory.RouteName">
             <summary>
             Route name for resource
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceCategory.IsVisible">
+            <summary>
+            Indicates whether the category is visible to users or not
             </summary>
         </member>
         <member name="P:Middleware.Resources.ResourceCategory.ResourceItems">
@@ -4198,7 +4205,7 @@
             </summary>
             <param name="resourceId"></param>
         </member>
-        <member name="M:Middleware.IResourceProvider.AddResourceCategory(System.Int64,System.Nullable{System.Int64},System.String,System.String)">
+        <member name="M:Middleware.IResourceProvider.AddResourceCategory(System.Int64,System.Int64,System.String,System.String)">
             <summary>
             Creates a new resource category
             </summary>
@@ -4214,6 +4221,12 @@
             <param name="userId">Id of user</param>
             <param name="category">Category to update</param>
             <returns>ResourceCategory</returns>
+        </member>
+        <member name="M:Middleware.IResourceProvider.RetrieveAllCategories">
+            <summary>
+            Retrieves all resource categorys for administration purposes
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Middleware.ISearchKeywordProvider">
             <summary>

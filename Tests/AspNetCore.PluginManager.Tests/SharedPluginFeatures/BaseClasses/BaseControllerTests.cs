@@ -85,9 +85,14 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         protected ControllerContext CreateTestControllerContext(List<BreadcrumbItem> breadcrumbs = null,
             MockRequestCookieCollection testCookieCollection = null,
             MockServiceProvider testServiceProvider = null,
-            MockHttpResponse testHttpResponse = null)
+            MockHttpResponse testHttpResponse = null,
+			MockHttpContext requestContext = null)
         {
             MockHttpRequest httpRequest = testCookieCollection == null ? new MockHttpRequest() : new MockHttpRequest(testCookieCollection);
+
+			if (requestContext != null)
+				httpRequest.SetContext(requestContext);
+
             MockHttpResponse httpResponse = testHttpResponse ?? new MockHttpResponse();
             ControllerContext Result = new ControllerContext();
             Result.HttpContext = testServiceProvider == null ? new MockHttpContext(httpRequest, httpResponse, breadcrumbs) : new MockHttpContext(httpRequest, httpResponse, testServiceProvider, breadcrumbs);

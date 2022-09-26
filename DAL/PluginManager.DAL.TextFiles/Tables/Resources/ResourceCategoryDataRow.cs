@@ -31,7 +31,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 	internal class ResourceCategoryDataRow : TableRowDefinition
 	{
 		private long _userId;
-		private long? _parentCategoryId;
+		private long _parentCategoryId;
 		private string _name;
 		private string _description;
 		private string _foreColor;
@@ -56,7 +56,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 		}
 
 		[ForeignKey(Constants.TableNameResourceCateogories, true)]
-		public long? ParentCategoryId
+		public long ParentCategoryId
 		{
 			get => _parentCategoryId;
 

@@ -51,13 +51,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 		[TestMethod]
 		public void Construct_ValidInstance_WithParameters_Success()
 		{
-			ResourceCategoryModel sut = new ResourceCategoryModel(1, "test", "this is a test", "#F0F0F0", "#0F0F0F", "img", "test");
+			ResourceCategoryModel sut = new ResourceCategoryModel(1, "test", "this is a test", "#F0F0F0", "#0F0F0F", "img", "test", true, 23);
 			Assert.IsNotNull(sut);
 			Assert.AreEqual("test", sut.Name);
 			Assert.AreEqual("this is a test", sut.Description);
 			Assert.AreEqual("#F0F0F0", sut.ForeColor);
 			Assert.AreEqual("img", sut.Image);
 			Assert.AreEqual("test", sut.RouteName);
+			Assert.AreEqual(23, sut.ParentId);
 		}
 	}
 }

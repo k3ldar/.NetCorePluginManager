@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 using Languages;
@@ -40,7 +41,6 @@ using Middleware.Resources;
 using Resources.Plugin.Models;
 
 using SharedPluginFeatures;
-
 
 #pragma warning disable CS1591
 
@@ -117,9 +117,14 @@ namespace Resources.Plugin.Controllers
 		[LoggedIn]
 		[HttpGet]
 		[Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameAddResources)]
-		public IActionResult CreateCategory(long? parentId)
+		public IActionResult CreateCategory(long parentId)
 		{
-			return View(new CreateCategoryModel(GetModelData(), parentId));
+			BaseModelData baseModelData = GetModelData();
+
+			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, "/Resources/", false));
+			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.CreateCategory, $"/Resources/CreateCategory/{parentId}/", false));
+
+			return View(new CreateCategoryModel(baseModelData, parentId));
 		}
 
 		[HttpPost]
@@ -129,27 +134,85 @@ namespace Resources.Plugin.Controllers
 			if (model == null)
 				return RedirectToAction(nameof(Index));
 
-			if (model.ParentId.HasValue)
+			if (_resourceProvider.GetAllResources(model.ParentId).Where(r => r.Name.Equals(model.Name, StringComparison.InvariantCultureIgnoreCase)).Any())
 			{
-				if (_resourceProvider.GetAllResources(model.ParentId.Value).Where(r => r.Name.Equals(model.Name, StringComparison.InvariantCultureIgnoreCase)).Any())
-				{
-					ModelState.AddModelError(nameof(model.Name), LanguageStrings.CategoryNameExists);
-				}
-			}
-			else
-			{
-				if (_resourceProvider.GetAllResources().Where(r => r.Name.Equals(model.Name, StringComparison.InvariantCultureIgnoreCase)).Any())
-				{
-					ModelState.AddModelError(nameof(model.Name), LanguageStrings.CategoryNameExists);
-				}
+				ModelState.AddModelError(nameof(model.Name), LanguageStrings.CategoryNameExists);
 			}
 
 			if (!ModelState.IsValid)
 				return View(new CreateCategoryModel(GetModelData(), model.ParentId, model.Name, model.Description));
 
-			_resourceProvider.AddResourceCategory(UserId(), model.ParentId, model.Name, model.Description);
-			throw new NotImplementedException();
-			//return RedirectToAction(nameof(Index));
+			ResourceCategory newCategory =_resourceProvider.AddResourceCategory(UserId(), model.ParentId, model.Name, model.Description);
+
+			if (Request.HttpContext.User.HasClaim(SharedPluginFeatures.Constants.ClaimNameManageResources, "true"))
+			{
+				return RedirectToAction(nameof(ManageCategories));
+			}
+
+			return RedirectToAction(nameof(CategorySubmitted));
+		}
+
+		[LoggedIn]
+		[HttpGet]
+		[Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameManageResources)]
+		[Breadcrumb(nameof(Languages.LanguageStrings.ManageCategories), Name, nameof(Index))]
+		public IActionResult ManageCategories()
+		{
+			return View(CreateManageCategoryModel());
+		}
+
+
+		[HttpGet]
+		[Breadcrumb(nameof(LanguageStrings.CategorySubmitted), Name, nameof(Index))]
+		public IActionResult CategorySubmitted()
+		{
+			return View(new BaseModel(GetModelData()));
+		}
+
+		[HttpGet]
+		[Breadcrumb(nameof(LanguageStrings.CategorySubmitted), Name, nameof(Index))]
+		[Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameManageResources)]
+		public IActionResult CategoryEdit(long id)
+		{
+			ResourceCategory category = _resourceProvider.GetResourceCategory(id);
+
+			if (category == null)
+				return RedirectToAction(nameof(ManageCategories));
+
+			ResourceEditCategoryModel model = CreateResourceEditCategoryViewModel(category);
+
+			return View(model);
+		}
+
+		[HttpPost]
+		[Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameManageResources)]
+		public IActionResult CategoryEdit(ResourceEditCategoryModel model)
+		{
+			if (model == null)
+				return RedirectToAction(nameof(ManageCategories));
+
+			if (_resourceProvider.GetAllResources(model.ParentId)
+				.Where(r => r.Id != model.Id && r.Name.Equals(model.Name, StringComparison.InvariantCultureIgnoreCase))
+				.Any())
+			{
+				ModelState.AddModelError(nameof(model.Name), LanguageStrings.CategoryNameExists);
+			}
+
+			if (!ModelState.IsValid)
+			{
+				ResourceCategoryModel resourceCategoryModel = new ResourceCategoryModel(model.Id, model.Name, model.Description, model.ForeColor, 
+					model.BackColor, model.Image, model.RouteName, model.IsVisible, model.ParentId);
+				return View(resourceCategoryModel);
+			}
+
+			_resourceProvider.UpdateResourceCategory(UserId(), 
+				new ResourceCategory(model.Id, model.ParentId, model.Name, 
+				model.Description, model.ForeColor, model.BackColor, 
+				model.Image, model.RouteName, model.IsVisible));
+
+			GrowlAdd(String.Format(LanguageStrings.CategoryUpdated, model.Name));
+
+			return RedirectToAction(nameof(ManageCategories));
 		}
 
 		[HttpGet]
@@ -216,6 +279,57 @@ namespace Resources.Plugin.Controllers
 
 		#region Private Methods
 
+		private ManageCategoryModel CreateManageCategoryModel()
+		{
+			List<ResourceCategoryModel> resources = new List<ResourceCategoryModel>();
+
+			foreach (ResourceCategory row in _resourceProvider.RetrieveAllCategories())
+			{
+				resources.Add(new ResourceCategoryModel(row.Id, row.Name, row.Description, row.ForeColor, row.BackColor, 
+					row.Image, row.RouteName, row.IsVisible, row.ParentId));
+			}
+
+			return new ManageCategoryModel(GetModelData(), GrowlGet(), resources);
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private ResourceEditCategoryModel CreateResourceEditCategoryViewModel(ResourceCategory resourceCategory)
+		{
+			if (resourceCategory == null)
+				return null;
+
+			List<ResourceItemModel> resources = new List<ResourceItemModel>();
+
+			foreach (ResourceItem resourceItem in resourceCategory.ResourceItems)
+			{
+				resources.Add(new ResourceItemModel(resourceItem.Id, resourceCategory.Id,
+					(ResourceType)resourceItem.ResourceType, resourceItem.UserId,
+					resourceItem.UserName, resourceCategory.Name,
+					resourceItem.Description, resourceItem.Value, resourceItem.Likes,
+					resourceItem.Dislikes, resourceItem.ViewCount, resourceItem.Approved));
+			}
+
+			List<NameIdModel> allCategories = new List<NameIdModel>()
+			{
+				new NameIdModel(0, LanguageStrings.NoParent)
+			};
+
+			_resourceProvider.RetrieveAllCategories().ForEach(c =>
+			{
+				if (c.Id != resourceCategory.Id)
+					allCategories.Add(new NameIdModel(c.Id, c.Name));
+			});
+
+			ResourceEditCategoryModel Result = new ResourceEditCategoryModel(GetModelData(), resourceCategory.Id, resourceCategory.Name,
+				resourceCategory.Description, resourceCategory.ForeColor, resourceCategory.BackColor,
+				resourceCategory.Image, resourceCategory.RouteName, resourceCategory.IsVisible, resourceCategory.ParentId,
+				allCategories);
+
+			Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, "/Resources/", false));
+
+			return Result;
+		}
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private ResourceCategoryModel CreateResourceCategoryViewModel(ResourceCategory resourceCategory)
 		{
@@ -242,23 +356,14 @@ namespace Resources.Plugin.Controllers
 
 			ResourceCategoryModel Result = new ResourceCategoryModel(GetModelData(), resourceCategory.Id, resourceCategory.Name,
 				resourceCategory.Description, resourceCategory.ForeColor, resourceCategory.BackColor,
-				resourceCategory.Image, resourceCategory.RouteName, modelSubCategories, resources);
+				resourceCategory.Image, resourceCategory.RouteName, resourceCategory.IsVisible, resourceCategory.ParentId, 
+				modelSubCategories, resources);
 
-			Result.Breadcrumbs.Clear();
-			Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.Home, "/", false));
 			Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, "/Resources/", false));
+
 			Result.Breadcrumbs.Add(new BreadcrumbItem(resourceCategory.Name, $"/Resources/Category/{resourceCategory.Id}/{resourceCategory.RouteName}/", false));
 
-			if (resourceCategory.ParentId.HasValue)
-			{
-				ResourceCategory parent = _resourceProvider.GetResourceCategory(resourceCategory.ParentId.Value);
-				do
-				{
-					Result.Breadcrumbs.Insert(2, new BreadcrumbItem(parent.Name, $"/Resources/Category/{parent.Id}/{parent.RouteName}/", false));
-					parent = parent.ParentId.HasValue ? _resourceProvider.GetResourceCategory(parent.ParentId.Value) : null;
-				} while (parent != null);
-			}
-
+			BuildCategoryBreadCrumbs(resourceCategory, Result.Breadcrumbs);
 
 			return Result;
 		}
@@ -269,7 +374,8 @@ namespace Resources.Plugin.Controllers
 
 			foreach (ResourceCategory row in resourceList)
 			{
-				resources.Add(new ResourceCategoryModel(row.Id, row.Name, row.Description, row.ForeColor, row.BackColor, row.Image, row.RouteName));
+				resources.Add(new ResourceCategoryModel(row.Id, row.Name, row.Description, row.ForeColor, row.BackColor, row.Image, 
+					row.RouteName, row.IsVisible, row.ParentId));
 			}
 
 			return new ResourcesModel(GetModelData(), resources);
@@ -285,24 +391,27 @@ namespace Resources.Plugin.Controllers
 				resourceItem.Description, resourceItem.Value, resourceItem.Likes,
 				resourceItem.Dislikes, resourceItem.ViewCount, resourceItem.Approved);
 
-			Result.Breadcrumbs.Clear();
-			Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.Home, "/", false));
 			Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, "/Resources/", false));
 			Result.Breadcrumbs.Add(new BreadcrumbItem(resourceCategory.Name, $"/Resources/Category/{resourceCategory.Id}/{resourceCategory.RouteName}/", false));
 
-			if (resourceCategory.ParentId.HasValue)
-			{
-				ResourceCategory parent = _resourceProvider.GetResourceCategory(resourceCategory.ParentId.Value);
-				do
-				{
-					Result.Breadcrumbs.Insert(2, new BreadcrumbItem(parent.Name, $"/Resources/Category/{parent.Id}/{parent.RouteName}/", false));
-					parent = parent.ParentId.HasValue ? _resourceProvider.GetResourceCategory(parent.ParentId.Value) : null;
-				} while (parent != null);
-			}
+			BuildCategoryBreadCrumbs(resourceCategory, Result.Breadcrumbs);
 
 			Result.Breadcrumbs.Add(new BreadcrumbItem(resourceItem.Name, $"/Resources/View/{resourceItem.Id}/", false));
 
 			return Result;
+		}
+
+		private void BuildCategoryBreadCrumbs(ResourceCategory resourceCategory, List<BreadcrumbItem> breadcrumbItems)
+		{
+			if (resourceCategory.ParentId > 0)
+			{
+				ResourceCategory parent = _resourceProvider.GetResourceCategory(resourceCategory.ParentId);
+				do
+				{
+					breadcrumbItems.Insert(2, new BreadcrumbItem(parent.Name, $"/Resources/Category/{parent.Id}/{parent.RouteName}/", false));
+					parent = parent.ParentId > 0 ? _resourceProvider.GetResourceCategory(parent.ParentId) : null;
+				} while (parent != null);
+			}
 		}
 
 		#endregion Private Methods

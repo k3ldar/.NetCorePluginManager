@@ -39,11 +39,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Resources\CategoryEdit.cshtml" />
+    <Content Remove="Views\Resources\CategorySubmitted.cshtml" />
     <Content Remove="Views\Resources\CreateCategory.cshtml" />
     <Content Remove="Views\Resources\Index.cshtml" />
+    <Content Remove="Views\Resources\ManageCategories.cshtml" />
     <Content Remove="Views\Resources\ViewCategory.cshtml" />
     <Content Remove="Views\Resources\ViewResource.cshtml" />
+    <Content Remove="Views\Resources\_CreateCategory.cshtml" />
     <Content Remove="wwwroot\css\resources.css" />
+    <Content Remove="wwwroot\js\resources.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -73,11 +78,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Views\Resources\CategoryEdit.cshtml" />
+    <EmbeddedResource Include="Views\Resources\CategorySubmitted.cshtml" />
     <EmbeddedResource Include="Views\Resources\CreateCategory.cshtml" />
     <EmbeddedResource Include="Views\Resources\Index.cshtml" />
+    <EmbeddedResource Include="Views\Resources\ManageCategories.cshtml" />
     <EmbeddedResource Include="Views\Resources\ViewResource.cshtml" />
     <EmbeddedResource Include="Views\Resources\ViewCategory.cshtml" />
+    <EmbeddedResource Include="Views\Resources\_CreateCategory.cshtml" />
     <EmbeddedResource Include="wwwroot\css\resources.css" />
+    <EmbeddedResource Include="wwwroot\js\resources.js" />
   </ItemGroup>
 
   <ItemGroup>

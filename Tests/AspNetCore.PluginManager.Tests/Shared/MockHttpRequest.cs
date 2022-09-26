@@ -63,7 +63,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
             Path = "/";
             _queryCollection = new List<KeyValuePair<string, StringValues>>();
             _queryString = new QueryString();
-        }
+		}
 
         public MockHttpRequest(MockHeaderDictionary headers)
             : this()
@@ -71,7 +71,13 @@ namespace AspNetCore.PluginManager.Tests.Shared
             _headerDictionary = headers ?? throw new ArgumentNullException(nameof(headers));
         }
 
-        public MockHttpRequest(IRequestCookieCollection cookies)
+		public MockHttpRequest(HttpContext context)
+			: this()
+		{
+			_httpContext = context ?? throw new ArgumentNullException(nameof(context));
+		}
+
+		public MockHttpRequest(IRequestCookieCollection cookies)
             : this()
         {
             _requestCookieCollection = cookies ?? throw new ArgumentNullException(nameof(cookies));

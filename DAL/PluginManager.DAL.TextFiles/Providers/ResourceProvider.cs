@@ -56,12 +56,12 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		public List<ResourceCategory> GetAllResources()
 		{
-			return ConvertResourceDataRowsToResourceList(_resourceCategories.Select().Where(r => !r.ParentCategoryId.HasValue).ToList());
+			return ConvertResourceDataRowsToResourceList(_resourceCategories.Select().Where(r => r.ParentCategoryId.Equals(0) && r.IsVisible).ToList());
 		}
 
 		public List<ResourceCategory> GetAllResources(long parentId)
 		{
-			return ConvertResourceDataRowsToResourceList(_resourceCategories.Select().Where(r => r.ParentCategoryId.HasValue && r.ParentCategoryId.Equals(parentId)).ToList());
+			return ConvertResourceDataRowsToResourceList(_resourceCategories.Select().Where(r => r.ParentCategoryId.Equals(parentId) && r.IsVisible).ToList());
 		}
 
 		public ResourceCategory GetResourceCategory(long categoryId)
@@ -72,6 +72,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 		public ResourceItem GetResourceItem(long id)
 		{
 			return ConvertResourceItemDataRowToResourceItem(_resourceItems.Select(id));
+		}
+
+		public List<ResourceCategory> RetrieveAllCategories()
+		{
+			return ConvertResourceDataRowsToResourceList(_resourceCategories.Select().ToList());
 		}
 
 		public ResourceItem IncrementResourceItemResponse(long id, long userId, bool like)
@@ -142,7 +147,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			_resourceItems.Update(resourceItem);
 		}
 
-		public ResourceCategory AddResourceCategory(long userId, long? parentId, string name, string description)
+		public ResourceCategory AddResourceCategory(long userId, long parentId, string name, string description)
 		{
 			if (string.IsNullOrEmpty(name))
 				throw new ArgumentNullException(nameof(name));
@@ -245,7 +250,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			}
 
 			return new ResourceCategory(resourceRow.Id, resourceRow.ParentCategoryId, resourceRow.Name, resourceRow.Description, resourceRow.ForeColor,
-				resourceRow.BackColor, resourceRow.Image, resourceRow.RouteName, resources);
+				resourceRow.BackColor, resourceRow.Image, resourceRow.RouteName, resourceRow.IsVisible, resources);
 		}
 
 		private static List<ResourceCategory> ConvertResourceDataRowsToResourceList(IReadOnlyList<ResourceCategoryDataRow> resources)
@@ -254,7 +259,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			foreach (ResourceCategoryDataRow row in resources)
 			{
-				result.Add(new ResourceCategory(row.Id, null, row.Name, row.Description, row.ForeColor, row.BackColor, row.Image, row.RouteName));
+				result.Add(new ResourceCategory(row.Id, 0, row.Name, row.Description, row.ForeColor, row.BackColor, row.Image, row.RouteName, row.IsVisible));
 			}
 
 			return result;

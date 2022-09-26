@@ -12147,6 +12147,16 @@
               Looks up a localized string similar to The category name already exists.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.CategorySubmitted">
+            <summary>
+              Looks up a localized string similar to Category Submitted.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.CategoryUpdated">
+            <summary>
+              Looks up a localized string similar to Category &apos;{0}&apos; has been updated.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.Celebrities">
             <summary>
               Looks up a localized string similar to Celebrities.
@@ -12939,6 +12949,11 @@
         <member name="P:Languages.LanguageStrings.Edit">
             <summary>
               Looks up a localized string similar to Edit.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.EditCategory">
+            <summary>
+              Looks up a localized string similar to Edit Category.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.Email">
@@ -14230,6 +14245,11 @@
               Looks up a localized string similar to Unsubscribe from our mail list.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.ManageCategories">
+            <summary>
+              Looks up a localized string similar to Manage Categories.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.ManageProductGroups">
             <summary>
               Looks up a localized string similar to Manage Product Groups.
@@ -14707,6 +14727,11 @@
               Looks up a localized string similar to We have no special offers at this time, please check back soon..
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.NoParent">
+            <summary>
+              Looks up a localized string similar to No Parent.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.NoProductsFound">
             <summary>
               Looks up a localized string similar to No products found.
@@ -15005,6 +15030,11 @@
         <member name="P:Languages.LanguageStrings.Papers">
             <summary>
               Looks up a localized string similar to Papers.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.Parent">
+            <summary>
+              Looks up a localized string similar to Parent.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.Password">

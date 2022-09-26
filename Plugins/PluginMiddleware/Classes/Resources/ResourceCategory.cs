@@ -25,9 +25,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Middleware.Resources
 {
@@ -48,7 +45,8 @@ namespace Middleware.Resources
 		/// <param name="image">Image to be used for background of resource</param>
 		/// <param name="routeName">Route friendly name for resource</param>
 		/// <param name="resourceItems">List of resource items belonging to the category</param>
-		public ResourceCategory(long id, long? parentId, string name, string description, string foreColor, string backColor, string image, string routeName, List<ResourceItem> resourceItems)
+		/// <param name="isVisible">Indicates whether the category is visible to users or not</param>
+		public ResourceCategory(long id, long parentId, string name, string description, string foreColor, string backColor, string image, string routeName, bool isVisible, List<ResourceItem> resourceItems)
 		{
 			Id = id;
 			ParentId = parentId;
@@ -59,6 +57,7 @@ namespace Middleware.Resources
 			BackColor = backColor;
 			Image = image;
 			RouteName = routeName;
+			IsVisible = isVisible;
 		}
 
 		/// <summary>
@@ -72,8 +71,9 @@ namespace Middleware.Resources
 		/// <param name="backColor">Resource back color</param>
 		/// <param name="image">Image to be used for background of resource</param>
 		/// <param name="routeName">Route friendly name for resource</param>
-		public ResourceCategory(long id, long? parentId, string name, string description, string foreColor, string backColor, string image, string routeName)
-			: this (id, parentId, name, description, foreColor, backColor, image, routeName, new List<ResourceItem>())
+		/// <param name="isVisible">Indicates whether the category is visible to users or not</param>
+		public ResourceCategory(long id, long parentId, string name, string description, string foreColor, string backColor, string image, string routeName, bool isVisible)
+			: this(id, parentId, name, description, foreColor, backColor, image, routeName, isVisible, new List<ResourceItem>())
 		{
 		}
 
@@ -85,7 +85,7 @@ namespace Middleware.Resources
 		/// <summary>
 		/// Id of parent category or zero
 		/// </summary>
-		public long? ParentId { get; set; }
+		public long ParentId { get; set; }
 
 		/// <summary>
 		/// Name of resource
@@ -119,6 +119,11 @@ namespace Middleware.Resources
 		/// Route name for resource
 		/// </summary>
 		public string RouteName { get; }
+
+		/// <summary>
+		/// Indicates whether the category is visible to users or not
+		/// </summary>
+		public bool IsVisible { get; }
 
 		/// <summary>
 		/// List of resource items
