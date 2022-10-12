@@ -726,6 +726,12 @@
             </summary>
             <returns>Valid user id if the user is logged in, otherwise -1 will be returned.</returns>
         </member>
+        <member name="M:SharedPluginFeatures.BaseController.UserName">
+            <summary>
+            Retrieves the current users name
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SharedPluginFeatures.BaseController.GetSessionId">
             <summary>
             Retrieves a unique http session id for the current users session.  This is not related

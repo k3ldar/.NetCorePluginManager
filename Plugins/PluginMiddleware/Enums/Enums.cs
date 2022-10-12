@@ -35,27 +35,27 @@ namespace Middleware
 		/// <summary>
 		/// Text resource type
 		/// </summary>
-		Text = 1,
+		Text = 0,
 
 		/// <summary>
 		/// Image resource type
 		/// </summary>
-		Image = 2,
+		Image = 1,
 
 		/// <summary>
 		/// Uri resource type
 		/// </summary>
-		Uri = 3,
+		Uri = 2,
 
 		/// <summary>
 		/// Youtube resource type
 		/// </summary>
-		YouTube = 4,
+		YouTube = 3,
 
 		/// <summary>
 		/// TikTok resource type
 		/// </summary>
-		TikTok = 5,
+		TikTok = 4,
 	}
 
     /// <summary>

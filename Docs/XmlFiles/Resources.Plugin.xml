@@ -45,6 +45,62 @@
             Parent category id
             </summary>
         </member>
+        <member name="T:Resources.Plugin.Models.CreateResourceItemModel">
+            <summary>
+            Model used to create resource items
+            </summary>
+        </member>
+        <member name="M:Resources.Plugin.Models.CreateResourceItemModel.#ctor(SharedPluginFeatures.BaseModelData,System.Int64)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="baseModelData"></param>
+            <param name="parentId">Id of parent category or zero</param>
+        </member>
+        <member name="M:Resources.Plugin.Models.CreateResourceItemModel.#ctor(SharedPluginFeatures.BaseModelData,System.Int64,System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="baseModelData"></param>
+            <param name="parentId">Parent category id</param>
+            <param name="name">Category name</param>
+            <param name="description">Category description</param>
+        </member>
+        <member name="M:Resources.Plugin.Models.CreateResourceItemModel.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="P:Resources.Plugin.Models.CreateResourceItemModel.Name">
+            <summary>
+            Name of category / Item
+            </summary>
+        </member>
+        <member name="P:Resources.Plugin.Models.CreateResourceItemModel.Description">
+            <summary>
+            Description for category
+            </summary>
+        </member>
+        <member name="P:Resources.Plugin.Models.CreateResourceItemModel.Value">
+            <summary>
+            Resource item value
+            </summary>
+        </member>
+        <member name="P:Resources.Plugin.Models.CreateResourceItemModel.ParentId">
+            <summary>
+            Parent category id
+            </summary>
+        </member>
+        <member name="P:Resources.Plugin.Models.CreateResourceItemModel.ResourceType">
+            <summary>
+            Type of resource
+            </summary>
+        </member>
+        <member name="P:Resources.Plugin.Models.CreateResourceItemModel.AllResourceTypes">
+            <summary>
+            All resource item types
+            </summary>
+        </member>
         <member name="T:Resources.Plugin.Models.IdModel">
             <summary>
             Model to hold id

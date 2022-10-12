@@ -198,7 +198,38 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			_resourceCategories.Update(categoryRow);
 
-			return (ConvertResourceCategoryDataRowToResourceCategory(categoryRow));
+			return ConvertResourceCategoryDataRowToResourceCategory(categoryRow);
+		}
+
+		public ResourceItem AddResourceItem(long categoryId, ResourceType resourceType, long userId, string userName, string name, string description, string value, bool approved)
+		{
+			if (String.IsNullOrEmpty(userName)) 
+				throw new ArgumentNullException(nameof(userName));
+
+			if (String.IsNullOrEmpty(name))
+				throw new ArgumentNullException(nameof(name));
+
+			if (String.IsNullOrEmpty(description))
+				throw new ArgumentNullException(nameof(description));
+
+			if (String.IsNullOrEmpty(value))
+				throw new ArgumentNullException(nameof(value));
+
+			ResourceItemDataRow resourceItem = new ResourceItemDataRow()
+			{
+				Approved = approved,
+				CategoryId = categoryId,
+				Description = description,
+				Name = name,
+				ResourceType = (int)resourceType,
+				UserId = userId,
+				UserName = userName,
+				Value = value,
+			};
+
+			_resourceItems.Insert(resourceItem);
+
+			return ConvertResourceItemDataRowToResourceItem(resourceItem);
 		}
 
 		#region Private Methods

@@ -26,8 +26,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 using Languages;
 
@@ -67,12 +71,16 @@ namespace Resources.Plugin.Controllers
         #region Constants
 
         public const string Name = "Resources";
+		public const int MaximumNameLength = 30;
+		public const int MinimumNameLength = 5;
+		public const int MinimumDescriptionLength = 15;
+		public const int MaximumDescriptionLength = 100;
 
-        #endregion Constants
+		#endregion Constants
 
-        #region Controller Action Methods
+		#region Controller Action Methods
 
-        [HttpGet]
+		[HttpGet]
 		[Breadcrumb(nameof(LanguageStrings.ResourcesMain))]
         public IActionResult Index()
         {
@@ -144,7 +152,7 @@ namespace Resources.Plugin.Controllers
 
 			ResourceCategory newCategory =_resourceProvider.AddResourceCategory(UserId(), model.ParentId, model.Name, model.Description);
 
-			if (Request.HttpContext.User.HasClaim(SharedPluginFeatures.Constants.ClaimNameManageResources, "true"))
+			if (UserCanManageResources())
 			{
 				return RedirectToAction(nameof(ManageCategories));
 			}
@@ -273,6 +281,151 @@ namespace Resources.Plugin.Controllers
 			_resourceProvider.IncrementViewCount(resource.Id);
 
 			return Redirect(link);
+		}
+
+		public IActionResult ResourceItemSubmitted()
+		{
+			return View(GetModelData());
+		}
+
+		[LoggedIn]
+		[HttpGet]
+		[Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameAddResources)]
+		[Route("/Resources/CreateResourceItem/{parentCategory}/")]
+		public IActionResult CreateResourceItem(long parentCategory)
+		{
+			ResourceCategory resourceCategory = _resourceProvider.GetResourceCategory(parentCategory);
+
+			if (resourceCategory == null)
+				return RedirectToAction(nameof(Index));
+
+			BaseModelData baseModelData = GetModelData();
+
+			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, "/Resources/", false));
+			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.CreateCategory, $"/Resources/CreateCategory/{parentCategory}/", false));
+
+			return View(new CreateResourceItemModel(baseModelData, parentCategory));
+		}
+
+		[LoggedIn]
+		[HttpPost]
+		[Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameAddResources)]
+		public IActionResult CreateResourceItem(CreateResourceItemModel model)
+		{
+			if (model == null)
+				return RedirectToAction(nameof(Index));
+
+			ResourceCategory resourceCategory = _resourceProvider.GetResourceCategory(model.ParentId);
+
+			if (resourceCategory == null)
+				return RedirectToAction(nameof(Index));
+
+			if (String.IsNullOrEmpty(model.Name) || model.Name.Length < MinimumNameLength || model.Name.Length > MaximumNameLength)
+				ModelState.AddModelError(nameof(model.Name), String.Format(LanguageStrings.InvalidName, MinimumNameLength, MaximumNameLength));
+
+			if (String.IsNullOrEmpty(model.Description) || model.Description.Length < MinimumDescriptionLength || model.Description.Length > MaximumDescriptionLength)
+				ModelState.AddModelError(nameof(model.Description), String.Format(LanguageStrings.InvalidName, MinimumDescriptionLength, MaximumDescriptionLength));
+
+			ValidateResourceType(model);
+
+			if (ModelState.IsValid)
+			{
+				_resourceProvider.AddResourceItem(model.ParentId, (ResourceType)model.ResourceType, UserId(), UserName(),
+					model.Name, model.Description, model.Value, UserCanManageResources());
+				return RedirectToAction(nameof(ResourceItemSubmitted));
+			}
+
+			BaseModelData baseModelData = GetModelData();
+
+			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, "/Resources/", false));
+			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.CreateCategory, $"/Resources/CreateCategory/{model.ParentId}/", false));
+
+			CreateResourceItemModel resultModel = new CreateResourceItemModel(baseModelData, model.ParentId)
+			{
+				Name = model.Name,
+				Description = model.Description,
+				Value = model.Value,
+				ResourceType = model.ResourceType,
+			};
+
+			return View(resultModel);
+		}
+
+		private bool UserCanManageResources()
+		{
+			return Request.HttpContext.User.HasClaim(SharedPluginFeatures.Constants.ClaimNameManageResources, "true");
+		}
+
+		private void ValidateResourceType(CreateResourceItemModel model)
+		{
+			ResourceType resourceType = (ResourceType)model.ResourceType;
+
+			switch (resourceType) 
+			{
+				case ResourceType.Text:
+					ValidateResourceText(model.Value);
+					break;
+
+				case ResourceType.Image:
+					ValidateResourceImage(model.Value);
+					break;
+
+				case ResourceType.TikTok:
+					ValidateResourceTikTok(model.Value);
+					break;
+
+				case ResourceType.YouTube:					;
+					ValidateResourceYoutube(model.Value);
+					break;
+
+				case ResourceType.Uri:
+					ValiddateResourceUri(model.Value);
+					break;
+
+				default:
+					throw new InvalidOperationException();
+			}
+		}
+
+		private void ValiddateResourceUri(string value)
+		{
+			throw new NotImplementedException();
+		}
+
+		private void ValidateResourceYoutube(string value)
+		{
+			Match match = Regex.Match(value, "[a-zA-Z0-9_-]");
+
+			if (!match.Success || String.IsNullOrEmpty(value))
+			{
+				ModelState.AddModelError(String.Empty, String.Format(LanguageStrings.InvalidYouTubeId, value));
+				return;
+			}
+
+			using HttpClient httpClient = new HttpClient();
+
+			httpClient.BaseAddress = new Uri($"https://img.youtube.com/");
+			httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36");
+		
+			using HttpResponseMessage response = httpClient.GetAsync($"vi/{value}/mqdefault.jpg").GetAwaiter().GetResult();
+
+			if (response == null || response.StatusCode == HttpStatusCode.NotFound)
+				ModelState.AddModelError(String.Empty, String.Format(LanguageStrings.InvalidYouTubeId, value));
+		}
+
+		private void ValidateResourceTikTok(string value)
+		{//302
+			throw new NotImplementedException();
+		}
+
+		private void ValidateResourceImage(string value)
+		{
+			throw new NotImplementedException();
+		}
+
+		private void ValidateResourceText(string value)
+		{
+			throw new NotImplementedException();
 		}
 
 		#endregion Controller Action Methods

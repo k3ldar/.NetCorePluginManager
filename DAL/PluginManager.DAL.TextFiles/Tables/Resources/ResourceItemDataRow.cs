@@ -49,6 +49,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 		private bool _approved;
 
 		[ForeignKey(Constants.TableNameResourceCateogories)]
+		[UniqueIndex("Idx_CategoryName")]
 		public long CategoryId
 		{
 			get => _categoryId;
@@ -106,6 +107,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 			}
 		}
 
+		[UniqueIndex("Idx_CategoryName")]
 		public string Name 
 		{
 			get => _name;

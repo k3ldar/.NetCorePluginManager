@@ -12507,6 +12507,11 @@
               Looks up a localized string similar to Create product group.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.CreateResource">
+            <summary>
+              Looks up a localized string similar to Create Resource.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.CreditCardNotHeld">
             <summary>
               Looks up a localized string similar to No Credit/Debit card details held on file..
@@ -13511,6 +13516,11 @@
               Looks up a localized string similar to Image Manager.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.ImageResource">
+            <summary>
+              Looks up a localized string similar to Image Uri.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.Images">
             <summary>
               Looks up a localized string similar to Images.
@@ -13620,6 +13630,11 @@
               Looks up a localized string similar to Invalid Date of Birth, you must use the format dd/mm/yyyy.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.InvalidDescription">
+            <summary>
+              Looks up a localized string similar to Please enter a valid description between {0} and {1} characters.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.InvalidEmailAddress">
             <summary>
               Looks up a localized string similar to Invalid Email Address.
@@ -13638,6 +13653,11 @@
         <member name="P:Languages.LanguageStrings.InvalidHeightMinimum">
             <summary>
               Looks up a localized string similar to Height must be at least {0}.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.InvalidName">
+            <summary>
+              Looks up a localized string similar to Please enter a valid name between {0} and {1} characters.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.InvalidPermission">
@@ -13678,6 +13698,11 @@
         <member name="P:Languages.LanguageStrings.InvalidWidthMinimum">
             <summary>
               Looks up a localized string similar to Width must be at least {0}.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.InvalidYouTubeId">
+            <summary>
+              Looks up a localized string similar to YouTube id {0} does not appear to be valid..
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.Invoice">
@@ -15773,6 +15798,11 @@
               Looks up a localized string similar to Main Resources.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.ResourceType">
+            <summary>
+              Looks up a localized string similar to Resource type.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.RestrictIp">
             <summary>
               Looks up a localized string similar to Restrict Ip.
@@ -16837,6 +16867,11 @@
               Looks up a localized string similar to Test.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.TextResource">
+            <summary>
+              Looks up a localized string similar to Text.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.ThankyouOrder">
             <summary>
               Looks up a localized string similar to Thank you for your order.
@@ -16882,6 +16917,16 @@
         <member name="P:Languages.LanguageStrings.TicketNotFound">
             <summary>
               Looks up a localized string similar to The ticket could not be found.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.TikTokAccountResource">
+            <summary>
+              Looks up a localized string similar to TikTok Account Name.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.TikTokVideoIdResource">
+            <summary>
+              Looks up a localized string similar to TikTok video id.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.TimeCreated">
@@ -17259,6 +17304,11 @@
               Looks up a localized string similar to Uptime.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.UriResource">
+            <summary>
+              Looks up a localized string similar to Uri.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.User">
             <summary>
               Looks up a localized string similar to User.
@@ -17507,6 +17557,11 @@
         <member name="P:Languages.LanguageStrings.YourShoppingBag">
             <summary>
               Looks up a localized string similar to Your shopping bag.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.YouTubeResource">
+            <summary>
+              Looks up a localized string similar to YouTube video id.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.Zoom">

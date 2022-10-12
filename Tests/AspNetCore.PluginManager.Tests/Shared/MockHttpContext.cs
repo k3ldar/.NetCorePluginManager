@@ -137,8 +137,11 @@ namespace AspNetCore.PluginManager.Tests.Shared
                     if (CreateSession)
                         _items.Add(Constants.UserSession, new UserSession() { InternalSessionID = DateTime.Now.Ticks });
 
-                    if (CreateSession && LogUserIn)
-                        ((UserSession)_items[Constants.UserSession]).UserEmail = "john.doe@test.com";
+					if (CreateSession && LogUserIn)
+					{
+						((UserSession)_items[Constants.UserSession]).UserName = "john.doe@test.com";
+						((UserSession)_items[Constants.UserSession]).UserEmail = "john.doe@test.com";
+					}
 
                     if (_breadcrumbs != null)
                     {

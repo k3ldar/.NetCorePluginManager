@@ -173,5 +173,30 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
 			return category;
 		}
+
+		public ResourceItem AddResourceItem(long categoryId, ResourceType resourceType, long userId, string userName, string name, string description, string value, bool approved)
+		{
+			if (String.IsNullOrEmpty(userName))
+				 throw new ArgumentNullException(nameof(userName));
+
+			if (String.IsNullOrEmpty(name))
+				throw new ArgumentNullException(nameof(name));
+
+			if (String.IsNullOrEmpty(description))
+				throw new ArgumentNullException(nameof(description));
+
+			if (String.IsNullOrEmpty(value))
+				throw new ArgumentNullException(nameof(value));
+
+			ResourceCategory resourceCategory = _resources.FirstOrDefault(x => x.Id == categoryId);
+
+			if (resourceCategory == null)
+				throw new InvalidOperationException();
+
+			ResourceItem Result = new ResourceItem(_nextId++, categoryId, resourceType, userId, userName, name, description, value, 0, 0, 0, false);
+			resourceCategory.ResourceItems.Add(Result);
+
+			return Result;
+		}
 	}
 }

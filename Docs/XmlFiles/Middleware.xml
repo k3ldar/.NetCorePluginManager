@@ -4228,6 +4228,20 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Middleware.IResourceProvider.AddResourceItem(System.Int64,Middleware.ResourceType,System.Int64,System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Adds a new resource item
+            </summary>
+            <param name="categoryId"></param>
+            <param name="resourceType"></param>
+            <param name="userId"></param>
+            <param name="userName"></param>
+            <param name="name"></param>
+            <param name="description"></param>
+            <param name="value"></param>
+            <param name="approved"></param>
+            <returns></returns>
+        </member>
         <member name="T:Middleware.ISearchKeywordProvider">
             <summary>
             Keyword search provider interface is implemented by classes which provide keyword search 

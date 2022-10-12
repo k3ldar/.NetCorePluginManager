@@ -121,12 +121,26 @@ namespace SharedPluginFeatures
             return -1;
         }
 
-        /// <summary>
-        /// Retrieves a unique http session id for the current users session.  This is not related
-        /// to UserSession.
-        /// </summary>
-        /// <returns>string.  Unique http session id.</returns>
-        protected string GetSessionId()
+		/// <summary>
+		/// Retrieves the current users name
+		/// </summary>
+		/// <returns></returns>
+		protected string UserName()
+		{
+			UserSession session = GetUserSession();
+
+			if (session != null)
+				return session.UserName;
+
+			return String.Empty;
+		}
+
+		/// <summary>
+		/// Retrieves a unique http session id for the current users session.  This is not related
+		/// to UserSession.
+		/// </summary>
+		/// <returns>string.  Unique http session id.</returns>
+		protected string GetSessionId()
         {
             UserSession session = GetUserSession();
 
@@ -324,9 +338,8 @@ namespace SharedPluginFeatures
         {
             string Result = String.Empty;
 
-			IMemoryCache memoryCache = HttpContext.RequestServices.GetService(typeof(IMemoryCache)) as IMemoryCache;
 
-			if (memoryCache != null)
+			if (HttpContext.RequestServices.GetService(typeof(IMemoryCache)) is IMemoryCache memoryCache)
 			{
 				string cacheName = $"{UserId()}{GrowlTempDataKeyName}";
 
@@ -347,7 +360,7 @@ namespace SharedPluginFeatures
 				}
 			}
 
-            return Result;
+			return Result;
         }
 
         /// <summary>
@@ -356,9 +369,7 @@ namespace SharedPluginFeatures
         /// <param name="s"></param>
         protected void GrowlAdd(string s)
         {
-			IMemoryCache memoryCache = HttpContext.RequestServices.GetService(typeof(IMemoryCache)) as IMemoryCache;
-
-			if (memoryCache != null)
+			if (HttpContext.RequestServices.GetService(typeof(IMemoryCache)) is IMemoryCache memoryCache)
 			{
 				string cacheName = $"{UserId()}{GrowlTempDataKeyName}";
 				memoryCache.GetShortCache().Add(cacheName, new CacheItem(cacheName, s));
@@ -368,7 +379,7 @@ namespace SharedPluginFeatures
 				TempData.Add(GrowlTempDataKeyName, s);
 				TempData.Keep(GrowlTempDataKeyName);
 			}
-        }
+		}
 
         #endregion Growl
 
@@ -642,12 +653,10 @@ namespace SharedPluginFeatures
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Not fussed with this exception")]
         protected IAuthenticationService GetAuthenticationService()
         {
-            IAuthenticationService authenticationService = HttpContext.RequestServices.GetService(typeof(IAuthenticationService)) as IAuthenticationService;
+			if (HttpContext.RequestServices.GetService(typeof(IAuthenticationService)) is not IAuthenticationService authenticationService)
+				throw new InvalidOperationException($"{nameof(IAuthenticationService)} has not been registered");
 
-            if (authenticationService == null)
-                throw new InvalidOperationException($"{nameof(IAuthenticationService)} has not been registered");
-
-            return authenticationService;
+			return authenticationService;
         }
 
 		#endregion Authentication

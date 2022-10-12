@@ -26,6 +26,8 @@
 using System;
 using System.Collections.Generic;
 
+using Microsoft.Extensions.Primitives;
+
 using Middleware.Resources;
 
 namespace Middleware
@@ -98,5 +100,20 @@ namespace Middleware
 		/// </summary>
 		/// <returns></returns>
 		List<ResourceCategory> RetrieveAllCategories();
+
+		/// <summary>
+		/// Adds a new resource item
+		/// </summary>
+		/// <param name="categoryId"></param>
+		/// <param name="resourceType"></param>
+		/// <param name="userId"></param>
+		/// <param name="userName"></param>
+		/// <param name="name"></param>
+		/// <param name="description"></param>
+		/// <param name="value"></param>
+		/// <param name="approved"></param>
+		/// <returns></returns>
+		ResourceItem AddResourceItem(long categoryId, ResourceType resourceType, long userId, string userName, 
+			string name, string description, string value, bool approved);
 	}
 }

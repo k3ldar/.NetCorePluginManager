@@ -86,8 +86,15 @@ resStyleBody = $"style=\"{resStyleBody}\"";
 }
 </div>
 </div>
+<div class="row" style="padding-top:20px;">
 @if (Model.UserIsLoggedIn && Context.User.HasClaim(SharedPluginFeatures.Constants.ClaimNameAddResources, "true"))
 {
-@await Html.PartialAsync("_CreateCategory.cshtml", new Resources.Plugin.Models.IdModel(Model.Id))
+Resources.Plugin.Models.IdModel modelId = new Resources.Plugin.Models.IdModel(Model.Id);
+@await Html.PartialAsync("_CreateCategory.cshtml", modelId)
+if (Model.Id != 0)
+{
+@await Html.PartialAsync("_CreateResourceItem.cshtml", modelId)
 }
+}
+</div>
 </div>

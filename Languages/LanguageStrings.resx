@@ -14521,4 +14521,48 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Parent</value>
     <comment>Parent</comment>
   </data>
+  <data name="CreateResource" xml:space="preserve">
+    <value>Create Resource</value>
+    <comment>Create Resource</comment>
+  </data>
+  <data name="ImageResource" xml:space="preserve">
+    <value>Image Uri</value>
+    <comment>Image Uri</comment>
+  </data>
+  <data name="ResourceType" xml:space="preserve">
+    <value>Resource type</value>
+    <comment>Resource type</comment>
+  </data>
+  <data name="TextResource" xml:space="preserve">
+    <value>Text</value>
+    <comment>Text</comment>
+  </data>
+  <data name="TikTokAccountResource" xml:space="preserve">
+    <value>TikTok Account Name</value>
+    <comment>TikTok Account Name</comment>
+  </data>
+  <data name="TikTokVideoIdResource" xml:space="preserve">
+    <value>TikTok video id</value>
+    <comment>TikTok video id</comment>
+  </data>
+  <data name="UriResource" xml:space="preserve">
+    <value>Uri</value>
+    <comment>Uri</comment>
+  </data>
+  <data name="YouTubeResource" xml:space="preserve">
+    <value>YouTube video id</value>
+    <comment>YouTube video id</comment>
+  </data>
+  <data name="InvalidDescription" xml:space="preserve">
+    <value>Please enter a valid description between {0} and {1} characters</value>
+    <comment>Please enter a valid description between {0} and {1} characters</comment>
+  </data>
+  <data name="InvalidName" xml:space="preserve">
+    <value>Please enter a valid name between {0} and {1} characters</value>
+    <comment>Please enter a valid name between {0} and {1} characters</comment>
+  </data>
+  <data name="InvalidYouTubeId" xml:space="preserve">
+    <value>YouTube id {0} does not appear to be valid.</value>
+    <comment>YouTube id {0} does not appear to be valid.</comment>
+  </data>
 </root>

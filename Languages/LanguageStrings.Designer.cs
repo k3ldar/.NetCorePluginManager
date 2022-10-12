@@ -22296,6 +22296,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Resource.
+        /// </summary>
+        public static string CreateResource {
+            get {
+                return ResourceManager.GetString("CreateResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No Credit/Debit card details held on file..
         /// </summary>
         public static string CreditCardNotHeld {
@@ -24100,6 +24109,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Image Uri.
+        /// </summary>
+        public static string ImageResource {
+            get {
+                return ResourceManager.GetString("ImageResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Images.
         /// </summary>
         public static string Images {
@@ -24281,6 +24299,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid description between {0} and {1} characters.
+        /// </summary>
+        public static string InvalidDescription {
+            get {
+                return ResourceManager.GetString("InvalidDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Email Address.
         /// </summary>
         public static string InvalidEmailAddress {
@@ -24313,6 +24340,15 @@ namespace Languages {
         public static string InvalidHeightMinimum {
             get {
                 return ResourceManager.GetString("InvalidHeightMinimum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid name between {0} and {1} characters.
+        /// </summary>
+        public static string InvalidName {
+            get {
+                return ResourceManager.GetString("InvalidName", resourceCulture);
             }
         }
         
@@ -24385,6 +24421,15 @@ namespace Languages {
         public static string InvalidWidthMinimum {
             get {
                 return ResourceManager.GetString("InvalidWidthMinimum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to YouTube id {0} does not appear to be valid..
+        /// </summary>
+        public static string InvalidYouTubeId {
+            get {
+                return ResourceManager.GetString("InvalidYouTubeId", resourceCulture);
             }
         }
         
@@ -28154,6 +28199,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resource type.
+        /// </summary>
+        public static string ResourceType {
+            get {
+                return ResourceManager.GetString("ResourceType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Restrict Ip.
         /// </summary>
         public static string RestrictIp {
@@ -30062,6 +30116,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Text.
+        /// </summary>
+        public static string TextResource {
+            get {
+                return ResourceManager.GetString("TextResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thank you for your order.
         /// </summary>
         public static string ThankyouOrder {
@@ -30141,6 +30204,24 @@ namespace Languages {
         public static string TicketNotFound {
             get {
                 return ResourceManager.GetString("TicketNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TikTok Account Name.
+        /// </summary>
+        public static string TikTokAccountResource {
+            get {
+                return ResourceManager.GetString("TikTokAccountResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TikTok video id.
+        /// </summary>
+        public static string TikTokVideoIdResource {
+            get {
+                return ResourceManager.GetString("TikTokVideoIdResource", resourceCulture);
             }
         }
         
@@ -30820,6 +30901,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Uri.
+        /// </summary>
+        public static string UriResource {
+            get {
+                return ResourceManager.GetString("UriResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User.
         /// </summary>
         public static string User {
@@ -31266,6 +31356,15 @@ namespace Languages {
         public static string YourShoppingBag {
             get {
                 return ResourceManager.GetString("YourShoppingBag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to YouTube video id.
+        /// </summary>
+        public static string YouTubeResource {
+            get {
+                return ResourceManager.GetString("YouTubeResource", resourceCulture);
             }
         }
         
