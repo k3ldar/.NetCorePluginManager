@@ -12147,9 +12147,19 @@
               Looks up a localized string similar to The category name already exists.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.CategoryNotFound">
+            <summary>
+              Looks up a localized string similar to The category could not be found.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.CategorySubmitted">
             <summary>
               Looks up a localized string similar to Category Submitted.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.CategorySubmittedThankYou">
+            <summary>
+              Looks up a localized string similar to Thank you for submitting a new category, it should appear shortly..
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.CategoryUpdated">
@@ -13655,6 +13665,21 @@
               Looks up a localized string similar to Height must be at least {0}.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.InvalidImageNotAbsolute">
+            <summary>
+              Looks up a localized string similar to The Image is invalid, it must start with http:// or https:// and include the domain name.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.InvalidImageNotFound">
+            <summary>
+              Looks up a localized string similar to The Image &apos;{0}&apos; could not be found.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.InvalidImageNotSupported">
+            <summary>
+              Looks up a localized string similar to The file type {0} is not supported, supported file types are {1}.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.InvalidName">
             <summary>
               Looks up a localized string similar to Please enter a valid name between {0} and {1} characters.
@@ -13683,6 +13708,26 @@
         <member name="P:Languages.LanguageStrings.InvalidTelephoneNumber">
             <summary>
               Looks up a localized string similar to Invalid Telephone Number.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.InvalidTickTokId">
+            <summary>
+              Looks up a localized string similar to The TikTok id must consist of an account name and video reference.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.InvalidTickTokIdEmpty">
+            <summary>
+              Looks up a localized string similar to The TikTok id can not be empty.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.InvalidUriNotAbsolute">
+            <summary>
+              Looks up a localized string similar to The Uri is invalid, it must start with http:// or https:// and include the domain name.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.InvalidUriNotFound">
+            <summary>
+              Looks up a localized string similar to The Uri &apos;{0}&apos; could not be found.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.InvalidUsernameOrPassword">
@@ -14283,6 +14328,11 @@
         <member name="P:Languages.LanguageStrings.ManageProducts">
             <summary>
               Looks up a localized string similar to Manage Products.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.ManageResourceItems">
+            <summary>
+              Looks up a localized string similar to Manage Resource Items.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.MapofVisitors">
@@ -15793,6 +15843,21 @@
               Looks up a localized string similar to Reschedule After.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.ResourceItemSubmitted">
+            <summary>
+              Looks up a localized string similar to Resource Item Submitted.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.ResourceItemSubmittedThankYou">
+            <summary>
+              Looks up a localized string similar to Thank you for submitting a new resource item, it should appear shortly..
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.ResourceItemUpdated">
+            <summary>
+              Looks up a localized string similar to Resource item &apos;{0}&apos; has been updated.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.ResourcesMain">
             <summary>
               Looks up a localized string similar to Main Resources.
@@ -16865,6 +16930,11 @@
         <member name="P:Languages.LanguageStrings.Test">
             <summary>
               Looks up a localized string similar to Test.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.TextInvalidEmpty">
+            <summary>
+              Looks up a localized string similar to Please add some text.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.TextResource">

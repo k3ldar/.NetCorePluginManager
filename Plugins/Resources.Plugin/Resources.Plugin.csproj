@@ -45,6 +45,8 @@
     <Content Remove="Views\Resources\CreateResourceItem.cshtml" />
     <Content Remove="Views\Resources\Index.cshtml" />
     <Content Remove="Views\Resources\ManageCategories.cshtml" />
+    <Content Remove="Views\Resources\ManageResourceItems.cshtml" />
+    <Content Remove="Views\Resources\ResourceItemSubmitted.cshtml" />
     <Content Remove="Views\Resources\ViewCategory.cshtml" />
     <Content Remove="Views\Resources\ViewResource.cshtml" />
     <Content Remove="Views\Resources\_CreateCategory.cshtml" />
@@ -86,6 +88,7 @@
     <EmbeddedResource Include="Views\Resources\CreateResourceItem.cshtml" />
     <EmbeddedResource Include="Views\Resources\Index.cshtml" />
     <EmbeddedResource Include="Views\Resources\ManageCategories.cshtml" />
+    <EmbeddedResource Include="Views\Resources\ManageResourceItems.cshtml" />
     <EmbeddedResource Include="Views\Resources\ViewResource.cshtml" />
     <EmbeddedResource Include="Views\Resources\ViewCategory.cshtml" />
     <EmbeddedResource Include="Views\Resources\_CreateCategory.cshtml" />
@@ -96,6 +99,18 @@
 
   <ItemGroup>
     <Folder Include="Classes\SystemAdmin\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Resources\ResourceItemSubmitted.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Resources\ResourceItemSubmitted.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Resources\ResourceItemSubmitted.cshtml" />
   </ItemGroup>
 
 </Project>

@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -54,6 +55,10 @@ namespace Resources.Plugin.Controllers
     public class ResourcesController : BaseController
     {
 		#region Private Members
+
+		private readonly static string[] SupportedImageTypes = { ".apng", ".gif", ".ico", ".jpeg", ".jpg", ".png", ".svg" };
+		private readonly static string[] ReplacableTextFrom = { "<", ">" };
+		private readonly static string[] ReplacableTextTo = { "&lt;", "&gt;" };
 
 		private readonly IResourceProvider _resourceProvider;
 
@@ -153,9 +158,7 @@ namespace Resources.Plugin.Controllers
 			ResourceCategory newCategory =_resourceProvider.AddResourceCategory(UserId(), model.ParentId, model.Name, model.Description);
 
 			if (UserCanManageResources())
-			{
 				return RedirectToAction(nameof(ManageCategories));
-			}
 
 			return RedirectToAction(nameof(CategorySubmitted));
 		}
@@ -168,7 +171,6 @@ namespace Resources.Plugin.Controllers
 		{
 			return View(CreateManageCategoryModel());
 		}
-
 
 		[HttpGet]
 		[Breadcrumb(nameof(LanguageStrings.CategorySubmitted), Name, nameof(Index))]
@@ -324,14 +326,18 @@ namespace Resources.Plugin.Controllers
 				ModelState.AddModelError(nameof(model.Name), String.Format(LanguageStrings.InvalidName, MinimumNameLength, MaximumNameLength));
 
 			if (String.IsNullOrEmpty(model.Description) || model.Description.Length < MinimumDescriptionLength || model.Description.Length > MaximumDescriptionLength)
-				ModelState.AddModelError(nameof(model.Description), String.Format(LanguageStrings.InvalidName, MinimumDescriptionLength, MaximumDescriptionLength));
+				ModelState.AddModelError(nameof(model.Description), String.Format(LanguageStrings.InvalidDescription, MinimumDescriptionLength, MaximumDescriptionLength));
 
 			ValidateResourceType(model);
 
 			if (ModelState.IsValid)
 			{
 				_resourceProvider.AddResourceItem(model.ParentId, (ResourceType)model.ResourceType, UserId(), UserName(),
-					model.Name, model.Description, model.Value, UserCanManageResources());
+					model.Name, model.Description, model.Value, false);
+
+				if (UserCanManageResources())
+					return RedirectToAction(nameof(ManageResourceItems));
+
 				return RedirectToAction(nameof(ResourceItemSubmitted));
 			}
 
@@ -351,6 +357,106 @@ namespace Resources.Plugin.Controllers
 			return View(resultModel);
 		}
 
+		[LoggedIn]
+		[HttpGet]
+		[Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameManageResources)]
+		[Breadcrumb(nameof(Languages.LanguageStrings.ManageCategories), Name, nameof(Index))]
+		public IActionResult ManageResourceItems()
+		{
+			return View(CreateManageResourceItemModel());
+		}
+
+		[HttpGet]
+		[Breadcrumb(nameof(LanguageStrings.ResourceItemSubmitted), Name, nameof(Index))]
+		[Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameManageResources)]
+		public IActionResult ResourceItemEdit(long id)
+		{
+			ResourceItem resourceItem = _resourceProvider.GetResourceItem(id);
+
+			if (resourceItem == null)
+				return RedirectToAction(nameof(ManageResourceItems));
+
+			List<NameIdModel> allCategories = new List<NameIdModel>();
+
+			_resourceProvider.RetrieveAllCategories().ForEach(c =>
+			{
+				allCategories.Add(new NameIdModel(c.Id, c.Name));
+			});
+
+			ResourceEditResourceItemModel model =  new ResourceEditResourceItemModel(GetModelData(), resourceItem.Id, 
+				resourceItem.CategoryId, resourceItem.ResourceType, resourceItem.UserId, resourceItem.UserName, 
+				resourceItem.Name, resourceItem.Description, resourceItem.Value, resourceItem.Approved,
+				allCategories);
+
+			return View(model);
+		}
+
+		[HttpPost]
+		[Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameManageResources)]
+		public IActionResult ResourceItemEdit(ResourceEditResourceItemModel model)
+		{
+			if (model == null)
+				return RedirectToAction(nameof(ManageResourceItems));
+
+			ValidateResourceEditResourceItemModel(model);
+
+			if (!ModelState.IsValid)
+			{
+				List<NameIdModel> allCategories = new List<NameIdModel>();
+
+				_resourceProvider.RetrieveAllCategories().ForEach(c =>
+				{
+					allCategories.Add(new NameIdModel(c.Id, c.Name));
+				});
+
+				ResourceEditResourceItemModel resourceCategoryModel = new ResourceEditResourceItemModel(GetModelData(), model.Id, 
+					model.CategoryId, model.ResourceType, model.UserId, model.UserName, model.Name, model.Description,
+					model.Value, model.Approved, allCategories);
+
+				return View(resourceCategoryModel);
+			}
+
+			ResourceItem existingResourceItem = _resourceProvider.GetResourceItem(model.Id);
+
+			_resourceProvider.UpdateResourceItem(UserId(),
+				new ResourceItem(model.Id, model.CategoryId, model.ResourceType, existingResourceItem.UserId, model.UserName, 
+				model.Name, model.Description, model.Value, existingResourceItem.Likes, existingResourceItem.Dislikes,
+				existingResourceItem.ViewCount, model.Approved));
+
+			GrowlAdd(String.Format(LanguageStrings.ResourceItemUpdated, model.Name));
+
+			return RedirectToAction(nameof(ManageResourceItems));
+		}
+
+		#endregion Controller Action Methods
+
+		#region Private Methods
+
+		private void ValidateResourceEditResourceItemModel(ResourceEditResourceItemModel model)
+		{
+			if (_resourceProvider.GetResourceCategory(model.CategoryId) == null)
+			{
+				ModelState.AddModelError(String.Empty, LanguageStrings.CategoryNotFound);
+			}
+
+			if (model.Name.Length < MinimumNameLength || model.Name.Length > MaximumNameLength)
+			{
+				ModelState.AddModelError(nameof(model.Name), 
+					String.Format(LanguageStrings.InvalidName, MinimumNameLength, MaximumNameLength));
+			}
+
+			if (model.Description.Length < MinimumNameLength || model.Description.Length > MaximumNameLength)
+			{
+				ModelState.AddModelError(nameof(model.Description), 
+					String.Format(LanguageStrings.InvalidDescription, MinimumDescriptionLength, MaximumDescriptionLength));
+			}
+
+			if (String.IsNullOrWhiteSpace(model.Value))
+			{
+				ModelState.AddModelError(nameof(model.Value), LanguageStrings.TextInvalidEmpty);
+			}
+		}
+
 		private bool UserCanManageResources()
 		{
 			return Request.HttpContext.User.HasClaim(SharedPluginFeatures.Constants.ClaimNameManageResources, "true");
@@ -363,7 +469,7 @@ namespace Resources.Plugin.Controllers
 			switch (resourceType) 
 			{
 				case ResourceType.Text:
-					ValidateResourceText(model.Value);
+					ValidateResourceText(model);
 					break;
 
 				case ResourceType.Image:
@@ -374,7 +480,7 @@ namespace Resources.Plugin.Controllers
 					ValidateResourceTikTok(model.Value);
 					break;
 
-				case ResourceType.YouTube:					;
+				case ResourceType.YouTube:
 					ValidateResourceYoutube(model.Value);
 					break;
 
@@ -389,7 +495,28 @@ namespace Resources.Plugin.Controllers
 
 		private void ValiddateResourceUri(string value)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				Uri uri = new Uri(value, UriKind.Absolute);
+				if (!uri.IsAbsoluteUri)
+				{
+					ModelState.AddModelError(String.Empty, LanguageStrings.InvalidUriNotAbsolute);
+					return;
+				}
+
+				string baseAddress = value[..(value.Length - uri.LocalPath.Length + 1)];
+
+				using HttpClient httpClient = CreateHttpClient(baseAddress);
+				using HttpResponseMessage response = httpClient.GetAsync(uri.LocalPath[1..]).GetAwaiter().GetResult();
+
+				if (response == null || response.StatusCode == HttpStatusCode.NotFound)
+					ModelState.AddModelError(String.Empty, String.Format(LanguageStrings.InvalidUriNotFound, value));
+			}
+			catch (UriFormatException)
+			{
+				ModelState.AddModelError(String.Empty, String.Format(LanguageStrings.InvalidUriNotAbsolute));
+				return;
+			}
 		}
 
 		private void ValidateResourceYoutube(string value)
@@ -402,11 +529,7 @@ namespace Resources.Plugin.Controllers
 				return;
 			}
 
-			using HttpClient httpClient = new HttpClient();
-
-			httpClient.BaseAddress = new Uri($"https://img.youtube.com/");
-			httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36");
-		
+			using HttpClient httpClient = CreateHttpClient("https://img.youtube.com/");
 			using HttpResponseMessage response = httpClient.GetAsync($"vi/{value}/mqdefault.jpg").GetAwaiter().GetResult();
 
 			if (response == null || response.StatusCode == HttpStatusCode.NotFound)
@@ -414,23 +537,90 @@ namespace Resources.Plugin.Controllers
 		}
 
 		private void ValidateResourceTikTok(string value)
-		{//302
-			throw new NotImplementedException();
+		{
+			if (String.IsNullOrEmpty(value))
+			{
+				ModelState.AddModelError(String.Empty, LanguageStrings.InvalidTickTokIdEmpty);
+				return;
+			}
+
+			string[] parts = value.Split(new char[] { SharedPluginFeatures.Constants.ColonChar }, StringSplitOptions.RemoveEmptyEntries);
+
+			if (parts.Length != 2 || String.IsNullOrEmpty(parts[0]) || String.IsNullOrEmpty(parts[1]))
+			{
+				ModelState.AddModelError(String.Empty, LanguageStrings.InvalidTickTokId);
+				return;
+			}
+
+			using HttpClient httpClient = CreateHttpClient("https://www.tiktok.com/");
+			using HttpResponseMessage response = httpClient.GetAsync($"{parts[0]}/video/{parts[1]}?is_copy_url=1&is_from_webapp=v1").GetAwaiter().GetResult();
+
+			if (response == null || response.StatusCode != HttpStatusCode.OK)
+				ModelState.AddModelError(String.Empty, String.Format(LanguageStrings.InvalidTickTokId, value));
 		}
 
 		private void ValidateResourceImage(string value)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				Uri uri = new Uri(value, UriKind.Absolute);
+				if (!uri.IsAbsoluteUri)
+				{
+					ModelState.AddModelError(String.Empty, LanguageStrings.InvalidImageNotAbsolute);
+					return;
+				}
+
+				string extension = Path.GetExtension(value).ToLower();
+
+				if (!SupportedImageTypes.Contains(extension))
+				{
+					ModelState.AddModelError(String.Empty, 
+						String.Format(LanguageStrings.InvalidImageNotSupported, 
+						extension, 
+						String.Join(SharedPluginFeatures.Constants.CommaChar, SupportedImageTypes)));
+					return;
+				}
+
+				string baseAddress = value[..(value.Length - uri.LocalPath.Length + 1)];
+
+				using HttpClient httpClient = CreateHttpClient(baseAddress);
+				using HttpResponseMessage response = httpClient.GetAsync(uri.LocalPath[1..]).GetAwaiter().GetResult();
+
+				if (response == null || response.StatusCode == HttpStatusCode.NotFound)
+					ModelState.AddModelError(String.Empty, String.Format(LanguageStrings.InvalidImageNotFound, value));
+			}
+			catch (UriFormatException)
+			{
+				ModelState.AddModelError(String.Empty, String.Format(LanguageStrings.InvalidImageNotAbsolute));
+				return;
+			}
 		}
 
-		private void ValidateResourceText(string value)
+		private void ValidateResourceText(CreateResourceItemModel model)
 		{
-			throw new NotImplementedException();
+			if (String.IsNullOrWhiteSpace(model.Value))
+			{
+				ModelState.AddModelError(String.Empty, LanguageStrings.TextInvalidEmpty);
+				return;
+			}
+
+			for (int i = 0; i < ReplacableTextFrom.Length; i++)
+			{
+				model.Value = model.Value.Replace(ReplacableTextFrom[i], ReplacableTextTo[i]);
+			}
+
+			model.Value = model.Value.Trim();
 		}
 
-		#endregion Controller Action Methods
+		private static HttpClient CreateHttpClient(string baseAddress)
+		{
+			HttpClient httpClient = new HttpClient();
 
-		#region Private Methods
+			httpClient.BaseAddress = new Uri(baseAddress);
+			httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36");
+
+			return httpClient;
+		}
 
 		private ManageCategoryModel CreateManageCategoryModel()
 		{
@@ -443,6 +633,19 @@ namespace Resources.Plugin.Controllers
 			}
 
 			return new ManageCategoryModel(GetModelData(), GrowlGet(), resources);
+		}
+
+		private ManageResourceItemModel CreateManageResourceItemModel()
+		{
+			List<ResourceItemModel> resources = new List<ResourceItemModel>();
+
+			foreach (ResourceItem row in _resourceProvider.RetrieveAllResourceItems())
+			{
+				resources.Add(new ResourceItemModel(row.Id, row.CategoryId, row.ResourceType, row.UserId, row.UserName,
+					row.Name, row.Description, row.Value, row.Likes, row.Dislikes, row.ViewCount, row.Approved));
+			}
+
+			return new ManageResourceItemModel(GetModelData(), GrowlGet(), resources);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]

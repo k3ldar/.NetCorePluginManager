@@ -232,6 +232,63 @@ namespace PluginManager.DAL.TextFiles.Providers
 			return ConvertResourceItemDataRowToResourceItem(resourceItem);
 		}
 
+		public List<ResourceItem> RetrieveAllResourceItems()
+		{
+			List<ResourceItem> resources = new List<ResourceItem>();
+
+			foreach (ResourceItemDataRow resourceItemDataRow in _resourceItems.Select())
+			{
+				resources.Add(new ResourceItem(
+					resourceItemDataRow.Id,
+					resourceItemDataRow.CategoryId,
+					(ResourceType)resourceItemDataRow.ResourceType,
+					resourceItemDataRow.UserId,
+					resourceItemDataRow.UserName,
+					resourceItemDataRow.Name,
+					resourceItemDataRow.Description,
+					resourceItemDataRow.Value,
+					resourceItemDataRow.Likes,
+					resourceItemDataRow.Dislikes,
+					resourceItemDataRow.ViewCount,
+					resourceItemDataRow.Approved));
+			}
+
+			return resources;
+		}
+
+		public ResourceItem UpdateResourceItem(long userId, ResourceItem resourceItem)
+		{
+			if (resourceItem == null) throw
+				new ArgumentNullException(nameof(resourceItem));
+
+			ResourceItemDataRow resourceItemRow = _resourceItems.Select(resourceItem.Id);
+
+			if (resourceItemRow == null)
+				throw new ArgumentOutOfRangeException(nameof(resourceItem));
+
+			UserDataRow userDataRow = _users.Select(userId);
+
+			if (userDataRow == null && userId != 0)
+				throw new ArgumentNullException(nameof(userId));
+
+			ResourceCategoryDataRow resourceCategoryDataRow = _resourceCategories.Select(resourceItem.CategoryId);
+
+			if (resourceCategoryDataRow == null)
+				throw new ArgumentException();
+
+			resourceItemRow.CategoryId = resourceItem.CategoryId;
+			resourceItemRow.Name = resourceItem.Name;
+			resourceItemRow.Description = resourceItem.Description;
+			resourceItemRow.Approved = resourceItem.Approved;
+			resourceItemRow.ResourceType = (int)resourceItem.ResourceType;
+			resourceItemRow.Value = resourceItem.Value;
+			resourceItemRow.UserName = resourceItem.UserName;
+
+			_resourceItems.Update(resourceItemRow);
+
+			return ConvertResourceItemDataRowToResourceItem(resourceItemRow);
+		}
+
 		#region Private Methods
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]

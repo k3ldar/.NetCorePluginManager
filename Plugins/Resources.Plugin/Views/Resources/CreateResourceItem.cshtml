@@ -6,7 +6,7 @@
 }
 
 <link rel="stylesheet" href="/css/resources.css" />
-
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <div class="row res-row">
     <div class="col">
@@ -42,7 +42,7 @@
 
         </div>
         <div class="col-sm-12 col-md-5 col-lg-4">
-            @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", style = "min-height:80px;" })
             @Html.ValidationMessageFor(m => m.Description)
         </div>
     </div>
@@ -63,6 +63,9 @@
         </div>
         <div class="col-sm-12 col-md-5 col-lg-4">
             <textarea class="form-control" id="textDataValue"></textarea>
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4" id="mdContent">
+
         </div>
     </div>
 
@@ -139,7 +142,8 @@
             hideAll();
             showSelection();
         });
-        textData.addEventListener('change', updateValue);
+        textData.addEventListener('change', updateTextValue);
+        textData.addEventListener('input', updateTextValue);
         imageDataValue.addEventListener('input', updateValue);
         uriDataValue.addEventListener('input', updateValue);
         youTubeDataValue.addEventListener('input', updateValue);
@@ -170,6 +174,13 @@
         let sel = cbTypeName.options[cbTypeName.selectedIndex].text.toLowerCase() + "DataValue";
         let selD = document.getElementById(sel);
         valueId.value = selD.value;
+    }
+
+    function updateTextValue() {
+        let sel = cbTypeName.options[cbTypeName.selectedIndex].text.toLowerCase() + "DataValue";
+        let selD = document.getElementById(sel);
+        valueId.value = selD.value;
+        document.getElementById("mdContent").innerHTML = marked.parse(selD.value);
     }
 
     function updateTikTok()

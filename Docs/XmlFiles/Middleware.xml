@@ -4242,6 +4242,20 @@
             <param name="approved"></param>
             <returns></returns>
         </member>
+        <member name="M:Middleware.IResourceProvider.RetrieveAllResourceItems">
+            <summary>
+            Retrieves all resource items for administrative purposes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.IResourceProvider.UpdateResourceItem(System.Int64,Middleware.Resources.ResourceItem)">
+            <summary>
+            Updates a resource item
+            </summary>
+            <param name="userId"></param>
+            <param name="resourceItem"></param>
+            <returns></returns>
+        </member>
         <member name="T:Middleware.ISearchKeywordProvider">
             <summary>
             Keyword search provider interface is implemented by classes which provide keyword search 

@@ -2499,6 +2499,16 @@
             Equals (=) char constant
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.ColonChar">
+            <summary>
+            Colon (:) char constant
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.CommaChar">
+            <summary>
+            Comma (,) char constant
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.PluginSettingBreadcrumb">
             <summary>
             Name of the Breadcrumb.Plugin module.

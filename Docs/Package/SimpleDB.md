@@ -5,16 +5,16 @@ SimpleDB allows you to design your tables using standard C# classes, there are a
 
 - Foreign Keys
 - Unique indexes across multiple properties
-- Before and after triggers for insert, update and select
+- Before and after triggers for insert, update and delete
 - Sequences for unique indexes
 - Select Caching Strategy for individual classes (tables)
     - None - Records are read from storage as required.
     - Memory - Records are kept in memory.
     - Sliding - Records are retained in memory for n ms and when no longer used, memory is released.
--Select Write Strategy for individual classes (tables)
+- Select Write Strategy for individual classes (tables)
     - Forced - Records are saved immediately to storage
     - Lazy - Records are saved periodically to storage or after specific time.
-- Compression types for saving that is saved
+- Compression types for saving data to storage
     - None - Data is not compressed
     - Brotli - Data is compressed prior to saving
 
@@ -91,5 +91,3 @@ You can then call methods on _settingsData to perform normal CRUD operations.
 
 ## More Information
 More information is available at https://www.pluginmanager.website/Docs/ or by visiting the GitHub Homepage https://github.com/k3ldar/.NetCorePluginManager
-
-Please note the version number follows the parent project version

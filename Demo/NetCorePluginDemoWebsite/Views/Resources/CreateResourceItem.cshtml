@@ -4,6 +4,7 @@
 ViewData["Title"] = Model.SeoTitle;
 }
 <link rel="stylesheet" href="/css/resources.css" />
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <div class="row res-row">
 <div class="col">
 <h1>@Localizer[nameof(Languages.LanguageStrings.CreateResource)]</h1>
@@ -32,7 +33,7 @@ ViewData["Title"] = Model.SeoTitle;
 @Html.LabelFor(m => m.Description)
 </div>
 <div class="col-sm-12 col-md-5 col-lg-4">
-@Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+@Html.TextAreaFor(m => m.Description, new { @class = "form-control", style = "min-height:80px;" })
 @Html.ValidationMessageFor(m => m.Description)
 </div>
 </div>
@@ -51,6 +52,8 @@ ViewData["Title"] = Model.SeoTitle;
 </div>
 <div class="col-sm-12 col-md-5 col-lg-4">
 <textarea class="form-control" id="textDataValue"></textarea>
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4" id="mdContent">
 </div>
 </div>
 <div class="row res-row" id="imageData" style="display:none">
@@ -119,7 +122,8 @@ cbTypeName.addEventListener('change', function (e) {
 hideAll();
 showSelection();
 });
-textData.addEventListener('change', updateValue);
+textData.addEventListener('change', updateTextValue);
+textData.addEventListener('input', updateTextValue);
 imageDataValue.addEventListener('input', updateValue);
 uriDataValue.addEventListener('input', updateValue);
 youTubeDataValue.addEventListener('input', updateValue);
@@ -146,6 +150,12 @@ function updateValue()
 let sel = cbTypeName.options[cbTypeName.selectedIndex].text.toLowerCase() + "DataValue";
 let selD = document.getElementById(sel);
 valueId.value = selD.value;
+}
+function updateTextValue() {
+let sel = cbTypeName.options[cbTypeName.selectedIndex].text.toLowerCase() + "DataValue";
+let selD = document.getElementById(sel);
+valueId.value = selD.value;
+document.getElementById("mdContent").innerHTML = marked.parse(selD.value);
 }
 function updateTikTok()
 {

@@ -222,6 +222,16 @@ namespace SharedPluginFeatures
         /// </summary>
         public const char EqualsChar = '=';
 
+		/// <summary>
+		/// Colon (:) char constant
+		/// </summary>
+		public const char ColonChar = ':';
+
+		/// <summary>
+		/// Comma (,) char constant
+		/// </summary>
+		public const char CommaChar = ',';
+
         /// <summary>
         /// Name of the Breadcrumb.Plugin module.
         /// </summary>

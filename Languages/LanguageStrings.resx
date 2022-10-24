@@ -14561,8 +14561,64 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Please enter a valid name between {0} and {1} characters</value>
     <comment>Please enter a valid name between {0} and {1} characters</comment>
   </data>
+  <data name="CategorySubmittedThankYou" xml:space="preserve">
+    <value>Thank you for submitting a new category, it should appear shortly.</value>
+    <comment>Thank you for submitting a new category, it should appear shortly.</comment>
+  </data>
+  <data name="InvalidUriNotAbsolute" xml:space="preserve">
+    <value>The Uri is invalid, it must start with http:// or https:// and include the domain name</value>
+    <comment>The Uri is invalid, it must start with http:// or https:// and include the domain name</comment>
+  </data>
+  <data name="InvalidUriNotFound" xml:space="preserve">
+    <value>The Uri '{0}' could not be found</value>
+    <comment>The Uri '{0}' could not be found</comment>
+  </data>
   <data name="InvalidYouTubeId" xml:space="preserve">
     <value>YouTube id {0} does not appear to be valid.</value>
     <comment>YouTube id {0} does not appear to be valid.</comment>
+  </data>
+  <data name="ResourceItemSubmitted" xml:space="preserve">
+    <value>Resource Item Submitted</value>
+    <comment>Resource Item Submitted</comment>
+  </data>
+  <data name="ResourceItemSubmittedThankYou" xml:space="preserve">
+    <value>Thank you for submitting a new resource item, it should appear shortly.</value>
+    <comment>Thank you for submitting a new resource item, it should appear shortly.</comment>
+  </data>
+  <data name="InvalidTickTokId" xml:space="preserve">
+    <value>The TikTok id must consist of an account name and video reference</value>
+    <comment>The TikTok id must consist of an account name and video reference</comment>
+  </data>
+  <data name="InvalidTickTokIdEmpty" xml:space="preserve">
+    <value>The TikTok id can not be empty</value>
+    <comment>The TikTok id can not be empty</comment>
+  </data>
+  <data name="InvalidImageNotAbsolute" xml:space="preserve">
+    <value>The Image is invalid, it must start with http:// or https:// and include the domain name</value>
+    <comment>The Image is invalid, it must start with http:// or https:// and include the domain name</comment>
+  </data>
+  <data name="InvalidImageNotFound" xml:space="preserve">
+    <value>The Image '{0}' could not be found</value>
+    <comment>The Image '{0}' could not be found</comment>
+  </data>
+  <data name="CategoryNotFound" xml:space="preserve">
+    <value>The category could not be found</value>
+    <comment>The category could not be found</comment>
+  </data>
+  <data name="InvalidImageNotSupported" xml:space="preserve">
+    <value>The file type {0} is not supported, supported file types are {1}</value>
+    <comment>The file type {0} is not supported, supported file types are {1}</comment>
+  </data>
+  <data name="ManageResourceItems" xml:space="preserve">
+    <value>Manage Resource Items</value>
+    <comment>Manage Resource Items</comment>
+  </data>
+  <data name="ResourceItemUpdated" xml:space="preserve">
+    <value>Resource item '{0}' has been updated</value>
+    <comment>Resource item '{0}' has been updated</comment>
+  </data>
+  <data name="TextInvalidEmpty" xml:space="preserve">
+    <value>Please add some text</value>
+    <comment>Please add some text</comment>
   </data>
 </root>

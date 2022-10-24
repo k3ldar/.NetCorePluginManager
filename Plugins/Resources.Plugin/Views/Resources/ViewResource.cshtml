@@ -10,6 +10,10 @@
     {
         data = $"<img src=\"{Model.Value}\" alt=\"{Model.Name}\" />";
     }
+    else if (Model.ResourceType == Middleware.ResourceType.Text)
+    {
+        data = Model.Value;
+    }
     else
     {
         data = $"<div>{Model.Value}</div>";
@@ -17,6 +21,21 @@
     bool enabled = Model.UserIsLoggedIn && Context.User.HasClaim(SharedPluginFeatures.Constants.ClaimNameAddResources, "true");
 }
 
+@{
+    if (Model.ResourceType == Middleware.ResourceType.Text)
+    {
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                let t = document.getElementById("resourceData");
+                t.innerHTML = marked.parse(document.getElementById("Value").value);
+            });
+        </script>
+
+        @Html.HiddenFor(m => m.Value)
+    }
+}
 
 <link rel="stylesheet" href="/css/resources.css" />
 <script src="/js/resources.js"></script>
@@ -30,7 +49,7 @@
         </div>
     </div>
     <div class="row res-row">
-        <div class="col">
+        <div class="col" id="resourceData">
             @Html.Raw(data)
         </div>
     </div>

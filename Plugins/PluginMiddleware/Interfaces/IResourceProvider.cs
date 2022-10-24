@@ -115,5 +115,19 @@ namespace Middleware
 		/// <returns></returns>
 		ResourceItem AddResourceItem(long categoryId, ResourceType resourceType, long userId, string userName, 
 			string name, string description, string value, bool approved);
+
+		/// <summary>
+		/// Retrieves all resource items for administrative purposes
+		/// </summary>
+		/// <returns></returns>
+		List<ResourceItem> RetrieveAllResourceItems();
+
+		/// <summary>
+		/// Updates a resource item
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="resourceItem"></param>
+		/// <returns></returns>
+		ResourceItem UpdateResourceItem(long userId, ResourceItem resourceItem);
 	}
 }

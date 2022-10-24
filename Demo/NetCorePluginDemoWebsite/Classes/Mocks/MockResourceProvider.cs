@@ -195,8 +195,25 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
 			ResourceItem Result = new ResourceItem(_nextId++, categoryId, resourceType, userId, userName, name, description, value, 0, 0, 0, false);
 			resourceCategory.ResourceItems.Add(Result);
+			_items.Add(Result);
 
 			return Result;
+		}
+
+		public List<ResourceItem> RetrieveAllResourceItems()
+		{
+			return _items;
+		}
+
+		public ResourceItem UpdateResourceItem(long userId, ResourceItem resourceItem)
+		{
+			if (resourceItem == null) throw
+				new ArgumentNullException(nameof(resourceItem));
+
+			_items.Remove(_items.FirstOrDefault(i => i.Id.Equals(resourceItem.Id)));
+			_items.Add(resourceItem);
+
+			return resourceItem;
 		}
 	}
 }

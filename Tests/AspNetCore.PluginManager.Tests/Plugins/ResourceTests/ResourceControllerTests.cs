@@ -249,7 +249,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 
 			Assert.IsNotNull(resourceModel);
 
-			ViewResultContainsModelStateError(result, "Name", "The category name already exists");
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "Name", "The category name already exists"));
 		}
 
 		[TestMethod]
@@ -356,7 +356,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 
 			Assert.IsNotNull(resourceModel);
 
-			ViewResultContainsModelStateError(result, "Name", "The category name already exists");
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "Name", "The category name already exists"));
 		}
 
 		[TestMethod]
@@ -698,7 +698,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 			Assert.AreEqual(2, resourceModel.ParentId);
 			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
 
-			ViewResultContainsModelStateError(result, "Name", "Please enter a valid name between 5 and 30 characters");
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "Name", "Please enter a valid name between 5 and 30 characters"));
 		}
 
 		[TestMethod]
@@ -736,7 +736,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 			Assert.AreEqual(2, resourceModel.ParentId);
 			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
 
-			ViewResultContainsModelStateError(result, "Name", "Please enter a valid name between 5 and 30 characters");
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "Name", "Please enter a valid name between 5 and 30 characters"));
 		}
 
 		[TestMethod]
@@ -774,7 +774,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 			Assert.AreEqual(2, resourceModel.ParentId);
 			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
 
-			ViewResultContainsModelStateError(result, "Name", "Please enter a valid name between 5 and 30 characters");
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "Name", "Please enter a valid name between 5 and 30 characters"));
 		}
 
 		[TestMethod]
@@ -812,7 +812,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 			Assert.AreEqual(2, resourceModel.ParentId);
 			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
 
-			ViewResultContainsModelStateError(result, "Description", "Please enter a valid description between 15 and 100 characters");
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "Description", "Please enter a valid description between 15 and 100 characters"));
 		}
 
 		[TestMethod]
@@ -850,7 +850,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 			Assert.AreEqual(2, resourceModel.ParentId);
 			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
 
-			ViewResultContainsModelStateError(result, "Description", "Please enter a valid description between 15 and 100 characters");
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "Description", "Please enter a valid description between 15 and 100 characters"));
 		}
 
 		[TestMethod]
@@ -888,7 +888,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 			Assert.AreEqual(2, resourceModel.ParentId);
 			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
 
-			ViewResultContainsModelStateError(result, "Description", "Please enter a valid description between 15 and 100 characters");
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "Description", "Please enter a valid description between 15 and 100 characters"));
 		}
 
 		[TestMethod]
@@ -926,7 +926,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 			Assert.AreEqual(2, resourceModel.ParentId);
 			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
 
-			ViewResultContainsModelStateError(result, "", "YouTube id vi9Vo2kIQrww7vi9Vo2kIQrww7vi9Vo2kIQrww7 does not appear to be valid.");
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "", "YouTube id  does not appear to be valid."));
 		}
 
 		[TestMethod]
@@ -964,7 +964,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 			Assert.AreEqual(2, resourceModel.ParentId);
 			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
 
-			ViewResultContainsModelStateError(result, "", "YouTube id vi9Vo2kIQrww7vi9Vo2kIQrww7vi9Vo2kIQrww7 does not appear to be valid.");
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "", "YouTube id ydR%30= does not appear to be valid."));
 		}
 
 		[TestMethod]
@@ -1002,12 +1002,46 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 			Assert.AreEqual(2, resourceModel.ParentId);
 			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
 
-			ViewResultContainsModelStateError(result, "", "YouTube id vi9Vo2kIQrww7vi9Vo2kIQrww7 does not appear to be valid.");
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "", "YouTube id vi9Vo2kIQrww7vi9Vo2kIQrww7 does not appear to be valid."));
 		}
 
 		[TestMethod]
 		[TestCategory(TestCategoryName)]
-		public void CreateResourceItem_YouTubeValidId_CreatesResourceItem_RedirectsToThankYou()
+		public void CreateResourceItem_YouTubeUserCanNotManageResources_CreateResourceItem_RedirectsToThankYou()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "false"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+			ResourcesController sut = CreateResourceController(null, requestContext);
+			MockHttpContext mockHttpContext = sut.HttpContext as MockHttpContext;
+			mockHttpContext.LogUserIn = true;
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "l8jn32uoZZM",
+				ResourceType = (int)ResourceType.YouTube,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("ResourceItemSubmitted", result.ActionName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_YouTubeUserCanManageResources_CreateResourceItem_RedirectsToManageResourceItems()
 		{
 			MockHttpContext requestContext = new MockHttpContext();
 			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
@@ -1036,7 +1070,1242 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 			RedirectToActionResult result = response as RedirectToActionResult;
 
 			Assert.IsNotNull(result);
+			Assert.AreEqual("ManageResourceItems", result.ActionName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_UriInvalidIdEmptyString_ReturnsModelStateError()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			ResourcesController sut = CreateResourceController();
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "",
+				ResourceType = (int)ResourceType.Uri,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			CreateResourceItemModel resourceModel = result.Model as CreateResourceItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreNotSame(itemModel, resourceModel);
+
+			Assert.AreEqual("", resourceModel.Value);
+			Assert.AreEqual(2, resourceModel.ResourceType);
+			Assert.AreEqual(2, resourceModel.ParentId);
+			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
+
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "", "The Uri is invalid, it must start with http:// or https:// and include the domain name"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_UriInvalidNotAbsolute_ReturnsModelStateError()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			ResourcesController sut = CreateResourceController();
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "/myurl",
+				ResourceType = (int)ResourceType.Uri,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			CreateResourceItemModel resourceModel = result.Model as CreateResourceItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreNotSame(itemModel, resourceModel);
+
+			Assert.AreEqual("/myurl", resourceModel.Value);
+			Assert.AreEqual(2, resourceModel.ResourceType);
+			Assert.AreEqual(2, resourceModel.ParentId);
+			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
+
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "", "The Uri is invalid, it must start with http:// or https:// and include the domain name"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_UriInvalidNotFound_ReturnsModelStateError()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			ResourcesController sut = CreateResourceController();
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "http://mydomain.com/myurl",
+				ResourceType = (int)ResourceType.Uri,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			CreateResourceItemModel resourceModel = result.Model as CreateResourceItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreNotSame(itemModel, resourceModel);
+
+			Assert.AreEqual("http://mydomain.com/myurl", resourceModel.Value);
+			Assert.AreEqual(2, resourceModel.ResourceType);
+			Assert.AreEqual(2, resourceModel.ParentId);
+			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
+
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "", "The Uri 'http://mydomain.com/myurl' could not be found"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_UriUserCanNotManageResources_CreateUriResourceItem_RedirectsToThankYou()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "false"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+			ResourcesController sut = CreateResourceController(null, requestContext);
+			MockHttpContext mockHttpContext = sut.HttpContext as MockHttpContext;
+			mockHttpContext.LogUserIn = true;
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "https://www.pluginmanager.website/",
+				ResourceType = (int)ResourceType.Uri,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
 			Assert.AreEqual("ResourceItemSubmitted", result.ActionName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_UriUserCanManageResources_CreateUriResourceItem_RedirectsToManageResourceItems()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "true"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+			ResourcesController sut = CreateResourceController(null, requestContext);
+			MockHttpContext mockHttpContext = sut.HttpContext as MockHttpContext;
+			mockHttpContext.LogUserIn = true;
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "https://www.pluginmanager.website/",
+				ResourceType = (int)ResourceType.Uri,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("ManageResourceItems", result.ActionName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_TikTokInvalidIdEmptyString_ReturnsModelStateError()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			ResourcesController sut = CreateResourceController();
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "",
+				ResourceType = (int)ResourceType.TikTok,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			CreateResourceItemModel resourceModel = result.Model as CreateResourceItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreNotSame(itemModel, resourceModel);
+
+			Assert.AreEqual("", resourceModel.Value);
+			Assert.AreEqual(4, resourceModel.ResourceType);
+			Assert.AreEqual(2, resourceModel.ParentId);
+			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
+
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "", "The TikTok id can not be empty"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_TikTokInvalidIdDoesNotContainSeperator_ReturnsModelStateError()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			ResourcesController sut = CreateResourceController();
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "ydR%30=",
+				ResourceType = (int)ResourceType.TikTok,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			CreateResourceItemModel resourceModel = result.Model as CreateResourceItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreNotSame(itemModel, resourceModel);
+
+			Assert.AreEqual("ydR%30=", resourceModel.Value);
+			Assert.AreEqual(4, resourceModel.ResourceType);
+			Assert.AreEqual(2, resourceModel.ParentId);
+			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
+
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "", "The TikTok id must consist of an account name and video reference"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_TikTokInvalidIdVideoIdEmpty_ReturnsModelStateError()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			ResourcesController sut = CreateResourceController();
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "something:",
+				ResourceType = (int)ResourceType.TikTok,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			CreateResourceItemModel resourceModel = result.Model as CreateResourceItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreNotSame(itemModel, resourceModel);
+
+			Assert.AreEqual("something:", resourceModel.Value);
+			Assert.AreEqual(4, resourceModel.ResourceType);
+			Assert.AreEqual(2, resourceModel.ParentId);
+			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
+
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "", "The TikTok id must consist of an account name and video reference"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		[Ignore("This is too hit/miss to be reliably run")]
+		public void CreateResourceItem_TikTokInvalidIdVideoNotFound_ReturnsModelStateError()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "true"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+			ResourcesController sut = CreateResourceController(null, requestContext);
+			MockHttpContext mockHttpContext = sut.HttpContext as MockHttpContext;
+			mockHttpContext.LogUserIn = true;
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "@s1cart3r:711693501186508",
+				ResourceType = (int)ResourceType.TikTok,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			CreateResourceItemModel resourceModel = result.Model as CreateResourceItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreNotSame(itemModel, resourceModel);
+
+			Assert.AreEqual("@s1cart3r:711693501186508", resourceModel.Value);
+			Assert.AreEqual(4, resourceModel.ResourceType);
+			Assert.AreEqual(2, resourceModel.ParentId);
+			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
+
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "", "The TikTok id must consist of an account name and video reference"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_TikTokInvalidIdAccountEmpty_ReturnsModelStateError()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "true"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+			ResourcesController sut = CreateResourceController(null, requestContext);
+			MockHttpContext mockHttpContext = sut.HttpContext as MockHttpContext;
+			mockHttpContext.LogUserIn = true;
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = ":asdf",
+				ResourceType = (int)ResourceType.TikTok,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			CreateResourceItemModel resourceModel = result.Model as CreateResourceItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreNotSame(itemModel, resourceModel);
+
+			Assert.AreEqual(":asdf", resourceModel.Value);
+			Assert.AreEqual(4, resourceModel.ResourceType);
+			Assert.AreEqual(2, resourceModel.ParentId);
+			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
+
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "", "The TikTok id must consist of an account name and video reference"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_TikTokInvalidId_ReturnsModelStateError()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			ResourcesController sut = CreateResourceController();
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "vi9Vo2kIQrww7vi9Vo2kIQrww7",
+				ResourceType = (int)ResourceType.TikTok,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			CreateResourceItemModel resourceModel = result.Model as CreateResourceItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreNotSame(itemModel, resourceModel);
+
+			Assert.AreEqual("vi9Vo2kIQrww7vi9Vo2kIQrww7", resourceModel.Value);
+			Assert.AreEqual(4, resourceModel.ResourceType);
+			Assert.AreEqual(2, resourceModel.ParentId);
+			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
+
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "", "The TikTok id must consist of an account name and video reference"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_TikTokUserCanNotManageResources_CreateResourceItem_RedirectsToThankYou()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "false"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+			ResourcesController sut = CreateResourceController(null, requestContext);
+			MockHttpContext mockHttpContext = sut.HttpContext as MockHttpContext;
+			mockHttpContext.LogUserIn = true;
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "@s1cart3r:7116935011865087237",
+				ResourceType = (int)ResourceType.TikTok,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("ResourceItemSubmitted", result.ActionName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_TikTokUserCanManageResources_CreateResourceItem_RedirectsToManageResourceItems()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "true"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+			ResourcesController sut = CreateResourceController(null, requestContext);
+			MockHttpContext mockHttpContext = sut.HttpContext as MockHttpContext;
+			mockHttpContext.LogUserIn = true;
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "@s1cart3r:7116935011865087237",
+				ResourceType = (int)ResourceType.TikTok,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("ManageResourceItems", result.ActionName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_ImageInvalidIdEmptyString_ReturnsModelStateError()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			ResourcesController sut = CreateResourceController();
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "",
+				ResourceType = (int)ResourceType.Image,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			CreateResourceItemModel resourceModel = result.Model as CreateResourceItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreNotSame(itemModel, resourceModel);
+
+			Assert.AreEqual("", resourceModel.Value);
+			Assert.AreEqual(1, resourceModel.ResourceType);
+			Assert.AreEqual(2, resourceModel.ParentId);
+			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
+
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "", "The Image is invalid, it must start with http:// or https:// and include the domain name"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_ImageInvalidNotAbsolute_ReturnsModelStateError()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			ResourcesController sut = CreateResourceController();
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "/myurl",
+				ResourceType = (int)ResourceType.Image,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			CreateResourceItemModel resourceModel = result.Model as CreateResourceItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreNotSame(itemModel, resourceModel);
+
+			Assert.AreEqual("/myurl", resourceModel.Value);
+			Assert.AreEqual(1, resourceModel.ResourceType);
+			Assert.AreEqual(2, resourceModel.ParentId);
+			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
+
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "", "The Image is invalid, it must start with http:// or https:// and include the domain name"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_ImageInvalidNotFound_ReturnsModelStateError()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			ResourcesController sut = CreateResourceController();
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "http://mydomain.com/myurl/image.svg",
+				ResourceType = (int)ResourceType.Image,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			CreateResourceItemModel resourceModel = result.Model as CreateResourceItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreNotSame(itemModel, resourceModel);
+
+			Assert.AreEqual("http://mydomain.com/myurl/image.svg", resourceModel.Value);
+			Assert.AreEqual(1, resourceModel.ResourceType);
+			Assert.AreEqual(2, resourceModel.ParentId);
+			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
+
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "", "The Image 'http://mydomain.com/myurl/image.svg' could not be found"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_ImageHasUnsupportedFileExtension_ReturnsModelStateError()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			ResourcesController sut = CreateResourceController();
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "http://mydomain.com/myurl/image.dang",
+				ResourceType = (int)ResourceType.Image,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			CreateResourceItemModel resourceModel = result.Model as CreateResourceItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreNotSame(itemModel, resourceModel);
+
+			Assert.AreEqual("http://mydomain.com/myurl/image.dang", resourceModel.Value);
+			Assert.AreEqual(1, resourceModel.ResourceType);
+			Assert.AreEqual(2, resourceModel.ParentId);
+			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
+
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "", "The file type .dang is not supported, supported file types are .apng,.gif,.ico,.jpeg,.jpg,.png,.svg"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_ImageUserCanNotManageResources_CreateImageResourceItem_RedirectsToThankYou()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "false"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+			ResourcesController sut = CreateResourceController(null, requestContext);
+			MockHttpContext mockHttpContext = sut.HttpContext as MockHttpContext;
+			mockHttpContext.LogUserIn = true;
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "https://www.pluginmanager.website/images/PluginTechnology.png",
+				ResourceType = (int)ResourceType.Image,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("ResourceItemSubmitted", result.ActionName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_ImageUserCanManageResources_CreateImageResourceItem_RedirectsToManageResourceItems()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "true"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+			ResourcesController sut = CreateResourceController(null, requestContext);
+			MockHttpContext mockHttpContext = sut.HttpContext as MockHttpContext;
+			mockHttpContext.LogUserIn = true;
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "https://www.pluginmanager.website/images/PluginTechnology.png",
+				ResourceType = (int)ResourceType.Image,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("ManageResourceItems", result.ActionName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_TextIsEmpty_ReturnsModelStateError()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			ResourcesController sut = CreateResourceController();
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "\t    ",
+				ResourceType = (int)ResourceType.Text,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			CreateResourceItemModel resourceModel = result.Model as CreateResourceItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreNotSame(itemModel, resourceModel);
+
+			Assert.AreEqual("\t    ", resourceModel.Value);
+			Assert.AreEqual(0, resourceModel.ResourceType);
+			Assert.AreEqual(2, resourceModel.ParentId);
+			Assert.AreEqual(2, resourceModel.Breadcrumbs.Count);
+
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "", "Please add some text"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_TextContainsLessThanGreaterSigns_ConvertedToAmpersandValues_Success()
+		{
+			MockResourceProvider mockResourceProvider = new MockResourceProvider();
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "true"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+			ResourcesController sut = CreateResourceController(mockResourceProvider, requestContext);
+			MockHttpContext mockHttpContext = sut.HttpContext as MockHttpContext;
+			mockHttpContext.LogUserIn = true;
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "Some <Text> <more> and <again> ",
+				ResourceType = (int)ResourceType.Text,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("ManageResourceItems", result.ActionName);
+
+			var mockItem = mockResourceProvider.GetResourceCategory(2).ResourceItems[10];
+
+			Assert.IsNotNull(mockItem);
+			Assert.AreEqual("Some &lt;Text&gt; &lt;more&gt; and &lt;again&gt;", mockItem.Value);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_TextUserCanNotManageResources_CreateImageResourceItem_RedirectsToThankYou()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "false"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+			ResourcesController sut = CreateResourceController(null, requestContext);
+			MockHttpContext mockHttpContext = sut.HttpContext as MockHttpContext;
+			mockHttpContext.LogUserIn = true;
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "some text and a hyperlink https://www.pluginmanager.website/images/PluginTechnology.png",
+				ResourceType = (int)ResourceType.Text,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("ResourceItemSubmitted", result.ActionName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void CreateResourceItem_TextUserCanManageResources_CreateImageResourceItem_RedirectsToManageResourceItems()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "true"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+			ResourcesController sut = CreateResourceController(null, requestContext);
+			MockHttpContext mockHttpContext = sut.HttpContext as MockHttpContext;
+			mockHttpContext.LogUserIn = true;
+
+			CreateResourceItemModel itemModel = new CreateResourceItemModel()
+			{
+				ParentId = 2,
+				Name = "This is the name",
+				Description = "The description maximum length is one hundred characters",
+				Value = "some text",
+				ResourceType = (int)ResourceType.Text,
+			};
+
+			IActionResult response = sut.CreateResourceItem(itemModel);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("ManageResourceItems", result.ActionName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ResourceItemEdit_ItemNotFound_RedirectsToManageResourceItems()
+		{
+			ResourcesController sut = CreateResourceController(null, new MockHttpContext());
+
+			IActionResult response = sut.ResourceItemEdit(23698745);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("ManageResourceItems", result.ActionName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ResourceItemEdit_ModelNull_ReturnsRedirectToManageResourceItems()
+		{
+			ResourcesController sut = CreateResourceController(null, new MockHttpContext());
+
+			IActionResult response = sut.ResourceItemEdit(null);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("ManageResourceItems", result.ActionName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ResourceItemEdit_CategoryNotFound_ReturnsValidViewAndModel()
+		{
+			ResourcesController sut = CreateResourceController(null, new MockHttpContext());
+
+			ResourceEditResourceItemModel model = new ResourceEditResourceItemModel()
+			{
+				Approved = true,
+				CategoryId = 1000,
+				Description = "res item desc",
+				Name = "res Item",
+				UserId = 10,
+				UserName = "the user",
+				Value = "some value",
+				ResourceType = ResourceType.Text,
+				Id = 2,
+			};
+
+			IActionResult response = sut.ResourceItemEdit(model);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			ResourceEditResourceItemModel resourceModel = result.Model as ResourceEditResourceItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreEqual("res item desc", resourceModel.Description);
+			Assert.AreEqual("res Item", resourceModel.Name);
+			Assert.AreEqual("the user", resourceModel.UserName);
+			Assert.AreEqual(10, resourceModel.UserId);
+			Assert.AreEqual(ResourceType.Text, resourceModel.ResourceType);
+			Assert.AreEqual(2, resourceModel.Id);
+			Assert.AreEqual(9, resourceModel.AllCategories.Count);
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "", "The category could not be found"));
+
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ResourceItemEdit_NameTooShort_ReturnsValidViewAndModel()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "true"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+			ResourcesController sut = CreateResourceController(null, requestContext);
+
+			ResourceEditResourceItemModel model = new ResourceEditResourceItemModel()
+			{
+				Approved = true,
+				CategoryId = 2,
+				Description = "res item desc",
+				Name = "res",
+				UserId = 10,
+				UserName = "the user",
+				Value = "some value",
+				ResourceType = ResourceType.Text,
+				Id = 2,
+			};
+
+			IActionResult response = sut.ResourceItemEdit(model);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			ResourceEditResourceItemModel resourceModel = result.Model as ResourceEditResourceItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreEqual("res item desc", resourceModel.Description);
+			Assert.AreEqual("res", resourceModel.Name);
+			Assert.AreEqual("the user", resourceModel.UserName);
+			Assert.AreEqual(10, resourceModel.UserId);
+			Assert.AreEqual(ResourceType.Text, resourceModel.ResourceType);
+			Assert.AreEqual(2, resourceModel.Id);
+			Assert.AreEqual(9, resourceModel.AllCategories.Count);
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "Name", "Please enter a valid name between 5 and 30 characters"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ResourceItemEdit_NameTooLong_ReturnsValidViewAndModel()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "true"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+			ResourcesController sut = CreateResourceController(null, requestContext);
+
+			ResourceEditResourceItemModel model = new ResourceEditResourceItemModel()
+			{
+				Approved = true,
+				CategoryId = 2,
+				Description = "res item desc",
+				Name = "this resource name will be too long to fit max of 30 chars",
+				UserId = 10,
+				UserName = "the user",
+				Value = "some value",
+				ResourceType = ResourceType.Text,
+				Id = 2,
+			};
+
+			IActionResult response = sut.ResourceItemEdit(model);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			ResourceEditResourceItemModel resourceModel = result.Model as ResourceEditResourceItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreEqual("res item desc", resourceModel.Description);
+			Assert.AreEqual("this resource name will be too long to fit max of 30 chars", resourceModel.Name);
+			Assert.AreEqual("the user", resourceModel.UserName);
+			Assert.AreEqual(10, resourceModel.UserId);
+			Assert.AreEqual(ResourceType.Text, resourceModel.ResourceType);
+			Assert.AreEqual(2, resourceModel.Id);
+			Assert.AreEqual(9, resourceModel.AllCategories.Count);
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "Name", "Please enter a valid name between 5 and 30 characters"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ResourceItemEdit_DescriptionTooLong_ReturnsValidViewAndModel()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "true"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+			ResourcesController sut = CreateResourceController(null, requestContext);
+
+			ResourceEditResourceItemModel model = new ResourceEditResourceItemModel()
+			{
+				Approved = true,
+				CategoryId = 2,
+				Description = "This is the resource item description, the maximum allowed is one hundred characters and this value exceeds that maximum for unit test purposes",
+				Name = "res item",
+				UserId = 10,
+				UserName = "the user",
+				Value = "some value",
+				ResourceType = ResourceType.Text,
+				Id = 2,
+			};
+
+			IActionResult response = sut.ResourceItemEdit(model);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			ResourceEditResourceItemModel resourceModel = result.Model as ResourceEditResourceItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreEqual("This is the resource item description, the maximum allowed is one hundred characters and this value exceeds that maximum for unit test purposes", resourceModel.Description);
+			Assert.AreEqual("res item", resourceModel.Name);
+			Assert.AreEqual("the user", resourceModel.UserName);
+			Assert.AreEqual(10, resourceModel.UserId);
+			Assert.AreEqual(ResourceType.Text, resourceModel.ResourceType);
+			Assert.AreEqual(2, resourceModel.Id);
+			Assert.AreEqual(9, resourceModel.AllCategories.Count);
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "Description", "Please enter a valid description between 15 and 100 characters"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ResourceItemEdit_DescriptionTooShort_ReturnsValidViewAndModel()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "true"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+			ResourcesController sut = CreateResourceController(null, requestContext);
+
+			ResourceEditResourceItemModel model = new ResourceEditResourceItemModel()
+			{
+				Approved = true,
+				CategoryId = 2,
+				Description = "desc",
+				Name = "res item",
+				UserId = 10,
+				UserName = "the user",
+				Value = "some value",
+				ResourceType = ResourceType.Text,
+				Id = 2,
+			};
+
+			IActionResult response = sut.ResourceItemEdit(model);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			ResourceEditResourceItemModel resourceModel = result.Model as ResourceEditResourceItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreEqual("desc", resourceModel.Description);
+			Assert.AreEqual("res item", resourceModel.Name);
+			Assert.AreEqual("the user", resourceModel.UserName);
+			Assert.AreEqual(10, resourceModel.UserId);
+			Assert.AreEqual(ResourceType.Text, resourceModel.ResourceType);
+			Assert.AreEqual(2, resourceModel.Id);
+			Assert.AreEqual(9, resourceModel.AllCategories.Count);
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "Description", "Please enter a valid description between 15 and 100 characters"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ResourceItemEdit_ValueEmpty_ReturnsValidViewAndModel()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "true"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+			ResourcesController sut = CreateResourceController(null, requestContext);
+
+			ResourceEditResourceItemModel model = new ResourceEditResourceItemModel()
+			{
+				Approved = true,
+				CategoryId = 2,
+				Description = "the resource description",
+				Name = "res item",
+				UserId = 10,
+				UserName = "the user",
+				Value = "  \t",
+				ResourceType = ResourceType.Text,
+				Id = 2,
+			};
+
+			IActionResult response = sut.ResourceItemEdit(model);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			ResourceEditResourceItemModel resourceModel = result.Model as ResourceEditResourceItemModel;
+
+			Assert.IsNotNull(resourceModel);
+			Assert.AreEqual("the resource description", resourceModel.Description);
+			Assert.AreEqual("res item", resourceModel.Name);
+			Assert.AreEqual("the user", resourceModel.UserName);
+			Assert.AreEqual(10, resourceModel.UserId);
+			Assert.AreEqual(ResourceType.Text, resourceModel.ResourceType);
+			Assert.AreEqual(2, resourceModel.Id);
+			Assert.AreEqual(9, resourceModel.AllCategories.Count);
+			Assert.AreEqual("  \t", resourceModel.Value);
+			Assert.IsTrue(ViewResultContainsModelStateError(result, "Value", "Please add some text"));
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ResourceItemEdit_UpdateAllowd_ReturnsRedirectToActionWithGrowlMessage()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "true"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+
+			Dictionary<Type, object> services = new Dictionary<Type, object>();
+
+			ITempDataProvider tempDataProvider = new MockTempDataProvider();
+			services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
+
+			MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
+			services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
+
+			MockServiceProvider mockServiceProvider = new MockServiceProvider(services);
+			MockResourceProvider mockResourceProvider = new MockResourceProvider();
+
+			ResourcesController sut = CreateResourceController(mockResourceProvider, requestContext, mockServiceProvider);
+			MockHttpContext mockHttpContext = sut.HttpContext as MockHttpContext;
+			mockHttpContext.LogUserIn = true;
+
+			ResourceEditResourceItemModel model = new ResourceEditResourceItemModel()
+			{
+				Approved = true,
+				CategoryId = 2,
+				Description = "the resource description",
+				Name = "res item",
+				UserId = 10,
+				UserName = "the user",
+				Value = "the value",
+				ResourceType = ResourceType.Text,
+				Id = 200,
+			};
+
+			IActionResult response = sut.ResourceItemEdit(model);
+
+			RedirectToActionResult result = response as RedirectToActionResult;
+
+			Assert.IsNotNull(result);
+			Assert.AreEqual("ManageResourceItems", result.ActionName);
+			Assert.AreEqual(1, sut.TempData.Count);
+			Assert.AreEqual("Resource item 'res item' has been updated", sut.TempData["growl"]);
+
+			ResourceItem resourceItem = mockResourceProvider.GetResourceItem(200);
+
+			Assert.IsNotNull(resourceItem);
+			Assert.AreEqual("the resource description", resourceItem.Description);
+			Assert.AreEqual("res item", resourceItem.Name);
+			Assert.AreEqual("the user", resourceItem.UserName);
+			Assert.AreEqual(0, resourceItem.UserId);
+			Assert.AreEqual(ResourceType.Text, resourceItem.ResourceType);
+			Assert.AreEqual(200, resourceItem.Id);
+			Assert.AreEqual("the value", resourceItem.Value);
 		}
 
 		private ResourcesController CreateResourceController(MockResourceProvider mockResourceProvider = null, 

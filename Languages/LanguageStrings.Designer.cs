@@ -21648,11 +21648,29 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The category could not be found.
+        /// </summary>
+        public static string CategoryNotFound {
+            get {
+                return ResourceManager.GetString("CategoryNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Category Submitted.
         /// </summary>
         public static string CategorySubmitted {
             get {
                 return ResourceManager.GetString("CategorySubmitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thank you for submitting a new category, it should appear shortly..
+        /// </summary>
+        public static string CategorySubmittedThankYou {
+            get {
+                return ResourceManager.GetString("CategorySubmittedThankYou", resourceCulture);
             }
         }
         
@@ -24344,6 +24362,33 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Image is invalid, it must start with http:// or https:// and include the domain name.
+        /// </summary>
+        public static string InvalidImageNotAbsolute {
+            get {
+                return ResourceManager.GetString("InvalidImageNotAbsolute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Image &apos;{0}&apos; could not be found.
+        /// </summary>
+        public static string InvalidImageNotFound {
+            get {
+                return ResourceManager.GetString("InvalidImageNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The file type {0} is not supported, supported file types are {1}.
+        /// </summary>
+        public static string InvalidImageNotSupported {
+            get {
+                return ResourceManager.GetString("InvalidImageNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter a valid name between {0} and {1} characters.
         /// </summary>
         public static string InvalidName {
@@ -24394,6 +24439,42 @@ namespace Languages {
         public static string InvalidTelephoneNumber {
             get {
                 return ResourceManager.GetString("InvalidTelephoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The TikTok id must consist of an account name and video reference.
+        /// </summary>
+        public static string InvalidTickTokId {
+            get {
+                return ResourceManager.GetString("InvalidTickTokId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The TikTok id can not be empty.
+        /// </summary>
+        public static string InvalidTickTokIdEmpty {
+            get {
+                return ResourceManager.GetString("InvalidTickTokIdEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Uri is invalid, it must start with http:// or https:// and include the domain name.
+        /// </summary>
+        public static string InvalidUriNotAbsolute {
+            get {
+                return ResourceManager.GetString("InvalidUriNotAbsolute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Uri &apos;{0}&apos; could not be found.
+        /// </summary>
+        public static string InvalidUriNotFound {
+            get {
+                return ResourceManager.GetString("InvalidUriNotFound", resourceCulture);
             }
         }
         
@@ -25474,6 +25555,15 @@ namespace Languages {
         public static string ManageProducts {
             get {
                 return ResourceManager.GetString("ManageProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage Resource Items.
+        /// </summary>
+        public static string ManageResourceItems {
+            get {
+                return ResourceManager.GetString("ManageResourceItems", resourceCulture);
             }
         }
         
@@ -28190,6 +28280,33 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resource Item Submitted.
+        /// </summary>
+        public static string ResourceItemSubmitted {
+            get {
+                return ResourceManager.GetString("ResourceItemSubmitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thank you for submitting a new resource item, it should appear shortly..
+        /// </summary>
+        public static string ResourceItemSubmittedThankYou {
+            get {
+                return ResourceManager.GetString("ResourceItemSubmittedThankYou", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource item &apos;{0}&apos; has been updated.
+        /// </summary>
+        public static string ResourceItemUpdated {
+            get {
+                return ResourceManager.GetString("ResourceItemUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Main Resources.
         /// </summary>
         public static string ResourcesMain {
@@ -30112,6 +30229,15 @@ namespace Languages {
         public static string Test {
             get {
                 return ResourceManager.GetString("Test", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please add some text.
+        /// </summary>
+        public static string TextInvalidEmpty {
+            get {
+                return ResourceManager.GetString("TextInvalidEmpty", resourceCulture);
             }
         }
         
