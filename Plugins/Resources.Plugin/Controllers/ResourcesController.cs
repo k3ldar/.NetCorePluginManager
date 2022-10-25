@@ -80,6 +80,11 @@ namespace Resources.Plugin.Controllers
 		public const int MinimumNameLength = 5;
 		public const int MinimumDescriptionLength = 15;
 		public const int MaximumDescriptionLength = 100;
+		private const string UserAgentHeader = "User-Agent";
+		private const string UserAgentValue = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36";
+		private const string ResourcesBreadcrumb = "/Resources/";
+		private const string TikTokBaseUri = "https://www.tiktok.com/";
+		private const string YouTubeImgBaseUri = "https://img.youtube.com/";
 
 		#endregion Constants
 
@@ -124,7 +129,7 @@ namespace Resources.Plugin.Controllers
 				return GenerateJsonSuccessResponse(new { itemId, likes, dislikes });
 			}
 
-			return GenerateJsonErrorResponse(400, "item not found");
+			return GenerateJsonErrorResponse(SharedPluginFeatures.Constants.HtmlResponseBadRequest, "item not found");
 		}
 
 		[LoggedIn]
@@ -134,7 +139,7 @@ namespace Resources.Plugin.Controllers
 		{
 			BaseModelData baseModelData = GetModelData();
 
-			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, "/Resources/", false));
+			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, ResourcesBreadcrumb, false));
 			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.CreateCategory, $"/Resources/CreateCategory/{parentId}/", false));
 
 			return View(new CreateCategoryModel(baseModelData, parentId));
@@ -303,7 +308,7 @@ namespace Resources.Plugin.Controllers
 
 			BaseModelData baseModelData = GetModelData();
 
-			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, "/Resources/", false));
+			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, ResourcesBreadcrumb, false));
 			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.CreateCategory, $"/Resources/CreateCategory/{parentCategory}/", false));
 
 			return View(new CreateResourceItemModel(baseModelData, parentCategory));
@@ -343,7 +348,7 @@ namespace Resources.Plugin.Controllers
 
 			BaseModelData baseModelData = GetModelData();
 
-			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, "/Resources/", false));
+			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, ResourcesBreadcrumb, false));
 			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.CreateCategory, $"/Resources/CreateCategory/{model.ParentId}/", false));
 
 			CreateResourceItemModel resultModel = new CreateResourceItemModel(baseModelData, model.ParentId)
@@ -529,7 +534,7 @@ namespace Resources.Plugin.Controllers
 				return;
 			}
 
-			using HttpClient httpClient = CreateHttpClient("https://img.youtube.com/");
+			using HttpClient httpClient = CreateHttpClient(YouTubeImgBaseUri);
 			using HttpResponseMessage response = httpClient.GetAsync($"vi/{value}/mqdefault.jpg").GetAwaiter().GetResult();
 
 			if (response == null || response.StatusCode == HttpStatusCode.NotFound)
@@ -552,7 +557,7 @@ namespace Resources.Plugin.Controllers
 				return;
 			}
 
-			using HttpClient httpClient = CreateHttpClient("https://www.tiktok.com/");
+			using HttpClient httpClient = CreateHttpClient(TikTokBaseUri);
 			using HttpResponseMessage response = httpClient.GetAsync($"{parts[0]}/video/{parts[1]}?is_copy_url=1&is_from_webapp=v1").GetAwaiter().GetResult();
 
 			if (response == null || response.StatusCode != HttpStatusCode.OK)
@@ -614,10 +619,12 @@ namespace Resources.Plugin.Controllers
 
 		private static HttpClient CreateHttpClient(string baseAddress)
 		{
-			HttpClient httpClient = new HttpClient();
+			HttpClient httpClient = new HttpClient
+			{
+				BaseAddress = new Uri(baseAddress)
+			};
 
-			httpClient.BaseAddress = new Uri(baseAddress);
-			httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36");
+			httpClient.DefaultRequestHeaders.Add(UserAgentHeader, UserAgentValue);
 
 			return httpClient;
 		}
@@ -681,7 +688,7 @@ namespace Resources.Plugin.Controllers
 				resourceCategory.Image, resourceCategory.RouteName, resourceCategory.IsVisible, resourceCategory.ParentId,
 				allCategories);
 
-			Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, "/Resources/", false));
+			Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, ResourcesBreadcrumb, false));
 
 			return Result;
 		}
@@ -715,7 +722,7 @@ namespace Resources.Plugin.Controllers
 				resourceCategory.Image, resourceCategory.RouteName, resourceCategory.IsVisible, resourceCategory.ParentId, 
 				modelSubCategories, resources);
 
-			Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, "/Resources/", false));
+			Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, ResourcesBreadcrumb, false));
 
 			Result.Breadcrumbs.Add(new BreadcrumbItem(resourceCategory.Name, $"/Resources/Category/{resourceCategory.Id}/{resourceCategory.RouteName}/", false));
 
@@ -747,7 +754,7 @@ namespace Resources.Plugin.Controllers
 				resourceItem.Description, resourceItem.Value, resourceItem.Likes,
 				resourceItem.Dislikes, resourceItem.ViewCount, resourceItem.Approved);
 
-			Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, "/Resources/", false));
+			Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, ResourcesBreadcrumb, false));
 			Result.Breadcrumbs.Add(new BreadcrumbItem(resourceCategory.Name, $"/Resources/Category/{resourceCategory.Id}/{resourceCategory.RouteName}/", false));
 
 			BuildCategoryBreadCrumbs(resourceCategory, Result.Breadcrumbs);

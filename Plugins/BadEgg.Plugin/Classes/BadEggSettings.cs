@@ -66,7 +66,7 @@ namespace BadEgg.Plugin
         /// Must be a valid http client error response (in the range of 400)
         /// </summary>
         /// <value>int</value>
-        [SettingDefault(400)]
+        [SettingDefault(SharedPluginFeatures.Constants.HtmlResponseBadRequest)]
         [SettingHttpResponse(HttpResponseType.ClientErrors)]
         public int BannedResponseCode { get; set; }
 
