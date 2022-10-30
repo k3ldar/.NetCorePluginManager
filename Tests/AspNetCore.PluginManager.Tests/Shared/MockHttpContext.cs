@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -137,8 +137,11 @@ namespace AspNetCore.PluginManager.Tests.Shared
                     if (CreateSession)
                         _items.Add(Constants.UserSession, new UserSession() { InternalSessionID = DateTime.Now.Ticks });
 
-                    if (CreateSession && LogUserIn)
-                        ((UserSession)_items[Constants.UserSession]).UserEmail = "john.doe@test.com";
+					if (CreateSession && LogUserIn)
+					{
+						((UserSession)_items[Constants.UserSession]).UserName = "john.doe@test.com";
+						((UserSession)_items[Constants.UserSession]).UserEmail = "john.doe@test.com";
+					}
 
                     if (_breadcrumbs != null)
                     {

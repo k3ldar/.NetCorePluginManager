@@ -14477,4 +14477,188 @@ You will shortly receive an email with the details of your order.</comment>
     <value>The product group could not be found</value>
     <comment>The product group could not be found</comment>
   </data>
+  <data name="ResourcesMain" xml:space="preserve">
+    <value>Main Resources</value>
+    <comment>Main Resources</comment>
+  </data>
+  <data name="CategoryNameExists" xml:space="preserve">
+    <value>The category name already exists</value>
+    <comment>The category name already exists</comment>
+  </data>
+  <data name="CreateCategory" xml:space="preserve">
+    <value>Create Category</value>
+    <comment>Create Category</comment>
+  </data>
+  <data name="InvalidCategoryDescription" xml:space="preserve">
+    <value>Please enter a valid category description</value>
+    <comment>Please enter a valid category description</comment>
+  </data>
+  <data name="InvalidCategoryName" xml:space="preserve">
+    <value>Please enter a valid category name</value>
+    <comment>Please enter a valid category name</comment>
+  </data>
+  <data name="CategorySubmitted" xml:space="preserve">
+    <value>Category Submitted</value>
+    <comment>Category Submitted</comment>
+  </data>
+  <data name="ManageCategories" xml:space="preserve">
+    <value>Manage Categories</value>
+    <comment>Manage Categories</comment>
+  </data>
+  <data name="CategoryUpdated" xml:space="preserve">
+    <value>Category '{0}' has been updated</value>
+    <comment>Category '{0}' has been updated</comment>
+  </data>
+  <data name="EditCategory" xml:space="preserve">
+    <value>Edit Category</value>
+    <comment>Edit Category</comment>
+  </data>
+  <data name="NoParent" xml:space="preserve">
+    <value>No Parent</value>
+    <comment>No Parent</comment>
+  </data>
+  <data name="Parent" xml:space="preserve">
+    <value>Parent</value>
+    <comment>Parent</comment>
+  </data>
+  <data name="CreateResource" xml:space="preserve">
+    <value>Create Resource</value>
+    <comment>Create Resource</comment>
+  </data>
+  <data name="ImageResource" xml:space="preserve">
+    <value>Image Uri</value>
+    <comment>Image Uri</comment>
+  </data>
+  <data name="ResourceType" xml:space="preserve">
+    <value>Resource type</value>
+    <comment>Resource type</comment>
+  </data>
+  <data name="TextResource" xml:space="preserve">
+    <value>Text</value>
+    <comment>Text</comment>
+  </data>
+  <data name="TikTokAccountResource" xml:space="preserve">
+    <value>TikTok Account Name</value>
+    <comment>TikTok Account Name</comment>
+  </data>
+  <data name="TikTokVideoIdResource" xml:space="preserve">
+    <value>TikTok video id</value>
+    <comment>TikTok video id</comment>
+  </data>
+  <data name="UriResource" xml:space="preserve">
+    <value>Uri</value>
+    <comment>Uri</comment>
+  </data>
+  <data name="YouTubeResource" xml:space="preserve">
+    <value>YouTube video id</value>
+    <comment>YouTube video id</comment>
+  </data>
+  <data name="InvalidDescription" xml:space="preserve">
+    <value>Please enter a valid description between {0} and {1} characters</value>
+    <comment>Please enter a valid description between {0} and {1} characters</comment>
+  </data>
+  <data name="InvalidName" xml:space="preserve">
+    <value>Please enter a valid name between {0} and {1} characters</value>
+    <comment>Please enter a valid name between {0} and {1} characters</comment>
+  </data>
+  <data name="CategorySubmittedThankYou" xml:space="preserve">
+    <value>Thank you for submitting a new category, it should appear shortly.</value>
+    <comment>Thank you for submitting a new category, it should appear shortly.</comment>
+  </data>
+  <data name="InvalidUriNotAbsolute" xml:space="preserve">
+    <value>The Uri is invalid, it must start with http:// or https:// and include the domain name</value>
+    <comment>The Uri is invalid, it must start with http:// or https:// and include the domain name</comment>
+  </data>
+  <data name="InvalidUriNotFound" xml:space="preserve">
+    <value>The Uri '{0}' could not be found</value>
+    <comment>The Uri '{0}' could not be found</comment>
+  </data>
+  <data name="InvalidYouTubeId" xml:space="preserve">
+    <value>YouTube id {0} does not appear to be valid.</value>
+    <comment>YouTube id {0} does not appear to be valid.</comment>
+  </data>
+  <data name="ResourceItemSubmitted" xml:space="preserve">
+    <value>Resource Item Submitted</value>
+    <comment>Resource Item Submitted</comment>
+  </data>
+  <data name="ResourceItemSubmittedThankYou" xml:space="preserve">
+    <value>Thank you for submitting a new resource item, it should appear shortly.</value>
+    <comment>Thank you for submitting a new resource item, it should appear shortly.</comment>
+  </data>
+  <data name="InvalidTickTokId" xml:space="preserve">
+    <value>The TikTok id must consist of an account name and video reference</value>
+    <comment>The TikTok id must consist of an account name and video reference</comment>
+  </data>
+  <data name="InvalidTickTokIdEmpty" xml:space="preserve">
+    <value>The TikTok id can not be empty</value>
+    <comment>The TikTok id can not be empty</comment>
+  </data>
+  <data name="InvalidImageNotAbsolute" xml:space="preserve">
+    <value>The Image is invalid, it must start with http:// or https:// and include the domain name</value>
+    <comment>The Image is invalid, it must start with http:// or https:// and include the domain name</comment>
+  </data>
+  <data name="InvalidImageNotFound" xml:space="preserve">
+    <value>The Image '{0}' could not be found</value>
+    <comment>The Image '{0}' could not be found</comment>
+  </data>
+  <data name="CategoryNotFound" xml:space="preserve">
+    <value>The category could not be found</value>
+    <comment>The category could not be found</comment>
+  </data>
+  <data name="InvalidImageNotSupported" xml:space="preserve">
+    <value>The file type {0} is not supported, supported file types are {1}</value>
+    <comment>The file type {0} is not supported, supported file types are {1}</comment>
+  </data>
+  <data name="ManageResourceItems" xml:space="preserve">
+    <value>Manage Resource Items</value>
+    <comment>Manage Resource Items</comment>
+  </data>
+  <data name="ResourceItemUpdated" xml:space="preserve">
+    <value>Resource item '{0}' has been updated</value>
+    <comment>Resource item '{0}' has been updated</comment>
+  </data>
+  <data name="TextInvalidEmpty" xml:space="preserve">
+    <value>Please add some text</value>
+    <comment>Please add some text</comment>
+  </data>
+  <data name="BookmarkAdded" xml:space="preserve">
+    <value>Bookmark for resource item {0} has been added.</value>
+    <comment>Bookmark for resource item {0} has been added.</comment>
+  </data>
+  <data name="BookmarkRemoved" xml:space="preserve">
+    <value>Bookmark for resource item {0} removed.</value>
+    <comment>Bookmark for resource item {0} removed.</comment>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Views</value>
+    <comment>Views</comment>
+  </data>
+  <data name="BookmarkQuotaExceeded" xml:space="preserve">
+    <value>The maximum number of allowed bookmarks has been reached</value>
+    <comment>The maximum number of allowed bookmarks has been reached</comment>
+  </data>
+  <data name="ViewBookmarks" xml:space="preserve">
+    <value>View Bookmarks</value>
+    <comment>View Bookmarks</comment>
+  </data>
+  <data name="Bookmarks" xml:space="preserve">
+    <value>Bookmarks</value>
+    <comment>Bookmarks</comment>
+  </data>
+  <data name="EditResource" xml:space="preserve">
+    <value>Edit Resource</value>
+    <comment>Edit Resource</comment>
+  </data>
+  <data name="ManageResources" xml:space="preserve">
+    <value>Manage Resources</value>
+    <comment>Manage Resources</comment>
+  </data>
+  <data name="OnePerLine" xml:space="preserve">
+    <value>one per line</value>
+    <comment>one per line</comment>
+  </data>
+  <data name="ProductGoups" xml:space="preserve">
+    <value>Product Goups</value>
+    <comment>Product Goups</comment>
+  </data>
 </root>

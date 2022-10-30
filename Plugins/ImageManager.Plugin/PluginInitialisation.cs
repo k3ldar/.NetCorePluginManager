@@ -23,6 +23,8 @@
  *  15/04/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Collections.Generic;
+
 using ImageManager.Plugin.Classes;
 
 using Microsoft.AspNetCore.Builder;
@@ -45,8 +47,8 @@ namespace ImageManager.Plugin
     /// Implements IPlugin and IInitialiseEvents which allows the ImageManager.Plugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public class PluginInitialisation : IPlugin, IInitialiseEvents
-    {
+    public class PluginInitialisation : IPlugin, IInitialiseEvents, IClaimsService
+	{
         #region IPlugin Methods
 
         public void ConfigureServices(IServiceCollection services)
@@ -117,8 +119,21 @@ namespace ImageManager.Plugin
 
         }
 
-        #endregion IInitialiseEvents Methods
-    }
+		#endregion IInitialiseEvents Methods
+
+		#region IClaimsService
+
+		public List<string> GetClaims()
+		{
+			return new List<string>()
+			{
+				Constants.ClaimNameViewImageManager,
+				Constants.ClaimNameManageImages,
+			};
+		}
+
+		#endregion IClaimsService
+	}
 }
 
 #pragma warning restore CS1591

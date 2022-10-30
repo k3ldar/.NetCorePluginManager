@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Error Manager Plugin
  *  
@@ -89,7 +89,6 @@ namespace ErrorManager.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.MissingLink))]
         public IActionResult NotFound404()
         {
-            Response.StatusCode = 404;
             Error404Model model;
 
             ErrorManagerSettings settings = _settingsProvider.GetSettings<ErrorManagerSettings>("ErrorManager");

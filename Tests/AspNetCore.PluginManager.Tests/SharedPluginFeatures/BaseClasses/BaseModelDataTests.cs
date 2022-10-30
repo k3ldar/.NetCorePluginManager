@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -48,7 +48,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         public void Construct_ValidInstance_NoBreadcrums_Success()
         {
             BaseModelData sut = new BaseModelData(null, null,
-                null, null, null, null, false, false);
+                null, null, null, null, false, false, false);
 
             Assert.IsNotNull(sut.Breadcrumbs);
             Assert.AreEqual(0, sut.Breadcrumbs.Count);
@@ -68,7 +68,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
             List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>();
             breadcrumbs.Add(new BreadcrumbItem("test", "/", false));
             BaseModelData sut = new BaseModelData(breadcrumbs, null,
-                null, null, null, null, false, false);
+                null, null, null, null, false, false, false);
 
             Assert.IsNotNull(sut.Breadcrumbs);
             Assert.AreEqual(1, sut.Breadcrumbs.Count);
@@ -89,7 +89,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
             List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>();
             breadcrumbs.Add(new BreadcrumbItem("test", "/", false));
             BaseModelData sut = new BaseModelData(breadcrumbs, null,
-                "seo Title", "seo Author", "seo Description", "seo Tags", true, true);
+                "seo Title", "seo Author", "seo Description", "seo Tags", true, true, true);
 
             Assert.IsNotNull(sut.Breadcrumbs);
             Assert.AreEqual(1, sut.Breadcrumbs.Count);
@@ -109,7 +109,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         public void ReplaceBreadcrumbs_InvalidParamNull_Throws_ArgumentNullException()
         {
             BaseModelData sut = new BaseModelData(null, null,
-                "seo Title", "seo Author", "seo Description", "seo Tags", true, true);
+                "seo Title", "seo Author", "seo Description", "seo Tags", true, false, true);
 
             Assert.IsNotNull(sut.Breadcrumbs);
             Assert.AreEqual(0, sut.Breadcrumbs.Count);
@@ -122,7 +122,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         public void ReplaceBreadcrumbs_Success()
         {
             BaseModelData sut = new BaseModelData(null, null,
-                "seo Title", "seo Author", "seo Description", "seo Tags", true, true);
+                "seo Title", "seo Author", "seo Description", "seo Tags", true, false, true);
 
             Assert.IsNotNull(sut.Breadcrumbs);
             Assert.AreEqual(0, sut.Breadcrumbs.Count);
@@ -140,7 +140,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         public void ReplaceCartSummary_InvalidParamNull_Throws_ArgumentNullException()
         {
             BaseModelData sut = new BaseModelData(null, null,
-                "seo Title", "seo Author", "seo Description", "seo Tags", true, true);
+                "seo Title", "seo Author", "seo Description", "seo Tags", true, false, true);
 
             Assert.IsNull(sut.CartSummary);
 
@@ -152,7 +152,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         public void ReplaceCartSummary_Success()
         {
             BaseModelData sut = new BaseModelData(null, null,
-                "seo Title", "seo Author", "seo Description", "seo Tags", true, true);
+                "seo Title", "seo Author", "seo Description", "seo Tags", true, false, true);
 
             Assert.IsNull(sut.CartSummary);
 

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -85,9 +85,14 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         protected ControllerContext CreateTestControllerContext(List<BreadcrumbItem> breadcrumbs = null,
             MockRequestCookieCollection testCookieCollection = null,
             MockServiceProvider testServiceProvider = null,
-            MockHttpResponse testHttpResponse = null)
+            MockHttpResponse testHttpResponse = null,
+			MockHttpContext requestContext = null)
         {
             MockHttpRequest httpRequest = testCookieCollection == null ? new MockHttpRequest() : new MockHttpRequest(testCookieCollection);
+
+			if (requestContext != null)
+				httpRequest.SetContext(requestContext);
+
             MockHttpResponse httpResponse = testHttpResponse ?? new MockHttpResponse();
             ControllerContext Result = new ControllerContext();
             Result.HttpContext = testServiceProvider == null ? new MockHttpContext(httpRequest, httpResponse, breadcrumbs) : new MockHttpContext(httpRequest, httpResponse, testServiceProvider, breadcrumbs);
@@ -351,11 +356,11 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             return viewResult.ViewData.ModelState[name].Errors.Where(e => e.ErrorMessage.Equals(value)).Any();
         }
 
-        protected BaseModelData GenerateTestBaseModelData()
+        protected BaseModelData GenerateTestBaseModelData(bool isloggedIn = false)
         {
             BaseModelData Result = new BaseModelData(new List<BreadcrumbItem>(),
                 new ShoppingCartSummary(1, 0, 0, 0, 0, 20, Thread.CurrentThread.CurrentUICulture, "GBP"),
-                "The Title", "The Author", "The Description", "The Tags", false, true);
+                "The Title", "The Author", "The Description", "The Tags", false, isloggedIn, true);
 
 
             return Result;

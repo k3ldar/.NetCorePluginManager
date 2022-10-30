@@ -38,3 +38,4 @@ Subdomain.Plugin.xml
 ImageManager.Plugin.xml
 DynamicContent.Plugin.xml
 ApiAuthorization.Plugin.xml
+Resources.Plugin.xml

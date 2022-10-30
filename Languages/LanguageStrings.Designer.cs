@@ -21180,6 +21180,42 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bookmark for resource item {0} has been added..
+        /// </summary>
+        public static string BookmarkAdded {
+            get {
+                return ResourceManager.GetString("BookmarkAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The maximum number of allowed bookmarks has been reached.
+        /// </summary>
+        public static string BookmarkQuotaExceeded {
+            get {
+                return ResourceManager.GetString("BookmarkQuotaExceeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bookmark for resource item {0} removed..
+        /// </summary>
+        public static string BookmarkRemoved {
+            get {
+                return ResourceManager.GetString("BookmarkRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bookmarks.
+        /// </summary>
+        public static string Bookmarks {
+            get {
+                return ResourceManager.GetString("Bookmarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Book New Appointment.
         /// </summary>
         public static string BookNewAppointment {
@@ -21635,6 +21671,51 @@ namespace Languages {
         public static string Categories {
             get {
                 return ResourceManager.GetString("Categories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The category name already exists.
+        /// </summary>
+        public static string CategoryNameExists {
+            get {
+                return ResourceManager.GetString("CategoryNameExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The category could not be found.
+        /// </summary>
+        public static string CategoryNotFound {
+            get {
+                return ResourceManager.GetString("CategoryNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category Submitted.
+        /// </summary>
+        public static string CategorySubmitted {
+            get {
+                return ResourceManager.GetString("CategorySubmitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thank you for submitting a new category, it should appear shortly..
+        /// </summary>
+        public static string CategorySubmittedThankYou {
+            get {
+                return ResourceManager.GetString("CategorySubmittedThankYou", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category &apos;{0}&apos; has been updated.
+        /// </summary>
+        public static string CategoryUpdated {
+            get {
+                return ResourceManager.GetString("CategoryUpdated", resourceCulture);
             }
         }
         
@@ -22233,6 +22314,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Category.
+        /// </summary>
+        public static string CreateCategory {
+            get {
+                return ResourceManager.GetString("CreateCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Created.
         /// </summary>
         public static string Created {
@@ -22256,6 +22346,15 @@ namespace Languages {
         public static string CreateProductGroup {
             get {
                 return ResourceManager.GetString("CreateProductGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Resource.
+        /// </summary>
+        public static string CreateResource {
+            get {
+                return ResourceManager.GetString("CreateResource", resourceCulture);
             }
         }
         
@@ -23052,6 +23151,24 @@ namespace Languages {
         public static string Edit {
             get {
                 return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Category.
+        /// </summary>
+        public static string EditCategory {
+            get {
+                return ResourceManager.GetString("EditCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Resource.
+        /// </summary>
+        public static string EditResource {
+            get {
+                return ResourceManager.GetString("EditResource", resourceCulture);
             }
         }
         
@@ -24055,6 +24172,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Image Uri.
+        /// </summary>
+        public static string ImageResource {
+            get {
+                return ResourceManager.GetString("ImageResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Images.
         /// </summary>
         public static string Images {
@@ -24182,6 +24308,24 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid category description.
+        /// </summary>
+        public static string InvalidCategoryDescription {
+            get {
+                return ResourceManager.GetString("InvalidCategoryDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid category name.
+        /// </summary>
+        public static string InvalidCategoryName {
+            get {
+                return ResourceManager.GetString("InvalidCategoryName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Competition, please contact support.
         /// </summary>
         public static string InvalidCompetition {
@@ -24218,6 +24362,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid description between {0} and {1} characters.
+        /// </summary>
+        public static string InvalidDescription {
+            get {
+                return ResourceManager.GetString("InvalidDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Email Address.
         /// </summary>
         public static string InvalidEmailAddress {
@@ -24250,6 +24403,42 @@ namespace Languages {
         public static string InvalidHeightMinimum {
             get {
                 return ResourceManager.GetString("InvalidHeightMinimum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Image is invalid, it must start with http:// or https:// and include the domain name.
+        /// </summary>
+        public static string InvalidImageNotAbsolute {
+            get {
+                return ResourceManager.GetString("InvalidImageNotAbsolute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Image &apos;{0}&apos; could not be found.
+        /// </summary>
+        public static string InvalidImageNotFound {
+            get {
+                return ResourceManager.GetString("InvalidImageNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The file type {0} is not supported, supported file types are {1}.
+        /// </summary>
+        public static string InvalidImageNotSupported {
+            get {
+                return ResourceManager.GetString("InvalidImageNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid name between {0} and {1} characters.
+        /// </summary>
+        public static string InvalidName {
+            get {
+                return ResourceManager.GetString("InvalidName", resourceCulture);
             }
         }
         
@@ -24299,6 +24488,42 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The TikTok id must consist of an account name and video reference.
+        /// </summary>
+        public static string InvalidTickTokId {
+            get {
+                return ResourceManager.GetString("InvalidTickTokId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The TikTok id can not be empty.
+        /// </summary>
+        public static string InvalidTickTokIdEmpty {
+            get {
+                return ResourceManager.GetString("InvalidTickTokIdEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Uri is invalid, it must start with http:// or https:// and include the domain name.
+        /// </summary>
+        public static string InvalidUriNotAbsolute {
+            get {
+                return ResourceManager.GetString("InvalidUriNotAbsolute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Uri &apos;{0}&apos; could not be found.
+        /// </summary>
+        public static string InvalidUriNotFound {
+            get {
+                return ResourceManager.GetString("InvalidUriNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid User Name/Password.  Please try again.
         /// </summary>
         public static string InvalidUsernameOrPassword {
@@ -24322,6 +24547,15 @@ namespace Languages {
         public static string InvalidWidthMinimum {
             get {
                 return ResourceManager.GetString("InvalidWidthMinimum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to YouTube id {0} does not appear to be valid..
+        /// </summary>
+        public static string InvalidYouTubeId {
+            get {
+                return ResourceManager.GetString("InvalidYouTubeId", resourceCulture);
             }
         }
         
@@ -25343,6 +25577,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manage Categories.
+        /// </summary>
+        public static string ManageCategories {
+            get {
+                return ResourceManager.GetString("ManageCategories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manage Product Groups.
         /// </summary>
         public static string ManageProductGroups {
@@ -25357,6 +25600,24 @@ namespace Languages {
         public static string ManageProducts {
             get {
                 return ResourceManager.GetString("ManageProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage Resource Items.
+        /// </summary>
+        public static string ManageResourceItems {
+            get {
+                return ResourceManager.GetString("ManageResourceItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage Resources.
+        /// </summary>
+        public static string ManageResources {
+            get {
+                return ResourceManager.GetString("ManageResources", resourceCulture);
             }
         }
         
@@ -26200,6 +26461,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Parent.
+        /// </summary>
+        public static string NoParent {
+            get {
+                return ResourceManager.GetString("NoParent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No products found.
         /// </summary>
         public static string NoProductsFound {
@@ -26340,6 +26610,15 @@ namespace Languages {
         public static string Once {
             get {
                 return ResourceManager.GetString("Once", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to one per line.
+        /// </summary>
+        public static string OnePerLine {
+            get {
+                return ResourceManager.GetString("OnePerLine", resourceCulture);
             }
         }
         
@@ -26736,6 +27015,15 @@ namespace Languages {
         public static string Papers {
             get {
                 return ResourceManager.GetString("Papers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent.
+        /// </summary>
+        public static string Parent {
+            get {
+                return ResourceManager.GetString("Parent", resourceCulture);
             }
         }
         
@@ -27722,6 +28010,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Product Goups.
+        /// </summary>
+        public static string ProductGoups {
+            get {
+                return ResourceManager.GetString("ProductGoups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The product group contains products.
         /// </summary>
         public static string ProductGroupContainsProducts {
@@ -28051,6 +28348,51 @@ namespace Languages {
         public static string RescheduleAfter {
             get {
                 return ResourceManager.GetString("RescheduleAfter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource Item Submitted.
+        /// </summary>
+        public static string ResourceItemSubmitted {
+            get {
+                return ResourceManager.GetString("ResourceItemSubmitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thank you for submitting a new resource item, it should appear shortly..
+        /// </summary>
+        public static string ResourceItemSubmittedThankYou {
+            get {
+                return ResourceManager.GetString("ResourceItemSubmittedThankYou", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource item &apos;{0}&apos; has been updated.
+        /// </summary>
+        public static string ResourceItemUpdated {
+            get {
+                return ResourceManager.GetString("ResourceItemUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main Resources.
+        /// </summary>
+        public static string ResourcesMain {
+            get {
+                return ResourceManager.GetString("ResourcesMain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource type.
+        /// </summary>
+        public static string ResourceType {
+            get {
+                return ResourceManager.GetString("ResourceType", resourceCulture);
             }
         }
         
@@ -29963,6 +30305,24 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please add some text.
+        /// </summary>
+        public static string TextInvalidEmpty {
+            get {
+                return ResourceManager.GetString("TextInvalidEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text.
+        /// </summary>
+        public static string TextResource {
+            get {
+                return ResourceManager.GetString("TextResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thank you for your order.
         /// </summary>
         public static string ThankyouOrder {
@@ -30042,6 +30402,24 @@ namespace Languages {
         public static string TicketNotFound {
             get {
                 return ResourceManager.GetString("TicketNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TikTok Account Name.
+        /// </summary>
+        public static string TikTokAccountResource {
+            get {
+                return ResourceManager.GetString("TikTokAccountResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TikTok video id.
+        /// </summary>
+        public static string TikTokVideoIdResource {
+            get {
+                return ResourceManager.GetString("TikTokVideoIdResource", resourceCulture);
             }
         }
         
@@ -30721,6 +31099,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Uri.
+        /// </summary>
+        public static string UriResource {
+            get {
+                return ResourceManager.GetString("UriResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User.
         /// </summary>
         public static string User {
@@ -30919,6 +31306,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View Bookmarks.
+        /// </summary>
+        public static string ViewBookmarks {
+            get {
+                return ResourceManager.GetString("ViewBookmarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to View Celebrity.
         /// </summary>
         public static string ViewCelebrity {
@@ -30969,6 +31365,15 @@ namespace Languages {
         public static string ViewOrder {
             get {
                 return ResourceManager.GetString("ViewOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Views.
+        /// </summary>
+        public static string Views {
+            get {
+                return ResourceManager.GetString("Views", resourceCulture);
             }
         }
         
@@ -31167,6 +31572,15 @@ namespace Languages {
         public static string YourShoppingBag {
             get {
                 return ResourceManager.GetString("YourShoppingBag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to YouTube video id.
+        /// </summary>
+        public static string YouTubeResource {
+            get {
+                return ResourceManager.GetString("YouTubeResource", resourceCulture);
             }
         }
         

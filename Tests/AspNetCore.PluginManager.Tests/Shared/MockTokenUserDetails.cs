@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -23,11 +23,14 @@
  *  16/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Diagnostics.CodeAnalysis;
+
 using Middleware;
 
 namespace AspNetCore.PluginManager.Tests.Shared
 {
-    public class MockTokenUserDetails : ITokenUserDetails
+	[ExcludeFromCodeCoverage]
+	public class MockTokenUserDetails : ITokenUserDetails
     {
         public MockTokenUserDetails(string email, string provider)
         {

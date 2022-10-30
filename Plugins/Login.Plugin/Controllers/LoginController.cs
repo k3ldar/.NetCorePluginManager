@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Login Plugin
  *  
@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.IO;
+using System.Runtime.Versioning;
 using System.Security.Claims;
 
 using LoginPlugin.Classes;
@@ -319,7 +320,10 @@ namespace LoginPlugin.Controllers
 
         [HttpGet]
         [DenySpider("*")]
-        public IActionResult GetCaptchaImage()
+#if ATTR_OS
+		[SupportedOSPlatform("windows")]
+#endif
+		public IActionResult GetCaptchaImage()
         {
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(false);
 
@@ -350,11 +354,11 @@ namespace LoginPlugin.Controllers
             }
         }
 
-        #endregion Public Action Methods
+#endregion Public Action Methods
 
-        #region Internal Testing Methods
+#region Internal Testing Methods
 
-        internal LoginCacheItem GetCacheValue(string cacheName)
+        internal static LoginCacheItem GetCacheValue(string cacheName)
         {
             if (String.IsNullOrEmpty(cacheName))
                 return null;
@@ -367,9 +371,9 @@ namespace LoginPlugin.Controllers
             return (LoginCacheItem)item.Value;
         }
 
-        #endregion Internal Testing Methods
+#endregion Internal Testing Methods
 
-        #region Private Methods
+#region Private Methods
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         private bool ValidateRememberedLogin()
@@ -440,7 +444,7 @@ namespace LoginPlugin.Controllers
             return Result;
         }
 
-        #endregion Private Methods
+#endregion Private Methods
     }
 }
 

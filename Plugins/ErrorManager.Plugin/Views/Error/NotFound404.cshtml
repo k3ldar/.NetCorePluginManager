@@ -13,28 +13,23 @@
     </div>
 </div>
 
-<div class="errorMessage">
+<div class="row errorMessage">
     @if (!String.IsNullOrEmpty(Model.Image))
     {
-        <div class="row">
-            <div class="col">
-                <img src="@Model.Image" alt="Missing Link" />
-            </div>
+        <div class="col">
+            <img src="@Model.Image" alt="Missing Link" />
         </div>
     }
 
     @if (!String.IsNullOrEmpty(Model.Message))
     {
-        <div class="row">
-            <div class="col">
-                @Html.Raw(Model.Message)
-            </div>
+        <div class="col">
+            @Html.Raw(Model.Message)
         </div>
     }
-    <div class="row">
-        <div class="col">
-
-            <p><a href="/">@Localizer[nameof(Languages.LanguageStrings.ClickHere)]</a> @Localizer[nameof(Languages.LanguageStrings.ToGoHome)]</p>
-        </div>
+</div>
+<div class="row">
+    <div class="col">
+        <p><a href="/">@Localizer[nameof(Languages.LanguageStrings.ClickHere)]</a> @Localizer[nameof(Languages.LanguageStrings.ToGoHome)]</p>
     </div>
 </div>

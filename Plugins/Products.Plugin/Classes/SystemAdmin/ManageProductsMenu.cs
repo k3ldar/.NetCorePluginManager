@@ -30,14 +30,8 @@ using SharedPluginFeatures;
 
 namespace ProductPlugin.Classes.SystemAdmin
 {
-    public class ManageProductsMenu : SystemAdminMainMenu
-    {
-        public ManageProductsMenu()
-            : base(Languages.LanguageStrings.Products, -10000)
-        {
-            Image = "/Images/Products/prodAdmin.png";
-        }
-
+    public class ManageProductsMenu : SystemAdminSubMenu
+	{
         public override string Controller()
         {
             return Controllers.ProductAdminController.Name;
@@ -47,7 +41,42 @@ namespace ProductPlugin.Classes.SystemAdmin
         {
             return nameof(Controllers.ProductAdminController.Index);
         }
-    }
+
+		public override string Area()
+		{
+			return string.Empty;
+		}
+
+		public override string Name()
+		{
+			return Languages.LanguageStrings.Products;
+		}
+
+		public override int SortOrder()
+		{
+			return 10000;
+		}
+
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.View;
+		}
+
+		public override string Image()
+		{
+			return "/Images/Products/prodAdmin.png";
+		}
+
+		public override string Data()
+		{
+			return string.Empty;
+		}
+
+		public override string ParentMenuName()
+		{
+			return Languages.LanguageStrings.ManageProducts;
+		}
+	}
 }
 
 #pragma warning restore CS1591

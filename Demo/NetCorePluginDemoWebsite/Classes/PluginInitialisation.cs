@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
@@ -70,6 +70,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             services.AddSingleton<IUserSearch, MockUserSearch>();
             services.AddSingleton<IApplicationOverride, ApplicationOverrides>();
             services.AddSingleton<IUserApiQueryProvider, MockUserApiQueryProvider>();
+			services.AddSingleton<IResourceProvider, MockResourceProvider>();
 
             if (File.Exists("t:\\UseDefaultDynamicContentProvider.dat"))
                 services.AddSingleton<IDynamicContentProvider, MockDynamicContentProvider>();

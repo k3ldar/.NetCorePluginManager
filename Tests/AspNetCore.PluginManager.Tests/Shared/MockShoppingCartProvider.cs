@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,8 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.Shared
 {
-    class MockShoppingCartProvider : IShoppingCartProvider
+	[ExcludeFromCodeCoverage]
+	public class MockShoppingCartProvider : IShoppingCartProvider
     {
 
         public long AddToCart(in UserSession userSession, in ShoppingCartSummary shoppingCart, in Product product, in int count)

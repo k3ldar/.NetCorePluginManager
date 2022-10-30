@@ -1,0 +1,117 @@
+﻿@model Resources.Plugin.Models.ResourceCategoryModel
+@using SharedPluginFeatures
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = @Model.SeoTitle;
+bool enabled = Model.UserIsLoggedIn && Context.User.HasClaim(SharedPluginFeatures.Constants.ClaimNameAddResources, "true");
+}
+<style>
+.img-con {
+max-height: 25px;
+min-height: 25px;
+height: 25px !important;
+width: auto;
+padding: 3px 6px 3px 6px;
+}
+</style>
+<script src="/js/resources.js"></script>
+<link rel="stylesheet" href="/css/resources.css" />
+<script src="/js/growl.js" type="text/javascript"></script>
+<link href="/css/growl.css" rel="stylesheet" type="text/css" />
+<h2>@Model.Name</h2>
+<div class="resContainer">
+<div class="row">
+<div class="col">
+<p>@Model.Description</p>
+</div>
+</div>
+<div class="row">
+<div class="col">
+@foreach (var item in Model.Categories)
+{
+string resStyle = "";
+string resStyleBody = "";
+if (!String.IsNullOrEmpty(item.ForeColor))
+resStyle += $"color: {item.ForeColor};";
+if (!String.IsNullOrEmpty(item.BackColor))
+resStyle += $"background-color: {item.BackColor};border-color: {item.BackColor};";
+resStyleBody = resStyle;
+if (!String.IsNullOrEmpty(resStyle))
+resStyle = $" style=\"{resStyle}\"";
+if (!String.IsNullOrEmpty(item.Image))
+resStyleBody = $"{resStyleBody};background:url('{item.Image}') no-repeat center;background-size:80% 80%;";
+if (!String.IsNullOrEmpty(resStyleBody))
+resStyleBody = $"style=\"{resStyleBody}\"";
+<div class="card">
+<div class="card-header" @Html.Raw(resStyle)>
+@item.Name
+</div>
+<div class="card-body" @Html.Raw(resStyleBody)>
+<a href="/Resources/Category/@item.Id/@item.RouteName/" class="card-link" style="display:inline-block;width:100%;height:100%;">
+<p class="card-text">@item.Description</p>
+</a>
+</div>
+</div>
+}
+</div>
+</div>
+<div class="row">
+<div class="col">
+@foreach (var item in Model.ResourceItems)
+{
+string resStyle = "";
+string resStyleBody = "";
+string link = "";
+string target = "";
+switch (item.ResourceType)
+{
+case Middleware.ResourceType.YouTube:
+case Middleware.ResourceType.TikTok:
+case Middleware.ResourceType.Uri:
+link = String.Format("/Resources/ViewExternal/{0}/", item.Id);
+target = "target=\"_blank\"";
+break;
+case Middleware.ResourceType.Text:
+case Middleware.ResourceType.Image:
+link = String.Format("/Resources/View/{0}/", item.Id);
+break;
+}
+resStyleBody = resStyle;
+if (!String.IsNullOrEmpty(resStyle))
+resStyle = $" style=\"{resStyle}\"";
+if (!String.IsNullOrEmpty(resStyleBody))
+resStyleBody = $"style=\"{resStyleBody}\"";
+<div class="card">
+<div class="card-header" @Html.Raw(resStyle)>
+@item.Name
+</div>
+<div class="card-body" @Html.Raw(resStyleBody)>
+<a href="@link" @target style="display:inline-block;width:100%;height:100%;">
+<p class="card-text">@item.Description</p>
+</a>
+</div>
+<footer class="blockquote-footer">
+@await Html.PartialAsync("_ResourceStats.cshtml", new Resources.Plugin.Models.ResourceItemResponseModel(item.Id, item.Likes, item.Dislikes, item.ViewCount, enabled))
+</footer>
+</div>
+}
+</div>
+</div>
+<div class="row" style="padding-top:20px;">
+@if (Model.UserIsLoggedIn)
+{
+if (Context.User.HasClaim(SharedPluginFeatures.Constants.ClaimNameAddResources, "true"))
+{
+Resources.Plugin.Models.IdModel modelId = new Resources.Plugin.Models.IdModel(Model.Id);
+@await Html.PartialAsync("_CreateCategory.cshtml", modelId)
+if (Model.Id != 0)
+{
+@await Html.PartialAsync("_CreateResourceItem.cshtml", modelId)
+}
+}
+<div class="col-sm-4 col-md-2">
+<a href="/Resources/ViewBookmarks" class="btn btn-info" role="button">@Localizer[nameof(Languages.LanguageStrings.ViewBookmarks)]</a>
+</div>
+}
+</div>
+</div>

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -63,7 +63,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
             Path = "/";
             _queryCollection = new List<KeyValuePair<string, StringValues>>();
             _queryString = new QueryString();
-        }
+		}
 
         public MockHttpRequest(MockHeaderDictionary headers)
             : this()
@@ -71,7 +71,13 @@ namespace AspNetCore.PluginManager.Tests.Shared
             _headerDictionary = headers ?? throw new ArgumentNullException(nameof(headers));
         }
 
-        public MockHttpRequest(IRequestCookieCollection cookies)
+		public MockHttpRequest(HttpContext context)
+			: this()
+		{
+			_httpContext = context ?? throw new ArgumentNullException(nameof(context));
+		}
+
+		public MockHttpRequest(IRequestCookieCollection cookies)
             : this()
         {
             _requestCookieCollection = cookies ?? throw new ArgumentNullException(nameof(cookies));

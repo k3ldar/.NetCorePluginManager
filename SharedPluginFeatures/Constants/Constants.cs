@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by unknown and modified by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2012 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2012 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SharedPluginFeatues
  *  
@@ -217,15 +217,35 @@ namespace SharedPluginFeatures
         /// </summary>
         public const char AmpersandChar = '&';
 
+		/// <summary>
+		/// New line char constant
+		/// </summary>
+		public const char NewLineChar = '\r';
+
         /// <summary>
         /// Equals (=) char constant
         /// </summary>
         public const char EqualsChar = '=';
 
-        /// <summary>
-        /// Name of the Breadcrumb.Plugin module.
-        /// </summary>
-        public const string PluginSettingBreadcrumb = "Breadcrumb.Plugin";
+		/// <summary>
+		/// Colon (:) char constant
+		/// </summary>
+		public const char ColonChar = ':';
+
+		/// <summary>
+		/// Comma (,) char constant
+		/// </summary>
+		public const char CommaChar = ',';
+
+		/// <summary>
+		/// String with one empty space char
+		/// </summary>
+		public const string EmptySpace = " ";
+
+		/// <summary>
+		/// Name of the Breadcrumb.Plugin module.
+		/// </summary>
+		public const string PluginSettingBreadcrumb = "Breadcrumb.Plugin";
 
         /// <summary>
         /// Api authorization settings name
@@ -476,10 +496,20 @@ namespace SharedPluginFeatures
         /// </summary>
         public const string PolicyNameManageProducts = "ManageProducts";
 
-        /// <summary>
-        /// Claim name for allowing user to manage content
-        /// </summary>
-        public const string ClaimNameManageContent = "ManageContent";
+		/// <summary>
+		/// Name of policy for adding resources
+		/// </summary>
+		public const string PolicyNameAddResources = "AddResources";
+
+		/// <summary>
+		/// Name of policy for managing resources
+		/// </summary>
+		public const string PolicyNameManageResources = "ManageResources";
+
+		/// <summary>
+		/// Claim name for allowing user to manage content
+		/// </summary>
+		public const string ClaimNameManageContent = "ManageContent";
         /// <summary>
         /// Claim name for administrators
         /// </summary>
@@ -534,6 +564,16 @@ namespace SharedPluginFeatures
         /// Name of claim for managing products
         /// </summary>
         public const string ClaimNameManageProducts = "ManageProducts";
+
+		/// <summary>
+		/// Name of claim for adding resources
+		/// </summary>
+		public const string ClaimNameAddResources = "AddResources";
+
+		/// <summary>
+		/// Name of claim for managing resources
+		/// </summary>
+		public const string ClaimNameManageResources = "ManageResources";
 
         /// <summary>
         /// Name of claim identity for user claims

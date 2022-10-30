@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  DynamicContent.Plugin
  *  
@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 
 using DynamicContent.Plugin.Internal;
 
@@ -49,8 +50,8 @@ namespace DynamicContent.Plugin
     /// Implements IPlugin and IInitialiseEvents which allows the Dynamic Content plugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public class PluginInitialisation : IPlugin, IInitialiseEvents
-    {
+    public class PluginInitialisation : IPlugin, IInitialiseEvents, IClaimsService
+	{
         private readonly IThreadManagerServices _threadManagerServices;
         internal static readonly CacheManager DynamicContentCache = new CacheManager(CacheNameDynamicContent, new TimeSpan(100, 0, 0, 0), true);
 
@@ -72,7 +73,6 @@ namespace DynamicContent.Plugin
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-#if NET_CORE_3_X || NET_5_X || NET_6_X
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(
@@ -84,7 +84,6 @@ namespace DynamicContent.Plugin
                         .RequireClaim(Constants.ClaimNameUserId)
                         .RequireClaim(Constants.ClaimNameUserEmail));
             });
-#endif
 
             services.TryAddSingleton<IDynamicContentProvider, DefaultDynamicContentProvider>();
 
@@ -130,8 +129,20 @@ namespace DynamicContent.Plugin
 
         }
 
-        #endregion IPlugin Methods
-    }
+		#endregion IPlugin Methods
+
+		#region IClaimsService
+
+		public List<string> GetClaims()
+		{
+			return new List<string>()
+			{
+				Constants.ClaimNameManageContent,
+			};
+		}
+
+		#endregion IClaimsService
+	}
 }
 
 #pragma warning restore CS1591

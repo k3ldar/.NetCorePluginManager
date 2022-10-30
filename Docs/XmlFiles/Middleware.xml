@@ -1401,6 +1401,18 @@
             Email account username
             </summary>
         </member>
+        <member name="T:Middleware.Classes.Search.BaseSearchProvider">
+            <summary>
+            Base search provider
+            </summary>
+        </member>
+        <member name="M:Middleware.Classes.Search.BaseSearchProvider.ExcludeWordFromSearch(System.String)">
+            <summary>
+            Validates a word to see if it should be excluded
+            </summary>
+            <param name="word"></param>
+            <returns></returns>
+        </member>
         <member name="T:Middleware.Helpdesk.Feedback">
             <summary>
             Feedback item used in HelpdeskPlugin module and IHelpdeskProvider interface.
@@ -2094,6 +2106,187 @@
             Custom url to be redirected to if the group is selected.  Default route values apply if not set.
             </summary>
             <value>string</value>
+        </member>
+        <member name="T:Middleware.Resources.ResourceCategory">
+            <summary>
+            Resource class
+            </summary>
+        </member>
+        <member name="M:Middleware.Resources.ResourceCategory.#ctor(System.Int64,System.Int64,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Collections.Generic.List{Middleware.Resources.ResourceItem})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="id">Unique id for resource category</param>
+            <param name="parentId">Parent id</param>
+            <param name="name">Resource name</param>
+            <param name="description">Resource description</param>
+            <param name="foreColor">Resource text color</param>
+            <param name="backColor">Resource back color</param>
+            <param name="image">Image to be used for background of resource</param>
+            <param name="routeName">Route friendly name for resource</param>
+            <param name="resourceItems">List of resource items belonging to the category</param>
+            <param name="isVisible">Indicates whether the category is visible to users or not</param>
+        </member>
+        <member name="M:Middleware.Resources.ResourceCategory.#ctor(System.Int64,System.Int64,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="id">Unique id for resource category</param>
+            <param name="parentId">Id of parent category or zero</param>
+            <param name="name">Resource name</param>
+            <param name="description">Resource description</param>
+            <param name="foreColor">Resource text color</param>
+            <param name="backColor">Resource back color</param>
+            <param name="image">Image to be used for background of resource</param>
+            <param name="routeName">Route friendly name for resource</param>
+            <param name="isVisible">Indicates whether the category is visible to users or not</param>
+        </member>
+        <member name="P:Middleware.Resources.ResourceCategory.Id">
+            <summary>
+            Unique id for resource category
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceCategory.ParentId">
+            <summary>
+            Id of parent category or zero
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceCategory.Name">
+            <summary>
+            Name of resource
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.Resources.ResourceCategory.Description">
+            <summary>
+            Resource description
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.Resources.ResourceCategory.ForeColor">
+            <summary>
+            Resource forecolor
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.Resources.ResourceCategory.BackColor">
+            <summary>
+            Resource forecolor
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.Resources.ResourceCategory.Image">
+            <summary>
+            Image to be displayed in the background for the resource
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceCategory.RouteName">
+            <summary>
+            Route name for resource
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceCategory.IsVisible">
+            <summary>
+            Indicates whether the category is visible to users or not
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceCategory.ResourceItems">
+            <summary>
+            List of resource items
+            </summary>
+        </member>
+        <member name="T:Middleware.Resources.ResourceItem">
+            <summary>
+            Represents an individual resource
+            </summary>
+        </member>
+        <member name="M:Middleware.Resources.ResourceItem.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:Middleware.Resources.ResourceItem.#ctor(System.Int64,System.Int64,Middleware.ResourceType,System.Int64,System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Boolean,System.Collections.Generic.List{System.String})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="id">Unique id for resource item</param>
+            <param name="categoryId">Category id</param>
+            <param name="resourceType">Resource type</param>
+            <param name="userId">User Id</param>
+            <param name="userName">Name of user creating the resource</param>
+            <param name="name">Name of Resource Item</param>
+            <param name="description">Description</param>
+            <param name="value">Resource item value</param>
+            <param name="likes">Number of likes</param>
+            <param name="dislikes">Number of dislikes</param>
+            <param name="viewCount">Number of views for the item</param>
+            <param name="approved">Approved for public viewing</param>
+            <param name="tags">Resource item tags</param>
+        </member>
+        <member name="P:Middleware.Resources.ResourceItem.Id">
+            <summary>
+            Unique id for resource item
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceItem.CategoryId">
+            <summary>
+            Category Id
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceItem.ResourceType">
+            <summary>
+            Resource type
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceItem.UserId">
+            <summary>
+            Id of user who created the item
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceItem.UserName">
+            <summary>
+            Name of user creating the resource
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceItem.Name">
+            <summary>
+            Name of resource item
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceItem.Description">
+            <summary>
+            Description of resource item
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceItem.Value">
+            <summary>
+            Value of resource item
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceItem.Likes">
+            <summary>
+            Number of likes
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceItem.Dislikes">
+            <summary>
+            Number of dislikes
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceItem.ViewCount">
+            <summary>
+            Number of views for the resource item
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceItem.Approved">
+            <summary>
+            Approved for public viewing
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceItem.Tags">
+            <summary>
+            Resource tags
+            </summary>
         </member>
         <member name="T:Middleware.Search.AdvancedSearchOptions">
             <summary>
@@ -3034,6 +3227,36 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="T:Middleware.ResourceType">
+            <summary>
+            Resource type
+            </summary>
+        </member>
+        <member name="F:Middleware.ResourceType.Text">
+            <summary>
+            Text resource type
+            </summary>
+        </member>
+        <member name="F:Middleware.ResourceType.Image">
+            <summary>
+            Image resource type
+            </summary>
+        </member>
+        <member name="F:Middleware.ResourceType.Uri">
+            <summary>
+            Uri resource type
+            </summary>
+        </member>
+        <member name="F:Middleware.ResourceType.YouTube">
+            <summary>
+            Youtube resource type
+            </summary>
+        </member>
+        <member name="F:Middleware.ResourceType.TikTok">
+            <summary>
+            TikTok resource type
+            </summary>
+        </member>
         <member name="T:Middleware.LoginResult">
             <summary>
             Login results
@@ -3332,6 +3555,31 @@
         <member name="F:Middleware.LicenceCreate.Failed">
             <summary>
             Failed to create a licence.
+            </summary>
+        </member>
+        <member name="T:Middleware.BookmarkActionResult">
+            <summary>
+            Result of adding/removing a bookmark
+            </summary>
+        </member>
+        <member name="F:Middleware.BookmarkActionResult.Unknown">
+            <summary>
+            Unknown response or error
+            </summary>
+        </member>
+        <member name="F:Middleware.BookmarkActionResult.Added">
+            <summary>
+            Bookmark has been added
+            </summary>
+        </member>
+        <member name="F:Middleware.BookmarkActionResult.Removed">
+            <summary>
+            Bookmark has been removed
+            </summary>
+        </member>
+        <member name="F:Middleware.BookmarkActionResult.QuotaExceeded">
+            <summary>
+            The max number of allowed bookmarks has been reached
             </summary>
         </member>
         <member name="T:Middleware.IApplicationProvider">
@@ -3954,6 +4202,119 @@
             <param name="errorMessage"></param>
             <returns></returns>
         </member>
+        <member name="T:Middleware.IResourceProvider">
+            <summary>
+            Resource provider interface
+            </summary>
+        </member>
+        <member name="M:Middleware.IResourceProvider.GetAllResources">
+            <summary>
+            Retrieves a list of all resources
+            </summary>
+            <returns>List&lt;Resource&gt;</returns>
+        </member>
+        <member name="M:Middleware.IResourceProvider.GetAllResources(System.Int64)">
+            <summary>
+            Retrieves a list of all resources with a specific parent id
+            </summary>
+            <param name="parentId"></param>
+            <returns>List&lt;Resource&gt;</returns>
+        </member>
+        <member name="M:Middleware.IResourceProvider.GetResourceCategory(System.Int64)">
+            <summary>
+            Retrieves a resource category with a specific id
+            </summary>
+            <param name="categoryId">The id of the category</param>
+            <returns>Resource</returns>
+        </member>
+        <member name="M:Middleware.IResourceProvider.GetResourceItem(System.Int64)">
+            <summary>
+            Retrieves a resource item based on it's id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.IResourceProvider.IncrementResourceItemResponse(System.Int64,System.Int64,System.Boolean)">
+            <summary>
+            Increments the like count for a resource
+            </summary>
+            <param name="id">id of resource item</param>
+            <param name="userId">User liking post</param>
+            <param name="like">Indicates whether the user liked/disliked the item</param>
+        </member>
+        <member name="M:Middleware.IResourceProvider.IncrementViewCount(System.Int64)">
+            <summary>
+            Increments the view count for a resource item
+            </summary>
+            <param name="resourceId"></param>
+        </member>
+        <member name="M:Middleware.IResourceProvider.AddResourceCategory(System.Int64,System.Int64,System.String,System.String)">
+            <summary>
+            Creates a new resource category
+            </summary>
+            <param name="userId">User creating the category</param>
+            <param name="parent">Parent category id</param>
+            <param name="name">Name of the new category</param>
+            <param name="description">Description of the category</param>
+        </member>
+        <member name="M:Middleware.IResourceProvider.UpdateResourceCategory(System.Int64,Middleware.Resources.ResourceCategory)">
+            <summary>
+            Updates an existing resource category
+            </summary>
+            <param name="userId">Id of user</param>
+            <param name="category">Category to update</param>
+            <returns>ResourceCategory</returns>
+        </member>
+        <member name="M:Middleware.IResourceProvider.RetrieveAllCategories">
+            <summary>
+            Retrieves all resource categorys for administration purposes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.IResourceProvider.AddResourceItem(System.Int64,Middleware.ResourceType,System.Int64,System.String,System.String,System.String,System.String,System.Boolean,System.Collections.Generic.List{System.String})">
+            <summary>
+            Adds a new resource item
+            </summary>
+            <param name="categoryId"></param>
+            <param name="resourceType"></param>
+            <param name="userId"></param>
+            <param name="userName"></param>
+            <param name="name"></param>
+            <param name="description"></param>
+            <param name="value"></param>
+            <param name="approved"></param>
+            <param name="tags"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.IResourceProvider.RetrieveAllResourceItems">
+            <summary>
+            Retrieves all resource items for administrative purposes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.IResourceProvider.UpdateResourceItem(System.Int64,Middleware.Resources.ResourceItem)">
+            <summary>
+            Updates a resource item
+            </summary>
+            <param name="userId"></param>
+            <param name="resourceItem"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.IResourceProvider.ToggleResourceBookmark(System.Int64,Middleware.Resources.ResourceItem)">
+            <summary>
+            Updates a user bookmark for a resource item, if not present the bookmark is added, if present the bookmark is removed
+            </summary>
+            <param name="userId">Id of user</param>
+            <param name="resourceItem">Resource item whose bookmark is being toggled</param>
+            <returns>BookmarkActionResult</returns>
+        </member>
+        <member name="M:Middleware.IResourceProvider.RetrieveUserBookmarks(System.Int64)">
+            <summary>
+            Retrieves a list of all user
+            </summary>
+            <param name="userId">Id of user who's bookmarked items are being retrieved</param>
+            <returns>List&lt;ResourceItem&gt;</returns>
+        </member>
         <member name="T:Middleware.ISearchKeywordProvider">
             <summary>
             Keyword search provider interface is implemented by classes which provide keyword search 
@@ -4239,6 +4600,18 @@
             <param name="searchField">Field which is being searched.</param>
             <param name="searchOrder">Search order for search field.</param>
             <returns>List&lt;Users&gt;</returns>
+        </member>
+        <member name="T:Middleware.Utils">
+            <summary>
+            Middleware utility methods
+            </summary>
+        </member>
+        <member name="M:Middleware.Utils.RemoveInvalidTagChars(System.String)">
+            <summary>
+            Removes invalid tag characters from text used as tags
+            </summary>
+            <param name="tag"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>
