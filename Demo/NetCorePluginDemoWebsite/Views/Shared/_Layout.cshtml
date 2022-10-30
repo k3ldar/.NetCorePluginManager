@@ -4,8 +4,7 @@
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @model SharedPluginFeatures.BaseModel
 @{
-    UserSession session = (UserSession)Context.Items[SharedPluginFeatures.Constants.UserSession];
-    bool loggedIn = !String.IsNullOrEmpty(session.UserName);
+    bool loggedIn = Model.UserIsLoggedIn;
     ShoppingCartSummary cartSummary = Model.CartSummary;
     var items = Localizer[nameof(Languages.LanguageStrings.Items)];
     string cost = 0d.ToString("C", Model.CartSummary.Culture);

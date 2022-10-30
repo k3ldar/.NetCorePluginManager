@@ -105,6 +105,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleDB.Tests", "Tests\Plu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginManager.DAL.TextFiles.Tests", "Tests\PluginManager.DAL.TextFiles.Tests\PluginManager.DAL.TextFiles.Tests.csproj", "{2CA6425F-5474-43CC-AC87-47A4D49A8ADA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resources.Plugin", "Plugins\Resources.Plugin\Resources.Plugin.csproj", "{33E06D80-EEED-491E-A212-7C5E6688A37D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -283,6 +285,10 @@ Global
 		{2CA6425F-5474-43CC-AC87-47A4D49A8ADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CA6425F-5474-43CC-AC87-47A4D49A8ADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CA6425F-5474-43CC-AC87-47A4D49A8ADA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33E06D80-EEED-491E-A212-7C5E6688A37D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33E06D80-EEED-491E-A212-7C5E6688A37D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33E06D80-EEED-491E-A212-7C5E6688A37D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33E06D80-EEED-491E-A212-7C5E6688A37D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

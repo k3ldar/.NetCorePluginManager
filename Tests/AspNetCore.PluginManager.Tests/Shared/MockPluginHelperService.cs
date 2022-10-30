@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 using PluginManager;
@@ -32,7 +33,8 @@ using PluginManager.Abstractions;
 
 namespace AspNetCore.PluginManager.Tests.Shared
 {
-    public class MockPluginHelperService : IPluginHelperService
+	[ExcludeFromCodeCoverage]
+	public class MockPluginHelperService : IPluginHelperService
     {
         private readonly List<string> _loadedPlugins;
 

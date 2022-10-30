@@ -1,0 +1,202 @@
+﻿@model Resources.Plugin.Models.CreateResourceItemModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Model.SeoTitle;
+}
+
+<link rel="stylesheet" href="/css/resources.css" />
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<div class="row res-row">
+    <div class="col">
+        <h1>@Localizer[nameof(Languages.LanguageStrings.CreateResource)]</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        @Html.ValidationSummary(true)
+    </div>
+</div>
+
+@using (Html.BeginForm(nameof(Resources.Plugin.Controllers.ResourcesController.CreateResourceItem), Resources.Plugin.Controllers.ResourcesController.Name, FormMethod.Post, new { id = "createCategoryForm" }))
+{
+    @Html.HiddenFor(m => m.ParentId);
+    @Html.HiddenFor(m => m.Value);
+
+    <div class="row res-row">
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            @Html.LabelFor(m => m.Name)
+
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Name)
+        </div>
+    </div>
+
+    <div class="row res-row">
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            @Html.LabelFor(m => m.Description)
+
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", style = "min-height:80px;" })
+            @Html.ValidationMessageFor(m => m.Description)
+        </div>
+    </div>
+
+    <div class="row res-row">
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            @Html.LabelFor(m => m.ResourceType)
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            @Html.DropDownListFor(m => m.ResourceType, new SelectList(Model.AllResourceTypes, "Id", "Name"), new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.ResourceType)
+        </div>
+    </div>
+
+    <div class="row res-row">
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            @Html.LabelFor(m => m.Tags) @Localizer[nameof(Languages.LanguageStrings.OnePerLine)]
+
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            @Html.TextAreaFor(m => m.Tags, new { @class = "form-control", style = "min-height:80px;" })
+            @Html.ValidationMessageFor(m => m.Tags)
+        </div>
+    </div>
+
+    <div class="row res-row" id="textData" style="display:none">
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            @Localizer[nameof(Languages.LanguageStrings.TextResource)]
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            <textarea class="form-control" id="textDataValue"></textarea>
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4" id="mdContent">
+
+        </div>
+    </div>
+
+    <div class="row res-row" id="imageData" style="display:none">
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            @Localizer[nameof(Languages.LanguageStrings.ImageResource)]
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            <input type="text" class="form-control" id="imageDataValue" />
+        </div>
+    </div>
+
+    <div class="row res-row" id="uriData" style="display:none">
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            @Localizer[nameof(Languages.LanguageStrings.UriResource)]
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            <input type="text" class="form-control" id="uriDataValue" />
+        </div>
+    </div>
+
+    <div class="row res-row" id="youtubeData" style="display:none">
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            @Localizer[nameof(Languages.LanguageStrings.YouTubeResource)]
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            <input type="text" class="form-control" id="youtubeDataValue" />
+        </div>
+    </div>
+
+    <div class="row res-row" id="tiktokData" style="display:none">
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            @Localizer[nameof(Languages.LanguageStrings.TikTokAccountResource)]
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <input type="text" class="form-control" id="tiktokAccountDataValue" />
+        </div>
+        <div class="col-sm-12 col-md-2 col-lg-5">
+            &nbsp;
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-3" style="margin-top: 15px;">
+            @Localizer[nameof(Languages.LanguageStrings.TikTokVideoIdResource)]
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-4" style="margin-top: 15px;">
+            <input type="text" class="form-control" id="tiktokVideoDataValue" />
+        </div>
+
+    </div>
+
+    <div class="row res-row">
+        <div class="col">
+            <input id="btnCreateCategory" class="btn btn-primary" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Create)]" />
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    const cbTypeName = document.getElementById('@Html.IdFor(m => m.ResourceType)');
+    const valueId = document.getElementById('@Html.IdFor(m => m.Value)');
+    const textData = document.getElementById('textData');
+    const imageData = document.getElementById('imageData');
+    const uriData = document.getElementById('uriData');
+    const youTubeData = document.getElementById('youtubeData');
+    const tikTokData = document.getElementById('tiktokData');
+    const textDataValue = document.getElementById('textDataValue');
+    const imageDataValue = document.getElementById('imageDataValue');
+    const uriDataValue = document.getElementById('uriDataValue');
+    const youTubeDataValue = document.getElementById('youtubeDataValue');
+    const tikTokAccountDataValue = document.getElementById('tiktokAccountDataValue');
+    const tikTokVideoDataValue = document.getElementById('tiktokVideoDataValue');
+
+    $(document).ready(function () {
+        cbTypeName.addEventListener('change', function (e) {
+            hideAll();
+            showSelection();
+        });
+        textData.addEventListener('change', updateTextValue);
+        textData.addEventListener('input', updateTextValue);
+        imageDataValue.addEventListener('input', updateValue);
+        uriDataValue.addEventListener('input', updateValue);
+        youTubeDataValue.addEventListener('input', updateValue);
+        tikTokAccountDataValue.addEventListener('input', updateTikTok);
+        tikTokVideoDataValue.addEventListener('input', updateTikTok);
+
+        cbTypeName.selectedIndex = @Model.ResourceType;
+        hideAll();
+        showSelection();
+    });
+
+    function hideAll() {
+        textData.style.display = "none";
+        imageData.style.display = "none";
+        uriData.style.display = "none";
+        youTubeData.style.display = "none";
+        tikTokData.style.display = "none";
+    };
+
+    function showSelection() {
+        let sel = cbTypeName.options[cbTypeName.selectedIndex].text.toLowerCase() + "Data";
+        let selD = document.getElementById(sel);
+        selD.style.display = "flex";
+    }
+
+    function updateValue()
+    {
+        let sel = cbTypeName.options[cbTypeName.selectedIndex].text.toLowerCase() + "DataValue";
+        let selD = document.getElementById(sel);
+        valueId.value = selD.value;
+    }
+
+    function updateTextValue() {
+        let sel = cbTypeName.options[cbTypeName.selectedIndex].text.toLowerCase() + "DataValue";
+        let selD = document.getElementById(sel);
+        valueId.value = selD.value;
+        document.getElementById("mdContent").innerHTML = marked.parse(selD.value);
+    }
+
+    function updateTikTok()
+    {
+        valueId.value = tikTokAccountDataValue.value + ':' + tikTokVideoDataValue.value;
+    }
+
+</script>

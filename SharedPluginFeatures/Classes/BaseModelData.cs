@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SharedPluginFeatures
  *  
@@ -39,6 +39,7 @@ namespace SharedPluginFeatures
             in ShoppingCartSummary cartSummary, in string seoTitle,
             in string seoAuthor, in string seoDescription,
             in string seoTags, in bool canManageSeoData,
+			in bool userIsLoggedIn,
             in bool userHasConsentCookie)
         {
             Breadcrumbs = breadcrumbs ?? new List<BreadcrumbItem>();
@@ -47,7 +48,8 @@ namespace SharedPluginFeatures
             SeoDescription = seoDescription ?? String.Empty;
             SeoTitle = seoTitle ?? String.Empty;
             SeoTags = seoTags ?? String.Empty;
-            CanManageSeoData = canManageSeoData;
+            CanManageSeoData = canManageSeoData && userIsLoggedIn;
+			UserIsLoggedIn = userIsLoggedIn;
             UserHasConsentCookie = userHasConsentCookie;
         }
 
@@ -95,6 +97,11 @@ namespace SharedPluginFeatures
         /// Indicates whether the user can manage Seo data.
         /// </summary>
         public bool CanManageSeoData { get; }
+
+		/// <summary>
+		/// Indicates whether the user is logged in or not
+		/// </summary>
+		public bool UserIsLoggedIn { get; }
 
         /// <summary>
         /// Indicates whether the user has a consent cookie or not

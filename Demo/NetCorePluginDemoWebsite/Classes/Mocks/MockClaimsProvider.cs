@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Demo Website
  *  
@@ -86,6 +86,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             webClaims.Add(new Claim(Constants.ClaimNameManageSeo, "true"));
             webClaims.Add(new Claim(Constants.ClaimNameViewImageManager, "true"));
             webClaims.Add(new Claim(Constants.ClaimNameManageContent, "true"));
+			webClaims.Add(new Claim(Constants.ClaimNameAddResources, "true"));
 
             // Only enable the following if the file exists to prevent malicious use
             // when deployed live as a demo site
@@ -94,9 +95,11 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 webClaims.Add(new Claim(Constants.ClaimNameUserPermissions, "true"));
                 webClaims.Add(new Claim(Constants.ClaimNameManageImages, "true"));
                 webClaims.Add(new Claim(Constants.ClaimNameManageProducts, "true"));
-            }
+				webClaims.Add(new Claim(Constants.ClaimNameManageResources, "true"));
+			}
 
-            Result.Add(new ClaimsIdentity(webClaims, Constants.ClaimIdentityWebsite));
+			Result.Add(new ClaimsIdentity(webClaims, Constants.ClaimIdentityWebsite));
+
 
             return Result;
         }

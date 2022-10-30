@@ -81,5 +81,11 @@ namespace PluginManager.DAL.TextFiles
 		public const string TableNameSessionStatsWeekly = "TableNameSessionStatsWeekly";
 		public const string TableNameSessionStatsMonthly = "TableNameSessionStatsMonthly";
 		public const string TableNameSessionStatsYearly = "TableNameSessionStatsYearly";
+
+		public const string TableDomainResources = "Resources";
+		public const string TableNameResourceCateogories = "ResourceCategories";
+		public const string TableNameResourceItems = "ResourceItems";
+		public const string TableNameResourceResponse = "ResourceResponse";
+		public const string TableNameResourceBookmarks = "ResourceBookmarks";
 	}
 }

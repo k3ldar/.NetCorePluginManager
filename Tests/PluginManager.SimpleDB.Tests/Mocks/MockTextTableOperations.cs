@@ -24,8 +24,11 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace SimpleDB.Tests.Mocks
 {
+	[ExcludeFromCodeCoverage]
 	public class MockTextTableOperations<T> : ISimpleDBOperations<T>, ISimpleDBTable
         where T : TableRowDefinition
     {
@@ -157,6 +160,11 @@ namespace SimpleDB.Tests.Mocks
         }
 
 		public void ClearAllMemory()
+		{
+			throw new NotImplementedException();
+		}
+
+		public IReadOnlyList<T> Select(Func<T, bool> predicate)
 		{
 			throw new NotImplementedException();
 		}

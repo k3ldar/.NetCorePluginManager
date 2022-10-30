@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
@@ -30,9 +30,13 @@ using AspNetCore.PluginManager.DemoWebsite.Classes;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
+using Middleware.Resources;
+
 using PluginManager;
 
 using Shared.Classes;
+
+using rp = Resources.Plugin;
 
 namespace AspNetCore.PluginManager.DemoWebsite
 {
@@ -87,6 +91,8 @@ namespace AspNetCore.PluginManager.DemoWebsite
                 PluginManagerService.UsePlugin(typeof(DemoWebsitePlugin.Plugin.PluginInitialisation));
                 PluginManagerService.UsePlugin(typeof(DemoApiPlugin.PluginInitialisation));
                 PluginManagerService.UsePlugin(typeof(DynamicContent.Plugin.PluginInitialisation));
+				PluginManagerService.UsePlugin(typeof(rp.PluginInitialisation));
+				PluginManagerService.UsePlugin(typeof(SearchPlugin.PluginInitialisation));
 
                 CreateWebHostBuilder(args).Build().Run();
             }

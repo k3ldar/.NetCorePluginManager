@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -136,7 +136,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
         {
             return new BaseModelData(new List<BreadcrumbItem>(),
                 new ShoppingCartSummary(1, 0, 0, 0, 0, 20, Thread.CurrentThread.CurrentUICulture, "GBP"),
-                "The Title", "The Author", "The Description", "The Tags", false, true);
+                "The Title", "The Author", "The Description", "The Tags", false, false, true);
         }
 
         protected void ExtractImageResources(in string directory)

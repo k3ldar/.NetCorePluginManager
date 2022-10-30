@@ -1153,7 +1153,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ForgotPasswordViewModel model = new ForgotPasswordViewModel()
             {
                 Username = "valid user",
-                CaptchaText = sut.GetCacheValue("abc123").CaptchaText + "_wrong"
+                CaptchaText = LoginController.GetCacheValue("abc123").CaptchaText + "_wrong"
             };
 
             IActionResult response = sut.ForgotPassword(model: model);
@@ -1199,7 +1199,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ForgotPasswordViewModel model = new ForgotPasswordViewModel()
             {
                 Username = "user not found",
-                CaptchaText = sut.GetCacheValue("abc123").CaptchaText
+                CaptchaText = LoginController.GetCacheValue("abc123").CaptchaText
             };
 
             IActionResult response = sut.ForgotPassword(model: model);
@@ -1245,7 +1245,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ForgotPasswordViewModel model = new ForgotPasswordViewModel()
             {
                 Username = "valid user",
-                CaptchaText = sut.GetCacheValue("abc123").CaptchaText
+                CaptchaText = LoginController.GetCacheValue("abc123").CaptchaText
             };
 
             IActionResult response = sut.ForgotPassword(model: model);
@@ -1264,8 +1264,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         public void GetCacheValue_NullCacheName_Returns_Null()
         {
             LoginController sut = CreateLoginController();
-            Assert.IsNull(sut.GetCacheValue(null));
-            Assert.IsNull(sut.GetCacheValue(""));
+            Assert.IsNull(LoginController.GetCacheValue(null));
+            Assert.IsNull(LoginController.GetCacheValue(""));
         }
 
         [TestMethod]
@@ -1273,7 +1273,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         public void GetCacheValue_CacheItemNotFound_Returns_Null()
         {
             LoginController sut = CreateLoginController();
-            Assert.IsNull(sut.GetCacheValue("invalid cache item"));
+            Assert.IsNull(LoginController.GetCacheValue("invalid cache item"));
         }
 
         [TestMethod]

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SharedPluginFeatures
  *  
@@ -69,6 +69,7 @@ namespace SharedPluginFeatures
             SeoTitle = modelData.SeoTitle;
             CanManageSeoData = modelData.CanManageSeoData;
             UserHasCookieConsent = modelData.UserHasConsentCookie;
+			UserIsLoggedIn = modelData.UserIsLoggedIn;
         }
 
         #endregion Constructors
@@ -126,7 +127,12 @@ namespace SharedPluginFeatures
         /// <summary>
         /// Indicates the user can manage Seo data.
         /// </summary>
-        public bool CanManageSeoData { get; private set; }
+        public bool CanManageSeoData { get; }
+
+		/// <summary>
+		/// Indicates whether the user is logged in or not
+		/// </summary>
+		public bool UserIsLoggedIn { get; }
 
         /// <summary>
         /// Determines whether the user has a consent cookie or not

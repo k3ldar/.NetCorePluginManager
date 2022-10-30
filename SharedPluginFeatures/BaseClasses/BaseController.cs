@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SharedPluginFeatures
  *  
@@ -48,16 +48,22 @@ namespace SharedPluginFeatures
     /// </summary>
     public class BaseController : Controller
     {
-        #region User Sessions
+		#region Private Members
 
-        /// <summary>
-        /// Retrieves the current users UserSession instance which contains data for the user.
-        /// 
-        /// Requires UserSessionMiddleware.Plugin module to be loaded.
-        /// </summary>
-        /// <returns>null if the UserSessionMiddleware.Plugin is not loaded otherwise a valid UserSession item representing 
-        /// the current users session.</returns>
-        protected UserSession GetUserSession()
+		private const string GrowlTempDataKeyName = "growl";
+
+		#endregion Private Members
+
+		#region User Sessions
+
+		/// <summary>
+		/// Retrieves the current users UserSession instance which contains data for the user.
+		/// 
+		/// Requires UserSessionMiddleware.Plugin module to be loaded.
+		/// </summary>
+		/// <returns>null if the UserSessionMiddleware.Plugin is not loaded otherwise a valid UserSession item representing 
+		/// the current users session.</returns>
+		protected UserSession GetUserSession()
         {
             if (HttpContext.Items.ContainsKey(Constants.UserSession))
             {
@@ -115,12 +121,26 @@ namespace SharedPluginFeatures
             return -1;
         }
 
-        /// <summary>
-        /// Retrieves a unique http session id for the current users session.  This is not related
-        /// to UserSession.
-        /// </summary>
-        /// <returns>string.  Unique http session id.</returns>
-        protected string GetSessionId()
+		/// <summary>
+		/// Retrieves the current users name
+		/// </summary>
+		/// <returns></returns>
+		protected string UserName()
+		{
+			UserSession session = GetUserSession();
+
+			if (session != null)
+				return session.UserName;
+
+			return String.Empty;
+		}
+
+		/// <summary>
+		/// Retrieves a unique http session id for the current users session.  This is not related
+		/// to UserSession.
+		/// </summary>
+		/// <returns>string.  Unique http session id.</returns>
+		protected string GetSessionId()
         {
             UserSession session = GetUserSession();
 
@@ -318,10 +338,29 @@ namespace SharedPluginFeatures
         {
             string Result = String.Empty;
 
-            if (TempData.ContainsKey("growl"))
-                Result = (string)TempData["growl"];
 
-            return Result;
+			if (HttpContext.RequestServices.GetService(typeof(IMemoryCache)) is IMemoryCache memoryCache)
+			{
+				string cacheName = $"{UserId()}{GrowlTempDataKeyName}";
+
+				CacheItem tempCache = memoryCache.GetShortCache().Get(cacheName);
+
+				if (tempCache != null)
+				{
+					Result = tempCache.Value as string;
+					memoryCache.GetShortCache().Remove(tempCache);
+				}
+			}
+			else
+			{
+				if (TempData.ContainsKey(GrowlTempDataKeyName))
+				{
+					Result = (string)TempData[GrowlTempDataKeyName];
+					TempData.Remove(GrowlTempDataKeyName);
+				}
+			}
+
+			return Result;
         }
 
         /// <summary>
@@ -330,8 +369,17 @@ namespace SharedPluginFeatures
         /// <param name="s"></param>
         protected void GrowlAdd(string s)
         {
-            TempData["growl"] = s;
-        }
+			if (HttpContext.RequestServices.GetService(typeof(IMemoryCache)) is IMemoryCache memoryCache)
+			{
+				string cacheName = $"{UserId()}{GrowlTempDataKeyName}";
+				memoryCache.GetShortCache().Add(cacheName, new CacheItem(cacheName, s));
+			}
+			else
+			{
+				TempData.Add(GrowlTempDataKeyName, s);
+				TempData.Keep(GrowlTempDataKeyName);
+			}
+		}
 
         #endregion Growl
 
@@ -511,8 +559,8 @@ namespace SharedPluginFeatures
                 GetSeoAuthor(),
                 GetSeoDescription(),
                 GetSeoKeyWords(),
-                HttpContext.User.HasClaim(Constants.ClaimNameManageSeo, "true") &&
-                IsUserLoggedIn(),
+                HttpContext.User.HasClaim(Constants.ClaimNameManageSeo, "true"),
+				IsUserLoggedIn(),
                 CookieExists(Constants.UserConsentCookie));
         }
 
@@ -605,12 +653,10 @@ namespace SharedPluginFeatures
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Not fussed with this exception")]
         protected IAuthenticationService GetAuthenticationService()
         {
-            IAuthenticationService authenticationService = HttpContext.RequestServices.GetService(typeof(IAuthenticationService)) as IAuthenticationService;
+			if (HttpContext.RequestServices.GetService(typeof(IAuthenticationService)) is not IAuthenticationService authenticationService)
+				throw new InvalidOperationException($"{nameof(IAuthenticationService)} has not been registered");
 
-            if (authenticationService == null)
-                throw new InvalidOperationException($"{nameof(IAuthenticationService)} has not been registered");
-
-            return authenticationService;
+			return authenticationService;
         }
 
 		#endregion Authentication

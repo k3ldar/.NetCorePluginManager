@@ -726,6 +726,12 @@
             </summary>
             <returns>Valid user id if the user is logged in, otherwise -1 will be returned.</returns>
         </member>
+        <member name="M:SharedPluginFeatures.BaseController.UserName">
+            <summary>
+            Retrieves the current users name
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SharedPluginFeatures.BaseController.GetSessionId">
             <summary>
             Retrieves a unique http session id for the current users session.  This is not related
@@ -1139,6 +1145,11 @@
             Indicates the user can manage Seo data.
             </summary>
         </member>
+        <member name="P:SharedPluginFeatures.BaseModel.UserIsLoggedIn">
+            <summary>
+            Indicates whether the user is logged in or not
+            </summary>
+        </member>
         <member name="P:SharedPluginFeatures.BaseModel.UserHasCookieConsent">
             <summary>
             Determines whether the user has a consent cookie or not
@@ -1217,6 +1228,11 @@
         <member name="P:SharedPluginFeatures.BaseModelData.CanManageSeoData">
             <summary>
             Indicates whether the user can manage Seo data.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.BaseModelData.UserIsLoggedIn">
+            <summary>
+            Indicates whether the user is logged in or not
             </summary>
         </member>
         <member name="P:SharedPluginFeatures.BaseModelData.UserHasConsentCookie">
@@ -2478,9 +2494,29 @@
             Ampersand (&amp;) char constant
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.NewLineChar">
+            <summary>
+            New line char constant
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.EqualsChar">
             <summary>
             Equals (=) char constant
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ColonChar">
+            <summary>
+            Colon (:) char constant
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.CommaChar">
+            <summary>
+            Comma (,) char constant
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.EmptySpace">
+            <summary>
+            String with one empty space char
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.PluginSettingBreadcrumb">
@@ -2738,6 +2774,16 @@
             Name of policy for managing products
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.PolicyNameAddResources">
+            <summary>
+            Name of policy for adding resources
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PolicyNameManageResources">
+            <summary>
+            Name of policy for managing resources
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.ClaimNameManageContent">
             <summary>
             Claim name for allowing user to manage content
@@ -2796,6 +2842,16 @@
         <member name="F:SharedPluginFeatures.Constants.ClaimNameManageProducts">
             <summary>
             Name of claim for managing products
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimNameAddResources">
+            <summary>
+            Name of claim for adding resources
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimNameManageResources">
+            <summary>
+            Name of claim for managing resources
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.ClaimIdentityUser">

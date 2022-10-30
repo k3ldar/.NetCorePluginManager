@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using Middleware;
 using Middleware.Products;
@@ -31,7 +32,8 @@ using Middleware.ShoppingCart;
 
 namespace AspNetCore.PluginManager.Tests.Shared
 {
-    public class MockStockProvider : IStockProvider
+	[ExcludeFromCodeCoverage]
+	public class MockStockProvider : IStockProvider
     {
         private readonly uint _stockCount;
 

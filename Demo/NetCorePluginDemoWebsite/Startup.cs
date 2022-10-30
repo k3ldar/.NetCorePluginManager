@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
@@ -78,7 +78,7 @@ namespace AspNetCore.PluginManager.DemoWebsite
             {
                 // Set a short timeout for easy testing.
                 //options.IdleTimeout = TimeSpan.FromSeconds(10);
-                //options.Cookie.HttpOnly = false;
+                options.Cookie.HttpOnly = false;
             });
 
             services.AddLogging();

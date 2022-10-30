@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  BadEgg.Plugin
  *  
@@ -66,7 +66,7 @@ namespace BadEgg.Plugin
         /// Must be a valid http client error response (in the range of 400)
         /// </summary>
         /// <value>int</value>
-        [SettingDefault(400)]
+        [SettingDefault(SharedPluginFeatures.Constants.HtmlResponseBadRequest)]
         [SettingHttpResponse(HttpResponseType.ClientErrors)]
         public int BannedResponseCode { get; set; }
 

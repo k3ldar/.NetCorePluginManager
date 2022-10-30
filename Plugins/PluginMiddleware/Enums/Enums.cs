@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -27,6 +27,37 @@ using System;
 
 namespace Middleware
 {
+	/// <summary>
+	/// Resource type
+	/// </summary>
+	public enum ResourceType
+	{
+		/// <summary>
+		/// Text resource type
+		/// </summary>
+		Text = 0,
+
+		/// <summary>
+		/// Image resource type
+		/// </summary>
+		Image = 1,
+
+		/// <summary>
+		/// Uri resource type
+		/// </summary>
+		Uri = 2,
+
+		/// <summary>
+		/// Youtube resource type
+		/// </summary>
+		YouTube = 3,
+
+		/// <summary>
+		/// TikTok resource type
+		/// </summary>
+		TikTok = 4,
+	}
+
     /// <summary>
     /// Login results
     /// </summary>
@@ -336,4 +367,30 @@ namespace Middleware
         /// </summary>
         Failed = 2
     }
+
+	/// <summary>
+	/// Result of adding/removing a bookmark
+	/// </summary>
+	public enum BookmarkActionResult
+	{
+		/// <summary>
+		/// Unknown response or error
+		/// </summary>
+		Unknown,
+
+		/// <summary>
+		/// Bookmark has been added
+		/// </summary>
+		Added,
+
+		/// <summary>
+		/// Bookmark has been removed
+		/// </summary>
+		Removed,
+
+		/// <summary>
+		/// The max number of allowed bookmarks has been reached
+		/// </summary>
+		QuotaExceeded,
+	}
 }
