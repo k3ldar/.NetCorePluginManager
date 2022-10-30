@@ -367,4 +367,30 @@ namespace Middleware
         /// </summary>
         Failed = 2
     }
+
+	/// <summary>
+	/// Result of adding/removing a bookmark
+	/// </summary>
+	public enum BookmarkActionResult
+	{
+		/// <summary>
+		/// Unknown response or error
+		/// </summary>
+		Unknown,
+
+		/// <summary>
+		/// Bookmark has been added
+		/// </summary>
+		Added,
+
+		/// <summary>
+		/// Bookmark has been removed
+		/// </summary>
+		Removed,
+
+		/// <summary>
+		/// The max number of allowed bookmarks has been reached
+		/// </summary>
+		QuotaExceeded,
+	}
 }

@@ -31,6 +31,7 @@ using SimpleDB;
 using Middleware;
 using Middleware.Resources;
 using System.Runtime.CompilerServices;
+using PluginManager.DAL.TextFiles.Tables.Resources;
 
 #pragma warning disable CA1826
 
@@ -38,20 +39,24 @@ namespace PluginManager.DAL.TextFiles.Providers
 {
 	internal sealed class ResourceProvider : IResourceProvider
 	{
+		private const int MaximumBookmarksPerUser = 30;
 		private readonly ISimpleDBOperations<UserDataRow> _users;
 		private readonly ISimpleDBOperations<ResourceCategoryDataRow> _resourceCategories;
 		private readonly ISimpleDBOperations<ResourceItemDataRow> _resourceItems;
 		private readonly ISimpleDBOperations<ResourceItemUserResponseDataRow> _resourceResponses;
+		private readonly ISimpleDBOperations<ResourceBookmarkDataRow> _resourceBookmarks;
 
 		public ResourceProvider(ISimpleDBOperations<UserDataRow> users,
 			ISimpleDBOperations<ResourceCategoryDataRow> resources,
 			ISimpleDBOperations<ResourceItemDataRow> resourceItems,
-			ISimpleDBOperations<ResourceItemUserResponseDataRow> resourceResponses)
+			ISimpleDBOperations<ResourceItemUserResponseDataRow> resourceResponses,
+			ISimpleDBOperations<ResourceBookmarkDataRow> resourceBookmarks)
 		{
 			_users = users ?? throw new ArgumentNullException(nameof(users));
 			_resourceCategories = resources ?? throw new ArgumentNullException(nameof(resources));
 			_resourceItems = resourceItems ?? throw new ArgumentNullException(nameof(resourceItems));
 			_resourceResponses = resourceResponses ?? throw new ArgumentNullException(nameof(resourceResponses));
+			_resourceBookmarks = resourceBookmarks ?? throw new ArgumentNullException(nameof(resourceBookmarks));
 		}
 
 		public List<ResourceCategory> GetAllResources()
@@ -274,7 +279,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			ResourceCategoryDataRow resourceCategoryDataRow = _resourceCategories.Select(resourceItem.CategoryId);
 
 			if (resourceCategoryDataRow == null)
-				throw new ArgumentException();
+				throw new ArgumentException(nameof(resourceCategoryDataRow));
 
 			resourceItemRow.CategoryId = resourceItem.CategoryId;
 			resourceItemRow.Name = resourceItem.Name;
@@ -289,7 +294,79 @@ namespace PluginManager.DAL.TextFiles.Providers
 			return ConvertResourceItemDataRowToResourceItem(resourceItemRow);
 		}
 
+		public BookmarkActionResult ToggleResourceBookmark(long userId, ResourceItem resourceItem)
+		{
+			if (resourceItem == null)
+				throw new ArgumentNullException(nameof(resourceItem));
+			
+			if (_users.Select(userId) == null)
+				return BookmarkActionResult.Unknown;
+
+			if (_resourceItems.Select(resourceItem.Id) == null)
+				return BookmarkActionResult.Unknown;
+
+			ResourceBookmarkDataRow resourceBookmarkDataRow = _resourceBookmarks.Select(rb => rb.UserId.Equals(userId) && rb.ResourceId.Equals(resourceItem.Id)).FirstOrDefault();
+
+			if (resourceBookmarkDataRow == null)
+			{
+				if (_resourceBookmarks.Select(r => r.UserId.Equals(userId)).Count >= MaximumBookmarksPerUser)
+					return BookmarkActionResult.QuotaExceeded;
+
+				_resourceBookmarks.Insert(new ResourceBookmarkDataRow()
+				{ 
+					UserId = userId,
+					ResourceId = resourceItem.Id,
+				});
+
+				return BookmarkActionResult.Added;
+			}
+
+			_resourceBookmarks.Delete(resourceBookmarkDataRow);
+			return BookmarkActionResult.Removed;
+		}
+
+		public List<ResourceItem> RetrieveUserBookmarks(long userId)
+		{
+			if (_users.Select(userId) != null)
+			{
+				IReadOnlyList<ResourceBookmarkDataRow> userBookmarks = _resourceBookmarks.Select(rb => rb.UserId.Equals(userId));
+				IReadOnlyList<ResourceItemDataRow> resourceBookmarks = _resourceItems.Select(ri => userBookmarks.Any(ub => ub.Id.Equals(ri.Id)));
+				
+				return ConvertResourceItemDataRowsToResourceItemList(resourceBookmarks);
+			}
+
+			return new List<ResourceItem>();
+		}
+
 		#region Private Methods
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private static List<ResourceItem> ConvertResourceItemDataRowsToResourceItemList(IReadOnlyList<ResourceItemDataRow> resourceItemList)
+		{
+			if (resourceItemList == null)
+				return null;
+
+			List<ResourceItem> result = new List<ResourceItem>();
+
+			foreach (ResourceItemDataRow resourceItemDataRow in resourceItemList)
+			{
+				result.Add(new ResourceItem(
+					resourceItemDataRow.Id,
+					resourceItemDataRow.CategoryId,
+					(ResourceType)resourceItemDataRow.ResourceType,
+					resourceItemDataRow.UserId,
+					resourceItemDataRow.UserName,
+					resourceItemDataRow.Name,
+					resourceItemDataRow.Description,
+					resourceItemDataRow.Value,
+					resourceItemDataRow.Likes,
+					resourceItemDataRow.Dislikes,
+					resourceItemDataRow.ViewCount,
+					resourceItemDataRow.Approved));
+			}
+
+			return result;
+		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private static ResourceItem ConvertResourceItemDataRowToResourceItem(ResourceItemDataRow resourceItemDataRow)

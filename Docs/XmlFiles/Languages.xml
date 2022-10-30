@@ -11887,6 +11887,26 @@
               Looks up a localized string similar to To continue with this booking you must store your credit/debit card details in the members area and provide a valid telephone number.  Click next to add/update your credit/debit card details or telephone number..
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.BookmarkAdded">
+            <summary>
+              Looks up a localized string similar to Bookmark for resource item {0} has been added..
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.BookmarkQuotaExceeded">
+            <summary>
+              Looks up a localized string similar to The maximum number of allowed bookmarks has been reached.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.BookmarkRemoved">
+            <summary>
+              Looks up a localized string similar to Bookmark for resource item {0} removed..
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.Bookmarks">
+            <summary>
+              Looks up a localized string similar to Bookmarks.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.BookNewAppointment">
             <summary>
               Looks up a localized string similar to Book New Appointment.
@@ -17489,6 +17509,11 @@
               Looks up a localized string similar to View all moisturisers.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.ViewBookmarks">
+            <summary>
+              Looks up a localized string similar to View Bookmarks.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.ViewCelebrity">
             <summary>
               Looks up a localized string similar to View Celebrity.
@@ -17517,6 +17542,11 @@
         <member name="P:Languages.LanguageStrings.ViewOrder">
             <summary>
               Looks up a localized string similar to View Order.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.Views">
+            <summary>
+              Looks up a localized string similar to Views.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.ViewShoppingBag">

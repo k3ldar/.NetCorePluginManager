@@ -34,6 +34,7 @@ using Middleware.Helpdesk;
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
+using PluginManager.DAL.TextFiles.Tables.Resources;
 
 using SharedPluginFeatures;
 
@@ -136,6 +137,7 @@ namespace PluginManager.DAL.TextFiles
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<ResourceCategoryDataRow>>();
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<ResourceItemDataRow>>();
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<ResourceItemUserResponseDataRow>>();
+			_ = app.ApplicationServices.GetService<ISimpleDBOperations<ResourceBookmarkDataRow>>();
 
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<UserApiDataRow>>();
 
@@ -191,6 +193,7 @@ namespace PluginManager.DAL.TextFiles
 			services.AddSingleton(typeof(TableRowDefinition), typeof(ResourceCategoryDataRow));
 			services.AddSingleton(typeof(TableRowDefinition), typeof(ResourceItemDataRow));
 			services.AddSingleton(typeof(TableRowDefinition), typeof(ResourceItemUserResponseDataRow));
+			services.AddSingleton(typeof(TableRowDefinition), typeof(ResourceBookmarkDataRow));
 
 			services.AddSingleton(typeof(TableRowDefinition), typeof(SeoDataRow));
 

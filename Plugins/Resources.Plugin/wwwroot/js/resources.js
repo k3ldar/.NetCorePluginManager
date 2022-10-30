@@ -25,6 +25,25 @@
                 },
             });
         },
+
+        toggleBookmark: function (id) {
+            let json = {
+                id: id
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/Resources/ToggleBookmark/',
+                data: json,
+                cache: false,
+                success: function (response) {
+                    if (response.success) {
+                        let growl = response.responseData;
+                        $.growl.notice({ title: "Bookmark", message: growl });
+                    }
+                },
+            });
+        },
     };
 
     return root;

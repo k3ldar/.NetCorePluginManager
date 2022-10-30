@@ -3539,6 +3539,31 @@
             Failed to create a licence.
             </summary>
         </member>
+        <member name="T:Middleware.BookmarkActionResult">
+            <summary>
+            Result of adding/removing a bookmark
+            </summary>
+        </member>
+        <member name="F:Middleware.BookmarkActionResult.Unknown">
+            <summary>
+            Unknown response or error
+            </summary>
+        </member>
+        <member name="F:Middleware.BookmarkActionResult.Added">
+            <summary>
+            Bookmark has been added
+            </summary>
+        </member>
+        <member name="F:Middleware.BookmarkActionResult.Removed">
+            <summary>
+            Bookmark has been removed
+            </summary>
+        </member>
+        <member name="F:Middleware.BookmarkActionResult.QuotaExceeded">
+            <summary>
+            The max number of allowed bookmarks has been reached
+            </summary>
+        </member>
         <member name="T:Middleware.IApplicationProvider">
             <summary>
             Application provider interface provides application wide methods that can be used from
@@ -4255,6 +4280,21 @@
             <param name="userId"></param>
             <param name="resourceItem"></param>
             <returns></returns>
+        </member>
+        <member name="M:Middleware.IResourceProvider.ToggleResourceBookmark(System.Int64,Middleware.Resources.ResourceItem)">
+            <summary>
+            Updates a user bookmark for a resource item, if not present the bookmark is added, if present the bookmark is removed
+            </summary>
+            <param name="userId">Id of user</param>
+            <param name="resourceItem">Resource item whose bookmark is being toggled</param>
+            <returns>BookmarkActionResult</returns>
+        </member>
+        <member name="M:Middleware.IResourceProvider.RetrieveUserBookmarks(System.Int64)">
+            <summary>
+            Retrieves a list of all user
+            </summary>
+            <param name="userId">Id of user who's bookmarked items are being retrieved</param>
+            <returns>List&lt;ResourceItem&gt;</returns>
         </member>
         <member name="T:Middleware.ISearchKeywordProvider">
             <summary>

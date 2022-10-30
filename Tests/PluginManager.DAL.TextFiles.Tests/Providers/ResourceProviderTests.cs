@@ -36,6 +36,7 @@ using Middleware.Resources;
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
+using PluginManager.DAL.TextFiles.Tables.Resources;
 using PluginManager.Tests.Mocks;
 
 using SimpleDB;
@@ -52,7 +53,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void Construct_InvalidInstance_TableUserNull_Throws_ArgumentNullException()
 		{
-			new ResourceProvider(null, null, null, null);
+			new ResourceProvider(null, null, null, null, null);
 		}
 
 		[TestMethod]
@@ -1772,6 +1773,526 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.AreEqual(20, result.ViewCount);
 					Assert.IsTrue(result.Approved);
 
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+
+		[TestMethod]
+		public void ToggleResourceBookmark_UserNotFound_ReturnsUnknown()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					initialisation.AfterConfigure(mockApplicationBuilder);
+
+
+					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
+					Assert.IsNotNull(sut);
+
+					ResourceItem resourceItem = new ResourceItem(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true);
+					BookmarkActionResult result = sut.ToggleResourceBookmark(2, resourceItem);
+
+					Assert.AreEqual(BookmarkActionResult.Unknown, result);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void ToggleResourceBookmark_ResourceItemNull_ThrowsArgumentNullException()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					initialisation.AfterConfigure(mockApplicationBuilder);
+
+
+					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
+					Assert.IsNotNull(sut);
+
+					BookmarkActionResult result = sut.ToggleResourceBookmark(2, null);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+
+		[TestMethod]
+		public void ToggleResourceBookmark_ResourceItemNotFound_ReturnsUnknown()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					initialisation.AfterConfigure(mockApplicationBuilder);
+
+					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+					Assert.IsNotNull(userTable);
+
+					userTable.Insert(new UserDataRow()
+					{
+						FirstName = "Joe",
+						Surname = "Bloggs"
+					});
+					ISimpleDBOperations<ResourceCategoryDataRow> resourceCategories = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
+					Assert.IsNotNull(resourceCategories);
+
+					resourceCategories.Insert(new ResourceCategoryDataRow()
+					{
+						Name = "name",
+						Description = "desc",
+					});
+
+					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
+					Assert.IsNotNull(sut);
+
+					ResourceItem resourceItem = new ResourceItem(-100, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true);
+					BookmarkActionResult result = sut.ToggleResourceBookmark(1, resourceItem);
+
+					Assert.AreEqual(BookmarkActionResult.Unknown, result);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+
+		[TestMethod]
+		public void ToggleResourceBookmark_ResourceItemFound_NoPreviousBookmark_ReturnsAdded()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					initialisation.AfterConfigure(mockApplicationBuilder);
+
+					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+					Assert.IsNotNull(userTable);
+
+					userTable.Insert(new UserDataRow()
+					{
+						FirstName = "Joe",
+						Surname = "Bloggs"
+					});
+
+					ISimpleDBOperations<ResourceCategoryDataRow> resourceCategories = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
+					Assert.IsNotNull(resourceCategories);
+
+					resourceCategories.Insert(new ResourceCategoryDataRow()
+					{
+						Name = "name",
+						Description = "desc",
+					});
+
+					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
+					Assert.IsNotNull(sut);
+
+					ISimpleDBOperations<ResourceItemDataRow> resourceItems = provider.GetRequiredService<ISimpleDBOperations<ResourceItemDataRow>>();
+					Assert.IsNotNull(resourceItems);
+
+					resourceItems.Insert(new ResourceItemDataRow()
+					{
+						UserId = 1,
+						UserName = "user",
+						Name = "name",
+						Description = "description",
+						Likes = 5,
+						Dislikes = 5,
+						ViewCount = 20,
+						Approved = false,
+					});
+
+					ISimpleDBOperations<ResourceBookmarkDataRow> resourceBookmarks = provider.GetRequiredService<ISimpleDBOperations<ResourceBookmarkDataRow>>();
+					Assert.IsNotNull(resourceBookmarks);
+					Assert.AreEqual(0, resourceBookmarks.RecordCount);
+
+
+					ResourceItem resourceItem = new ResourceItem(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true);
+					BookmarkActionResult result = sut.ToggleResourceBookmark(1, resourceItem);
+
+					Assert.AreEqual(BookmarkActionResult.Added, result);
+					Assert.AreEqual(1, resourceBookmarks.RecordCount);
+					Assert.IsNotNull(resourceBookmarks.Select(rb => rb.UserId.Equals(1) && rb.ResourceId.Equals(0)).FirstOrDefault());
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+
+		[TestMethod]
+		public void ToggleResourceBookmark_ResourceItemFound_PreviouslyBookmarked_ReturnsRemoved()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					initialisation.AfterConfigure(mockApplicationBuilder);
+
+					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+					Assert.IsNotNull(userTable);
+
+					userTable.Insert(new UserDataRow()
+					{
+						FirstName = "Joe",
+						Surname = "Bloggs"
+					});
+
+					ISimpleDBOperations<ResourceCategoryDataRow> resourceCategories = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
+					Assert.IsNotNull(resourceCategories);
+
+					resourceCategories.Insert(new ResourceCategoryDataRow()
+					{
+						Name = "name",
+						Description = "desc",
+					});
+
+					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
+					Assert.IsNotNull(sut);
+
+					ISimpleDBOperations<ResourceItemDataRow> resourceItems = provider.GetRequiredService<ISimpleDBOperations<ResourceItemDataRow>>();
+					Assert.IsNotNull(resourceItems);
+
+					resourceItems.Insert(new ResourceItemDataRow()
+					{
+						UserId = 1,
+						UserName = "user",
+						Name = "name",
+						Description = "description",
+						Likes = 5,
+						Dislikes = 5,
+						ViewCount = 20,
+						Approved = false,
+					});
+
+
+
+					ISimpleDBOperations<ResourceBookmarkDataRow> resourceBookmarks = provider.GetRequiredService<ISimpleDBOperations<ResourceBookmarkDataRow>>();
+					Assert.IsNotNull(resourceBookmarks);
+					Assert.AreEqual(0, resourceBookmarks.RecordCount);
+
+					resourceBookmarks.Insert(new ResourceBookmarkDataRow()
+					{
+						ResourceId = 0,
+						UserId = 1
+					});
+
+					Assert.AreEqual(1, resourceBookmarks.RecordCount);
+
+
+					ResourceItem resourceItem = new ResourceItem(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true);
+					BookmarkActionResult result = sut.ToggleResourceBookmark(1, resourceItem);
+
+					Assert.AreEqual(BookmarkActionResult.Removed, result);
+					Assert.AreEqual(0, resourceBookmarks.RecordCount);
+					Assert.IsNull(resourceBookmarks.Select(rb => rb.UserId.Equals(1) && rb.ResourceId.Equals(0)).FirstOrDefault());
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+
+		[TestMethod]
+		public void ToggleResourceBookmark_UserExceedsBookMarkQuota_ReturnsQuotaExceeded()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					initialisation.AfterConfigure(mockApplicationBuilder);
+
+					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+					Assert.IsNotNull(userTable);
+
+					userTable.Insert(new UserDataRow()
+					{
+						FirstName = "Joe",
+						Surname = "Bloggs"
+					});
+
+					ISimpleDBOperations<ResourceCategoryDataRow> resourceCategories = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
+					Assert.IsNotNull(resourceCategories);
+
+					resourceCategories.Insert(new ResourceCategoryDataRow()
+					{
+						Name = "name",
+						Description = "desc",
+					});
+
+					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
+					Assert.IsNotNull(sut);
+
+					ISimpleDBOperations<ResourceItemDataRow> resourceItems = provider.GetRequiredService<ISimpleDBOperations<ResourceItemDataRow>>();
+					Assert.IsNotNull(resourceItems);
+
+					for (int i = 0; i < 50; i++)
+					{
+						resourceItems.Insert(new ResourceItemDataRow()
+						{
+							UserId = 1,
+							UserName = "user",
+							Name = $"name {i}",
+							Description = "description",
+							Likes = 5,
+							Dislikes = 5,
+							ViewCount = 20,
+							Approved = false,
+						});
+					}
+
+
+					ISimpleDBOperations<ResourceBookmarkDataRow> resourceBookmarks = provider.GetRequiredService<ISimpleDBOperations<ResourceBookmarkDataRow>>();
+					Assert.IsNotNull(resourceBookmarks);
+					Assert.AreEqual(0, resourceBookmarks.RecordCount);
+
+					for (int i = 0; i < 30; i++)
+					{
+						resourceBookmarks.Insert(new ResourceBookmarkDataRow()
+						{
+							ResourceId = i,
+							UserId = 1
+						});
+					}
+
+					Assert.AreEqual(30, resourceBookmarks.RecordCount);
+
+
+					ResourceItem resourceItem = new ResourceItem(35, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true);
+					BookmarkActionResult result = sut.ToggleResourceBookmark(1, resourceItem);
+
+					Assert.AreEqual(BookmarkActionResult.QuotaExceeded, result);
+					Assert.AreEqual(30, resourceBookmarks.RecordCount);
+					Assert.IsNull(resourceBookmarks.Select(rb => rb.UserId.Equals(1) && rb.ResourceId.Equals(35)).FirstOrDefault());
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+
+		[TestMethod]
+		public void RetrieveUserBookmarks_UserDoesNotExist_ReturnsEmptyList()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					initialisation.AfterConfigure(mockApplicationBuilder);
+
+					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+					Assert.IsNotNull(userTable);
+
+					userTable.Insert(new UserDataRow()
+					{
+						FirstName = "Joe",
+						Surname = "Bloggs"
+					});
+
+					ISimpleDBOperations<ResourceCategoryDataRow> resourceCategories = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
+					Assert.IsNotNull(resourceCategories);
+
+					resourceCategories.Insert(new ResourceCategoryDataRow()
+					{
+						Name = "name",
+						Description = "desc",
+					});
+
+					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
+					Assert.IsNotNull(sut);
+
+					List<ResourceItem> result = sut.RetrieveUserBookmarks(101);
+
+					Assert.IsNotNull(result);
+					Assert.AreEqual(0, result.Count);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+
+		[TestMethod]
+		public void RetrieveUserBookmarks_UserHasNoBookmarks_ReturnsEmptyList()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					initialisation.AfterConfigure(mockApplicationBuilder);
+
+					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+					Assert.IsNotNull(userTable);
+
+					userTable.Insert(new UserDataRow()
+					{
+						FirstName = "Joe",
+						Surname = "Bloggs"
+					});
+
+					ISimpleDBOperations<ResourceCategoryDataRow> resourceCategories = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
+					Assert.IsNotNull(resourceCategories);
+
+					resourceCategories.Insert(new ResourceCategoryDataRow()
+					{
+						Name = "name",
+						Description = "desc",
+					});
+
+					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
+					Assert.IsNotNull(sut);
+
+					List<ResourceItem> result = sut.RetrieveUserBookmarks(1);
+
+					Assert.IsNotNull(result);
+					Assert.AreEqual(0, result.Count);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+
+		[TestMethod]
+		public void RetrieveUserBookmarks_UserHasBookmarks_ReturnsBookmarkList()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					initialisation.AfterConfigure(mockApplicationBuilder);
+
+					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+					Assert.IsNotNull(userTable);
+
+					userTable.Insert(new UserDataRow()
+					{
+						FirstName = "Joe",
+						Surname = "Bloggs"
+					});
+
+					ISimpleDBOperations<ResourceCategoryDataRow> resourceCategories = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
+					Assert.IsNotNull(resourceCategories);
+
+					resourceCategories.Insert(new ResourceCategoryDataRow()
+					{
+						Name = "name",
+						Description = "desc",
+					});
+
+					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
+					Assert.IsNotNull(sut);
+
+					ISimpleDBOperations<ResourceItemDataRow> resourceItems = provider.GetRequiredService<ISimpleDBOperations<ResourceItemDataRow>>();
+					Assert.IsNotNull(resourceItems);
+
+					for (int i = 0; i < 50; i++)
+					{
+						resourceItems.Insert(new ResourceItemDataRow()
+						{
+							UserId = 1,
+							UserName = "user",
+							Name = $"name {i}",
+							Description = "description",
+							Likes = 5,
+							Dislikes = 5,
+							ViewCount = 20,
+							Approved = false,
+						});
+					}
+
+
+					ISimpleDBOperations<ResourceBookmarkDataRow> resourceBookmarks = provider.GetRequiredService<ISimpleDBOperations<ResourceBookmarkDataRow>>();
+					Assert.IsNotNull(resourceBookmarks);
+					Assert.AreEqual(0, resourceBookmarks.RecordCount);
+
+					for (int i = 0; i < 27; i++)
+					{
+						resourceBookmarks.Insert(new ResourceBookmarkDataRow()
+						{
+							ResourceId = i,
+							UserId = 1
+						});
+					}
+
+					Assert.AreEqual(27, resourceBookmarks.RecordCount);
+
+					List<ResourceItem> result = sut.RetrieveUserBookmarks(1);
+
+					Assert.IsNotNull(result);
+					Assert.AreEqual(27, result.Count);
 				}
 			}
 			finally

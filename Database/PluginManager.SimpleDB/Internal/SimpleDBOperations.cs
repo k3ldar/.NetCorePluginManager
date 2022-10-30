@@ -924,6 +924,9 @@ namespace SimpleDB.Internal
         {
             foreach (KeyValuePair<string, IIndexManager> index in _indexes)
             {
+				if (index.Value.PropertyNames.Count > 1)
+					continue;
+
                 foreach (T record in records)
                 {
                     object keyValue = record.GetType().GetProperty(index.Key).GetValue(record, null);

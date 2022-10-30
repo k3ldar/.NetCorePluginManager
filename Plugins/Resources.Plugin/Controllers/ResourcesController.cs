@@ -129,7 +129,7 @@ namespace Resources.Plugin.Controllers
 				return GenerateJsonSuccessResponse(new { itemId, likes, dislikes });
 			}
 
-			return GenerateJsonErrorResponse(SharedPluginFeatures.Constants.HtmlResponseBadRequest, "item not found");
+			return GenerateJsonErrorResponse(SharedPluginFeatures.Constants.HtmlResponseBadRequest, LanguageStrings.NotFound404);
 		}
 
 		[LoggedIn]
@@ -431,6 +431,61 @@ namespace Resources.Plugin.Controllers
 			GrowlAdd(String.Format(LanguageStrings.ResourceItemUpdated, model.Name));
 
 			return RedirectToAction(nameof(ManageResourceItems));
+		}
+
+		[LoggedIn]
+		[AjaxOnly]
+		[HttpPost]
+		public JsonResult ToggleBookmark(ItemResponseModel model)
+		{
+			ResourceItem resouceItem = _resourceProvider.GetResourceItem(model.id);
+
+			if (resouceItem != null)
+			{
+				BookmarkActionResult bookmarkResult = _resourceProvider.ToggleResourceBookmark(UserId(), resouceItem);
+
+				string growlMessage;
+
+				switch (bookmarkResult)
+				{
+					case BookmarkActionResult.Removed:
+						growlMessage = LanguageStrings.BookmarkRemoved;
+						break;
+					case BookmarkActionResult.Added:
+						growlMessage = LanguageStrings.BookmarkAdded;
+						break;
+					case BookmarkActionResult.QuotaExceeded:
+						growlMessage = LanguageStrings.BookmarkQuotaExceeded;
+						break;
+					default:
+						growlMessage = LanguageStrings.NotFound404;
+						break;
+				}
+
+				return GenerateJsonSuccessResponse(String.Format(growlMessage, resouceItem.Name));
+			}
+
+			return GenerateJsonErrorResponse(SharedPluginFeatures.Constants.HtmlResponseBadRequest, LanguageStrings.NotFound404);
+		}
+
+		[LoggedIn]
+		[HttpGet]
+		[Breadcrumb(nameof(LanguageStrings.ViewBookmarks), Name, nameof(Index))]
+		public IActionResult ViewBookmarks(long? id)
+		{
+			if (id.HasValue)
+			{
+				ResourceItem resouceItem = _resourceProvider.GetResourceItem(id.Value);
+				_ = _resourceProvider.ToggleResourceBookmark(UserId(), resouceItem);
+			}
+
+			List<ResourceItem> resourceBookmarks = _resourceProvider.RetrieveUserBookmarks(UserId());
+			
+			List<NameIdModel> nameIdModels = new List<NameIdModel>();
+
+			resourceBookmarks.ForEach(rb => nameIdModels.Add(new NameIdModel(rb.Id, rb.Name)));
+
+			return View(new ViewBookmarksModel(GetModelData(), nameIdModels));
 		}
 
 		#endregion Controller Action Methods

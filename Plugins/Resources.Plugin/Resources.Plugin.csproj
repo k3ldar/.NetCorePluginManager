@@ -46,12 +46,20 @@
     <Content Remove="Views\Resources\Index.cshtml" />
     <Content Remove="Views\Resources\ManageCategories.cshtml" />
     <Content Remove="Views\Resources\ManageResourceItems.cshtml" />
+    <Content Remove="Views\Resources\ResourceItemEdit.cshtml" />
     <Content Remove="Views\Resources\ResourceItemSubmitted.cshtml" />
+    <Content Remove="Views\Resources\ViewBookmarks.cshtml" />
     <Content Remove="Views\Resources\ViewCategory.cshtml" />
     <Content Remove="Views\Resources\ViewResource.cshtml" />
     <Content Remove="Views\Resources\_CreateCategory.cshtml" />
     <Content Remove="Views\Resources\_CreateResourceItem.cshtml" />
+    <Content Remove="Views\Resources\_ResourceStats.cshtml" />
     <Content Remove="wwwroot\css\resources.css" />
+    <Content Remove="wwwroot\images\Resources\bookmark-add.png" />
+    <Content Remove="wwwroot\images\Resources\bookmark-remove.png" />
+    <Content Remove="wwwroot\images\Resources\bookmark.png" />
+    <Content Remove="wwwroot\images\Resources\dislike.png" />
+    <Content Remove="wwwroot\images\Resources\like.png" />
     <Content Remove="wwwroot\js\resources.js" />
   </ItemGroup>
 
@@ -89,11 +97,17 @@
     <EmbeddedResource Include="Views\Resources\Index.cshtml" />
     <EmbeddedResource Include="Views\Resources\ManageCategories.cshtml" />
     <EmbeddedResource Include="Views\Resources\ManageResourceItems.cshtml" />
+    <EmbeddedResource Include="Views\Resources\ResourceItemEdit.cshtml" />
+    <EmbeddedResource Include="Views\Resources\ViewBookmarks.cshtml" />
     <EmbeddedResource Include="Views\Resources\ViewResource.cshtml" />
     <EmbeddedResource Include="Views\Resources\ViewCategory.cshtml" />
     <EmbeddedResource Include="Views\Resources\_CreateCategory.cshtml" />
     <EmbeddedResource Include="Views\Resources\_CreateResourceItem.cshtml" />
+    <EmbeddedResource Include="Views\Resources\_ResourceStats.cshtml" />
     <EmbeddedResource Include="wwwroot\css\resources.css" />
+    <EmbeddedResource Include="wwwroot\images\Resources\bookmark.png" />
+    <EmbeddedResource Include="wwwroot\images\Resources\dislike.png" />
+    <EmbeddedResource Include="wwwroot\images\Resources\like.png" />
     <EmbeddedResource Include="wwwroot\js\resources.js" />
   </ItemGroup>
 

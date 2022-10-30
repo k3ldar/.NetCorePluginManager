@@ -69,3 +69,10 @@
     }
 }
 
+.img-con {
+    max-height: 25px;
+    min-height: 25px;
+    height: 25px !important;
+    width: auto;
+    padding: 3px 6px 3px 6px;
+}

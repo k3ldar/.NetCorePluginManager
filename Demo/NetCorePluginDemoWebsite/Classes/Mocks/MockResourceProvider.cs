@@ -37,6 +37,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 		private long _nextId = 1;
 		private List<ResourceCategory> _resources;
 		private readonly List<ResourceItem> _items = new List<ResourceItem>();
+		private readonly Dictionary<long, List<long>> _bookmarks = new Dictionary<long, List<long>>();
 
 		public List<ResourceCategory> GetAllResources()
 		{
@@ -214,6 +215,38 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			_items.Add(resourceItem);
 
 			return resourceItem;
+		}
+
+		public BookmarkActionResult ToggleResourceBookmark(long userId, ResourceItem resourceItem)
+		{
+			if (_bookmarks.ContainsKey(userId))
+			{
+				if (_bookmarks[userId].Contains(resourceItem.Id))
+				{
+					_bookmarks[userId].Remove(resourceItem.Id);
+					return BookmarkActionResult.Removed;
+				}
+
+				if (_bookmarks[userId].Count > 5)
+					return BookmarkActionResult.QuotaExceeded;
+
+				_bookmarks[userId].Add(resourceItem.Id);
+				return BookmarkActionResult.Added;
+			}
+
+			_bookmarks[userId] = new List<long>();
+			_bookmarks[userId].Add(resourceItem.Id);
+			return BookmarkActionResult.Added;
+		}
+
+		public List<ResourceItem> RetrieveUserBookmarks(long userId)
+		{
+			if (_bookmarks.ContainsKey(userId))
+			{
+				return _items.Where(r => _bookmarks[userId].Any(bm => bm.Equals(r.Id))).ToList();
+			}
+
+			return new List<ResourceItem>();
 		}
 	}
 }

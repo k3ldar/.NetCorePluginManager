@@ -21180,6 +21180,42 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bookmark for resource item {0} has been added..
+        /// </summary>
+        public static string BookmarkAdded {
+            get {
+                return ResourceManager.GetString("BookmarkAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The maximum number of allowed bookmarks has been reached.
+        /// </summary>
+        public static string BookmarkQuotaExceeded {
+            get {
+                return ResourceManager.GetString("BookmarkQuotaExceeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bookmark for resource item {0} removed..
+        /// </summary>
+        public static string BookmarkRemoved {
+            get {
+                return ResourceManager.GetString("BookmarkRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bookmarks.
+        /// </summary>
+        public static string Bookmarks {
+            get {
+                return ResourceManager.GetString("Bookmarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Book New Appointment.
         /// </summary>
         public static string BookNewAppointment {
@@ -31234,6 +31270,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View Bookmarks.
+        /// </summary>
+        public static string ViewBookmarks {
+            get {
+                return ResourceManager.GetString("ViewBookmarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to View Celebrity.
         /// </summary>
         public static string ViewCelebrity {
@@ -31284,6 +31329,15 @@ namespace Languages {
         public static string ViewOrder {
             get {
                 return ResourceManager.GetString("ViewOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Views.
+        /// </summary>
+        public static string Views {
+            get {
+                return ResourceManager.GetString("Views", resourceCulture);
             }
         }
         

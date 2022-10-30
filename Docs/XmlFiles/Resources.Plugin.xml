@@ -659,6 +659,24 @@
             Approved for public viewing
             </summary>
         </member>
+        <member name="T:Resources.Plugin.Models.ViewBookmarksModel">
+            <summary>
+            Model used for viewing bookmarks
+            </summary>
+        </member>
+        <member name="M:Resources.Plugin.Models.ViewBookmarksModel.#ctor(SharedPluginFeatures.BaseModelData,System.Collections.Generic.List{SharedPluginFeatures.NameIdModel})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="baseModelData"></param>
+            <param name="bookmarks"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="P:Resources.Plugin.Models.ViewBookmarksModel.Bookmarks">
+            <summary>
+            List of user bookmarks
+            </summary>
+        </member>
         <member name="T:Resources.Plugin.PluginInitialisation">
             <summary>
             Implements IPlugin which allows the Resources.Plugin module to be

@@ -14621,4 +14621,28 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Please add some text</value>
     <comment>Please add some text</comment>
   </data>
+  <data name="BookmarkAdded" xml:space="preserve">
+    <value>Bookmark for resource item {0} has been added.</value>
+    <comment>Bookmark for resource item {0} has been added.</comment>
+  </data>
+  <data name="BookmarkRemoved" xml:space="preserve">
+    <value>Bookmark for resource item {0} removed.</value>
+    <comment>Bookmark for resource item {0} removed.</comment>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Views</value>
+    <comment>Views</comment>
+  </data>
+  <data name="BookmarkQuotaExceeded" xml:space="preserve">
+    <value>The maximum number of allowed bookmarks has been reached</value>
+    <comment>The maximum number of allowed bookmarks has been reached</comment>
+  </data>
+  <data name="ViewBookmarks" xml:space="preserve">
+    <value>View Bookmarks</value>
+    <comment>View Bookmarks</comment>
+  </data>
+  <data name="Bookmarks" xml:space="preserve">
+    <value>Bookmarks</value>
+    <comment>Bookmarks</comment>
+  </data>
 </root>

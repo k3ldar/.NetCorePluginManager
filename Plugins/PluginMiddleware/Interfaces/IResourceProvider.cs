@@ -30,6 +30,8 @@ using Microsoft.Extensions.Primitives;
 
 using Middleware.Resources;
 
+using SharedPluginFeatures;
+
 namespace Middleware
 {
 	/// <summary>
@@ -129,5 +131,20 @@ namespace Middleware
 		/// <param name="resourceItem"></param>
 		/// <returns></returns>
 		ResourceItem UpdateResourceItem(long userId, ResourceItem resourceItem);
+
+		/// <summary>
+		/// Updates a user bookmark for a resource item, if not present the bookmark is added, if present the bookmark is removed
+		/// </summary>
+		/// <param name="userId">Id of user</param>
+		/// <param name="resourceItem">Resource item whose bookmark is being toggled</param>
+		/// <returns>BookmarkActionResult</returns>
+		BookmarkActionResult ToggleResourceBookmark(long userId, ResourceItem resourceItem);
+
+		/// <summary>
+		/// Retrieves a list of all user
+		/// </summary>
+		/// <param name="userId">Id of user who's bookmarked items are being retrieved</param>
+		/// <returns>List&lt;ResourceItem&gt;</returns>
+		List<ResourceItem> RetrieveUserBookmarks(long userId);
 	}
 }

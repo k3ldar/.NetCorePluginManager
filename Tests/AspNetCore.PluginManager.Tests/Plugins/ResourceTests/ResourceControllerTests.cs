@@ -155,7 +155,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 			JsonResponseModel jsonResponseModel = response.Value as JsonResponseModel;
 			Assert.IsNotNull(jsonResponseModel);
 
-			Assert.AreEqual("item not found", jsonResponseModel.ResponseData);
+			Assert.AreEqual("Not Found", jsonResponseModel.ResponseData);
 			Assert.IsFalse(jsonResponseModel.Success);
 		}
 
@@ -2306,6 +2306,228 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 			Assert.AreEqual(ResourceType.Text, resourceItem.ResourceType);
 			Assert.AreEqual(200, resourceItem.Id);
 			Assert.AreEqual("the value", resourceItem.Value);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ToggleBookmark_ResourceNotFound_ReturnsJson400()
+		{
+			ResourcesController sut = CreateResourceController();
+
+			JsonResult response = sut.ToggleBookmark(new ItemResponseModel() { id = -10, value = false });
+			Assert.IsNotNull(response);
+
+			Assert.AreEqual(400, response.StatusCode);
+			Assert.AreEqual("application/json", response.ContentType);
+
+			JsonResponseModel jsonResponseModel = response.Value as JsonResponseModel;
+			Assert.IsNotNull(jsonResponseModel);
+
+			Assert.AreEqual("Not Found", jsonResponseModel.ResponseData);
+			Assert.IsFalse(jsonResponseModel.Success);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ToggleBookmark_ResourceFound_BookmarkNotFound_Added()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "true"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+
+			Dictionary<Type, object> services = new Dictionary<Type, object>();
+
+			ITempDataProvider tempDataProvider = new MockTempDataProvider();
+			services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
+
+			MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
+			services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
+
+			MockServiceProvider mockServiceProvider = new MockServiceProvider(services);
+			MockResourceProvider mockResourceProvider = new MockResourceProvider();
+
+			ResourcesController sut = CreateResourceController(mockResourceProvider, requestContext, mockServiceProvider);
+			MockHttpContext mockHttpContext = sut.HttpContext as MockHttpContext;
+			mockHttpContext.LogUserIn = true;
+
+			_ = sut.Index();
+			JsonResult response = sut.ToggleBookmark(new ItemResponseModel() { id = 101, value = false });
+			Assert.IsNotNull(response);
+
+			Assert.AreEqual(200, response.StatusCode);
+			Assert.AreEqual("application/json", response.ContentType);
+
+			JsonResponseModel jsonResponseModel = response.Value as JsonResponseModel;
+			Assert.IsNotNull(jsonResponseModel);
+
+			Assert.AreEqual("\"Bookmark for resource item Child 1 for Resource 1 has been added.\"", jsonResponseModel.ResponseData);
+			Assert.IsTrue(jsonResponseModel.Success);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ToggleBookmark_ResourceFound_ReturnsJsonResponseWithIncrementedLike()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "true"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+
+			Dictionary<Type, object> services = new Dictionary<Type, object>();
+
+			ITempDataProvider tempDataProvider = new MockTempDataProvider();
+			services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
+
+			MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
+			services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
+
+			MockServiceProvider mockServiceProvider = new MockServiceProvider(services);
+			MockResourceProvider mockResourceProvider = new MockResourceProvider();
+
+			ResourcesController sut = CreateResourceController(mockResourceProvider, requestContext, mockServiceProvider);
+			MockHttpContext mockHttpContext = sut.HttpContext as MockHttpContext;
+			mockHttpContext.LogUserIn = true;
+
+			_ = sut.Index();
+			JsonResult response = sut.ToggleBookmark(new ItemResponseModel() { id = 102, value = true });
+			Assert.IsNotNull(response);
+
+			Assert.AreEqual(200, response.StatusCode);
+			Assert.AreEqual("application/json", response.ContentType);
+
+			JsonResponseModel jsonResponseModel = response.Value as JsonResponseModel;
+			Assert.IsNotNull(jsonResponseModel);
+
+			Assert.AreEqual("\"Bookmark for resource item Child 2 for Resource 1 has been added.\"", jsonResponseModel.ResponseData);
+			Assert.IsTrue(jsonResponseModel.Success);
+
+			response = sut.ToggleBookmark(new ItemResponseModel() { id = 102, value = true });
+			Assert.IsNotNull(response);
+
+			Assert.AreEqual(200, response.StatusCode);
+			Assert.AreEqual("application/json", response.ContentType);
+
+			jsonResponseModel = response.Value as JsonResponseModel;
+			Assert.IsNotNull(jsonResponseModel);
+
+			Assert.AreEqual("\"Bookmark for resource item Child 2 for Resource 1 removed.\"", jsonResponseModel.ResponseData);
+			Assert.IsTrue(jsonResponseModel.Success);
+
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ViewBookmarks_UserHasBookmarks_ReturnsViewAndModel()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "true"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+
+			Dictionary<Type, object> services = new Dictionary<Type, object>();
+
+			ITempDataProvider tempDataProvider = new MockTempDataProvider();
+			services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
+
+			MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
+			services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
+
+			MockServiceProvider mockServiceProvider = new MockServiceProvider(services);
+			MockResourceProvider mockResourceProvider = new MockResourceProvider();
+
+			ResourcesController sut = CreateResourceController(mockResourceProvider, requestContext, mockServiceProvider);
+			MockHttpContext mockHttpContext = sut.HttpContext as MockHttpContext;
+			mockHttpContext.LogUserIn = true;
+
+			_ = sut.Index();
+			_ = sut.ToggleBookmark(new ItemResponseModel() { id = 102, value = true });
+			_ = sut.ToggleBookmark(new ItemResponseModel() { id = 103, value = true });
+			_ = sut.ToggleBookmark(new ItemResponseModel() { id = 104, value = true });
+			_ = sut.ToggleBookmark(new ItemResponseModel() { id = 105, value = true });
+			_ = sut.ToggleBookmark(new ItemResponseModel() { id = 106, value = true });
+
+			IActionResult response = sut.ViewBookmarks(null);
+
+			Assert.IsNotNull(response);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			ViewBookmarksModel bookmarkModel = result.Model as ViewBookmarksModel;
+
+			Assert.IsNotNull(bookmarkModel);
+
+			Assert.AreEqual(5, bookmarkModel.Bookmarks.Count);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void ViewBookmarks_RemoveBookmark_BookmarkRemoved_ReturnsViewAndModel()
+		{
+			MockHttpContext requestContext = new MockHttpContext();
+			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+			List<Claim> webClaims = new List<Claim>();
+			webClaims.Add(new Claim(ClaimNameManageResources, "true"));
+
+			claimsIdentities.Add(new ClaimsIdentity(webClaims, ClaimIdentityWebsite));
+
+			requestContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+
+			Dictionary<Type, object> services = new Dictionary<Type, object>();
+
+			ITempDataProvider tempDataProvider = new MockTempDataProvider();
+			services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
+
+			MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
+			services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
+
+			MockServiceProvider mockServiceProvider = new MockServiceProvider(services);
+			MockResourceProvider mockResourceProvider = new MockResourceProvider();
+
+			ResourcesController sut = CreateResourceController(mockResourceProvider, requestContext, mockServiceProvider);
+			MockHttpContext mockHttpContext = sut.HttpContext as MockHttpContext;
+			mockHttpContext.LogUserIn = true;
+
+			_ = sut.Index();
+			_ = sut.ToggleBookmark(new ItemResponseModel() { id = 102, value = true });
+			_ = sut.ToggleBookmark(new ItemResponseModel() { id = 103, value = true });
+			_ = sut.ToggleBookmark(new ItemResponseModel() { id = 104, value = true });
+			_ = sut.ToggleBookmark(new ItemResponseModel() { id = 105, value = true });
+			_ = sut.ToggleBookmark(new ItemResponseModel() { id = 106, value = true });
+
+			IActionResult response = sut.ViewBookmarks(104);
+
+			Assert.IsNotNull(response);
+
+			ViewResult result = response as ViewResult;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsNull(result.ViewName);
+
+			ViewBookmarksModel bookmarkModel = result.Model as ViewBookmarksModel;
+
+			Assert.IsNotNull(bookmarkModel);
+
+			Assert.AreEqual(4, bookmarkModel.Bookmarks.Count);
 		}
 
 		private ResourcesController CreateResourceController(MockResourceProvider mockResourceProvider = null, 
