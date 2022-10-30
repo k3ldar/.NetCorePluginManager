@@ -92,6 +92,7 @@ namespace AspNetCore.PluginManager.DemoWebsite
                 PluginManagerService.UsePlugin(typeof(DemoApiPlugin.PluginInitialisation));
                 PluginManagerService.UsePlugin(typeof(DynamicContent.Plugin.PluginInitialisation));
 				PluginManagerService.UsePlugin(typeof(rp.PluginInitialisation));
+				PluginManagerService.UsePlugin(typeof(SearchPlugin.PluginInitialisation));
 
                 CreateWebHostBuilder(args).Build().Run();
             }

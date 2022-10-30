@@ -1401,6 +1401,18 @@
             Email account username
             </summary>
         </member>
+        <member name="T:Middleware.Classes.Search.BaseSearchProvider">
+            <summary>
+            Base search provider
+            </summary>
+        </member>
+        <member name="M:Middleware.Classes.Search.BaseSearchProvider.ExcludeWordFromSearch(System.String)">
+            <summary>
+            Validates a word to see if it should be excluded
+            </summary>
+            <param name="word"></param>
+            <returns></returns>
+        </member>
         <member name="T:Middleware.Helpdesk.Feedback">
             <summary>
             Feedback item used in HelpdeskPlugin module and IHelpdeskProvider interface.

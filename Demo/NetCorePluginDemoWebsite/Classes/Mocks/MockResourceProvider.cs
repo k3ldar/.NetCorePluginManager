@@ -208,6 +208,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
 		public List<ResourceItem> RetrieveAllResourceItems()
 		{
+			if (_resources == null)
+				GetAllResources();
+
 			return _items;
 		}
 
