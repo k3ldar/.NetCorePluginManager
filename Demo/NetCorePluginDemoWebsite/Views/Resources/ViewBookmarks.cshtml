@@ -2,41 +2,35 @@
 @using SharedPluginFeatures
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @{
-    ViewData["Title"] = @Model.SeoTitle;
+ViewData["Title"] = @Model.SeoTitle;
 }
-
 <style>
-    .img-con {
-        max-height: 25px;
-        min-height: 25px;
-        height: 25px !important;
-        width: auto;
-        padding: 3px 6px 3px 6px;
-    }
+.img-con {
+max-height: 25px;
+min-height: 25px;
+height: 25px !important;
+width: auto;
+padding: 3px 6px 3px 6px;
+}
 </style>
-
 <script src="/js/resources.js"></script>
-
 <link rel="stylesheet" href="/css/resources.css" />
-
 <h2>@Localizer[nameof(Languages.LanguageStrings.Bookmarks)]</h2>
-
 <div class="resContainer">
-    <div class="row">
-        <div class="col">
-            @Localizer[nameof(Languages.LanguageStrings.Name)]
-        </div>
-    </div>
-
-    @foreach (var item in Model.Bookmarks)
-    {
-        <div class="row res-row">
-            <div class="col-sm-8">
-                @item.Name
-            </div>
-            <div class="col-sm-4">
-                <a href="/Resources/ViewBookmarks/@item.Id/" class="btn btn-info" role="button">@Localizer[nameof(Languages.LanguageStrings.Delete)]</a>
-            </div>
-        </div>
-    }
+<div class="row">
+<div class="col">
+@Localizer[nameof(Languages.LanguageStrings.Name)]
+</div>
+</div>
+@foreach (var item in Model.Bookmarks)
+{
+<div class="row res-row">
+<div class="col-sm-8">
+@item.Name
+</div>
+<div class="col-sm-4">
+<a href="/Resources/ViewBookmarks/@item.Id/" class="btn btn-info" role="button">@Localizer[nameof(Languages.LanguageStrings.Delete)]</a>
+</div>
+</div>
+}
 </div>

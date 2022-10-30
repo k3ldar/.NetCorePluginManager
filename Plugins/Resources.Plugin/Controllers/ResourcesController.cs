@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -338,7 +339,7 @@ namespace Resources.Plugin.Controllers
 			if (ModelState.IsValid)
 			{
 				_resourceProvider.AddResourceItem(model.ParentId, (ResourceType)model.ResourceType, UserId(), UserName(),
-					model.Name, model.Description, model.Value, false);
+					model.Name, model.Description, model.Value, false, ValidateAndCleanTags(model.Tags));
 
 				if (UserCanManageResources())
 					return RedirectToAction(nameof(ManageResourceItems));
@@ -391,7 +392,7 @@ namespace Resources.Plugin.Controllers
 			ResourceEditResourceItemModel model =  new ResourceEditResourceItemModel(GetModelData(), resourceItem.Id, 
 				resourceItem.CategoryId, resourceItem.ResourceType, resourceItem.UserId, resourceItem.UserName, 
 				resourceItem.Name, resourceItem.Description, resourceItem.Value, resourceItem.Approved,
-				allCategories);
+				String.Join(SharedPluginFeatures.Constants.NewLineChar, resourceItem.Tags), allCategories);
 
 			return View(model);
 		}
@@ -416,7 +417,7 @@ namespace Resources.Plugin.Controllers
 
 				ResourceEditResourceItemModel resourceCategoryModel = new ResourceEditResourceItemModel(GetModelData(), model.Id, 
 					model.CategoryId, model.ResourceType, model.UserId, model.UserName, model.Name, model.Description,
-					model.Value, model.Approved, allCategories);
+					model.Value, model.Approved, model.Tags, allCategories);
 
 				return View(resourceCategoryModel);
 			}
@@ -426,7 +427,7 @@ namespace Resources.Plugin.Controllers
 			_resourceProvider.UpdateResourceItem(UserId(),
 				new ResourceItem(model.Id, model.CategoryId, model.ResourceType, existingResourceItem.UserId, model.UserName, 
 				model.Name, model.Description, model.Value, existingResourceItem.Likes, existingResourceItem.Dislikes,
-				existingResourceItem.ViewCount, model.Approved));
+				existingResourceItem.ViewCount, model.Approved, ValidateAndCleanTags(model.Tags)));
 
 			GrowlAdd(String.Format(LanguageStrings.ResourceItemUpdated, model.Name));
 
@@ -492,6 +493,24 @@ namespace Resources.Plugin.Controllers
 
 		#region Private Methods
 
+		private static List<string> ValidateAndCleanTags(string tags)
+		{
+			List<string> result = new();
+
+			if (String.IsNullOrEmpty(tags))
+				return result;
+
+			string[] tagList = tags.Split(SharedPluginFeatures.Constants.NewLineChar,
+				StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+
+			for (int i = 0; i < tagList.Length; i++)
+			{
+				result.Add(Middleware.Utils.RemoveInvalidTagChars(tagList[i]));
+			}
+
+			return result;
+		}
+
 		private void ValidateResourceEditResourceItemModel(ResourceEditResourceItemModel model)
 		{
 			if (_resourceProvider.GetResourceCategory(model.CategoryId) == null)
@@ -505,7 +524,7 @@ namespace Resources.Plugin.Controllers
 					String.Format(LanguageStrings.InvalidName, MinimumNameLength, MaximumNameLength));
 			}
 
-			if (model.Description.Length < MinimumNameLength || model.Description.Length > MaximumNameLength)
+			if (model.Description.Length < MinimumDescriptionLength || model.Description.Length > MaximumDescriptionLength)
 			{
 				ModelState.AddModelError(nameof(model.Description), 
 					String.Format(LanguageStrings.InvalidDescription, MinimumDescriptionLength, MaximumDescriptionLength));
@@ -807,7 +826,8 @@ namespace Resources.Plugin.Controllers
 				(ResourceType)resourceItem.ResourceType, resourceItem.UserId,
 				resourceItem.UserName, resourceCategory.Name,
 				resourceItem.Description, resourceItem.Value, resourceItem.Likes,
-				resourceItem.Dislikes, resourceItem.ViewCount, resourceItem.Approved);
+				resourceItem.Dislikes, resourceItem.ViewCount, resourceItem.Approved, 
+				resourceItem.Tags);
 
 			Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, ResourcesBreadcrumb, false));
 			Result.Breadcrumbs.Add(new BreadcrumbItem(resourceCategory.Name, $"/Resources/Category/{resourceCategory.Id}/{resourceCategory.RouteName}/", false));

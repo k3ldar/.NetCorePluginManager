@@ -1211,6 +1211,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 				Description = "The description maximum length is one hundred characters",
 				Value = "https://www.pluginmanager.website/",
 				ResourceType = (int)ResourceType.Uri,
+				Tags = "tag 1\r\ntag2\r\ntag \t\t\\\r\n\r\n\r\ntag4",
 			};
 
 			IActionResult response = sut.CreateResourceItem(itemModel);

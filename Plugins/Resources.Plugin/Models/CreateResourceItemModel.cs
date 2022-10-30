@@ -39,7 +39,7 @@ namespace Resources.Plugin.Models
 	/// <summary>
 	/// Model used to create resource items
 	/// </summary>
-	public class CreateResourceItemModel : BaseModel
+	public class CreateResourceItemModel : BaseResourceItemModel
 	{
 		/// <summary>
 		/// Constructor
@@ -61,12 +61,14 @@ namespace Resources.Plugin.Models
 		/// <param name="parentId">Parent category id</param>
 		/// <param name="name">Category name</param>
 		/// <param name="description">Category description</param>
-		public CreateResourceItemModel(BaseModelData baseModelData, long parentId, string name, string description)
+		/// <param name="tags">Resource item tags</param>
+		public CreateResourceItemModel(BaseModelData baseModelData, long parentId, string name, string description, string tags)
 			: base(baseModelData)
 		{
 			ParentId = parentId;
 			Name = name;
 			Description = description;
+			Tags = tags;
 		}
 
 		/// <summary>
@@ -112,21 +114,8 @@ namespace Resources.Plugin.Models
 		public int ResourceType { get; set; }
 
 		/// <summary>
-		/// All resource item types
+		/// Resource tags
 		/// </summary>
-		public List<NameIdModel> AllResourceTypes
-		{ 
-			get
-			{
-				List<NameIdModel> Result = new List<NameIdModel>();
-
-				foreach (ResourceType resourceType in Enum.GetValues(typeof(ResourceType)))
-				{
-					Result.Add(new NameIdModel((long)resourceType, resourceType.ToString()));
-				}
-
-				return Result;
-			}
-		}
+		public string Tags { get; set; }
 	}
 }

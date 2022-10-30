@@ -47,6 +47,18 @@ t.innerHTML = marked.parse(document.getElementById("Value").value);
 @Html.Raw(data)
 </div>
 </div>
+@if (Model.Tags.Count > 0)
+{
+<div class="row res-row">
+<div class="col" id="resourceData">
+@Localizer[nameof(Languages.LanguageStrings.Tags)]
+@foreach (string tag in Model.Tags)
+{
+<span class="tag">@tag</span>
+}
+</div>
+</div>
+}
 <div class="row res-row">
 <div class="col">
 @await Html.PartialAsync("_ResourceStats.cshtml", new Resources.Plugin.Models.ResourceItemResponseModel(Model.Id, Model.Likes, Model.Dislikes, Model.ViewCount, enabled))

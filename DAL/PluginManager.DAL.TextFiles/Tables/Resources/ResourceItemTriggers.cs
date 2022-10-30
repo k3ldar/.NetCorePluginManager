@@ -23,6 +23,9 @@
  *  04/09/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Runtime.CompilerServices;
+using System.Text;
+
 using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
@@ -55,12 +58,12 @@ namespace PluginManager.DAL.TextFiles.Tables
 
 		public void BeforeInsert(List<ResourceItemDataRow> records)
 		{
-			records.ForEach(r => ValidateUserName(r));
+			records.ForEach(r => ValidateResourceItem(r));
 		}
 
 		public void BeforeUpdate(List<ResourceItemDataRow> records)
 		{
-			records.ForEach(r => ValidateUserName(r));
+			records.ForEach(r => ValidateResourceItem(r));
 		}
 
 		public void BeforeUpdate(ResourceItemDataRow newRecord, ResourceItemDataRow oldRecord)
@@ -68,10 +71,19 @@ namespace PluginManager.DAL.TextFiles.Tables
 
 		}
 
-		private static void ValidateUserName(ResourceItemDataRow resourceItemDataRow)
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private static void ValidateResourceItem(ResourceItemDataRow resourceItemDataRow)
 		{
 			if (String.IsNullOrEmpty(resourceItemDataRow.UserName))
 				throw new InvalidDataRowException(nameof(resourceItemDataRow), nameof(resourceItemDataRow.UserName), "Can not be null or empty");
+
+			if (resourceItemDataRow.Tags == null)
+				throw new InvalidDataRowException(nameof(resourceItemDataRow), nameof(resourceItemDataRow.Tags), "Can not be null");
+
+			for (int i = 0; i < resourceItemDataRow.Tags.Count; i++)
+			{
+				resourceItemDataRow.Tags[i] = Middleware.Utils.RemoveInvalidTagChars(resourceItemDataRow.Tags[i]);
+			}
 		}
 	}
 }

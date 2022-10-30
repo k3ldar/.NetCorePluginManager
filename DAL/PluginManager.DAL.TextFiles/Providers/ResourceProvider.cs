@@ -206,7 +206,8 @@ namespace PluginManager.DAL.TextFiles.Providers
 			return ConvertResourceCategoryDataRowToResourceCategory(categoryRow);
 		}
 
-		public ResourceItem AddResourceItem(long categoryId, ResourceType resourceType, long userId, string userName, string name, string description, string value, bool approved)
+		public ResourceItem AddResourceItem(long categoryId, ResourceType resourceType, long userId, 
+			string userName, string name, string description, string value, bool approved, List<string> tags)
 		{
 			if (String.IsNullOrEmpty(userName)) 
 				throw new ArgumentNullException(nameof(userName));
@@ -220,6 +221,9 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (String.IsNullOrEmpty(value))
 				throw new ArgumentNullException(nameof(value));
 
+			if (tags == null)
+				throw new ArgumentNullException(nameof(tags));
+
 			ResourceItemDataRow resourceItem = new ResourceItemDataRow()
 			{
 				Approved = approved,
@@ -231,6 +235,8 @@ namespace PluginManager.DAL.TextFiles.Providers
 				UserName = userName,
 				Value = value,
 			};
+
+			tags.ForEach(t => resourceItem.Tags.Add(t));
 
 			_resourceItems.Insert(resourceItem);
 
@@ -255,7 +261,8 @@ namespace PluginManager.DAL.TextFiles.Providers
 					resourceItemDataRow.Likes,
 					resourceItemDataRow.Dislikes,
 					resourceItemDataRow.ViewCount,
-					resourceItemDataRow.Approved));
+					resourceItemDataRow.Approved,
+					resourceItemDataRow.Tags));
 			}
 
 			return resources;
@@ -362,7 +369,8 @@ namespace PluginManager.DAL.TextFiles.Providers
 					resourceItemDataRow.Likes,
 					resourceItemDataRow.Dislikes,
 					resourceItemDataRow.ViewCount,
-					resourceItemDataRow.Approved));
+					resourceItemDataRow.Approved,
+					resourceItemDataRow.Tags));
 			}
 
 			return result;
@@ -386,7 +394,8 @@ namespace PluginManager.DAL.TextFiles.Providers
 					resourceItemDataRow.Likes,
 					resourceItemDataRow.Dislikes,
 					resourceItemDataRow.ViewCount,
-					resourceItemDataRow.Approved);
+					resourceItemDataRow.Approved,
+					resourceItemDataRow.Tags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -411,7 +420,8 @@ namespace PluginManager.DAL.TextFiles.Providers
 					resourceItemDataRow.Likes,
 					resourceItemDataRow.Dislikes,
 					resourceItemDataRow.ViewCount,
-					resourceItemDataRow.Approved));
+					resourceItemDataRow.Approved,
+					resourceItemDataRow.Tags));
 			}
 
 			return new ResourceCategory(resourceRow.Id, resourceRow.ParentCategoryId, resourceRow.Name, resourceRow.Description, resourceRow.ForeColor,

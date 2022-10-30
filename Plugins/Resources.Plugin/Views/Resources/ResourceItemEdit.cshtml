@@ -7,7 +7,7 @@
 
 <div class="row">
     <div class="col">
-        <h1>@Localizer[nameof(Languages.LanguageStrings.EditCategory)]</h1>
+        <h1>@Localizer[nameof(Languages.LanguageStrings.EditResource)]</h1>
     </div>
 </div>
 
@@ -31,6 +31,16 @@
         <div class="col-sm-12 col-md-5 col-lg-4">
             @Html.DropDownListFor(m => m.CategoryId, new SelectList(Model.AllCategories, "Id", "Name"), new { @class = "form-control" })
             @Html.ValidationMessageFor(m => m.CategoryId)
+        </div>
+    </div>
+
+    <div class="row res-row">
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            @Html.LabelFor(m => m.ResourceType)
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            @Html.DropDownListFor(m => m.ResourceType, new SelectList(Model.AllResourceTypes, "Id", "Name"), new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.ResourceType)
         </div>
     </div>
 
@@ -71,6 +81,17 @@
         <div class="col-sm-12 col-md-5 col-lg-4">
             @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @readonly = "readonly" })
             @Html.ValidationMessageFor(m => m.UserName)
+        </div>
+    </div>
+
+    <div class="row res-row">
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            @Html.LabelFor(m => m.Tags) @Localizer[nameof(Languages.LanguageStrings.OnePerLine)]
+
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            @Html.TextAreaFor(m => m.Tags, new { @class = "form-control", style = "min-height:80px;" })
+            @Html.ValidationMessageFor(m => m.Tags)
         </div>
     </div>
 

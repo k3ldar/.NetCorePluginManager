@@ -14645,4 +14645,20 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Bookmarks</value>
     <comment>Bookmarks</comment>
   </data>
+  <data name="EditResource" xml:space="preserve">
+    <value>Edit Resource</value>
+    <comment>Edit Resource</comment>
+  </data>
+  <data name="ManageResources" xml:space="preserve">
+    <value>Manage Resources</value>
+    <comment>Manage Resources</comment>
+  </data>
+  <data name="OnePerLine" xml:space="preserve">
+    <value>one per line</value>
+    <comment>one per line</comment>
+  </data>
+  <data name="ProductGoups" xml:space="preserve">
+    <value>Product Goups</value>
+    <comment>Product Goups</comment>
+  </data>
 </root>

@@ -23164,6 +23164,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Resource.
+        /// </summary>
+        public static string EditResource {
+            get {
+                return ResourceManager.GetString("EditResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
         public static string Email {
@@ -25604,6 +25613,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manage Resources.
+        /// </summary>
+        public static string ManageResources {
+            get {
+                return ResourceManager.GetString("ManageResources", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Map of Visitors.
         /// </summary>
         public static string MapofVisitors {
@@ -26592,6 +26610,15 @@ namespace Languages {
         public static string Once {
             get {
                 return ResourceManager.GetString("Once", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to one per line.
+        /// </summary>
+        public static string OnePerLine {
+            get {
+                return ResourceManager.GetString("OnePerLine", resourceCulture);
             }
         }
         
@@ -27979,6 +28006,15 @@ namespace Languages {
         public static string Product {
             get {
                 return ResourceManager.GetString("Product", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product Goups.
+        /// </summary>
+        public static string ProductGoups {
+            get {
+                return ResourceManager.GetString("ProductGoups", resourceCulture);
             }
         }
         

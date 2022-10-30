@@ -23,6 +23,7 @@
  *  21/10/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -37,7 +38,7 @@ namespace Resources.Plugin.Models
 	/// <summary>
 	/// Model for editing a resource item
 	/// </summary>
-	public class ResourceEditResourceItemModel : BaseModel
+	public class ResourceEditResourceItemModel : BaseResourceItemModel
 	{
 		/// <summary>
 		/// Default constructor
@@ -60,9 +61,11 @@ namespace Resources.Plugin.Models
 		/// <param name="description">Description</param>
 		/// <param name="value">Resource item value</param>
 		/// <param name="approved">Approved for public viewing</param>
+		/// <param name="tags">Resource item tags</param>
 		/// <param name="allCategories">List of all categories except current category</param>
 		public ResourceEditResourceItemModel(BaseModelData modelData, long id, long categoryId, ResourceType resourceType, 
-			long userId, string userName, string name, string description, string value, bool approved, List<NameIdModel> allCategories)
+			long userId, string userName, string name, string description, string value, bool approved,
+			string tags, List<NameIdModel> allCategories)
 			: base(modelData)
 		{
 			Id = id;
@@ -74,6 +77,7 @@ namespace Resources.Plugin.Models
 			Description = description;
 			Value = value;
 			Approved = approved;
+			Tags = tags;
 			AllCategories = allCategories;
 		}
 
@@ -133,5 +137,10 @@ namespace Resources.Plugin.Models
 		/// List of all categories
 		/// </summary>
 		public List<NameIdModel> AllCategories { get; }
+
+		/// <summary>
+		/// Resource item tags
+		/// </summary>
+		public string Tags { get; set; }
 	}
 }

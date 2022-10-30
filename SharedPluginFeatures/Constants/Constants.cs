@@ -217,6 +217,11 @@ namespace SharedPluginFeatures
         /// </summary>
         public const char AmpersandChar = '&';
 
+		/// <summary>
+		/// New line char constant
+		/// </summary>
+		public const char NewLineChar = '\r';
+
         /// <summary>
         /// Equals (=) char constant
         /// </summary>
@@ -232,10 +237,15 @@ namespace SharedPluginFeatures
 		/// </summary>
 		public const char CommaChar = ',';
 
-        /// <summary>
-        /// Name of the Breadcrumb.Plugin module.
-        /// </summary>
-        public const string PluginSettingBreadcrumb = "Breadcrumb.Plugin";
+		/// <summary>
+		/// String with one empty space char
+		/// </summary>
+		public const string EmptySpace = " ";
+
+		/// <summary>
+		/// Name of the Breadcrumb.Plugin module.
+		/// </summary>
+		public const string PluginSettingBreadcrumb = "Breadcrumb.Plugin";
 
         /// <summary>
         /// Api authorization settings name

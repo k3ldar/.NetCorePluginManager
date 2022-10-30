@@ -47,6 +47,13 @@ namespace PluginManager.DAL.TextFiles.Tables
 		private int _dislikes;
 		private int _viewCount;
 		private bool _approved;
+		private ObservableList<string> _tags;
+
+		public ResourceItemDataRow()
+		{
+			_tags = new();
+			_tags.Changed += ObservableDataChanged;
+		}
 
 		[ForeignKey(Constants.TableNameResourceCateogories)]
 		[UniqueIndex("Idx_CategoryName")]
@@ -202,6 +209,24 @@ namespace PluginManager.DAL.TextFiles.Tables
 					return;
 
 				_viewCount = value;
+				Update();
+			}
+		}
+
+		public ObservableList<string> Tags
+		{
+			get => _tags;
+
+			set
+			{
+				if (value == _tags)
+					return;
+
+				if (_tags != null)
+					_tags.Changed -= ObservableDataChanged;
+
+				_tags = value;
+				_tags.Changed += ObservableDataChanged;
 				Update();
 			}
 		}

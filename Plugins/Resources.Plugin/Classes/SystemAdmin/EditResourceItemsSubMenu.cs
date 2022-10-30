@@ -13,57 +13,37 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Products.Plugin
+ *  Product:  Resources.Plugin
  *  
- *  File: ManageProductGroupsMenu.cs
+ *  File: EditResourceItemsSubMenu.cs
  *
- *  Purpose:  System admin menu for managing product groups
+ *  Purpose:  
  *
  *  Date        Name                Reason
- *  12/05/2022  Simon Carter        Initially Created
+ *  30/10/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using SharedPluginFeatures;
 
 #pragma warning disable CS1591
 
-namespace ProductPlugin.Classes.SystemAdmin
+namespace Resources.Plugin.Classes.SystemAdmin
 {
-    public class ManageProductGroupsMenu : SystemAdminSubMenu
+	public class EditResourceItemsSubMenu : SystemAdminSubMenu
 	{
-        public override string Controller()
-        {
-            return Controllers.ProductAdminController.Name;
-        }
-
-        public override string Action()
-        {
-            return nameof(Controllers.ProductAdminController.GroupIndex);
-        }
+		public override string Action()
+		{
+			return nameof(Controllers.ResourcesController.ManageResourceItems);
+		}
 
 		public override string Area()
 		{
 			return string.Empty;
 		}
 
-		public override string Name()
+		public override string Controller()
 		{
-			return Languages.LanguageStrings.ProductGoups;
-		}
-
-		public override int SortOrder()
-		{
-			return 10000;
-		}
-
-		public override Enums.SystemAdminMenuType MenuType()
-		{
-			return Enums.SystemAdminMenuType.View;
-		}
-
-		public override string Image()
-		{
-			return string.Empty;
+			return Controllers.ResourcesController.Name;
 		}
 
 		public override string Data()
@@ -71,9 +51,29 @@ namespace ProductPlugin.Classes.SystemAdmin
 			return string.Empty;
 		}
 
+		public override string Image()
+		{
+			return string.Empty;
+		}
+
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.View;
+		}
+
+		public override string Name()
+		{
+			return Languages.LanguageStrings.ManageResourceItems;
+		}
+
 		public override string ParentMenuName()
 		{
-			return Languages.LanguageStrings.ManageProducts;
+			return Languages.LanguageStrings.ManageResources;
+		}
+
+		public override int SortOrder()
+		{
+			return 10000;
 		}
 	}
 }

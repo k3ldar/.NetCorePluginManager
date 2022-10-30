@@ -2494,6 +2494,11 @@
             Ampersand (&amp;) char constant
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.NewLineChar">
+            <summary>
+            New line char constant
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.EqualsChar">
             <summary>
             Equals (=) char constant
@@ -2507,6 +2512,11 @@
         <member name="F:SharedPluginFeatures.Constants.CommaChar">
             <summary>
             Comma (,) char constant
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.EmptySpace">
+            <summary>
+            String with one empty space char
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.PluginSettingBreadcrumb">

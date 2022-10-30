@@ -2193,7 +2193,7 @@
             Default Constructor
             </summary>
         </member>
-        <member name="M:Middleware.Resources.ResourceItem.#ctor(System.Int64,System.Int64,Middleware.ResourceType,System.Int64,System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Boolean)">
+        <member name="M:Middleware.Resources.ResourceItem.#ctor(System.Int64,System.Int64,Middleware.ResourceType,System.Int64,System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Boolean,System.Collections.Generic.List{System.String})">
             <summary>
             Constructor
             </summary>
@@ -2209,6 +2209,7 @@
             <param name="dislikes">Number of dislikes</param>
             <param name="viewCount">Number of views for the item</param>
             <param name="approved">Approved for public viewing</param>
+            <param name="tags">Resource item tags</param>
         </member>
         <member name="P:Middleware.Resources.ResourceItem.Id">
             <summary>
@@ -2268,6 +2269,11 @@
         <member name="P:Middleware.Resources.ResourceItem.Approved">
             <summary>
             Approved for public viewing
+            </summary>
+        </member>
+        <member name="P:Middleware.Resources.ResourceItem.Tags">
+            <summary>
+            Resource tags
             </summary>
         </member>
         <member name="T:Middleware.Search.AdvancedSearchOptions">
@@ -4253,7 +4259,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Middleware.IResourceProvider.AddResourceItem(System.Int64,Middleware.ResourceType,System.Int64,System.String,System.String,System.String,System.String,System.Boolean)">
+        <member name="M:Middleware.IResourceProvider.AddResourceItem(System.Int64,Middleware.ResourceType,System.Int64,System.String,System.String,System.String,System.String,System.Boolean,System.Collections.Generic.List{System.String})">
             <summary>
             Adds a new resource item
             </summary>
@@ -4265,6 +4271,7 @@
             <param name="description"></param>
             <param name="value"></param>
             <param name="approved"></param>
+            <param name="tags"></param>
             <returns></returns>
         </member>
         <member name="M:Middleware.IResourceProvider.RetrieveAllResourceItems">
@@ -4581,6 +4588,18 @@
             <param name="searchField">Field which is being searched.</param>
             <param name="searchOrder">Search order for search field.</param>
             <returns>List&lt;Users&gt;</returns>
+        </member>
+        <member name="T:Middleware.Utils">
+            <summary>
+            Middleware utility methods
+            </summary>
+        </member>
+        <member name="M:Middleware.Utils.RemoveInvalidTagChars(System.String)">
+            <summary>
+            Removes invalid tag characters from text used as tags
+            </summary>
+            <param name="tag"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>

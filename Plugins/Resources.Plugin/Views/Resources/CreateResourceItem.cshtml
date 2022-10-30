@@ -57,6 +57,17 @@
         </div>
     </div>
 
+    <div class="row res-row">
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            @Html.LabelFor(m => m.Tags) @Localizer[nameof(Languages.LanguageStrings.OnePerLine)]
+
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            @Html.TextAreaFor(m => m.Tags, new { @class = "form-control", style = "min-height:80px;" })
+            @Html.ValidationMessageFor(m => m.Tags)
+        </div>
+    </div>
+
     <div class="row res-row" id="textData" style="display:none">
         <div class="col-sm-12 col-md-4 col-lg-3">
             @Localizer[nameof(Languages.LanguageStrings.TextResource)]

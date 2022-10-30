@@ -4,6 +4,27 @@
         <name>Resources.Plugin</name>
     </assembly>
     <members>
+        <member name="T:Resources.Plugin.Models.BaseResourceItemModel">
+            <summary>
+            Base resource item model
+            </summary>
+        </member>
+        <member name="M:Resources.Plugin.Models.BaseResourceItemModel.#ctor(SharedPluginFeatures.BaseModelData)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="modelData"></param>
+        </member>
+        <member name="M:Resources.Plugin.Models.BaseResourceItemModel.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="P:Resources.Plugin.Models.BaseResourceItemModel.AllResourceTypes">
+            <summary>
+            All resource item types
+            </summary>
+        </member>
         <member name="T:Resources.Plugin.Models.CreateCategoryModel">
             <summary>
             Model used to create categories
@@ -57,7 +78,7 @@
             <param name="baseModelData"></param>
             <param name="parentId">Id of parent category or zero</param>
         </member>
-        <member name="M:Resources.Plugin.Models.CreateResourceItemModel.#ctor(SharedPluginFeatures.BaseModelData,System.Int64,System.String,System.String)">
+        <member name="M:Resources.Plugin.Models.CreateResourceItemModel.#ctor(SharedPluginFeatures.BaseModelData,System.Int64,System.String,System.String,System.String)">
             <summary>
             Constructor
             </summary>
@@ -65,6 +86,7 @@
             <param name="parentId">Parent category id</param>
             <param name="name">Category name</param>
             <param name="description">Category description</param>
+            <param name="tags">Resource item tags</param>
         </member>
         <member name="M:Resources.Plugin.Models.CreateResourceItemModel.#ctor">
             <summary>
@@ -96,9 +118,9 @@
             Type of resource
             </summary>
         </member>
-        <member name="P:Resources.Plugin.Models.CreateResourceItemModel.AllResourceTypes">
+        <member name="P:Resources.Plugin.Models.CreateResourceItemModel.Tags">
             <summary>
-            All resource item types
+            Resource tags
             </summary>
         </member>
         <member name="T:Resources.Plugin.Models.IdModel">
@@ -370,7 +392,7 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:Resources.Plugin.Models.ResourceEditResourceItemModel.#ctor(SharedPluginFeatures.BaseModelData,System.Int64,System.Int64,Middleware.ResourceType,System.Int64,System.String,System.String,System.String,System.String,System.Boolean,System.Collections.Generic.List{SharedPluginFeatures.NameIdModel})">
+        <member name="M:Resources.Plugin.Models.ResourceEditResourceItemModel.#ctor(SharedPluginFeatures.BaseModelData,System.Int64,System.Int64,Middleware.ResourceType,System.Int64,System.String,System.String,System.String,System.String,System.Boolean,System.String,System.Collections.Generic.List{SharedPluginFeatures.NameIdModel})">
             <summary>
             Constructor
             </summary>
@@ -384,6 +406,7 @@
             <param name="description">Description</param>
             <param name="value">Resource item value</param>
             <param name="approved">Approved for public viewing</param>
+            <param name="tags">Resource item tags</param>
             <param name="allCategories">List of all categories except current category</param>
         </member>
         <member name="P:Resources.Plugin.Models.ResourceEditResourceItemModel.Id">
@@ -434,6 +457,11 @@
         <member name="P:Resources.Plugin.Models.ResourceEditResourceItemModel.AllCategories">
             <summary>
             List of all categories
+            </summary>
+        </member>
+        <member name="P:Resources.Plugin.Models.ResourceEditResourceItemModel.Tags">
+            <summary>
+            Resource item tags
             </summary>
         </member>
         <member name="T:Resources.Plugin.Models.ResourceItemModel">
@@ -581,7 +609,7 @@
             Resource item model
             </summary>
         </member>
-        <member name="M:Resources.Plugin.Models.ResourceViewItemModel.#ctor(SharedPluginFeatures.BaseModelData,System.Int64,System.Int64,Middleware.ResourceType,System.Int64,System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Boolean)">
+        <member name="M:Resources.Plugin.Models.ResourceViewItemModel.#ctor(SharedPluginFeatures.BaseModelData,System.Int64,System.Int64,Middleware.ResourceType,System.Int64,System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Boolean,System.Collections.Generic.List{System.String})">
             <summary>
             Constructor
             </summary>
@@ -598,6 +626,7 @@
             <param name="dislikes">Number of dislikes</param>
             <param name="viewCount">Number of views for resource item</param>
             <param name="approved">Approved for public viewing</param>
+            <param name="tags">Resource tags</param>
         </member>
         <member name="P:Resources.Plugin.Models.ResourceViewItemModel.Id">
             <summary>
@@ -657,6 +686,11 @@
         <member name="P:Resources.Plugin.Models.ResourceViewItemModel.Approved">
             <summary>
             Approved for public viewing
+            </summary>
+        </member>
+        <member name="P:Resources.Plugin.Models.ResourceViewItemModel.Tags">
+            <summary>
+            List of tags for the item
             </summary>
         </member>
         <member name="T:Resources.Plugin.Models.ViewBookmarksModel">

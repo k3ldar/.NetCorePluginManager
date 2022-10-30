@@ -24,6 +24,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+using System.Collections.Generic;
+
 namespace Middleware.Resources
 {
 	/// <summary>
@@ -36,7 +38,7 @@ namespace Middleware.Resources
 		/// </summary>
 		public ResourceItem()
 		{
-
+			Tags = new();
 		}
 
 		/// <summary>
@@ -54,8 +56,9 @@ namespace Middleware.Resources
 		/// <param name="dislikes">Number of dislikes</param>
 		/// <param name="viewCount">Number of views for the item</param>
 		/// <param name="approved">Approved for public viewing</param>
+		/// <param name="tags">Resource item tags</param>
 		public ResourceItem(long id, long categoryId, ResourceType resourceType, long userId, string userName, string name,
-			string description, string value, int likes, int dislikes, int viewCount, bool approved)
+			string description, string value, int likes, int dislikes, int viewCount, bool approved, List<string> tags)
 		{
 			Id = id;
 			CategoryId = categoryId;
@@ -69,6 +72,7 @@ namespace Middleware.Resources
 			Dislikes = dislikes;
 			Approved = approved;
 			ViewCount = viewCount;
+			Tags = tags;
 		}
 
 		/// <summary>
@@ -131,5 +135,9 @@ namespace Middleware.Resources
 		/// </summary>
 		public bool Approved { get; set; }
 
+		/// <summary>
+		/// Resource tags
+		/// </summary>
+		public List<string> Tags { get; set; }
 	}
 }

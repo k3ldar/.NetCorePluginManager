@@ -76,3 +76,12 @@
     width: auto;
     padding: 3px 6px 3px 6px;
 }
+
+
+.tag {
+    padding: 5px;
+}
+
+    .tag::before {
+        content: "#";
+    }

@@ -12991,6 +12991,11 @@
               Looks up a localized string similar to Edit Category.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.EditResource">
+            <summary>
+              Looks up a localized string similar to Edit Resource.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.Email">
             <summary>
               Looks up a localized string similar to Email.
@@ -14355,6 +14360,11 @@
               Looks up a localized string similar to Manage Resource Items.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.ManageResources">
+            <summary>
+              Looks up a localized string similar to Manage Resources.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.MapofVisitors">
             <summary>
               Looks up a localized string similar to Map of Visitors.
@@ -14905,6 +14915,11 @@
         <member name="P:Languages.LanguageStrings.Once">
             <summary>
               Looks up a localized string similar to Once.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.OnePerLine">
+            <summary>
+              Looks up a localized string similar to one per line.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.OnHold">
@@ -15676,6 +15691,11 @@
         <member name="P:Languages.LanguageStrings.Product">
             <summary>
               Looks up a localized string similar to Product.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.ProductGoups">
+            <summary>
+              Looks up a localized string similar to Product Goups.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.ProductGroupContainsProducts">

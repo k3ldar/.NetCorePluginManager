@@ -43,6 +43,8 @@ using SimpleDB;
 using SimpleDB.Internal;
 using SimpleDB.Tests.Mocks;
 
+#pragma warning disable CA1826
+
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
 	[TestClass]
@@ -1071,7 +1073,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.AddResourceItem(1, ResourceType.Image, 1, null, "Resource name", "Description", "Resource Value", false);
+					sut.AddResourceItem(1, ResourceType.Image, 1, null, "Resource name", "Description", "Resource Value", false, new());
 				}
 			}
 			finally
@@ -1124,7 +1126,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.AddResourceItem(1, ResourceType.Image, 1, "user name", null, "Description", "Resource Value", false);
+					sut.AddResourceItem(1, ResourceType.Image, 1, "user name", null, "Description", "Resource Value", false, new());
 				}
 			}
 			finally
@@ -1177,7 +1179,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "", "Resource Value", false);
+					sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "", "Resource Value", false, new());
 				}
 			}
 			finally
@@ -1230,7 +1232,60 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "Description", "", false);
+					sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "Description", "", false, new());
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void AddResourceItem_TagsNull_Throw_ArgumentNullException()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					initialisation.AfterConfigure(mockApplicationBuilder);
+
+					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+					Assert.IsNotNull(userTable);
+
+					userTable.Insert(new UserDataRow()
+					{
+						FirstName = "Joe",
+						Surname = "Bloggs"
+					});
+
+					ISimpleDBOperations<ResourceCategoryDataRow> resources = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
+					Assert.IsNotNull(resources);
+
+					for (int i = 0; i < 10; i++)
+					{
+						resources.Insert(new ResourceCategoryDataRow()
+						{
+							Name = $"Resource {i}",
+							Description = $"test resource {i}",
+							ForeColor = "black",
+							BackColor = "white",
+							ParentCategoryId = i < 5 ? 0 : i < 8 ? 2 : 3,
+							IsVisible = true,
+						});
+					}
+
+					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
+					Assert.IsNotNull(sut);
+
+					sut.AddResourceItem(1, ResourceType.Image, 1, "bob", "Resource name", "Description", "Resource Value", false, null);
 				}
 			}
 			finally
@@ -1297,7 +1352,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "Description", "a value", false);
+					sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "Description", "a value", false, new());
 				}
 			}
 			finally
@@ -1348,7 +1403,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "Description", "a value", false);
+					sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "Description", "a value", false, new());
 				}
 			}
 			finally
@@ -1396,7 +1451,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.AddResourceItem(1, ResourceType.Image, 5, "user name", "Resource Name", "Description", "a value", false);
+					sut.AddResourceItem(1, ResourceType.Image, 5, "user name", "Resource Name", "Description", "a value", false, new());
 				}
 			}
 			finally
@@ -1452,9 +1507,83 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					ResourceItem Result = sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "Description", "some value", false);
+					ResourceItem Result = sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "Description", "some value", false, new());
 					Assert.IsNotNull(Result);
 					Assert.AreEqual(1, resourceItemsTable.RecordCount);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+
+		[TestMethod]
+		public void AddResourceItem_WithMultipleTags_ReturnsResourceItemInstance()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					initialisation.AfterConfigure(mockApplicationBuilder);
+
+					ISimpleDBOperations<ResourceItemDataRow> resourceItemsTable = provider.GetRequiredService<ISimpleDBOperations<ResourceItemDataRow>>();
+					Assert.IsNotNull(resourceItemsTable);
+					Assert.AreEqual(0, resourceItemsTable.RecordCount);
+
+					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+					Assert.IsNotNull(userTable);
+
+					userTable.Insert(new UserDataRow()
+					{
+						FirstName = "Joe",
+						Surname = "Bloggs"
+					});
+
+					ISimpleDBOperations<ResourceCategoryDataRow> resources = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
+					Assert.IsNotNull(resources);
+
+					for (int i = 0; i < 10; i++)
+					{
+						resources.Insert(new ResourceCategoryDataRow()
+						{
+							Name = $"Resource {i}",
+							Description = $"test resource {i}",
+							ForeColor = "black",
+							BackColor = "white",
+							ParentCategoryId = i < 5 ? 0 : i < 8 ? 2 : 3,
+							IsVisible = true,
+						});
+					}
+
+					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
+					Assert.IsNotNull(sut);
+
+					List<string> tags = new()
+					{
+						"tag                         1",
+						"ta          g2",
+						"tag\t=__(*&^%$£\"!3",
+						"t=ag 4"
+					};
+
+					ResourceItem Result = sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "Description", "some value", false, tags);
+					Assert.IsNotNull(Result);
+					Assert.AreEqual(1, resourceItemsTable.RecordCount);
+
+					ResourceItemDataRow newResource = resourceItemsTable.Select(0);
+					Assert.IsNotNull(newResource);
+					Assert.AreEqual(4, newResource.Tags.Count);
+					Assert.AreEqual("tag1", newResource.Tags[0]);
+					Assert.AreEqual("tag2", newResource.Tags[1]);
+					Assert.AreEqual("tag__3", newResource.Tags[2]);
+					Assert.AreEqual("tag4", newResource.Tags[3]);
 				}
 			}
 			finally
@@ -1587,7 +1716,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.UpdateResourceItem(0, new ResourceItem(23, 0, ResourceType.Uri, 1, "user", "name", "desc", "value", 1, 1, 1, true));
+					sut.UpdateResourceItem(0, new ResourceItem(23, 0, ResourceType.Uri, 1, "user", "name", "desc", "value", 1, 1, 1, true, new()));
 				}
 			}
 			finally
@@ -1643,7 +1772,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.UpdateResourceItem(21, new ResourceItem(0, 1, ResourceType.Uri, 1, "user", "name", "desc", "value", 1, 1, 1, true));
+					sut.UpdateResourceItem(21, new ResourceItem(0, 1, ResourceType.Uri, 1, "user", "name", "desc", "value", 1, 1, 1, true, new()));
 				}
 			}
 			finally
@@ -1699,7 +1828,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.UpdateResourceItem(1, new ResourceItem(0, 38, ResourceType.Uri, 1, "user", "name", "desc", "value", 1, 1, 1, true));
+					sut.UpdateResourceItem(1, new ResourceItem(0, 38, ResourceType.Uri, 1, "user", "name", "desc", "value", 1, 1, 1, true, new()));
 				}
 			}
 			finally
@@ -1759,7 +1888,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					ResourceItem updateItem = new ResourceItem(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true);
+					ResourceItem updateItem = new ResourceItem(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
 					ResourceItem result = sut.UpdateResourceItem(2, updateItem);
 
 					Assert.IsNotNull(result);
@@ -1800,7 +1929,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					ResourceItem resourceItem = new ResourceItem(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true);
+					ResourceItem resourceItem = new ResourceItem(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
 					BookmarkActionResult result = sut.ToggleResourceBookmark(2, resourceItem);
 
 					Assert.AreEqual(BookmarkActionResult.Unknown, result);
@@ -1876,7 +2005,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					ResourceItem resourceItem = new ResourceItem(-100, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true);
+					ResourceItem resourceItem = new ResourceItem(-100, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
 					BookmarkActionResult result = sut.ToggleResourceBookmark(1, resourceItem);
 
 					Assert.AreEqual(BookmarkActionResult.Unknown, result);
@@ -1944,7 +2073,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.AreEqual(0, resourceBookmarks.RecordCount);
 
 
-					ResourceItem resourceItem = new ResourceItem(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true);
+					ResourceItem resourceItem = new ResourceItem(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
 					BookmarkActionResult result = sut.ToggleResourceBookmark(1, resourceItem);
 
 					Assert.AreEqual(BookmarkActionResult.Added, result);
@@ -2024,7 +2153,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.AreEqual(1, resourceBookmarks.RecordCount);
 
 
-					ResourceItem resourceItem = new ResourceItem(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true);
+					ResourceItem resourceItem = new ResourceItem(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
 					BookmarkActionResult result = sut.ToggleResourceBookmark(1, resourceItem);
 
 					Assert.AreEqual(BookmarkActionResult.Removed, result);
@@ -2109,7 +2238,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.AreEqual(30, resourceBookmarks.RecordCount);
 
 
-					ResourceItem resourceItem = new ResourceItem(35, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true);
+					ResourceItem resourceItem = new ResourceItem(35, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
 					BookmarkActionResult result = sut.ToggleResourceBookmark(1, resourceItem);
 
 					Assert.AreEqual(BookmarkActionResult.QuotaExceeded, result);
@@ -2302,3 +2431,5 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 		}
 	}
 }
+
+#pragma warning restore CA1826

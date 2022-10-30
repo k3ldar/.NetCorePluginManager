@@ -23,6 +23,9 @@
  *  16/09/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+using System.Collections.Generic;
+
 using Middleware;
 
 using SharedPluginFeatures;
@@ -51,8 +54,10 @@ namespace Resources.Plugin.Models
 		/// <param name="dislikes">Number of dislikes</param>
 		/// <param name="viewCount">Number of views for resource item</param>
 		/// <param name="approved">Approved for public viewing</param>
+		/// <param name="tags">Resource tags</param>
 		public ResourceViewItemModel(BaseModelData baseModelData, long id, long categoryId, ResourceType resourceType, 
-			long userId, string userName, string name, string description, string value, int likes, int dislikes, int viewCount, bool approved)
+			long userId, string userName, string name, string description, string value, int likes, int dislikes, 
+			int viewCount, bool approved, List<string> tags)
 			: base (baseModelData)
 		{
 			Id = id;
@@ -67,6 +72,7 @@ namespace Resources.Plugin.Models
 			Dislikes = dislikes;
 			Approved = approved;
 			ViewCount = viewCount;
+			Tags = tags ?? throw new ArgumentNullException(nameof(tags));
 		}
 
 		/// <summary>
@@ -128,5 +134,10 @@ namespace Resources.Plugin.Models
 		/// Approved for public viewing
 		/// </summary>
 		public bool Approved { get; }
+
+		/// <summary>
+		/// List of tags for the item
+		/// </summary>
+		public List<string> Tags { get; }
 	}
 }

@@ -68,7 +68,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 							Description = $"Description of {category.Name} {i}",
 							Name = $"Child {i} for {category.Name}",
 							ResourceType = ResourceType.Text,
-							Value = "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
+							Value = "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
 						};
 
 						if (item.Id == 101)
@@ -175,7 +175,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			return category;
 		}
 
-		public ResourceItem AddResourceItem(long categoryId, ResourceType resourceType, long userId, string userName, string name, string description, string value, bool approved)
+		public ResourceItem AddResourceItem(long categoryId, ResourceType resourceType, long userId, 
+			string userName, string name, string description, string value, bool approved, List<string> tags)
 		{
 			if (String.IsNullOrEmpty(userName))
 				 throw new ArgumentNullException(nameof(userName));
@@ -189,12 +190,16 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			if (String.IsNullOrEmpty(value))
 				throw new ArgumentNullException(nameof(value));
 
+			if (tags == null)
+				throw new ArgumentNullException(nameof(tags));
+
 			ResourceCategory resourceCategory = _resources.FirstOrDefault(x => x.Id == categoryId);
 
 			if (resourceCategory == null)
 				throw new InvalidOperationException();
 
-			ResourceItem Result = new ResourceItem(_nextId++, categoryId, resourceType, userId, userName, name, description, value, 0, 0, 0, false);
+			ResourceItem Result = new ResourceItem(_nextId++, categoryId, resourceType, userId, 
+				userName, name, description, value, 0, 0, 0, false, tags);
 			resourceCategory.ResourceItems.Add(Result);
 			_items.Add(Result);
 
@@ -234,8 +239,11 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 				return BookmarkActionResult.Added;
 			}
 
-			_bookmarks[userId] = new List<long>();
-			_bookmarks[userId].Add(resourceItem.Id);
+			_bookmarks[userId] = new List<long>
+			{
+				resourceItem.Id
+			};
+
 			return BookmarkActionResult.Added;
 		}
 
