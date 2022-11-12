@@ -501,7 +501,10 @@ namespace Resources.Plugin.Controllers
 				return result;
 
 			string[] tagList = tags.Split(SharedPluginFeatures.Constants.NewLineChar,
-				StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+#if NET_5_ABOVE
+				StringSplitOptions.TrimEntries | 
+#endif
+				StringSplitOptions.RemoveEmptyEntries);
 
 			for (int i = 0; i < tagList.Length; i++)
 			{
@@ -852,7 +855,7 @@ namespace Resources.Plugin.Controllers
 			}
 		}
 
-		#endregion Private Methods
+#endregion Private Methods
 	}
 }
 

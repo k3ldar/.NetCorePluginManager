@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+using System.Globalization;
 using System.Runtime.CompilerServices;
 
 using Middleware;
@@ -457,7 +458,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			{
 				DateTime sessionDate = session.Created;
 
-#if ISO_WEEK
+#if NET_5_ABOVE
 		        int week = ISOWeek.GetWeekOfYear(sessionDate);
 #else
 				int week = (sessionDate.DayOfYear / 7) + 1;
