@@ -32,8 +32,8 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace DynamicContent.Plugin
 {
-#if NET_5_X
-    [ExcludeFromCodeCoverage(Justification = "Unable to unit test main")]
+#if NET_5_ABOVE
+	[ExcludeFromCodeCoverage(Justification = "Unable to unit test main")]
 #else
     [ExcludeFromCodeCoverage]
 #endif

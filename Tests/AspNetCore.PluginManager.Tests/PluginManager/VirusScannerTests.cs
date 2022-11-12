@@ -200,7 +200,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
                 sut.ScanFile(files);
                 Assert.AreEqual(0, logger.Errors.Count);
                 Assert.IsTrue(logger.Logs.Count >= 9);
-                Assert.IsTrue(sut.ScanTimings.Requests >= 9u);
+                Assert.IsTrue(MicrosoftDefenderVirusScanner.ScanTimings.Requests >= 9u);
             }
             finally
             {

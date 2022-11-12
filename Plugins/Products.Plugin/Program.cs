@@ -34,7 +34,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace ProductPlugin
 {
-#if NET_5_X
+#if NET_5_ABOVE
     [ExcludeFromCodeCoverage(Justification = "Unable to unit test main")]
 #else
     [ExcludeFromCodeCoverage]

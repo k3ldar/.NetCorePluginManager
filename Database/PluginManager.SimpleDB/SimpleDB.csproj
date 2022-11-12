@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFrameworks>$(FrameWorkAllNotStandard)</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Description>SimpleDB - Storage simplified, use your own classes to describe data which is then written and retrieved from storage.  Includes foriegn keys, unique indexes, before and after triggers for create, update and delete methods</Description>
     <PackageReadmeFile>SimpleDB.md</PackageReadmeFile>
@@ -14,7 +14,7 @@
 
 
   <ItemGroup>
-    <PackageReference Include="SC.Shared.Library.Core" Version="3.4.0" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="3.6.0" />
   </ItemGroup>
 
   <ItemGroup>

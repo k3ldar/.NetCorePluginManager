@@ -48,8 +48,8 @@ namespace LoginPlugin
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(
-#if NET_CORE_3_X || NET_5_X || NET_6_X
-                option => option.EnableEndpointRouting = false
+#if NET_CORE_3_X || NET_5_ABOVE
+				option => option.EnableEndpointRouting = false
 #endif
                 )
                 .AddSessionStateTempDataProvider();

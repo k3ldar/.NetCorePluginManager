@@ -37,7 +37,7 @@ using SharedPluginFeatures;
 #pragma warning disable IDE0079
 #pragma warning disable CS1591
 
-#if NET_5_X || NET_CORE_3_X
+#if NET_5_ABOVE
 #pragma warning disable IDE0057
 #endif
 
@@ -88,13 +88,18 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
                 string file = String.Empty;
                 try
                 {
-#if NET_5_X || NET_6_X
-                    string path = assembly.Location;
+#if NET_5_ABOVE
+					string path = assembly.Location;
 #else
                     string path = String.IsNullOrEmpty(assembly.Location) ? assembly.CodeBase : assembly.Location;
 #endif
 
-                    if (path.StartsWith("file:///"))
+#if NET_7_ABOVE
+					if (String.IsNullOrEmpty(path))
+						continue;
+#endif
+
+					if (path.StartsWith("file:///"))
                         path = path.Substring(8);
 
                     file = Path.GetFullPath(path);
@@ -143,7 +148,7 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
 }
 
 
-#if NET_5_X || NET_CORE_3_X
+#if NET_5_ABOVE || NET_CORE_3_X
 #pragma warning restore IDE0057
 #endif
 
