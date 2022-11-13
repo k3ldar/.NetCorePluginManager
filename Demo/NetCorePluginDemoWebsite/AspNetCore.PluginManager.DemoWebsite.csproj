@@ -106,8 +106,8 @@
     <PackageReference Include="SC.Shared.Library.Core" Version="3.6.0" />
     <PackageReference Include="ApplicationSettings" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.0" />
-    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="9.0.1" />
-    <PackageReference Include="SC.Shared.Library.Core.Windows" Version="1.0.0" />
+    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="9.1.0" />
+    <PackageReference Include="SC.Shared.Library.Core.Windows" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
