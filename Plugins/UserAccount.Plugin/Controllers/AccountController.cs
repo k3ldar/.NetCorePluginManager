@@ -41,11 +41,10 @@ using SharedPluginFeatures;
 
 using UserAccount.Plugin.Models;
 
-#pragma warning disable IDE0017
+#pragma warning disable IDE0017, CA1416, CS1591
 
 namespace UserAccount.Plugin.Controllers
 {
-#pragma warning disable CS1591
     [LoggedIn]
     [DenySpider]
     [Subdomain(AccountController.Name)]
@@ -190,5 +189,6 @@ namespace UserAccount.Plugin.Controllers
 
         #endregion Private Methods
     }
-#pragma warning restore CS1591
 }
+
+#pragma warning restore IDE0017, CA1416, CS1591

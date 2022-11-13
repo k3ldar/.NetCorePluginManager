@@ -39,7 +39,7 @@ using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
-#pragma warning disable CS1591
+#pragma warning disable CS1591, CA1416
 
 namespace ProductPlugin.Classes
 {
@@ -145,7 +145,7 @@ namespace ProductPlugin.Classes
             return CopyImagesToSubGroupAndVerify(cachedImageUpload.Files, newSizes, additionalData, errors, backfillColor);
         }
 
-        private Color GetColorFromHex(string resizeBackfillColor)
+        private static Color GetColorFromHex(string resizeBackfillColor)
         {
             try
             {
@@ -262,7 +262,7 @@ namespace ProductPlugin.Classes
             return bmPhoto;
         }
 
-        private string GetNextAutoGenerateFileName(List<ImageFile> files, string subgroupName)
+        private static string GetNextAutoGenerateFileName(List<ImageFile> files, string subgroupName)
         {
             int i = 0;
             bool isFree = false;
@@ -283,7 +283,7 @@ namespace ProductPlugin.Classes
                 _imageProvider.AddSubgroup(Constants.ProductImageFolderName, subgroupName);
         }
 
-        private bool ProcessImageOptions(IImageProcessOptions options)
+        private static bool ProcessImageOptions(IImageProcessOptions options)
         {
             if (options == null)
                 return false;
@@ -302,4 +302,4 @@ namespace ProductPlugin.Classes
     }
 }
 
-#pragma warning restore CS1591
+#pragma warning restore CS1591, CA1416

@@ -1,4 +1,4 @@
-Version 4.5.0
+Version 5.0.0
 =============
 #155 DAL Support for text based data
 #160 Move text based db to own project file
@@ -6,6 +6,7 @@ Version 4.5.0
 #169 Convert session data to SimpleDB
 #174 AppVeyor devops support
 #178 Initial release of SimpleDB
+#199 Update to net 7 remove support for net 5
 
 Version 4.4.0
 =============

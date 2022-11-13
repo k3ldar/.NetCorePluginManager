@@ -2,11 +2,12 @@
   
   <PropertyGroup>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
-    <NoWarn>1701;1702;8032</NoWarn>
+    <NoWarn>1701;1702;8032;8981</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>Shared.Key.pfx</AssemblyOriginatorKeyFile>
     <Description>Plugin Manager</Description>
+    <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -20,12 +21,18 @@
     <PackageTags>Plugin Manager</PackageTags>
     <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-    <PackageReleaseNotes>Supports net core 3.1, net5.0 and net 6.0</PackageReleaseNotes>
+    <PackageReleaseNotes>Supports net core 3.1, net 6.0 and net7.0</PackageReleaseNotes>
     <PackageTags>asp net core plugin manager system admin internal statistics</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <FrameWorkLatestVersion>net7.0</FrameWorkLatestVersion>
+    <FrameWorkAllSupported>net7.0;net6.0;netcoreapp3.1;netstandard2.0</FrameWorkAllSupported>
+    <FrameWorkAllNotStandard>net7.0;net6.0;netcoreapp3.1</FrameWorkAllNotStandard>
   </PropertyGroup>
   
   <PropertyGroup>
-    <Version>4.4.0</Version>
+    <Version>5.0.0</Version>
     <LangVersion>latest</LangVersion>
     <Authors>Simon Carter (s1cart3r@gmail.com)</Authors>
     <Company>Simon Carter</Company>
@@ -33,29 +40,29 @@
     <Description>Plugin Manager</Description>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net7.0'">
+    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_6_0;NET_6_X;ISO_WEEK;ATTR_OS;NET_5_ABOVE;NET_6_ABOVE;NET_7_ABOVE;NET_7_0;NET_7_X</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net7.0'">
+    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_6_0;NET_6_X;ISO_WEEK;ATTR_OS;NET_5_ABOVE;NET_6_ABOVE;NET_7_ABOVE;NET_7_0;NET_7_X</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net6.0'">
-    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_6_0;NET_6_X;ISO_WEEK;ATTR_OS</DefineConstants>
+    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_6_0;NET_6_X;ISO_WEEK;ATTR_OS;NET_5_ABOVE;NET_6_ABOVE</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net6.0'">
-    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_6_0;NET_6_X;ISO_WEEK;ATTR_OS</DefineConstants>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net5.0'">
-    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_5_0;NET_5_X;ISO_WEEK;ATTR_OS</DefineConstants>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net5.0'">
-    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_5_0;NET_5_X;ISO_WEEK;ATTR_OS</DefineConstants>
+    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_6_0;NET_6_X;ISO_WEEK;ATTR_OS;NET_5_ABOVE;NET_6_ABOVE</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>

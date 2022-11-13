@@ -47,22 +47,22 @@ namespace ErrorManager.Plugin.Controllers
     [DenySpider]
     public class ErrorController : BaseController
     {
-        #region Private Members
+		#region Private Members
 
-#if NET_CORE_3_X || NET_5_X || NET_6_X
-        private readonly IWebHostEnvironment _hostingEnvironment;
+#if NET_CORE_3_X || NET_5_ABOVE
+		private readonly IWebHostEnvironment _hostingEnvironment;
 #else
         private readonly IHostingEnvironment _hostingEnvironment;
 #endif
 
         private readonly ISettingsProvider _settingsProvider;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-#if NET_CORE_3_X || NET_5_X || NET_6_X
-        public ErrorController(IWebHostEnvironment hostingEnvironment, ISettingsProvider settingsProvider)
+#if NET_CORE_3_X || NET_5_ABOVE
+		public ErrorController(IWebHostEnvironment hostingEnvironment, ISettingsProvider settingsProvider)
         {
             _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));

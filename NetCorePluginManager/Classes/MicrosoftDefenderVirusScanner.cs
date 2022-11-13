@@ -33,7 +33,7 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
-using pm = PluginManager;
+using plMgr = PluginManager;
 
 namespace AspNetCore.PluginManager.Internal
 {
@@ -67,7 +67,7 @@ namespace AspNetCore.PluginManager.Internal
         /// </summary>
         public bool Enabled { get; }
 
-        internal Timings ScanTimings
+        internal static Timings ScanTimings
         {
             get
             {
@@ -88,7 +88,7 @@ namespace AspNetCore.PluginManager.Internal
             {
                 if (!Directory.Exists(directory))
                 {
-                    _logger.AddToLog(pm.LogLevel.Warning, nameof(MicrosoftDefenderVirusScanner), $"Directory does not exist: {directory}");
+                    _logger.AddToLog(plMgr.LogLevel.Warning, nameof(MicrosoftDefenderVirusScanner), $"Directory does not exist: {directory}");
                     return;
                 }
 
@@ -137,11 +137,11 @@ namespace AspNetCore.PluginManager.Internal
                     StreamReader reader = process.StandardOutput;
                     string contents = reader.ReadToEnd();
                     process.WaitForExit();
-                    _logger.AddToLog(pm.LogLevel.Information, nameof(RunScan), contents);
+                    _logger.AddToLog(plMgr.LogLevel.Information, nameof(RunScan), contents);
                 }
                 catch (Exception err)
                 {
-                    _logger.AddToLog(pm.LogLevel.Error, err, $"{_defenderProcess} -Scan -ScanType 3 -File \"{pathOrFile}\"");
+                    _logger.AddToLog(plMgr.LogLevel.Error, err, $"{_defenderProcess} -Scan -ScanType 3 -File \"{pathOrFile}\"");
                 }
             }
         }
@@ -160,7 +160,7 @@ namespace AspNetCore.PluginManager.Internal
             return true;
         }
 
-        private string GetLatestDefenderFolder(string defenderPath)
+        private static string GetLatestDefenderFolder(string defenderPath)
         {
             DateTime newest = DateTime.MinValue;
             string Result = null;
