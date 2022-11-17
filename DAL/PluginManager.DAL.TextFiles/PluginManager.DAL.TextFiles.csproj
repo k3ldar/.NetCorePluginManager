@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFrameworks>$(FrameWorkAllNotStandard)</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Plugin Manager Data Access Layer for Text based storage</Title>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Database\PluginManager.SimpleDB\SimpleDB.csproj" />
-    <ProjectReference Include="..\..\Plugins\DynamicContent.Plugin\DynamicContent.Plugin.csproj" />
+    <ProjectReference Include="..\..\Languages\Languages.csproj" />
     <ProjectReference Include="..\..\Plugins\PluginMiddleware\PluginMiddleware.csproj" />
   </ItemGroup>
   

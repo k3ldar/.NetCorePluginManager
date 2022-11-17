@@ -25,8 +25,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Reflection;
 
-using DynamicContent.Plugin.Templates;
-
 using Middleware;
 using Middleware.DynamicContent;
 
@@ -36,6 +34,7 @@ using SimpleDB;
 
 using SharedPluginFeatures;
 using SharedPluginFeatures.DynamicContent;
+using Middleware.Classes.DynamicContent;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
@@ -244,7 +243,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
                 if (t == null)
                 {
-                    baseInstance = new HtmlTextTemplate();
+                    baseInstance = new GenericTextTemplate();
                     templateClassFound = false;
                 }
                 else
@@ -255,39 +254,12 @@ namespace PluginManager.DAL.TextFiles.Providers
             }
             catch
             {
-                baseInstance = new HtmlTextTemplate();
+                baseInstance = new GenericTextTemplate();
                 templateClassFound = false;
             }
 
             return baseInstance.Clone(uniqueId);
         }
-
-        //private IDynamicContentPage GetPage1()
-        //{
-        //    if (_dynamicContentPage1 == null)
-        //    {
-        //        _dynamicContentPage1 = new DynamicContentPage()
-        //        {
-        //            Id = 1,
-        //            Name = "Custom Page 1",
-        //            RouteName = "page-1"
-        //        };
-
-        //        HtmlTextTemplate htmlLayout1 = new HtmlTextTemplate()
-        //        {
-        //            UniqueId = "1",
-        //            SortOrder = 0,
-        //            WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
-        //            Width = 12,
-        //            HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
-        //            Data = "<p>This is <br />html over<br />three lines</p>"
-        //        };
-
-        //        _dynamicContentPage1.Content.Add(htmlLayout1);
-        //    }
-
-        //    return _dynamicContentPage1;
-        //}
 
         #endregion Private Methods
     }

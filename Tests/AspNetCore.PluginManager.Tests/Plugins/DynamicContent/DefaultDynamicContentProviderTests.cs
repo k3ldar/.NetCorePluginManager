@@ -48,7 +48,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
     public class DefaultDynamicContentProviderTests : GenericBaseClass
     {
         private const string TestCategoryName = "Dynamic Content";
-        private const string HtmlTemplateAssemblyQualifiedName = "DynamicContent.Plugin.Templates.HtmlTextTemplate, DynamicContent.Plugin, Version=4.4.0.0, Culture=neutral, PublicKeyToken=null";
+        private const string HtmlTemplateAssemblyQualifiedName = "DynamicContent.Plugin.Templates.HtmlTextTemplate, DynamicContent.Plugin, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null";
         private string _currentTestPath = null;
 
         [TestInitialize]

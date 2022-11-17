@@ -3,7 +3,7 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 
   <PropertyGroup>
-    <BaseOutputPath>bin</BaseOutputPath>
+    <BaseOutputPath>$(SolutionDir)\Output\UnitTests</BaseOutputPath>
   </PropertyGroup>
  
 </Project>
