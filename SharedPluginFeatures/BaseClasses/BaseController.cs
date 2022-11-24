@@ -65,9 +65,9 @@ namespace SharedPluginFeatures
 		/// the current users session.</returns>
 		protected UserSession GetUserSession()
         {
-            if (HttpContext.Items.ContainsKey(Constants.UserSession))
+            if (HttpContext.Items.TryGetValue(Constants.UserSession, out object value))
             {
-                return (UserSession)HttpContext.Items[Constants.UserSession];
+                return (UserSession)value;
             }
 
             return null;
@@ -173,9 +173,9 @@ namespace SharedPluginFeatures
         {
             List<BreadcrumbItem> Result = new List<BreadcrumbItem>();
 
-            if (HttpContext.Items.ContainsKey(Constants.Breadcrumbs))
+            if (HttpContext.Items.TryGetValue(Constants.Breadcrumbs, out object value))
             {
-                List<BreadcrumbItem> breadcrumbs = (List<BreadcrumbItem>)HttpContext.Items[Constants.Breadcrumbs];
+                List<BreadcrumbItem> breadcrumbs = (List<BreadcrumbItem>)value;
 
                 foreach (BreadcrumbItem item in breadcrumbs)
                     Result.Add(item);
@@ -195,9 +195,9 @@ namespace SharedPluginFeatures
         /// <returns>ShoppingCartSummary</returns>
         protected ShoppingCartSummary GetCartSummary()
         {
-            if (HttpContext.Items.ContainsKey(Constants.BasketSummary))
+            if (HttpContext.Items.TryGetValue(Constants.BasketSummary, out object value))
             {
-                return (ShoppingCartSummary)HttpContext.Items[Constants.BasketSummary];
+                return (ShoppingCartSummary)value;
             }
 
             UserSession userSession = GetUserSession();
@@ -226,8 +226,8 @@ namespace SharedPluginFeatures
         /// <returns>decimal.  Default tax rate if found, otherwise zero.</returns>
         protected decimal GetDefaultTaxRate()
         {
-            if (HttpContext.Items.ContainsKey(Constants.DefaultTaxRate))
-                return Convert.ToDecimal(HttpContext.Items[Constants.DefaultTaxRate], CultureInfo.CurrentCulture);
+            if (HttpContext.Items.TryGetValue(Constants.DefaultTaxRate, out object value))
+                return Convert.ToDecimal(value, CultureInfo.CurrentCulture);
 
             return 0;
         }
@@ -240,9 +240,9 @@ namespace SharedPluginFeatures
         /// <returns>long.  Unique shopping cart id.</returns>
         protected long GetShoppingCartId()
         {
-            if (HttpContext.Items.ContainsKey(Constants.ShoppingCart))
+            if (HttpContext.Items.TryGetValue(Constants.ShoppingCart, out object value))
             {
-                return (long)HttpContext.Items[Constants.ShoppingCart];
+                return (long)value;
             }
 
             return 0;
@@ -292,12 +292,14 @@ namespace SharedPluginFeatures
         /// <param name="name">Name of the cookie.</param>
         /// <param name="value">Value to be stored within the cookie.</param>
         /// <param name="days">Number of days the cookie is valid for.  A value less than
+		/// <param name="isEssential">Indicates whether it is an essential or nice to have cookie</param>
         /// 1 means it will be a session cookie and will expire when the user session ends.</param>
-        protected void CookieAdd(in string name, in string value, in int days)
+        protected void CookieAdd(in string name, in string value, in int days, bool isEssential = false)
         {
             CookieOptions options = new CookieOptions()
             {
                 HttpOnly = false,
+				IsEssential = isEssential,
                 SameSite = SameSiteMode.Lax,
             };
 
@@ -353,9 +355,9 @@ namespace SharedPluginFeatures
 			}
 			else
 			{
-				if (TempData.ContainsKey(GrowlTempDataKeyName))
+				if (TempData.TryGetValue(GrowlTempDataKeyName, out object value))
 				{
-					Result = (string)TempData[GrowlTempDataKeyName];
+					Result = (string)value;
 					TempData.Remove(GrowlTempDataKeyName);
 				}
 			}
@@ -574,8 +576,8 @@ namespace SharedPluginFeatures
         /// <returns>string</returns>
         protected string GetSeoTitle()
         {
-            if (HttpContext.Items.ContainsKey(Constants.SeoTitle))
-                return HttpContext.Items[Constants.SeoTitle].ToString();
+            if (HttpContext.Items.TryGetValue(Constants.SeoTitle, out object value))
+                return value.ToString();
 
             return String.Empty;
         }
@@ -586,8 +588,8 @@ namespace SharedPluginFeatures
         /// <returns>string</returns>
         protected string GetSeoAuthor()
         {
-            if (HttpContext.Items.ContainsKey(Constants.SeoMetaAuthor))
-                return HttpContext.Items[Constants.SeoMetaAuthor].ToString();
+            if (HttpContext.Items.TryGetValue(Constants.SeoMetaAuthor, out object value))
+                return value.ToString();
 
             return String.Empty;
         }
@@ -598,8 +600,8 @@ namespace SharedPluginFeatures
         /// <returns>string</returns>
         protected string GetSeoKeyWords()
         {
-            if (HttpContext.Items.ContainsKey(Constants.SeoMetaKeywords))
-                return HttpContext.Items[Constants.SeoMetaKeywords].ToString();
+            if (HttpContext.Items.TryGetValue(Constants.SeoMetaKeywords, out object value))
+                return value.ToString();
 
             return String.Empty;
         }
@@ -610,8 +612,8 @@ namespace SharedPluginFeatures
         /// <returns>string</returns>
         protected string GetSeoDescription()
         {
-            if (HttpContext.Items.ContainsKey(Constants.SeoMetaDescription))
-                return HttpContext.Items[Constants.SeoMetaDescription].ToString();
+            if (HttpContext.Items.TryGetValue(Constants.SeoMetaDescription, out object value))
+                return value.ToString();
 
             return String.Empty;
         }

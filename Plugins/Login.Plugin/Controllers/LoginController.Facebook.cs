@@ -102,7 +102,7 @@ namespace LoginPlugin.Controllers
                     userSession.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
 
                 CookieAdd(_settings.RememberMeCookieName, Encrypt(loginDetails.UserId.ToString(),
-                    _settings.EncryptionKey), _settings.LoginDays);
+                    _settings.EncryptionKey), _settings.LoginDays, true);
 
                 GetAuthenticationService().SignInAsync(HttpContext,
                     _settings.AuthenticationScheme,

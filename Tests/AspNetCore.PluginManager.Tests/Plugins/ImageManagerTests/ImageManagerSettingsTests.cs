@@ -40,7 +40,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
     public class ImageManagerSettingsTests
     {
         private const string ImageManagerTestsCategory = "Image Manager Tests";
-        private const string DemoWebsiteImagePath = "..\\..\\..\\..\\..\\Demo\\NetCorePluginDemoWebsite\\wwwroot\\images";
+        private const string DemoWebsiteImagePath = "..\\..\\..\\..\\Demo\\NetCorePluginDemoWebsite\\wwwroot\\images";
 
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]

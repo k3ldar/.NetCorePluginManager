@@ -296,7 +296,9 @@ namespace DynamicContent.Plugin.Internal
         {
             int len = reader.ReadInt32();
 
-            if (len > 0)
+			bool isValid = len + reader.BaseStream.Position < reader.BaseStream.Length && len > 0;
+
+            if (isValid)
                 return Encoding.UTF8.GetString(reader.ReadBytes(len));
 
             return String.Empty;

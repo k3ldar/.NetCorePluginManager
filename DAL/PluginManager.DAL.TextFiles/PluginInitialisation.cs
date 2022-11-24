@@ -144,6 +144,7 @@ namespace PluginManager.DAL.TextFiles
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<UserDataRow>>();
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<UserClaimsDataRow>>();
 
+			_ = app.ApplicationServices.GetService<IUserSessionService>();
 		}
 
 		public void Configure(in IApplicationBuilder app)
@@ -241,7 +242,7 @@ namespace PluginManager.DAL.TextFiles
 			services.AddTransient<IApplicationSettingsProvider, SettingsProvider>();
 			services.AddSingleton<ISessionStatisticsProvider, SessionStatisticsProvider>();
 			services.AddSingleton<IUrlHashProvider, UrlHashProvider>();
-			services.AddTransient<IUserSessionService, UserSessionService>();
+			services.AddSingleton<IUserSessionService, UserSessionService>();
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)

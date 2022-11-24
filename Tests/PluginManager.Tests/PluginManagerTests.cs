@@ -654,7 +654,7 @@ namespace PluginManager.Tests
 
                 Assembly companyPlugin = Assembly.LoadFrom(CompanyPluginFilePath);
                 pluginManager.PluginLoad(companyPlugin,
-                    "..\\..\\..\\..\\..\\Plugins\\Company.Plugin\\bin\\Debug\\net5.0\\", true);
+                    "..\\..\\..\\..\\..\\Plugins\\Company.Plugin\\bin\\Debug\\net7.0\\", true);
 
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
                 Assert.IsTrue(pluginManager.PluginLoaded("Company.Plugin.dll", out int _, out string _));

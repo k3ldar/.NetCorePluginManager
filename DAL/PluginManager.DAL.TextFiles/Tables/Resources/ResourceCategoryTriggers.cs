@@ -64,7 +64,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
 		public void BeforeUpdate(ResourceCategoryDataRow newRecord, ResourceCategoryDataRow oldRecord)
 		{
-			if (!String.IsNullOrEmpty(newRecord.RouteName) && newRecord.RouteName != oldRecord.RouteName)
+			if (String.IsNullOrEmpty(newRecord.RouteName) && !String.IsNullOrEmpty(oldRecord.RouteName))
+				newRecord.RouteName = oldRecord.RouteName;
+			else if (!String.IsNullOrEmpty(newRecord.RouteName) && newRecord.RouteName != oldRecord.RouteName)
 				newRecord.RouteName = oldRecord.RouteName;
 		}
 	}

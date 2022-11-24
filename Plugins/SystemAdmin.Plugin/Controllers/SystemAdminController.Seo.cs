@@ -59,6 +59,13 @@ namespace SystemAdmin.Plugin.Controllers
                 model.SeoTitle = title;
                 model.SeoTags = String.Join(' ', keywords);
             }
+			else
+			{
+				if (IsUserLoggedIn())
+				{
+					model.SeoAuthor = UserName();
+				}
+			}
 
             return PartialView("_SeoUpdate", model);
         }
@@ -85,6 +92,10 @@ namespace SystemAdmin.Plugin.Controllers
                 _seoProvider.UpdateTitle(model.SeoUrl, model.SeoTitle);
 
             _seoProvider.RemoveKeywords(model.SeoUrl, keywords);
+
+			if (model.SeoTags == null)
+				model.SeoTags = String.Empty;
+
             _seoProvider.AddKeywords(model.SeoUrl, model.SeoTags.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList());
             return Redirect(model.SeoUrl);
         }

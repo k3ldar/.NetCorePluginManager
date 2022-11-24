@@ -39,6 +39,8 @@ using PluginManager.DAL.TextFiles.Tables;
 using PluginManager.DAL.TextFiles.Tables.Resources;
 using PluginManager.Tests.Mocks;
 
+using Shared.Classes;
+
 using SimpleDB;
 using SimpleDB.Internal;
 using SimpleDB.Tests.Mocks;
@@ -51,6 +53,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 	[ExcludeFromCodeCoverage]
 	public class ResourceProviderTests : BaseProviderTests
 	{
+		[TestInitialize]
+		public void Setup() 
+		{
+			ThreadManager.Initialise();
+		}
+
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void Construct_InvalidInstance_TableUserNull_Throws_ArgumentNullException()

@@ -36,6 +36,7 @@ using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 using SimpleDB;
 using PluginManager.Tests.Mocks;
+using Shared.Classes;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
@@ -43,7 +44,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
     [ExcludeFromCodeCoverage]
     public class DownloadProviderTests : BaseProviderTests
     {
-        [TestMethod]
+		[TestInitialize]
+		public void Setup()
+		{
+			ThreadManager.Initialise();
+		}
+		
+		[TestMethod]
         public void DownloadCategoriesGet_AnyUser_ReturnsCategoryListForAllUsers()
         {
             string directory = TestHelper.GetTestPath();

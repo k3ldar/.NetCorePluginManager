@@ -629,18 +629,26 @@ namespace PluginManager
         public List<T> PluginGetClasses<T>()
         {
             List<T> Result = new List<T>();
+			string name = typeof(T).FullName;
 
             foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
             {
                 try
                 {
-                    foreach (Type type in plugin.Value.Assembly.GetTypes())
+
+					foreach (Type type in plugin.Value.Assembly.GetTypes())
                     {
+						Type interFaceType = type.GetInterface(typeof(T).Name);
                         try
                         {
-                            if ((type.GetInterface(typeof(T).Name) != null) || type.IsSubclassOf(typeof(T)))
-                            {
-                                Result.Add((T)Activator.CreateInstance(type, GetParameterInstances(type)));
+							if ((interFaceType != null) || type.IsSubclassOf(typeof(T)))
+							{
+								if (interFaceType != null && !interFaceType.FullName.Equals(name))
+								{ 
+									continue;
+								}
+
+								Result.Add((T)Activator.CreateInstance(type, GetParameterInstances(type)));
                             }
                         }
                         catch (Exception typeLoader)
@@ -776,9 +784,9 @@ namespace PluginManager
             return PluginGetTypesWithAttribute<T>();
         }
 
-        #endregion Public Methods
+		#endregion Public Methods
 
-        #region Internal Methods
+		#region Internal Methods
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal object[] GetParameterInstances(Type type)
@@ -825,9 +833,9 @@ namespace PluginManager
             return Result.ToArray();
         }
 
-        #endregion Internal Methods
+		#endregion Internal Methods
 
-        #region IDisposable Methods
+		#region IDisposable Methods
 
         /// <summary>
         /// IDisposable Dispose method
@@ -870,9 +878,9 @@ namespace PluginManager
             }
         }
 
-        #endregion IDisposable Methods
+		#endregion IDisposable Methods
 
-        #region Private Methods
+		#region Private Methods
 
         /// <summary>
         /// Copies the plugin file to a local temp area, that will be used to load the plugin from.
@@ -1076,6 +1084,6 @@ namespace PluginManager
             return new PluginSetting(pluginName);
         }
 
-        #endregion Private Methods
+		#endregion Private Methods
     }
 }

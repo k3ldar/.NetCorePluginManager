@@ -182,16 +182,16 @@ namespace LoginPlugin.Controllers
                         if (session != null)
                             session.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
 
-                        if (model.RememberMe)
-                        {
-                            CookieAdd(_settings.RememberMeCookieName, Encrypt(loginDetails.UserId.ToString(),
-                                _settings.EncryptionKey), _settings.LoginDays);
-                        }
-
                         GetAuthenticationService().SignInAsync(HttpContext,
                             _settings.AuthenticationScheme,
                             new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
                             _claimsProvider.GetAuthenticationProperties());
+
+                        if (model.RememberMe)
+                        {
+                            CookieAdd(_settings.RememberMeCookieName, Encrypt(loginDetails.UserId.ToString(),
+                                _settings.EncryptionKey), _settings.LoginDays, true);
+                        }
 
                         if (loginResult == LoginResult.PasswordChangeRequired)
                         {
@@ -355,7 +355,7 @@ namespace LoginPlugin.Controllers
             }
         }
 
-#endregion Public Action Methods
+		#endregion Public Action Methods
 
 		#region Internal Testing Methods
 
@@ -376,74 +376,74 @@ namespace LoginPlugin.Controllers
 
 		#region Private Methods
 
-				[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
-				private bool ValidateRememberedLogin()
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
+		private bool ValidateRememberedLogin()
+		{
+			if (CookieExists(_settings.RememberMeCookieName))
+			{
+				try
 				{
-					if (CookieExists(_settings.RememberMeCookieName))
+					string loginId = Decrypt(CookieValue(_settings.RememberMeCookieName, ""), _settings.EncryptionKey);
+					UserLoginDetails loginDetails = new UserLoginDetails(Convert.ToInt64(loginId), true);
+					bool loggedIn = _loginProvider.Login(String.Empty, String.Empty, GetIpAddress(), 0, ref loginDetails) == LoginResult.Remembered;
+
+					if (loggedIn)
 					{
-						try
-						{
-							string loginId = Decrypt(CookieValue(_settings.RememberMeCookieName, ""), _settings.EncryptionKey);
-							UserLoginDetails loginDetails = new UserLoginDetails(Convert.ToInt64(loginId), true);
-							bool loggedIn = _loginProvider.Login(String.Empty, String.Empty, GetIpAddress(), 0, ref loginDetails) == LoginResult.Remembered;
+						UserSession session = GetUserSession();
 
-							if (loggedIn)
-							{
-								UserSession session = GetUserSession();
+						if (session != null)
+							session.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
 
-								if (session != null)
-									session.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
-
-								GetAuthenticationService().SignInAsync(HttpContext,
-									nameof(AspNetCore.PluginManager),
-									new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
-									_claimsProvider.GetAuthenticationProperties());
-							}
-
-							return loggedIn;
-						}
-						catch
-						{
-							CookieDelete(_settings.RememberMeCookieName);
-						}
+						GetAuthenticationService().SignInAsync(HttpContext,
+							nameof(AspNetCore.PluginManager),
+							new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
+							_claimsProvider.GetAuthenticationProperties());
 					}
 
-					return false;
+					return loggedIn;
 				}
-
-				private void RemoveLoginAttempt()
+				catch
 				{
-					string cacheId = GetCoreSessionId();
-
-					CacheItem loginCache = _loginCache.Get(cacheId);
-
-					if (loginCache != null)
-					{
-						_loginCache.Remove(loginCache);
-					}
+					CookieDelete(_settings.RememberMeCookieName);
 				}
+			}
 
-				private LoginCacheItem GetCachedLoginAttempt(bool createIfNotExist)
-				{
-					LoginCacheItem Result = null;
+			return false;
+		}
 
-					string cacheId = GetCoreSessionId();
+		private void RemoveLoginAttempt()
+		{
+			string cacheId = GetCoreSessionId();
 
-					CacheItem loginCache = _loginCache.Get(cacheId);
+			CacheItem loginCache = _loginCache.Get(cacheId);
 
-					if (loginCache != null)
-					{
-						Result = (LoginCacheItem)loginCache.Value;
-					}
-					else if (createIfNotExist && loginCache == null)
-					{
-						Result = new LoginCacheItem();
-						loginCache = new CacheItem(cacheId, Result);
-						_loginCache.Add(cacheId, loginCache);
-					}
+			if (loginCache != null)
+			{
+				_loginCache.Remove(loginCache);
+			}
+		}
 
-					return Result;
-				}
+		private LoginCacheItem GetCachedLoginAttempt(bool createIfNotExist)
+		{
+			LoginCacheItem Result = null;
+
+			string cacheId = GetCoreSessionId();
+
+			CacheItem loginCache = _loginCache.Get(cacheId);
+
+			if (loginCache != null)
+			{
+				Result = (LoginCacheItem)loginCache.Value;
+			}
+			else if (createIfNotExist && loginCache == null)
+			{
+				Result = new LoginCacheItem();
+				loginCache = new CacheItem(cacheId, Result);
+				_loginCache.Add(cacheId, loginCache);
+			}
+
+			return Result;
+		}
 
 		#endregion Private Methods
     }
