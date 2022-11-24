@@ -41,6 +41,7 @@ using PluginManager.Tests.Mocks;
 
 using SharedPluginFeatures;
 using SharedPluginFeatures.DynamicContent;
+using Shared.Classes;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
@@ -48,7 +49,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
     [ExcludeFromCodeCoverage]
     public class DynamicContentProviderTests : BaseProviderTests
     {
-        [TestMethod]
+		[TestInitialize]
+		public void Setup()
+		{
+			ThreadManager.Initialise();
+		}
+		
+		[TestMethod]
         public void CreateCustomPage_CreatesPage_ReturnsNewId()
         {
             string directory = TestHelper.GetTestPath();

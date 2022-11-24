@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Plugin Manager Data Access Layer for Text based storage</Title>
+    <Version>$(Version)</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -54,8 +54,8 @@ namespace UserAccount.Plugin.Controllers
 
         private const string Name = "Account";
 
-        private readonly ISettingsProvider _settingsProvider;
-        private readonly IAccountProvider _accountProvider;
+		private readonly AccountSettings _accountSettings;
+		private readonly IAccountProvider _accountProvider;
         private readonly IDownloadProvider _downloadProvider;
         private readonly ILicenceProvider _licenceProvider;
         private readonly IUserCultureChangeProvider _userCultureChanged;
@@ -81,7 +81,9 @@ namespace UserAccount.Plugin.Controllers
             ILicenceProvider licenceProvider, IUserCultureChangeProvider userCultureChanged,
             ICultureProvider cultureProvider, IPluginHelperService pluginHelperService)
         {
-            _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
+			if (settingsProvider == null)
+				throw new ArgumentNullException(nameof(settingsProvider));
+
             _accountProvider = accountProvider ?? throw new ArgumentNullException(nameof(accountProvider));
             _downloadProvider = downloadProvider ?? throw new ArgumentNullException(nameof(downloadProvider));
             _licenceProvider = licenceProvider ?? throw new ArgumentNullException(nameof(licenceProvider));
@@ -100,7 +102,9 @@ namespace UserAccount.Plugin.Controllers
             if (LicenceTypes == null)
                 LicenceTypes = _licenceProvider.LicenceTypesGet();
 
-            _blogLoaded = pluginHelperService.PluginLoaded("Blog.Plugin.dll", out _);
+			_accountSettings = settingsProvider.GetSettings<AccountSettings>("UserAccount");
+
+			_blogLoaded = pluginHelperService.PluginLoaded("Blog.Plugin.dll", out _);
         }
 
         #endregion Constructors
@@ -113,9 +117,9 @@ namespace UserAccount.Plugin.Controllers
         {
             string growl = GrowlGet();
             AccountViewModel model = new AccountViewModel(GetModelData(),
-                _settingsProvider.GetSettings<AccountSettings>("UserAccount"),
+				_accountSettings,
                 growl ?? String.Empty);
-            model.Settings.ShowBlog = _blogLoaded;
+            model.Settings.ShowBlog = _blogLoaded && _accountSettings.ShowBlog;
 
             model.Breadcrumbs = GetBreadcrumbs();
             model.CartSummary = GetCartSummary();
@@ -162,8 +166,6 @@ namespace UserAccount.Plugin.Controllers
 
         private bool ValidatePasswordComplexity(in string password)
         {
-            AccountSettings settings = _settingsProvider.GetSettings<AccountSettings>("UserAccount");
-
             byte upperCharCount = 0;
             byte lowerCharCount = 0;
             byte numberCharCount = 0;
@@ -177,14 +179,14 @@ namespace UserAccount.Plugin.Controllers
                     lowerCharCount++;
                 else if (c >= 48 && c <= 57)
                     numberCharCount++;
-                else if (settings.PasswordSpecialCharacters.Contains(c))
+                else if (_accountSettings.PasswordSpecialCharacters.Contains(c))
                     specialCharCount++;
             }
 
-            return upperCharCount >= settings.PasswordUppercaseCharCount &&
-                lowerCharCount >= settings.PasswordLowercaseCharCount &&
-                numberCharCount >= settings.PasswordNumberCharCount &&
-                specialCharCount >= settings.PasswordSpecialCharCount;
+            return upperCharCount >= _accountSettings.PasswordUppercaseCharCount &&
+                lowerCharCount >= _accountSettings.PasswordLowercaseCharCount &&
+                numberCharCount >= _accountSettings.PasswordNumberCharCount &&
+                specialCharCount >= _accountSettings.PasswordSpecialCharCount;
         }
 
         #endregion Private Methods

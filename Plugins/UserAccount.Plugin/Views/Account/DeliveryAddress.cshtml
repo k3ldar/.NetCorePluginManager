@@ -36,8 +36,8 @@
                         <td>@address.AddressLine1</td>
                         <td>@address.City</td>
                         <td>@address.Country</td>
-                        <td><a href="/Account/DeliveryAddressEdit/@address.AddressId">@Localizer[nameof(Languages.LanguageStrings.Edit)]</a></td>
-                        <td><a href="javascript:userAccount.deleteAddress(@address.AddressId);">@Localizer[nameof(Languages.LanguageStrings.Delete)]</a></td>
+                        <td><a href="/Account/DeliveryAddressEdit/@address.Id">@Localizer[nameof(Languages.LanguageStrings.Edit)]</a></td>
+                        <td><a href="javascript:userAccount.deleteAddress(@address.Id);">@Localizer[nameof(Languages.LanguageStrings.Delete)]</a></td>
                     </tr>
                 }
             </tbody>

@@ -68,7 +68,7 @@ namespace Middleware.Classes.DynamicContent
 		{
 			get
 			{
-				return "TemplateNameHtml";
+				return "TemplateNameGenericTextHtml";
 			}
 		}
 

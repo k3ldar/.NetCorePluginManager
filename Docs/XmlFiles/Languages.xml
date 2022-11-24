@@ -11907,6 +11907,11 @@
               Looks up a localized string similar to Bookmarks.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.BookmarksEmpty">
+            <summary>
+              Looks up a localized string similar to You do not have any bookmarks to view.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.BookNewAppointment">
             <summary>
               Looks up a localized string similar to Book New Appointment.
@@ -15630,7 +15635,7 @@
         </member>
         <member name="P:Languages.LanguageStrings.PrivacyPolicy">
             <summary>
-              Looks up a localized string similar to Priacy Policy.
+              Looks up a localized string similar to Privacy Policy.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.ProcessStatusCancelled">

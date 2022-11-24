@@ -99,7 +99,7 @@ namespace LoginPlugin.Controllers
 
                 CookieAdd(_settings.RememberMeCookieName,
                     Encrypt(loginDetails.UserId.ToString(), _settings.EncryptionKey),
-                    _settings.LoginDays);
+                    _settings.LoginDays, true);
 
                 GetAuthenticationService().SignInAsync(HttpContext,
                     _settings.AuthenticationScheme,

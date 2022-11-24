@@ -36,6 +36,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private readonly ISimpleDBOperations<SeoDataRow> _seoData;
 
+
         #endregion Private Members
 
         #region Constructors
@@ -121,10 +122,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             if (seoData == null)
             {
-                title = null;
-                description = null;
-                author = null;
-                keywords = null;
+                title = String.Empty;
+                description = String.Empty;
+                author = String.Empty;
+                keywords = new();
                 return false;
             }
 

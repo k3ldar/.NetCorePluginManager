@@ -1,3 +1,8 @@
+Version 5.0.3
+=============
+Multiple bug fixes
+# 196 Create a markdown toolbar
+
 Version 5.0.0
 =============
 #155 DAL Support for text based data

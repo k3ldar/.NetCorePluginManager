@@ -281,13 +281,6 @@
             <param name="app">IApplicationBuilder instance.</param>
             <exception cref="T:System.InvalidOperationException">Thrown when the Plugin Manager has not been initialised.</exception>
         </member>
-        <member name="M:AspNetCore.PluginManager.PluginManagerService.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
-            <summary>
-            Configure all plugin modules, this method is now deprecated and will be removed in a future release
-            </summary>
-            <param name="app">IApplicationBuilder instance</param>
-            <param name="env">IHostingEnvironment instance</param>
-        </member>
         <member name="M:AspNetCore.PluginManager.PluginManagerService.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             Configures all plugin module services, allowing the modules to add their own services to the application.

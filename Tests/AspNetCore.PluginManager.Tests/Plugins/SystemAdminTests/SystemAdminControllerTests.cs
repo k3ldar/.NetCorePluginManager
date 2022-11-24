@@ -744,10 +744,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 
             SeoDataModel seoDataModel = partialViewResult.Model as SeoDataModel;
             Assert.IsNotNull(seoDataModel);
-            Assert.IsNull(seoDataModel.SeoAuthor);
+			Assert.AreEqual("", seoDataModel.SeoAuthor);
             Assert.IsNull(seoDataModel.SeoMetaDescription);
-            Assert.IsNull(seoDataModel.SeoTitle);
-            Assert.IsNull(seoDataModel.SeoTags);
+            Assert.AreEqual("", seoDataModel.SeoTitle);
+            Assert.AreEqual("", seoDataModel.SeoTags);
             Assert.AreEqual("/RouteNoSeo", seoDataModel.SeoUrl);
         }
 

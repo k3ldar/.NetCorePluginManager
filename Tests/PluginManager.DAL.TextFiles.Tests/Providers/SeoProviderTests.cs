@@ -309,10 +309,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         out string author, out List<string> keywords);
                     Assert.IsFalse(result);
 
-                    Assert.IsNull(title);
-                    Assert.IsNull(metaDescription);
-                    Assert.IsNull(author);
-                    Assert.IsNull(keywords);
+                    Assert.AreEqual("", title);
+                    Assert.AreEqual("", metaDescription);
+                    Assert.AreEqual("", author);
+                    Assert.IsNotNull(keywords);
                 }
             }
             finally

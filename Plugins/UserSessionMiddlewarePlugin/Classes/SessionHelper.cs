@@ -120,7 +120,7 @@ namespace UserSessionMiddleware.Plugin
 
         internal static void UserSession_OnSessionClosing(object sender, UserSessionArgs e)
         {
-            if (LoadUserSessionService())
+             if (LoadUserSessionService())
             {
                 _userSessionService.Closing(e.Session);
             }

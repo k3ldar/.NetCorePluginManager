@@ -194,13 +194,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual(userId.ToString(), userClaims[0].Claims.ToList()[2].Value);
 
                     Assert.AreEqual("Administrator", userClaims[1].Claims.ToList()[0].Type);
-                    Assert.AreEqual("True", userClaims[1].Claims.ToList()[0].Value);
+                    Assert.AreEqual("true", userClaims[1].Claims.ToList()[0].Value);
                     Assert.AreEqual("Staff", userClaims[1].Claims.ToList()[1].Type);
-                    Assert.AreEqual("True", userClaims[1].Claims.ToList()[1].Value);
+                    Assert.AreEqual("true", userClaims[1].Claims.ToList()[1].Value);
                     Assert.AreEqual("ManageSeo", userClaims[1].Claims.ToList()[2].Type);
-                    Assert.AreEqual("True", userClaims[1].Claims.ToList()[2].Value);
+                    Assert.AreEqual("true", userClaims[1].Claims.ToList()[2].Value);
                     Assert.AreEqual("ViewImageManager", userClaims[1].Claims.ToList()[3].Type);
-                    Assert.AreEqual("True", userClaims[1].Claims.ToList()[3].Value);
+                    Assert.AreEqual("true", userClaims[1].Claims.ToList()[3].Value);
                 }
             }
             finally

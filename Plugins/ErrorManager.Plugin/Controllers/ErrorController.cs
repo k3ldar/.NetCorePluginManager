@@ -116,7 +116,8 @@ namespace ErrorManager.Plugin.Controllers
                 if (index < 0 || index > settings.Count())
                     index = 0;
 
-                CookieAdd("Error404", Encrypt(Convert.ToString(index), settings.EncryptionKey), 30);
+                CookieAdd("Error404", Encrypt(Convert.ToString(index), settings.EncryptionKey), 
+					Constants.SessionOnlyCookie, true);
 
                 model = new Error404Model(GetModelData(),
                     Languages.LanguageStrings.PageNotFound, settings.GetQuote(index), GetImageFile(index));

@@ -754,5 +754,10 @@ namespace SharedPluginFeatures
 		/// Path for previous directory
 		/// </summary>
 		public const string InvalidPathPreviousDirectory = "..\\";
+
+		/// <summary>
+		/// Value applied for days for session only cookie
+		/// </summary>
+		public const int SessionOnlyCookie = 0;
     }
 }

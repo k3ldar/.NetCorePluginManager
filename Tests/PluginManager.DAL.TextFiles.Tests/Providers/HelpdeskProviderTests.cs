@@ -36,12 +36,19 @@ using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 using SimpleDB;
 using PluginManager.Tests.Mocks;
+using Shared.Classes;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
 	[TestClass]
     public class HelpdeskProviderTests : BaseProviderTests
     {
+		[TestInitialize]
+		public void Setup()
+		{
+			ThreadManager.Initialise();
+		}
+
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_UsersNull_Throws_ArgumentNullException()

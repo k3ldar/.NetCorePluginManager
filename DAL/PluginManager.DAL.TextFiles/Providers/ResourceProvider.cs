@@ -200,6 +200,8 @@ namespace PluginManager.DAL.TextFiles.Providers
 			categoryRow.ForeColor = category.ForeColor;
 			categoryRow.Image = category.Image;
 			categoryRow.Description = category.Description;
+			categoryRow.IsVisible = category.IsVisible;
+			categoryRow.ParentCategoryId = category.ParentId;
 
 			_resourceCategories.Update(categoryRow);
 

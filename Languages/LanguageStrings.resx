@@ -13446,8 +13446,8 @@ If this continues, please contact support.</comment>
     <comment>Postcode is required</comment>
   </data>
   <data name="PrivacyPolicy" xml:space="preserve">
-    <value>Priacy Policy</value>
-    <comment>Priacy Policy</comment>
+    <value>Privacy Policy</value>
+    <comment>Privacy Policy</comment>
   </data>
   <data name="RequestPassword" xml:space="preserve">
     <value>Request Password</value>
@@ -14660,5 +14660,9 @@ You will shortly receive an email with the details of your order.</comment>
   <data name="ProductGoups" xml:space="preserve">
     <value>Product Goups</value>
     <comment>Product Goups</comment>
+  </data>
+  <data name="BookmarksEmpty" xml:space="preserve">
+    <value>You do not have any bookmarks to view</value>
+    <comment>You do not have any bookmarks to view</comment>
   </data>
 </root>

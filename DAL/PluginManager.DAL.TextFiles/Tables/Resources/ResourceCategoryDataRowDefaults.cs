@@ -13,48 +13,31 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SeoPlugin
+ *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: SeoCacheItem.cs
+ *  File: ResourceCategoryDataRowDefaults.cs
  *
- *  Purpose:  Internal class to hold cached Seo data
+ *  Purpose:  Default table definition for resource categories
  *
  *  Date        Name                Reason
- *  12/05/2019  Simon Carter        Initially Created
+ *  20/11/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
+using SimpleDB;
 
-namespace SeoPlugin
+namespace PluginManager.DAL.TextFiles.Tables.Resources
 {
-    internal sealed class SeoCacheItem
-    {
-        #region Constructors
+	internal class ResourceCategoryDataRowDefaults : ITableDefaults<ResourceCategoryDataRow>
+	{
+		public long PrimarySequence => 1;
 
-        internal SeoCacheItem(in string title, in string metaDescription, in string author, in List<string> keywords)
-        {
-            if (keywords == null)
-                throw new ArgumentNullException(nameof(keywords));
+		public long SecondarySequence => 1;
 
-            Author = author ?? String.Empty;
-			Title = title ?? String.Empty;
-            Description = metaDescription ?? String.Empty;
-            Keywords = String.Join(",", keywords);
-        }
+		public ushort Version => 1;
 
-        #endregion Constructors
-
-        #region Properties
-
-        internal string Author { get; private set; }
-
-        internal string Title { get; private set; }
-
-        internal string Description { get; private set; }
-
-        internal string Keywords { get; private set; }
-
-        #endregion Properties
-    }
+		public List<ResourceCategoryDataRow> InitialData(ushort version)
+		{
+			return null;
+		}
+	}
 }

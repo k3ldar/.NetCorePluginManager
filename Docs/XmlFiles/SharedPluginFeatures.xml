@@ -797,13 +797,14 @@
             <param name="defaultValue">Value to be returned if the cookie does not exist.</param>
             <returns>string.  Value from the cookie.</returns>
         </member>
-        <member name="M:SharedPluginFeatures.BaseController.CookieAdd(System.String@,System.String@,System.Int32@)">
+        <member name="M:SharedPluginFeatures.BaseController.CookieAdd(System.String@,System.String@,System.Int32@,System.Boolean)">
             <summary>
             Adds a cookie.
             </summary>
             <param name="name">Name of the cookie.</param>
             <param name="value">Value to be stored within the cookie.</param>
             <param name="days">Number of days the cookie is valid for.  A value less than
+            <param name="isEssential">Indicates whether it is an essential or nice to have cookie</param>
             1 means it will be a session cookie and will expire when the user session ends.</param>
         </member>
         <member name="M:SharedPluginFeatures.BaseController.GetIpAddress">
@@ -3032,6 +3033,11 @@
         <member name="F:SharedPluginFeatures.Constants.InvalidPathPreviousDirectory">
             <summary>
             Path for previous directory
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.SessionOnlyCookie">
+            <summary>
+            Value applied for days for session only cookie
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.Enums">

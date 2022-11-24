@@ -36,10 +36,14 @@ namespace SystemAdmin.Plugin.Models
 
         public SeoDataModel()
         {
-
+			SeoTitle = string.Empty;
+			SeoUrl = string.Empty;
+			SeoTags = string.Empty;
+			SeoAuthor = string.Empty;
         }
 
         public SeoDataModel(string url)
+			:this ()
         {
             if (String.IsNullOrEmpty(url))
                 throw new ArgumentNullException(nameof(url));
