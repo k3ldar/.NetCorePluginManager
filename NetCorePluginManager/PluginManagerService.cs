@@ -222,19 +222,6 @@ namespace AspNetCore.PluginManager
             _pluginManagerInstance.Configure(app);
         }
 
-#pragma warning disable CS1591
-        /// <summary>
-        /// Configure all plugin modules, this method is now deprecated and will be removed in a future release
-        /// </summary>
-        /// <param name="app">IApplicationBuilder instance</param>
-        /// <param name="env">IHostingEnvironment instance</param>
-        [Obsolete("This method is obsolete and will be removed in the next version.  Use Configure(app); instead.")]
-        public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            Configure(app);
-        }
-#pragma warning restore CS1591
-
         /// <summary>
         /// Configures all plugin module services, allowing the modules to add their own services to the application.
         /// </summary>

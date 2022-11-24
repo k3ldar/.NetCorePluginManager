@@ -21216,6 +21216,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You do not have any bookmarks to view.
+        /// </summary>
+        public static string BookmarksEmpty {
+            get {
+                return ResourceManager.GetString("BookmarksEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Book New Appointment.
         /// </summary>
         public static string BookNewAppointment {
@@ -27893,7 +27902,7 @@ namespace Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Priacy Policy.
+        ///   Looks up a localized string similar to Privacy Policy.
         /// </summary>
         public static string PrivacyPolicy {
             get {

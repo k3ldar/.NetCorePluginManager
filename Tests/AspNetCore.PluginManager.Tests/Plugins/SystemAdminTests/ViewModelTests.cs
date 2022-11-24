@@ -324,11 +324,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         {
             SeoDataModel sut = new SeoDataModel();
             Assert.IsNotNull(sut);
-            Assert.IsNull(sut.SeoTitle);
+            Assert.AreEqual("", sut.SeoTitle);
             Assert.IsNull(sut.SeoMetaDescription);
-            Assert.IsNull(sut.SeoTags);
-            Assert.IsNull(sut.SeoAuthor);
-            Assert.IsNull(sut.SeoUrl);
+            Assert.AreEqual("", sut.SeoTags);
+            Assert.AreEqual("", sut.SeoAuthor);
+            Assert.AreEqual("", sut.SeoUrl);
         }
 
         [TestMethod]

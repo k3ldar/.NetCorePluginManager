@@ -91,7 +91,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (claims == null)
                 return Result;
 
-            claims.Claims.ForEach(c => webClaims.Add(new Claim(c, true.ToString())));
+            claims.Claims.ForEach(c => webClaims.Add(new Claim(c, true.ToString().ToLower())));
 
             Result.Add(new ClaimsIdentity(webClaims, SharedPluginFeatures.Constants.ClaimIdentityWebsite));
 

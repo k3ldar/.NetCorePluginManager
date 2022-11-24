@@ -88,7 +88,6 @@ namespace HelpdeskPlugin.Controllers
             return View(model);
         }
 
-
         [HttpGet]
         [DenySpider]
         public ActionResult GetCaptchaImage()

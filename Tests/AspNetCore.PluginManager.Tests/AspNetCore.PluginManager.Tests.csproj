@@ -35,7 +35,6 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="appsettings.json" />
 		<None Remove="Properties\Images\banksy-no-ball-games.-graffiti-street-fine-art-print-poster.-sizes-a4-a3-a2-a1-001187--4305-p.jpg" />
 		<None Remove="Properties\Images\banksy-pulp-fiction.-banana-graffiti-street-fine-art-print-poster.-sizes-a4-a3-a2-a1-00344--4244-p.jpg" />
 		<None Remove="Properties\Images\Banksy_077_preview.jpg" />
@@ -166,9 +165,5 @@
 	  <LastGenOutput>Resources.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy &quot;$(ProjectDir)appsettings.json&quot; &quot;$(TargetDir)&quot;" />
-  </Target>
 
 </Project>

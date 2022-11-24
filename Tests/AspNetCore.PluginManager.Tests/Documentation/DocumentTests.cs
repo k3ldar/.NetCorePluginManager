@@ -61,7 +61,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
             Assert.IsInstanceOfType(cache.Value, typeof(List<Document>));
             List<Document> documents = (List<Document>)cache.Value;
 
-            Assert.IsTrue(documents.Count > 10);
+            Assert.IsTrue(documents.Count > 10, $"Actual document count: {documents.Count}");
         }
 
         [TestMethod]

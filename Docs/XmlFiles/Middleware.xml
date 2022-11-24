@@ -1330,6 +1330,11 @@
             <param name="data">Form data to be saved</param>
             <returns>bool</returns>
         </member>
+        <member name="T:Middleware.Classes.DynamicContent.GenericTextTemplate">
+            <summary>
+            Generic Text Template
+            </summary>
+        </member>
         <member name="T:Middleware.Classes.DefaultEmailSender">
             <summary>
             Default email sender class

@@ -66,8 +66,8 @@ namespace Resources.Plugin.Models
 			Id = id;
 			Name = name;
 			Description = description;
-			ForeColor = foreColor;
-			BackColor = backColor;
+			ForeColor = foreColor ?? ForeColor;
+			BackColor = backColor ?? BackColor;
 			Image = image;
 			RouteName = routeName;
 			IsVisible = isVisible;

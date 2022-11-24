@@ -51,6 +51,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 		private static readonly object _lockObject = new object();
 		private static readonly Stack<UserSession> _closedSessions = new Stack<UserSession>();
 
+		private readonly ISimpleDBOperations<UserDataRow> _users;
 		private readonly ISimpleDBOperations<SessionDataRow> _sessionData;
 		private readonly ISimpleDBOperations<SessionPageDataRow> _sessionPageData;
 		private readonly ISimpleDBOperations<InitialReferralsDataRow> _initialRefererData;
@@ -80,6 +81,26 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		}
 
+		public UserSessionService(
+			ILogger logger,
+			IUrlHashProvider urlHashProvider,
+			ISimpleDBOperations<UserDataRow> users,
+			ISimpleDBOperations<SettingsDataRow> settingsData,
+			ISimpleDBOperations<SessionDataRow> sessionData,
+			ISimpleDBOperations<SessionPageDataRow> sessionPageData,
+			ISimpleDBOperations<InitialReferralsDataRow> initialRefererData,
+			ISimpleDBOperations<PageViewsDataRow> pageViewsData,
+			ISimpleDBOperations<SessionStatsHourlyDataRow> sessionDataHourly,
+			ISimpleDBOperations<SessionStatsDailyDataRow> sessionDataDaily,
+			ISimpleDBOperations<SessionStatsWeeklyDataRow> sessionDataWeekly,
+			ISimpleDBOperations<SessionStatsMonthlyDataRow> sessionDataMonthly,
+			ISimpleDBOperations<SessionStatsYearlyDataRow> sessionDataYearly)
+			: this(null, logger, urlHashProvider, users, settingsData, sessionData, sessionPageData,
+				  initialRefererData, pageViewsData, sessionDataHourly, sessionDataDaily, sessionDataWeekly, 
+				  sessionDataMonthly, sessionDataYearly)
+		{
+		}
+
 		/// <summary>
 		/// Default constructor
 		/// </summary>
@@ -89,6 +110,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 		public UserSessionService(IGeoIpProvider geoIpProvider,
 			ILogger logger,
 			IUrlHashProvider urlHashProvider,
+			ISimpleDBOperations<UserDataRow> users,
 			ISimpleDBOperations<SettingsDataRow> settingsData,
 			ISimpleDBOperations<SessionDataRow> sessionData,
 			ISimpleDBOperations<SessionPageDataRow> sessionPageData,
@@ -104,10 +126,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (settingsData == null)
 				throw new ArgumentNullException(nameof(settingsData));
 
-			_geoIpProvider = geoIpProvider ?? throw new ArgumentNullException(nameof(geoIpProvider));
+			_geoIpProvider = geoIpProvider;
 			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			_urlHashProvider = urlHashProvider ?? throw new ArgumentNullException(nameof(urlHashProvider));
 
+			_users = users ?? throw new ArgumentNullException(nameof(users));
 			_sessionData = sessionData ?? throw new ArgumentNullException(nameof(sessionData));
 			_sessionPageData = sessionPageData ?? throw new ArgumentNullException(nameof(sessionPageData));
 			_initialRefererData = initialRefererData ?? throw new ArgumentNullException(nameof(initialRefererData));
@@ -173,8 +196,16 @@ namespace PluginManager.DAL.TextFiles.Providers
 				ReferralType = (int)userSession.Referal,
 				SessionId = userSession.SessionID,
 				UserAgent = userSession.UserAgent,
-				UserId = userSession.UserID
+				UserId = userSession.UserID < 0 ? 0 : userSession.UserID
 			};
+
+			UserDataRow user = _users.Select(sessionDataRow.UserId);
+
+			if (user != null)
+			{
+				userSession.UserEmail = user.Email;
+				userSession.UserName = user.FullName;
+			}
 
 			_sessionData.Insert(sessionDataRow);
 			userSession.InternalSessionID = sessionDataRow.Id;
@@ -201,6 +232,14 @@ namespace PluginManager.DAL.TextFiles.Providers
 				sessionData.InitialReferrer, sessionData.IpAddress, sessionData.HostName, sessionData.IsMobile, sessionData.IsBrowserMobile,
 				sessionData.MobileRedirect, (ReferalType)sessionData.ReferralType, sessionData.Bounced, sessionData.IsBot,
 				sessionData.MobileManufacturer, sessionData.MobileModel, sessionData.UserId, -1, -1, sessionData.SaleCurrency, sessionData.SaleAmount);
+
+			UserDataRow user = _users.Select(sessionData.UserId);
+
+			if (user != null)
+			{
+				userSession.UserEmail = user.Email;
+				userSession.UserName = user.FullName;
+			}
 		}
 
 		/// <summary>
@@ -239,7 +278,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			currentSessionData.SaleCurrency = userSession.CurrentSaleCurrency;
 			currentSessionData.SessionId = userSession.SessionID;
 			currentSessionData.UserAgent = userSession.UserAgent;
-			currentSessionData.UserId = userSession.UserID;
+			currentSessionData.UserId = userSession.UserID < 0 ? 0 : userSession.UserID;
 
 			_sessionData.Update(currentSessionData);
 			SavePage(userSession);
@@ -302,7 +341,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				foreach (UserSession session in sessionsToSave)
 				{
 					// update the country data if not already set
-					if (session.CountryCode == null || session.CountryCode.Equals("zz", StringComparison.InvariantCultureIgnoreCase))
+					if (_geoIpProvider != null && (session.CountryCode == null || session.CountryCode.Equals("zz", StringComparison.InvariantCultureIgnoreCase)))
 					{
 						if (_geoIpProvider.GetIpAddressDetails(session.IPAddress, out string countryCode,
 							out string regionName, out string cityName, out decimal lat, out decimal lon,

@@ -136,6 +136,8 @@ namespace Resources.Plugin.Controllers
 		[LoggedIn]
 		[HttpGet]
 		[Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameAddResources)]
+		[Route("Resources/CreateCategory")]
+		[Route("Resources/CreateCategory/{parentId}")]
 		public IActionResult CreateCategory(long parentId)
 		{
 			BaseModelData baseModelData = GetModelData();
@@ -172,7 +174,7 @@ namespace Resources.Plugin.Controllers
 		[LoggedIn]
 		[HttpGet]
 		[Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameManageResources)]
-		[Breadcrumb(nameof(Languages.LanguageStrings.ManageCategories), Name, nameof(Index))]
+		[Breadcrumb(nameof(LanguageStrings.ManageCategories), Name, nameof(Index))]
 		public IActionResult ManageCategories()
 		{
 			return View(CreateManageCategoryModel());
@@ -778,7 +780,7 @@ namespace Resources.Plugin.Controllers
 
 			List<ResourceItemModel> resources = new List<ResourceItemModel>();
 
-			foreach (ResourceItem resourceItem in resourceCategory.ResourceItems)
+			foreach (ResourceItem resourceItem in resourceCategory.ResourceItems.OrderBy(rc => rc.Name))
 			{
 				resources.Add(new ResourceItemModel(resourceItem.Id, resourceCategory.Id,
 					(ResourceType)resourceItem.ResourceType, resourceItem.UserId, 
