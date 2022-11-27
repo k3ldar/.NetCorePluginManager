@@ -101,10 +101,7 @@ namespace SeoPlugin
 
 					cacheItem = new CacheItem(cacheName, new SeoCacheItem(title, description, author, tags));
 					_memoryCache.GetCache().Add(cacheName, cacheItem);
-                }
 
-				if (cacheItem != null)
-				{
 					SeoCacheItem seoCache = (SeoCacheItem)cacheItem.Value;
 					context.Items[SeoMetaAuthor] = seoCache.Author;
 					context.Items[SeoTitle] = seoCache.Title;
