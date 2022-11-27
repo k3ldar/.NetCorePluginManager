@@ -63,10 +63,16 @@ namespace Resources.Plugin.Classes
 			if (searchOptions.ExactMatch || searchOptions.QuickSearch)
 			{
 				ExactMatch(Result, searchOptions, _provider.RetrieveAllResourceItems());
+
+				if (Result.Count < searchOptions.MaximumSearchResults)
+					ExactMatch(Result, searchOptions, _provider.RetrieveAllCategories());
 			}
 			else
 			{
 				NonExactMatch(Result, searchOptions, _provider.RetrieveAllResourceItems());
+
+				if (Result.Count < searchOptions.MaximumSearchResults)
+					NonExactMatch(Result, searchOptions, _provider.RetrieveAllCategories());
 			}
 
 			return Result;
@@ -179,10 +185,93 @@ namespace Resources.Plugin.Classes
 			}
 		}
 
+		private void ExactMatch(in List<SearchResponseItem> results, in KeywordSearchOptions searchOptions,
+			List<ResourceCategory> resources)
+		{
+			foreach (ResourceCategory resource in resources)
+			{
+				if (results.Count >= searchOptions.MaximumSearchResults)
+				{
+					return;
+				}
+
+				int offset = resource.Name.IndexOf(searchOptions.SearchTerm, StringComparison.InvariantCultureIgnoreCase);
+
+				if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
+				{
+					AddSearchResult(results, resource, "ResourceName", offset);
+					continue;
+				}
+
+				if (!searchOptions.QuickSearch)
+				{
+					offset = resource.Description.IndexOf(searchOptions.SearchTerm, StringComparison.InvariantCultureIgnoreCase);
+
+					if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
+					{
+						AddSearchResult(results, resource, "ResourceDescription", offset);
+						continue;
+					}
+				}
+			}
+		}
+
+		private void NonExactMatch(in List<SearchResponseItem> results, in KeywordSearchOptions searchOptions,
+			in List<ResourceCategory> resources)
+		{
+			string[] words = searchOptions.SearchTerm.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+			if (words.Length == 0)
+				return;
+
+			foreach (string word in words)
+			{
+				if (String.IsNullOrWhiteSpace(word) || ExcludeWordFromSearch(word))
+					continue;
+
+				foreach (ResourceCategory resource in resources)
+				{
+					if (results.Count >= searchOptions.MaximumSearchResults)
+					{
+						return;
+					}
+
+					int offset = resource.Name.IndexOf(word, StringComparison.InvariantCultureIgnoreCase);
+
+					if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
+					{
+						AddSearchResult(results, resource, "ResourceName", offset);
+						continue;
+					}
+
+					if (!searchOptions.QuickSearch)
+					{
+						offset = resource.Description.IndexOf(word, StringComparison.InvariantCultureIgnoreCase);
+
+						if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
+						{
+							AddSearchResult(results, resource, "ResourceDescription", offset);
+							continue;
+						}
+					}
+				}
+			}
+		}
+
 		private void AddSearchResult(in List<SearchResponseItem> results, in ResourceItem resource, in string searchType, in int offset)
 		{
 			SearchResponseItem searchItem = new SearchResponseItem(searchType, resource.Name, offset,
 				$"/{Controllers.ResourcesController.Name}/View/{resource.Id}/", resource.Name, null);
+
+			searchItem.Properties.Add(nameof(resource.Id), resource.Id);
+
+			results.Add(searchItem);
+		}
+
+		private void AddSearchResult(in List<SearchResponseItem> results, in ResourceCategory resource, in string searchType, in int offset)
+		{
+			SearchResponseItem searchItem = new SearchResponseItem(searchType, resource.Name, offset,
+				$"/{Controllers.ResourcesController.Name}/Category/{resource.Id}/{resource.Name}/", resource.Name, null);
 
 			searchItem.Properties.Add(nameof(resource.Id), resource.Id);
 
