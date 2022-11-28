@@ -26,7 +26,7 @@
 
 namespace PluginManager.DAL.TextFiles
 {
-    internal class Constants
+    internal static class Constants
     {
         public const string TableNameSettings = "Settings";
         public const string TableNameUsers = "Users";

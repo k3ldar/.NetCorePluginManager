@@ -48,7 +48,6 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private static readonly CacheManager _memoryCache = new CacheManager("Helpdesk", new TimeSpan(0, 30, 0), true, true);
 
-        private readonly ISimpleDBOperations<UserDataRow> _userDataRow;
         private readonly ISimpleDBOperations<FeedbackDataRow> _feedbackDataRow;
         private readonly ISimpleDBOperations<FAQDataRow> _faqDataRow;
         private readonly ISimpleDBOperations<FAQItemDataRow> _faqItemDataRow;
@@ -62,7 +61,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         #region Constructors
 
-        public HelpdeskProvider(ISimpleDBOperations<UserDataRow> userDataRow,
+        public HelpdeskProvider(
             ISimpleDBOperations<FeedbackDataRow> feedbackDataRow, 
             ISimpleDBOperations<FAQDataRow> faqDataRow,
             ISimpleDBOperations<FAQItemDataRow> faqItemDataRow,
@@ -72,7 +71,6 @@ namespace PluginManager.DAL.TextFiles.Providers
             ISimpleDBOperations<TicketPrioritiesDataRow> ticketPriority,
             ISimpleDBOperations<TicketDepartmentsDataRow> ticketDepartments)
         {
-            _userDataRow = userDataRow ?? throw new ArgumentNullException(nameof(userDataRow));
             _feedbackDataRow = feedbackDataRow ?? throw new ArgumentNullException(nameof(feedbackDataRow));
             _faqDataRow = faqDataRow ?? throw new ArgumentNullException(nameof(faqDataRow));
             _faqItemDataRow = faqItemDataRow ?? throw new ArgumentNullException(nameof(faqItemDataRow));
@@ -81,43 +79,6 @@ namespace PluginManager.DAL.TextFiles.Providers
             _ticketStatus = ticketStatus ?? throw new ArgumentNullException(nameof(ticketStatus));
             _ticketPriority = ticketPriority ?? throw new ArgumentNullException(nameof(ticketPriority));
             _ticketDepartments = ticketDepartments ?? throw new ArgumentNullException(nameof(ticketDepartments));
-
-            //_faq = new List<KnowledgeBaseGroup>()
-            //{
-            //    new KnowledgeBaseGroup(0, "Plugin Interfaces", "Frequently asked questions about plugin interfaces", 0, 0, null,
-            //        new List<KnowledgeBaseItem>()
-            //        {
-            //            new KnowledgeBaseItem(0, "IPlugin", 0, "Primary interface used to register an assembly with plugin manager"),
-            //            new KnowledgeBaseItem(1, "IPluginTypesService", 0, "Retrieves all classes with the specified attribute"),
-            //            new KnowledgeBaseItem(2, "IPluginHelperService", 0, "Plugin services and stuff"),
-            //            new KnowledgeBaseItem(3, "IPluginVersion", 0, "Retrieves version from assembly"),
-            //        }),
-            //    new KnowledgeBaseGroup(1, "Shared Interfaces", "Frequently asked questions about shared interfaces", 0, 0, null,
-            //       new List<KnowledgeBaseItem>()
-            //       {
-            //                new KnowledgeBaseItem(4, "IMemoryCache", 0, "Provides two caches with variable expire times."),
-            //                new KnowledgeBaseItem(5, "ISettingsProvider", 0, "Allows plugins to easily load setting data."),
-            //       }),
-            //};
-
-            //_faq.Add(new KnowledgeBaseGroup(3, "Geo Ip Interfaces", "Interaces for geoip usage", 0, 0, _faq[0],
-            //    new List<KnowledgeBaseItem>()
-            //    {
-            //    }));
-
-            //_faq.Add(new KnowledgeBaseGroup(4, "Supported Geo Ip Services", "details on supported Geo Ip Services", 0, 0, _faq[2],
-            //    new List<KnowledgeBaseItem>()
-            //    {
-            //        new KnowledgeBaseItem(6, "SieraDelta Geo Ip", 0, "Details about Geo Ip Service"),
-            //        new KnowledgeBaseItem(7, "Net77", 0, "Net 77 Geo Ip"),
-            //        new KnowledgeBaseItem(8, "IpStack", 0, "Ip Stack Geo Ip Servies"),
-            //    }));
-
-            //_faq.Add(new KnowledgeBaseGroup(5, "Geo Ip Sub Sub Group", "Another Sub Group", 0, 0, _faq[2],
-            //    new List<KnowledgeBaseItem>()
-            //    {
-            //        new KnowledgeBaseItem(6, "SieraDelta Geo Ip", 0, "Details about Geo Ip Service")
-            //    }));
         }
 
         #endregion Constructors
@@ -285,9 +246,9 @@ namespace PluginManager.DAL.TextFiles.Providers
             });
 
             ticket = new HelpdeskTicket(ticketDataRow.Id,
-                GetTicketPriorities().Where(p => p.Id == idPriority).FirstOrDefault(),
-                GetTicketDepartments().Where(d => d.Id == idDepartment).FirstOrDefault(),
-                GetTicketStatus().Where(s => s.Id == idStatus).FirstOrDefault(),
+                GetTicketPriorities().FirstOrDefault(p => p.Id == idPriority),
+                GetTicketDepartments().FirstOrDefault(d => d.Id == idDepartment),
+                GetTicketStatus().FirstOrDefault(s => s.Id == idStatus),
                 ticketDataRow.Key,
                 subject,
                 DateTime.Now,
@@ -324,9 +285,9 @@ namespace PluginManager.DAL.TextFiles.Providers
             string emailAddress = email;
             string key = ticketKey;
 
-            TicketDataRow ticket = _tickets.Select()
-                .Where(t => t.CreatedByEmail.Equals(emailAddress, StringComparison.InvariantCultureIgnoreCase) && 
-                    t.Key.Equals(key, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+            TicketDataRow ticket = _tickets.Select().FirstOrDefault(t => 
+				t.CreatedByEmail.Equals(emailAddress, StringComparison.InvariantCultureIgnoreCase) && 
+				t.Key.Equals(key, StringComparison.InvariantCultureIgnoreCase));
 
             if (ticket == null)
                 return null;
@@ -349,7 +310,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             ticket.Messages.Add(new HelpdeskTicketMessage(DateTime.Now, name, message));
 
             int statusId = name.Equals(ticket.CreatedBy, StringComparison.InvariantCultureIgnoreCase) ? StatusOpen : StatusOnHold;
-            ticket.Status = GetTicketStatus().Where(s => s.Id == statusId).FirstOrDefault();
+            ticket.Status = GetTicketStatus().FirstOrDefault(s => s.Id == statusId);
             ticket.LastReplier = name;
 
             TicketDataRow ticketDataRow = _tickets.Select(ticket.Id);

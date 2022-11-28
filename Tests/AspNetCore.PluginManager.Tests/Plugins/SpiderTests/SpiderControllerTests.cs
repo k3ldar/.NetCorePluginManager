@@ -314,12 +314,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
             Assert.IsTrue(returnModel.Agents.Contains(model.AgentName));
 
             CustomAgentModel customAgentModel = returnModel.Routes
-                .Where(ca =>
-                    ca.Agent.Equals(model.AgentName) &&
-                    ca.Route.Equals(model.Route) &&
-                    ca.IsCustom &&
-                    !ca.Allowed)
-                .FirstOrDefault();
+				.FirstOrDefault(ca => ca.Agent.Equals(model.AgentName) && 
+				ca.Route.Equals(model.Route) && ca.IsCustom && !ca.Allowed);
 
             Assert.IsNotNull(customAgentModel);
         }
@@ -347,12 +343,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
             Assert.IsTrue(returnModel.Agents.Contains(model.AgentName));
 
             CustomAgentModel customAgentModel = returnModel.Routes
-                .Where(ca =>
-                    ca.Agent.Equals(model.AgentName) &&
-                    ca.Route.Equals(model.Route) &&
-                    ca.IsCustom &&
-                    ca.Allowed)
-                .FirstOrDefault();
+				.FirstOrDefault(ca => ca.Agent.Equals(model.AgentName) && ca.Route.Equals(model.Route) && ca.IsCustom && ca.Allowed);
 
             Assert.IsNotNull(customAgentModel);
             Assert.IsTrue(mockSaveData.SaveDataCalled);
@@ -502,9 +493,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
 
             Assert.IsNotNull(returnModel);
 
-            CustomAgentModel customAgentModel = returnModel.Routes
-                .Where(r => r.Agent.Equals(model.AgentName) && r.Route.Equals(model.Route))
-                .FirstOrDefault();
+            CustomAgentModel customAgentModel = returnModel.Routes.FirstOrDefault(r => r.Agent.Equals(model.AgentName) && r.Route.Equals(model.Route));
             Assert.IsNull(customAgentModel);
             Assert.IsTrue(mockSaveData.SaveDataCalled);
         }

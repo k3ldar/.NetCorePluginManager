@@ -114,7 +114,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			if (_resources == null)
 				GetAllResources();
 
-			return _resources.Where(r => r.Id.Equals(categoryId)).FirstOrDefault();
+			return _resources.FirstOrDefault(r => r.Id.Equals(categoryId));
 		}
 
 		public List<ResourceCategory> RetrieveAllCategories()
@@ -131,7 +131,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			if (_resources == null)
 				GetAllResources();
 
-			return _items.Where(i => i.Id.Equals(id)).FirstOrDefault();
+			return _items.FirstOrDefault(i => i.Id.Equals(id));
 		}
 
 		public ResourceItem IncrementResourceItemResponse(long id, long userId, bool like)

@@ -77,8 +77,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                     continue;
 
                 string countryCode = String.IsNullOrEmpty(session.CountryCode) ? "ZZ" : session.CountryCode;
-                SessionStatistics stats = statistics.Where(s => s.IsBot == session.IsBot &&
-                    s.CountryCode.Equals(countryCode)).FirstOrDefault();
+                SessionStatistics stats = statistics.FirstOrDefault(s => s.IsBot == session.IsBot && s.CountryCode.Equals(countryCode));
 
                 if (stats == null)
                 {

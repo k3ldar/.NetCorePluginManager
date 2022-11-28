@@ -72,9 +72,7 @@ namespace PluginManager.Tests.Mocks
 
 		public T GetServiceInstance<T>(ServiceLifetime serviceLifetime)
 		{
-			ServiceDescriptor descriptor = _serviceDescriptors
-				.Where(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType.Equals(typeof(T)))
-				.FirstOrDefault();
+			ServiceDescriptor descriptor = _serviceDescriptors.FirstOrDefault(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType.Equals(typeof(T)));
 
 			if (descriptor == null)
 				return default(T);

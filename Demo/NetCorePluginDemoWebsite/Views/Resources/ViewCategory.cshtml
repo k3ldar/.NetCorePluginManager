@@ -27,7 +27,7 @@ padding: 3px 6px 3px 6px;
 </div>
 <div class="row">
 <div class="col">
-@foreach (var item in Model.Categories)
+@foreach (var item in Model.Categories.OrderBy(c => c.Name))
 {
 string resStyle = "";
 string resStyleBody = "";
@@ -57,7 +57,7 @@ resStyleBody = $"style=\"{resStyleBody}\"";
 </div>
 <div class="row">
 <div class="col">
-@foreach (var item in Model.ResourceItems)
+@foreach (var item in Model.ResourceItems.OrderBy(ri => ri.Name))
 {
 string resStyle = "";
 string resStyleBody = "";

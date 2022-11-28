@@ -4,7 +4,10 @@
 ViewData["Title"] = Model.SeoTitle;
 }
 <link rel="stylesheet" href="/css/resources.css" />
+<link rel="stylesheet" href="/css/markdown-toolbar.css" />
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/commonmark/0.28.1/commonmark.min.js"></script>
+<script src="/js/markdown-toolbar.js"></script>
 <div class="row res-row">
 <div class="col">
 <h1>@Localizer[nameof(Languages.LanguageStrings.CreateResource)]</h1>
@@ -39,20 +42,20 @@ ViewData["Title"] = Model.SeoTitle;
 </div>
 <div class="row res-row">
 <div class="col-sm-12 col-md-4 col-lg-3">
-@Html.LabelFor(m => m.ResourceType)
-</div>
-<div class="col-sm-12 col-md-5 col-lg-4">
-@Html.DropDownListFor(m => m.ResourceType, new SelectList(Model.AllResourceTypes, "Id", "Name"), new { @class = "form-control" })
-@Html.ValidationMessageFor(m => m.ResourceType)
-</div>
-</div>
-<div class="row res-row">
-<div class="col-sm-12 col-md-4 col-lg-3">
 @Html.LabelFor(m => m.Tags) @Localizer[nameof(Languages.LanguageStrings.OnePerLine)]
 </div>
 <div class="col-sm-12 col-md-5 col-lg-4">
 @Html.TextAreaFor(m => m.Tags, new { @class = "form-control", style = "min-height:80px;" })
 @Html.ValidationMessageFor(m => m.Tags)
+</div>
+</div>
+<div class="row res-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.ResourceType)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.DropDownListFor(m => m.ResourceType, new SelectList(Model.AllResourceTypes, "Id", "Name"), new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.ResourceType)
 </div>
 </div>
 <div class="row res-row" id="textData" style="display:none">
@@ -61,6 +64,11 @@ ViewData["Title"] = Model.SeoTitle;
 </div>
 <div class="col-sm-12 col-md-5 col-lg-4">
 <textarea class="form-control" id="textDataValue"></textarea>
+<script>
+$(document).ready(function() {
+$('#textDataValue').markdownToolbar();
+});
+</script>
 </div>
 <div class="col-sm-12 col-md-5 col-lg-4" id="mdContent">
 </div>

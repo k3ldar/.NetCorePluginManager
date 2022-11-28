@@ -87,7 +87,7 @@ namespace SystemAdmin.Plugin
                 foreach (SystemAdminSubMenu menu in allSubMenuItems.Where(sm => sm.Enabled()).ToList())
                 {
                     // get parent menu
-                    SystemAdminMainMenu parent = menuItems.Where(p => p.Name.Equals(menu.ParentMenuName())).FirstOrDefault();
+                    SystemAdminMainMenu parent = menuItems.FirstOrDefault(p => p.Name.Equals(menu.ParentMenuName()));
 
                     if (parent == null)
                     {

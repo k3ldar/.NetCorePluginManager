@@ -42,23 +42,23 @@ namespace PluginManager.DAL.TextFiles.Tables
         {
             if (version == 1)
             {
-                return new List<SettingsDataRow>
-                    {
-                        new SettingsDataRow()
-                        {
-                            Name = "ShoppingCartEncryption",
-                            Value = Shared.Utilities.GetRandomWord(EncryptionKeyLength, AcceptableEncryptionChars)
-                        },
-                        new SettingsDataRow()
-                        {
-                            Name = "DefaultTaxRate",
-                            Value = "20"
-                        },
-                        new SettingsDataRow()
-                        {
-                            Name = "DefaultCurrency",
-                            Value = "GBP"
-                        },
+				return new List<SettingsDataRow>
+					{
+						new SettingsDataRow()
+						{
+							Name = "ShoppingCartEncryption",
+							Value = Shared.Utilities.GetRandomWord(EncryptionKeyLength, AcceptableEncryptionChars)
+						},
+						new SettingsDataRow()
+						{
+							Name = "DefaultTaxRate",
+							Value = "20"
+						},
+						new SettingsDataRow()
+						{
+							Name = "DefaultCurrency",
+							Value = "GBP"
+						},
 						new SettingsDataRow()
 						{
 							Name = "SessionMaxHours",
@@ -83,6 +83,11 @@ namespace PluginManager.DAL.TextFiles.Tables
 						{
 							Name = "SessionMaxYears",
 							Value = "10"
+						},
+						new SettingsDataRow()
+						{
+							Name = "AddressOptions",
+							Value = "0"
 						}
 					};
             }

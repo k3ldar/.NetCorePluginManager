@@ -144,7 +144,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
                     bool canPeekBack = i > preEnd.Length - 1;
                     char currentChar = data[i];
 
-                    if (!canPeekBack & !canPeekForward && !isInPreBlock)
+                    if (!canPeekBack && (!canPeekForward && !isInPreBlock))
                     {
                         continue;
                     }

@@ -102,7 +102,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         {
             int blogId = id;
 
-            return _blogEntries.Where(b => b.Id == blogId).FirstOrDefault();
+            return _blogEntries.FirstOrDefault(b => b.Id == blogId);
         }
 
         public List<BlogItem> GetMyBlogs(in long userId)
@@ -130,7 +130,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             else
             {
                 newId = blogItem.Id;
-                _blogEntries.Remove(_blogEntries.Where(be => be.Id == newId).FirstOrDefault());
+                _blogEntries.Remove(_blogEntries.FirstOrDefault(be => be.Id == newId));
                 _blogEntries.Add(blogItem);
                 return blogItem;
             }

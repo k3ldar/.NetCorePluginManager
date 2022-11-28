@@ -300,7 +300,7 @@ namespace DynamicContent.Plugin.Controllers
             if (dynamicContentPage == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidDynamicPage);
 
-            if (dynamicContentPage.Content.Where(ctl => ctl.UniqueId.Equals(model.ControlId)).FirstOrDefault() == null)
+            if (dynamicContentPage.Content.FirstOrDefault(ctl => ctl.UniqueId.Equals(model.ControlId)) == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidControl);
 
             RepositionControls(dynamicContentPage, model.Controls);
@@ -334,7 +334,7 @@ namespace DynamicContent.Plugin.Controllers
             if (dynamicContentPage == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidDynamicPage);
 
-            DynamicContentTemplate control = dynamicContentPage.Content.Where(ctl => ctl.UniqueId.Equals(controlId)).FirstOrDefault();
+            DynamicContentTemplate control = dynamicContentPage.Content.FirstOrDefault(ctl => ctl.UniqueId.Equals(controlId));
 
             if (control == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
@@ -366,7 +366,7 @@ namespace DynamicContent.Plugin.Controllers
             if (dynamicContentPage == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
 
-            DynamicContentTemplate control = dynamicContentPage.Content.Where(ctl => ctl.UniqueId.Equals(model.UniqueId)).FirstOrDefault();
+            DynamicContentTemplate control = dynamicContentPage.Content.FirstOrDefault(ctl => ctl.UniqueId.Equals(model.UniqueId));
 
             if (control == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidControlId);
@@ -431,7 +431,7 @@ namespace DynamicContent.Plugin.Controllers
             if (dynamicContentPage == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
 
-            DynamicContentTemplate control = dynamicContentPage.Content.Where(ctl => ctl.UniqueId.Equals(controlId)).FirstOrDefault();
+            DynamicContentTemplate control = dynamicContentPage.Content.FirstOrDefault(ctl => ctl.UniqueId.Equals(controlId));
 
             if (control == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidControl);
@@ -463,7 +463,7 @@ namespace DynamicContent.Plugin.Controllers
             if (dynamicContentPage == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
 
-            DynamicContentTemplate control = dynamicContentPage.Content.Where(ctl => ctl.UniqueId.Equals(model.ControlId)).FirstOrDefault();
+            DynamicContentTemplate control = dynamicContentPage.Content.FirstOrDefault(ctl => ctl.UniqueId.Equals(model.ControlId));
 
             if (control == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidControl);
@@ -515,7 +515,7 @@ namespace DynamicContent.Plugin.Controllers
             if (dynamicContentPage == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
 
-            DynamicContentTemplate template = _dynamicContentProvider.Templates().Where(t => t.UniqueId.Equals(model.TemplateId)).FirstOrDefault();
+            DynamicContentTemplate template = _dynamicContentProvider.Templates().FirstOrDefault(t => t.UniqueId.Equals(model.TemplateId));
 
             if (template == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidTemplateNotFound);

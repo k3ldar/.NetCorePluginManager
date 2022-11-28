@@ -2015,7 +2015,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
             Assert.IsNotNull(dynamicContentPage);
 
-            DynamicContentTemplate control = dynamicContentPage.Content.Where(ctl => ctl.UniqueId.Equals(model.UniqueId)).FirstOrDefault();
+            DynamicContentTemplate control = dynamicContentPage.Content.FirstOrDefault(ctl => ctl.UniqueId.Equals(model.UniqueId));
 
             Assert.IsNotNull(control);
 
@@ -2762,7 +2762,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.IsNotNull(templateResult.Model);
             Assert.IsInstanceOfType(templateResult.Model, typeof(TemplatesModel));
             TemplatesModel templatesModel = templateResult.Model as TemplatesModel;
-            TemplateModel template = templatesModel.Templates.Where(t => t.TemplateName.Equals("Spacer")).FirstOrDefault();
+            TemplateModel template = templatesModel.Templates.FirstOrDefault(t => t.TemplateName.Equals("Spacer"));
             Assert.IsNotNull(template);
 
             IActionResult editPageResponse = dynamicContentController.EditPage(10);

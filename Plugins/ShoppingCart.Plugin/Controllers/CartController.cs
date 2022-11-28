@@ -142,7 +142,7 @@ namespace ShoppingCartPlugin.Controllers
 
             ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
 
-            ShoppingCartItem item = cartDetails.Items.Where(i => i.Id == model.ProductId).FirstOrDefault();
+            ShoppingCartItem item = cartDetails.Items.FirstOrDefault(i => i.Id == model.ProductId);
 
             if (item != null)
             {
@@ -215,7 +215,7 @@ namespace ShoppingCartPlugin.Controllers
         {
             // get the selected provider
             IPaymentProvider provider = _pluginClassesService.GetPluginClasses<IPaymentProvider>()
-                .Where(p => p.UniqueId().CompareTo(model.SelectedProviderId) == 0).FirstOrDefault();
+				.FirstOrDefault(p => p.UniqueId().CompareTo(model.SelectedProviderId) == 0);
 
             if (provider == null)
                 throw new InvalidOperationException(Middleware.Constants.PaymentProviderNotFound);

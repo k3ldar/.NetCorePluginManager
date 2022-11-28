@@ -65,10 +65,9 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             if (cacheItem == null)
             {
-                UserApiDataRow row = _userApiDataRow.Select()
-                    .Where(api => api.MerchantId.Equals(merchantId, StringComparison.InvariantCultureIgnoreCase) && 
-                        api.ApiKey.Equals(apiKey, StringComparison.InvariantCulture))
-                    .FirstOrDefault();
+                UserApiDataRow row = _userApiDataRow.Select().FirstOrDefault(api => 
+					api.MerchantId.Equals(merchantId, StringComparison.InvariantCultureIgnoreCase) && 
+					api.ApiKey.Equals(apiKey, StringComparison.InvariantCulture));
 
                 if (row == null)
                     return false;

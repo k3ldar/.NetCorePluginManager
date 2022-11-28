@@ -112,7 +112,7 @@ namespace ProductPlugin.Controllers
             {
                 if (item.Selected)
                 {
-                    ProductPriceInfo priceGroup = priceGroups.Where(pg => pg.Text.Equals(item.Name)).FirstOrDefault();
+                    ProductPriceInfo priceGroup = priceGroups.FirstOrDefault(pg => pg.Text.Equals(item.Name));
 
                     if (priceGroup != null)
                         prices.Add(priceGroup);

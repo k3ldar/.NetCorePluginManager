@@ -328,7 +328,7 @@ namespace SimpleDB.Internal
             if (_disposed)
                 throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
-            return InternalReadAllRecords().Where(r => r.Id.Equals(id)).FirstOrDefault();
+            return InternalReadAllRecords().FirstOrDefault(r => r.Id.Equals(id));
         }
 
 		public IReadOnlyList<T> Select(Func<T, bool> predicate)
@@ -982,8 +982,7 @@ namespace SimpleDB.Internal
             foreach (PropertyInfo property in typeof(T).GetProperties())
             {
                 ForeignKeyAttribute foreignKey = (ForeignKeyAttribute)property.GetCustomAttributes(true)
-                    .Where(ca => ca.GetType().Equals(typeof(ForeignKeyAttribute)))
-                    .FirstOrDefault();
+					.FirstOrDefault(ca => ca.GetType().Equals(typeof(ForeignKeyAttribute)));
 
                 if (foreignKey != null && property.PropertyType.Equals(typeof(long)))
                 {
@@ -998,8 +997,7 @@ namespace SimpleDB.Internal
         private static TableAttribute GetTableAttributes()
         {
             return (TableAttribute)typeof(T).GetCustomAttributes(true)
-                .Where(a => a.GetType() == typeof(TableAttribute))
-                .FirstOrDefault();
+                .FirstOrDefault(a => a.GetType() == typeof(TableAttribute));
         }
 
         private static BatchUpdateDictionary<string, IIndexManager> BuildIndexListForTable()
@@ -1008,8 +1006,7 @@ namespace SimpleDB.Internal
             foreach (PropertyInfo property in typeof(T).GetProperties())
             {
                 UniqueIndexAttribute uniqueIndex = (UniqueIndexAttribute)property.GetCustomAttributes(true)
-                    .Where(ca => ca.GetType().Equals(typeof(UniqueIndexAttribute)))
-                    .FirstOrDefault();
+					.FirstOrDefault(ca => ca.GetType().Equals(typeof(UniqueIndexAttribute)));
 
                 if (uniqueIndex != null)
                 {

@@ -129,7 +129,7 @@ namespace Middleware.DynamicContent
 
             if (Content.Count > 0 && !String.IsNullOrEmpty(beforeControlId))
             {
-                DynamicContentTemplate nextPage = Content.Where(c => c.UniqueId.Equals(beforeControlId)).FirstOrDefault();
+                DynamicContentTemplate nextPage = Content.FirstOrDefault(c => c.UniqueId.Equals(beforeControlId));
 
                 if (nextPage != null)
                 {

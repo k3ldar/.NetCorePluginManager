@@ -463,9 +463,9 @@ namespace ImageManager.Plugin.Controllers
             if (!String.IsNullOrEmpty(imageName))
             {
                 if (String.IsNullOrEmpty(subgroupName))
-                    image = _imageProvider.Images(groupName).Where(i => i.Name.Equals(imageName)).FirstOrDefault();
+                    image = _imageProvider.Images(groupName).FirstOrDefault(i => i.Name.Equals(imageName));
                 else
-                    image = _imageProvider.Images(groupName, subgroupName).Where(i => i.Name.Equals(imageName)).FirstOrDefault();
+                    image = _imageProvider.Images(groupName, subgroupName).FirstOrDefault(i => i.Name.Equals(imageName));
             }
 
             bool canManageImages = ControllerContext.HttpContext.User.HasClaim(Constants.ClaimNameManageImages, "true");
