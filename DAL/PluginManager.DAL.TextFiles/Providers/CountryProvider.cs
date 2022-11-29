@@ -64,7 +64,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         public bool CountryDelete(in Country country)
         {
             string code = country.Code;
-            CountryDataRow tableCountry = _countries.Select().Where(c => c.Code.Equals(code)).FirstOrDefault();
+            CountryDataRow tableCountry = _countries.Select().FirstOrDefault(c => c.Code.Equals(code));
 
             if (tableCountry == null)
                 return false;
@@ -80,7 +80,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         public bool CountryUpdate(in Country country)
         {
             string code = country.Code;
-            CountryDataRow tableCountry = _countries.Select().Where(c => c.Code.Equals(code)).FirstOrDefault();
+            CountryDataRow tableCountry = _countries.Select().FirstOrDefault(c => c.Code.Equals(code));
 
             if (tableCountry == null)
                 return false;

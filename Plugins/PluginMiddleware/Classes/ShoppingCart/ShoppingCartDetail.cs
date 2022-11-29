@@ -117,7 +117,7 @@ namespace Middleware.ShoppingCart
                 RequiresShipping = true;
 
             int existingId = product.Id;
-            ShoppingCartItem existingItem = Items.Where(e => e.Id == existingId).FirstOrDefault();
+            ShoppingCartItem existingItem = Items.FirstOrDefault(e => e.Id == existingId);
 
             if (existingItem == null)
             {
@@ -144,7 +144,7 @@ namespace Middleware.ShoppingCart
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "<Pending>")]
         public void Update(int productId, int count)
         {
-            ShoppingCartItem existingItem = Items.Where(e => e.Id == productId).FirstOrDefault();
+            ShoppingCartItem existingItem = Items.FirstOrDefault(e => e.Id == productId);
 
             if (existingItem == null)
                 throw new ArgumentException("invalid product id", nameof(productId));
@@ -160,7 +160,7 @@ namespace Middleware.ShoppingCart
         /// <param name="productId">Unique id of the product to be deleted.</param>
         public void Delete(int productId)
         {
-            ShoppingCartItem item = Items.Where(i => i.Id == productId).FirstOrDefault();
+            ShoppingCartItem item = Items.FirstOrDefault(i => i.Id == productId);
 
             if (item != null)
             {

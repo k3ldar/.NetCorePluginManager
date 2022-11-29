@@ -78,9 +78,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             string loginName = username;
             string encryptedPassword = Shared.Utilities.Encrypt(password, _encryptionKey);
 
-            tableUser = _users.Select()
-                .Where(u => u.Email.Equals(loginName, StringComparison.OrdinalIgnoreCase))
-                .FirstOrDefault();
+            tableUser = _users.Select().FirstOrDefault(u => u.Email.Equals(loginName, StringComparison.OrdinalIgnoreCase));
 
             if (tableUser != null && tableUser.Password.Equals(encryptedPassword))
             {
@@ -122,8 +120,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             string loginName = username;
 
             UserDataRow tableUser = _users.Select()
-                .Where(u => u.Email.Equals(loginName, StringComparison.OrdinalIgnoreCase))
-                .FirstOrDefault();
+                .FirstOrDefault(u => u.Email.Equals(loginName, StringComparison.OrdinalIgnoreCase));
 
             if (tableUser == null)
                 return false;
@@ -174,9 +171,8 @@ namespace PluginManager.DAL.TextFiles.Providers
                 throw new ArgumentNullException(nameof(tokenUserDetails));
 
             ExternalUsersDataRow externalUser = _externalUsers.Select()
-                .Where(eu => eu.Provider.Equals(tokenUserDetails.Provider, StringComparison.OrdinalIgnoreCase) &&
-                    eu.Token.Equals(tokenUserDetails.Id))
-                .FirstOrDefault();
+                .FirstOrDefault(eu => eu.Provider.Equals(tokenUserDetails.Provider, StringComparison.OrdinalIgnoreCase) &&
+                    eu.Token.Equals(tokenUserDetails.Id));
 
             if (externalUser != null)
                 _externalUsers.Delete(externalUser);
@@ -210,9 +206,8 @@ namespace PluginManager.DAL.TextFiles.Providers
         private LoginResult VerifyExternalUser(ITokenUserDetails tokenUserDetails)
         {
             ExternalUsersDataRow externalUser = _externalUsers.Select()
-                .Where(eu => eu.Provider.Equals(tokenUserDetails.Provider, StringComparison.OrdinalIgnoreCase) &&
-                    eu.Token.Equals(tokenUserDetails.Id))
-                .FirstOrDefault();
+                .FirstOrDefault(eu => eu.Provider.Equals(tokenUserDetails.Provider, StringComparison.OrdinalIgnoreCase) &&
+                    eu.Token.Equals(tokenUserDetails.Id));
 
             if (externalUser == null)
                 return LoginResult.InvalidCredentials;

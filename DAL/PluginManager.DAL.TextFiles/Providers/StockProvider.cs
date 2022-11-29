@@ -68,7 +68,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             productList.ForEach(p =>
             {
-                StockDataRow stockDataRow = productStock.Where(ps => ps.ProductId.Equals(p.Id)).FirstOrDefault();
+                StockDataRow stockDataRow = productStock.FirstOrDefault(ps => ps.ProductId.Equals(p.Id));
 
                 if (stockDataRow == null)
                     p.SetCurrentStockLevel(0);
@@ -94,7 +94,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             shoppingCartItemList.ForEach(sci =>
             {
-                StockDataRow stockDataRow = productStock.Where(ps => ps.ProductId.Equals(sci.ItemId)).FirstOrDefault();
+                StockDataRow stockDataRow = productStock.FirstOrDefault(ps => ps.ProductId.Equals(sci.ItemId));
 
                 if (stockDataRow == null)
                     sci.SetCurrentStockLevel(0);

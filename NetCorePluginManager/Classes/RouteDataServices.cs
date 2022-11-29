@@ -42,15 +42,15 @@ namespace AspNetCore.PluginManager
         {
             // does the class have a route attribute
             RouteAttribute classRouteAttribute = (RouteAttribute)type.GetCustomAttributes(true)
-                .Where(r => r.GetType() == typeof(RouteAttribute)).FirstOrDefault();
+                .FirstOrDefault(r => r.GetType() == typeof(RouteAttribute));
 
             if (classRouteAttribute != null && !String.IsNullOrEmpty(classRouteAttribute.Template))
             {
                 return classRouteAttribute.Template;
             }
 
-            ActionDescriptor route = routeProvider.ActionDescriptors.Items.Where(ad => ad
-                .DisplayName.StartsWith(type.FullName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+            ActionDescriptor route = routeProvider.ActionDescriptors.Items
+				.FirstOrDefault(ad => ad.DisplayName.StartsWith(type.FullName, StringComparison.CurrentCultureIgnoreCase));
 
             if (route == null)
                 return String.Empty;
@@ -72,7 +72,7 @@ namespace AspNetCore.PluginManager
         {
             // does the class have a route attribute
             RouteAttribute classRouteAttribute = (RouteAttribute)method.GetCustomAttributes(true)
-                .Where(r => r.GetType() == typeof(RouteAttribute)).FirstOrDefault();
+                .FirstOrDefault(r => r.GetType() == typeof(RouteAttribute));
 
             if (classRouteAttribute != null && !String.IsNullOrEmpty(classRouteAttribute.Template))
             {
@@ -89,8 +89,8 @@ namespace AspNetCore.PluginManager
 
             string routeName = $"{method.DeclaringType.ToString()}.{method.Name}";
 
-            ActionDescriptor route = routeProvider.ActionDescriptors.Items.Where(ad => ad
-                .DisplayName.StartsWith(routeName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+            ActionDescriptor route = routeProvider.ActionDescriptors.Items
+				.FirstOrDefault(ad => ad.DisplayName.StartsWith(routeName, StringComparison.CurrentCultureIgnoreCase));
 
             if (route == null)
                 return String.Empty;

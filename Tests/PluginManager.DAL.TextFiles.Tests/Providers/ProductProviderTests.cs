@@ -467,7 +467,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(prodGroups);
                     Assert.AreEqual(2, prodGroups.RecordCount);
 
-                    ProductGroupDataRow newGroup = prodGroups.Select().Where(pg => pg.Description.Equals("Fancy Products")).FirstOrDefault();
+                    ProductGroupDataRow newGroup = prodGroups.Select().FirstOrDefault(pg => pg.Description.Equals("Fancy Products"));
                     Assert.IsNotNull(newGroup);
                 }
             }

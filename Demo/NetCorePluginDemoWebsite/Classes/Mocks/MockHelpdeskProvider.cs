@@ -52,18 +52,18 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             _tickets = new List<HelpdeskTicket>()
             {
                 new HelpdeskTicket(1,
-                    GetTicketPriorities().Where(p => p.Id == 1).FirstOrDefault(),
-                    GetTicketDepartments().Where(d => d.Id == 2).FirstOrDefault(),
-                    GetTicketStatus().Where(s => s.Id == 3).FirstOrDefault(),
+                    GetTicketPriorities().FirstOrDefault(p => p.Id == 1),
+                    GetTicketDepartments().FirstOrDefault(d => d.Id == 2),
+                    GetTicketStatus().FirstOrDefault(s => s.Id == 3),
                     "ABC-123456", "Test 1", DateTime.Now, DateTime.Now, "Joe Bloggs",
                     "joe@bloggs.com", "Joe Bloggs", new List<HelpdeskTicketMessage>()
                     {
                         new HelpdeskTicketMessage(DateTime.Now, "Joe Bloggs", "Hello\r\nLine 2"),
                     }),
                 new HelpdeskTicket(2,
-                    GetTicketPriorities().Where(p => p.Id == 1).FirstOrDefault(),
-                    GetTicketDepartments().Where(d => d.Id == 2).FirstOrDefault(),
-                    GetTicketStatus().Where(s => s.Id == 3).FirstOrDefault(),
+                    GetTicketPriorities().FirstOrDefault(p => p.Id == 1),
+                    GetTicketDepartments().FirstOrDefault(d => d.Id == 2),
+                    GetTicketStatus().FirstOrDefault(s => s.Id == 3),
                     "DEF-987654", "Test 2", DateTime.Now, DateTime.Now, "Jane Doe",
                     "jane@doe.com", "Service Representative 1", new List<HelpdeskTicketMessage>()
                     {
@@ -181,9 +181,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             int idDepartment = department;
 
             ticket = new HelpdeskTicket(_tickets.Count + 1,
-                GetTicketPriorities().Where(p => p.Id == idPriority).FirstOrDefault(),
-                GetTicketDepartments().Where(d => d.Id == idDepartment).FirstOrDefault(),
-                GetTicketStatus().Where(s => s.Id == idStatus).FirstOrDefault(),
+                GetTicketPriorities().FirstOrDefault(p => p.Id == idPriority),
+                GetTicketDepartments().FirstOrDefault(d => d.Id == idDepartment),
+                GetTicketStatus().FirstOrDefault(s => s.Id == idStatus),
                 Shared.Utilities.GetRandomKey(),
                 subject,
                 DateTime.Now,
@@ -234,7 +234,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 throw new ArgumentNullException(nameof(message));
 
             ticket.Messages.Add(new HelpdeskTicketMessage(DateTime.Now, name, message));
-            ticket.Status = GetTicketStatus().Where(s => s.Id == 2).FirstOrDefault();
+            ticket.Status = GetTicketStatus().FirstOrDefault(s => s.Id == 2);
 
             return true;
         }

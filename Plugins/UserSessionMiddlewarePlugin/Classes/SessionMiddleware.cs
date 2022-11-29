@@ -282,7 +282,7 @@ namespace UserSessionMiddleware.Plugin
             {
                 // is it a class attribute
                 LoggedInAttribute attribute = (LoggedInAttribute)type.GetCustomAttributes(true)
-                    .Where(a => a.GetType() == typeof(LoggedInAttribute)).FirstOrDefault();
+                    .FirstOrDefault(a => a.GetType() == typeof(LoggedInAttribute));
 
                 if (attribute != null)
                 {
@@ -298,8 +298,7 @@ namespace UserSessionMiddleware.Plugin
 
                 foreach (MethodInfo method in type.GetMethods())
                 {
-                    attribute = (LoggedInAttribute)method.GetCustomAttributes(true)
-                        .Where(a => a.GetType() == typeof(LoggedInAttribute)).FirstOrDefault();
+                    attribute = (LoggedInAttribute)method.GetCustomAttributes(true).FirstOrDefault(a => a.GetType() == typeof(LoggedInAttribute));
 
                     if (attribute != null)
                     {
@@ -324,7 +323,7 @@ namespace UserSessionMiddleware.Plugin
             {
                 // is it a class attribute
                 LoggedOutAttribute attribute = (LoggedOutAttribute)type.GetCustomAttributes(true)
-                    .Where(a => a.GetType() == typeof(LoggedOutAttribute)).FirstOrDefault();
+                    .FirstOrDefault(a => a.GetType() == typeof(LoggedOutAttribute));
 
                 if (attribute != null)
                 {
@@ -341,7 +340,7 @@ namespace UserSessionMiddleware.Plugin
                 foreach (MethodInfo method in type.GetMethods())
                 {
                     attribute = (LoggedOutAttribute)method.GetCustomAttributes(true)
-                        .Where(a => a.GetType() == typeof(LoggedOutAttribute)).FirstOrDefault();
+                        .FirstOrDefault(a => a.GetType() == typeof(LoggedOutAttribute));
 
                     if (attribute != null)
                     {
@@ -367,7 +366,7 @@ namespace UserSessionMiddleware.Plugin
                 foreach (MethodInfo method in type.GetMethods())
                 {
                     LoggedInOutAttribute attribute = (LoggedInOutAttribute)method.GetCustomAttributes(true)
-                        .Where(a => a.GetType() == typeof(LoggedInOutAttribute)).FirstOrDefault();
+						.FirstOrDefault(a => a.GetType() == typeof(LoggedInOutAttribute));
 
                     if (attribute != null)
                     {

@@ -84,7 +84,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
         public SystemAdminMainMenu GetSystemAdminMainMenu(in int id)
         {
             int menuId = id;
-            return _systemAdminMenus.Where(sam => sam.UniqueId.Equals(menuId)).FirstOrDefault();
+            return _systemAdminMenus.FirstOrDefault(sam => sam.UniqueId.Equals(menuId));
         }
     }
 }

@@ -249,13 +249,13 @@ namespace Breadcrumb.Plugin
             {
                 // is it a class attribute
                 BreadcrumbAttribute attribute = (BreadcrumbAttribute)type.GetCustomAttributes(true)
-                    .Where(a => a.GetType() == typeof(BreadcrumbAttribute)).FirstOrDefault();
+					.FirstOrDefault(a => a.GetType() == typeof(BreadcrumbAttribute));
 
                 // look for specific method breadcrumbs
                 foreach (MethodInfo method in type.GetMethods())
                 {
                     attribute = (BreadcrumbAttribute)method.GetCustomAttributes(true)
-                        .Where(a => a.GetType() == typeof(BreadcrumbAttribute)).FirstOrDefault();
+						.FirstOrDefault(a => a.GetType() == typeof(BreadcrumbAttribute));
 
                     if (attribute != null)
                     {

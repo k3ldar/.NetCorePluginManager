@@ -29,7 +29,7 @@ namespace DocumentationPlugin.Classes
     /// <summary>
     /// Global constants for <see cref="DocumentationPlugin"/>
     /// </summary>
-    public sealed class Constants
+    public static class Constants
     {
         #region Constants
 

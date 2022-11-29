@@ -137,9 +137,9 @@ namespace Spider.Plugin.Controllers
             if (String.IsNullOrEmpty(model.Route))
                 ModelState.AddModelError(nameof(model.Route), "Invalid route");
 
-            DeniedRoute deniedRoute = _robots.DeniedRoutes.Where(cr =>
-                cr.UserAgent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) &&
-                cr.Route.Equals(model.Route, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+            DeniedRoute deniedRoute = _robots.DeniedRoutes
+				.FirstOrDefault(cr => cr.UserAgent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) && 
+				cr.Route.Equals(model.Route, StringComparison.InvariantCultureIgnoreCase));
 
             if (deniedRoute != null)
                 ModelState.AddModelError(String.Empty, "Unable to delete non custom route");
@@ -147,10 +147,10 @@ namespace Spider.Plugin.Controllers
             if (!ModelState.IsValid)
                 return CreateDefaultPartialView();
 
-            IRobotRouteData customRoute = _robots.CustomRoutes.Where(cr =>
+            IRobotRouteData customRoute = _robots.CustomRoutes.FirstOrDefault(cr =>
                 cr.Agent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) &&
                 cr.Route.Equals(model.Route, StringComparison.InvariantCultureIgnoreCase) &&
-                cr.IsCustom).FirstOrDefault();
+                cr.IsCustom);
 
             if (customRoute == null)
                 ModelState.AddModelError(String.Empty, "Custom route not found");

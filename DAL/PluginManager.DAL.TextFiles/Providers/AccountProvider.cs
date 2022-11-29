@@ -48,6 +48,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         private readonly ISimpleDBOperations<OrderItemDataRow> _ordersItems;
         private readonly ISimpleDBOperations<InvoiceDataRow> _invoices;
         private readonly ISimpleDBOperations<InvoiceItemDataRow> _invoiceItems;
+		private readonly AddressOptions _addressOptions;
         private readonly string _encryptionKey;
 
 
@@ -61,6 +62,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             ISimpleDBOperations<OrderItemDataRow> orderItems,
             ISimpleDBOperations<InvoiceDataRow> invoices,
             ISimpleDBOperations<InvoiceItemDataRow> invoiceItems,
+			ISimpleDBOperations<SettingsDataRow> settingsData,
             ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
@@ -78,6 +80,14 @@ namespace PluginManager.DAL.TextFiles.Providers
             _ordersItems = orderItems ?? throw new ArgumentNullException(nameof(orderItems));
             _invoices = invoices ?? throw new ArgumentNullException(nameof(invoices));
             _invoiceItems = invoiceItems ?? throw new ArgumentNullException(nameof(invoiceItems));
+
+			SettingsDataRow addressOptions = settingsData.Select().FirstOrDefault(n => n.Name.Equals("AddressOptions"));
+			long addressValue = 0;
+
+			if (addressOptions != null)
+				Int64.TryParse(addressOptions.Value, out addressValue);
+
+			_addressOptions = (AddressOptions)addressValue;
         }
 
         #endregion Constructors
@@ -105,11 +115,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public AddressOptions GetAddressOptions(in AddressOption addressOption)
         {
-            return AddressOptions.AddressLine1Mandatory | AddressOptions.AddressLine1Show |
-                AddressOptions.AddressLine2Show |
-                AddressOptions.CityMandatory | AddressOptions.CityShow |
-                AddressOptions.PostCodeMandatory | AddressOptions.PostCodeShow |
-                AddressOptions.TelephoneShow;
+            return _addressOptions;
         }
 
         #endregion Address Options
@@ -305,7 +311,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             long billingAddressId = billingAddress.Id;
 
-            AddressDataRow userAddresses = _addresses.Select().Where(a => a.UserId == user.Id && a.Id.Equals(billingAddressId)).FirstOrDefault();
+            AddressDataRow userAddresses = _addresses.Select().FirstOrDefault(a => a.UserId == user.Id && a.Id.Equals(billingAddressId));
 
             if (userAddresses == null)
             {
@@ -350,7 +356,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (user == null)
                 return null;
 
-            AddressDataRow userAddresses = _addresses.Select().Where(a => a.UserId == user.Id && !a.IsDelivery).FirstOrDefault();
+            AddressDataRow userAddresses = _addresses.Select().FirstOrDefault(a => a.UserId == user.Id && !a.IsDelivery);
 
             return new Address(Convert.ToInt32(userAddresses.Id), userAddresses.BusinessName,
                 userAddresses.AddressLine1, userAddresses.AddressLine2, userAddresses.AddressLine3,

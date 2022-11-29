@@ -46,7 +46,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
                 return null;
 
             int groupId = id;
-            return ProductGroupsGet().Where(pg => pg.Id == groupId).FirstOrDefault();
+            return ProductGroupsGet().FirstOrDefault(pg => pg.Id == groupId);
         }
 
         public List<ProductGroup> ProductGroupsGet()
@@ -133,7 +133,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
         public Product GetProduct(in int id)
         {
             int prodId = id;
-            return GetProducts(1, 10000).Where(p => p.Id == prodId).FirstOrDefault();
+            return GetProducts(1, 10000).FirstOrDefault(p => p.Id == prodId);
         }
 
         public bool ProductGroupSave(in int id, in string description, in bool showOnWebsite, in int sortOrder, in string tagLine, in string url, out string errorMessage)

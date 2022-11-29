@@ -53,7 +53,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_UsersNull_Throws_ArgumentNullException()
         {
-            new HelpdeskProvider(null, null, null, null, null, null, null, null, null);
+            new HelpdeskProvider(null, null, null, null, null, null, null, null);
         }
 
         [TestMethod]

@@ -48,7 +48,7 @@ namespace UserAccount.Plugin.Controllers
         public IActionResult Downloads(int id)
         {
             List<DownloadCategory> categories = _downloadProvider.DownloadCategoriesGet(UserId());
-            DownloadCategory activeCategory = categories.Where(d => d.Id == id).FirstOrDefault();
+            DownloadCategory activeCategory = categories.FirstOrDefault(d => d.Id == id);
 
             if (activeCategory == null)
             {

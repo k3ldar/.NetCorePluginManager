@@ -122,7 +122,7 @@ namespace DynamicContent.Plugin.Internal
         {
             using (TimedLock tl = TimedLock.Lock(_lockObject))
             {
-                return _dynamicContent.Where(dc => dc.Id.Equals(id)).FirstOrDefault();
+                return _dynamicContent.FirstOrDefault(dc => dc.Id.Equals(id));
             }
         }
 

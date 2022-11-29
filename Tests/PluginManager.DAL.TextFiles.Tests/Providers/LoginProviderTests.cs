@@ -779,9 +779,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual(-9223372036854775807, loginDetails.UserId);
                     Assert.IsTrue(loginDetails.RememberMe);
 
-                    ExternalUsersDataRow user = externalUserTable.Select()
-                        .Where(eu => eu.Email.Equals("test@123.net"))
-                        .FirstOrDefault();
+                    ExternalUsersDataRow user = externalUserTable.Select().FirstOrDefault(eu => eu.Email.Equals("test@123.net"));
 
                     Assert.IsNotNull(user);
                     Assert.AreEqual(-9223372036854775807, user.Id);

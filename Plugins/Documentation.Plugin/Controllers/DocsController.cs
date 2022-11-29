@@ -172,8 +172,7 @@ namespace DocumentationPlugin.Controllers
         {
             selected = _documentationService.GetDocuments()
                 .Where(d => d.DocumentType == DocumentType.Class)
-                .ToList().Where(c => HtmlHelper.RouteFriendlyName(c.ClassName) == className)
-                .FirstOrDefault();
+                .ToList().FirstOrDefault(c => HtmlHelper.RouteFriendlyName(c.ClassName) == className);
 
             if (selected == null)
                 return null;
@@ -231,7 +230,7 @@ namespace DocumentationPlugin.Controllers
 
         private DocumentViewTypeViewModel BuildConstructorViewModel(DocumentViewTypeViewModel model, Document selected, string name)
         {
-            DocumentMethod constructor = selected.Constructors.Where(f => HtmlHelper.RouteFriendlyName(f.MethodName) == name).FirstOrDefault();
+            DocumentMethod constructor = selected.Constructors.FirstOrDefault(f => HtmlHelper.RouteFriendlyName(f.MethodName) == name);
 
             if (constructor == null)
                 return null;
@@ -261,7 +260,7 @@ namespace DocumentationPlugin.Controllers
 
         private DocumentViewTypeViewModel BuildMethodViewModel(DocumentViewTypeViewModel model, Document selected, string name)
         {
-            DocumentMethod method = selected.Methods.Where(f => HtmlHelper.RouteFriendlyName(f.MethodName) == name).FirstOrDefault();
+            DocumentMethod method = selected.Methods.FirstOrDefault(f => HtmlHelper.RouteFriendlyName(f.MethodName) == name);
 
             if (method == null)
                 return null;
@@ -291,7 +290,7 @@ namespace DocumentationPlugin.Controllers
 
         private DocumentViewTypeViewModel BuildPropertyViewModel(DocumentViewTypeViewModel model, Document selected, string name)
         {
-            DocumentProperty property = selected.Properties.Where(f => HtmlHelper.RouteFriendlyName(f.PropertyName) == name).FirstOrDefault();
+            DocumentProperty property = selected.Properties.FirstOrDefault(f => HtmlHelper.RouteFriendlyName(f.PropertyName) == name);
 
             if (property == null)
                 return null;
@@ -319,7 +318,7 @@ namespace DocumentationPlugin.Controllers
 
         private DocumentViewTypeViewModel BuildFieldViewModel(DocumentViewTypeViewModel model, Document selected, string name)
         {
-            DocumentField field = selected.Fields.Where(f => HtmlHelper.RouteFriendlyName(f.FieldName) == name).FirstOrDefault();
+            DocumentField field = selected.Fields.FirstOrDefault(f => HtmlHelper.RouteFriendlyName(f.FieldName) == name);
 
             if (field == null)
                 return null;
@@ -366,17 +365,16 @@ namespace DocumentationPlugin.Controllers
 
             if (String.IsNullOrEmpty(className))
             {
-                selected = documents.Where(d => HtmlHelper.RouteFriendlyName(d.Title) == documentName).FirstOrDefault();
+                selected = documents.FirstOrDefault(d => HtmlHelper.RouteFriendlyName(d.Title) == documentName);
             }
             else
             {
                 selected = _documentationService.GetDocuments()
-                    .Where(d => HtmlHelper.RouteFriendlyName(d.AssemblyName).Equals(documentName, StringComparison.InvariantCultureIgnoreCase) &&
+                    .FirstOrDefault(d => HtmlHelper.RouteFriendlyName(d.AssemblyName).Equals(documentName, StringComparison.InvariantCultureIgnoreCase) &&
                                 (
                                     HtmlHelper.RouteFriendlyName(d.Title).Equals(className, StringComparison.InvariantCultureIgnoreCase) ||
                                     HtmlHelper.RouteFriendlyName(d.ClassName).Equals(className, StringComparison.InvariantCultureIgnoreCase)
-                                ))
-                    .FirstOrDefault();
+                                ));
             }
 
             if (selected == null)
