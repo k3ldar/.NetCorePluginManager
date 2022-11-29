@@ -590,6 +590,11 @@ namespace SharedPluginFeatures
         /// </summary>
         public const string ClaimIdentityWebsite = "Website";
 
+		/// <summary>
+		/// Name of claim identity for application provided claims
+		/// </summary>
+		public const string ClaimIdentityApplication = "Application";
+
         /// <summary>
         /// Name of the minification thread.
         /// </summary>
