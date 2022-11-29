@@ -259,5 +259,77 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 Directory.Delete(directory, true);
             }
         }
-    }
+
+		[TestMethod]
+		public void GetClaimsForUser_UserHadAdditionalApplicationSpecifiedClaims_ReturnsCorrectList()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				List<Claim> claims = new List<Claim>()
+				{
+					new Claim("AddClaim1", "true"),
+					new Claim("AddClaim2", "123"),
+				};
+
+				Directory.CreateDirectory(directory);
+				MockApplicationClaims mockApplicationClaims = new(claims);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				mockPluginClassesService.Items.Add(mockApplicationClaims);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
+
+					Assert.IsNotNull(accountProvider);
+
+					bool created = accountProvider.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
+
+					Assert.IsTrue(created);
+
+					IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
+					Assert.IsNotNull(sut);
+
+					List<string> newClaims = new List<string>()
+					{
+						"Administrator",
+						"Staff",
+						"ManageSeo",
+						"ViewImageManager"
+					};
+
+					bool setClaimsResult = sut.SetClaimsForUser(userId, newClaims);
+
+					Assert.IsTrue(setClaimsResult);
+
+					List<ClaimsIdentity> userClaims = sut.GetUserClaims(userId);
+					Assert.IsNotNull(userClaims);
+
+					Assert.AreEqual(3, userClaims.Count);
+
+					Assert.AreEqual("User", userClaims[0].AuthenticationType);
+					Assert.AreEqual(3, userClaims[0].Claims.ToList().Count);
+
+					List<Claim> claimsList = userClaims[0].Claims.ToList();
+					Assert.AreEqual("Website", userClaims[1].AuthenticationType);
+					Assert.AreEqual(4, userClaims[1].Claims.ToList().Count);
+
+					claimsList = userClaims[1].Claims.ToList();
+					Assert.AreEqual("Application", userClaims[2].AuthenticationType);
+					Assert.AreEqual(2, userClaims[2].Claims.ToList().Count);
+
+					claimsList = userClaims[2].Claims.ToList();
+					Assert.AreEqual("AddClaim1", claimsList[0].Type);
+					Assert.AreEqual("true", claimsList[0].Value);
+					Assert.AreEqual("AddClaim2", claimsList[1].Type);
+					Assert.AreEqual("123", claimsList[1].Value);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+	}
 }

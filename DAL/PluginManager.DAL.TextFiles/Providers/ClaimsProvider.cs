@@ -42,18 +42,20 @@ namespace PluginManager.DAL.TextFiles.Providers
         private readonly IPluginClassesService _pluginClassesService;
         private readonly ISimpleDBOperations<UserDataRow> _users;
         private readonly ISimpleDBOperations<UserClaimsDataRow> _userClaims;
+		private readonly IApplicationClaimProvider _additionalClaimsProvider;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public ClaimsProvider(IPluginClassesService pluginClassesService,
+		public ClaimsProvider(IPluginClassesService pluginClassesService,
             ISimpleDBOperations<UserDataRow> users,
             ISimpleDBOperations<UserClaimsDataRow> userClaims)
         {
             _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
             _users = users ?? throw new ArgumentNullException(nameof(users));
             _userClaims = userClaims ?? throw new ArgumentNullException(nameof(userClaims));
+			_additionalClaimsProvider = _pluginClassesService.GetPluginClasses<IApplicationClaimProvider>().FirstOrDefault();
         }
 
         #endregion Constructors
@@ -94,6 +96,11 @@ namespace PluginManager.DAL.TextFiles.Providers
             claims.Claims.ForEach(c => webClaims.Add(new Claim(c, true.ToString().ToLower())));
 
             Result.Add(new ClaimsIdentity(webClaims, SharedPluginFeatures.Constants.ClaimIdentityWebsite));
+
+			List<Claim> additionalClaims = _additionalClaimsProvider?.AdditionalUserClaims(userId);
+
+			if (additionalClaims != null && additionalClaims.Count > 0)
+				Result.Add(new ClaimsIdentity(additionalClaims, SharedPluginFeatures.Constants.ClaimIdentityApplication));
 
             return Result;
         }
