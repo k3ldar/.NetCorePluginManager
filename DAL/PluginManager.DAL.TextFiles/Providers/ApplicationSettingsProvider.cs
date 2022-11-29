@@ -57,7 +57,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
 
-            SettingsDataRow settingsDataRow = _settingsData.Select().Where(sd => sd.Name.Equals(name)).FirstOrDefault();
+            SettingsDataRow settingsDataRow = _settingsData.Select().FirstOrDefault(sd => sd.Name.Equals(name));
 
             if (settingsDataRow == null)
                 return defaultValue;
@@ -70,7 +70,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
 
-            SettingsDataRow settingsDataRow = _settingsData.Select().Where(sd => sd.Name.Equals(name)).FirstOrDefault();
+            SettingsDataRow settingsDataRow = _settingsData.Select().FirstOrDefault(sd => sd.Name.Equals(name));
 
             if (settingsDataRow == null)
                 return default;
@@ -91,7 +91,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
 
-            SettingsDataRow settingsDataRow = _settingsData.Select().Where(sd => sd.Name.Equals(name)).FirstOrDefault();
+            SettingsDataRow settingsDataRow = _settingsData.Select().FirstOrDefault(sd => sd.Name.Equals(name));
 
             if (settingsDataRow == null)
             {
@@ -111,7 +111,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
 
-            SettingsDataRow settingsDataRow = _settingsData.Select().Where(sd => sd.Name.Equals(name)).FirstOrDefault();
+            SettingsDataRow settingsDataRow = _settingsData.Select().FirstOrDefault(sd => sd.Name.Equals(name));
 
             if (settingsDataRow == null)
                 return;

@@ -82,9 +82,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SessionData
 
             string hash = _urlHashProvider.GetUrlHash(referalUrl);
 
-            SessionInitialReferrer referrer = InitialReferrers
-                .Where(ir => ir.Hash.Equals(hash))
-                .FirstOrDefault();
+            SessionInitialReferrer referrer = InitialReferrers.FirstOrDefault(ir => ir.Hash.Equals(hash));
 
             if (referrer == null)
             {

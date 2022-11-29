@@ -187,8 +187,7 @@ namespace BadEgg.Plugin
                 foreach (Type type in badeggAttributes)
                 {
                     // is it a class attribute
-                    BadEggAttribute attribute = (BadEggAttribute)type.GetCustomAttributes(true)
-                        .Where(a => a.GetType() == typeof(BadEggAttribute)).FirstOrDefault();
+                    BadEggAttribute attribute = (BadEggAttribute)type.GetCustomAttributes(true).FirstOrDefault(a => a.GetType() == typeof(BadEggAttribute));
 
                     if (attribute != null)
                     {
@@ -205,7 +204,7 @@ namespace BadEgg.Plugin
                     foreach (MethodInfo method in type.GetMethods())
                     {
                         attribute = (BadEggAttribute)method.GetCustomAttributes(true)
-                            .Where(a => a.GetType() == typeof(BadEggAttribute)).FirstOrDefault();
+                            .FirstOrDefault(a => a.GetType() == typeof(BadEggAttribute));
 
                         if (attribute != null)
                         {

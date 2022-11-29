@@ -52,7 +52,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_UsersNull_Throws_ArgumentNullException()
         {
-            new AccountProvider(null, null, null, null, null, null, null);
+            new AccountProvider(null, null, null, null, null, null, null, null);
         }
 
         [TestMethod]
@@ -988,5 +988,113 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 Directory.Delete(directory, true);
             }
         }
-    }
+
+		[TestMethod]
+		public void GetAddressOptions_SettingValueNotFound_Success()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					ISimpleDBOperations<SettingsDataRow> settings = provider.GetService<ISimpleDBOperations<SettingsDataRow>>();
+					Assert.IsNotNull(settings);
+
+					SettingsDataRow settingsRow = settings.Select().FirstOrDefault(n => n.Name.Equals("AddressOptions"));
+
+					Assert.IsNotNull(settingsRow);
+					settings.Delete(settingsRow);
+
+					IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
+
+					Assert.IsNotNull(sut);
+
+					AddressOptions results = sut.GetAddressOptions(AddressOption.Delivery);
+
+					Assert.IsNotNull(results);
+					Assert.AreEqual(0, (int)results);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+
+		[TestMethod]
+		public void GetAddressOptions_ReadsValuesFromSettings_Success()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
+
+					Assert.IsNotNull(sut);
+
+					AddressOptions results = sut.GetAddressOptions(AddressOption.Delivery);
+
+					Assert.IsNotNull(results);
+					Assert.AreEqual(0, (int)results);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+
+		[TestMethod]
+		public void GetAddressOptions_SettingValueSetByUser_Success()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					ISimpleDBOperations<SettingsDataRow> settings = provider.GetService<ISimpleDBOperations<SettingsDataRow>>();
+					Assert.IsNotNull(settings);
+
+					SettingsDataRow settingsRow = settings.Select().FirstOrDefault(n => n.Name.Equals("AddressOptions"));
+
+					Assert.IsNotNull(settingsRow);
+					settingsRow.Value = "13084";
+					settings.Update(settingsRow);
+
+					IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
+
+					Assert.IsNotNull(sut);
+
+					AddressOptions results = sut.GetAddressOptions(AddressOption.Delivery);
+
+					Assert.IsNotNull(results);
+					Assert.IsTrue(results.HasFlag(AddressOptions.AddressLine1Show));
+					Assert.IsTrue(results.HasFlag(AddressOptions.AddressLine1Mandatory));
+					Assert.IsTrue(results.HasFlag(AddressOptions.AddressLine2Show));
+					Assert.IsTrue(results.HasFlag(AddressOptions.CityShow));
+					Assert.IsTrue(results.HasFlag(AddressOptions.CityMandatory));
+					Assert.IsTrue(results.HasFlag(AddressOptions.PostCodeShow));
+					Assert.IsTrue(results.HasFlag(AddressOptions.PostCodeMandatory));
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+	}
 }
+

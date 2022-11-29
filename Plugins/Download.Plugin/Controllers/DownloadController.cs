@@ -94,7 +94,7 @@ namespace DownloadPlugin.Controllers
             if (_categories.Count == 0)
                 return RedirectToAction(nameof(Index));
 
-            DownloadCategory category = _categories.Where(c => c.Id == id).FirstOrDefault();
+            DownloadCategory category = _categories.FirstOrDefault(c => c.Id == id);
 
             if (category == null)
                 return RedirectToAction(nameof(Index));

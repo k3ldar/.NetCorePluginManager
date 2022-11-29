@@ -25,10 +25,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 using System;
+using System.Text.Json.Serialization;
 
 using Middleware;
-
-using Newtonsoft.Json;
 
 #pragma warning disable CS1591
 
@@ -50,19 +49,19 @@ namespace LoginPlugin.Classes
             Provider = "Facebook";
         }
 
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public string Id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("given_name")]
+        [JsonPropertyName("given_name")]
         public string GivenName { get; set; }
 
-        [JsonProperty("email")]
+        [JsonPropertyName("email")]
         public string Email { get; set; }
 
-        [JsonProperty("picture")]
+        [JsonPropertyName("picture")]
         public string Picture { get; set; }
 
         public string Provider { get; set; }

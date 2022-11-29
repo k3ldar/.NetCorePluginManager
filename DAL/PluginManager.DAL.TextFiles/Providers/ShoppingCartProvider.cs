@@ -219,9 +219,8 @@ namespace PluginManager.DAL.TextFiles.Providers
             string voucherName = voucher;
             long user = userId;
             VoucherDataRow voucherDataRow = _voucherData.Select()
-                .Where(v => v.Name.Equals(voucherName, StringComparison.InvariantCultureIgnoreCase) && 
-                    (v.UserId.Equals(0) || v.UserId.Equals(user)))
-                .FirstOrDefault();
+				.FirstOrDefault(v => v.Name.Equals(voucherName, StringComparison.InvariantCultureIgnoreCase) &&
+					(v.UserId.Equals(0) || v.UserId.Equals(user)));
 
             if (voucherDataRow == null)
                 return false;

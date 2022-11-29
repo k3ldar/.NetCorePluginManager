@@ -212,11 +212,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(sut);
                     sut.CountryCreate("Unknown", "XX", false);
 
-                    Assert.IsNull(sut.GetVisibleCountries().Where(c => c.Code.Equals("XX")).FirstOrDefault());
+                    Assert.IsNull(sut.GetVisibleCountries().FirstOrDefault(c => c.Code.Equals("XX")));
 
                     bool updated = sut.CountryUpdate(new Country("we do not know", "XX", true));
                     Assert.IsTrue(updated);
-                    Country country = sut.GetVisibleCountries().Where(c => c.Code.Equals("XX")).FirstOrDefault();
+                    Country country = sut.GetVisibleCountries().FirstOrDefault(c => c.Code.Equals("XX"));
 
                     Assert.IsNotNull(country);
                     Assert.AreEqual("we do not know", country.Name);
@@ -340,7 +340,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.AreEqual(251, countryTable.RecordCount);
 
-                    CountryDataRow unknown = countryTable.Select().Where(c => c.Code.Equals("ZZ")).FirstOrDefault();
+                    CountryDataRow unknown = countryTable.Select().FirstOrDefault(c => c.Code.Equals("ZZ"));
                     Assert.IsNotNull(unknown);
                     Assert.IsFalse(unknown.Visible);
                     Assert.AreEqual(1, unknown.Id);

@@ -36,7 +36,7 @@ namespace Middleware.Classes.DynamicContent
 	/// <summary>
 	/// Generic Text Template
 	/// </summary>
-	public class GenericTextTemplate : DynamicContentTemplate
+	public sealed class GenericTextTemplate : DynamicContentTemplate
 	{
 		#region Constructors
 

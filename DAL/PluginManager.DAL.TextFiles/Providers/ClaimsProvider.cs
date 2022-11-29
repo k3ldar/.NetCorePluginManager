@@ -86,7 +86,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             List<Claim> webClaims = new List<Claim>();
 
-            UserClaimsDataRow claims = _userClaims.Select().Where(uc => uc.UserId.Equals(user.Id)).FirstOrDefault();
+            UserClaimsDataRow claims = _userClaims.Select().FirstOrDefault(uc => uc.UserId.Equals(user.Id));
 
             if (claims == null)
                 return Result;
@@ -107,7 +107,7 @@ namespace PluginManager.DAL.TextFiles.Providers
                 return false;
             }
 
-            UserClaimsDataRow userClaims = _userClaims.Select().Where(uc => uc.UserId.Equals(user.Id)).FirstOrDefault();
+            UserClaimsDataRow userClaims = _userClaims.Select().FirstOrDefault(uc => uc.UserId.Equals(user.Id));
 
             if (userClaims == null)
             {
@@ -152,7 +152,7 @@ namespace PluginManager.DAL.TextFiles.Providers
                 return Result;
 
 
-            UserClaimsDataRow claims = _userClaims.Select().Where(uc => uc.UserId.Equals(user.Id)).FirstOrDefault();
+            UserClaimsDataRow claims = _userClaims.Select().FirstOrDefault(uc => uc.UserId.Equals(user.Id));
 
             if (claims == null)
                 return Result;

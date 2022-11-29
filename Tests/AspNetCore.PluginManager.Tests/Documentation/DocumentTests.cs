@@ -70,9 +70,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
         {
             List<Document> docs = GetDocuments();
 
-            Document searchDoc = docs
-                .Where(d => d.LongDescription.Contains("<see cref=") && d.AssemblyName == "SearchPlugin")
-                .FirstOrDefault();
+            Document searchDoc = docs.FirstOrDefault(d => d.LongDescription.Contains("<see cref=") && d.AssemblyName == "SearchPlugin");
 
             Assert.IsNotNull(searchDoc);
         }
@@ -81,9 +79,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
         [Ignore]
         public void CreatePostProcessDocument()
         {
-            Document searchDoc = GetDocuments()
-                .Where(d => d.LongDescription.Contains("<see cref=") && d.AssemblyName == "SearchPlugin")
-                .FirstOrDefault();
+            Document searchDoc = GetDocuments().FirstOrDefault(d => d.LongDescription.Contains("<see cref=") && d.AssemblyName == "SearchPlugin");
 
             Assert.IsNotNull(searchDoc);
 
@@ -111,9 +107,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
 
             Assert.IsNotNull(postProcess);
 
-            Document searchDoc = GetDocuments()
-                .Where(d => d.LongDescription.Contains("<see cref=") && d.AssemblyName == "SearchPlugin")
-                .FirstOrDefault();
+            Document searchDoc = GetDocuments().FirstOrDefault(d => d.LongDescription.Contains("<see cref=") && d.AssemblyName == "SearchPlugin");
 
             Assert.IsNotNull(searchDoc);
 

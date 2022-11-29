@@ -65,8 +65,7 @@ namespace PluginManager
         private static T GetClassImplementation<T>(IServiceCollection serviceCollection, Type classType) where T : class
         {
             ServiceDescriptor sd = serviceCollection
-                .Where(sd => GetNameWithoutGenericArity(sd.ServiceType).Equals(GetNameWithoutGenericArity(classType)))
-                .FirstOrDefault();
+                .FirstOrDefault(sd => GetNameWithoutGenericArity(sd.ServiceType).Equals(GetNameWithoutGenericArity(classType)));
 
             if (sd == null)
                 return null;

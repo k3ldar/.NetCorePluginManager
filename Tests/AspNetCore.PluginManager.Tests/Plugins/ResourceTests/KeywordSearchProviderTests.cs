@@ -107,7 +107,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 
 			List<SearchResponseItem> results = sut.Search(searchOptions);
 			Assert.IsNotNull(results);
-			Assert.AreEqual(90, results.Count);
+			Assert.AreEqual(99, results.Count);
 		}
 
 		[TestMethod]
@@ -173,7 +173,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 
 			List<SearchResponseItem> results = sut.Search(searchOptions);
 			Assert.IsNotNull(results);
-			Assert.AreEqual(28, results.Count);
+			Assert.AreEqual(30, results.Count);
 		}
 	}
 }

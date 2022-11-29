@@ -16,12 +16,13 @@ ViewData["Title"] = Model.SeoTitle;
 </div>
 @using (Html.BeginForm(nameof(Resources.Plugin.Controllers.ResourcesController.CreateCategory), Resources.Plugin.Controllers.ResourcesController.Name, FormMethod.Post, new { id = "createCategoryForm" }))
 {
+@Html.HiddenFor(m => m.ParentId)
 <div class="row res-row">
 <div class="col-sm-12 col-md-4 col-lg-3">
 @Html.LabelFor(m => m.Name)
 </div>
 <div class="col-sm-12 col-md-5 col-lg-4">
-@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+@Html.TextBoxFor(m => m.Name, new { @class = "form-control", autocomplete = "off" })
 @Html.ValidationMessageFor(m => m.Name)
 </div>
 </div>

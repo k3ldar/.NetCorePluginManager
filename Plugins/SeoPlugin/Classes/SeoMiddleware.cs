@@ -98,19 +98,15 @@ namespace SeoPlugin
                 {
                     _seoProvider.GetSeoDataForRoute(route, out string title, out string description,
                         out string author, out List<string> tags);
-
-					cacheItem = new CacheItem(cacheName, new SeoCacheItem(title, description, author, tags));
-					_memoryCache.GetCache().Add(cacheName, cacheItem);
+                    cacheItem = new CacheItem(cacheName, new SeoCacheItem(title, description, author, tags));
+                    _memoryCache.GetCache().Add(cacheName, cacheItem);
                 }
 
-				if (cacheItem != null)
-				{
-					SeoCacheItem seoCache = (SeoCacheItem)cacheItem.Value;
-					context.Items[SeoMetaAuthor] = seoCache.Author;
-					context.Items[SeoTitle] = seoCache.Title;
-					context.Items[SeoMetaDescription] = seoCache.Description;
-					context.Items[SeoMetaKeywords] = seoCache.Keywords;
-				}
+                SeoCacheItem seoCache = (SeoCacheItem)cacheItem.Value;
+                context.Items[SeoMetaAuthor] = seoCache.Author;
+                context.Items[SeoTitle] = seoCache.Title;
+                context.Items[SeoMetaDescription] = seoCache.Description;
+                context.Items[SeoMetaKeywords] = seoCache.Keywords;
             }
 
             await _next(context);

@@ -305,7 +305,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
             Assert.AreEqual(1, images.Count);
 
-            ImageFile imageFile = images.Where(i => i.Name.Equals("file1.txt")).FirstOrDefault();
+            ImageFile imageFile = images.FirstOrDefault(i => i.Name.Equals("file1.txt"));
 
             Assert.IsNotNull(imageFile);
             Assert.AreEqual("/images/FirstGroup/file1.txt", imageFile.ImageUri.ToString());
@@ -332,7 +332,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
             Assert.AreEqual(1, images.Count);
 
-            ImageFile imageFile = images.Where(i => i.Name.Equals("file1.txt")).FirstOrDefault();
+            ImageFile imageFile = images.FirstOrDefault(i => i.Name.Equals("file1.txt"));
 
             Assert.IsNotNull(imageFile);
             Assert.AreEqual("/images/file1.txt", imageFile.ImageUri.ToString());

@@ -147,7 +147,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             {
                 List<ShoppingCartItem> items = new List<ShoppingCartItem>();
 
-                Product product = _productProvider.GetProducts(1, 10000).Where(p => p.RetailPrice > 0).FirstOrDefault();
+                Product product = _productProvider.GetProducts(1, 10000).FirstOrDefault(p => p.RetailPrice > 0);
                 bool requiresShipping = !product.IsDownload;
 
                 items.Add(new ShoppingCartItem(product.Id, 1, product.Id, product.RetailPrice, product.Name,

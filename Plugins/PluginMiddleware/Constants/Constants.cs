@@ -29,7 +29,7 @@ namespace Middleware
     /// <summary>
     /// Constant values used by PluginMiddleware
     /// </summary>
-    public sealed class Constants
+    public static class Constants
     {
         /// <summary>
         /// Captcha characters that will be used to generate captcha requests.

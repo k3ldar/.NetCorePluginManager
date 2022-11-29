@@ -537,7 +537,7 @@ namespace PluginManager
                     {
                         try
                         {
-                            if (type.GetCustomAttributes().Where(t => t.GetType() == typeof(T)).FirstOrDefault() != null)
+                            if (type.GetCustomAttributes().FirstOrDefault(t => t.GetType() == typeof(T)) != null)
                             {
                                 Result.Add(type);
                                 continue;
@@ -548,7 +548,7 @@ namespace PluginManager
                                 // cycle through all properties and methods to see if they have the attibute
                                 foreach (MethodInfo method in type.GetMethods())
                                 {
-                                    if (method.GetCustomAttributes().Where(t => t.GetType() == typeof(T)).FirstOrDefault() != null)
+                                    if (method.GetCustomAttributes().FirstOrDefault(t => t.GetType() == typeof(T)) != null)
                                     {
                                         Result.Add(type);
                                         break;
@@ -557,7 +557,7 @@ namespace PluginManager
 
                                 foreach (PropertyInfo property in type.GetProperties())
                                 {
-                                    if (property.GetCustomAttributes().Where(t => t.GetType() == typeof(T)).FirstOrDefault() != null)
+                                    if (property.GetCustomAttributes().FirstOrDefault(t => t.GetType() == typeof(T)) != null)
                                     {
                                         Result.Add(type);
                                         break;

@@ -52,6 +52,8 @@ namespace SimpleDB.Tests
 
                 using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, 
                     new ForeignKeyManager(), new MockPluginClassesService());
+
+				Assert.IsNotNull(sut);
             }
             finally
             {

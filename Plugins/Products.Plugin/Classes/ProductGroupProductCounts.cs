@@ -64,8 +64,7 @@ namespace ProductPlugin.Classes
 
             for (int i = 0; i < productGroups.Count; i++)
             {
-                ProductGroup group = _productProvider.ProductGroupsGet()
-                    .Where(p => p.Description.Equals(productGroups[i])).FirstOrDefault();
+                ProductGroup group = _productProvider.ProductGroupsGet().FirstOrDefault(p => p.Description.Equals(productGroups[i]));
 
                 if (group != null)
                 {

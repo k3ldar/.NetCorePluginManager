@@ -70,7 +70,7 @@ namespace UserAccount.Plugin.Controllers
         public IActionResult LicenceView(int id)
         {
             ViewLicenceViewModel model = null;
-            Licence licence = _licenceProvider.LicencesGet(UserId()).Where(l => l.Id == id).FirstOrDefault();
+            Licence licence = _licenceProvider.LicencesGet(UserId()).FirstOrDefault(l => l.Id == id);
 
             if (licence != null)
             {
@@ -103,7 +103,7 @@ namespace UserAccount.Plugin.Controllers
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            LicenceType licenceType = _licenceProvider.LicenceTypesGet().Where(l => l.Id == model.LicenceType).FirstOrDefault();
+            LicenceType licenceType = _licenceProvider.LicenceTypesGet().FirstOrDefault(l => l.Id == model.LicenceType);
 
             if (licenceType == null)
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.LicenceTypeInvalid);
@@ -138,7 +138,7 @@ namespace UserAccount.Plugin.Controllers
         [HttpPost]
         public IActionResult LicenceUpdateDomain(ViewLicenceViewModel model)
         {
-            Licence licence = _licenceProvider.LicencesGet(UserId()).Where(l => l.Id == model.Id).FirstOrDefault();
+            Licence licence = _licenceProvider.LicencesGet(UserId()).FirstOrDefault(l => l.Id == model.Id);
 
             if (!Shared.Utilities.ValidateIPAddress(model.Domain))
             {
@@ -161,7 +161,7 @@ namespace UserAccount.Plugin.Controllers
 
         public IActionResult LicenceSendEmail(int id)
         {
-            Licence licence = _licenceProvider.LicencesGet(UserId()).Where(l => l.Id == id).FirstOrDefault();
+            Licence licence = _licenceProvider.LicencesGet(UserId()).FirstOrDefault(l => l.Id == id);
 
             if (licence != null)
             {
