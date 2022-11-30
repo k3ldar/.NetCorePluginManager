@@ -1,3 +1,9 @@
+Version 5.0.4
+=============
+Multiple bug fixes
+# 211 Application based claims
+# 213 Assign application based claims to external users
+
 Version 5.0.3
 =============
 Multiple bug fixes
