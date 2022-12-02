@@ -32,7 +32,7 @@
   </PropertyGroup>
   
   <PropertyGroup>
-    <Version>5.0.4</Version>
+    <Version>5.1.0</Version>
     <LangVersion>latest</LangVersion>
     <Authors>Simon Carter (s1cart3r@gmail.com)</Authors>
     <Company>Simon Carter</Company>
