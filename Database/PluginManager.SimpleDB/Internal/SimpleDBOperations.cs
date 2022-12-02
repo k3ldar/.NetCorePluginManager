@@ -55,7 +55,7 @@ namespace SimpleDB.Internal
 	/// byte		page type
 	/// ushort		page version
 	/// int			Page n Datastart
-	/// int			Next page start
+	/// long		Next page start
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	internal sealed class SimpleDBOperations<T> : ISimpleDBOperations<T>, ISimpleDBTable
@@ -92,6 +92,7 @@ namespace SimpleDB.Internal
         private const int TotalHeaderLength = sizeof(ushort) + HeaderLength + sizeof(long) + sizeof(long) + (sizeof(int) * 4) + sizeof(byte) + sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int);
         private const int PrimarySequenceStart = HeaderLength + sizeof(ushort);
         private const int SecondarySequenceStart = PrimarySequenceStart + sizeof(long);
+		private const int PageHeaderSize = sizeof(int) + sizeof(byte) + sizeof(ushort) + sizeof(int) + sizeof(long);
         private const int DefaultStackSize = 1000000;
         private const int MaxStackAllocSize = DefaultStackSize / 4;
 		private const byte PageTypeData = 1;
@@ -744,7 +745,7 @@ namespace SimpleDB.Internal
 
 			for (int i = 0; i < _pageCount; i++)
 			{
-				long nextPageStart = _fileStream.Position + ((i + 1) * (int)_pageSize) + (sizeof(int) * 2) + sizeof(long);
+				long nextPageStart = _fileStream.Position + (int)_pageSize + PageHeaderSize;
 				int dataToWrite = remainingData > (int)_pageSize ? (int)_pageSize : remainingData;
 
 				// page number
