@@ -41,7 +41,8 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private readonly IPluginClassesService _pluginClassesService;
         private readonly ISimpleDBOperations<UserDataRow> _users;
-        private readonly ISimpleDBOperations<UserClaimsDataRow> _userClaims;
+		private readonly ISimpleDBOperations<ExternalUsersDataRow> _externalUsers;
+		private readonly ISimpleDBOperations<UserClaimsDataRow> _userClaims;
 		private readonly IApplicationClaimProvider _additionalClaimsProvider;
 
 		#endregion Private Members
@@ -49,12 +50,14 @@ namespace PluginManager.DAL.TextFiles.Providers
 		#region Constructors
 
 		public ClaimsProvider(IPluginClassesService pluginClassesService,
-            ISimpleDBOperations<UserDataRow> users,
-            ISimpleDBOperations<UserClaimsDataRow> userClaims)
+            ISimpleDBOperations<UserDataRow> users, 
+			ISimpleDBOperations<ExternalUsersDataRow> externalUsers,
+			ISimpleDBOperations<UserClaimsDataRow> userClaims)
         {
             _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
             _users = users ?? throw new ArgumentNullException(nameof(users));
-            _userClaims = userClaims ?? throw new ArgumentNullException(nameof(userClaims));
+			_externalUsers = externalUsers ?? throw new ArgumentNullException(nameof(externalUsers));
+			_userClaims = userClaims ?? throw new ArgumentNullException(nameof(userClaims));
 			_additionalClaimsProvider = _pluginClassesService.GetPluginClasses<IApplicationClaimProvider>().FirstOrDefault();
         }
 
@@ -72,40 +75,59 @@ namespace PluginManager.DAL.TextFiles.Providers
         }
 
         public List<ClaimsIdentity> GetUserClaims(in long userId)
-        {
-            List<ClaimsIdentity> Result = new List<ClaimsIdentity>();
+		{
+			List<ClaimsIdentity> Result = new List<ClaimsIdentity>();
 
-            UserDataRow user = _users.Select(userId);
+			UserDataRow user = _users.Select(userId);
+			List<Claim> userClaims = new List<Claim>();
 
-            if (user == null)
-                return Result;
 
-            List<Claim> userClaims = new List<Claim>();
-            userClaims.Add(new Claim(SharedPluginFeatures.Constants.ClaimNameUsername, user.FullName));
-            userClaims.Add(new Claim(SharedPluginFeatures.Constants.ClaimNameUserEmail, user.Email));
-            userClaims.Add(new Claim(SharedPluginFeatures.Constants.ClaimNameUserId, userId.ToString()));
-            Result.Add(new ClaimsIdentity(userClaims, SharedPluginFeatures.Constants.ClaimIdentityUser));
+			if (user == null)
+			{
+				ExternalUsersDataRow externalUser = _externalUsers.Select(userId);
 
-            List<Claim> webClaims = new List<Claim>();
+				if (externalUser == null)
+					return Result;
 
-            UserClaimsDataRow claims = _userClaims.Select().FirstOrDefault(uc => uc.UserId.Equals(user.Id));
+				userClaims.Add(new Claim(SharedPluginFeatures.Constants.ClaimNameUsername, externalUser.UserName));
+				userClaims.Add(new Claim(SharedPluginFeatures.Constants.ClaimNameUserEmail, externalUser.Email));
+				userClaims.Add(new Claim(SharedPluginFeatures.Constants.ClaimNameUserId, externalUser.Id.ToString()));
+				Result.Add(new ClaimsIdentity(userClaims, SharedPluginFeatures.Constants.ClaimIdentityUser));
+			}
+			else
+			{
+				userClaims.Add(new Claim(SharedPluginFeatures.Constants.ClaimNameUsername, user.FullName));
+				userClaims.Add(new Claim(SharedPluginFeatures.Constants.ClaimNameUserEmail, user.Email));
+				userClaims.Add(new Claim(SharedPluginFeatures.Constants.ClaimNameUserId, user.Id.ToString()));
+				Result.Add(new ClaimsIdentity(userClaims, SharedPluginFeatures.Constants.ClaimIdentityUser));
 
-            if (claims == null)
-                return Result;
+				GetUserClaims(user, Result);
+			}
 
-            claims.Claims.ForEach(c => webClaims.Add(new Claim(c, true.ToString().ToLower())));
-
-            Result.Add(new ClaimsIdentity(webClaims, SharedPluginFeatures.Constants.ClaimIdentityWebsite));
 
 			List<Claim> additionalClaims = _additionalClaimsProvider?.AdditionalUserClaims(userId);
 
 			if (additionalClaims != null && additionalClaims.Count > 0)
 				Result.Add(new ClaimsIdentity(additionalClaims, SharedPluginFeatures.Constants.ClaimIdentityApplication));
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public bool SetClaimsForUser(in long id, in List<string> claims)
+		private void GetUserClaims(UserDataRow user, List<ClaimsIdentity> Result)
+		{
+			List<Claim> webClaims = new List<Claim>();
+
+			UserClaimsDataRow claims = _userClaims.Select().FirstOrDefault(uc => uc.UserId.Equals(user.Id));
+
+			if (claims == null)
+				return;
+
+			claims.Claims.ForEach(c => webClaims.Add(new Claim(c, true.ToString().ToLower())));
+
+			Result.Add(new ClaimsIdentity(webClaims, SharedPluginFeatures.Constants.ClaimIdentityWebsite));
+		}
+
+		public bool SetClaimsForUser(in long id, in List<string> claims)
         {
             UserDataRow user = _users.Select(id);
 
