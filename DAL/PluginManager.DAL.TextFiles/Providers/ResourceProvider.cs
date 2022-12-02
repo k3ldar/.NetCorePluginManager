@@ -162,7 +162,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			UserDataRow userDataRow = _users.Select(userId);
 
-			if (userDataRow == null && userId != 0)
+			if (userDataRow == null && userId > 0)
 				throw new ArgumentNullException(nameof(userId));
 
 			ResourceCategoryDataRow newCategoryRow = new ResourceCategoryDataRow()
@@ -226,6 +226,8 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (tags == null)
 				throw new ArgumentNullException(nameof(tags));
 
+			UserDataRow user = _users.Select(userId);
+
 			ResourceItemDataRow resourceItem = new ResourceItemDataRow()
 			{
 				Approved = approved,
@@ -233,7 +235,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				Description = description,
 				Name = name,
 				ResourceType = (int)resourceType,
-				UserId = userId,
+				UserId = user?.Id ?? 0,
 				UserName = userName,
 				Value = value,
 			};
