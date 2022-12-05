@@ -98,4 +98,10 @@
     <EmbeddedResource Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

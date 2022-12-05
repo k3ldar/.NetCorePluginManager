@@ -141,7 +141,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Resources\" />
     <Folder Include="wwwroot\DynamicContent\" />
     <Folder Include="wwwroot\images\Download\" />
   </ItemGroup>

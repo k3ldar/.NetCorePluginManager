@@ -32,6 +32,7 @@ using AspNetCore.PluginManager.Tests.Shared;
 using io = System.IO;
 using SimpleDB.Tests.Mocks;
 using SimpleDB.Internal;
+using System.Text;
 
 #pragma warning disable CA1806
 
@@ -468,54 +469,6 @@ namespace SimpleDB.Tests
                     Assert.IsNull(readSut.Select(1519));
                     Assert.IsNull(readSut.Select(2168));
                     Assert.IsNull(readSut.Select(15000));
-                }
-            }
-            finally
-            {
-                io.Directory.Delete(directory, true);
-            }
-        }
-
-        [TestMethod]
-        public void CompactPercent_AfterMultipleRowsRemoved_IsAccurate_Success()
-        {
-            string directory = TestHelper.GetTestPath();
-            try
-            {
-                io.Directory.CreateDirectory(directory);
-                ISimpleDBManager initializer = CreateTestInitializer(directory);
-                IForeignKeyManager keyManager = new ForeignKeyManager();
-
-                using (SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
-                {
-                    List<MockRow> testData = new List<MockRow>();
-
-                    for (int i = 0; i < 15168; i++)
-                        testData.Add(new MockRow(i));
-
-                    sut.Insert(testData);
-                }
-
-                using (SimpleDBOperations<MockRow> deleteSut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
-                {
-                    Assert.AreEqual(15168, deleteSut.RecordCount);
-                    Assert.AreEqual(1475355, deleteSut.DataLength);
-
-                    List<MockRow> deleteList = new List<MockRow>();
-                    IReadOnlyList<MockRow> current = deleteSut.Select();
-
-                    for (int i = 10; i < 5000; i++)
-                        deleteList.Add(current[i]);
-
-                    deleteSut.Delete(deleteList);
-                    Assert.AreEqual(67, deleteSut.CompactPercent);
-                }
-
-                using (SimpleDBOperations<MockRow> readSut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
-                {
-                    Assert.AreEqual(10178, readSut.RecordCount);
-                    Assert.AreEqual(992405, readSut.DataLength);
-                    Assert.AreEqual(67, readSut.CompactPercent);
                 }
             }
             finally

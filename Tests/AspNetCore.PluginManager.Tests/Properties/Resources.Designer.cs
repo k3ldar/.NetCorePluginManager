@@ -61,6 +61,16 @@ namespace AspNetCore.PluginManager.Tests.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] appsettings {
+            get {
+                object obj = ResourceManager.GetObject("appsettings", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {&quot;Id&quot;:10,&quot;Name&quot;:&quot;Custom Page 10&quot;,&quot;Content&quot;:[{&quot;AssemblyQualifiedName&quot;:&quot;DynamicContent.Plugin.Templates.HtmlTextTemplate, DynamicContent.Plugin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=null&quot;,&quot;EditorAction&quot;:&quot;/DynamicContent/TextTemplateEditor/&quot;,&quot;Name&quot;:&quot;Html Content&quot;,&quot;SortOrder&quot;:0,&quot;HeightType&quot;:2,&quot;Height&quot;:-1,&quot;WidthType&quot;:0,&quot;Width&quot;:12,&quot;Data&quot;:&quot;&lt;p&gt;This is &lt;br /&gt;html over&lt;br /&gt;three lines&lt;/p&gt;&quot;,&quot;ActiveFrom&quot;:&quot;0001-01-01T00:00:00&quot;,&quot;ActiveTo&quot;:&quot;9999-12-31T23:59:59.9999999&quot;,&quot;UniqueId&quot;:&quot;control-1&quot;,&quot;ColumnCount&quot;:12} [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string DynamicContent10Items {

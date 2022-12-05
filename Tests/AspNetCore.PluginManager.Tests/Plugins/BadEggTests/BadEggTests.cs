@@ -27,6 +27,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 using AspNetCore.PluginManager.Tests.MiddlewareTests;
@@ -56,7 +58,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.BadEggTests
         [TestInitialize]
         public void InitialiseBadEggTests()
         {
-            base.InitializeBadEggPluginManager();
+			string appSettingsFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "appsettings.json");
+
+			if (!File.Exists(appSettingsFile))
+			{
+				File.WriteAllText(appSettingsFile, Encoding.UTF8.GetString(Properties.Resources.appsettings));
+			}
+			
+			base.InitializeBadEggPluginManager();
         }
 
         [TestMethod]

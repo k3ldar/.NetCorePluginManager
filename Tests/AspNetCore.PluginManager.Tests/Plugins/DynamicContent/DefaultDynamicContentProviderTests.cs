@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 
@@ -48,13 +49,20 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
     public class DefaultDynamicContentProviderTests : GenericBaseClass
     {
         private const string TestCategoryName = "Dynamic Content";
-        private const string HtmlTemplateAssemblyQualifiedName = "DynamicContent.Plugin.Templates.HtmlTextTemplate, DynamicContent.Plugin, Version=5.0.3.0, Culture=neutral, PublicKeyToken=null";
+        private const string HtmlTemplateAssemblyQualifiedName = "DynamicContent.Plugin.Templates.HtmlTextTemplate, DynamicContent.Plugin";
         private string _currentTestPath = null;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _currentTestPath = TestHelper.GetTestPath();
+			string appSettingsFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "appsettings.json");
+
+			if (!File.Exists(appSettingsFile))
+			{
+				File.WriteAllText(appSettingsFile, Encoding.UTF8.GetString(Properties.Resources.appsettings));
+			}
+			
+			_currentTestPath = TestHelper.GetTestPath();
 
             while (Directory.Exists(_currentTestPath))
             {
@@ -190,7 +198,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             IDynamicContentPage sut = DefaultDynamicContentProvider.ConvertFromByteArray(dynamicContent);
             Assert.IsNotNull(sut);
             Assert.AreEqual(1, sut.Content.Count);
-            Assert.AreEqual(HtmlTemplateAssemblyQualifiedName, sut.Content[0].AssemblyQualifiedName);
+            Assert.IsTrue(sut.Content[0].AssemblyQualifiedName.StartsWith(HtmlTemplateAssemblyQualifiedName));
             Assert.AreEqual("<p>Content template not found</p>", sut.Content[0].Data);
         }
 
@@ -202,7 +210,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             IDynamicContentPage sut = DefaultDynamicContentProvider.ConvertFromByteArray(dynamicContent);
             Assert.IsNotNull(sut);
             Assert.AreEqual(1, sut.Content.Count);
-            Assert.AreEqual(HtmlTemplateAssemblyQualifiedName, sut.Content[0].AssemblyQualifiedName);
+            Assert.IsTrue(sut.Content[0].AssemblyQualifiedName.StartsWith(HtmlTemplateAssemblyQualifiedName));
             Assert.AreEqual("<p>Content template not found</p>", sut.Content[0].Data);
         }
 

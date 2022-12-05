@@ -113,4 +113,10 @@
     <EmbeddedResource Include="Views\Search\Index.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
