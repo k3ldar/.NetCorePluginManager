@@ -8,13 +8,13 @@
   </RunConfiguration>
   
   <MSTestV2>
-    <TestTimeout>8000</TestTimeout>
+    <TestTimeout>18000</TestTimeout>
   </MSTestV2>
 
   <!-- MSTest adapter -->
   <MSTest>
     <MapInconclusiveToFailed>True</MapInconclusiveToFailed>
-    <CaptureTraceOutput>false</CaptureTraceOutput>
+    <CaptureTraceOutput>true</CaptureTraceOutput>
     <DeleteDeploymentDirectoryAfterTestRunIsComplete>False</DeleteDeploymentDirectoryAfterTestRunIsComplete>
     <DeploymentEnabled>False</DeploymentEnabled>
   </MSTest>
