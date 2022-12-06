@@ -115,4 +115,10 @@
 	  <EmbeddedResource Include="wwwroot\js\ImageManager.js" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Update="appsettings.json">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
 </Project>

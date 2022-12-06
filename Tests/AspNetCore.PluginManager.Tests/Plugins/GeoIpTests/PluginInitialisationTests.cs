@@ -35,6 +35,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PluginManager.Abstractions;
 using PluginManager.Tests.Mocks;
 
+using Shared.Classes;
+
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.GeoIpTests
@@ -70,10 +72,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.GeoIpTests
         [TestCategory(TestsCategory)]
         public void Finalise_DoesNotThrowException()
         {
-            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation();
+			ThreadManager.Initialise();
 
-            sut.Finalise();
-        }
+			MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
+			PluginInitialisation sut = new PluginInitialisation();
+
+			sut.Finalise();
+		}
     }
 }

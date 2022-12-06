@@ -682,7 +682,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.AddResourceCategory(-25, 0, "New category", "Description");
+					sut.AddResourceCategory(25, 0, "New category", "Description");
 				}
 			}
 			finally
@@ -771,6 +771,57 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ResourceCategoryDataRow resourceCategoryDataRow = resourceCategories.Select(result.Id);
 					Assert.IsNotNull(resourceCategoryDataRow);
 					Assert.AreEqual(1, resourceCategoryDataRow.UserId);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+
+		[TestMethod]
+		public void AddResourceCategory_ExternalUser_Success()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					initialisation.AfterConfigure(mockApplicationBuilder);
+
+					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+					Assert.IsNotNull(userTable);
+
+					userTable.Insert(new UserDataRow()
+					{
+						FirstName = "Joe",
+						Surname = "Bloggs"
+					});
+
+					ISimpleDBOperations<ResourceCategoryDataRow> resourceCategories = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
+					Assert.IsNotNull(resourceCategories);
+
+					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
+					Assert.IsNotNull(sut);
+
+					ResourceCategory result = sut.AddResourceCategory(-9383747575, 0, "test cat", "The Description");
+
+					Assert.IsNotNull(result);
+					Assert.AreEqual("test cat", result.Name);
+					Assert.AreEqual("The Description", result.Description);
+					Assert.AreEqual("test-cat", result.RouteName);
+					Assert.AreEqual(0, result.ResourceItems.Count);
+
+					Assert.AreEqual(1, resourceCategories.RecordCount);
+
+					ResourceCategoryDataRow resourceCategoryDataRow = resourceCategories.Select(result.Id);
+					Assert.IsNotNull(resourceCategoryDataRow);
+					Assert.AreEqual(0, resourceCategoryDataRow.UserId);
 				}
 			}
 			finally
@@ -1421,54 +1472,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ForeignKeyException))]
-		public void AddResourceItem_UserIdNotFound_Throws_ForeignKeyException()
-		{
-			string directory = TestHelper.GetTestPath();
-			try
-			{
-				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
-				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
-
-				using (ServiceProvider provider = services.BuildServiceProvider())
-				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
-					initialisation.AfterConfigure(mockApplicationBuilder);
-
-					ISimpleDBOperations<ResourceItemDataRow> resourceItemsTable = provider.GetRequiredService<ISimpleDBOperations<ResourceItemDataRow>>();
-					Assert.IsNotNull(resourceItemsTable);
-					Assert.AreEqual(0, resourceItemsTable.RecordCount);
-
-					ISimpleDBOperations<ResourceCategoryDataRow> resources = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
-					Assert.IsNotNull(resources);
-
-					for (int i = 0; i < 10; i++)
-					{
-						resources.Insert(new ResourceCategoryDataRow()
-						{
-							Name = $"Resource {i}",
-							Description = $"test resource {i}",
-							ForeColor = "black",
-							BackColor = "white",
-							ParentCategoryId = i < 5 ? 0 : i < 8 ? 2 : 3,
-							IsVisible = true,
-						});
-					}
-
-					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
-					Assert.IsNotNull(sut);
-
-					sut.AddResourceItem(1, ResourceType.Image, 5, "user name", "Resource Name", "Description", "a value", false, new());
-				}
-			}
-			finally
-			{
-				Directory.Delete(directory, true);
-			}
-		}
-
-		[TestMethod]
 		public void AddResourceItem_ValidResourceItem_ReturnsResourceItemInstance()
 		{
 			string directory = TestHelper.GetTestPath();
@@ -1518,6 +1521,68 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ResourceItem Result = sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "Description", "some value", false, new());
 					Assert.IsNotNull(Result);
 					Assert.AreEqual(1, resourceItemsTable.RecordCount);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+
+		[TestMethod]
+		public void AddResourceItem_UserIsExternalUser_AddsRecord()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					initialisation.AfterConfigure(mockApplicationBuilder);
+
+					ISimpleDBOperations<ResourceItemDataRow> resourceItemsTable = provider.GetRequiredService<ISimpleDBOperations<ResourceItemDataRow>>();
+					Assert.IsNotNull(resourceItemsTable);
+					Assert.AreEqual(0, resourceItemsTable.RecordCount);
+
+					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+					Assert.IsNotNull(userTable);
+
+					userTable.Insert(new UserDataRow()
+					{
+						FirstName = "Joe",
+						Surname = "Bloggs"
+					});
+
+					ISimpleDBOperations<ResourceCategoryDataRow> resources = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
+					Assert.IsNotNull(resources);
+
+					for (int i = 0; i < 10; i++)
+					{
+						resources.Insert(new ResourceCategoryDataRow()
+						{
+							Name = $"Resource {i}",
+							Description = $"test resource {i}",
+							ForeColor = "black",
+							BackColor = "white",
+							ParentCategoryId = i < 5 ? 0 : i < 8 ? 2 : 3,
+							IsVisible = true,
+						});
+					}
+
+					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
+					Assert.IsNotNull(sut);
+
+					ResourceItem Result = sut.AddResourceItem(1, ResourceType.Image, -83736363, "user name", "Resource Name", "Description", "some value", false, new());
+					Assert.IsNotNull(Result);
+					Assert.AreEqual(1, resourceItemsTable.RecordCount);
+
+					ResourceItemDataRow newResourceItem = resourceItemsTable.Select().FirstOrDefault();
+					Assert.IsNotNull(newResourceItem);
+					Assert.AreEqual(0, newResourceItem.UserId);
 				}
 			}
 			finally

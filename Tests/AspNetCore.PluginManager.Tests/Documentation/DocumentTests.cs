@@ -26,7 +26,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 
 using AspNetCore.PluginManager.Tests.Documentation;
 
@@ -46,12 +49,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
     [ExcludeFromCodeCoverage]
     public sealed class DocumentTests : BaseDocumentTests
     {
-        #region Private Members
+        [TestInitialize]
+		public void Setup()
+		{
+			string appSettingsFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "appsettings.json");
 
+			if (!File.Exists(appSettingsFile))
+			{
+				File.WriteAllText(appSettingsFile, Encoding.UTF8.GetString(Properties.Resources.appsettings));
+			}
+		}
 
-        #endregion Private Members
-
-        [TestMethod]
+		[TestMethod]
 		public void LoadXmlFile()
         {
             GetDocuments();

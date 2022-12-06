@@ -1,3 +1,11 @@
+Version 5.1.0
+=============
+Multiple bug fixes
+# 211 Application based claims
+# 213 Assign application based claims to external users
+# 216 Page corruption on SimpleDB
+# 215 Provide support for external users on resources
+
 Version 5.0.3
 =============
 Multiple bug fixes

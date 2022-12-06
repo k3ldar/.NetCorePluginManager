@@ -2870,6 +2870,11 @@
             Name of claim identity for website
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimIdentityApplication">
+            <summary>
+            Name of claim identity for application provided claims
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.MinificationThread">
             <summary>
             Name of the minification thread.
@@ -3532,6 +3537,18 @@
             <param name="policyName">Name of the policy</param>
             <param name="responseCode">Response code</param>
             <returns>bool</returns>
+        </member>
+        <member name="T:SharedPluginFeatures.IApplicationClaimProvider">
+            <summary>
+            Interface that can be used by an application to provide additional claims for a user
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.IApplicationClaimProvider.AdditionalUserClaims(System.Int64@)">
+            <summary>
+            Provide a list of claims for the user
+            </summary>
+            <param name="userId">Id of user who's claims are being created</param>
+            <returns>List&lt;Claim&gt;</returns>
         </member>
         <member name="T:SharedPluginFeatures.IApplicationSettingsProvider">
             <summary>
