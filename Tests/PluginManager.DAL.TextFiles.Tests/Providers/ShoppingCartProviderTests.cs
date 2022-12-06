@@ -308,8 +308,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
-                    System.Threading.Thread.CurrentThread.CurrentUICulture,
-                    "GBP");
+                    Thread.CurrentThread.CurrentUICulture, "GBP");
 
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
