@@ -682,7 +682,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.AddResourceCategory(-25, 0, "New category", "Description");
+					sut.AddResourceCategory(25, 0, "New category", "Description");
 				}
 			}
 			finally

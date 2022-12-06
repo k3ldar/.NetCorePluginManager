@@ -28,6 +28,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 
 using AspNetCore.PluginManager.DemoWebsite.Classes.Mocks;
 using AspNetCore.PluginManager.Tests.Controllers;
@@ -84,7 +86,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestInitialize]
         public void InitializeDynamicContentControllerTests()
         {
-            ICacheManagerFactory cacheManagerFactory = new CacheManagerFactory();
+			string appSettingsFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "appsettings.json");
+
+			if (!System.IO.File.Exists(appSettingsFile))
+			{
+				System.IO.File.WriteAllText(appSettingsFile, Encoding.UTF8.GetString(Properties.Resources.appsettings));
+			}
+
+			ICacheManagerFactory cacheManagerFactory = new CacheManagerFactory();
             cacheManagerFactory.ClearAllCaches();
             DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Clear();
             InitializeDynamicContentPluginManager();

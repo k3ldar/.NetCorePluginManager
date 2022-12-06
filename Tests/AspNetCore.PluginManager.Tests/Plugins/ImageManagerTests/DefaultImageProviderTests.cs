@@ -1427,7 +1427,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
                 FileInfo fileInfo = new FileInfo(tempFile);
                 Assert.IsNotNull(fileInfo);
                 Assert.AreEqual(0, fileInfo.Length);
-                Assert.IsTrue(fileInfo.CreationTimeUtc > fileCreated);
+                Assert.IsTrue(fileInfo.CreationTimeUtc >= fileCreated);
                 Assert.AreEqual(".gif", Path.GetExtension(fileInfo.Name));
             }
             finally

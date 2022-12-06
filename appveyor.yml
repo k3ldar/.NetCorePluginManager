@@ -20,7 +20,7 @@ after_build:
 - cmd: >-
     7z a NugetFiles.zip %APPVEYOR_BUILD_FOLDER%\Output\AnyCPU\Release\*.nupkg
 - cmd: >-
-    7z a -r Website.zip %APPVEYOR_BUILD_FOLDER%\Output\AnyCPU\Release\net6.0\*.*
+    7z a -r Website.zip %APPVEYOR_BUILD_FOLDER%\Output\AnyCPU\Release\net7.0\*.*
 test: off
 artifacts:
 - path: Nugetfiles.zip

@@ -38,6 +38,8 @@ using Middleware.Interfaces;
 using PluginManager.Abstractions;
 using PluginManager.Tests.Mocks;
 
+using Shared.Classes;
+
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
@@ -133,10 +135,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(ImageManagerTestsCategory)]
 		public void Finalise_DoesNotThrowException()
         {
-            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation();
+			ThreadManager.Initialise();
+			MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
+			PluginInitialisation sut = new PluginInitialisation();
 
-            sut.Finalise();
+			sut.Finalise();
         }
 
         [TestMethod]

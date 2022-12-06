@@ -27,6 +27,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Reflection;
+using System.Text;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
@@ -52,6 +55,13 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestInitialize]
         public void InitializeSearchTests()
         {
+			string appSettingsFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "appsettings.json");
+
+			if (!File.Exists(appSettingsFile))
+			{
+				File.WriteAllText(appSettingsFile, Encoding.UTF8.GetString(Properties.Resources.appsettings));
+			}
+
             for (int i = CacheManager.GetCount() -1; i >= 0 ; i--)
             {
                 string cacheName = CacheManager.GetCacheName(i);
@@ -59,7 +69,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
                 CacheManager.RemoveCacheManager(cacheName);
             }
          
-            //InitializeSearchPluginManager();
             ThreadManager.Initialise();
             InitializeDocumentationPluginManager();
         }
