@@ -8,7 +8,7 @@
   </RunConfiguration>
   
   <MSTestV2>
-    <TestTimeout>18000</TestTimeout>
+    <TestTimeout>60000</TestTimeout>
   </MSTestV2>
 
   <!-- MSTest adapter -->
