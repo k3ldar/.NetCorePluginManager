@@ -295,7 +295,7 @@ namespace Resources.Plugin.Controllers
 
 		public IActionResult ResourceItemSubmitted()
 		{
-			return View(GetModelData());
+			return View(new BaseModel(GetModelData()));
 		}
 
 		[LoggedIn]

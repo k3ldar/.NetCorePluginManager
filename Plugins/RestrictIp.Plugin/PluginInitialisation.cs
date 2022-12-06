@@ -46,20 +46,20 @@ namespace RestrictIp.Plugin
 
         public void Initialise(ILogger logger)
         {
+			return;
+		}
 
-        }
-
-        public void Finalise()
+		public void Finalise()
         {
+			return;
+		}
 
-        }
-
-        public void ConfigureServices(IServiceCollection services)
+		public void ConfigureServices(IServiceCollection services)
         {
+			return;
+		}
 
-        }
-
-        public ushort GetVersion()
+		public ushort GetVersion()
         {
             return 1;
         }
@@ -70,10 +70,10 @@ namespace RestrictIp.Plugin
 
         public void AfterConfigure(in IApplicationBuilder app)
         {
+			return;
+		}
 
-        }
-
-        public void AfterConfigureServices(in IServiceCollection services)
+		public void AfterConfigureServices(in IServiceCollection services)
         {
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
@@ -87,16 +87,16 @@ namespace RestrictIp.Plugin
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
+			return;
+		}
 
-        }
-
-        public void Configure(in IApplicationBuilder app)
+		public void Configure(in IApplicationBuilder app)
         {
+			return;
+		}
 
-        }
-
-        #endregion IInitialiseEvents Methods
-    }
+		#endregion IInitialiseEvents Methods
+	}
 }
 
 #pragma warning restore CS1591

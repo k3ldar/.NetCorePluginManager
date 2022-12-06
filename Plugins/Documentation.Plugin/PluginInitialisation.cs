@@ -56,29 +56,29 @@ namespace DocumentationPlugin
 
         public void ConfigureServices(IServiceCollection services)
         {
+			return;
+		}
 
-        }
-
-        public void Finalise()
+		public void Finalise()
         {
+			return;
+		}
 
-        }
-
-        public ushort GetVersion()
+		public ushort GetVersion()
         {
             return 1;
         }
 
         public void Initialise(ILogger logger)
         {
-
-        }
-        public void AfterConfigure(in IApplicationBuilder app)
+			return;
+		}
+		public void AfterConfigure(in IApplicationBuilder app)
         {
+			return;
+		}
 
-        }
-
-        public void AfterConfigureServices(in IServiceCollection services)
+		public void AfterConfigureServices(in IServiceCollection services)
         {
             services.TryAddSingleton<IDocumentationService, DefaultDocumentationService>();
 
@@ -87,19 +87,19 @@ namespace DocumentationPlugin
 
         public void BeforeConfigure(in IApplicationBuilder app)
         {
+			return;
+		}
 
-        }
-
-        public void BeforeConfigureServices(in IServiceCollection services)
+		public void BeforeConfigureServices(in IServiceCollection services)
         {
+			return;
+		}
 
-        }
-
-        public void Configure(in IApplicationBuilder app)
+		public void Configure(in IApplicationBuilder app)
         {
-
-        }
-    }
+			return;
+		}
+	}
 }
 
 #pragma warning restore CS1591

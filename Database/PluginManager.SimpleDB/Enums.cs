@@ -103,6 +103,8 @@ namespace SimpleDB
     [Flags]
     public enum TriggerType : byte
     {
+		None = 0,
+
         BeforeInsert,
 
         AfterInsert,

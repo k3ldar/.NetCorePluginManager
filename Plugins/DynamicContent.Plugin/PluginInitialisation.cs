@@ -68,10 +68,10 @@ namespace DynamicContent.Plugin
 
         public void AfterConfigure(in IApplicationBuilder app)
         {
+			return;
+		}
 
-        }
-
-        public void AfterConfigureServices(in IServiceCollection services)
+		public void AfterConfigureServices(in IServiceCollection services)
         {
             services.AddAuthorization(options =>
             {
@@ -92,42 +92,42 @@ namespace DynamicContent.Plugin
 
         public void BeforeConfigure(in IApplicationBuilder app)
         {
+			return;
+		}
 
-        }
-
-        public void BeforeConfigureServices(in IServiceCollection services)
+		public void BeforeConfigureServices(in IServiceCollection services)
         {
+			return;
+		}
 
-        }
-
-        public void Configure(in IApplicationBuilder app)
+		public void Configure(in IApplicationBuilder app)
         {
+			return;
+		}
 
-        }
+		#endregion IInitialiseEvents Methods
 
-        #endregion IInitialiseEvents Methods
+		#region IPlugin Methods
 
-        #region IPlugin Methods
-
-        public void ConfigureServices(IServiceCollection services)
+		public void ConfigureServices(IServiceCollection services)
         {
+			return;
+		}
 
-        }
-
-        public void Finalise()
+		public void Finalise()
         {
+			return;
+		}
 
-        }
-
-        public ushort GetVersion()
+		public ushort GetVersion()
         {
             return 1;
         }
 
         public void Initialise(ILogger logger)
         {
-
-        }
+			return;
+		}
 
 		#endregion IPlugin Methods
 

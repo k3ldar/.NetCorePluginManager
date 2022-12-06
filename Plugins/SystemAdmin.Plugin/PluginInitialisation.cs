@@ -55,10 +55,10 @@ namespace SystemAdmin.Plugin
 
         public void Finalise()
         {
+			return;
+		}
 
-        }
-
-        public ushort GetVersion()
+		public ushort GetVersion()
         {
             return 1;
         }
@@ -116,24 +116,24 @@ namespace SystemAdmin.Plugin
 
         public void BeforeConfigure(in IApplicationBuilder app)
         {
+			return;
+		}
 
-        }
-
-        public void BeforeConfigureServices(in IServiceCollection services)
+		public void BeforeConfigureServices(in IServiceCollection services)
         {
+			return;
+		}
 
-        }
-
-        public void Configure(in IApplicationBuilder app)
+		public void Configure(in IApplicationBuilder app)
         {
+			return;
+		}
 
-        }
+		#endregion IInitialiseEvents Methods
 
-        #endregion IInitialiseEvents Methods
+		#region IClaimsService
 
-        #region IClaimsService
-
-        public List<string> GetClaims()
+		public List<string> GetClaims()
         {
             return new List<string>()
             {

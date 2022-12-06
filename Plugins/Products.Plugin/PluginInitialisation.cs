@@ -51,29 +51,29 @@ namespace ProductPlugin
 
         public void ConfigureServices(IServiceCollection services)
         {
+			return;
+		}
 
-        }
-
-        public void Finalise()
+		public void Finalise()
         {
+			return;
+		}
 
-        }
-
-        public ushort GetVersion()
+		public ushort GetVersion()
         {
             return 1;
         }
 
         public void Initialise(ILogger logger)
         {
+			return;
+		}
 
-        }
+		#endregion IPlugin
 
-        #endregion IPlugin
+		#region IInitialiseEvents Methods
 
-        #region IInitialiseEvents Methods
-
-        public void AfterConfigure(in IApplicationBuilder app)
+		public void AfterConfigure(in IApplicationBuilder app)
         {
             INotificationService notificationService = app.ApplicationServices.GetService<INotificationService>();
             IImageProvider imageProvider = app.ApplicationServices.GetService<IImageProvider>();
@@ -103,18 +103,18 @@ namespace ProductPlugin
 
         public void BeforeConfigure(in IApplicationBuilder app)
         {
+			return;
+		}
 
-        }
-
-        public void BeforeConfigureServices(in IServiceCollection services)
+		public void BeforeConfigureServices(in IServiceCollection services)
         {
+			return;
+		}
 
-        }
-
-        public void Configure(in IApplicationBuilder app)
+		public void Configure(in IApplicationBuilder app)
         {
-
-        }
+			return;
+		}
 
 		#endregion IInitialiseEvents Methods
 

@@ -152,7 +152,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			_resourceItems.Update(resourceItem);
 		}
 
-		public ResourceCategory AddResourceCategory(long userId, long parentId, string name, string description)
+		public ResourceCategory AddResourceCategory(long userId, long parent, string name, string description)
 		{
 			if (string.IsNullOrEmpty(name))
 				throw new ArgumentNullException(nameof(name));
@@ -167,7 +167,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			ResourceCategoryDataRow newCategoryRow = new ResourceCategoryDataRow()
 			{ 
-				ParentCategoryId = parentId,
+				ParentCategoryId = parent,
 				Name = name,
 				Description = description,
 				UserId = userDataRow == null ? 0 : userDataRow.Id,
