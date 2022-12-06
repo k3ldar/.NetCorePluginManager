@@ -4430,7 +4430,7 @@
             Group of keywords to be added.
             </summary>
             <param name="route">Route which will be updated.</param>
-            <param name="keyword">Keywords to be added.</param>
+            <param name="keywords">Keywords to be added.</param>
             <returns>bool if route keywords are removed, otherwise false.</returns>
         </member>
         <member name="M:SharedPluginFeatures.ISeoProvider.RemoveKeywords(System.String@,System.Collections.Generic.List{System.String}@)">

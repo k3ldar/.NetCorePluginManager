@@ -133,16 +133,16 @@ namespace UserSessionMiddleware.Plugin
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
+			return;
+		}
 
-        }
-
-        public void Configure(in IApplicationBuilder app)
+		public void Configure(in IApplicationBuilder app)
         {
+			return;
+		}
 
-        }
-
-        #endregion IInitialiseEvents Methods
-    }
+		#endregion IInitialiseEvents Methods
+	}
 }
 
 #pragma warning restore CS1591

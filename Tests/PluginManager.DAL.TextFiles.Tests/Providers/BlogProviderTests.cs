@@ -45,37 +45,23 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
     {
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_InvalidInstance_ParamMemoryCacheNull_Throws_ArgumentNullException()
-        {
-            new BlogProvider(null, new MockTextTableOperations<UserDataRow>(), new MockTextTableOperations<BlogDataRow>(), new MockTextTableOperations<BlogCommentDataRow>());
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_InvalidInstance_ParamTableUserNull_Throws_ArgumentNullException()
-        {
-            new BlogProvider(new MockMemoryCache(), null, new MockTextTableOperations<BlogDataRow>(), new MockTextTableOperations<BlogCommentDataRow>());
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidInstance_ParamTableBlogNull_Throws_ArgumentNullException()
         {
-            new BlogProvider(new MockMemoryCache(), new MockTextTableOperations<UserDataRow>(), null, new MockTextTableOperations<BlogCommentDataRow>());
+            new BlogProvider(null, new MockTextTableOperations<BlogCommentDataRow>());
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidInstance_ParamTableBlogCommentNull_Throws_ArgumentNullException()
         {
-            new BlogProvider(new MockMemoryCache(), new MockTextTableOperations<UserDataRow>(), new MockTextTableOperations<BlogDataRow>(), null);
+            new BlogProvider(new MockTextTableOperations<BlogDataRow>(), null);
         }
 
         [TestMethod]
         public void Construct_ValidInstance_Success()
         {
-            BlogProvider sut = new BlogProvider(new MockMemoryCache(), new MockTextTableOperations<UserDataRow>(), 
-                new MockTextTableOperations<BlogDataRow>(), new MockTextTableOperations<BlogCommentDataRow>());
+            BlogProvider sut = new BlogProvider(new MockTextTableOperations<BlogDataRow>(), 
+				new MockTextTableOperations<BlogCommentDataRow>());
 
             Assert.IsNotNull(sut);
         }

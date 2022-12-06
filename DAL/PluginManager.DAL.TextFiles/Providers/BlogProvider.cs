@@ -39,20 +39,15 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private const int MaxRecursionDepth = 20;
 
-        private readonly ISimpleDBOperations<UserDataRow> _users;
         private readonly ISimpleDBOperations<BlogDataRow> _blogs;
         private readonly ISimpleDBOperations<BlogCommentDataRow> _blogComments;
-        private readonly IMemoryCache _memoryCache;
 
         #endregion Private Members
 
         #region Constructors
 
-        public BlogProvider(IMemoryCache memoryCache, ISimpleDBOperations<UserDataRow> users,
-            ISimpleDBOperations<BlogDataRow> blogs, ISimpleDBOperations<BlogCommentDataRow> blogComments)
+        public BlogProvider(ISimpleDBOperations<BlogDataRow> blogs, ISimpleDBOperations<BlogCommentDataRow> blogComments)
         {
-            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
-            _users = users ?? throw new ArgumentNullException(nameof(users));
             _blogs = blogs ?? throw new ArgumentNullException(nameof(blogs));
             _blogComments = blogComments ?? throw new ArgumentNullException(nameof(blogComments));
         }

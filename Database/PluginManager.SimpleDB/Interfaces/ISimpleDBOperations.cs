@@ -72,9 +72,9 @@ namespace SimpleDB
         /// <summary>
         /// Inserts a single new record with insert options
         /// </summary>
-        /// <param name="records"></param>
+        /// <param name="record"></param>
         /// <param name="insertOptions"></param>
-        void Insert(T records, InsertOptions insertOptions);
+        void Insert(T record, InsertOptions insertOptions);
 
         /// <summary>
         /// Removes a batch of records

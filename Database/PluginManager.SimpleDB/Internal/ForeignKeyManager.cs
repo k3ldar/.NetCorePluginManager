@@ -35,10 +35,10 @@ namespace SimpleDB.Internal
         private readonly Dictionary<string, ISimpleDBTable> _foreignKeys = new Dictionary<string, ISimpleDBTable>();
         private readonly List<ForeignKeyRelationship> _foreignKeyRelationships = new List<ForeignKeyRelationship>();
 
-        public void AddRelationShip(string table, string targetTable, string propertyName, string targetPropertyName)
+        public void AddRelationShip(string sourceTable, string targetTable, string propertyName, string targetPropertyName)
         {
-            if (String.IsNullOrEmpty(table))
-                throw new ArgumentNullException(nameof(table));
+            if (String.IsNullOrEmpty(sourceTable))
+                throw new ArgumentNullException(nameof(sourceTable));
 
             if (String.IsNullOrEmpty(targetTable))
                 throw new ArgumentNullException(nameof(targetTable));
@@ -49,7 +49,7 @@ namespace SimpleDB.Internal
             if (String.IsNullOrEmpty(targetPropertyName))
                 throw new ArgumentNullException(nameof(targetPropertyName));
 
-            _foreignKeyRelationships.Add(new ForeignKeyRelationship(table, targetTable, propertyName, targetPropertyName));
+            _foreignKeyRelationships.Add(new ForeignKeyRelationship(sourceTable, targetTable, propertyName, targetPropertyName));
         }
 
         public void RegisterTable(ISimpleDBTable table)

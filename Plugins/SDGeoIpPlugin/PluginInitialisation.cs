@@ -57,10 +57,10 @@ namespace SieraDeltaGeoIp.Plugin
 
         public void Finalise()
         {
+			return;
+		}
 
-        }
-
-        public void ConfigureServices(IServiceCollection services)
+		public void ConfigureServices(IServiceCollection services)
         {
             services.UseSieraDeltaGeoIpService();
         }
@@ -76,10 +76,10 @@ namespace SieraDeltaGeoIp.Plugin
 
         public void BeforeConfigure(in IApplicationBuilder app)
         {
+			return;
+		}
 
-        }
-
-        public void AfterConfigure(in IApplicationBuilder app)
+		public void AfterConfigure(in IApplicationBuilder app)
         {
             INotificationService notificationService = app.ApplicationServices.GetRequiredService<INotificationService>();
             GeoIpStatistics = new GeoIpStatistics();
@@ -88,20 +88,21 @@ namespace SieraDeltaGeoIp.Plugin
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
+			return;
+		}
 
-        }
-
-        public void AfterConfigureServices(in IServiceCollection services)
+		public void AfterConfigureServices(in IServiceCollection services)
         {
-        }
+			return;
+		}
 
-        public void Configure(in IApplicationBuilder app)
+		public void Configure(in IApplicationBuilder app)
         {
+			return;
+		}
 
-        }
-
-        #endregion IInitialiseEvents Methods
-    }
+		#endregion IInitialiseEvents Methods
+	}
 }
 
 #pragma warning restore CS1591

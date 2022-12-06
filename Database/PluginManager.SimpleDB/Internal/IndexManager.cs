@@ -60,11 +60,11 @@ namespace SimpleDB.Internal
 
         public bool IsUpdating { get; private set; } = false;
 
-        public bool Contains(object id)
+        public bool Contains(object value)
         {
             using (TimedLock timedLock = TimedLock.Lock(_lock))
             {
-                return _keys.Contains((T)id);
+                return _keys.Contains((T)value);
             }
         }
 
@@ -88,36 +88,36 @@ namespace SimpleDB.Internal
                 Sort();
         }
 
-        public void Add(object item)
+        public void Add(object value)
         {
             using (TimedLock timedLock = TimedLock.Lock(_lock))
             {
-                if (_keys.Contains((T)item))
+                if (_keys.Contains((T)value))
                     return;
 
                 switch (IndexType)
                 {
                     case IndexType.Ascending:
                         if (typeof(T).Equals(typeof(long)))
-                            _sortRequired = _keys.Count > 0 && Convert.ToInt64(item) < Convert.ToInt64(_keys[^1]);
+                            _sortRequired = _keys.Count > 0 && Convert.ToInt64(value) < Convert.ToInt64(_keys[^1]);
                         else if (typeof(T).Equals(typeof(int)))
-                            _sortRequired = _keys.Count > 0 && Convert.ToInt32(item) < Convert.ToInt32(_keys[^1]);
+                            _sortRequired = _keys.Count > 0 && Convert.ToInt32(value) < Convert.ToInt32(_keys[^1]);
                         else
                             _sortRequired = true;
 
-                        _keys.Add((T)item);
+                        _keys.Add((T)value);
 
                         break;
 
                     case IndexType.Descending:
                         if (typeof(T).Equals(typeof(long)))
-                            _sortRequired = _keys.Count > 0 && Convert.ToInt64(item) > Convert.ToInt64(_keys[^1]);
+                            _sortRequired = _keys.Count > 0 && Convert.ToInt64(value) > Convert.ToInt64(_keys[^1]);
                         else if (typeof(T).Equals(typeof(int)))
-                            _sortRequired = _keys.Count > 0 && Convert.ToInt32(item) > Convert.ToInt32(_keys[^1]);
+                            _sortRequired = _keys.Count > 0 && Convert.ToInt32(value) > Convert.ToInt32(_keys[^1]);
                         else
                             _sortRequired = true;
 
-                        _keys.Insert(0, (T)item);
+                        _keys.Insert(0, (T)value);
 
                         break;
                 }
@@ -127,13 +127,13 @@ namespace SimpleDB.Internal
                 Sort();
         }
 
-        public void Remove(object item)
+        public void Remove(object value)
         {
-            if (Contains(item))
+            if (Contains(value))
             {
                 using (TimedLock timedLock = TimedLock.Lock(_lock))
                 {
-                    _keys.Remove((T)item);
+                    _keys.Remove((T)value);
                 }
 
                 if (!IsUpdating)

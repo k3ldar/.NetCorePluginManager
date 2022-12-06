@@ -44,20 +44,20 @@ namespace PluginManager.Tests
 
         public void Initialise(ILogger logger)
         {
+			return;
+		}
 
-        }
-
-        public void Finalise()
+		public void Finalise()
         {
+			return;
+		}
 
-        }
-
-        public void ConfigureServices(IServiceCollection services)
+		public void ConfigureServices(IServiceCollection services)
         {
+			return;
+		}
 
-        }
-
-        public ushort GetVersion()
+		public ushort GetVersion()
         {
             return 1;
         }
