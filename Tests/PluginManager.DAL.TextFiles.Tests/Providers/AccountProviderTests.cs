@@ -41,6 +41,7 @@ using PluginManager.DAL.TextFiles.Tables;
 using SimpleDB;
 
 using SharedPluginFeatures;
+using System.Globalization;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
@@ -474,7 +475,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             string directory = TestHelper.GetTestPath();
             try
             {
-                Directory.CreateDirectory(directory);
+				Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
+				Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
@@ -749,6 +751,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             string directory = TestHelper.GetTestPath();
             try
             {
+				Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);

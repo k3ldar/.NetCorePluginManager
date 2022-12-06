@@ -34,6 +34,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PluginManager.Abstractions;
 using PluginManager.Tests.Mocks;
 
+using Shared.Classes;
+
 using SharedPluginFeatures;
 
 using WebSmokeTest.Plugin;
@@ -129,13 +131,15 @@ namespace AspNetCore.PluginManager.Tests.Plugins.WebSmokeTests
         [TestCategory(TestsCategory)]
         public void Finalise_DoesNotThrowException()
         {
-            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation();
+			ThreadManager.Initialise();
 
-            sut.Finalise();
-        }
+			MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
+			PluginInitialisation sut = new PluginInitialisation();
 
-        [TestMethod]
+			sut.Finalise();
+		}
+
+		[TestMethod]
         [TestCategory(TestsCategory)]
         public void BeforeConfigureServices_DoesNotThrowException()
         {
