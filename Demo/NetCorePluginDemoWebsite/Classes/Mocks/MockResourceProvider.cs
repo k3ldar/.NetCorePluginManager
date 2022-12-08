@@ -153,6 +153,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 		{
 			ResourceItem item = _items.FirstOrDefault(i => i.Id.Equals(resourceId));
 
+			if (item == null)
+				return;
+
 			item.ViewCount++;
 		}
 

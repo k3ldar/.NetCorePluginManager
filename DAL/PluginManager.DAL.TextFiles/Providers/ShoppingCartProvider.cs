@@ -57,6 +57,8 @@ namespace PluginManager.DAL.TextFiles.Providers
         private readonly ISimpleDBOperations<OrderDataRow> _orderData;
         private readonly ISimpleDBOperations<OrderItemDataRow> _orderItemsData;
         private readonly ISimpleDBOperations<VoucherDataRow> _voucherData;
+				private readonly object _lockObject = new();
+
 
         #endregion Private Members
 
@@ -66,7 +68,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             ISimpleDBOperations<ShoppingCartItemDataRow> shoppingCartItemData, 
             ISimpleDBOperations<OrderDataRow> orderData, ISimpleDBOperations<OrderItemDataRow> orderItemsData,
             ISimpleDBOperations<VoucherDataRow> voucherData, IAccountProvider accountProvider, 
-			IApplicationSettingsProvider settingsProvider)
+						IApplicationSettingsProvider settingsProvider)
         {
             _shoppingCartData = shoppingCartData ?? throw new ArgumentNullException(nameof(shoppingCartData));
             _shoppingCartItemData = shoppingCartItemData ?? throw new ArgumentNullException(nameof(shoppingCartItemData));
@@ -85,7 +87,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (String.IsNullOrEmpty(_encryptionKey))
                 throw new InvalidOperationException("Encryption key for shopping cart can not be null or empty");
 
-            lock (this)
+            lock (_lockObject)
             {
                 if (!_cartHookedUp)
                 {

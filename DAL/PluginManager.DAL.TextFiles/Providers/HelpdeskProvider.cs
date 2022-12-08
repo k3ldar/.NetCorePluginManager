@@ -365,8 +365,6 @@ namespace PluginManager.DAL.TextFiles.Providers
                 if (faqDataRow == null)
                     return null;
 
-                FAQDataRow parentDataRow = _faqDataRow.Select(faqDataRow.Parent);
-
                 KnowledgeBaseGroup item = ConvertFaqDataRowToKbGroup(faqDataRow, InternalGetKnowledgebaseGroup(faqDataRow.Parent, ++recursionDepth));
 
                 cacheItem = new CacheItem(cacheName, item);
@@ -459,9 +457,9 @@ namespace PluginManager.DAL.TextFiles.Providers
                 messageList.Add(new HelpdeskTicketMessage(messageDataRow.Created, messageDataRow.UserName, messageDataRow.Message));
 
             return new HelpdeskTicket(ticketDataRow.Id, 
-                GetTicketPriorities().Where(tp => tp.Id.Equals((int)ticketDataRow.Priority)).First(),
-                GetTicketDepartments().Where(td => td.Id.Equals((int)ticketDataRow.Department)).First(),
-                GetTicketStatus().Where(ts => ts.Id.Equals((int)ticketDataRow.Status)).First(), 
+                GetTicketPriorities().First(tp => tp.Id.Equals((int)ticketDataRow.Priority)),
+                GetTicketDepartments().First(td => td.Id.Equals((int)ticketDataRow.Department)),
+                GetTicketStatus().First(ts => ts.Id.Equals((int)ticketDataRow.Status)), 
                 ticketDataRow.Key, 
                 ticketDataRow.Subject, ticketDataRow.Created, ticketDataRow.Updated, ticketDataRow.CreatedBy, 
                 ticketDataRow.CreatedByEmail, ticketDataRow.LastReplier, messageList);

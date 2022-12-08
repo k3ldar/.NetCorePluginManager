@@ -53,6 +53,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         private readonly IProductProvider _productProvider;
         private readonly IAccountProvider _accountProvider;
         private const string _encryptionKey = "FPAsdjn;casiicdkumjf4d4fjp0w45eir kc";
+		private readonly object _lockObject = new();
 
         #endregion Private Members
 
@@ -65,7 +66,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
             _basketId = DateTime.Now.ToFileTimeUtc();
 
-            lock (this)
+            lock (_lockObject)
             {
                 if (!_cartHookedUp)
                 {
@@ -148,16 +149,21 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 List<ShoppingCartItem> items = new List<ShoppingCartItem>();
 
                 Product product = _productProvider.GetProducts(1, 10000).FirstOrDefault(p => p.RetailPrice > 0);
-                bool requiresShipping = !product.IsDownload;
 
-                items.Add(new ShoppingCartItem(product.Id, 1, product.Id, product.RetailPrice, product.Name,
-                    product.Description.Substring(0, Shared.Utilities.CheckMinMax(product.Description.Length, 0, 49)),
-                    product.Sku, product.Images, product.IsDownload, product.AllowBackorder, String.Empty, DiscountType.None, 0));
-                ShoppingCartDetail cartDetail = new ShoppingCartDetail(shoppingCartId, 1,
-                    product.RetailPrice, 20, 0, 10, System.Threading.Thread.CurrentThread.CurrentUICulture,
-                    "Test Coupon", items, requiresShipping, "GBP");
-                cacheItem = new CacheItem(basketCache, cartDetail);
-                _cartCacheManager.Add(basketCache, cacheItem, true);
+				if (product != null)
+				{
+					bool requiresShipping = !product.IsDownload;
+
+					items.Add(new ShoppingCartItem(product.Id, 1, product.Id, product.RetailPrice, product.Name,
+						product.Description.Substring(0, Shared.Utilities.CheckMinMax(product.Description.Length, 0, 49)),
+						product.Sku, product.Images, product.IsDownload, product.AllowBackorder, String.Empty, DiscountType.None, 0));
+					ShoppingCartDetail cartDetail = new ShoppingCartDetail(shoppingCartId, 1,
+						product.RetailPrice, 20, 0, 10, System.Threading.Thread.CurrentThread.CurrentUICulture,
+						"Test Coupon", items, requiresShipping, "GBP");
+
+					cacheItem = new CacheItem(basketCache, cartDetail);
+					_cartCacheManager.Add(basketCache, cacheItem, true);
+				}
             }
 
             return (ShoppingCartDetail)cacheItem.Value;
@@ -179,6 +185,13 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             ShoppingCartDetail cartDetail = GetDetail(cartSummary.Id);
 
             Order latest = _accountProvider.OrdersGet(userId).OrderByDescending(o => o.Id).FirstOrDefault();
+
+			if (latest == null)
+			{
+				order = null;
+				return false;
+			}
+
             DeliveryAddress shippingAddress = _accountProvider.GetDeliveryAddress(userId, cartDetail.DeliveryAddressId);
             List<OrderItem> items = new List<OrderItem>();
 
