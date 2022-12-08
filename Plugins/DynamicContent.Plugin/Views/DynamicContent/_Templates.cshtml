@@ -3,6 +3,6 @@
 <ul class="template">
     @foreach (DynamicContent.Plugin.Model.TemplateModel template in Model.Templates)
     {
-        <li id="@template.TemplateId"><img id="@template.TemplateId" src="@template.TemplateImage" border="0" draggable="true" ondragstart="dynamicContent.dragStart(event)" /></li>
+        <li id="@template.TemplateId"><img id="@template.TemplateId" src="@template.TemplateImage" border="0" draggable="true" ondragstart="dynamicContent.dragStart(event)" alt="dynamiccontent" /></li>
     }
 </ul>

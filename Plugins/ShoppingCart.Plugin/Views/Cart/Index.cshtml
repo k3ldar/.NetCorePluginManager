@@ -34,7 +34,7 @@
                         <tr>
                             <td>
                                 <a href="@item.Url">
-                                    <img src="~/images/products/@item.Image" />
+                                    <img src="~/images/products/@item.Image" alt="item" />
                                     <h3>@item.Name</h3>
                                     <div class="cartDetail">
                                         @if (!String.IsNullOrEmpty(item.Sku))
@@ -55,9 +55,8 @@
                                 @await Html.PartialAsync("_QuantityUpdate.cshtml", new ShoppingCartPlugin.Models.UpdateQuantityModel(item.ProductId, item.Quantity))
                             </td>
                             <td>@item.Stock</td>
-                            @*<td>@if (item.BackOrder) { Html.Raw("<img src=\"/images/Cart/tick.png\" style=\"width:19px;margin:1px;\" />"); }</td>*@
                             <td>@item.SubTotal.ToString("C", System.Threading.Thread.CurrentThread.CurrentUICulture)</td>
-                            <td><a href="/Cart/Delete/@item.ProductId/"><img src="~/images/Cart/Delete.png" style="width:16px;margin:1px;" /></a></td>
+                            <td><a href="/Cart/Delete/@item.ProductId/"><img src="~/images/Cart/Delete.png" style="width:16px;margin:1px;" alt="delete" /></a></td>
                         </tr>
                     }
                 </tbody>

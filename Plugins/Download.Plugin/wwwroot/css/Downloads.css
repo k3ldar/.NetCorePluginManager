@@ -39,7 +39,6 @@
 
     .wrapper .tagLineHome {
         border-top: none;
-        color: #000;
         font-family: Arial, Georgia, "Times New Roman", Times, serif;
         font-size: 1.4em;
         color: #666;
@@ -65,7 +64,6 @@
 
     .wrapper .tagLine {
         border-top: none;
-        color: #000;
         font-family: Arial, Georgia, "Times New Roman", Times, serif;
         font-size: 1.0em;
         color: #666;

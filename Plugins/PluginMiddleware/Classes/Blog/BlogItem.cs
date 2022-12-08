@@ -202,7 +202,7 @@ namespace Middleware.Blog
         /// <returns></returns>
         public override Int32 GetHashCode()
         {
-            return base.GetHashCode();
+            return Id.GetHashCode();
         }
 
         #endregion Overridden Methods

@@ -116,12 +116,12 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public bool PageNameExists(long id, string pageName)
         {
-            return _pageData.Select().Where(p => p.Id != id && p.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase)).Any();
+            return _pageData.Select().Any(p => p.Id != id && p.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public bool RouteNameExists(long id, string routeName)
         {
-            return _pageData.Select().Where(p => p.Id != id && p.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).Any();
+            return _pageData.Select().Any(p => p.Id != id && p.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public bool Save(IDynamicContentPage dynamicContentPage)

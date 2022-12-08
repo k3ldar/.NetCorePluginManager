@@ -60,7 +60,7 @@ namespace WebSmokeTest.Plugin
         #region Private Members
 
         private static readonly CacheManager _testCache = new CacheManager("Web Smoke Test Cache", new TimeSpan(0, 10, 0), true);
-        private readonly string _savedData = Path.GetTempFileName();
+        private readonly string _savedData = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.tmp");
         private readonly RequestDelegate _next;
         private readonly string _staticFileExtensions = SharedPluginFeatures.Constants.StaticFileExtensions;
         internal static Timings _timings = new Timings();
@@ -88,7 +88,8 @@ namespace WebSmokeTest.Plugin
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
-            _testDataStream = new FileStream(_savedData, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+			File.WriteAllText(_savedData, String.Empty);
+			_testDataStream = new FileStream(_savedData, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
             _next = next;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
