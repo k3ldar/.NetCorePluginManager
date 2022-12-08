@@ -41,17 +41,14 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private readonly ISimpleDBOperations<ProductGroupDataRow> _productGroupsData;
         private readonly ISimpleDBOperations<ProductDataRow> _productData;
-        private readonly IMemoryCache _memoryCache;
 
         #endregion Private Members
 
         #region Constructors
 
-        public ProductProvider(IMemoryCache memoryCache,
-            ISimpleDBOperations<ProductDataRow> productData,
+        public ProductProvider(ISimpleDBOperations<ProductDataRow> productData,
             ISimpleDBOperations<ProductGroupDataRow> productGroupData)
         {
-            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _productData = productData ?? throw new ArgumentNullException(nameof(productData));
             _productGroupsData = productGroupData ?? throw new ArgumentNullException(nameof(productGroupData));
         }
@@ -245,9 +242,9 @@ namespace PluginManager.DAL.TextFiles.Providers
             }
         }
 
-        public bool ProductDelete(in int productId, out string errorMessage)
+        public bool ProductDelete(in int id, out string errorMessage)
         {
-            errorMessage = "Unable to delete in demo project";
+            errorMessage = "Unable to delete";
             return false;
         }
 

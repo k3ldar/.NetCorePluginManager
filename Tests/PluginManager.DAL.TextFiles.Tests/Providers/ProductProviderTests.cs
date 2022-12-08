@@ -47,23 +47,16 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
     {
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_InvalidInstance_ParamMemoryCacheNull_Throws_ArgumentNullException()
-        {
-            new ProductProvider(null, new MockTextTableOperations<ProductDataRow>(), new MockTextTableOperations<ProductGroupDataRow>());
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidInstance_ParamProductDataNull_Throws_ArgumentNullException()
         {
-            new ProductProvider(new MockMemoryCache(), null, new MockTextTableOperations<ProductGroupDataRow>());
+            new ProductProvider(null, new MockTextTableOperations<ProductGroupDataRow>());
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidInstance_ParamProductGroupDataNull_Throws_ArgumentNullException()
         {
-            new ProductProvider(new MockMemoryCache(), new MockTextTableOperations<ProductDataRow>(), null);
+            new ProductProvider(new MockTextTableOperations<ProductDataRow>(), null);
         }
 
         [TestMethod]

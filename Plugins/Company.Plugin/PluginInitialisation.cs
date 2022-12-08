@@ -39,24 +39,24 @@ namespace Company.Plugin
     {
         public void ConfigureServices(IServiceCollection services)
         {
+			return;
+		}
 
-        }
-
-        public void Finalise()
+		public void Finalise()
         {
+			return;
+		}
 
-        }
-
-        public ushort GetVersion()
+		public ushort GetVersion()
         {
             return (1);
         }
 
         public void Initialise(ILogger logger)
         {
-
-        }
-    }
+			return;
+		}
+	}
 }
 
 #pragma warning restore CS1591

@@ -47,8 +47,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         #region Private Members
 
         private static readonly CacheManager _cartCacheManager = new CacheManager("Shopping Carts", new TimeSpan(0, 20, 0), true);
-        private static bool _cartHookedUp;
-        private readonly IProductProvider _productProvider;
+        private bool _cartHookedUp;
         private readonly IAccountProvider _accountProvider;
         private readonly string _encryptionKey;
         private readonly decimal _defaultTaxRate;
@@ -58,7 +57,6 @@ namespace PluginManager.DAL.TextFiles.Providers
         private readonly ISimpleDBOperations<OrderDataRow> _orderData;
         private readonly ISimpleDBOperations<OrderItemDataRow> _orderItemsData;
         private readonly ISimpleDBOperations<VoucherDataRow> _voucherData;
-        private readonly ISimpleDBOperations<UserDataRow> _userDataRow;
 
         #endregion Private Members
 
@@ -67,17 +65,15 @@ namespace PluginManager.DAL.TextFiles.Providers
         public ShoppingCartProvider(ISimpleDBOperations<ShoppingCartDataRow> shoppingCartData,
             ISimpleDBOperations<ShoppingCartItemDataRow> shoppingCartItemData, 
             ISimpleDBOperations<OrderDataRow> orderData, ISimpleDBOperations<OrderItemDataRow> orderItemsData,
-            ISimpleDBOperations<VoucherDataRow> voucherData, ISimpleDBOperations<UserDataRow> userDataRow,
-            IProductProvider productProvider, IAccountProvider accountProvider, IApplicationSettingsProvider settingsProvider)
+            ISimpleDBOperations<VoucherDataRow> voucherData, IAccountProvider accountProvider, 
+			IApplicationSettingsProvider settingsProvider)
         {
             _shoppingCartData = shoppingCartData ?? throw new ArgumentNullException(nameof(shoppingCartData));
             _shoppingCartItemData = shoppingCartItemData ?? throw new ArgumentNullException(nameof(shoppingCartItemData));
-            _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
             _accountProvider = accountProvider ?? throw new ArgumentNullException(nameof(accountProvider));
             _orderData = orderData ?? throw new ArgumentNullException(nameof(orderData));
             _orderItemsData = orderItemsData ?? throw new ArgumentNullException(nameof(orderItemsData));
             _voucherData = voucherData ?? throw new ArgumentNullException(nameof(voucherData));
-            _userDataRow = userDataRow ?? throw new ArgumentNullException(nameof(userDataRow));
 
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
@@ -415,7 +411,7 @@ namespace PluginManager.DAL.TextFiles.Providers
                 shoppingCartData.CouponCode, shoppingCartItems, shoppingCartData.RequiresShipping, shoppingCartData.CurrencyCode);
         }
 
-        private List<ShoppingCartItem> ConvertShoppingCartItemsDataRowToShoppingCartItems(List<ShoppingCartItemDataRow> shoppingCartItems)
+        private static List<ShoppingCartItem> ConvertShoppingCartItemsDataRowToShoppingCartItems(List<ShoppingCartItemDataRow> shoppingCartItems)
         {
             List<ShoppingCartItem> Result = new List<ShoppingCartItem>();
 

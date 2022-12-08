@@ -45,7 +45,6 @@ namespace PluginManager.DAL.TextFiles.Providers
         private static List<DynamicContentTemplate> _templates;
         
         private readonly IPluginClassesService _pluginClassesService;
-        private readonly IMemoryCache _memoryCache;
         private readonly ISimpleDBOperations<ContentPageDataRow> _pageData;
         private readonly ISimpleDBOperations<ContentPageItemDataRow> _pageItemsData;
 
@@ -53,11 +52,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         #region Constructors
 
-        public DynamicContentProvider(IPluginClassesService pluginClassesService, IMemoryCache memoryCache, 
-            ISimpleDBOperations<ContentPageDataRow> pageData, ISimpleDBOperations<ContentPageItemDataRow> pageItemsData)
+        public DynamicContentProvider(IPluginClassesService pluginClassesService, 
+            ISimpleDBOperations<ContentPageDataRow> pageData, 
+			ISimpleDBOperations<ContentPageItemDataRow> pageItemsData)
         {
             _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
-            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _pageData = pageData ?? throw new ArgumentNullException(nameof(pageData));
             _pageItemsData = pageItemsData ?? throw new ArgumentNullException(nameof(pageItemsData));
         }

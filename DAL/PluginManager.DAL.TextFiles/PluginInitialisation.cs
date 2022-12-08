@@ -48,17 +48,17 @@ namespace PluginManager.DAL.TextFiles
 
 		public void ConfigureServices(IServiceCollection services)
 		{
-
+			return;
 		}
 
 		public void Finalise()
 		{
-
+			return;
 		}
 
 		public void Initialise(ILogger logger)
 		{
-
+			return;
 		}
 
 		public ushort GetVersion()
@@ -72,7 +72,7 @@ namespace PluginManager.DAL.TextFiles
 
 		public void BeforeConfigure(in IApplicationBuilder app)
 		{
-
+			return;
 		}
 
 		public void AfterConfigure(in IApplicationBuilder app)
@@ -149,7 +149,7 @@ namespace PluginManager.DAL.TextFiles
 
 		public void Configure(in IApplicationBuilder app)
 		{
-
+			return;
 		}
 
 		public void BeforeConfigureServices(in IServiceCollection services)
@@ -247,7 +247,7 @@ namespace PluginManager.DAL.TextFiles
 
 		public void AfterConfigureServices(in IServiceCollection services)
 		{
-
+			return;
 		}
 
 		#endregion IInitialiseEvents Methods

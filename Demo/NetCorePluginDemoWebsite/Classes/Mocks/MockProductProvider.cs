@@ -140,7 +140,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return false;
         }
 
-        public bool ProductDelete(in int productId, out string errorMessage)
+        public bool ProductDelete(in int id, out string errorMessage)
         {
             errorMessage = "Unable to delete in demo project";
             return false;

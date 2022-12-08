@@ -486,8 +486,9 @@ namespace SimpleDB.Internal
                 using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
                 writer.Seek(PrimarySequenceStart, SeekOrigin.Begin);
                 writer.Write(primarySequence);
-                writer.Write(secondarySequence);
-                _fileStream.Flush(true);
+				writer.Write(secondarySequence);
+
+				_fileStream.Flush(true);
 
                 _primarySequence = primarySequence;
                 _SecondarySequence = secondarySequence;
@@ -512,15 +513,15 @@ namespace SimpleDB.Internal
 
         private long InternalNextSequence(long increment)
         {
-
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
+                _primarySequence += increment;
+
                 using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
                 writer.Seek(PrimarySequenceStart, SeekOrigin.Begin);
-                _primarySequence += increment;
                 writer.Write(_primarySequence);
 
-                if (_tableAttributes.WriteStrategy == WriteStrategy.Forced)
+				if (_tableAttributes.WriteStrategy == WriteStrategy.Forced)
                     _fileStream.Flush(true);
 
                 return _primarySequence;
@@ -532,12 +533,13 @@ namespace SimpleDB.Internal
 
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
+                _SecondarySequence += increment;
+
                 using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
                 writer.Seek(SecondarySequenceStart, SeekOrigin.Begin);
-                _SecondarySequence += increment;
                 writer.Write(_SecondarySequence);
 
-                if (_tableAttributes.WriteStrategy == WriteStrategy.Forced)
+				if (_tableAttributes.WriteStrategy == WriteStrategy.Forced)
                     _fileStream.Flush(true);
 
                 return _SecondarySequence;
@@ -612,8 +614,6 @@ namespace SimpleDB.Internal
             {
                 Result = JsonSerializer.Deserialize<List<T>>(data, _jsonSerializerOptions);
             }
-
-            _compactPercent = Convert.ToByte(Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position));
 
             Result.ForEach(r => { r.Immutable = true; r.Loaded = true; });
 
@@ -695,6 +695,7 @@ namespace SimpleDB.Internal
 						writer.Write(recordsToSave.Count);
 						writer.Write(data.Length);
 						InternalSaveDataToPages(writer, compressedData[..dataLength].ToArray());
+						_compactPercent = Convert.ToByte(Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position));
 					}
 					else
 					{
@@ -711,8 +712,6 @@ namespace SimpleDB.Internal
 					writer.Write(data.Length);
 					InternalSaveDataToPages(writer, data);
 				}
-
-                _compactPercent = Convert.ToByte(Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position));
 
                 _fileStream.Flush(true);
             }
@@ -742,29 +741,30 @@ namespace SimpleDB.Internal
 			writer.Write(data.Length);
 			writer.Write(_pageCount);
 			int remainingData = data.Length;
+			int pageSize = (int)_pageSize;
 
 			for (int i = 0; i < _pageCount; i++)
 			{
-				long nextPageStart = _fileStream.Position + (int)_pageSize + PageHeaderSize;
-				int dataToWrite = remainingData > (int)_pageSize ? (int)_pageSize : remainingData;
+				long nextPageStart = _fileStream.Position + pageSize + PageHeaderSize;
+				int dataToWrite = remainingData > pageSize ? pageSize : remainingData;
 
-				// page number
+				// page number 4
 				writer.Write(i + 1);
 
-				// page type
+				// page type 1
 				writer.Write(PageTypeData);
 
-				// page version
+				// page version 2
 				writer.Write(PageVersion);
 
-				// next page
+				// next page 8
 				writer.Write(nextPageStart);
 
-				// size of data on page
+				// size of data on page 4
 				writer.Write(dataToWrite);
 
-				// write chunk of data
-				writer.Write(data, i * (int)_pageSize, dataToWrite);
+				// write chunk of data 
+				writer.Write(data, i * pageSize, dataToWrite);
 
 				remainingData -= dataToWrite;
 			}
@@ -1099,10 +1099,9 @@ namespace SimpleDB.Internal
         private void ValidateTableContents()
         {
             using BinaryReader reader = new BinaryReader(_fileStream, Encoding.UTF8, true);
-            ushort _version = reader.ReadUInt16();
+			_fileStream.Seek(0, SeekOrigin.Begin);
 
-            //if (version != FileVersion)
-            //    throw new InvalidDataException();
+            ushort _version = reader.ReadUInt16();
 
             Span<byte> header = stackalloc byte[HeaderLength];
             header = reader.ReadBytes(HeaderLength);
@@ -1124,8 +1123,6 @@ namespace SimpleDB.Internal
             _ = reader.ReadInt32();
             _dataLength = reader.ReadInt32();
 			_pageCount = reader.ReadInt32();
-
-            _compactPercent = Convert.ToByte(Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position + _dataLength));
         }
 
         private (bool, string) ValidateTableName(string path, string domain, string name, PageSize pageSize)
@@ -1163,7 +1160,7 @@ namespace SimpleDB.Internal
                 using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
                 writer.Seek(VersionStart, SeekOrigin.Begin);
                 writer.Write(version);
-                _fileStream.Flush(true);
+				_fileStream.Flush(true);
             }
 
             return version;
@@ -1173,22 +1170,23 @@ namespace SimpleDB.Internal
         {
             using FileStream stream = File.Open(fileName, FileMode.OpenOrCreate);
             using BinaryWriter writer = new BinaryWriter(stream, Encoding.UTF8, false);
+			writer.Seek(0, SeekOrigin.Begin);
 
             writer.Write(FileVersion);
             writer.Write(Header);
-            writer.Write(_primarySequence);
-            writer.Write(_SecondarySequence);
-            writer.Write((int)0);
-            writer.Write((int)0);
-            writer.Write((int)0);
+			writer.Write(_primarySequence);
+			writer.Write(_SecondarySequence);
+			writer.Write((int)0);
+			writer.Write((int)0);
+			writer.Write((int)0);
 			writer.Write((int)pageSize);
-            writer.Write((byte)_tableAttributes.Compression);
-            writer.Write(RowCount);
-            writer.Write(DefaultLength);
-            writer.Write(DefaultLength);
+			writer.Write((byte)_tableAttributes.Compression);
+			writer.Write(RowCount);
+			writer.Write(DefaultLength);
+			writer.Write(DefaultLength);
 			writer.Write(DefaultLength);
 
-            writer.Flush();
+			writer.Flush();
         }
 
         #endregion Private Methods

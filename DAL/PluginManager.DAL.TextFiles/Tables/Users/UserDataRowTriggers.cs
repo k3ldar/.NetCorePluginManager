@@ -36,37 +36,37 @@ namespace PluginManager.DAL.TextFiles.Tables
 
         public void AfterDelete(List<UserDataRow> records)
         {
-
+			return;
         }
 
         public void AfterInsert(List<UserDataRow> records)
         {
+			return;
+		}
 
-        }
-
-        public void AfterUpdate(List<UserDataRow> records)
+		public void AfterUpdate(List<UserDataRow> records)
         {
+			return;
+		}
 
-        }
-
-        public void BeforeDelete(List<UserDataRow> records)
+		public void BeforeDelete(List<UserDataRow> records)
         {
+			return;
+		}
 
-        }
-
-        public void BeforeInsert(List<UserDataRow> records)
+		public void BeforeInsert(List<UserDataRow> records)
         {
             records.ForEach(r => r.PasswordExpire = DateTime.Now.AddYears(1));
         }
 
         public void BeforeUpdate(List<UserDataRow> records)
         {
+			return;
+		}
 
-        }
-
-        public void BeforeUpdate(UserDataRow newRecord, UserDataRow oldRecord)
+		public void BeforeUpdate(UserDataRow newRecord, UserDataRow oldRecord)
         {
-            
-        }
-    }
+			return;
+		}
+	}
 }

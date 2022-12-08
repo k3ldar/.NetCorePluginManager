@@ -92,9 +92,9 @@ namespace SharedPluginFeatures
         /// Group of keywords to be added.
         /// </summary>
         /// <param name="route">Route which will be updated.</param>
-        /// <param name="keyword">Keywords to be added.</param>
+        /// <param name="keywords">Keywords to be added.</param>
         /// <returns>bool if route keywords are removed, otherwise false.</returns>
-        bool AddKeywords(in string route, in List<string> keyword);
+        bool AddKeywords(in string route, in List<string> keywords);
 
         /// <summary>
         /// Group of keywords to be removed.

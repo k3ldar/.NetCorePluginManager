@@ -105,15 +105,12 @@ namespace Localization.Plugin
 
         #region IInitialiseEvents Methods
 
-
-        #endregion IInitialiseEvents Methods
-
         public void BeforeConfigure(in IApplicationBuilder app)
         {
+			return;
+		}
 
-        }
-
-        public void AfterConfigure(in IApplicationBuilder app)
+		public void AfterConfigure(in IApplicationBuilder app)
         {
             app.UseRequestLocalization();
             app.UseLocalizationMiddleware();
@@ -121,26 +118,28 @@ namespace Localization.Plugin
 
         public void Configure(in IApplicationBuilder app)
         {
+			return;
+		}
 
-        }
-
-        public void BeforeConfigureServices(in IServiceCollection services)
+		public void BeforeConfigureServices(in IServiceCollection services)
         {
+			return;
+		}
 
-        }
-
-        public void AfterConfigureServices(in IServiceCollection services)
+		public void AfterConfigureServices(in IServiceCollection services)
         {
+			return;
+		}
 
-        }
+        #endregion IInitialiseEvents Methods
 
-        #region IConfigureMvcBuilder Methods
+		#region IConfigureMvcBuilder Methods
 
-        /// <summary>
-        /// Configures localization within Mvc Builder
-        /// </summary>
-        /// <param name="mvcBuilder">IMvcBuilder instance</param>
-        public void ConfigureMvcBuilder(in IMvcBuilder mvcBuilder)
+		/// <summary>
+		/// Configures localization within Mvc Builder
+		/// </summary>
+		/// <param name="mvcBuilder">IMvcBuilder instance</param>
+		public void ConfigureMvcBuilder(in IMvcBuilder mvcBuilder)
         {
             if (mvcBuilder == null)
                 throw new ArgumentNullException(nameof(mvcBuilder));

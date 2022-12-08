@@ -73,25 +73,25 @@ namespace Breadcrumb.Plugin
 
         public void BeforeConfigure(in IApplicationBuilder app)
         {
+			return;
+		}
 
-        }
-
-        public void AfterConfigure(in IApplicationBuilder app)
+		public void AfterConfigure(in IApplicationBuilder app)
         {
+			return;
+		}
 
-        }
-
-        public void Configure(in IApplicationBuilder app)
+		public void Configure(in IApplicationBuilder app)
         {
             app.UseBreadcrumbs();
         }
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
+			return;
+		}
 
-        }
-
-        public void AfterConfigureServices(in IServiceCollection services)
+		public void AfterConfigureServices(in IServiceCollection services)
         {
             if (services == null)
                 throw new ArgumentNullException();
