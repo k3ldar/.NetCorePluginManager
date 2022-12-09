@@ -25,7 +25,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
+using System.Text;
 
 using AspNetCore.PluginManager.Classes.SystemAdmin;
 using AspNetCore.PluginManager.Middleware;
@@ -51,7 +54,18 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         private const string TestCategoryName = "AspNetCore Plugin Manager Tests";
         private const string SystemAdminCategoryName = "System Admin Menu";
 
-        [TestMethod]
+		[TestInitialize]
+		public void Setup()
+		{
+			string appSettingsFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "appsettings.json");
+
+			if (!File.Exists(appSettingsFile))
+			{
+				File.WriteAllText(appSettingsFile, Encoding.UTF8.GetString(Properties.Resources.appsettings));
+			}
+		}
+
+		[TestMethod]
         [TestCategory(TestCategoryName)]
         [TestCategory(SystemAdminCategoryName)]
         public void LoadedModulesMenu_CreateValidInstance_Success()

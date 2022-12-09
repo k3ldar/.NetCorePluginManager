@@ -60,9 +60,6 @@ namespace SeoPlugin
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _seoProvider = seoProvider ?? throw new ArgumentNullException(nameof(seoProvider));
 
-            if (memoryCache == null)
-                throw new ArgumentNullException(nameof(memoryCache));
-
             _next = next;
         }
 

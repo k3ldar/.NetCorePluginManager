@@ -46,7 +46,7 @@ namespace ErrorManager.Plugin
     {
         public void ConfigureServices(IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void Finalise()
@@ -68,7 +68,7 @@ namespace ErrorManager.Plugin
 
         public void AfterConfigure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
@@ -85,12 +85,12 @@ namespace ErrorManager.Plugin
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void Configure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		#endregion IInitialiseEvents Methods

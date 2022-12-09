@@ -110,8 +110,6 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
                 datavalues.Add(day.BotVisits);
                 datavalues.Add(day.Bounced);
-
-                return JsonSerializer.Serialize(Result);
             }
 
             return JsonSerializer.Serialize(Result);

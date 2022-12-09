@@ -15,13 +15,14 @@
         cost = cartSummary.Total.ToString("C", Model.CartSummary.Culture);
     }
 
+    string language = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
     string title = (string)Context.Items[SharedPluginFeatures.Constants.SeoTitle];
     string keywords = (string)Context.Items[SharedPluginFeatures.Constants.SeoMetaKeywords];
     string description = (string)Context.Items[SharedPluginFeatures.Constants.SeoMetaDescription];
     string author = (string)Context.Items[SharedPluginFeatures.Constants.SeoMetaAuthor];
 }
 <!DOCTYPE html>
-<html>
+<html lang="@language">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
