@@ -41,7 +41,6 @@ namespace PluginManager.DAL.TextFiles.Tables
 
 		public void AfterInsert(List<UserDataRow> records)
         {
-
 			// from interface but unused in this context
 		}
 
