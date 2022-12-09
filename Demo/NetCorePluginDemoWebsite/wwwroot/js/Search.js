@@ -46,13 +46,13 @@ $(_options.validation).hide();
 document.getElementById(_options.form).submit();
 },
 performQuickSearch: function (s, ctrl) {
-kwords = new String(s);
+var kwords = new String(s);
 if (kwords.length < _options.minSearchLength) {
 _keywords = null;
 root.closeAllLists();
 return;
 }
-content = new Object();
+var content = new Object();
 content.keywords = kwords;
 content.searchId = "123456";
 $.ajax({

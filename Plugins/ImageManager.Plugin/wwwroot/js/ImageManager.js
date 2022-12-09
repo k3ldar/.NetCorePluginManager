@@ -50,7 +50,7 @@
                 return false;
             }
 
-            content = new Object();
+            var content = new Object();
             content.ImageName = $('#ImageName').val();
             content.GroupName = $('#GroupName').val();
             content.SubgroupName = $('#SubgroupName').val();
