@@ -396,25 +396,25 @@ namespace WebSmokeTest.Plugin
 
         private static string GetHttpMethodFromMethodInfo(in IEnumerable<CustomAttributeData> attributes)
         {
-            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpGetAttribute")).Any())
+            if (attributes.Any(a => a.AttributeType.Name.Equals("HttpGetAttribute")))
                 return "GET";
 
-            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpPostAttribute")).Any())
+            if (attributes.Any(a => a.AttributeType.Name.Equals("HttpPostAttribute")))
                 return "POST";
 
-            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpPutAttribute")).Any())
+            if (attributes.Any(a => a.AttributeType.Name.Equals("HttpPutAttribute")))
                 return "PUT";
 
-            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpHeadAttribute")).Any())
+            if (attributes.Any(a => a.AttributeType.Name.Equals("HttpHeadAttribute")))
                 return "HEAD";
 
-            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpDeleteAttribute")).Any())
+            if (attributes.Any(a => a.AttributeType.Name.Equals("HttpDeleteAttribute")))
                 return "DELETE";
 
-            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpPatchAttribute")).Any())
+            if (attributes.Any(a => a.AttributeType.Name.Equals("HttpPatchAttribute")))
                 return "PATCH";
 
-            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpOptionsAttribute")).Any())
+            if (attributes.Any(a => a.AttributeType.Name.Equals("HttpOptionsAttribute")))
                 return "OPTIONS";
 
             return "GET";

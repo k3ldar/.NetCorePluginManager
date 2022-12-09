@@ -69,7 +69,7 @@ namespace ProductPlugin.Classes
                 if (group != null)
                 {
                     int groupProductCount = _productProvider.GetProducts(1, MaximumProducts)
-                        .Where(p => p.ProductGroupId == group.Id).Count();
+                        .Count(p => p.ProductGroupId == group.Id);
                     productGroups[i] += $" ({groupProductCount})";
                 }
             }

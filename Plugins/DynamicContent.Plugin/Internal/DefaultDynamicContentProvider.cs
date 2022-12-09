@@ -151,7 +151,7 @@ namespace DynamicContent.Plugin.Internal
 
             using (TimedLock tl = TimedLock.Lock(_lockObject))
             {
-                return _dynamicContent.Where(dc => !dc.Id.Equals(id) && dc.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase)).Any();
+                return _dynamicContent.Any(dc => !dc.Id.Equals(id) && dc.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase));
             }
         }
 
@@ -162,7 +162,7 @@ namespace DynamicContent.Plugin.Internal
 
             using (TimedLock tl = TimedLock.Lock(_lockObject))
             {
-                return _dynamicContent.Where(dc => !dc.Id.Equals(id) && dc.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).Any();
+                return _dynamicContent.Any(dc => !dc.Id.Equals(id) && dc.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
             }
         }
 

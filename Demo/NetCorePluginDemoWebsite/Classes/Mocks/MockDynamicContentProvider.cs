@@ -167,12 +167,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
         public bool PageNameExists(long id, string pageName)
         {
-            return GetCustomPages().Where(p => p.Id != id && p.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase)).Any();
+            return GetCustomPages().Any(p => p.Id != id && p.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public bool RouteNameExists(long id, string routeName)
         {
-            return GetCustomPages().Where(p => p.Id != id && p.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).Any();
+            return GetCustomPages().Any(p => p.Id != id && p.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public bool Save(IDynamicContentPage dynamicContentPage)
