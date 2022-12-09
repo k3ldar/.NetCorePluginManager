@@ -244,7 +244,7 @@ namespace Blog.Plugin.Controllers
             BlogItem blogItem = _blogProvider.GetBlog(model.BlogId);
 
             if (blogItem == null)
-                RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
 
 
             if (ModelState.IsValid)
