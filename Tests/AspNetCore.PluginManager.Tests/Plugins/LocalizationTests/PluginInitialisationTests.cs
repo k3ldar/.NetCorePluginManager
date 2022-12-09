@@ -131,8 +131,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LocalizationTests
             ThreadManager.Initialise();
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
+			Assert.IsNotNull(sut);
 
-            sut.Finalise();
+			sut.Finalise();
         }
 
         [TestMethod]
@@ -154,9 +155,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LocalizationTests
         {
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
+			Assert.IsNotNull(sut);
+
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
-            sut.AfterConfigureServices(null);
+			sut.AfterConfigureServices(null);
         }
 
         [TestMethod]

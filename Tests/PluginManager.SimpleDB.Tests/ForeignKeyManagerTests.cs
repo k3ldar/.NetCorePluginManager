@@ -118,7 +118,8 @@ namespace SimpleDB.Tests
         public void ForeignKey_InsertRecordWhenForeignKeyDoesNotExists_DefaultValueAllowed_DoesNotThrowException()
         {
             ForeignKeyManager sut = new ForeignKeyManager();
-            string directory = TestHelper.GetTestPath();
+			Assert.IsNotNull(sut);
+			string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);
@@ -213,7 +214,8 @@ namespace SimpleDB.Tests
         public void ForeignKey_InsertRecordWhenKeyExists_Success()
         {
             ForeignKeyManager sut = new ForeignKeyManager();
-            string directory = TestHelper.GetTestPath();
+			Assert.IsNotNull(sut);
+			string directory = TestHelper.GetTestPath();
             try
             {
                 io.Directory.CreateDirectory(directory);

@@ -131,8 +131,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SeoTests
         {
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
+			Assert.IsNotNull(sut);
 
-            sut.Finalise();
+			sut.Finalise();
         }
 
         [TestMethod]
@@ -155,7 +156,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SeoTests
         {
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
-            MockServiceCollection mockServiceCollection = new MockServiceCollection();
+			Assert.IsNotNull(sut);
+			
+			MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
             sut.AfterConfigureServices(null);
         }

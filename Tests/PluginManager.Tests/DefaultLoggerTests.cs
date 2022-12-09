@@ -58,8 +58,9 @@ namespace PluginManager.Tests
         public void AddToLog_SingleData_Success()
         {
             DefaultLogger sut = new DefaultLogger();
+			Assert.IsNotNull(sut);
 
-            sut.AddToLog(LogLevel.Information, "single line of information");
+			sut.AddToLog(LogLevel.Information, "single line of information");
 
 #if TRACE
             _traceListner.ListnerLines.Contains("Information  single line of information");
@@ -70,8 +71,9 @@ namespace PluginManager.Tests
         public void AddToLog_SingleDataWithModuleName_Success()
         {
             DefaultLogger sut = new DefaultLogger();
+			Assert.IsNotNull(sut);
 
-            sut.AddToLog(LogLevel.Information, "mymodule", "next line of information");
+			sut.AddToLog(LogLevel.Information, "mymodule", "next line of information");
 
 #if TRACE
             _traceListner.ListnerLines.Contains("Information mymodule next line of information");
@@ -82,8 +84,9 @@ namespace PluginManager.Tests
         public void AddToLog_Exception_Success()
         {
             DefaultLogger sut = new DefaultLogger();
+			Assert.IsNotNull(sut);
 
-            sut.AddToLog(LogLevel.Warning, new Exception("Exception with no module name"));
+			sut.AddToLog(LogLevel.Warning, new Exception("Exception with no module name"));
 
 #if TRACE
             _traceListner.ListnerLines.Contains("Warning  Exception with no module name");
@@ -94,8 +97,9 @@ namespace PluginManager.Tests
         public void AddToLog_ExceptionWithData_Success()
         {
             DefaultLogger sut = new DefaultLogger();
+			Assert.IsNotNull(sut);
 
-            sut.AddToLog(LogLevel.Warning, new Exception("Exception with no data"), "a bit of data");
+			sut.AddToLog(LogLevel.Warning, new Exception("Exception with no data"), "a bit of data");
 
 #if TRACE
             _traceListner.ListnerLines.Contains("Warning\t\tException with no data\ta bit of data");
@@ -106,8 +110,9 @@ namespace PluginManager.Tests
         public void AddToLog_ExceptionDataWithModuleName_Success()
         {
             DefaultLogger sut = new DefaultLogger();
+			Assert.IsNotNull(sut);
 
-            sut.AddToLog(LogLevel.Error, "modulename", new Exception("Exception with module name"), "some extra data");
+			sut.AddToLog(LogLevel.Error, "modulename", new Exception("Exception with module name"), "some extra data");
 
 #if TRACE
             _traceListner.ListnerLines.Contains("Error\tmodulename\tException with module name\tsome extra data");

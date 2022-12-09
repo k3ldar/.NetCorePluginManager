@@ -144,8 +144,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         {
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
+			Assert.IsNotNull(sut);
 
-            sut.Finalise();
+			sut.Finalise();
         }
 
         [TestMethod]
@@ -154,7 +155,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         {
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
-            MockServiceCollection mockServiceCollection = new MockServiceCollection();
+			Assert.IsNotNull(sut);
+			
+			MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
             sut.BeforeConfigureServices(mockServiceCollection);
 
@@ -209,7 +212,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
-            MockServiceCollection mockServiceCollection = new MockServiceCollection(serviceDescriptors);
+			Assert.IsNotNull(sut);
+			
+			MockServiceCollection mockServiceCollection = new MockServiceCollection(serviceDescriptors);
 
             sut.AfterConfigureServices(null);
         }

@@ -76,6 +76,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.GeoIpTests
 
 			MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
 			PluginInitialisation sut = new PluginInitialisation();
+			Assert.IsNotNull(sut);
 
 			sut.Finalise();
 		}
