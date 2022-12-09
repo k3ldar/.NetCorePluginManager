@@ -38,9 +38,9 @@ namespace ImageManager.Plugin.Models
             Images = images ?? throw new ArgumentNullException(nameof(images));
         }
 
-        public List<string> Subgroups { get; }
+        public List<string> Subgroups { get; set;  }
 
-        public List<string> Images { get; }
+        public List<string> Images { get; set; }
     }
 }
 

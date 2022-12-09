@@ -30,6 +30,7 @@ using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 
 using AspNetCore.PluginManager.DemoWebsite.Classes.Mocks;
@@ -42,8 +43,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware;
 using Middleware.Interfaces;
-
-using Newtonsoft.Json;
 
 using PluginManager.Abstractions;
 
@@ -923,7 +922,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             // Use input string to calculate MD5 hash
             using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
             {
-                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(model));
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(JsonSerializer.Serialize(model));
                 byte[] hashBytes = md5.ComputeHash(inputBytes);
 
                 // Convert the byte array to hexadecimal string

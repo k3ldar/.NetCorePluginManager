@@ -25,8 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-
-using Newtonsoft.Json;
+using System.Text.Json;
 
 using SharedPluginFeatures;
 
@@ -47,7 +46,7 @@ namespace SystemAdmin.Plugin.Models
 
             Title = subMenu.Name();
 
-            ChartModel chartModel = JsonConvert.DeserializeObject<ChartModel>(subMenu.Data());
+            ChartModel chartModel = JsonSerializer.Deserialize<ChartModel>(subMenu.Data());
 
             ChartTitle = chartModel.ChartTitle;
             DataNames = chartModel.DataNames;

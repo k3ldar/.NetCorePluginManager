@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace SharedPluginFeatures
 {
@@ -44,24 +45,24 @@ namespace SharedPluginFeatures
             DataValues = new Dictionary<string, List<decimal>>();
         }
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Title of the chart
-        /// </summary>
+		/// <summary>
+		/// Title of the chart
+		/// </summary>
         public string ChartTitle { get; set; }
 
-        /// <summary>
-        /// Names of the data types being displayed
-        /// </summary>
-        public List<KeyValuePair<ChartDataType, string>> DataNames { get; }
+		/// <summary>
+		/// Names of the data types being displayed
+		/// </summary>
+		public List<KeyValuePair<ChartDataType, string>> DataNames { get; set; }
 
-        /// <summary>
-        /// Dictionary of data values
-        /// </summary>
-        public Dictionary<string, List<decimal>> DataValues { get; }
+		/// <summary>
+		/// Dictionary of data values
+		/// </summary>
+		public Dictionary<string, List<decimal>> DataValues { get; set; }
 
         #endregion Properties
     }

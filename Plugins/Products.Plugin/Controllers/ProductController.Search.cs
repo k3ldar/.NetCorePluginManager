@@ -29,6 +29,7 @@ using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 
 using Languages;
 
@@ -36,8 +37,6 @@ using Microsoft.AspNetCore.Mvc;
 
 using Middleware.Products;
 using Middleware.Search;
-
-using Newtonsoft.Json;
 
 using ProductPlugin.Classes;
 using ProductPlugin.Models;
@@ -309,7 +308,7 @@ namespace ProductPlugin.Controllers
             // Use input string to calculate MD5 hash
             using (MD5 md5 = MD5.Create())
             {
-                byte[] inputBytes = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(model));
+                byte[] inputBytes = Encoding.ASCII.GetBytes(JsonSerializer.Serialize(model));
                 byte[] hashBytes = md5.ComputeHash(inputBytes);
 
                 // Convert the byte array to hexadecimal string

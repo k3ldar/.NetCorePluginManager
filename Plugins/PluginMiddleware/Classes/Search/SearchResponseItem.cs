@@ -141,11 +141,11 @@ namespace Middleware.Search
         public Uri Url { get; set; }
 
         /// <summary>
-        /// Dictionary of properties, these are user defined on the premise that the writer of the propery will know.
+        /// Dictionary of properties, these are user defined on the premise that the writer of the property will know.
         /// and check for it's type before using it.
         /// </summary>
         /// <value>Dictionary&lt;string, object&gt;</value>
-        public Dictionary<string, object> Properties { get; private set; }
+        public Dictionary<string, object> Properties { get; set; }
 
         /// <summary>
         /// Indicates the relevance of the search item in relation to the search
