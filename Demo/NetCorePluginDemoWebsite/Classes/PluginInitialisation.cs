@@ -78,12 +78,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public void Finalise()
         {
-			return;
+
 		}
 
 		public void Initialise(ILogger logger)
         {
-			return;
+
 		}
 
 		public ushort GetVersion()
@@ -97,12 +97,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public void BeforeConfigure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		public void AfterConfigure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		public void Configure(in IApplicationBuilder app)
@@ -112,12 +112,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
         {
-			return;
+
 		}
 
 		#endregion IInitialiseEvents Methods

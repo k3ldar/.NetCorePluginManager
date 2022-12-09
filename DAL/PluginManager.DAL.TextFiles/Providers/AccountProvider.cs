@@ -358,6 +358,9 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             AddressDataRow userAddresses = _addresses.Select().FirstOrDefault(a => a.UserId == user.Id && !a.IsDelivery);
 
+			if (userAddresses == null) 
+				return null;
+
             return new Address(Convert.ToInt32(userAddresses.Id), userAddresses.BusinessName,
                 userAddresses.AddressLine1, userAddresses.AddressLine2, userAddresses.AddressLine3,
                 userAddresses.City, userAddresses.County, userAddresses.Postcode, userAddresses.Country);

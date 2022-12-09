@@ -81,7 +81,7 @@ namespace UserAccount.Plugin.Controllers
             }
 
             if (model == null)
-                RedirectToAction(nameof(Licences));
+                return RedirectToAction(nameof(Licences));
 
             model.Breadcrumbs = GetBreadcrumbs();
             model.CartSummary = GetCartSummary();

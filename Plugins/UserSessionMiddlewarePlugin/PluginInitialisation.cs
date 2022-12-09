@@ -133,12 +133,12 @@ namespace UserSessionMiddleware.Plugin
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void Configure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		#endregion IInitialiseEvents Methods

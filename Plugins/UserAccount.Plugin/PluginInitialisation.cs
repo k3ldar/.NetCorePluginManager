@@ -39,12 +39,12 @@ namespace UserAccount.Plugin
     {
         public void ConfigureServices(IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void Finalise()
         {
-			return;
+
 		}
 
 		public ushort GetVersion()
@@ -54,7 +54,7 @@ namespace UserAccount.Plugin
 
         public void Initialise(ILogger logger)
         {
-			return;
+
 		}
 	}
 

@@ -55,7 +55,7 @@ namespace SystemAdmin.Plugin
 
         public void Finalise()
         {
-			return;
+
 		}
 
 		public ushort GetVersion()
@@ -116,17 +116,17 @@ namespace SystemAdmin.Plugin
 
         public void BeforeConfigure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		public void BeforeConfigureServices(in IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void Configure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		#endregion IInitialiseEvents Methods

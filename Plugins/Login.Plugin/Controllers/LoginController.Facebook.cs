@@ -93,7 +93,11 @@ namespace LoginPlugin.Controllers
 
             userDetails.Provider = Facebook;
             UserSession userSession = GetUserSession();
-            UserLoginDetails loginDetails = null;
+
+			if (userSession == null)
+				return RedirectToAction(nameof(Index));
+
+			UserLoginDetails loginDetails = null;
             LoginResult loginResult = _loginProvider.Login(userDetails, ref loginDetails);
 
             if (loginResult == LoginResult.Success)

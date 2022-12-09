@@ -51,12 +51,12 @@ namespace ProductPlugin
 
         public void ConfigureServices(IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void Finalise()
         {
-			return;
+
 		}
 
 		public ushort GetVersion()
@@ -66,7 +66,7 @@ namespace ProductPlugin
 
         public void Initialise(ILogger logger)
         {
-			return;
+
 		}
 
 		#endregion IPlugin
@@ -103,17 +103,17 @@ namespace ProductPlugin
 
         public void BeforeConfigure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		public void BeforeConfigureServices(in IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void Configure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		#endregion IInitialiseEvents Methods

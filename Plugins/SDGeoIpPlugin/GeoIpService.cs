@@ -125,7 +125,6 @@ namespace SieraDeltaGeoIp.Plugin
 
                     if (memoryIp != null && !memoryIp.IsComplete)
                     {
-                        IGeoIpProvider provider = null;
                         switch (_geoIpSettings.GeoIpProvider)
                         {
                             case Enums.GeoIpProvider.None:
@@ -133,9 +132,9 @@ namespace SieraDeltaGeoIp.Plugin
                                 break;
                         }
 
-                        if (provider != null)
+                        if (_geoIpProvider != null)
                         {
-                            memoryIp.IsComplete = provider.GetIpAddressDetails(ipAddress, out countryCode, out region,
+                            memoryIp.IsComplete = _geoIpProvider.GetIpAddressDetails(ipAddress, out countryCode, out region,
                                 out cityName, out latitude, out longitude, out uniqueID, out long _, out long _);
                         }
 

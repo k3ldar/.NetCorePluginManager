@@ -393,20 +393,24 @@ namespace ImageManager.Plugin.Controllers
         {
             invalidResponse = null;
 
-            if (model == null)
-                invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidModel);
+			if (model == null)
+			{
+				invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidModel);
+			}
+			else
+			{
+				if (invalidResponse == null && !model.ConfirmDelete)
+					invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorNoConfirmation);
 
-            if (invalidResponse == null && !model.ConfirmDelete)
-                invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorNoConfirmation);
+				if (invalidResponse == null && String.IsNullOrEmpty(model.ImageName))
+					invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidImageName);
 
-            if (invalidResponse == null && String.IsNullOrEmpty(model.ImageName))
-                invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidImageName);
+				if (invalidResponse == null && (String.IsNullOrEmpty(model.GroupName) || !_imageProvider.GroupExists(model.GroupName)))
+					invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidGroupName);
 
-            if (invalidResponse == null && (String.IsNullOrEmpty(model.GroupName) || !_imageProvider.GroupExists(model.GroupName)))
-                invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidGroupName);
-
-            if (invalidResponse == null && (!String.IsNullOrEmpty(model.SubgroupName) && !_imageProvider.SubgroupExists(model.GroupName, model.SubgroupName)))
-                invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidSubgroupName);
+				if (invalidResponse == null && (!String.IsNullOrEmpty(model.SubgroupName) && !_imageProvider.SubgroupExists(model.GroupName, model.SubgroupName)))
+					invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidSubgroupName);
+			}
 
             return invalidResponse == null;
         }

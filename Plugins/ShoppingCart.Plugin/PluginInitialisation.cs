@@ -46,17 +46,17 @@ namespace ShoppingCartPlugin
 
         public void ConfigureServices(IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void Finalise()
         {
-			return;
+
 		}
 
 		public void Initialise(ILogger logger)
         {
-			return;
+
 		}
 
 		#endregion IPlugin Methods
@@ -74,17 +74,17 @@ namespace ShoppingCartPlugin
 
         public void BeforeConfigure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		public void AfterConfigure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		public void BeforeConfigureServices(in IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)

@@ -68,7 +68,7 @@ namespace DynamicContent.Plugin
 
         public void AfterConfigure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
@@ -97,12 +97,12 @@ namespace DynamicContent.Plugin
 
 		public void BeforeConfigureServices(in IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void Configure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		#endregion IInitialiseEvents Methods
@@ -111,12 +111,12 @@ namespace DynamicContent.Plugin
 
 		public void ConfigureServices(IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void Finalise()
         {
-			return;
+
 		}
 
 		public ushort GetVersion()
@@ -126,7 +126,7 @@ namespace DynamicContent.Plugin
 
         public void Initialise(ILogger logger)
         {
-			return;
+
 		}
 
 		#endregion IPlugin Methods

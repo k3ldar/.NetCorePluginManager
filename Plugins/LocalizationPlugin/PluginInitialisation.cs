@@ -107,7 +107,7 @@ namespace Localization.Plugin
 
         public void BeforeConfigure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		public void AfterConfigure(in IApplicationBuilder app)
@@ -118,17 +118,17 @@ namespace Localization.Plugin
 
         public void Configure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		public void BeforeConfigureServices(in IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
         {
-			return;
+
 		}
 
         #endregion IInitialiseEvents Methods

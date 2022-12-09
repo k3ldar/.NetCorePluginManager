@@ -44,17 +44,17 @@ namespace Subdomain.Plugin
 
         public void Initialise(ILogger logger)
         {
-			return;
+
 		}
 
 		public void Finalise()
         {
-			return;
+
 		}
 
 		public void ConfigureServices(IServiceCollection services)
         {
-			return;
+
 		}
 
 		public ushort GetVersion()
@@ -68,12 +68,12 @@ namespace Subdomain.Plugin
 
         public void AfterConfigure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void BeforeConfigure(in IApplicationBuilder app)
@@ -83,12 +83,12 @@ namespace Subdomain.Plugin
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void Configure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		#endregion IInitialiseEvents Methods

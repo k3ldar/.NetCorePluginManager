@@ -154,11 +154,11 @@ namespace Spider.Plugin.Controllers
 
             if (customRoute == null)
                 ModelState.AddModelError(String.Empty, "Custom route not found");
+			else
+				_robots.RemoveRoute(customRoute.Agent, customRoute.Route);
 
-            if (!ModelState.IsValid)
+			if (!ModelState.IsValid)
                 return CreateDefaultPartialView();
-
-            _robots.RemoveRoute(customRoute.Agent, customRoute.Route);
 
             _robots.SaveData(_saveData);
 

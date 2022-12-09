@@ -29,6 +29,8 @@ using Microsoft.AspNetCore.Http;
 
 using Shared.Classes;
 
+using UserSessionMiddleware.Plugin.Classes.SessionData;
+
 namespace UserSessionMiddleware.Plugin
 {
     /// <summary>
@@ -154,10 +156,15 @@ namespace UserSessionMiddleware.Plugin
             try
             {
                 string referrer = context.Request.Headers["Referrer"].ToString();
-                if (String.IsNullOrEmpty(referrer))
-                    Referal = ReferalType.Unknown;
-                else
-                    InitialReferrer = referrer ?? String.Empty;
+				InitialReferrer = referrer ?? String.Empty;
+
+				if (!String.IsNullOrEmpty(referrer))
+				{
+					if (Enum.TryParse(typeof(ReferalType), referrer, out object parseResult))
+						Referal = (ReferalType)parseResult;
+					else
+						Referal = ReferalType.Unknown;
+				}
             }
             catch (Exception err)
             {

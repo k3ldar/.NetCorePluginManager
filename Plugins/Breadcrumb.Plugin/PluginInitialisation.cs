@@ -73,12 +73,12 @@ namespace Breadcrumb.Plugin
 
         public void BeforeConfigure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		public void AfterConfigure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		public void Configure(in IApplicationBuilder app)
@@ -88,7 +88,7 @@ namespace Breadcrumb.Plugin
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
