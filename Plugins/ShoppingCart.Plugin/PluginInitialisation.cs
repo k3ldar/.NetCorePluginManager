@@ -40,7 +40,7 @@ namespace ShoppingCartPlugin
     /// Implements IPlugin, IPluginVersion and IInitialiseEvents which allows the ShoppingCartPlugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public class PluginInitialisation : IPlugin, IPluginVersion, IInitialiseEvents
+    public class PluginInitialisation : IPlugin, IInitialiseEvents
     {
         #region IPlugin Methods
 

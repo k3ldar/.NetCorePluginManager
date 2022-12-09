@@ -42,7 +42,7 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles
 {
-	public class PluginInitialisation : IPlugin, IPluginVersion, IInitialiseEvents
+	public class PluginInitialisation : IPlugin, IInitialiseEvents
 	{
 		#region IPlugin Methods
 

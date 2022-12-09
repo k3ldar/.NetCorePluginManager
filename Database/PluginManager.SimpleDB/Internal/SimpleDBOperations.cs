@@ -392,11 +392,6 @@ namespace SimpleDB.Internal
             InternalDeleteRecords(records);
         }
 
-        public void Truncate()
-        {
-            InternalDeleteRecords(InternalReadAllRecords());
-        }
-
         public void Delete(T record)
         {
             if (_disposed)
@@ -406,6 +401,11 @@ namespace SimpleDB.Internal
                 throw new ArgumentNullException(nameof(record));
 
             InternalDeleteRecords(new List<T>() { record });
+        }
+
+        public void Truncate()
+        {
+            InternalDeleteRecords(InternalReadAllRecords());
         }
 
         public void Update(List<T> records)
@@ -558,7 +558,7 @@ namespace SimpleDB.Internal
             using BinaryReader reader = new BinaryReader(_fileStream, Encoding.UTF8, true);
             _fileStream.Seek(StartOfRecordCount, SeekOrigin.Begin);
             CompressionType compressionType = (CompressionType)reader.ReadByte();
-            int recordsCount = reader.ReadInt32();
+            _ = reader.ReadInt32();
             int uncompressedSize = reader.ReadInt32();
             int dataLength = reader.ReadInt32();
 
@@ -578,14 +578,14 @@ namespace SimpleDB.Internal
 			{
 				int pageNumber = reader.ReadInt32();
 				byte pageType = reader.ReadByte();
-				ushort pageVersion = reader.ReadUInt16();
+				_ = reader.ReadUInt16();
 
 				if (pageNumber != 1 + i)
 					throw new InvalidOperationException("Invalid page number");
 
 				if (pageType == PageTypeData)
 				{
-					long nextPage = reader.ReadInt64();
+					_ = reader.ReadInt64();
 					int sizeinPage = reader.ReadInt32();
 
 					Span<byte> pageData = reader.ReadBytes(sizeinPage);
@@ -1101,7 +1101,7 @@ namespace SimpleDB.Internal
             using BinaryReader reader = new BinaryReader(_fileStream, Encoding.UTF8, true);
 			_fileStream.Seek(0, SeekOrigin.Begin);
 
-            ushort _version = reader.ReadUInt16();
+            _ = reader.ReadUInt16();
 
             Span<byte> header = stackalloc byte[HeaderLength];
             header = reader.ReadBytes(HeaderLength);

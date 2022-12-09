@@ -37,7 +37,7 @@ namespace SimpleDB.Internal
     /// 
     /// Another potential saving if more than 20 records would be to change to a binary search
     /// </summary>
-    internal sealed class IndexManager<T> : IIndexManager, IBatchUpdate
+    internal sealed class IndexManager<T> : IIndexManager
     {
         private readonly List<T> _keys;
         private readonly object _lock = new object();

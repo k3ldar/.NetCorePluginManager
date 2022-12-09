@@ -109,6 +109,27 @@ namespace PluginManager.DAL.TextFiles.Providers
             return LoginResult.InvalidCredentials;
         }
 
+        public LoginResult Login(in ITokenUserDetails tokenUserDetails, ref UserLoginDetails loginDetails)
+        {
+            if (tokenUserDetails == null)
+                throw new ArgumentNullException(nameof(tokenUserDetails));
+
+            if (String.IsNullOrEmpty(tokenUserDetails.Email))
+                throw new ArgumentNullException(nameof(tokenUserDetails));
+
+            if (String.IsNullOrEmpty(tokenUserDetails.Provider))
+                throw new ArgumentNullException(nameof(tokenUserDetails));
+
+            if (tokenUserDetails.Verify)
+            {
+                return VerifyExternalUser(tokenUserDetails);
+            }
+            else
+            {
+                return LoginExternalUser(tokenUserDetails, ref loginDetails);
+            }
+        }
+
         public bool UnlockAccount(in string username, in string unlockCode)
         {
             if (String.IsNullOrEmpty(username))
@@ -142,27 +163,6 @@ namespace PluginManager.DAL.TextFiles.Providers
         public bool ForgottenPassword(in string username)
         {
             throw new NotImplementedException();
-        }
-
-        public LoginResult Login(in ITokenUserDetails tokenUserDetails, ref UserLoginDetails loginDetails)
-        {
-            if (tokenUserDetails == null)
-                throw new ArgumentNullException(nameof(tokenUserDetails));
-
-            if (String.IsNullOrEmpty(tokenUserDetails.Email))
-                throw new ArgumentNullException(nameof(tokenUserDetails));
-
-            if (String.IsNullOrEmpty(tokenUserDetails.Provider))
-                throw new ArgumentNullException(nameof(tokenUserDetails));
-
-            if (tokenUserDetails.Verify)
-            {
-                return VerifyExternalUser(tokenUserDetails);
-            }
-            else
-            {
-                return LoginExternalUser(tokenUserDetails, ref loginDetails);
-            }
         }
 
         public void RemoveExternalUser(ITokenUserDetails tokenUserDetails)

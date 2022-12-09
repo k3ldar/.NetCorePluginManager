@@ -44,7 +44,7 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    public class PluginInitialisation : IPlugin, IPluginVersion, IInitialiseEvents
+    public class PluginInitialisation : IPlugin, IInitialiseEvents
     {
         #region IPlugin Methods
 
