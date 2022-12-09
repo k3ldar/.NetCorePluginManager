@@ -23,8 +23,8 @@
  *  08/11/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 #pragma warning disable CS1591
 
@@ -32,7 +32,7 @@ namespace LoginPlugin.Classes
 {
     public class FacebookRemoveUser
     {
-        [JsonProperty("user_id")]
+        [JsonPropertyName("user_id")]
         public string UserId { get; set; }
     }
 }

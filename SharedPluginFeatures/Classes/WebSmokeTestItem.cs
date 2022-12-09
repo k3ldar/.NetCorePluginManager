@@ -175,14 +175,14 @@ namespace SharedPluginFeatures
         /// strings are not found the test would be deemed to fail.
         /// </summary>
         /// <value>List&lt;string&gt;</value>
-        public List<string> ResponseData { get; }
+        public List<string> ResponseData { get; set; }
 
         /// <summary>
         /// A list of strings that can be searched for in the response data after a form post. If the 
         /// strings are not found the test would be deemed to fail.
         /// </summary>
         /// <value>List&lt;string&gt;</value>
-        public List<string> SubmitResponseData { get; }
+        public List<string> SubmitResponseData { get; set; }
 
         /// <summary>
         /// The id of the form that will be tested
@@ -215,7 +215,7 @@ namespace SharedPluginFeatures
         /// <summary>
         /// List of authors and date time modified
         /// </summary>
-        public Dictionary<DateTime, string> AuthorHistory { get; }
+        public Dictionary<DateTime, string> AuthorHistory { get; set; }
 
         #endregion Properties
     }

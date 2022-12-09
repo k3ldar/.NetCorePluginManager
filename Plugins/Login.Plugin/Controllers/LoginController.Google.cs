@@ -26,14 +26,13 @@
 using System;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Text.Json;
 
 using LoginPlugin.Classes;
 
 using Microsoft.AspNetCore.Mvc;
 
 using Middleware;
-
-using Newtonsoft.Json;
 
 using Shared.Classes;
 using Shared.Communication;
@@ -80,7 +79,7 @@ namespace LoginPlugin.Controllers
             parameters.Add(OAuthGrantType, OAuthAuthCode);
             string response = HttpPost.Post(GoogleOAuthTokenUrl, parameters);
 
-            TokenResponse googlePlusAccessToken = JsonConvert.DeserializeObject<TokenResponse>(response);
+            TokenResponse googlePlusAccessToken = JsonSerializer.Deserialize<TokenResponse>(response);
 
             TokenUserDetails userDetails = GetGoogleUserDetails(googlePlusAccessToken);
 
@@ -115,7 +114,7 @@ namespace LoginPlugin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private TokenUserDetails GetGoogleUserDetails(TokenResponse googlePlusAccessToken)
+        private static TokenUserDetails GetGoogleUserDetails(TokenResponse googlePlusAccessToken)
         {
             using (HttpClient httpClient = new HttpClient())
             {
@@ -126,7 +125,7 @@ namespace LoginPlugin.Controllers
                 if (output.IsSuccessStatusCode)
                 {
                     string responseData = output.Content.ReadAsStringAsync().Result;
-                    return JsonConvert.DeserializeObject<TokenUserDetails>(responseData);
+                    return JsonSerializer.Deserialize<TokenUserDetails>(responseData);
                 }
             }
 

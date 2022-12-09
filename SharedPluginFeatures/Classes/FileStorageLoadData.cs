@@ -25,8 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.IO;
-
-using Newtonsoft.Json;
+using System.Text.Json;
 
 using PluginManager.Abstractions;
 
@@ -81,7 +80,7 @@ namespace SharedPluginFeatures
                 {
                     try
                     {
-                        return JsonConvert.DeserializeObject<T>(File.ReadAllText(dataFile));
+                        return JsonSerializer.Deserialize<T>(File.ReadAllText(dataFile));
                     }
                     catch (Exception err)
                     {

@@ -10,7 +10,7 @@ ViewData["Title"] = "DependencyInjection";
 <h3>How it Works</h3>
 <p>This method is slightly different than the other native plugin types. We create a lightweight library who's only purpose is to contain interfaces and/or abstract classes.</p>
 <p>This library is referenced by the plugin which implements the interface or abstract class, and is also responsible for registering the interface with the IServiceCollection instance for the host application.</p>
-<img src="~/images/DependencyInjection.png" />
+<img src="~/images/DependencyInjection.png" alt="dependency injection" />
 <h3>Example Memory Cache Plugin</h3>
 <p>The source control contains a sample plugin which implements an IMemoryCache object. The interface is registered within the SharedPluginFeatures library.</p>
 <p>The plugin implements 3 methods:</p>

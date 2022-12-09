@@ -27,10 +27,9 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
+using System.Text.Json;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Newtonsoft.Json;
 
 using PluginManager.Internal;
 
@@ -75,7 +74,7 @@ namespace PluginManager.Tests
             pluginSettings.Plugins.Add(testData);
 
             string filename = Path.Combine(path, "appsettings.json");
-            File.WriteAllText(filename, "{\"TestConfiguration\": " + JsonConvert.SerializeObject(pluginSettings) + "}");
+            File.WriteAllText(filename, "{\"TestConfiguration\": " + JsonSerializer.Serialize(pluginSettings) + "}");
             try
             {
                 LoadSettingsService sut = new LoadSettingsService();
@@ -109,7 +108,7 @@ namespace PluginManager.Tests
             pluginSettings.Plugins.Add(testData);
 
             string filename = Path.GetTempFileName();
-            File.WriteAllText(filename, "{\"CustomConfiguration\": " + JsonConvert.SerializeObject(pluginSettings) + "}");
+            File.WriteAllText(filename, "{\"CustomConfiguration\": " + JsonSerializer.Serialize(pluginSettings) + "}");
             try
             {
                 LoadSettingsService sut = new LoadSettingsService();

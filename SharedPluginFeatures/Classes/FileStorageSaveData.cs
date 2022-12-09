@@ -25,8 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.IO;
-
-using Newtonsoft.Json;
+using System.Text.Json;
 
 using PluginManager.Abstractions;
 
@@ -95,7 +94,7 @@ namespace SharedPluginFeatures
 #endif
                     }
 
-                    File.WriteAllText(dataFile, JsonConvert.SerializeObject(data));
+                    File.WriteAllText(dataFile, JsonSerializer.Serialize(data));
 
                     if (File.Exists(tempCopy))
                     {

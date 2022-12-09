@@ -36,8 +36,6 @@ using Microsoft.AspNetCore.Hosting;
 
 using Middleware;
 
-using Newtonsoft.Json;
-
 using PluginManager.Abstractions;
 
 using Shared.Classes;
@@ -48,6 +46,7 @@ using UserSessionMiddleware.Plugin.Classes.SessionData;
 
 using Middleware.SessionData;
 using System.Globalization;
+using System.Text.Json;
 
 namespace UserSessionMiddleware.Plugin.Classes
 {
@@ -467,7 +466,7 @@ namespace UserSessionMiddleware.Plugin.Classes
                     if (File.Exists(filename))
                     {
                         byte[] fileBytes = File.ReadAllBytes(filename);
-                        sessionData = JsonConvert.DeserializeObject<T>(Encoding.Unicode.GetString(fileBytes));
+                        sessionData = JsonSerializer.Deserialize<T>(Encoding.Unicode.GetString(fileBytes));
                         return;
                     }
                 }
@@ -491,7 +490,7 @@ namespace UserSessionMiddleware.Plugin.Classes
 
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
-                return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(value));
+                return JsonSerializer.Deserialize<T>(JsonSerializer.Serialize(value));
             }
         }
 
@@ -500,7 +499,7 @@ namespace UserSessionMiddleware.Plugin.Classes
         {
             try
             {
-                byte[] fileBytes = Encoding.Unicode.GetBytes(JsonConvert.SerializeObject(value));
+                byte[] fileBytes = Encoding.Unicode.GetBytes(JsonSerializer.Serialize(value));
                 File.WriteAllBytes(filename, fileBytes);
             }
             catch (Exception err)

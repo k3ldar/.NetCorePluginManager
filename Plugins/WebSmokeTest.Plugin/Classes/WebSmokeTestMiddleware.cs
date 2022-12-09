@@ -29,13 +29,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
 
 using Middleware;
-
-using Newtonsoft.Json;
 
 using PluginManager.Abstractions;
 
@@ -167,7 +166,7 @@ namespace WebSmokeTest.Plugin
                             {
                                 context.Response.ContentType = Constants.ContentTypeApplicationJson;
                                 byte[] testData = Encoding.UTF8.GetBytes(
-                                    Encrypt(JsonConvert.SerializeObject(testItems[number]), _settings.EncryptionKey));
+                                    Encrypt(JsonSerializer.Serialize(testItems[number]), _settings.EncryptionKey));
                                 await context.Response.Body.WriteAsync(testData, 0, testData.Length);
                             }
                             else
@@ -231,7 +230,7 @@ namespace WebSmokeTest.Plugin
                         numBytesToRead -= n;
                     }
 
-                    List<WebSmokeTestItem> cacheData = JsonConvert.DeserializeObject<List<WebSmokeTestItem>>(Encoding.UTF8.GetString(bytes));
+                    List<WebSmokeTestItem> cacheData = JsonSerializer.Deserialize<List<WebSmokeTestItem>>(Encoding.UTF8.GetString(bytes));
                     smokeTests = new CacheItem(nameof(SmokeTests), cacheData);
                     _testCache.Add(nameof(SmokeTests), smokeTests, true);
                 }
@@ -241,7 +240,7 @@ namespace WebSmokeTest.Plugin
 
             private set
             {
-                byte[] fileData = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(value));
+                byte[] fileData = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(value));
                 _testDataStream.Write(fileData, 0, fileData.Length);
                 _testDataStream.Flush();
 

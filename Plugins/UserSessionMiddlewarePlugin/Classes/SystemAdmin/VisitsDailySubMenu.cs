@@ -26,12 +26,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 
 using Middleware;
 using Middleware.SessionData;
-
-using Newtonsoft.Json;
 
 using PluginManager.Abstractions;
 
@@ -115,7 +114,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                 datavalues.Add(day.Bounced);
             }
 
-            return JsonConvert.SerializeObject(Result);
+            return JsonSerializer.Serialize(Result);
         }
 
         public override string Image()

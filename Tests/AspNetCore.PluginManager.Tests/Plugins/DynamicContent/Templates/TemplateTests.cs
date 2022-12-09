@@ -29,8 +29,6 @@ using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Newtonsoft.Json;
-
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.Templates.DynamicContent
