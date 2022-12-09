@@ -55,7 +55,6 @@ namespace BadEgg.Plugin
         #region Private Members
 
         private readonly List<ManagedRoute> _managedRoutes;
-        private readonly bool _userSessionManagerLoaded;
         private readonly RequestDelegate _next;
         private readonly ValidateConnections _validateConnections;
         private readonly IIpValidation _ipValidation;
@@ -90,7 +89,6 @@ namespace BadEgg.Plugin
 
             _next = next ?? throw new ArgumentNullException(nameof(next));
 
-            _userSessionManagerLoaded = pluginHelperService.PluginLoaded(Constants.PluginNameUserSession, out int version);
             _ipValidation = ipValidation ?? throw new ArgumentNullException(nameof(ipValidation));
             _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
 

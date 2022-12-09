@@ -57,21 +57,21 @@ namespace UserAccount.Plugin.Classes
 #endif
         }
 
-        public void AddToLog(in LogLevel logLevel, in string module, in string data)
+        public void AddToLog(in LogLevel logLevel, in string moduleName, in string data)
         {
 #if TRACE
             System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {data}");
 #endif
         }
 
-        public void AddToLog(in LogLevel logLevel, in string module, in Exception exception)
+        public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception)
         {
 #if TRACE
             System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}");
 #endif
         }
 
-        public void AddToLog(in LogLevel logLevel, in string module, in Exception exception, string data)
+        public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception, string data)
         {
 #if TRACE
             System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");

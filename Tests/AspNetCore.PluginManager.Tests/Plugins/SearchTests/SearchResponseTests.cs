@@ -44,7 +44,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
             SearchResponse response = new SearchResponse(true, "test");
 
             Assert.IsTrue(response.IsLoggedIn);
-            Assert.AreEqual(response.SearchTerm, "test");
+            Assert.AreEqual("test", response.SearchTerm);
         }
 
         [TestMethod]
@@ -53,7 +53,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
             SearchResponse response = new SearchResponse(false, "test");
 
             Assert.IsFalse(response.IsLoggedIn);
-            Assert.AreEqual(response.SearchTerm, "test");
+            Assert.AreEqual("test", response.SearchTerm);
         }
 
         [TestMethod]

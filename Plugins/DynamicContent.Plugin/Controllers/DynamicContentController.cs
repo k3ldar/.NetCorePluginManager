@@ -79,7 +79,6 @@ namespace DynamicContent.Plugin.Controllers
 
         private readonly IDynamicContentProvider _dynamicContentProvider;
         private readonly IMemoryCache _memoryCache;
-        private readonly IImageProvider _imageProvider;
         private readonly INotificationService _notificationService;
 
         #endregion Private Members
@@ -88,12 +87,10 @@ namespace DynamicContent.Plugin.Controllers
 
         public DynamicContentController(IDynamicContentProvider dynamicContentProvider,
             IMemoryCache memoryCache,
-            IImageProvider imageProvider,
             INotificationService notificationService)
         {
             _dynamicContentProvider = dynamicContentProvider ?? throw new ArgumentNullException(nameof(dynamicContentProvider));
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
-            _imageProvider = imageProvider ?? throw new ArgumentNullException(nameof(imageProvider));
             _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
         }
 
@@ -529,7 +526,7 @@ namespace DynamicContent.Plugin.Controllers
 
         #region Private Methods
 
-        private bool ValidateHeight(EditTemplateModel model, out string error)
+        private static bool ValidateHeight(EditTemplateModel model, out string error)
         {
             error = String.Empty;
 
@@ -545,7 +542,7 @@ namespace DynamicContent.Plugin.Controllers
             return String.IsNullOrEmpty(error);
         }
 
-        private bool ValidateWidth(EditTemplateModel model, out string error)
+        private static bool ValidateWidth(EditTemplateModel model, out string error)
         {
             error = String.Empty;
 
@@ -565,7 +562,7 @@ namespace DynamicContent.Plugin.Controllers
             return String.IsNullOrEmpty(error);
         }
 
-        private EditTemplateModel CreateEditTemplateModel(string cacheId, DynamicContentTemplate control)
+        private static EditTemplateModel CreateEditTemplateModel(string cacheId, DynamicContentTemplate control)
         {
             return new EditTemplateModel()
             {
@@ -587,12 +584,12 @@ namespace DynamicContent.Plugin.Controllers
             };
         }
 
-        private DeleteControlModel CreateDeleteControlModel(string cacheId, DynamicContentTemplate control)
+        private static DeleteControlModel CreateDeleteControlModel(string cacheId, DynamicContentTemplate control)
         {
             return new DeleteControlModel(cacheId, control.UniqueId);
         }
 
-        private void RepositionControls(DynamicContentPage dynamicContentPage, string[] controls)
+        private static void RepositionControls(DynamicContentPage dynamicContentPage, string[] controls)
         {
             int missingPosition = dynamicContentPage.Content.Count;
 
@@ -611,7 +608,7 @@ namespace DynamicContent.Plugin.Controllers
             }
         }
 
-        private JsonResponseModel GetDynamicContentModel(CacheItem cacheItem)
+        private static JsonResponseModel GetDynamicContentModel(CacheItem cacheItem)
         {
             IDynamicContentPage dynamicContentPage = cacheItem.Value as IDynamicContentPage;
 
@@ -688,7 +685,7 @@ namespace DynamicContent.Plugin.Controllers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool GetInputId(DynamicContentTemplate template, out string value)
+        private static bool GetInputId(DynamicContentTemplate template, out string value)
         {
             FormTemplateEditorModel formModel = new FormTemplateEditorModel(template.Data);
 

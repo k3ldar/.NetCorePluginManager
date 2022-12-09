@@ -80,7 +80,7 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
             }
 
             Assert.AreEqual(testLogger.Logs[0].LogLevel, LogLevel.PluginLoadSuccess);
@@ -234,21 +234,21 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.PluginLoad(BadEggPluginFilePath, false);
 
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
+                Assert.AreEqual(2, pluginManager.PluginsGetLoaded().Count);
 
                 List<Type> list = pluginManager.PluginGetTypesWithAttribute<SettingRangeAttribute>();
 
                 Assert.AreNotEqual(list.Count, 0);
             }
 
-            Assert.AreEqual(testLogger.Logs[0].LogLevel, LogLevel.PluginLoadSuccess);
-            Assert.AreEqual(testLogger.Logs[1].LogLevel, LogLevel.PluginConfigureError);
-            Assert.AreEqual(testLogger.Logs[2].LogLevel, LogLevel.PluginLoadSuccess);
-            Assert.AreEqual(testLogger.Logs[2].Data, "BadEgg.Plugin.dll");
+            Assert.AreEqual(LogLevel.PluginLoadSuccess, testLogger.Logs[0].LogLevel);
+            Assert.AreEqual(LogLevel.PluginConfigureError, testLogger.Logs[1].LogLevel);
+            Assert.AreEqual(LogLevel.PluginLoadSuccess, testLogger.Logs[2].LogLevel);
+            Assert.AreEqual("BadEgg.Plugin.dll", testLogger.Logs[2].Data);
         }
 
         [TestMethod]
@@ -257,17 +257,17 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.PluginLoad(BadEggPluginFilePath, false);
 
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
+                Assert.AreEqual(2, pluginManager.PluginsGetLoaded().Count);
             }
 
-            Assert.AreEqual(testLogger.Logs[0].LogLevel, LogLevel.PluginLoadSuccess);
-            Assert.AreEqual(testLogger.Logs[1].LogLevel, LogLevel.PluginConfigureError);
-            Assert.AreEqual(testLogger.Logs[2].LogLevel, LogLevel.PluginLoadSuccess);
-            Assert.AreEqual(testLogger.Logs[2].Data, "BadEgg.Plugin.dll");
+            Assert.AreEqual(LogLevel.PluginLoadSuccess, testLogger.Logs[0].LogLevel);
+            Assert.AreEqual(LogLevel.PluginConfigureError, testLogger.Logs[1].LogLevel);
+            Assert.AreEqual(LogLevel.PluginLoadSuccess, testLogger.Logs[2].LogLevel);
+            Assert.AreEqual("BadEgg.Plugin.dll", testLogger.Logs[2].Data);
         }
 
         [TestMethod]
@@ -288,19 +288,19 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.PluginLoad(BadEggPluginFilePath, false);
 
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
+                Assert.AreEqual(2, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.ConfigureServices();
             }
 
-            Assert.AreEqual(testLogger.Logs[0].LogLevel, LogLevel.PluginLoadSuccess);
-            Assert.AreEqual(testLogger.Logs[1].LogLevel, LogLevel.PluginConfigureError);
-            Assert.AreEqual(testLogger.Logs[2].LogLevel, LogLevel.PluginLoadSuccess);
-            Assert.AreEqual(testLogger.Logs[2].Data, "BadEgg.Plugin.dll");
+            Assert.AreEqual(LogLevel.PluginLoadSuccess, testLogger.Logs[0].LogLevel);
+            Assert.AreEqual(LogLevel.PluginConfigureError, testLogger.Logs[1].LogLevel);
+            Assert.AreEqual(LogLevel.PluginLoadSuccess, testLogger.Logs[2].LogLevel);
+            Assert.AreEqual("BadEgg.Plugin.dll", testLogger.Logs[2].Data);
         }
 
         [TestMethod]
@@ -320,11 +320,11 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.PluginLoad(BadEggPluginFilePath, false);
 
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
+                Assert.AreEqual(2, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.ConfigureServices();
 
@@ -345,11 +345,11 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.PluginLoad(BadEggPluginFilePath, false);
 
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
+                Assert.AreEqual(2, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 pluginManager.ConfigureServices();
@@ -359,7 +359,7 @@ namespace PluginManager.Tests
 
                 Assert.IsNotNull(mockPluginHelpers);
 
-                Assert.AreNotEqual(mockPluginHelpers.Count, 0);
+                Assert.AreNotEqual(0, mockPluginHelpers.Count);
             }
 
             Assert.IsTrue(testLogger.ContainsMessage("PluginLoadSuccess BadEgg.Plugin.dll"));
@@ -371,11 +371,11 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.PluginLoad(BadEggPluginFilePath, false);
 
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
+                Assert.AreEqual(2, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 pluginManager.ConfigureServices();
@@ -383,10 +383,10 @@ namespace PluginManager.Tests
                 Assert.IsTrue(pluginManager.PluginLoaded("BadEgg.Plugin.dll", out int _, out string _));
             }
 
-            Assert.AreEqual(testLogger.Logs[0].LogLevel, LogLevel.PluginLoadSuccess);
-            Assert.AreEqual(testLogger.Logs[1].LogLevel, LogLevel.PluginConfigureError);
-            Assert.AreEqual(testLogger.Logs[2].LogLevel, LogLevel.PluginLoadSuccess);
-            Assert.AreEqual(testLogger.Logs[2].Data, "BadEgg.Plugin.dll");
+            Assert.AreEqual(LogLevel.PluginLoadSuccess, testLogger.Logs[0].LogLevel);
+            Assert.AreEqual(LogLevel.PluginConfigureError, testLogger.Logs[1].LogLevel);
+            Assert.AreEqual(LogLevel.PluginLoadSuccess, testLogger.Logs[2].LogLevel);
+            Assert.AreEqual("BadEgg.Plugin.dll", testLogger.Logs[2].Data);
         }
 
         [TestMethod]
@@ -395,17 +395,17 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.PluginLoad(BadEggPluginFilePath, false);
 
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
+                Assert.AreEqual(2, pluginManager.PluginsGetLoaded().Count);
                 Assert.IsTrue(pluginManager.PluginLoaded("BadEgg.Plugin.dll", out int _, out string _));
 
                 DynamicLoadResult loadResult = pluginManager.AddAssembly(Assembly.LoadFrom(BadEggPluginFilePath));
 
                 Assert.AreEqual(DynamicLoadResult.AlreadyLoaded, loadResult);
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
+                Assert.AreEqual(2, pluginManager.PluginsGetLoaded().Count);
                 Assert.IsTrue(pluginManager.PluginLoaded("BadEgg.Plugin.dll", out int _, out string _));
             }
         }
@@ -417,7 +417,7 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.PluginLoad(null, "", false);
             }
@@ -429,7 +429,7 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager sut = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(sut.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, sut.PluginsGetLoaded().Count);
 
                 Assembly pluginAssembly = Assembly.LoadFrom("PluginManager.dll");
 
@@ -449,7 +449,7 @@ namespace PluginManager.Tests
 
             using (MockPluginManager sut = new MockPluginManager(pluginManagerConfiguration, pluginSettings))
             {
-                Assert.AreEqual(sut.PluginsGetLoaded().Count, 0);
+                Assert.AreEqual(0, sut.PluginsGetLoaded().Count);
 
                 Assert.AreEqual(2, testLogger.Logs.Count);
                 Assembly pluginAssembly = Assembly.LoadFrom(BadEggPluginFilePath);
@@ -480,7 +480,7 @@ namespace PluginManager.Tests
 
             using (MockPluginManager sut = new MockPluginManager(pluginManagerConfiguration, pluginSettings))
             {
-                Assert.AreEqual(sut.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, sut.PluginsGetLoaded().Count);
 
                 Assert.AreEqual(2, testLogger.Logs.Count);
                 Assembly pluginAssembly = Assembly.LoadFrom(BadEggPluginFilePath);
@@ -499,7 +499,7 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager sut = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(sut.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, sut.PluginsGetLoaded().Count);
 
                 Assembly pluginAssembly = Assembly.LoadFrom("PluginManager.dll");
 
@@ -514,7 +514,7 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager sut = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(sut.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, sut.PluginsGetLoaded().Count);
 
                 Assembly pluginAssembly = Assembly.LoadFrom("PluginManager.dll");
 
@@ -538,11 +538,11 @@ namespace PluginManager.Tests
 
             using (MockPluginManager pluginManager = new MockPluginManager(pluginManagerConfiguration, pluginSettings))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.PluginLoad(BadEggPluginFilePath, false);
 
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
                 Assert.IsFalse(pluginManager.PluginLoaded("BadEgg.Plugin.dll", out int _, out string _));
             }
         }
@@ -554,11 +554,11 @@ namespace PluginManager.Tests
 
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.PluginLoad(BadEggPluginFilePath, false);
 
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
+                Assert.AreEqual(2, pluginManager.PluginsGetLoaded().Count);
                 Assert.IsTrue(pluginManager.PluginLoaded("BadEgg.Plugin.dll", out int _, out string _));
             }
         }
@@ -575,11 +575,11 @@ namespace PluginManager.Tests
 
             using (MockPluginManager pluginManager = new MockPluginManager(pluginManagerConfiguration, pluginSettings))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.PluginLoad(BadEggPluginFilePath, true);
 
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
+                Assert.AreEqual(2, pluginManager.PluginsGetLoaded().Count);
                 Assert.IsTrue(pluginManager.PluginLoaded("BadEgg.Plugin.dll", out int _, out string _));
             }
 
@@ -604,11 +604,11 @@ namespace PluginManager.Tests
 
             using (MockPluginManager pluginManager = new MockPluginManager(pluginManagerConfiguration, pluginSettings))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.PluginLoad(BadEggPluginFilePath, true);
 
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
+                Assert.AreEqual(2, pluginManager.PluginsGetLoaded().Count);
                 Assert.IsTrue(pluginManager.PluginLoaded("BadEgg.Plugin.dll", out int _, out string _));
             }
         }
@@ -619,7 +619,7 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager sut = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(sut.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, sut.PluginsGetLoaded().Count);
 
                 Assembly pluginAssembly = Assembly.LoadFrom("PluginManager.dll");
 
@@ -650,13 +650,13 @@ namespace PluginManager.Tests
             using (MockPluginManager pluginManager = new MockPluginManager(pluginManagerConfiguration, pluginSettings))
             {
                 pluginManager.TestCanExtractResources = true;
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 Assembly companyPlugin = Assembly.LoadFrom(CompanyPluginFilePath);
                 pluginManager.PluginLoad(companyPlugin,
                     "..\\..\\..\\..\\..\\Plugins\\Company.Plugin\\bin\\Debug\\net7.0\\", true);
 
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
+                Assert.AreEqual(2, pluginManager.PluginsGetLoaded().Count);
                 Assert.IsTrue(pluginManager.PluginLoaded("Company.Plugin.dll", out int _, out string _));
                 Assert.IsTrue(File.Exists(Path.Combine(pluginManagerConfiguration.CurrentPath, "Views", "Company", "About.cshtml")));
             }
@@ -691,12 +691,12 @@ namespace PluginManager.Tests
             using (MockPluginManager pluginManager = new MockPluginManager(pluginManagerConfiguration, pluginSettings))
             {
                 pluginManager.TestCanExtractResources = true;
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 Assembly companyPlugin = Assembly.LoadFrom(CompanyPluginFilePath);
                 pluginManager.PluginLoad(companyPlugin, CompanyPluginPath, true);
 
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
+                Assert.AreEqual(2, pluginManager.PluginsGetLoaded().Count);
                 Assert.IsTrue(pluginManager.PluginLoaded("Company.Plugin.dll", out int _, out string _));
                 Assert.IsTrue(File.Exists(viewNotToBeReplaced));
                 Assert.AreEqual("Do not replace", File.ReadAllText(viewNotToBeReplaced));
@@ -732,12 +732,12 @@ namespace PluginManager.Tests
             using (MockPluginManager pluginManager = new MockPluginManager(pluginManagerConfiguration, pluginSettings))
             {
                 pluginManager.TestCanExtractResources = true;
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 Assembly companyPlugin = Assembly.LoadFrom(CompanyPluginFilePath);
                 pluginManager.PluginLoad(companyPlugin, CompanyPluginPath, true);
 
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
+                Assert.AreEqual(2, pluginManager.PluginsGetLoaded().Count);
                 Assert.IsTrue(pluginManager.PluginLoaded("Company.Plugin.dll", out int _, out string _));
                 Assert.IsTrue(File.Exists(viewNotToBeReplaced));
                 Assert.AreNotEqual("Do not replace", File.ReadAllText(viewNotToBeReplaced));
@@ -773,12 +773,12 @@ namespace PluginManager.Tests
             using (MockPluginManager pluginManager = new MockPluginManager(pluginManagerConfiguration, pluginSettings))
             {
                 pluginManager.TestCanExtractResources = false;
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 Assembly companyPlugin = Assembly.LoadFrom(CompanyPluginFilePath);
                 pluginManager.PluginLoad(companyPlugin, CompanyPluginPath, true);
 
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
+                Assert.AreEqual(2, pluginManager.PluginsGetLoaded().Count);
                 Assert.IsTrue(pluginManager.PluginLoaded("Company.Plugin.dll", out int _, out string _));
                 Assert.IsTrue(File.Exists(viewNotToBeReplaced));
                 Assert.AreEqual("Do not replace", File.ReadAllText(viewNotToBeReplaced));
@@ -791,13 +791,13 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 pluginManager.ConfigureServices();
 
                 List<Type> classes = pluginManager.PluginGetClassTypes<MockPluginHelperClass>();
-                Assert.AreEqual(classes.Count, 1);
+                Assert.AreEqual(1, classes.Count);
             }
         }
 
@@ -807,7 +807,7 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 pluginManager.ConfigureServices();
@@ -823,13 +823,13 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 pluginManager.ConfigureServices();
 
                 List<INotificationService> list = pluginManager.PluginGetClasses<INotificationService>();
-                Assert.AreEqual(list.Count, 1);
+                Assert.AreEqual(1, list.Count);
             }
         }
 
@@ -839,7 +839,7 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 pluginManager.ConfigureServices();
@@ -855,7 +855,7 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 pluginManager.ConfigureServices();
@@ -871,7 +871,7 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 pluginManager.ConfigureServices();
@@ -887,7 +887,7 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 pluginManager.ConfigureServices();
@@ -903,7 +903,7 @@ namespace PluginManager.Tests
             MockLogger testLogger = new MockLogger();
             using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
             {
-                Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
+                Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 pluginManager.ConfigureServices();

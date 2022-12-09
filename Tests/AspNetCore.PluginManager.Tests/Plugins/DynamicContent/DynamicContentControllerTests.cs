@@ -542,7 +542,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         public void Construct_DynamicContentController_InvalidDynamicContentProvider_Throws_ArgumentNullException()
         {
             ISettingsProvider settingsProvider = new DefaultSettingProvider(Directory.GetCurrentDirectory(), null, null);
-            DynamicContentController Result = new DynamicContentController(null, new DefaultMemoryCache(settingsProvider, true, DateTime.UtcNow.AddDays(10)), new MockImageProvider(), new MockNotificationService());
+            DynamicContentController Result = new DynamicContentController(null, new DefaultMemoryCache(settingsProvider, true, DateTime.UtcNow.AddDays(10)), new MockNotificationService());
         }
 
         [TestMethod]
@@ -551,17 +551,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         public void Construct_DynamicContentController_InvalidMemoryCache_Throws_ArgumentNullException()
         {
             IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
-            DynamicContentController Result = new DynamicContentController(new MockDynamicContentProvider(pluginServices), null, new MockImageProvider(), new MockNotificationService());
-        }
-
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_DynamicContentController_InvalidImageProvider_Throws_ArgumentNullException()
-        {
-            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
-            ISettingsProvider settingsProvider = new DefaultSettingProvider(Directory.GetCurrentDirectory(), null, null);
-            DynamicContentController Result = new DynamicContentController(new MockDynamicContentProvider(pluginServices), new DefaultMemoryCache(settingsProvider, true, DateTime.UtcNow.AddDays(10)), null, new MockNotificationService());
+            DynamicContentController Result = new DynamicContentController(new MockDynamicContentProvider(pluginServices), null, new MockNotificationService());
         }
 
         [TestMethod]
@@ -571,7 +561,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
             ISettingsProvider settingsProvider = new DefaultSettingProvider(Directory.GetCurrentDirectory(), null, null);
-            DynamicContentController Result = new DynamicContentController(new MockDynamicContentProvider(pluginServices), new DefaultMemoryCache(settingsProvider, true, DateTime.UtcNow.AddDays(10)), new MockImageProvider(), null);
+            DynamicContentController Result = new DynamicContentController(new MockDynamicContentProvider(pluginServices), 
+				new DefaultMemoryCache(settingsProvider, true, DateTime.UtcNow.AddDays(10)), null);
         }
 
         [TestMethod]
@@ -3091,7 +3082,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             };
 
             DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs(),
-                mockDynamicContentProvider, null, testNotificationService);
+                mockDynamicContentProvider, testNotificationService);
             IActionResult savePageResponse = dynamicContentController.SavePage(model);
             RedirectToActionResult redirectResult = savePageResponse as RedirectToActionResult;
             Assert.IsNotNull(redirectResult);
@@ -3483,7 +3474,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         private DynamicContentController CreateDynamicContentController(DefaultMemoryCache memoryCache = null,
             List<BreadcrumbItem> breadcrumbs = null,
             MockDynamicContentProvider mockDynamicContentProvider = null,
-            MockImageProvider mockImageProvider = null,
             MockNotificationService testNotificationService = null)
         {
             IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
@@ -3493,7 +3483,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             DynamicContentController Result = new DynamicContentController(
                 mockDynamicContentProvider ?? new MockDynamicContentProvider(pluginServices),
                 memoryCache ?? new DefaultMemoryCache(settingsProvider, true, DateTime.UtcNow.AddDays(10)),
-                mockImageProvider ?? MockImageProvider.CreateDefaultMockImageProvider(),
                 testNotificationService ?? new MockNotificationService());
 
             Result.ControllerContext = CreateTestControllerContext(breadcrumbs);

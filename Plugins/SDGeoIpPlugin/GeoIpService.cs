@@ -102,16 +102,16 @@ namespace SieraDeltaGeoIp.Plugin
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public bool GetIpAddressDetails(in string ipAddress, out string countryCode, out string region,
-            out string cityName, out decimal latitude, out decimal longitude, out long uniqueID, out long fromIp, out long toIp)
+            out string cityName, out decimal latitude, out decimal longitude, out long uniqueId, out long ipFrom, out long ipTo)
         {
             countryCode = "ZZ";
             region = String.Empty;
             cityName = String.Empty;
             latitude = -1;
             longitude = -1;
-            uniqueID = -1;
-            fromIp = 0;
-            toIp = 0;
+            uniqueId = -1;
+            ipFrom = 0;
+            ipTo = 0;
 
             try
             {
@@ -135,7 +135,7 @@ namespace SieraDeltaGeoIp.Plugin
                         if (_geoIpProvider != null)
                         {
                             memoryIp.IsComplete = _geoIpProvider.GetIpAddressDetails(ipAddress, out countryCode, out region,
-                                out cityName, out latitude, out longitude, out uniqueID, out long _, out long _);
+                                out cityName, out latitude, out longitude, out uniqueId, out long _, out long _);
                         }
 
                         memoryIp.CountryCode = countryCode;
@@ -149,7 +149,7 @@ namespace SieraDeltaGeoIp.Plugin
                 }
 
                 return GetCachedIPAddressDetails(ipAddress, out countryCode, out region,
-                    out cityName, out latitude, out longitude, out uniqueID);
+                    out cityName, out latitude, out longitude, out uniqueId);
             }
             catch (Exception err)
             {

@@ -111,7 +111,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         }
 
         public bool GetSeoDataForRoute(in string route, out string title,
-            out string description, out string author, out List<string> keywords)
+            out string metaDescription, out string author, out List<string> keywords)
         {
             if (String.IsNullOrEmpty(route))
                 throw new ArgumentNullException(nameof(route));
@@ -123,14 +123,14 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (seoData == null)
             {
                 title = String.Empty;
-                description = String.Empty;
+				metaDescription = String.Empty;
                 author = String.Empty;
                 keywords = new();
                 return false;
             }
 
             title = seoData.Title;
-            description = seoData.Description;
+			metaDescription = seoData.Description;
             author = seoData.Author;
             keywords = seoData.Keywords;
             return true;

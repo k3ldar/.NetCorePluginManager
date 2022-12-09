@@ -105,20 +105,17 @@ namespace SieraDeltaGeoIp.Plugin
                         finally
                         {
                             rdr.Close();
-                            rdr = null;
                         }
                     }
                     finally
                     {
                         cmd.Dispose();
-                        cmd = null;
                     }
                 }
                 finally
                 {
                     tran.Rollback();
                     tran.Dispose();
-                    tran = null;
                 }
             }
             finally
@@ -189,20 +186,17 @@ namespace SieraDeltaGeoIp.Plugin
                         finally
                         {
                             rdr.Close();
-                            rdr = null;
                         }
                     }
                     finally
                     {
                         cmd.Dispose();
-                        cmd = null;
                     }
                 }
                 finally
                 {
                     tran.Rollback();
                     tran.Dispose();
-                    tran = null;
                 }
             }
             finally

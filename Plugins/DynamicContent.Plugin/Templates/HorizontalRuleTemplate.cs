@@ -74,9 +74,9 @@ namespace DynamicContent.Plugin.Templates
 
             set
             {
-
-            }
-        }
+				// not used but required for interface
+			}
+		}
 
         public override int Height
         {
@@ -87,9 +87,9 @@ namespace DynamicContent.Plugin.Templates
 
             set
             {
-
-            }
-        }
+				// not used but required for interface
+			}
+		}
 
         public override DynamicContentWidthType WidthType { get; set; }
 
@@ -108,9 +108,9 @@ namespace DynamicContent.Plugin.Templates
 
             set
             {
-
-            }
-        }
+				// not used but required for interface
+			}
+		}
 
         public override DateTime ActiveFrom { get; set; }
 

@@ -50,9 +50,9 @@ namespace PluginManager.Tests
 
                 List<Type> classTypes = pluginServices.GetPluginClassTypes<ILogger>();
 
-                Assert.AreEqual(classTypes.Count, 1);
+                Assert.AreEqual(1, classTypes.Count);
 
-                Assert.AreEqual(classTypes[0].FullName, "PluginManager.Internal.DefaultLogger");
+                Assert.AreEqual("PluginManager.Internal.DefaultLogger", classTypes[0].FullName);
             }
         }
 
@@ -68,7 +68,7 @@ namespace PluginManager.Tests
 
                 List<ILogger> classTypes = pluginServices.GetPluginClasses<ILogger>();
 
-                Assert.AreEqual(classTypes.Count, 2);
+                Assert.AreEqual(2, classTypes.Count);
 
                 Assert.AreEqual("PluginManager.Tests.Mocks.MockLogger", classTypes[1].GetType().FullName);
             }
@@ -86,7 +86,7 @@ namespace PluginManager.Tests
 
                 List<ILogger> classTypes = pluginServices.GetPluginClasses<ILogger>();
 
-                Assert.AreEqual(classTypes.Count, 2);
+                Assert.AreEqual(2, classTypes.Count);
 
                 Assert.AreEqual("PluginManager.Tests.Mocks.MockLogger", classTypes[1].GetType().FullName);
 
@@ -96,8 +96,8 @@ namespace PluginManager.Tests
 
                 testLogger.AddToLog(LogLevel.Information, "test");
 
-                Assert.AreEqual(testLogger.Logs[0].Data, "test");
-                Assert.AreEqual(testLogger.Logs[0].LogLevel, LogLevel.Information);
+                Assert.AreEqual("test", testLogger.Logs[0].Data);
+                Assert.AreEqual(LogLevel.Information, testLogger.Logs[0].LogLevel);
             }
         }
     }

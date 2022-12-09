@@ -41,18 +41,6 @@ namespace Spider.Plugin.Classes.SystemAdmin
     /// </summary>
     public sealed class BotTrapTimingsSubMenu : SystemAdminSubMenu
     {
-        private readonly bool _enabled;
-
-        public BotTrapTimingsSubMenu(ISettingsProvider settingsProvider)
-        {
-            if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
-
-            SpiderSettings settings = settingsProvider.GetSettings<SpiderSettings>(Constants.SpiderSettings);
-
-            _enabled = !String.IsNullOrEmpty(settings.BotTrapRoute);
-        }
-
         public override string Action()
         {
             return String.Empty;

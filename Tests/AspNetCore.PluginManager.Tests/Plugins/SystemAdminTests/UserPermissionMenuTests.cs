@@ -46,7 +46,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         [TestCategory(TestCategoryName)]
         public void CreateValidInstance__Success()
         {
-            UserPermissionsMenu sut = new UserPermissionsMenu(new MockSettingsProvider());
+            UserPermissionsMenu sut = new UserPermissionsMenu();
 
             Assert.IsInstanceOfType(sut, typeof(SystemAdminSubMenu));
             Assert.AreEqual("Permissions", sut.Action());
@@ -58,14 +58,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
             Assert.AreEqual(0, sut.SortOrder());
             Assert.AreEqual("Permissions", sut.ParentMenuName());
             Assert.AreEqual("", sut.Data());
-        }
-
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void CreateValidInstance_InvalidParam_Null_Throws_ArgumentNullException()
-        {
-            UserPermissionsMenu sut = new UserPermissionsMenu(null);
         }
     }
 }

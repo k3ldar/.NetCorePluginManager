@@ -54,24 +54,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         [TestMethod]
         [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_InvalidParam_PluginClassService_Null_Throws_ArgumentNullException()
-        {
-            List<object> classServices = new List<object>();
-
-            MockPluginClassesService pluginClassesService = new MockPluginClassesService(classServices);
-            SystemAdminHelper systemAdminHelper = new SystemAdminHelper(new MockMemoryCache(), pluginClassesService);
-            AllTimings sut = new AllTimings(null, systemAdminHelper);
-        }
-
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_SystemAdminHelperService_Null_Throws_ArgumentNullException()
         {
             List<object> classServices = new List<object>();
 
             MockPluginClassesService pluginClassesService = new MockPluginClassesService(classServices);
-            AllTimings sut = new AllTimings(pluginClassesService, null);
+            AllTimings sut = new AllTimings(null);
         }
 
         [TestMethod]
@@ -88,7 +76,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
             MockPluginClassesService pluginClassesService = new MockPluginClassesService(classServices);
             SystemAdminHelper systemAdminHelper = new SystemAdminHelper(new MockMemoryCache(), pluginClassesService);
 
-            AllTimings sut = new AllTimings(pluginClassesService, systemAdminHelper);
+            AllTimings sut = new AllTimings(systemAdminHelper);
 
             Assert.IsInstanceOfType(sut, typeof(SystemAdminSubMenu));
             Assert.AreEqual("", sut.Action());

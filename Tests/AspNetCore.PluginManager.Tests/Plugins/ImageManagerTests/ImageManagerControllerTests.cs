@@ -79,17 +79,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestMethod]
         [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_InvalidSettingsProvider_Null_Throws_ArgumentNullException()
-        {
-            ImageManagerController sut = new ImageManagerController(null, new MockImageProvider(), new MockNotificationService(), new MockMemoryCache(), new MockVirusScanner());
-        }
-
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidImageProvider_Null_Throws_ArgumentNullException()
         {
-            ImageManagerController sut = new ImageManagerController(new MockSettingsProvider(), null, new MockNotificationService(), new MockMemoryCache(), new MockVirusScanner());
+            ImageManagerController sut = new ImageManagerController(null, new MockNotificationService(), new MockMemoryCache(), new MockVirusScanner());
         }
 
         [TestMethod]
@@ -97,7 +89,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidNotificationService_Null_Throws_ArgumentNullException()
         {
-            ImageManagerController sut = new ImageManagerController(new MockSettingsProvider(), new MockImageProvider(), null, new MockMemoryCache(), new MockVirusScanner());
+            ImageManagerController sut = new ImageManagerController(new MockImageProvider(), null, new MockMemoryCache(), new MockVirusScanner());
         }
 
         [TestMethod]
@@ -105,7 +97,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidMemoryCache_Null_Throws_ArgumentNullException()
         {
-            ImageManagerController sut = new ImageManagerController(new MockSettingsProvider(), new MockImageProvider(), new MockNotificationService(), null, new MockVirusScanner());
+            ImageManagerController sut = new ImageManagerController(new MockImageProvider(), new MockNotificationService(), null, new MockVirusScanner());
         }
 
         [TestMethod]
@@ -113,14 +105,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidVirusScanner_Null_Throws_ArgumentNullException()
         {
-            ImageManagerController sut = new ImageManagerController(new MockSettingsProvider(), new MockImageProvider(), new MockNotificationService(), new MockMemoryCache(), null);
+            ImageManagerController sut = new ImageManagerController(new MockImageProvider(), new MockNotificationService(), new MockMemoryCache(), null);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Construct_ValidInstance_Success()
         {
-            ImageManagerController sut = new ImageManagerController(new MockSettingsProvider(), new MockImageProvider(), new MockNotificationService(), new MockMemoryCache(), new MockVirusScanner());
+            ImageManagerController sut = new ImageManagerController(new MockImageProvider(), new MockNotificationService(), new MockMemoryCache(), new MockVirusScanner());
 
             Assert.IsNotNull(sut);
         }
@@ -1691,7 +1683,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
             ImageManagerController Result = new ImageManagerController(
-                new MockSettingsProvider(),
                 mockImageProvider ?? new MockImageProvider(),
                 testNotificationService ?? new MockNotificationService(),
                 memoryCache ?? new MockMemoryCache(),

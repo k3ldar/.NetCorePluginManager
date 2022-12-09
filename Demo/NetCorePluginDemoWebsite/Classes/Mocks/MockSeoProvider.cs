@@ -103,7 +103,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         }
 
         public bool GetSeoDataForRoute(in string route, out string title,
-            out string description, out string author, out List<string> keywords)
+            out string metaDescription, out string author, out List<string> keywords)
         {
             if (!_authors.ContainsKey(route))
                 _authors.Add(route, "Simon Carter");
@@ -118,7 +118,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 _descriptions.Add(route, "ASP Net Core Plugin Manager - demo website");
 
             author = _authors[route];
-            description = _descriptions[route];
+            metaDescription = _descriptions[route];
             title = _titles[route];
             keywords = _keywords[route];
 

@@ -51,39 +51,39 @@ namespace PluginManager.Internal
             AddToLog(logLevel, String.Empty, exception, data);
         }
 
-        public void AddToLog(in LogLevel logLevel, in string module, in string data)
+        public void AddToLog(in LogLevel logLevel, in string moduleName, in string data)
         {
 #if TRACE
-            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {module} {data}");
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {moduleName} {data}");
 #endif
 
 #if !DEBUG
-            Shared.EventLog.Add($"{logLevel.ToString()}\t{module}\t{data}");
+            Shared.EventLog.Add($"{logLevel.ToString()}\t{moduleName}\t{data}");
 #endif
         }
 
-        public void AddToLog(in LogLevel logLevel, in string module, in Exception exception)
+        public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception)
         {
 #if TRACE
-            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {module} {exception.Message}");
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {moduleName} {exception.Message}");
 #endif
 
 #if !DEBUG
-            Shared.EventLog.Add($"{logLevel.ToString()}\t{module}\t{exception.Message}");
+            Shared.EventLog.Add($"{logLevel.ToString()}\t{moduleName}\t{exception.Message}");
 #endif
-        }
+		}
 
-        public void AddToLog(in LogLevel logLevel, in string module, in Exception exception, string data)
+		public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception, string data)
         {
 #if TRACE
-            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()}\t{module}\t{exception.Message}\t{data}");
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()}\t{moduleName}\t{exception.Message}\t{data}");
 #endif
 
 #if !DEBUG
-            Shared.EventLog.Add(exception, $"{logLevel.ToString()}{Environment.NewLine}{module}{Environment.NewLine}{Environment.NewLine}{data}");
+            Shared.EventLog.Add(exception, $"{logLevel.ToString()}{Environment.NewLine}{moduleName}{Environment.NewLine}{Environment.NewLine}{data}");
 #endif
-        }
+		}
 
-        #endregion ILogger Methods
-    }
+		#endregion ILogger Methods
+	}
 }

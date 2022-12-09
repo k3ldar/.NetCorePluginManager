@@ -35,21 +35,6 @@ namespace SystemAdmin.Plugin.Classes.MenuItems
 {
     public class UserPermissionsMenu : SystemAdminSubMenu
     {
-        #region Private Members
-
-        private readonly ISettingsProvider _settingsProvider;
-
-        #endregion Private Members
-
-        #region Constructors
-
-        public UserPermissionsMenu(ISettingsProvider settingsProvider)
-        {
-            _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
-        }
-
-        #endregion Constructors
-
         #region SystemAdminSubMenu Methods
 
         public override string Action()

@@ -155,7 +155,7 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
             AddToLog(logLevel, String.Empty, exception, data);
         }
 
-        public void AddToLog(in LogLevel logLevel, in string module, in string data)
+        public void AddToLog(in LogLevel logLevel, in string moduleName, in string data)
         {
             if (String.IsNullOrEmpty(data))
                 throw new ArgumentNullException(nameof(data));
@@ -170,15 +170,15 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
                 _queue.Enqueue(loggerQueueItem);
             }
 
-            _logger?.AddToLog(logLevel, module, data);
+            _logger?.AddToLog(logLevel, moduleName, data);
         }
 
-        public void AddToLog(in LogLevel logLevel, in string module, in Exception exception)
+        public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception)
         {
-            AddToLog(logLevel, module, exception, String.Empty);
+            AddToLog(logLevel, moduleName, exception, String.Empty);
         }
 
-        public void AddToLog(in LogLevel logLevel, in string module, in Exception exception, string data)
+        public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception, string data)
         {
             if (exception == null)
                 throw new ArgumentNullException(nameof(exception));
@@ -204,7 +204,7 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
                 _queue.Enqueue(loggerQueueItem);
             }
 
-            _logger?.AddToLog(logLevel, module, exception, data);
+            _logger?.AddToLog(logLevel, moduleName, exception, data);
         }
 
         #endregion ILogger Methods

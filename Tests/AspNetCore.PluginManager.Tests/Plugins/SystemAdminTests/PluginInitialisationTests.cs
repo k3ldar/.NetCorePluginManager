@@ -121,7 +121,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
             MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"UserSessionConfiguration\":{\"EnableDefaultSessionService\": true}}");
             List<object> classServices = new List<object>();
             classServices.Add(new GCAdminMenu());
-            classServices.Add(new UserPermissionsMenu(testSettingsProvider));
+            classServices.Add(new UserPermissionsMenu());
             classServices.Add(new AppSettingsJsonMenu(testSettingsProvider));
             classServices.Add(new SpiderSettingsSubMenu());
             classServices.Add(new CurrentUserLocationMenu());

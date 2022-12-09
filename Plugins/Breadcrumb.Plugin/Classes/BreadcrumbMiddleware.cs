@@ -247,14 +247,10 @@ namespace Breadcrumb.Plugin
             // Cycle through all methods which have the breadcrumb attribute
             foreach (Type type in breadcrumbAttributes)
             {
-                // is it a class attribute
-                BreadcrumbAttribute attribute = (BreadcrumbAttribute)type.GetCustomAttributes(true)
-					.FirstOrDefault(a => a.GetType() == typeof(BreadcrumbAttribute));
-
                 // look for specific method breadcrumbs
                 foreach (MethodInfo method in type.GetMethods())
                 {
-                    attribute = (BreadcrumbAttribute)method.GetCustomAttributes(true)
+					BreadcrumbAttribute attribute = (BreadcrumbAttribute)method.GetCustomAttributes(true)
 						.FirstOrDefault(a => a.GetType() == typeof(BreadcrumbAttribute));
 
                     if (attribute != null)

@@ -172,7 +172,6 @@ namespace AspNetCore.PluginManager.Internal
 
                 if (di.CreationTime > newest && File.Exists(Path.Combine(directory, DefenderExe)))
                 {
-                    Result = directory;
                     newest = di.CreationTime;
                     Result = Path.Combine(directory, DefenderExe);
                 }

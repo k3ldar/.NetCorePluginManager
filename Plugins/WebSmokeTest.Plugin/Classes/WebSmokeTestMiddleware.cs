@@ -61,9 +61,8 @@ namespace WebSmokeTest.Plugin
         private static readonly CacheManager _testCache = new CacheManager("Web Smoke Test Cache", new TimeSpan(0, 10, 0), true);
         private readonly string _savedData = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.tmp");
         private readonly RequestDelegate _next;
-        private readonly string _staticFileExtensions = SharedPluginFeatures.Constants.StaticFileExtensions;
         internal static Timings _timings = new Timings();
-        private Boolean disposedValue;
+        private Boolean _disposedValue;
         private readonly ILogger _logger;
         private readonly WebSmokeTestSettings _settings;
         private static FileStream _testDataStream;
@@ -98,14 +97,6 @@ namespace WebSmokeTest.Plugin
             {
                 LoadSmokeTestData(pluginTypesService);
             }
-
-            if (!String.IsNullOrEmpty(_settings.StaticFileExtensions))
-                _staticFileExtensions = _settings.StaticFileExtensions;
-        }
-
-        ~WebSmokeTestMiddleware()
-        {
-            Dispose(false);
         }
 
         #endregion Constructors/Destructors
@@ -199,8 +190,14 @@ namespace WebSmokeTest.Plugin
 
         public void Dispose()
         {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
+			if (!_disposedValue)
+			{
+				_testDataStream.Dispose();
+				File.Delete(_savedData);
+				_disposedValue = true;
+			}
+			
+			GC.SuppressFinalize(this);
         }
 
         #endregion Public Methods
@@ -418,21 +415,6 @@ namespace WebSmokeTest.Plugin
                 return "OPTIONS";
 
             return "GET";
-        }
-
-        private void Dispose(Boolean disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-
-                }
-
-                _testDataStream.Dispose();
-                File.Delete(_savedData);
-                disposedValue = true;
-            }
         }
 
         #endregion Private Methods

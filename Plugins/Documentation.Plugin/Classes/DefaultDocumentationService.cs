@@ -261,14 +261,14 @@ namespace DocumentationPlugin.Classes
             parameter.LongDescription = GetCustomData(docName + nameof(parameter.LongDescription), parameter.LongDescription);
         }
 
-        public void ProcessDocumentProperty(in DocumentProperty property)
+        public void ProcessDocumentProperty(in DocumentProperty documentProperty)
         {
-            string docName = $"{property.AssemblyName}\\{property.NameSpaceName}\\{property.ClassName}\\Properties\\{property.PropertyName}\\";
-            property.Summary = GetCustomData(docName + nameof(property.Summary), property.Summary);
-            property.PropertyName = GetCustomData(docName + nameof(property.PropertyName), property.PropertyName);
-            property.Value = GetCustomData(docName + nameof(property.Value), property.Value);
-            property.ShortDescription = GetCustomData(docName + nameof(property.ShortDescription), property.ShortDescription);
-            property.LongDescription = GetCustomData(docName + nameof(property.LongDescription), property.LongDescription);
+            string docName = $"{documentProperty.AssemblyName}\\{documentProperty.NameSpaceName}\\{documentProperty.ClassName}\\Properties\\{documentProperty.PropertyName}\\";
+            documentProperty.Summary = GetCustomData(docName + nameof(documentProperty.Summary), documentProperty.Summary);
+            documentProperty.PropertyName = GetCustomData(docName + nameof(documentProperty.PropertyName), documentProperty.PropertyName);
+            documentProperty.Value = GetCustomData(docName + nameof(documentProperty.Value), documentProperty.Value);
+            documentProperty.ShortDescription = GetCustomData(docName + nameof(documentProperty.ShortDescription), documentProperty.ShortDescription);
+            documentProperty.LongDescription = GetCustomData(docName + nameof(documentProperty.LongDescription), documentProperty.LongDescription);
         }
 
         #endregion IDocumentationService Methods
