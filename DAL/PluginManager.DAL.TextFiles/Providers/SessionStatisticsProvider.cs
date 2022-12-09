@@ -217,6 +217,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 		}
 
 		private static List<SessionUserAgent> AmalgamateSessionData(List<SessionYearly> yearlySessions)
+
 		{
 			List<SessionUserAgent> Result = null;
 

@@ -37,10 +37,11 @@ namespace PluginManager.DAL.TextFiles.Tables
         public void AfterDelete(List<UserDataRow> records)
         {
 			// from interface but unused in this context
-		}
+        }
 
 		public void AfterInsert(List<UserDataRow> records)
         {
+
 			// from interface but unused in this context
 		}
 
