@@ -22,11 +22,11 @@
  *  Date        Name                Reason
  *  05/10/2021  Simon Carter        Initially Created
  *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */using System;
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-
-using Newtonsoft.Json;
+using System.Text.Json;
 
 using SharedPluginFeatures;
 
@@ -81,7 +81,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
                 chartModel.DataValues.Add("value 1", new List<decimal>() { 1.1m, 2.2m, 3.3m });
                 chartModel.DataValues.Add("value 2", new List<decimal>() { 4.4m, 5.5m, 6.6m });
 
-                return JsonConvert.SerializeObject(chartModel);
+                return JsonSerializer.Serialize(chartModel);
             }
             else if (MenuType() == Enums.SystemAdminMenuType.FormattedText)
             {

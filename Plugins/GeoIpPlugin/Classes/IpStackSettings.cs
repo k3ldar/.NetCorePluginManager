@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Net.Http;
+using System.Text.Json;
 
 using AppSettings;
 
@@ -86,7 +87,7 @@ namespace GeoIp.Plugin
                 byte[] response = client.GetByteArrayAsync($"http://api.ipstack.com/{ipAddress}?access_key={ApiKey}").Result;
 
                 string webData = System.Text.Encoding.UTF8.GetString(response);
-                IpStackData city = Newtonsoft.Json.JsonConvert.DeserializeObject<IpStackData>(webData);
+                IpStackData city = JsonSerializer.Deserialize<IpStackData>(webData);
 
                 if (!city.success)
                 {

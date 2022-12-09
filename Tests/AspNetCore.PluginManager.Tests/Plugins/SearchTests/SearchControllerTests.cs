@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Text.Json;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
@@ -34,8 +35,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware.Search;
-
-using Newtonsoft.Json;
 
 using PluginManager.Abstractions;
 
@@ -257,15 +256,15 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
 
                 Assert.AreEqual("application/json", statusResult.ContentType);
 
-                string json = JsonConvert.SerializeObject(statusResult.Value);
-                List<SearchResponseItem> searchResults = JsonConvert.DeserializeObject<List<SearchResponseItem>>(json);
+                string json = JsonSerializer.Serialize(statusResult.Value);
+                List<SearchResponseItem> searchResults = JsonSerializer.Deserialize<List<SearchResponseItem>>(json);
 
                 Assert.AreEqual(5, searchResults.Count);
 
                 Assert.IsFalse(String.IsNullOrEmpty(searchResults[0].DisplayName));
                 Assert.IsFalse(String.IsNullOrEmpty(searchResults[0].ResponseType));
                 Assert.IsNotNull(searchResults[0].Properties);
-                Assert.IsTrue(((string)searchResults[0].Properties["ShortDescription"]).Length > 10);
+                Assert.IsTrue((searchResults[0].Properties["ShortDescription"]).ToString().Length > 10);
             }
         }
 

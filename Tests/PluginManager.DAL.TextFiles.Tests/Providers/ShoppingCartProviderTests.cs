@@ -43,6 +43,7 @@ using SimpleDB;
 using Shared.Classes;
 
 using SharedPluginFeatures;
+using System.Globalization;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
@@ -299,9 +300,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void ConvertToOrder_OrderCreatedSuccessfully_ReturnsTrue()
         {
+			CultureInfo cultureInfo = Thread.CurrentThread.CurrentUICulture;
             string directory = TestHelper.GetTestPath();
             try
             {
+				Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
@@ -417,6 +420,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             finally
             {
                 Directory.Delete(directory, true);
+				Thread.CurrentThread.CurrentUICulture = cultureInfo;
             }
         }
 

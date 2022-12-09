@@ -29,6 +29,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 
 using AspNetCore.PluginManager.Tests.Controllers;
 using AspNetCore.PluginManager.Tests.Shared;
@@ -1507,7 +1508,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             JsonResponseModel responseModel = jsonResult.Value as JsonResponseModel;
             Assert.IsNotNull(responseModel);
 
-            RetrieveImagesModel imagesModel = Newtonsoft.Json.JsonConvert.DeserializeObject<RetrieveImagesModel>(responseModel.ResponseData);
+            RetrieveImagesModel imagesModel = JsonSerializer.Deserialize<RetrieveImagesModel>(responseModel.ResponseData);
             Assert.IsNotNull(imagesModel);
 
             Assert.AreEqual(2, imagesModel.Subgroups.Count);
@@ -1532,7 +1533,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             JsonResponseModel responseModel = jsonResult.Value as JsonResponseModel;
             Assert.IsNotNull(responseModel);
 
-            RetrieveImagesModel imagesModel = Newtonsoft.Json.JsonConvert.DeserializeObject<RetrieveImagesModel>(responseModel.ResponseData);
+            RetrieveImagesModel imagesModel = JsonSerializer.Deserialize<RetrieveImagesModel>(responseModel.ResponseData);
             Assert.IsNotNull(imagesModel);
 
             Assert.AreEqual(2, imagesModel.Subgroups.Count);
@@ -1557,7 +1558,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             JsonResponseModel responseModel = jsonResult.Value as JsonResponseModel;
             Assert.IsNotNull(responseModel);
 
-            RetrieveImagesModel imagesModel = Newtonsoft.Json.JsonConvert.DeserializeObject<RetrieveImagesModel>(responseModel.ResponseData);
+            RetrieveImagesModel imagesModel = JsonSerializer.Deserialize<RetrieveImagesModel>(responseModel.ResponseData);
             Assert.IsNotNull(imagesModel);
 
             Assert.AreEqual(0, imagesModel.Subgroups.Count);

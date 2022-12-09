@@ -105,19 +105,19 @@ namespace SimpleDB
     {
 		None = 0,
 
-        BeforeInsert,
+        BeforeInsert = 1,
 
-        AfterInsert,
+        AfterInsert = 2,
 
-        BeforeDelete,
+        BeforeDelete = 4,
 
-        AfterDelete,
+        AfterDelete = 8,
 
-        BeforeUpdate,
+        BeforeUpdate = 16,
 
-        BeforeUpdateCompare,
+        BeforeUpdateCompare = 32,
 
-        AfterUpdate,
+        AfterUpdate = 64,
     }
 
 	/// <summary>

@@ -33,8 +33,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using Newtonsoft.Json;
-
 using Shared.Classes;
 
 using static Shared.Utilities;
@@ -720,7 +718,7 @@ namespace SharedPluginFeatures
             if (responseData == null)
                 throw new ArgumentNullException(nameof(responseData));
 
-            return new JsonResult(new JsonResponseModel(true, JsonConvert.SerializeObject(responseData)))
+            return new JsonResult(new JsonResponseModel(true, JsonSerializer.Serialize(responseData)))
             {
                 ContentType = Constants.ContentTypeApplicationJson,
                 StatusCode = Constants.HtmlResponseSuccess

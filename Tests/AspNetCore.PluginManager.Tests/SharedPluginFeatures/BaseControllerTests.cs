@@ -26,13 +26,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Newtonsoft.Json;
 
 using SharedPluginFeatures;
 
@@ -278,7 +277,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [ExpectedException(typeof(ArgumentNullException))]
         public void GenerateJsonSuccessResponse_InvalidParam_Null_Throws_ArgumentNullException()
         {
-            TestResponseData responseData = JsonConvert.DeserializeObject<TestResponseData>(ExpectedResponseWithData);
+            TestResponseData responseData = JsonSerializer.Deserialize<TestResponseData>(ExpectedResponseWithData);
 
             using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
             {
@@ -289,7 +288,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestMethod]
         public void GenerateJsonSuccessResponse_WithResponseData_Success()
         {
-            TestResponseData responseData = JsonConvert.DeserializeObject<TestResponseData>(ExpectedResponseWithData);
+            TestResponseData responseData = JsonSerializer.Deserialize<TestResponseData>(ExpectedResponseWithData);
 
             using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
             {
