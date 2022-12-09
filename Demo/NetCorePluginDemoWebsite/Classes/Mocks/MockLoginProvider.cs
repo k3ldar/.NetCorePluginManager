@@ -79,16 +79,6 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return LoginResult.InvalidCredentials;
         }
 
-        public bool UnlockAccount(in string username, in string unlockCode)
-        {
-            return unlockCode == "123456";
-        }
-
-        public bool ForgottenPassword(in string username)
-        {
-            return username == "admin";
-        }
-
         public LoginResult Login(in ITokenUserDetails tokenUserDetails, ref UserLoginDetails loginDetails)
         {
             if (tokenUserDetails == null)
@@ -125,6 +115,16 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
                 return LoginResult.Success;
             }
+        }
+
+        public bool UnlockAccount(in string username, in string unlockCode)
+        {
+            return unlockCode == "123456";
+        }
+
+        public bool ForgottenPassword(in string username)
+        {
+            return username == "admin";
         }
 
         public void RemoveExternalUser(ITokenUserDetails tokenUserDetails)

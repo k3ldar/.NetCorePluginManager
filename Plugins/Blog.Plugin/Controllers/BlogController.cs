@@ -305,29 +305,6 @@ namespace Blog.Plugin.Controllers
             return Result;
         }
 
-        private MyBlogsViewModel GetMyBlogsViewModel(List<BlogItem> entries)
-        {
-            List<BlogPostViewModel> blogPosts = new List<BlogPostViewModel>();
-
-            foreach (BlogItem entry in entries)
-            {
-                BlogPostViewModel post = new BlogPostViewModel(entry.Id, entry.Title, entry.Excerpt,
-                    entry.BlogText, entry.Username, entry.Published, entry.PublishDateTime,
-                    entry.LastModified, true, entry.Tags,
-                    new List<BlogCommentViewModel>(), IsUserLoggedIn(),
-                    _settings.AllowComments);
-
-                foreach (BlogComment comment in entry.Comments)
-                {
-                    post.Comments.Add(new BlogCommentViewModel(comment.Id, comment.DateTime, comment.Username, comment.Comment));
-                }
-
-                blogPosts.Add(post);
-            }
-
-            return new MyBlogsViewModel(GetModelData(), blogPosts);
-        }
-
         private BlogPostsViewModel GetBlogPostViewModel(List<BlogItem> entries)
         {
             List<BlogPostViewModel> blogPosts = new List<BlogPostViewModel>();
@@ -350,6 +327,29 @@ namespace Blog.Plugin.Controllers
             }
 
             return new BlogPostsViewModel(GetModelData(), blogPosts);
+        }
+
+        private MyBlogsViewModel GetMyBlogsViewModel(List<BlogItem> entries)
+        {
+            List<BlogPostViewModel> blogPosts = new List<BlogPostViewModel>();
+
+            foreach (BlogItem entry in entries)
+            {
+                BlogPostViewModel post = new BlogPostViewModel(entry.Id, entry.Title, entry.Excerpt,
+                    entry.BlogText, entry.Username, entry.Published, entry.PublishDateTime,
+                    entry.LastModified, true, entry.Tags,
+                    new List<BlogCommentViewModel>(), IsUserLoggedIn(),
+                    _settings.AllowComments);
+
+                foreach (BlogComment comment in entry.Comments)
+                {
+                    post.Comments.Add(new BlogCommentViewModel(comment.Id, comment.DateTime, comment.Username, comment.Comment));
+                }
+
+                blogPosts.Add(post);
+            }
+
+            return new MyBlogsViewModel(GetModelData(), blogPosts);
         }
 
         #endregion Private Methods
