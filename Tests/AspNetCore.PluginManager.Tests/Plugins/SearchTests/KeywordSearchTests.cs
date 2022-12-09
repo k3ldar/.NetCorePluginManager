@@ -66,16 +66,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestMethod]
         public void KeywordLoggedInValidSearchTerm()
         {
-            KeywordSearchOptions options = new KeywordSearchOptions(true, "test");
-        }
+            KeywordSearchOptions sut = new KeywordSearchOptions(true, "test");
+			Assert.IsNotNull(sut);
+		}
 
-        [TestMethod]
+		[TestMethod]
         public void KeywordLoggedOutValidSearchTerm()
         {
-            KeywordSearchOptions options = new KeywordSearchOptions(false, "test");
-        }
+            KeywordSearchOptions sut = new KeywordSearchOptions(false, "test");
+			Assert.IsNotNull(sut);
+		}
 
-        [TestMethod]
+		[TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void KeywordLoggedOutInvalidSearchTermNull()
         {
@@ -85,10 +87,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestMethod]
         public void KeywordLoggedOutInvalidSearchTermEmptyString()
         {
-            KeywordSearchOptions options = new KeywordSearchOptions(false, "");
-        }
+            KeywordSearchOptions sut = new KeywordSearchOptions(false, "");
+			Assert.IsNotNull(sut);
+		}
 
-        [TestMethod]
+		[TestMethod]
         public void EnsurePropertiesDictionaryCreated()
         {
             KeywordSearchOptions options = new KeywordSearchOptions(false, "test");

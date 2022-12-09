@@ -59,6 +59,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         public void Construct_NullContext_DoesNotThrowException_Success()
         {
             RouteLoadTimeMiddleware sut = new RouteLoadTimeMiddleware(null);
+			Assert.IsNotNull(sut);
         }
 
         [TestMethod]

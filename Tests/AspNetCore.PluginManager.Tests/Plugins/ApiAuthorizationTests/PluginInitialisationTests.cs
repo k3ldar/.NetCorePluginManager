@@ -53,6 +53,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ApiAuthorizationTests
         public void Initialise_InvalidParam_Null_DoesNotThrow_ArgumentNullException()
         {
             PluginInitialisation sut = new PluginInitialisation();
+			Assert.IsNotNull(sut);
             sut.Initialise(null);
         }
 
@@ -129,7 +130,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ApiAuthorizationTests
         {
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
-
+			Assert.IsNotNull(sut);
             sut.Finalise();
         }
 

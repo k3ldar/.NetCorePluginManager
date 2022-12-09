@@ -138,8 +138,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SieraDeltaGeoIpTests
         {
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
+			Assert.IsNotNull(sut);
 
-            sut.Finalise();
+			sut.Finalise();
         }
 
         [TestMethod]

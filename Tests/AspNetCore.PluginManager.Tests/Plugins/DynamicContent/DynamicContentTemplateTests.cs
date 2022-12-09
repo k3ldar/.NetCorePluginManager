@@ -44,9 +44,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         public void Construct_Test()
         {
             MockDynamicTemplate sut = new MockDynamicTemplate();
-        }
+			Assert.IsNotNull(sut);
+		}
 
-        [TestMethod]
+		[TestMethod]
         [TestCategory(TestCategoryName)]
         public void UniqueId_Get_ExistingIsNull_ReturnsNewGuid_Success()
         {

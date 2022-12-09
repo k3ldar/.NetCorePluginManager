@@ -60,6 +60,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         public void Placebo_DoesNotThrowExceptions_Success()
         {
             PlaceboVirusScanner sut = new PlaceboVirusScanner();
+			Assert.IsNotNull(sut);
             sut.ScanDirectory(null);
             sut.ScanFile(fileName: null);
             sut.ScanFile(fileNames: null);

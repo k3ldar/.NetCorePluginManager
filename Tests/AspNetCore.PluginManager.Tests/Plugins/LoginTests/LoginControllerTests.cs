@@ -117,9 +117,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         public void Construct_ValidInstance_Success()
         {
             LoginController sut = new LoginController(new MockLoginProvider(), new MockSettingsProvider(SettingsEmpty), new MockClaimsProvider(), new MockMemoryCache());
-        }
+			Assert.IsNotNull(sut);
+		}
 
-        [TestMethod]
+		[TestMethod]
         [TestCategory(TestCategoryName)]
         public void Index_Get_Validate_MethodHasCorrectAttributes_Success()
         {
@@ -1274,13 +1275,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         {
             LoginController sut = CreateLoginController();
             Assert.IsNull(LoginController.GetCacheValue("invalid cache item"));
-        }
-
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        public void GetCacheValue_CacheItemIsNotLoginCacheItem_Returns_Null()
-        {
-
         }
 
         [TestMethod]

@@ -60,7 +60,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         [TestCategory(TestCategoryName)]
         public void InitialiseWithoutParametersAndFinalise()
         {
-            PluginManagerService.Initialise();
+            Assert.IsTrue(PluginManagerService.Initialise());
             PluginManagerService.Finalise();
         }
 
@@ -77,7 +77,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         [TestCategory(TestCategoryName)]
         public void InitialiseWithDefaultParameters()
         {
-            PluginManagerService.Initialise(new PluginManagerConfiguration());
+            Assert.IsTrue(PluginManagerService.Initialise(new PluginManagerConfiguration()));
         }
 
         [TestMethod]

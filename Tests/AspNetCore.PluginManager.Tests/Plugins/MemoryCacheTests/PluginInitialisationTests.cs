@@ -77,8 +77,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
             ThreadManager.Initialise();
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
+			Assert.IsNotNull(sut);
 
-            sut.Finalise();
+			sut.Finalise();
         }
 
         [TestMethod]
@@ -87,8 +88,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
         public void ConfigureServices_InvalidParam_Null_Throws_ArgumentNullException()
         {
             PluginInitialisation sut = new PluginInitialisation();
+			Assert.IsNotNull(sut);
 
-            sut.ConfigureServices(null);
+			sut.ConfigureServices(null);
         }
 
         [TestMethod]
@@ -109,8 +111,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
         public void Configure_InvalidParam_Null_DoesNotThrowException()
         {
             PluginInitialisation sut = new PluginInitialisation();
+			Assert.IsNotNull(sut);
 
-            sut.Configure(null);
+			sut.Configure(null);
         }
 
         [TestMethod]
@@ -118,8 +121,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
         public void BeforeConfigure_InvalidParam_Null_DoesNotThrowException()
         {
             PluginInitialisation sut = new PluginInitialisation();
+			Assert.IsNotNull(sut);
 
-            sut.BeforeConfigure(null);
+			sut.BeforeConfigure(null);
         }
 
         [TestMethod]
@@ -127,8 +131,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
         public void AfterConfigure_InvalidParam_Null_DoesNotThrowException()
         {
             PluginInitialisation sut = new PluginInitialisation();
+			Assert.IsNotNull(sut);
 
-            sut.AfterConfigure(null);
+			sut.AfterConfigure(null);
         }
 
         [TestMethod]
@@ -136,8 +141,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
         public void AfterConfigureServices_InvalidParam_Null_DoesNotThrowException()
         {
             PluginInitialisation sut = new PluginInitialisation();
+			Assert.IsNotNull(sut);
 
-            sut.AfterConfigureServices(null);
+			sut.AfterConfigureServices(null);
         }
 
         [TestMethod]
@@ -146,8 +152,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
         public void BeforeConfigureServices_InvalidParam_Null_Throws_ArgumentNullException()
         {
             PluginInitialisation sut = new PluginInitialisation();
+			Assert.IsNotNull(sut);
 
-            sut.BeforeConfigureServices(null);
+			sut.BeforeConfigureServices(null);
         }
 
         [TestMethod]
@@ -155,7 +162,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
         public void BeforeConfigureServices_Registers_ICacheManagerFactory_Successfully()
         {
             PluginInitialisation sut = new PluginInitialisation();
-            MockServiceCollection mockServiceCollection = new MockServiceCollection();
+			Assert.IsNotNull(sut);
+			
+			MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
             sut.BeforeConfigureServices(mockServiceCollection);
 

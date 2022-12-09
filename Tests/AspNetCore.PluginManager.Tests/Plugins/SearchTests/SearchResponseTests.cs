@@ -60,15 +60,17 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void SearchResponseLoggedOutInvalidSearchTermNull()
         {
-            SearchResponse response = new SearchResponse(false, null);
-        }
+            SearchResponse sut = new SearchResponse(false, null);
+			Assert.IsNotNull(sut);
+		}
 
-        [TestMethod]
+		[TestMethod]
         public void SearchResponseLoggedOutValidSearchTermEmptyString()
         {
-            SearchResponse response = new SearchResponse(false, "");
-        }
-    }
+            SearchResponse sut = new SearchResponse(false, "");
+			Assert.IsNotNull(sut);
+		}
+	}
 }
 
 #pragma warning restore IDE0059
