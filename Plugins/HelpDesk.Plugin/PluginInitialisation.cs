@@ -35,7 +35,7 @@ namespace HelpdeskPlugin
     /// Implements IPlugin and IPluginVersion which allows the HelpdeskPlugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public class PluginInitialisation : IPlugin, IPluginVersion
+    public class PluginInitialisation : IPlugin
     {
         public void ConfigureServices(IServiceCollection services)
         {

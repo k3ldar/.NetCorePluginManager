@@ -220,7 +220,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			return Result;
 		}
 
-		private static List<SessionUserAgent> AmalgamateSessionData(List<SessionYearly> yearlySessions, ref List<SessionUserAgent> Result)
+		private static void AmalgamateSessionData(List<SessionYearly> yearlySessions, ref List<SessionUserAgent> Result)
 		{
 			foreach (SessionYearly year in yearlySessions)
 			{
