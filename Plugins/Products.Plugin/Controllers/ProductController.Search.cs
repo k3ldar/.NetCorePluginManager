@@ -181,7 +181,7 @@ namespace ProductPlugin.Controllers
                 if (cacheItem == null)
                 {
                     int videoCount = _productProvider.GetProducts(1, Constants.MaximumProducts)
-                        .Where(p => !String.IsNullOrEmpty(p.VideoLink)).Count();
+                        .Count(p => !String.IsNullOrEmpty(p.VideoLink));
                     List<string> productGroups = new List<string>();
 
                     foreach (ProductGroup item in _productProvider.ProductGroupsGet())

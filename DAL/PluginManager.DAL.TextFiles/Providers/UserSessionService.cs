@@ -55,7 +55,6 @@ namespace PluginManager.DAL.TextFiles.Providers
 		private readonly ISimpleDBOperations<SessionDataRow> _sessionData;
 		private readonly ISimpleDBOperations<SessionPageDataRow> _sessionPageData;
 		private readonly ISimpleDBOperations<InitialReferralsDataRow> _initialRefererData;
-		private readonly ISimpleDBOperations<PageViewsDataRow> _pageViewsData;
 		private readonly ISimpleDBOperations<SessionStatsHourlyDataRow> _sessionDataHourly;
 		private readonly ISimpleDBOperations<SessionStatsDailyDataRow> _sessionDataDaily;
 		private readonly ISimpleDBOperations<SessionStatsWeeklyDataRow> _sessionDataWeekly;
@@ -64,12 +63,6 @@ namespace PluginManager.DAL.TextFiles.Providers
 		private readonly IUrlHashProvider _urlHashProvider;
 		internal readonly static Timings _timingsSaveSessions = new Timings();
 		private readonly IGeoIpProvider _geoIpProvider;
-		private readonly ILogger _logger;
-		private readonly uint _maxHours;
-		private readonly uint _maxDays;
-		private readonly uint _maxWeeks;
-		private readonly uint _maxMonths;
-		private readonly uint _maxYears;
 
 		#endregion Private Members
 
@@ -82,21 +75,19 @@ namespace PluginManager.DAL.TextFiles.Providers
 		}
 
 		public UserSessionService(
-			ILogger logger,
 			IUrlHashProvider urlHashProvider,
 			ISimpleDBOperations<UserDataRow> users,
 			ISimpleDBOperations<SettingsDataRow> settingsData,
 			ISimpleDBOperations<SessionDataRow> sessionData,
 			ISimpleDBOperations<SessionPageDataRow> sessionPageData,
 			ISimpleDBOperations<InitialReferralsDataRow> initialRefererData,
-			ISimpleDBOperations<PageViewsDataRow> pageViewsData,
 			ISimpleDBOperations<SessionStatsHourlyDataRow> sessionDataHourly,
 			ISimpleDBOperations<SessionStatsDailyDataRow> sessionDataDaily,
 			ISimpleDBOperations<SessionStatsWeeklyDataRow> sessionDataWeekly,
 			ISimpleDBOperations<SessionStatsMonthlyDataRow> sessionDataMonthly,
 			ISimpleDBOperations<SessionStatsYearlyDataRow> sessionDataYearly)
-			: this(null, logger, urlHashProvider, users, settingsData, sessionData, sessionPageData,
-				  initialRefererData, pageViewsData, sessionDataHourly, sessionDataDaily, sessionDataWeekly, 
+			: this(null, urlHashProvider, users, settingsData, sessionData, sessionPageData,
+				  initialRefererData, sessionDataHourly, sessionDataDaily, sessionDataWeekly, 
 				  sessionDataMonthly, sessionDataYearly)
 		{
 		}
@@ -108,14 +99,12 @@ namespace PluginManager.DAL.TextFiles.Providers
 		/// <param name="geoIpProvider">IGeoIpProvider instance</param>
 		/// <param name="logger">ILogger instance</param>
 		public UserSessionService(IGeoIpProvider geoIpProvider,
-			ILogger logger,
 			IUrlHashProvider urlHashProvider,
 			ISimpleDBOperations<UserDataRow> users,
 			ISimpleDBOperations<SettingsDataRow> settingsData,
 			ISimpleDBOperations<SessionDataRow> sessionData,
 			ISimpleDBOperations<SessionPageDataRow> sessionPageData,
 			ISimpleDBOperations<InitialReferralsDataRow> initialRefererData,
-			ISimpleDBOperations<PageViewsDataRow> pageViewsData,
 			ISimpleDBOperations<SessionStatsHourlyDataRow> sessionDataHourly,
 			ISimpleDBOperations<SessionStatsDailyDataRow> sessionDataDaily,
 			ISimpleDBOperations<SessionStatsWeeklyDataRow> sessionDataWeekly,
@@ -127,14 +116,12 @@ namespace PluginManager.DAL.TextFiles.Providers
 				throw new ArgumentNullException(nameof(settingsData));
 
 			_geoIpProvider = geoIpProvider;
-			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			_urlHashProvider = urlHashProvider ?? throw new ArgumentNullException(nameof(urlHashProvider));
 
 			_users = users ?? throw new ArgumentNullException(nameof(users));
 			_sessionData = sessionData ?? throw new ArgumentNullException(nameof(sessionData));
 			_sessionPageData = sessionPageData ?? throw new ArgumentNullException(nameof(sessionPageData));
 			_initialRefererData = initialRefererData ?? throw new ArgumentNullException(nameof(initialRefererData));
-			_pageViewsData = pageViewsData ?? throw new ArgumentNullException(nameof(pageViewsData));
 			_sessionDataHourly = sessionDataHourly ?? throw new ArgumentNullException(nameof(sessionDataHourly));
 			_sessionDataDaily = sessionDataDaily ?? throw new ArgumentNullException(nameof(sessionDataDaily));
 			_sessionDataWeekly = sessionDataWeekly ?? throw new ArgumentNullException(nameof(sessionDataWeekly));
@@ -142,12 +129,6 @@ namespace PluginManager.DAL.TextFiles.Providers
 			_sessionDataYearly = sessionDataYearly ?? throw new ArgumentNullException(nameof(sessionDataYearly));
 
 			ContinueIfGlobalException = true;
-
-			_maxHours = Convert.ToUInt32(settingsData.Select().Where(sd => sd.Name.Equals("SessionMaxHours")).First().Value);
-			_maxDays = Convert.ToUInt32(settingsData.Select().Where(sd => sd.Name.Equals("SessionMaxDays")).First().Value);
-			_maxWeeks = Convert.ToUInt32(settingsData.Select().Where(sd => sd.Name.Equals("SessionMaxWeeks")).First().Value);
-			_maxMonths = Convert.ToUInt32(settingsData.Select().Where(sd => sd.Name.Equals("SessionMaxMonths")).First().Value);
-			_maxYears = Convert.ToUInt32(settingsData.Select().Where(sd => sd.Name.Equals("SessionMaxYears")).First().Value);
 
 			ThreadManager.ThreadStart(this, ThreadName, ThreadPriority.BelowNormal);
 		}
@@ -223,7 +204,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				return;
 
 			string session = userSessionId;
-			SessionDataRow sessionData = _sessionData.Select().Where(s => s.SessionId.Equals(session)).FirstOrDefault();
+			SessionDataRow sessionData = _sessionData.Select().FirstOrDefault(s => s.SessionId.Equals(session));
 
 			if (sessionData == null)
 				return;
@@ -289,15 +270,15 @@ namespace PluginManager.DAL.TextFiles.Providers
 		/// A page view is requested to be saved, the actual saving will only happen when 
 		/// the session is closing and in another thread
 		/// </summary>
-		/// <param name="session"></param>
-		public void SavePage(in UserSession session)
+		/// <param name="pageView"></param>
+		public void SavePage(in UserSession pageView)
 		{
-			if (session == null)
+			if (pageView == null)
 				return;
 
-			session.SaveStatus = SaveStatus.Saved;
+			pageView.SaveStatus = SaveStatus.Saved;
 
-			foreach (PageViewData page in session.Pages)
+			foreach (PageViewData page in pageView.Pages)
 			{
 				page.SaveStatus = SaveStatus.Saved;
 			}
@@ -405,7 +386,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 						_sessionPageData.Insert(pages);
 
 						string pageHash = _urlHashProvider.GetUrlHash(session.Pages[0].URL);
-						InitialReferralsDataRow referrer = _initialRefererData.Select().Where(rd => rd.Hash.Equals(pageHash)).FirstOrDefault();
+						InitialReferralsDataRow referrer = _initialRefererData.Select().FirstOrDefault(rd => rd.Hash.Equals(pageHash));
 
 						if (referrer == null)
 						{
@@ -442,8 +423,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				int quarter = Math.Abs(currentDate.Minute / 15) + 1;
 
 				SessionStatsHourlyDataRow hourly = _sessionDataHourly.Select()
-					.Where(h => h.IsBot.Equals(session.IsBot) && h.Date.Date.Equals(currentDate.Date) && h.Hour == hour && h.Quarter == quarter)
-					.FirstOrDefault();
+					.FirstOrDefault(h => h.IsBot.Equals(session.IsBot) && h.Date.Date.Equals(currentDate.Date) && h.Hour == hour && h.Quarter == quarter);
 
 				if (hourly == null)
 				{
@@ -456,7 +436,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 					};
 				}
 
-				UpdateSessionData(session, hourly);
+				UserSessionService.UpdateSessionData(session, hourly);
 				_sessionDataHourly.InsertOrUpdate(hourly);
 			}
 		}
@@ -471,8 +451,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				DateTime sessionDate = session.Created;
 
 				SessionStatsDailyDataRow daily = _sessionDataDaily.Select()
-					.Where(d => d.IsBot.Equals(session.IsBot) && d.Date.Date.Equals(sessionDate.Date))
-					.FirstOrDefault();
+					.FirstOrDefault(d => d.IsBot.Equals(session.IsBot) && d.Date.Date.Equals(sessionDate.Date));
 
 				if (daily == null)
 				{
@@ -483,7 +462,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 					};
 				}
 
-				UpdateSessionData(session, daily);
+				UserSessionService.UpdateSessionData(session, daily);
 				_sessionDataDaily.InsertOrUpdate(daily);
 			}
 		}
@@ -504,8 +483,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 #endif
 
 				SessionStatsWeeklyDataRow weekly = _sessionDataWeekly.Select()
-					.Where(w => w.IsBot.Equals(session.IsBot) && w.Week.Equals(week) && w.Year == sessionDate.Year)
-					.FirstOrDefault();
+					.FirstOrDefault(w => w.IsBot.Equals(session.IsBot) && w.Week.Equals(week) && w.Year == sessionDate.Year);
 
 				if (weekly == null)
 				{
@@ -517,7 +495,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 					};
 				}
 
-				UpdateSessionData(session, weekly);
+				UserSessionService.UpdateSessionData(session, weekly);
 				_sessionDataWeekly.InsertOrUpdate(weekly);
 			}
 		}
@@ -532,8 +510,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				DateTime sessionDate = session.Created;
 
 				SessionStatsMonthlyDataRow monthly = _sessionDataMonthly.Select()
-					.Where(m => m.IsBot.Equals(session.IsBot) && m.Month.Equals(sessionDate.Month) && m.Year == sessionDate.Year)
-					.FirstOrDefault();
+					.FirstOrDefault(m => m.IsBot.Equals(session.IsBot) && m.Month.Equals(sessionDate.Month) && m.Year == sessionDate.Year);
 
 				if (monthly == null)
 				{
@@ -545,7 +522,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 					};
 				}
 
-				UpdateSessionData(session, monthly);
+				UserSessionService.UpdateSessionData(session, monthly);
 				_sessionDataMonthly.InsertOrUpdate(monthly);
 			}
 		}
@@ -560,8 +537,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				DateTime sessionDate = session.Created;
 
 				SessionStatsYearlyDataRow yearly = _sessionDataYearly.Select()
-					.Where(y => y.IsBot.Equals(session.IsBot) && y.Year.Equals(sessionDate.Year))
-					.FirstOrDefault();
+					.FirstOrDefault(y => y.IsBot.Equals(session.IsBot) && y.Year.Equals(sessionDate.Year));
 
 				if (yearly == null)
 				{
@@ -572,13 +548,13 @@ namespace PluginManager.DAL.TextFiles.Providers
 					};
 				}
 
-				UpdateSessionData(session, yearly);
+				UserSessionService.UpdateSessionData(session, yearly);
 				_sessionDataYearly.InsertOrUpdate(yearly);
 			}
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		private void UpdateSessionData(UserSession session, SessionStatsBaseData baseSessionData)
+		private static void UpdateSessionData(UserSession session, SessionStatsBaseData baseSessionData)
 		{
 			baseSessionData.TotalVisits++;
 
@@ -656,12 +632,6 @@ namespace PluginManager.DAL.TextFiles.Providers
 				baseSessionData.UserAgents.Add(userAgent, 0);
 
 			baseSessionData.UserAgents[userAgent]++;
-		}
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		private static string GetSessionName(in string sessionId)
-		{
-			return $"Session Service {sessionId}";
 		}
 
 		#endregion Private Methods

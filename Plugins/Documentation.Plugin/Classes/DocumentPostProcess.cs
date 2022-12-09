@@ -345,7 +345,6 @@ namespace DocumentationPlugin.Classes
             if (searchWord.Length > 0)
             {
                 Result.Append(FindReplaceableTags(document, linkDocument, searchWord.ToString(), true, createHyperlinks, removeNamespace));
-                searchWord = null;
             }
 
             return FindReplaceableTags(document, linkDocument, Result.ToString(), true, createHyperlinks, removeNamespace);
@@ -409,7 +408,7 @@ namespace DocumentationPlugin.Classes
             }
 
             if (currentTag != null)
-                builder.Append(currentTag.ToString());
+                builder.Append(currentTag);
 
             if (attemptToFindClass && builder.ToString().Equals(text))
             {
@@ -457,7 +456,7 @@ namespace DocumentationPlugin.Classes
             }
         }
 
-        private bool StringCouldBeNamespace(in string text)
+        private static bool StringCouldBeNamespace(in string text)
         {
             bool sepFound = false;
 

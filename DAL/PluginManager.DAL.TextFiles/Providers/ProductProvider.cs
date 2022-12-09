@@ -90,7 +90,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             int productGroupId = id;
 
-            if (_productData.Select().Where(p => p.ProductGroupId.Equals(productGroupId)).Any())
+            if (_productData.Select().Any(p => p.ProductGroupId.Equals(productGroupId)))
             {
                 errorMessage = Languages.LanguageStrings.ProductGroupContainsProducts;
                 return false;

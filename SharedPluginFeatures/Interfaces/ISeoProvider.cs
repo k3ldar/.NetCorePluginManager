@@ -100,8 +100,8 @@ namespace SharedPluginFeatures
         /// Group of keywords to be removed.
         /// </summary>
         /// <param name="route">Route which will be updated.</param>
-        /// <param name="keyword">Keywords to be removed.</param>
+        /// <param name="keywords">Keywords to be removed.</param>
         /// <returns>bool if route keywords are removed, otherwise false.</returns>
-        bool RemoveKeywords(in string route, in List<string> keyword);
+        bool RemoveKeywords(in string route, in List<string> keywords);
     }
 }

@@ -195,9 +195,9 @@ namespace SimpleDB
 							simpleDBTable.ClearAllMemory();
 							_tableLastAction[simpleDBTable] = DateTime.UtcNow;
 						}
-						catch (Shared.Classes.LockTimeoutException)
+						catch (LockTimeoutException)
 						{
-
+							//ignore specific exception
 						}
 
 						OnMemoryCleared?.Invoke(simpleDBTable);

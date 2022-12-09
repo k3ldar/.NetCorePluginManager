@@ -46,7 +46,7 @@ namespace ErrorManager.Plugin
     {
         public void ConfigureServices(IServiceCollection services)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void Finalise()
@@ -68,7 +68,7 @@ namespace ErrorManager.Plugin
 
         public void AfterConfigure(in IApplicationBuilder app)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
@@ -85,12 +85,12 @@ namespace ErrorManager.Plugin
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void Configure(in IApplicationBuilder app)
         {
-
+			// from interface but unused in this context
 		}
 
 		#endregion IInitialiseEvents Methods

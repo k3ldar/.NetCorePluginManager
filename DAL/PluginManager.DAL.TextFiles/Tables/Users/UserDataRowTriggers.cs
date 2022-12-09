@@ -36,22 +36,22 @@ namespace PluginManager.DAL.TextFiles.Tables
 
         public void AfterDelete(List<UserDataRow> records)
         {
-
+			// from interface but unused in this context
         }
 
-        public void AfterInsert(List<UserDataRow> records)
+		public void AfterInsert(List<UserDataRow> records)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void AfterUpdate(List<UserDataRow> records)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void BeforeDelete(List<UserDataRow> records)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void BeforeInsert(List<UserDataRow> records)
@@ -61,12 +61,12 @@ namespace PluginManager.DAL.TextFiles.Tables
 
         public void BeforeUpdate(List<UserDataRow> records)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void BeforeUpdate(UserDataRow newRecord, UserDataRow oldRecord)
         {
-
+			// from interface but unused in this context
 		}
 	}
 }

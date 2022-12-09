@@ -268,7 +268,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         public void LoggerStatisticsMenu_AddToLog_InvalidParam_Exception_Null_WithModuleName_Throws_ArgumentNullException()
         {
             LoggerStatisticsMenu sut = new LoggerStatisticsMenu();
-            sut.AddToLog(pm.LogLevel.Error, module: "my module", exception: null);
+            sut.AddToLog(pm.LogLevel.Error, moduleName: "my module", exception: null);
         }
 
         [TestMethod]

@@ -111,7 +111,7 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
                 }
                 catch (NotSupportedException)
                 {
-
+					// ignore specific exception
                 }
 
 

@@ -61,9 +61,8 @@ namespace WebSmokeTest.Plugin
         private static readonly CacheManager _testCache = new CacheManager("Web Smoke Test Cache", new TimeSpan(0, 10, 0), true);
         private readonly string _savedData = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.tmp");
         private readonly RequestDelegate _next;
-        private readonly string _staticFileExtensions = SharedPluginFeatures.Constants.StaticFileExtensions;
         internal static Timings _timings = new Timings();
-        private Boolean disposedValue;
+        private Boolean _disposedValue;
         private readonly ILogger _logger;
         private readonly WebSmokeTestSettings _settings;
         private static FileStream _testDataStream;
@@ -98,14 +97,6 @@ namespace WebSmokeTest.Plugin
             {
                 LoadSmokeTestData(pluginTypesService);
             }
-
-            if (!String.IsNullOrEmpty(_settings.StaticFileExtensions))
-                _staticFileExtensions = _settings.StaticFileExtensions;
-        }
-
-        ~WebSmokeTestMiddleware()
-        {
-            Dispose(false);
         }
 
         #endregion Constructors/Destructors
@@ -199,8 +190,14 @@ namespace WebSmokeTest.Plugin
 
         public void Dispose()
         {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
+			if (!_disposedValue)
+			{
+				_testDataStream.Dispose();
+				File.Delete(_savedData);
+				_disposedValue = true;
+			}
+			
+			GC.SuppressFinalize(this);
         }
 
         #endregion Public Methods
@@ -396,43 +393,28 @@ namespace WebSmokeTest.Plugin
 
         private static string GetHttpMethodFromMethodInfo(in IEnumerable<CustomAttributeData> attributes)
         {
-            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpGetAttribute")).Any())
+            if (attributes.Any(a => a.AttributeType.Name.Equals("HttpGetAttribute")))
                 return "GET";
 
-            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpPostAttribute")).Any())
+            if (attributes.Any(a => a.AttributeType.Name.Equals("HttpPostAttribute")))
                 return "POST";
 
-            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpPutAttribute")).Any())
+            if (attributes.Any(a => a.AttributeType.Name.Equals("HttpPutAttribute")))
                 return "PUT";
 
-            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpHeadAttribute")).Any())
+            if (attributes.Any(a => a.AttributeType.Name.Equals("HttpHeadAttribute")))
                 return "HEAD";
 
-            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpDeleteAttribute")).Any())
+            if (attributes.Any(a => a.AttributeType.Name.Equals("HttpDeleteAttribute")))
                 return "DELETE";
 
-            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpPatchAttribute")).Any())
+            if (attributes.Any(a => a.AttributeType.Name.Equals("HttpPatchAttribute")))
                 return "PATCH";
 
-            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpOptionsAttribute")).Any())
+            if (attributes.Any(a => a.AttributeType.Name.Equals("HttpOptionsAttribute")))
                 return "OPTIONS";
 
             return "GET";
-        }
-
-        private void Dispose(Boolean disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-
-                }
-
-                _testDataStream.Dispose();
-                File.Delete(_savedData);
-                disposedValue = true;
-            }
         }
 
         #endregion Private Methods

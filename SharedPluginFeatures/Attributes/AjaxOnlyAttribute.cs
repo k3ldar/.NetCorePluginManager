@@ -37,19 +37,19 @@ namespace SharedPluginFeatures
     [AttributeUsage(AttributeTargets.Method)]
     public class AjaxOnlyAttribute : ActionFilterAttribute
     {
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
-            if (filterContext == null)
-                throw new ArgumentNullException(nameof(filterContext));
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
 
-            if (!IsAjaxRequest(filterContext.HttpContext.Request))
+            if (!IsAjaxRequest(context.HttpContext.Request))
             {
-                filterContext.HttpContext.Response.StatusCode = 404;
-                filterContext.Result = new StatusCodeResult(404);
+                context.HttpContext.Response.StatusCode = 404;
+                context.Result = new StatusCodeResult(404);
             }
             else
             {
-                base.OnActionExecuting(filterContext);
+                base.OnActionExecuting(context);
             }
         }
 

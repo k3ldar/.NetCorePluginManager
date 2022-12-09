@@ -67,7 +67,7 @@ namespace ProductPlugin.Classes
             foreach (ProductPriceInfo priceInfo in productPriceInfo)
             {
                 int productPriceCount = _productProvider.GetProducts(1, MaximumProducts)
-                    .Where(p => priceInfo.PriceMatch(p.RetailPrice)).Count();
+                    .Count(p => priceInfo.PriceMatch(p.RetailPrice));
                 priceInfo.Text += $" ({productPriceCount})";
             }
 

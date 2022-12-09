@@ -115,7 +115,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
             List<IMinifyResult> minifyResult = _minifyFileContents.MinifyData(MinificationFileType.Js, jsFile, out string result);
 
             Assert.IsTrue(result.Equals("var systemAdmin = function () {\nlet _settings = {\nseoPage: '',\nseoButton: '',\nseoModal: '',\n};\nlet that = {\ninit: function (settings) {\ndebugger;\n_settings = settings;\n$(document).ready(function () {\ndebugger;\n});\n}\n};\nreturn that;\n}();"));
-            Assert.AreEqual(minifyResult[minifyResult.Count - 1].EndLength, 236);
+            Assert.AreEqual(236, minifyResult[minifyResult.Count - 1].EndLength);
         }
 
         [TestMethod]

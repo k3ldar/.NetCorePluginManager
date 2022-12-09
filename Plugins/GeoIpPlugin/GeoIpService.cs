@@ -84,16 +84,16 @@ namespace GeoIp.Plugin
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         public bool GetIpAddressDetails(in string ipAddress, out string countryCode, out string region,
-            out string cityName, out decimal latitude, out decimal longitude, out long ipUniqueID, out long fromIp, out long toIp)
+            out string cityName, out decimal latitude, out decimal longitude, out long uniqueId, out long ipFrom, out long ipTo)
         {
             countryCode = "ZZ";
             region = String.Empty;
             cityName = String.Empty;
             latitude = -1;
             longitude = -1;
-            ipUniqueID = -1;
-            fromIp = 0;
-            toIp = 0;
+            uniqueId = -1;
+            ipFrom = 0;
+            ipTo = 0;
 
             // works in 2 ways, if we have loaded WebNet77 data, we have ip ranges and will supplement them
             // if we are using a geoip provider.  if no geoip provider only the country code is there lat/lon
@@ -128,7 +128,7 @@ namespace GeoIp.Plugin
                     if (provider != null)
                     {
                         memoryIp.IsComplete = provider.GetIpAddressDetails(ipAddress, out countryCode, out region,
-                            out cityName, out latitude, out longitude, out ipUniqueID, out long _, out long _);
+                            out cityName, out latitude, out longitude, out uniqueId, out long _, out long _);
                     }
 
                     memoryIp.CountryCode = countryCode;
@@ -144,7 +144,7 @@ namespace GeoIp.Plugin
             // WebNet77 data is not present, check to see if we have the ip in memory, if we do
             // return that, if not, try and get it from ip provider
             return GetCachedIPAddressDetails(ipAddress, out countryCode, out region,
-                out cityName, out latitude, out longitude, out ipUniqueID);
+                out cityName, out latitude, out longitude, out uniqueId);
         }
 
         #endregion Public Methods

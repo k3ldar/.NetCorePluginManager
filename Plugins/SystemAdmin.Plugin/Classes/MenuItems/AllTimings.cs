@@ -48,16 +48,14 @@ namespace SystemAdmin.Plugin.Classes.MenuItems
         private static DateTime _lastRun = DateTime.MinValue;
         private static string _lastData;
 
-        private readonly IPluginClassesService _pluginClassesService;
         private readonly ISystemAdminHelperService _systemAdminHelperService;
 
         #endregion Private Members
 
         #region Constructors
 
-        public AllTimings(IPluginClassesService pluginClassesService, ISystemAdminHelperService systemAdminHelperService)
+        public AllTimings(ISystemAdminHelperService systemAdminHelperService)
         {
-            _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
             _systemAdminHelperService = systemAdminHelperService ?? throw new ArgumentNullException(nameof(systemAdminHelperService));
         }
 

@@ -155,7 +155,7 @@ namespace Resources.Plugin.Controllers
 			if (model == null)
 				return RedirectToAction(nameof(Index));
 
-			if (_resourceProvider.GetAllResources(model.ParentId).Where(r => r.Name.Equals(model.Name, StringComparison.InvariantCultureIgnoreCase)).Any())
+			if (_resourceProvider.GetAllResources(model.ParentId).Any(r => r.Name.Equals(model.Name, StringComparison.InvariantCultureIgnoreCase)))
 			{
 				ModelState.AddModelError(nameof(model.Name), LanguageStrings.CategoryNameExists);
 			}
@@ -210,8 +210,7 @@ namespace Resources.Plugin.Controllers
 				return RedirectToAction(nameof(ManageCategories));
 
 			if (_resourceProvider.GetAllResources(model.ParentId)
-				.Where(r => r.Id != model.Id && r.Name.Equals(model.Name, StringComparison.InvariantCultureIgnoreCase))
-				.Any())
+				.Any(r => r.Id != model.Id && r.Name.Equals(model.Name, StringComparison.InvariantCultureIgnoreCase)))
 			{
 				ModelState.AddModelError(nameof(model.Name), LanguageStrings.CategoryNameExists);
 			}

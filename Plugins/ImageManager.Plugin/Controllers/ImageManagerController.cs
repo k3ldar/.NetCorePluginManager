@@ -76,7 +76,6 @@ namespace ImageManager.Plugin.Controllers
         #region Private Members
 
         private static int _uploadId = 0;
-        private readonly ISettingsProvider _settingsProvider;
         private readonly IImageProvider _imageProvider;
         private readonly INotificationService _notificationService;
         private readonly IMemoryCache _memoryCache;
@@ -86,13 +85,11 @@ namespace ImageManager.Plugin.Controllers
 
         #region Constructors
 
-        public ImageManagerController(ISettingsProvider settingsProvider,
-            IImageProvider imageProvider,
+        public ImageManagerController(IImageProvider imageProvider,
             INotificationService notificationService,
             IMemoryCache memoryCache,
             IVirusScanner virusScanner)
         {
-            _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
             _imageProvider = imageProvider ?? throw new ArgumentNullException(nameof(imageProvider));
             _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
@@ -334,7 +331,7 @@ namespace ImageManager.Plugin.Controllers
 
         #region Private Methods
 
-        private bool FileExtensionAccepted(IFormFile formFile)
+        private static bool FileExtensionAccepted(IFormFile formFile)
         {
             string extension = Path.GetExtension(formFile.FileName).ToLower();
 
@@ -408,7 +405,7 @@ namespace ImageManager.Plugin.Controllers
 				if (invalidResponse == null && (String.IsNullOrEmpty(model.GroupName) || !_imageProvider.GroupExists(model.GroupName)))
 					invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidGroupName);
 
-				if (invalidResponse == null && (!String.IsNullOrEmpty(model.SubgroupName) && !_imageProvider.SubgroupExists(model.GroupName, model.SubgroupName)))
+				if (invalidResponse == null && !String.IsNullOrEmpty(model.SubgroupName) && !_imageProvider.SubgroupExists(model.GroupName, model.SubgroupName))
 					invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidSubgroupName);
 			}
 

@@ -343,7 +343,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
             Assert.IsNotNull(postProcessResults);
 
             Assert.AreEqual(1, postProcessResults.DocumentsProcessed);
-            Assert.AreEqual(searchDoc.Returns, "Dictionary&lt;string, <a href=\"/docs/Document/Test/AdvancedSearchOptions/\">AdvancedSearchOptions</a>&gt;");
+            Assert.AreEqual("Dictionary&lt;string, <a href=\"/docs/Document/Test/AdvancedSearchOptions/\">AdvancedSearchOptions</a>&gt;", searchDoc.Returns);
         }
 
         [TestMethod]

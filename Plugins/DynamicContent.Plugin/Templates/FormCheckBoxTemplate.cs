@@ -82,7 +82,7 @@ namespace DynamicContent.Plugin.Templates
 
             set
             {
-
+				// not used but required for interface
             }
         }
 
@@ -95,9 +95,9 @@ namespace DynamicContent.Plugin.Templates
 
             set
             {
-
-            }
-        }
+				// not used but required for interface
+			}
+		}
 
         public override DynamicContentWidthType WidthType { get; set; }
 

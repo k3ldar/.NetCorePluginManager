@@ -166,7 +166,7 @@ namespace Middleware.DynamicContent
                 nextIndex++;
                 Result = String.Format(ControlName, nextIndex);
             }
-            while (Content.Where(c => c.UniqueId.Equals(Result)).Any());
+            while (Content.Any(c => c.UniqueId.Equals(Result)));
 
             return Result;
         }

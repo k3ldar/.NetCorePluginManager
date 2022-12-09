@@ -175,7 +175,7 @@ namespace UserSessionMiddleware.Plugin
             }
             catch (InvalidOperationException)
             {
-
+				// ignore specific exception
             }
 
             if (_geoIpInstance != null)
@@ -200,10 +200,10 @@ namespace UserSessionMiddleware.Plugin
             }
             catch (InvalidOperationException)
             {
+				// ignore specific exception
+			}
 
-            }
-
-            if (_userSessionService != null)
+			if (_userSessionService != null)
                 return true;
 
             return false;

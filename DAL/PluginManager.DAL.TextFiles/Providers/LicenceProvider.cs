@@ -85,7 +85,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             userLicenses.ForEach(ul =>
             {
-                LicenseTypeDataRow licenseTypeDataRow = licenseTypes.Where(lt => lt.Id.Equals(ul.LicenseType)).First();
+                LicenseTypeDataRow licenseTypeDataRow = licenseTypes.First(lt => lt.Id.Equals(ul.LicenseType));
                 Result.Add(new Licence(ul.Id, ul.UserId, new LicenceType(licenseTypeDataRow.Id, licenseTypeDataRow.Description), ul.StartDate, 
                     ul.ExpireDate, ul.IsValid, ul.IsTrial, ul.UpdateCount, ul.InvoiceId, ul.DomainName, ul.EncryptedLicense));
             });
@@ -137,7 +137,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             long licenseTypeId = licenceType.Id;
 
-            if (_licenses.Select().Where(l => l.UserId.Equals(user.Id) && l.LicenseType.Equals(licenseTypeId) && l.IsTrial).Any())
+            if (_licenses.Select().Any(l => l.UserId.Equals(user.Id) && l.LicenseType.Equals(licenseTypeId) && l.IsTrial))
                 return LicenceCreate.Existing;
 
             LicenseDataRow licenseDataRow = new LicenseDataRow()
