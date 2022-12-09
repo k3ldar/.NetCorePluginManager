@@ -139,7 +139,7 @@ namespace RestrictIp.Plugin
                         {
                             foreach (string restrictedIp in restrictedRoute.Value)
                             {
-                                if (String.IsNullOrEmpty(restrictedIp) || (isLocalAddress && restrictedIp == LocalHost))
+                                if (String.IsNullOrEmpty(restrictedIp) || (isLocalAddress && (restrictedIp == LocalHost)))
                                     return;
 
                                 if (userIpAddress.StartsWith(restrictedIp))
