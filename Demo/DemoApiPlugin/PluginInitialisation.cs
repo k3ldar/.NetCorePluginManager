@@ -35,12 +35,12 @@ namespace DemoApiPlugin
 
         public void ConfigureServices(IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void Finalise()
         {
-			return;
+
 		}
 
 		public ushort GetVersion()
@@ -50,7 +50,7 @@ namespace DemoApiPlugin
 
         public void Initialise(ILogger logger)
         {
-			return;
+
 		}
 
 		#endregion IPlugin Methods

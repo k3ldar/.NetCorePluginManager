@@ -44,12 +44,12 @@ namespace BadEgg.Plugin
 
         public void Initialise(ILogger logger)
         {
-			return;
+
 		}
 
 		public void Finalise()
         {
-			return;
+
 		}
 
 		public void ConfigureServices(IServiceCollection services)

@@ -44,12 +44,12 @@ namespace CacheControl.Plugin
 
         public void ConfigureServices(IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void Finalise()
         {
-			return;
+
 		}
 
 		public ushort GetVersion()
@@ -68,12 +68,12 @@ namespace CacheControl.Plugin
 
 		public void AfterConfigure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void BeforeConfigure(in IApplicationBuilder app)
@@ -83,12 +83,12 @@ namespace CacheControl.Plugin
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void Configure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		#endregion IInitialiseEvents Methods

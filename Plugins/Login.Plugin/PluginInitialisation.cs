@@ -44,22 +44,22 @@ namespace LoginPlugin
 
         public void AfterConfigure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void BeforeConfigure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		public void BeforeConfigureServices(in IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void Configure(in IApplicationBuilder app)
@@ -73,12 +73,12 @@ namespace LoginPlugin
 
         public void ConfigureServices(IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void Finalise()
         {
-			return;
+
 		}
 
 		public ushort GetVersion()
@@ -88,7 +88,7 @@ namespace LoginPlugin
 
         public void Initialise(ILogger logger)
         {
-			return;
+
 		}
 
 		#endregion IPlugin Methods

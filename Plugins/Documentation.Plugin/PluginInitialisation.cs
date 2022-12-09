@@ -56,12 +56,12 @@ namespace DocumentationPlugin
 
         public void ConfigureServices(IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void Finalise()
         {
-			return;
+
 		}
 
 		public ushort GetVersion()
@@ -71,11 +71,11 @@ namespace DocumentationPlugin
 
         public void Initialise(ILogger logger)
         {
-			return;
+
 		}
 		public void AfterConfigure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
@@ -87,17 +87,17 @@ namespace DocumentationPlugin
 
         public void BeforeConfigure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 
 		public void BeforeConfigureServices(in IServiceCollection services)
         {
-			return;
+
 		}
 
 		public void Configure(in IApplicationBuilder app)
         {
-			return;
+
 		}
 	}
 }

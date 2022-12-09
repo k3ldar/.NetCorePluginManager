@@ -76,9 +76,6 @@ namespace PluginManager.DAL.TextFiles.Providers
                 _memoryCacheManager.Add(cacheName, cacheItem);
             }
 
-            if (cacheItem == null)
-                return false;
-
             secret = (string)cacheItem.Value;
 
             return true;

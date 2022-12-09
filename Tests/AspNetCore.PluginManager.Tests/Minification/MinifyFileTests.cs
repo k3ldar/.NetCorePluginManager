@@ -136,22 +136,22 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         [TestMethod]
         public void MinifyTestIgnorePre()
         {
-            const string tempDataWithPreBlock = "<html><body><h1>Test</h1><pre><!-- ignored --></pre></body></html>";
+            const string tempDataWithPreBlock = "<html lang=\"en\"><body><h1>Test</h1><pre><!-- ignored --></pre></body></html>";
             List<IMinifyResult> minifyResult = _minifyFileContents.MinifyData(MinificationFileType.Htm, tempDataWithPreBlock, out string result);
 
             Assert.IsTrue(result.Equals(tempDataWithPreBlock));
-            Assert.AreEqual(66, minifyResult[4].EndLength);
+            Assert.AreEqual(76, minifyResult[4].EndLength);
         }
 
         [TestMethod]
         public void MinifyTestIgnoreLinesAndTabsInPreBlock()
         {
-            const string tempDataWithPreBlock = "<html><body><h1>Test</h1>\r\n<pre>\t\r\n\t<!-- ignored -->\r\n\t\t\r\n</pre></body></html>";
+            const string tempDataWithPreBlock = "<html lang=\"en\"><body><h1>Test</h1>\r\n<pre>\t\r\n\t<!-- ignored -->\r\n\t\t\r\n</pre></body></html>";
 
             List<IMinifyResult> minifyResult = _minifyFileContents.MinifyData(MinificationFileType.Htm, tempDataWithPreBlock, out string result);
 
-            Assert.IsTrue(result.Equals("<html><body><h1>Test</h1>\n<pre>\t\n\t<!-- ignored -->\n\t\t\n</pre></body></html>"));
-            Assert.AreEqual(74, minifyResult[4].EndLength);
+            Assert.IsTrue(result.Equals("<html lang=\"en\"><body><h1>Test</h1>\n<pre>\t\n\t<!-- ignored -->\n\t\t\n</pre></body></html>"));
+            Assert.AreEqual(84, minifyResult[4].EndLength);
         }
     }
 }
