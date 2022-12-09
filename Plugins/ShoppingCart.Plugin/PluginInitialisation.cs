@@ -46,17 +46,17 @@ namespace ShoppingCartPlugin
 
         public void ConfigureServices(IServiceCollection services)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void Finalise()
         {
-
+			// from interface but unused in this context
 		}
 
 		public void Initialise(ILogger logger)
         {
-
+			// from interface but unused in this context
 		}
 
 		#endregion IPlugin Methods
@@ -74,17 +74,17 @@ namespace ShoppingCartPlugin
 
         public void BeforeConfigure(in IApplicationBuilder app)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void AfterConfigure(in IApplicationBuilder app)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void BeforeConfigureServices(in IServiceCollection services)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
