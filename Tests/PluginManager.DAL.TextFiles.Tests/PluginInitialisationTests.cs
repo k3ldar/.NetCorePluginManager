@@ -122,8 +122,9 @@ namespace PluginManager.DAL.TextFiles.Tests
         public void Finalise_DoesNotThrowException()
         {
             PluginInitialisation sut = new PluginInitialisation();
+			Assert.IsNotNull(sut);
 
-            sut.Finalise();
+			sut.Finalise();
         }
 
         [TestMethod]

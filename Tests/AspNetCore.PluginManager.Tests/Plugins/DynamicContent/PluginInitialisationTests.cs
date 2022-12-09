@@ -65,9 +65,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         public void PluginInitialization_InvalidParam_Null_Throws_ArgumentNullException()
         {
             PluginInitialisation sut = new PluginInitialisation(null);
-        }
+			Assert.IsNotNull(sut);
+		}
 
-        [TestMethod]
+		[TestMethod]
         [TestCategory(GeneralTestsCategory)]
         public void GetVersion_ReturnsCurrentVersion_Success()
         {
@@ -142,8 +143,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
+			Assert.IsNotNull(sut);
 
-            sut.Finalise();
+			sut.Finalise();
         }
 
         [TestMethod]

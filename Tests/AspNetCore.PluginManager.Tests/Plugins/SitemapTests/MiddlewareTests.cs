@@ -91,9 +91,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             SitemapMiddleware sut = new SitemapMiddleware(requestDelegate, new MockPluginClassesService(), new MockMemoryCache(), new MockNotificationService(), new MockLogger());
-        }
+			Assert.IsNotNull(sut);
+		}
 
-        [TestMethod]
+		[TestMethod]
         [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
         public async Task Invoke_InvalidParam_Context_Null_Throws_ArgumentNullException()
@@ -239,7 +240,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             SitemapMiddleware sut = new SitemapMiddleware(requestDelegate, new MockPluginClassesService(), new MockMemoryCache(), new MockNotificationService(), new MockLogger());
-            sut.EventRaised("event name", null, null);
+			Assert.IsNotNull(sut);
+			
+			sut.EventRaised("event name", null, null);
         }
 
         [TestMethod]

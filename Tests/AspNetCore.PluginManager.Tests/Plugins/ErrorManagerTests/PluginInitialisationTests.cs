@@ -110,8 +110,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ErrorManagerTests
             ThreadManager.Initialise();
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
+			Assert.IsNotNull(sut);
 
-            sut.Finalise();
+			sut.Finalise();
         }
 
         [TestMethod]
@@ -134,7 +135,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ErrorManagerTests
         {
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
-            MockServiceCollection mockServiceCollection = new MockServiceCollection();
+			Assert.IsNotNull(sut);
+			
+			MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
             sut.AfterConfigureServices(null);
         }

@@ -41,10 +41,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestMethod]
         public void CreateBaseSearchOptionsLoggedInValidEmptySearchTerm()
         {
-            BaseSearchOptions baseSearchOptions = new BaseSearchOptions(true, "");
-        }
+            BaseSearchOptions sut = new BaseSearchOptions(true, "");
+			Assert.IsNotNull(sut);
+		}
 
-        [TestMethod]
+		[TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreateBaseSearchOptionsLoggedOutInvalidSearchTerm()
         {
@@ -54,15 +55,17 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestMethod]
         public void CreateBaseSearchOptionsLoggedIn()
         {
-            BaseSearchOptions baseSearchOptions = new BaseSearchOptions(true, "anything");
-        }
+            BaseSearchOptions sut = new BaseSearchOptions(true, "anything");
+			Assert.IsNotNull(sut);
+		}
 
-        [TestMethod]
+		[TestMethod]
         public void CreateBaseSearchOptionsLoggedOut()
         {
-            BaseSearchOptions baseSearchOptions = new BaseSearchOptions(false, "anything");
-        }
-    }
+            BaseSearchOptions sut = new BaseSearchOptions(false, "anything");
+			Assert.IsNotNull(sut);
+		}
+	}
 }
 
 #pragma warning restore IDE0059

@@ -49,7 +49,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DemoWebsiteTests
         public void ErrorManagerProvider_ErrorRaised_Success()
         {
             ErrorManagerProvider sut = new ErrorManagerProvider();
-            sut.ErrorRaised(null);
+			Assert.IsNotNull(sut);
+			sut.ErrorRaised(null);
         }
 
         [TestMethod]

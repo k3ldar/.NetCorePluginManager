@@ -58,8 +58,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         public void ConfigureService_Success()
         {
             Startup sut = new Startup();
+			Assert.IsNotNull(sut);
 
-            sut.ConfigureServices(new MockServiceCollection());
+			sut.ConfigureServices(new MockServiceCollection());
         }
     }
 }

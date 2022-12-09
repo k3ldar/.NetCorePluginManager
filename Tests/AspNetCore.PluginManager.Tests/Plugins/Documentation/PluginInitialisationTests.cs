@@ -107,8 +107,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
         {
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
+			Assert.IsNotNull(sut);
 
-            sut.Finalise();
+			sut.Finalise();
         }
 
         [TestMethod]

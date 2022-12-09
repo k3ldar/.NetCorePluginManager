@@ -477,11 +477,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
             MockActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new MockActionDescriptorCollectionProvider(actionDescriptorCollection);
             MockLogger testLogger = new MockLogger();
 
-            new SubdomainMiddleware(null, actionDescriptorCollectionProvider, new RouteDataServices(),
+            SubdomainMiddleware sut = new SubdomainMiddleware(null, actionDescriptorCollectionProvider, new RouteDataServices(),
                 pluginHelperService, pluginClassesService, pluginTypesServices, settingsProvider, testLogger);
-        }
+			Assert.IsNotNull(sut);
+		}
 
-        [TestMethod]
+		[TestMethod]
         [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void SubdomainMiddleware_Construct_InvalidRouteProvider_Throws_ArgumentNullException()
@@ -751,8 +752,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         {
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
+			Assert.IsNotNull(sut);
 
-            sut.Finalise();
+			sut.Finalise();
         }
 
         [TestMethod]
@@ -761,8 +763,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         {
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
+			Assert.IsNotNull(sut);
 
-            sut.ConfigureServices(new MockServiceCollection());
+			sut.ConfigureServices(new MockServiceCollection());
         }
 
         #endregion PluginInitialisation
