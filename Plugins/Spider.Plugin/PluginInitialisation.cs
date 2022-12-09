@@ -54,12 +54,12 @@ namespace Spider.Plugin
 
         public void AfterConfigure(in IApplicationBuilder app)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void BeforeConfigure(in IApplicationBuilder app)
@@ -69,12 +69,12 @@ namespace Spider.Plugin
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void Configure(in IApplicationBuilder app)
         {
-
+			// from interface but unused in this context
 		}
 
 		#endregion IInitialiseEvents Methods
@@ -83,12 +83,12 @@ namespace Spider.Plugin
 
 		public void Initialise(ILogger logger)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void Finalise()
         {
-
+			// from interface but unused in this context
 		}
 
 		public void ConfigureServices(IServiceCollection services)

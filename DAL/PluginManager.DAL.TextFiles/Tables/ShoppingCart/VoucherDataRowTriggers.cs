@@ -35,25 +35,25 @@ namespace PluginManager.DAL.TextFiles.Tables
 
         public void AfterDelete(List<VoucherDataRow> records)
         {
+			// from interface but unused in this context
+		}
 
-        }
-
-        public void AfterInsert(List<VoucherDataRow> records)
+		public void AfterInsert(List<VoucherDataRow> records)
         {
+			// from interface but unused in this context
+		}
 
-        }
-
-        public void AfterUpdate(List<VoucherDataRow> records)
+		public void AfterUpdate(List<VoucherDataRow> records)
         {
+			// from interface but unused in this context
+		}
 
-        }
-
-        public void BeforeDelete(List<VoucherDataRow> records)
+		public void BeforeDelete(List<VoucherDataRow> records)
         {
+			// from interface but unused in this context
+		}
 
-        }
-
-        public void BeforeInsert(List<VoucherDataRow> records)
+		public void BeforeInsert(List<VoucherDataRow> records)
         {
             ValidateVoucherData(records);
         }
@@ -65,10 +65,10 @@ namespace PluginManager.DAL.TextFiles.Tables
 
         public void BeforeUpdate(VoucherDataRow newRecord, VoucherDataRow oldRecord)
         {
-            
-        }
+			// from interface but unused in this context
+		}
 
-        private void ValidateVoucherData(List<VoucherDataRow> records)
+		private void ValidateVoucherData(List<VoucherDataRow> records)
         {
             foreach (VoucherDataRow record in records)
             {

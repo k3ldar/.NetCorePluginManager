@@ -133,12 +133,8 @@ namespace PluginManager.DAL.TextFiles.Providers
 		/// <returns></returns>
 		public List<SessionUserAgent> GetUserAgents()
 		{
-			List<SessionUserAgent> Result = null;
-
 			List<SessionYearly> yearlySessions = CopySessionData<SessionYearly, SessionStatsYearlyDataRow>(_sessionDataYearly.Select(), false);
-			AmalgamateSessionData(yearlySessions, ref Result);
-
-			return Result;
+			return AmalgamateSessionData(yearlySessions);
 		}
 
 		#endregion ISessionStatisticsProvider Methods
@@ -220,8 +216,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 			return Result;
 		}
 
-		private static void AmalgamateSessionData(List<SessionYearly> yearlySessions, ref List<SessionUserAgent> Result)
+		private static List<SessionUserAgent> AmalgamateSessionData(List<SessionYearly> yearlySessions)
+
 		{
+			List<SessionUserAgent> Result = null;
+
 			foreach (SessionYearly year in yearlySessions)
 			{
 				if (Result == null)

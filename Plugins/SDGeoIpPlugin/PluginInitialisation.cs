@@ -57,7 +57,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         public void Finalise()
         {
-
+			// from interface but unused in this context
 		}
 
 		public void ConfigureServices(IServiceCollection services)
@@ -76,7 +76,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         public void BeforeConfigure(in IApplicationBuilder app)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void AfterConfigure(in IApplicationBuilder app)
@@ -88,17 +88,17 @@ namespace SieraDeltaGeoIp.Plugin
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void Configure(in IApplicationBuilder app)
         {
-
+			// from interface but unused in this context
 		}
 
 		#endregion IInitialiseEvents Methods
