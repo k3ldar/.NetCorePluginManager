@@ -40,25 +40,25 @@ namespace PluginManager.DAL.TextFiles.Tables.Products
 
         public void AfterDelete(List<ProductDataRow> records)
         {
+			// from interface but unused in this context
+		}
 
-        }
-
-        public void AfterInsert(List<ProductDataRow> records)
+		public void AfterInsert(List<ProductDataRow> records)
         {
+			// from interface but unused in this context
+		}
 
-        }
-
-        public void AfterUpdate(List<ProductDataRow> records)
+		public void AfterUpdate(List<ProductDataRow> records)
         {
+			// from interface but unused in this context
+		}
 
-        }
-
-        public void BeforeDelete(List<ProductDataRow> records)
+		public void BeforeDelete(List<ProductDataRow> records)
         {
+			// from interface but unused in this context
+		}
 
-        }
-
-        public void BeforeInsert(List<ProductDataRow> records)
+		public void BeforeInsert(List<ProductDataRow> records)
         {
             records.ForEach(r => ValidateData(r));
         }
@@ -70,10 +70,10 @@ namespace PluginManager.DAL.TextFiles.Tables.Products
 
         public void BeforeUpdate(ProductDataRow newRecord, ProductDataRow oldRecord)
         {
-            
-        }
+			// from interface but unused in this context
+		}
 
-        private void ValidateData(ProductDataRow row)
+		private void ValidateData(ProductDataRow row)
         {
             if (String.IsNullOrEmpty(row.Name))
                 throw new InvalidDataRowException(nameof(ProductDataRow), nameof(row.Name), "Can not be null or empty");

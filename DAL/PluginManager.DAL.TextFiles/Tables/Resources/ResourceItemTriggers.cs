@@ -38,22 +38,22 @@ namespace PluginManager.DAL.TextFiles.Tables
 
 		public void AfterDelete(List<ResourceItemDataRow> records)
 		{
-
+			// from interface but unused in this context
 		}
 
 		public void AfterInsert(List<ResourceItemDataRow> records)
 		{
-
+			// from interface but unused in this context
 		}
 
 		public void AfterUpdate(List<ResourceItemDataRow> records)
 		{
-
+			// from interface but unused in this context
 		}
 
 		public void BeforeDelete(List<ResourceItemDataRow> records)
 		{
-
+			// from interface but unused in this context
 		}
 
 		public void BeforeInsert(List<ResourceItemDataRow> records)
@@ -68,7 +68,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 
 		public void BeforeUpdate(ResourceItemDataRow newRecord, ResourceItemDataRow oldRecord)
 		{
-
+			// from interface but unused in this context
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]

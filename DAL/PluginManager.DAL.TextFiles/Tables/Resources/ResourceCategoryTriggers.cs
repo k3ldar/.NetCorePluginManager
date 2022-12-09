@@ -35,18 +35,22 @@ namespace PluginManager.DAL.TextFiles.Tables
 
 		public void AfterDelete(List<ResourceCategoryDataRow> records)
 		{
+			// from interface but unused in this context
 		}
 
 		public void AfterInsert(List<ResourceCategoryDataRow> records)
 		{
+			// from interface but unused in this context
 		}
 
 		public void AfterUpdate(List<ResourceCategoryDataRow> records)
 		{
+			// from interface but unused in this context
 		}
 
 		public void BeforeDelete(List<ResourceCategoryDataRow> records)
 		{
+			// from interface but unused in this context
 		}
 
 		public void BeforeInsert(List<ResourceCategoryDataRow> records)
@@ -60,6 +64,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 
 		public void BeforeUpdate(List<ResourceCategoryDataRow> records)
 		{
+			// from interface but unused in this context
 		}
 
 		public void BeforeUpdate(ResourceCategoryDataRow newRecord, ResourceCategoryDataRow oldRecord)

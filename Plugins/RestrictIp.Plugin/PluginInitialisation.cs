@@ -46,17 +46,17 @@ namespace RestrictIp.Plugin
 
         public void Initialise(ILogger logger)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void Finalise()
         {
-
+			// from interface but unused in this context
 		}
 
 		public void ConfigureServices(IServiceCollection services)
         {
-
+			// from interface but unused in this context
 		}
 
 		public ushort GetVersion()
@@ -70,14 +70,13 @@ namespace RestrictIp.Plugin
 
         public void AfterConfigure(in IApplicationBuilder app)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
         {
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
-
         }
 
         public void BeforeConfigure(in IApplicationBuilder app)
@@ -87,12 +86,12 @@ namespace RestrictIp.Plugin
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
-
+			// from interface but unused in this context
 		}
 
 		public void Configure(in IApplicationBuilder app)
         {
-
+			// from interface but unused in this context
 		}
 
 		#endregion IInitialiseEvents Methods

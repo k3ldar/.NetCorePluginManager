@@ -35,37 +35,37 @@ namespace PluginManager.DAL.TextFiles.Tables
 
         public void AfterDelete(List<InvoiceDataRow> records)
         {
+			// from interface but unused in this context
+		}
 
-        }
-
-        public void AfterInsert(List<InvoiceDataRow> records)
+		public void AfterInsert(List<InvoiceDataRow> records)
         {
+			// from interface but unused in this context
+		}
 
-        }
-
-        public void AfterUpdate(List<InvoiceDataRow> records)
+		public void AfterUpdate(List<InvoiceDataRow> records)
         {
+			// from interface but unused in this context
+		}
 
-        }
-
-        public void BeforeDelete(List<InvoiceDataRow> records)
+		public void BeforeDelete(List<InvoiceDataRow> records)
         {
             throw new InvalidDataRowException(nameof(InvoiceDataRow), nameof(InvoiceDataRow.Id), "Invoices can not be deleted");
         }
 
         public void BeforeInsert(List<InvoiceDataRow> records)
         {
+			// from interface but unused in this context
+		}
 
-        }
-
-        public void BeforeUpdate(List<InvoiceDataRow> records)
+		public void BeforeUpdate(List<InvoiceDataRow> records)
         {
+			// from interface but unused in this context
+		}
 
-        }
-
-        public void BeforeUpdate(InvoiceDataRow newRecord, InvoiceDataRow oldRecord)
+		public void BeforeUpdate(InvoiceDataRow newRecord, InvoiceDataRow oldRecord)
         {
-            
-        }
-    }
+			// from interface but unused in this context
+		}
+	}
 }
