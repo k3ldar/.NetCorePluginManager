@@ -32,55 +32,27 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager
 {
-    internal sealed class PluginInstance : IPlugin, IInitialiseEvents
+    internal sealed class PluginInstance : IPlugin
     {
-        public void AfterConfigure(in IApplicationBuilder app)
-        {
+		public void ConfigureServices(IServiceCollection services)
+		{
+			// required by interface not used in this implementation
+		}
 
-        }
+		public void Finalise()
+		{
+			// required by interface not used in this implementation
+		}
 
-        public void AfterConfigureServices(in IServiceCollection services)
-        {
-            //services.AddSingleton<IAuthorizationHandler, Handlers.ApiAuthorizationHandler>();
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy(Constants.PolicyNameApiAuthorization,
-            //        policy => policy.AddRequirements(new Handlers.ApiAuthorizationHandler()));
-            //});
-        }
-
-        public void BeforeConfigure(in IApplicationBuilder app)
-        {
-
-        }
-
-        public void BeforeConfigureServices(in IServiceCollection services)
-        {
-
-        }
-
-        public void Configure(in IApplicationBuilder app)
-        {
-
-        }
-
-        public void ConfigureServices(IServiceCollection services)
-        {
-        }
-
-        public void Finalise()
-        {
-
-        }
-
-        public ushort GetVersion()
+		public ushort GetVersion()
         {
             return 1;
         }
 
-        public void Initialise(ILogger logger)
-        {
-
-        }
-    }
+		public void Initialise(ILogger logger)
+		{
+			// required by interface not used in this implementation
+			// required by interface not used in this implementation
+		}
+	}
 }

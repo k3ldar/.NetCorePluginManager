@@ -38,24 +38,24 @@ namespace PluginManager.Internal
 
         public void ConfigureServices(IServiceCollection services)
         {
+			// required by interface not used in this implementation
+		}
 
-        }
-
-        public void Finalise()
+		public void Finalise()
         {
+			// required by interface not used in this implementation
+		}
 
-        }
-
-        public ushort GetVersion()
+		public ushort GetVersion()
         {
             return 1;
         }
 
         public void Initialise(ILogger logger)
         {
+			// required by interface not used in this implementation
+		}
 
-        }
-
-        #endregion IPlugin Methods
-    }
+		#endregion IPlugin Methods
+	}
 }

@@ -44,9 +44,9 @@ namespace GeoIp.Plugin
         private readonly GeoIpPluginSettings _geoIpSettings;
         private IpCity[] _geoIpCityData;
         private List<IpCity> _tempIpCity = new List<IpCity>();
-        internal static Timings _timingsIpCache = new Timings();
-        internal static Timings _timingsIpMemory = new Timings();
-        internal static Timings _timingsIpProvider = new Timings();
+        internal readonly static Timings _timingsIpCache = new Timings();
+        internal readonly static Timings _timingsIpMemory = new Timings();
+        internal readonly static Timings _timingsIpProvider = new Timings();
 
         #endregion Private Members
 

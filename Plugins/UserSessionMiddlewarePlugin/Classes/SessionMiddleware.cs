@@ -59,7 +59,7 @@ namespace UserSessionMiddleware.Plugin
         private readonly string _staticFileExtension = Constants.StaticFileExtensions;
         private readonly List<RouteData> _routeData;
         private readonly string _defaultCulture;
-        internal static Timings _timings = new Timings();
+        internal readonly static Timings _timings = new Timings();
 
         #endregion Private Members
 

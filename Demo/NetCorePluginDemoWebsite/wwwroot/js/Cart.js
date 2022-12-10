@@ -2,10 +2,10 @@
 //http://jsfiddle.net/laelitenetwork/puJ6G/
 $('.btn-number').click(function (e) {
 e.preventDefault();
-var fieldName = $(this).attr('data-field');
-var type = $(this).attr('data-type');
-var input = $("input[name='" + fieldName + "']");
-var currentVal = parseInt(input.val());
+let fieldName = $(this).attr('data-field');
+let type = $(this).attr('data-type');
+let input = $("input[name='" + fieldName + "']");
+let currentVal = parseInt(input.val());
 if (!isNaN(currentVal)) {
 if (type == 'minus') {
 if (currentVal > input.attr('min')) {
@@ -30,10 +30,10 @@ $('.input-number').focusin(function () {
 $(this).data('oldValue', $(this).val());
 });
 $('.input-number').change(function () {
-var minValue = parseInt($(this).attr('min'));
-var maxValue = parseInt($(this).attr('max'));
-var valueCurrent = parseInt($(this).val());
-var name = $(this).attr('name');
+let minValue = parseInt($(this).attr('min'));
+let maxValue = parseInt($(this).attr('max'));
+let valueCurrent = parseInt($(this).val());
+let name = $(this).attr('name');
 if (valueCurrent >= minValue) {
 $(".btn-number[data-type='minus'][data-field='" + name + "']").removeAttr('disabled')
 } else {

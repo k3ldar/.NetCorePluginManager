@@ -38,32 +38,31 @@ namespace BadEgg.Plugin.Classes
 
         public void AfterConfigure(in IApplicationBuilder app)
         {
+			// required by interface not used in this implementation
+		}
 
-        }
-
-        public void AfterConfigureServices(in IServiceCollection services)
+		public void AfterConfigureServices(in IServiceCollection services)
         {
+			// required by interface not used in this implementation
+		}
 
-
-        }
-
-        public void BeforeConfigure(in IApplicationBuilder app)
+		public void BeforeConfigure(in IApplicationBuilder app)
         {
             app.UseBadEgg();
         }
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
+			// required by interface not used in this implementation
+		}
 
-        }
-
-        public void Configure(in IApplicationBuilder app)
+		public void Configure(in IApplicationBuilder app)
         {
+			// required by interface not used in this implementation
+		}
 
-        }
-
-        #endregion IInitialiseEvents Methods
-    }
+		#endregion IInitialiseEvents Methods
+	}
 }
 
 #pragma warning disable CS1591

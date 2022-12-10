@@ -48,9 +48,9 @@ namespace SieraDeltaGeoIp.Plugin
         private readonly ILogger _logger;
         private IpCity[] _geoIpCityData;
         private List<IpCity> _tempIpCity = new List<IpCity>();
-        internal static Timings _timingsIpCache = new Timings();
-        internal static Timings _timingsIpMemory = new Timings();
-        internal static Timings _timingsIpDatabase = new Timings();
+        internal readonly static Timings _timingsIpCache = new Timings();
+        internal readonly static Timings _timingsIpMemory = new Timings();
+        internal readonly static Timings _timingsIpDatabase = new Timings();
 
         #endregion Private Members
 

@@ -1,5 +1,5 @@
-﻿var imageManager = (function () {
-    var _options = {
+﻿let imageManager = (function () {
+    let _options = {
         submitButton: '',
         showDeleteButton: '',
         submitForm: '',
@@ -12,7 +12,7 @@
         extraData: '',
     };
 
-    var root = {
+    let root = {
         init: function (options) {
             _options = options;
 
@@ -33,7 +33,7 @@
 
 
         validateAndSubmit: function (e) {
-            var confirmed = $(_options.confirmDeleteId)[0].checked;
+            let confirmed = $(_options.confirmDeleteId)[0].checked;
 
             if (confirmed === undefined || confirmed === false) {
                 $(_options.confirmMessage).show();
@@ -44,19 +44,19 @@
             $(_options.confirmMessage).hide();
             $('#ConfirmDelete').val(true);
 
-            var form = $(_options.submitForm);
+            let form = $(_options.submitForm);
 
             if (form == null) {
                 return false;
             }
 
-            var content = new Object();
+            let content = new Object();
             content.ImageName = $('#ImageName').val();
             content.GroupName = $('#GroupName').val();
             content.SubgroupName = $('#SubgroupName').val();
             content.ConfirmDelete = $('#ConfirmDelete').val() === "true";
 
-            var json = JSON.stringify(content);
+            let json = JSON.stringify(content);
 
 
             $.ajax({

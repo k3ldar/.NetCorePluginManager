@@ -1,9 +1,9 @@
-﻿var searchPlugin = (function () {
-    var _controls = {
+﻿let searchPlugin = (function () {
+    let _controls = {
         btnSubmit: '',
     };
 
-    var _options = {
+    let _options = {
         searchControl: '',
         form: '',
         searchButton: '',
@@ -13,10 +13,10 @@
         searchId: '',
     };
 
-    var _currentFocus;
-    var _keywords = null;
+    let _currentFocus;
+    let _keywords = null;
 
-    var root = {
+    let root = {
         init: function (controls) {
             _controls = controls;
 
@@ -47,7 +47,7 @@
         },
 
         quickSearch: function (e) {
-            var text = $(_options.searchControl)[0].value;
+            let text = $(_options.searchControl)[0].value;
 
             if (text === undefined || text.length < _options.minSearchLength) {
                 $(_options.validation).show();
@@ -61,7 +61,7 @@
         },
 
         performQuickSearch: function (s, ctrl) {
-            var kwords = new String(s);
+            let kwords = new String(s);
 
             if (kwords.length < _options.minSearchLength) {
                 _keywords = null;
@@ -69,7 +69,7 @@
                 return;
             }
 
-            var content = new Object();
+            let content = new Object();
             content.keywords = kwords;
             content.searchId = "123456";
             $.ajax({
@@ -86,7 +86,7 @@
         },
 
         quickSearchInput: function (e) {
-            var val = this.value;
+            let val = this.value;
 
             if (!val) {
                 return false;
@@ -102,14 +102,14 @@
                 return false;
             }
 
-            var prntDiv = document.createElement("div");
+            let prntDiv = document.createElement("div");
             prntDiv.setAttribute("id", this.id + "autocomplete-list");
             prntDiv.setAttribute("class", "autocomplete-items");
 
             ctrl.parentNode.appendChild(prntDiv);
 
-            for (var i = 0; i < _keywords.length; i++) {
-                var itemDiv = document.createElement("div");
+            for (let i = 0; i < _keywords.length; i++) {
+                let itemDiv = document.createElement("div");
                 itemDiv.innerHTML += _keywords[i].response;
                 itemDiv.innerHTML += "<input type='hidden' value='" + _keywords[i].url + "'>";
                 itemDiv.addEventListener("click", function (e) {
@@ -122,7 +122,7 @@
         },
 
         quickSearchKeyDown: function (e) {
-            var items = document.getElementById(this.id + "autocomplete-list");
+            let items = document.getElementById(this.id + "autocomplete-list");
 
             if (items)
                 items = items.getElementsByTagName("div");
@@ -146,7 +146,7 @@
         closeAllLists: function (elmnt) {
             let itms = document.getElementsByClassName("autocomplete-items");
 
-            for (var i = 0; i < itms.length; i++) {
+            for (let i = 0; i < itms.length; i++) {
                 if (elmnt != itms[i] && elmnt != _options.searchControl) {
                     itms[i].parentNode.removeChild(itms[i]);
                 }
@@ -154,7 +154,7 @@
         },
 
         activeRemove: function (itm) {
-            for (var i = 0; i < itm.length; i++) {
+            for (let i = 0; i < itm.length; i++) {
                 itm[i].classList.remove("autocomplete-active");
             }
 

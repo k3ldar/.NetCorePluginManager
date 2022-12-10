@@ -44,9 +44,9 @@ namespace SystemAdmin.Plugin.Classes.MenuItems
 
         private const int MinimumResetMilliseconds = 1500;
 
-        private static List<SystemAdminSubMenu> _timingItems;
-        private static DateTime _lastRun = DateTime.MinValue;
-        private static string _lastData;
+        private List<SystemAdminSubMenu> _timingItems;
+        private DateTime _lastRun = DateTime.MinValue;
+        private string _lastData;
 
         private readonly ISystemAdminHelperService _systemAdminHelperService;
 

@@ -1,5 +1,5 @@
-﻿var resources = (function () {
-    var root = {
+﻿let resources = (function () {
+    let root = {
 
         itemResponse: function (id, v) {
             let json = {

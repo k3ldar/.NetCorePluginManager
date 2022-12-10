@@ -43,10 +43,10 @@ namespace Blog.Plugin.Classes
 
         public void AfterConfigure(in IApplicationBuilder app)
         {
+			// required by interface not used in this implementation
+		}
 
-        }
-
-        public void AfterConfigureServices(in IServiceCollection services)
+		public void AfterConfigureServices(in IServiceCollection services)
         {
             // Add blog specific policies
             services.AddAuthorization(options =>
@@ -64,24 +64,24 @@ namespace Blog.Plugin.Classes
 
         public void BeforeConfigure(in IApplicationBuilder app)
         {
+			// required by interface not used in this implementation
+		}
 
-        }
-
-        public void BeforeConfigureServices(in IServiceCollection services)
+		public void BeforeConfigureServices(in IServiceCollection services)
         {
+			// required by interface not used in this implementation
+		}
 
-        }
-
-        public void Configure(in IApplicationBuilder app)
+		public void Configure(in IApplicationBuilder app)
         {
+			// required by interface not used in this implementation
+		}
 
-        }
+		#endregion IInitialiseEvents
 
-        #endregion IInitialiseEvents
+		#region IClaimsService
 
-        #region IClaimsService
-
-        public List<string> GetClaims()
+		public List<string> GetClaims()
         {
             return new List<string>()
             {

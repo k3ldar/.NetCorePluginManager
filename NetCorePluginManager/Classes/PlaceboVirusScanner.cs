@@ -32,17 +32,17 @@ namespace AspNetCore.PluginManager.Internal
     {
         public void ScanDirectory(in string directory)
         {
+			// required by interface not used in demo
+		}
 
-        }
-
-        public void ScanFile(in string fileName)
+		public void ScanFile(in string fileName)
         {
+			// required by interface not used in demo
+		}
 
-        }
-
-        public void ScanFile(in string[] fileNames)
+		public void ScanFile(in string[] fileNames)
         {
-
-        }
-    }
+			// required by interface not used in demo
+		}
+	}
 }

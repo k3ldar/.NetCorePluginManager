@@ -61,7 +61,7 @@ namespace BadEgg.Plugin
         private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
         private readonly BadEggSettings _badEggSettings;
         private readonly INotificationService _notificationService;
-        internal static Timings _timings = new Timings();
+        internal readonly static Timings _timings = new Timings();
 
         #endregion Private Members
 

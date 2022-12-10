@@ -71,7 +71,7 @@ namespace Subdomain.Plugin
         private readonly bool _processStaticFiles;
         private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
         private readonly ILogger _logger;
-        internal static Timings _timings = new Timings();
+        internal readonly static Timings _timings = new Timings();
 
         #endregion Private Members
 
