@@ -32,10 +32,10 @@ namespace ErrorManager.Plugin.Classes
     {
         public void ErrorRaised(in ErrorInformation errorInformation)
         {
+			// required by interface not used in this implementation
+		}
 
-        }
-
-        public bool MissingPage(in string path, ref string replacePath)
+		public bool MissingPage(in string path, ref string replacePath)
         {
             return false;
         }

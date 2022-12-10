@@ -58,7 +58,7 @@ namespace DynamicContent.Plugin.Internal
         private readonly List<IDynamicContentPage> _dynamicContent;
         private readonly IPluginClassesService _pluginClassesService;
         private readonly object _lockObject = new object();
-        private static List<DynamicContentTemplate> _templates;
+        private List<DynamicContentTemplate> _templates;
 
         #endregion Private Members
 

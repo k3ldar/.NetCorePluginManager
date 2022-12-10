@@ -104,13 +104,15 @@ namespace DemoApiPlugin.Controllers
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public void Post([FromBody] string value)
         {
-        }
+			// demo method
+		}
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
+		// PUT api/values/5
+		[HttpPut("{id}")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public void Put(int id, [FromBody] string value)
         {
+			// demo method
         }
 
         // DELETE api/values/5
@@ -118,9 +120,10 @@ namespace DemoApiPlugin.Controllers
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public void Delete(int id)
         {
-        }
+			// demo method
+		}
 
-        [HttpGet]
+		[HttpGet]
         [Route("/api/ex")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "Used as a route to raise an exception")]
         public void RaiseError()

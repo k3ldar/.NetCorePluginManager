@@ -89,10 +89,10 @@ namespace ProductPlugin.Classes
 
         public void EventRaised(in string eventId, in object param1, in object param2)
         {
+			// required by interface not used in this implementation
+		}
 
-        }
-
-        public List<string> GetEvents()
+		public List<string> GetEvents()
         {
             return new List<string>()
             {

@@ -39,7 +39,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public void ConfigureApplicationBuilder(in IApplicationBuilder applicationBuilder)
         {
-
+			// required by interface not used in mock
         }
 
         #endregion IConfigureApplicationBuilder Methods
@@ -48,9 +48,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public void ConfigureMvcBuilder(in IMvcBuilder mvcBuilder)
         {
+			// required by interface not used in mock
+		}
 
-        }
-
-        #endregion IConfigureMvcBuilder Methods
-    }
+		#endregion IConfigureMvcBuilder Methods
+	}
 }

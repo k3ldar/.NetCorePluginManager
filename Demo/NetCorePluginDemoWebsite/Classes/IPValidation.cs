@@ -37,7 +37,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public void ConnectionAdd(in string ipAddress)
         {
-
+			// required for interface, not used in demo mode
         }
 
         public bool ConnectionBan(in string ipAddress, in double hits, in ulong requests, in TimeSpan duration)
@@ -48,14 +48,14 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public void ConnectionRemove(in string ipAddress, in double hits, in ulong requests, in TimeSpan duration)
         {
+			// required for interface, not used in demo mode
+		}
 
-        }
-
-        public void ConnectionReport(in string ipAddress, in string queryString, in Enums.ValidateRequestResult validation)
+		public void ConnectionReport(in string ipAddress, in string queryString, in Enums.ValidateRequestResult validation)
         {
+			// required for interface, not used in demo mode
+		}
 
-        }
-
-        #endregion IIpValidation Methods
-    }
+		#endregion IIpValidation Methods
+	}
 }

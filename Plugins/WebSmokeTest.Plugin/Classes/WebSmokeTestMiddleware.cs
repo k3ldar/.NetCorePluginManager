@@ -61,7 +61,7 @@ namespace WebSmokeTest.Plugin
         private static readonly CacheManager _testCache = new CacheManager("Web Smoke Test Cache", new TimeSpan(0, 10, 0), true);
         private readonly string _savedData = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.tmp");
         private readonly RequestDelegate _next;
-        internal static Timings _timings = new Timings();
+        internal readonly static Timings _timings = new Timings();
         private Boolean _disposedValue;
         private readonly ILogger _logger;
         private readonly WebSmokeTestSettings _settings;

@@ -53,7 +53,7 @@ namespace CacheControl.Plugin
         private readonly HashSet<string> _ignoredRoutes;
         private bool _disabled;
         private readonly object _lockObject = new object();
-        internal static Timings _timings = new Timings();
+        internal readonly static Timings _timings = new Timings();
 
         #endregion Private Members
 

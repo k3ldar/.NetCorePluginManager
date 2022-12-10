@@ -56,7 +56,7 @@ namespace Breadcrumb.Plugin
         private static readonly CacheManager _breadcrumbCache = new CacheManager("Breadcrumb Cache", new TimeSpan(0, 20, 0), true);
         private readonly RequestDelegate _next;
         private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
-        internal static Timings _timings = new Timings();
+        internal readonly static Timings _timings = new Timings();
         private readonly IStringLocalizer _stringLocalizer;
         private readonly BreadcrumbItem _homeBreadCrumb;
         private readonly ILogger _logger;

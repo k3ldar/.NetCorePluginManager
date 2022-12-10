@@ -68,7 +68,7 @@ namespace Sitemap.Plugin
         private readonly object _lockObject = new object();
         private readonly string mainSitemap = $"{Constants.ForwardSlashChar}{Constants.BaseSitemap}";
         private readonly ILogger _logger;
-        internal static Timings _timings = new Timings();
+        internal readonly static Timings _timings = new Timings();
 
 
         #endregion Private Members
@@ -146,10 +146,10 @@ namespace Sitemap.Plugin
 
         public void EventRaised(in string eventId, in object param1, in object param2)
         {
+			// required by interface not used in this implementation
+		}
 
-        }
-
-        public List<string> GetEvents()
+		public List<string> GetEvents()
         {
             return new List<string>() { Constants.NotificationSitemapNames };
         }

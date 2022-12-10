@@ -1,4 +1,4 @@
-﻿var systemAdmin = function () {
+﻿let systemAdmin = function () {
     let _settings = {
         seoPage: '',
         seoButton: '',
@@ -48,9 +48,9 @@
         },
 
         hookForms: function () {
-            var formsCollection = document.forms;
-            for (var i = 0; i < formsCollection.length; i++) {
-                var form = formsCollection[i];
+            let formsCollection = document.forms;
+            for (let i = 0; i < formsCollection.length; i++) {
+                let form = formsCollection[i];
 
                 if (form.action.includes(_settings.controllerRoot)) {
                     if (form.attachEvent) {

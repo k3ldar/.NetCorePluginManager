@@ -51,12 +51,12 @@ cache: false,
 success: function (response) {
 if (response.success) {
 $(_settings.dynamicContainer).html(response.responseData);
-var editButtons = document.getElementsByClassName("editBtn");
-for (var i = 0; i < editButtons.length; i++) {
+let editButtons = document.getElementsByClassName("editBtn");
+for (let i = 0; i < editButtons.length; i++) {
 editButtons[i].addEventListener('click', root.editClicked, false);
 }
-var deleteButtons = document.getElementsByClassName("deleteBtn");
-for (var i = 0; i < deleteButtons.length; i++) {
+let deleteButtons = document.getElementsByClassName("deleteBtn");
+for (let i = 0; i < deleteButtons.length; i++) {
 deleteButtons[i].addEventListener('click', root.deleteClicked, false);
 }
 }
@@ -71,8 +71,8 @@ let left = ui.position.left;
 let top = ui.position.top;
 let ctl = ui.item[0].id;
 let items = document.getElementById(_settings.dynamicContainerId).getElementsByTagName("li");
-var controls = [items[0].id];
-for (var i = 1; i < items.length; i++) {
+let controls = [items[0].id];
+for (let i = 1; i < items.length; i++) {
 controls.push(items[i].id);
 }
 let updateJson = {
@@ -181,16 +181,16 @@ dragOver: function (event) {
 event.preventDefault();
 },
 dropTemplate: function (event) {
-var nextControl = "";
-var nearliId = ""
-var nearest = document.elementFromPoint(event.pageX, event.pageY);
+let nextControl = "";
+let nearliId = ""
+let nearest = document.elementFromPoint(event.pageX, event.pageY);
 if (nearest != null && nearest != undefined) {
-var nearli = nearest.closest("li");
+let nearli = nearest.closest("li");
 if (nearli != null && nearli != undefined) {
-var nearul = nearli.closest("ul");
+let nearul = nearli.closest("ul");
 if (nearul != null && nearul != undefined) {
 nearliId = nearli.id;
-for (var i = 0; i < nearul.childNodes.length; i++) {
+for (let i = 0; i < nearul.childNodes.length; i++) {
 if (nearul.childNodes[i].id === nearliId) {
 nextControl = nearul.childNodes[i].id;
 break;

@@ -49,7 +49,7 @@ namespace SeoPlugin
         private readonly IMemoryCache _memoryCache;
         private readonly ISeoProvider _seoProvider;
         private readonly RequestDelegate _next;
-        internal static Timings _timings = new Timings();
+        internal readonly static Timings _timings = new Timings();
 
         #endregion Private Members
 

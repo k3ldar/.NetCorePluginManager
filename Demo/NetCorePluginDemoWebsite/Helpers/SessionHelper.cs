@@ -48,32 +48,32 @@ namespace AspNetCore.PluginManager.DemoWebsite.Helpers
 
         private static void UserSession_IPAddressDetails(object sender, Shared.IpAddressArgs e)
         {
+			// not used in mock
+		}
 
-        }
-
-        private static void UserSession_OnSessionSave(object sender, Shared.UserSessionArgs e)
+		private static void UserSession_OnSessionSave(object sender, Shared.UserSessionArgs e)
         {
+			// not used in mock
+		}
 
-        }
-
-        private static void UserSession_OnSessionRetrieve(object sender, Shared.UserSessionRequiredArgs e)
+		private static void UserSession_OnSessionRetrieve(object sender, Shared.UserSessionRequiredArgs e)
         {
+			// not used in mock
+		}
 
-        }
-
-        private static void UserSession_OnSessionClosing(object sender, Shared.UserSessionArgs e)
+		private static void UserSession_OnSessionClosing(object sender, Shared.UserSessionArgs e)
         {
+			// not used in mock
+		}
 
-        }
-
-        private static void UserSession_OnSavePage(object sender, Shared.UserPageViewArgs e)
+		private static void UserSession_OnSavePage(object sender, Shared.UserPageViewArgs e)
         {
+			// not used in mock
+		}
 
-        }
-
-        private static void UserSession_OnSessionCreated(object sender, Shared.UserSessionArgs e)
+		private static void UserSession_OnSessionCreated(object sender, Shared.UserSessionArgs e)
         {
-
-        }
-    }
+			// not used in mock
+		}
+	}
 }

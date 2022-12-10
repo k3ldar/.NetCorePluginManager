@@ -15,19 +15,8 @@ Master: [![CodeQL](https://github.com/k3ldar/.NetCorePluginManager/actions/workf
 
 Develop: [![CodeQL](https://github.com/k3ldar/.NetCorePluginManager/actions/workflows/codeql-analysis.yml/badge.svg?branch=develop)](https://github.com/k3ldar/.NetCorePluginManager/actions/workflows/codeql-analysis.yml)
 
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=k3ldar_.NetCorePluginManager&metric=vulnerabilities)](https://sonarcloud.io/summary/overall?id=k3ldar_.NetCorePluginManager)
-
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=k3ldar_.NetCorePluginManager&metric=bugs)](https://sonarcloud.io/summary/overalloverall?id=k3ldar_.NetCorePluginManager)
-
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=k3ldar_.NetCorePluginManager&metric=reliability_rating)](https://sonarcloud.io/summary/overall?id=k3ldar_.NetCorePluginManager)
-
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=k3ldar_.NetCorePluginManager&metric=code_smells)](https://sonarcloud.io/summary/overall?id=k3ldar_.NetCorePluginManager)
-
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=k3ldar_.NetCorePluginManager&metric=sqale_rating)](https://sonarcloud.io/summary/overall?id=k3ldar_.NetCorePluginManager)
-
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=k3ldar_.NetCorePluginManager&metric=security_rating)](https://sonarcloud.io/summary/overall?id=k3ldar_.NetCorePluginManager)
-
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=k3ldar_.NetCorePluginManager&metric=sqale_index)](https://sonarcloud.io/summary/overall?id=k3ldar_.NetCorePluginManager)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=k3ldar_.NetCorePluginManager&metric=vulnerabilities)](https://sonarcloud.io/summary/overall?id=k3ldar_.NetCorePluginManager) [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=k3ldar_.NetCorePluginManager&metric=bugs)](https://sonarcloud.io/summary/overalloverall?id=k3ldar_.NetCorePluginManager) [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=k3ldar_.NetCorePluginManager&metric=code_smells)](https://sonarcloud.io/summary/overall?id=k3ldar_.NetCorePluginManager) 
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=k3ldar_.NetCorePluginManager&metric=reliability_rating)](https://sonarcloud.io/summary/overall?id=k3ldar_.NetCorePluginManager) [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=k3ldar_.NetCorePluginManager&metric=sqale_rating)](https://sonarcloud.io/summary/overall?id=k3ldar_.NetCorePluginManager) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=k3ldar_.NetCorePluginManager&metric=security_rating)](https://sonarcloud.io/summary/overall?id=k3ldar_.NetCorePluginManager) [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=k3ldar_.NetCorePluginManager&metric=sqale_index)](https://sonarcloud.io/summary/overall?id=k3ldar_.NetCorePluginManager)
 
 # Live Demo
 http://PluginManager.website

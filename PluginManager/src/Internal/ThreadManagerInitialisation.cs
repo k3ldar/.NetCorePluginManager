@@ -38,7 +38,7 @@ namespace PluginManager.Internal
     {
         #region Private Members
 
-        private static ILogger _logger;
+        private ILogger _logger;
 
         #endregion Private Members
 

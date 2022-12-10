@@ -61,8 +61,8 @@ namespace Spider.Plugin
         private readonly ILogger _logger;
         private readonly IRobots _robots;
 
-        internal static Timings _timings = new Timings();
-        internal static Timings _botTrapTimings = new Timings();
+        internal readonly static Timings _timings = new Timings();
+        internal readonly static Timings _botTrapTimings = new Timings();
 
         #endregion Private Members
 

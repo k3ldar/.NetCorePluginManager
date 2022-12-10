@@ -1,10 +1,10 @@
-﻿var helpdesk = (function () {
-    var _settings = {
+﻿let helpdesk = (function () {
+    let _settings = {
         growlTitle: '',
         updateMsg: '',
     };
 
-    var root = {
+    let root = {
         init: function (settings) {
             _settings = settings;
 

@@ -31,7 +31,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
     {
         public void ErrorRaised(in ErrorInformation errorInformation)
         {
-
+			// not saving errors in demo mode, required for interface
         }
 
         public bool MissingPage(in string path, ref string replacePath)

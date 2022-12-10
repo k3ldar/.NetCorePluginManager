@@ -1,5 +1,5 @@
-﻿var userAccount = (function () {
-var _settings = {
+﻿let userAccount = (function () {
+let _settings = {
 updateMsg: '',
 deliveryAddressUrl: '',
 deleteAddressUrl: '',
@@ -10,7 +10,7 @@ createTrialLicenceBtn: '',
 licenceSendEmailUrl: '',
 sendEmailLicenceBtn: ''
 };
-var root = {
+let root = {
 init: function (settings) {
 _settings = settings;
 $(document).ready(function () {
@@ -35,7 +35,7 @@ location.replace(_settings.licenceSendEmailUrl);
 },
 deleteAddress: function (addressId) {
 if (window.confirm("Are you sure you want to delete the address?")) {
-var xhr = new XMLHttpRequest();
+let xhr = new XMLHttpRequest();
 xhr.open("POST", _settings.deleteAddressUrl + '/' + addressId, true);
 xhr.setRequestHeader('Content-Type', 'application/json');
 xhr.send();

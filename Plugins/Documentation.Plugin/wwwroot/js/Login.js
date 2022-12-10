@@ -1,10 +1,10 @@
-﻿var loginPlugin = (function () {
-    var _controls = {
+﻿let loginPlugin = (function () {
+    let _controls = {
         btnForgotPassword: '',
         btnSubmit: '',
     };
 
-    var root = {
+    let root = {
         init: function (controls) {
             _controls = controls;
 

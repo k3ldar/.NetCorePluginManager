@@ -32,7 +32,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
 {
     internal abstract class MinifyOperation
     {
-        protected Timings _timings = new Timings();
+        protected readonly Timings _timings = new Timings();
 
         public abstract IMinifyResult Process(in MinificationFileType fileType, ref string data, in List<PreserveBlock> preserveBlocks);
 

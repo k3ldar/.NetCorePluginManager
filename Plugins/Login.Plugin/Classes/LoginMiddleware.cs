@@ -52,9 +52,9 @@ namespace LoginPlugin
         private readonly ILoginProvider _loginProvider;
         private readonly LoginControllerSettings _loginControllerSettings;
         private readonly IClaimsProvider _claimsProvider;
-        internal static Timings _loginTimings = new Timings();
-        internal static Timings _autoLoginCookieTimings = new Timings();
-        internal static Timings _autoLoginBasicAuthLogin = new Timings();
+        internal readonly static Timings _loginTimings = new Timings();
+        internal readonly static Timings _autoLoginCookieTimings = new Timings();
+        internal readonly static Timings _autoLoginBasicAuthLogin = new Timings();
 
         #endregion Private Members
 
