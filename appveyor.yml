@@ -17,14 +17,15 @@ build:
   parallel: true
   verbosity: minimal
 after_build:
+after_build:
 - cmd: >-
     7z a NugetFiles.zip %APPVEYOR_BUILD_FOLDER%\Output\AnyCPU\Release\*.nupkg
 - cmd: >-
     7z a -r Website.zip %APPVEYOR_BUILD_FOLDER%\Output\AnyCPU\Release\net7.0\*.*
-test: 
+test:
   assemblies:
     only:
-    - Output\UnitTests\Release\net7.0\*.Tests.dll
+    - \Output\UnitTests\AnyCPU\Release\net7.0\*.Tests.dll
 artifacts:
 - path: Nugetfiles.zip
   name: Nuget Packages

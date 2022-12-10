@@ -59,7 +59,6 @@ namespace Sitemap.Plugin
         private const string SiteItem = "\r\n\t<url>\r\n\t\t<loc>{0}</loc>\r\n\t\t<changefreq>{1}</changefreq>";
         private const string SiteItemLastModified = "\r\n\t\t<lastmod>{0}</lastmod>";
         private const string SiteItemPriority = "\r\n\t\t<priority>{0}</priority>";
-        private const string SiteItemEndItem = "\r\n\t</url>";
         private const ushort MaxSitemapItemsPerFile = 25000;
 
         private readonly RequestDelegate _next;

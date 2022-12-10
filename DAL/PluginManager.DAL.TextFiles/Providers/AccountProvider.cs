@@ -637,7 +637,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private static int GenerateRandomNumber()
         {
-            Random random = new Random();
+            Random random = new Random(Convert.ToInt32(DateTime.Now.ToString("Hmsffff")));
             return random.Next(100000, 999999);
         }
 

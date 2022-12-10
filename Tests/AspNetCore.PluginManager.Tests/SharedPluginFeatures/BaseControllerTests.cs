@@ -45,7 +45,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
 
         private List<int> CreateList(in int count)
         {
-            Random random = new Random();
+            Random random = new Random(Convert.ToInt32(DateTime.Now.ToString("Hmsffff")));
 
             List<int> Result = new List<int>();
 

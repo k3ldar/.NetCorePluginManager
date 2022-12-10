@@ -90,7 +90,7 @@ namespace PluginManager
         /// </summary>
         /// <param name="configuration">Plugin configuration</param>
         /// <param name="pluginSettings">Plugin Settings</param>
-        public BasePluginManager(in PluginManagerConfiguration configuration, in PluginSettings pluginSettings)
+        protected BasePluginManager(in PluginManagerConfiguration configuration, in PluginSettings pluginSettings)
             : this()
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));

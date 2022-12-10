@@ -84,7 +84,7 @@ namespace GeoIp.Plugin
             HttpClient client = new HttpClient();
             try
             {
-                byte[] response = client.GetByteArrayAsync($"http://api.ipstack.com/{ipAddress}?access_key={ApiKey}").Result;
+                byte[] response = client.GetByteArrayAsync($"https://api.ipstack.com/{ipAddress}?access_key={ApiKey}").Result;
 
                 string webData = System.Text.Encoding.UTF8.GetString(response);
                 IpStackData city = JsonSerializer.Deserialize<IpStackData>(webData);

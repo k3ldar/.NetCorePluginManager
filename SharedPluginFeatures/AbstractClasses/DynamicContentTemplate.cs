@@ -62,7 +62,7 @@ namespace SharedPluginFeatures.DynamicContent
         /// <summary>
         /// Default constructor
         /// </summary>
-        public DynamicContentTemplate()
+        protected DynamicContentTemplate()
         {
             Id = -1;
         }
