@@ -18,13 +18,20 @@ build:
   verbosity: minimal
 after_build:
 - cmd: >-
-    7z a NugetFiles.zip %APPVEYOR_BUILD_FOLDER%\Output\AnyCPU\Release\*.nupkg
-- cmd: >-
-    7z a -r Website.zip %APPVEYOR_BUILD_FOLDER%\Output\AnyCPU\Release\net7.0\*.*
-test: 
+    # Sign Artifacts
+
+    Submit-SigningRequest `
+      -InputArtifactPath "Output\AnyCPU\Release\net6.0\PluginManager.dll" `
+      -CIUserToken "%SIGNPATH_CI_USER_TOKEN%" `
+      -OrganizationId "%SIGNPATH_ORGANIZATION_ID%" `
+      -ProjectSlug "%SIGNPATH_PROJECT_SLUG%" `
+      -SigningPolicySlug "%SIGNPATH_SIGNING_POLICY_SLUG%" `
+      -OutputArtifactPath "Output\Signed\PluginManager.dll" `
+      -WaitForCompletion
+test:
   assemblies:
     only:
-    - Output\UnitTests\Release\net7.0\*.Tests.dll
+    - \Output\UnitTests\AnyCPU\Release\net7.0\*.Tests.dll
 artifacts:
 - path: Nugetfiles.zip
   name: Nuget Packages

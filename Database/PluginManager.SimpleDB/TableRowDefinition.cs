@@ -36,7 +36,7 @@ namespace SimpleDB
         private long _created;
         private long _updated;
 
-        public TableRowDefinition()
+        protected TableRowDefinition()
         {
             _id = Int64.MinValue;
             _created = DateTime.UtcNow.Ticks;

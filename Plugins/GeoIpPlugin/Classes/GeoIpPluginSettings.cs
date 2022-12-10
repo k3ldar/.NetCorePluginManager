@@ -64,7 +64,7 @@ namespace GeoIp.Plugin
         /// Webnet77 download url
         /// </summary>
         /// <value>string</value>
-        [SettingDefault("http://software77.net/geo-ip/?DL=2")]
+        [SettingDefault("https://software77.net/geo-ip/?DL=2")]
         [SettingUri(false, System.UriKind.Absolute)]
         public string Webnet77CsvUrl { get; set; }
 
