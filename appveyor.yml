@@ -21,10 +21,7 @@ after_build:
     7z a NugetFiles.zip %APPVEYOR_BUILD_FOLDER%\Output\AnyCPU\Release\*.nupkg
 - cmd: >-
     7z a -r Website.zip %APPVEYOR_BUILD_FOLDER%\Output\AnyCPU\Release\net7.0\*.*
-test:
-  assemblies:
-    only:
-    - \Output\UnitTests\AnyCPU\Release\net7.0\*.Tests.dll
+test: off
 artifacts:
 - path: Nugetfiles.zip
   name: Nuget Packages
