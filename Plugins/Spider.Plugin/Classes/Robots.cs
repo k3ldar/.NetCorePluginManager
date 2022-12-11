@@ -267,10 +267,9 @@ namespace Spider.Plugin.Classes
         private Dictionary<string, List<IRobotRouteData>> LoadSpiderData(IActionDescriptorCollectionProvider routeProvider,
             IRouteDataService routeDataService, IPluginTypesService pluginTypesService)
         {
-            Dictionary<string, List<IRobotRouteData>> Result = new Dictionary<string, List<IRobotRouteData>>();
             List<Type> spiderAttributes = pluginTypesService.GetPluginTypesWithAttribute<DenySpiderAttribute>();
 
-            Result = SortAndFilterDenyRoutesByAgent(routeProvider, routeDataService, spiderAttributes);
+			Dictionary<string, List<IRobotRouteData>> Result = SortAndFilterDenyRoutesByAgent(routeProvider, routeDataService, spiderAttributes);
 
             string lastAgent = String.Empty;
 

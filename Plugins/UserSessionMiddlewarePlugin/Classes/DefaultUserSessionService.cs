@@ -410,7 +410,7 @@ namespace UserSessionMiddleware.Plugin.Classes
             if (Result == null)
                 Result = new List<SessionUserAgent>();
 
-            Result.OrderBy(o => o.IsBot).ThenByDescending(d => d.Count);
+            Result = Result.OrderBy(o => o.IsBot).ThenByDescending(d => d.Count).ToList();
         }
 
         private static string GetHash(HashAlgorithm hashAlgorithm, string input)

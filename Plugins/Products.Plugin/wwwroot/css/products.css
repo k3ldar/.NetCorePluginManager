@@ -29,9 +29,6 @@ h4 {
 
 .fixed {
     display: block;
-}
-
-.fixed {
     min-height: 1%;
 }
 
@@ -444,16 +441,6 @@ h4 {
             .mainContent .pagination ul li a:hover {
                 background-color: #ddd;
                 color: #333;
-            }
-
-            .mainContent .pagination ul li.current a {
-                background: #b4b4b4;
-                color: #fff;
-            }
-
-            .mainContent .pagination ul li.disabled a {
-                background: #f4f4f4;
-                color: #ccc;
             }
 
 .content .faq {

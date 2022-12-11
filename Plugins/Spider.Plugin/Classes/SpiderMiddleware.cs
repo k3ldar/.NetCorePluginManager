@@ -181,37 +181,34 @@ namespace Spider.Plugin
                 }
                 else
                 {
-                    if (_userSessionManagerLoaded)
+                    if (_userSessionManagerLoaded && context.Items.ContainsKey(Constants.UserSession))
                     {
-                        if (context.Items.ContainsKey(Constants.UserSession))
+                        try
                         {
-                            try
-                            {
-                                UserSession userSession = (UserSession)context.Items[Constants.UserSession];
+                            UserSession userSession = (UserSession)context.Items[Constants.UserSession];
 
-                                foreach (DeniedRoute deniedRoute in _robots.DeniedRoutes)
-                                {
-                                    if (userSession.IsBot &&
-                                        deniedRoute.Route.StartsWith(route) &&
-                                        (
-                                            deniedRoute.UserAgent == "*" ||
+                            foreach (DeniedRoute deniedRoute in _robots.DeniedRoutes)
+                            {
+                                if (userSession.IsBot &&
+                                    deniedRoute.Route.StartsWith(route) &&
+                                    (
+                                        deniedRoute.UserAgent == "*" ||
 #if NET_CORE
-                                            userSession.UserAgent.Contains(deniedRoute.UserAgent, StringComparison.CurrentCultureIgnoreCase)
+                                        userSession.UserAgent.Contains(deniedRoute.UserAgent, StringComparison.CurrentCultureIgnoreCase)
 #else 
-                                            userSession.UserAgent.ToLower().Contains(deniedRoute.UserAgent.ToLower())
+                                        userSession.UserAgent.ToLower().Contains(deniedRoute.UserAgent.ToLower())
 #endif
-                                        ))
-                                    {
-                                        context.Response.StatusCode = 403;
-                                        return;
-                                    }
+                                    ))
+                                {
+                                    context.Response.StatusCode = 403;
+                                    return;
                                 }
                             }
-                            catch (Exception err)
-                            {
-                                _logger.AddToLog(LogLevel.Error, nameof(SpiderMiddleware), err, MethodBase.GetCurrentMethod().Name);
-                                throw;
-                            }
+                        }
+                        catch (Exception err)
+                        {
+                            _logger.AddToLog(LogLevel.Error, nameof(SpiderMiddleware), err, MethodBase.GetCurrentMethod().Name);
+                            throw;
                         }
                     }
                 }
