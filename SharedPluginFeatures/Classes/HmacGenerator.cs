@@ -92,7 +92,7 @@ namespace SharedPluginFeatures
         /// <returns>long</returns>
         public static long EpochDateTime()
         {
-            return (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).Ticks;
+            return (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).Ticks;
         }
 
         /// <summary>

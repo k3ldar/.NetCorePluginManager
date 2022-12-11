@@ -282,7 +282,7 @@ namespace UserSessionMiddleware.Plugin
             {
                 // is it a class attribute
                 LoggedInAttribute attribute = (LoggedInAttribute)type.GetCustomAttributes(true)
-                    .FirstOrDefault(a => a.GetType() == typeof(LoggedInAttribute));
+                    .FirstOrDefault(a => a is LoggedInAttribute);
 
                 if (attribute != null)
                 {
@@ -298,7 +298,7 @@ namespace UserSessionMiddleware.Plugin
 
                 foreach (MethodInfo method in type.GetMethods())
                 {
-                    attribute = (LoggedInAttribute)method.GetCustomAttributes(true).FirstOrDefault(a => a.GetType() == typeof(LoggedInAttribute));
+                    attribute = (LoggedInAttribute)method.GetCustomAttributes(true).FirstOrDefault(a => a is LoggedInAttribute);
 
                     if (attribute != null)
                     {
@@ -323,7 +323,7 @@ namespace UserSessionMiddleware.Plugin
             {
                 // is it a class attribute
                 LoggedOutAttribute attribute = (LoggedOutAttribute)type.GetCustomAttributes(true)
-                    .FirstOrDefault(a => a.GetType() == typeof(LoggedOutAttribute));
+                    .FirstOrDefault(a => a is LoggedOutAttribute);
 
                 if (attribute != null)
                 {
@@ -340,7 +340,7 @@ namespace UserSessionMiddleware.Plugin
                 foreach (MethodInfo method in type.GetMethods())
                 {
                     attribute = (LoggedOutAttribute)method.GetCustomAttributes(true)
-                        .FirstOrDefault(a => a.GetType() == typeof(LoggedOutAttribute));
+                        .FirstOrDefault(a => a is LoggedOutAttribute);
 
                     if (attribute != null)
                     {

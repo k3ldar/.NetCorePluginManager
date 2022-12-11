@@ -108,19 +108,6 @@ namespace SharedPluginFeatures
         }
 
         /// <summary>
-        /// Forces the total costs for the cart to be reset.
-        /// </summary>
-        /// <param name="cost">New cost to be applied to the shopping cart.</param>
-        /// <param name="cultureInfo">Culture to be applied to the shopping cart.</param>
-        protected void ResetTotalCost(in decimal cost, in CultureInfo cultureInfo)
-        {
-            if (cultureInfo == null)
-                throw new ArgumentNullException(nameof(cultureInfo));
-
-            ResetTotalCost(cost);
-        }
-
-        /// <summary>
         /// Forces the shipping value to be reset within the shopping cart.
         /// </summary>
         /// <param name="shipping">Shipping charges which will apply.</param>
@@ -158,6 +145,19 @@ namespace SharedPluginFeatures
 
             Total = total - Discount;
             Tax = Shared.Utilities.BankersRounding(Shared.Utilities.VATCalculatePaid(Total, TaxRate), 2);
+        }
+
+        /// <summary>
+        /// Forces the total costs for the cart to be reset.
+        /// </summary>
+        /// <param name="cost">New cost to be applied to the shopping cart.</param>
+        /// <param name="cultureInfo">Culture to be applied to the shopping cart.</param>
+        protected void ResetTotalCost(in decimal cost, in CultureInfo cultureInfo)
+        {
+            if (cultureInfo == null)
+                throw new ArgumentNullException(nameof(cultureInfo));
+
+            ResetTotalCost(cost);
         }
 
         #endregion Protected Methods

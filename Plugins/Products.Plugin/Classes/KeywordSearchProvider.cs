@@ -181,7 +181,6 @@ namespace ProductPlugin.Classes
                     if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
                     {
                         AddSearchResult(results, product, "ProductSku", offset);
-                        continue;
                     }
                 }
             }

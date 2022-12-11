@@ -64,7 +64,6 @@ namespace Subdomain.Plugin
         private readonly Dictionary<string, SubdomainSetting> _subdomainMappings;
         private readonly List<string> _routesWithoutSubdomains;
         private readonly RequestDelegate _next;
-        private readonly HashSet<string> _localIpAddresses;
         private readonly bool _enabled;
         private readonly bool _disableWwwRedirect;
         private readonly string _domainName;
@@ -102,10 +101,8 @@ namespace Subdomain.Plugin
 
             _next = next;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _localIpAddresses = new HashSet<string>();
             _subdomainMappings = new Dictionary<string, SubdomainSetting>();
             _routesWithoutSubdomains = new List<string>();
-            GetLocalIpAddresses(_localIpAddresses);
 
 
             SubdomainSettings settings = settingsProvider.GetSettings<SubdomainSettings>(nameof(SubdomainSettings));
@@ -288,7 +285,7 @@ namespace Subdomain.Plugin
         {
             foreach (Attribute attribute in classType.GetCustomAttributes(false))
             {
-                if (attribute.GetType() == typeof(SubdomainAttribute))
+                if (attribute is SubdomainAttribute)
                 {
                     SubdomainAttribute subdomainAttribute = (SubdomainAttribute)attribute;
 

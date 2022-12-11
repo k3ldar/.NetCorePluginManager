@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 using MySql.Data.MySqlClient;
 
@@ -71,7 +72,7 @@ namespace SieraDeltaGeoIp.Plugin
                     "FROM wd$iptocountry c " +
                     "LEFT JOIN wd$ipcity ipc ON(ipc.wd$id = c.wd$city_id) ";
 
-                string whereClause = String.Empty;
+                StringBuilder whereClause = new();
 
                 foreach (string countryCode in _settings.CountryList)
                 {
@@ -79,12 +80,12 @@ namespace SieraDeltaGeoIp.Plugin
                         continue;
 
                     if (whereClause.Length > 0)
-                        whereClause += ", ";
+                        whereClause.Append(", ");
 
-                    whereClause += $"'{countryCode}'";
+                    whereClause.Append($"'{countryCode}'");
                 }
 
-                if (!String.IsNullOrEmpty(whereClause))
+                if (whereClause.Length > 0)
                     SQL += $"WHERE c.WD$COUNTRY_CODE IN ({whereClause})";
 
                 MySqlTransaction tran = db.BeginTransaction();

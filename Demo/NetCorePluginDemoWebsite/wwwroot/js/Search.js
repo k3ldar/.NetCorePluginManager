@@ -46,7 +46,7 @@ $(_options.validation).hide();
 document.getElementById(_options.form).submit();
 },
 performQuickSearch: function (s, ctrl) {
-let kwords = new String(s);
+let kwords = String(s);
 if (kwords.length < _options.minSearchLength) {
 _keywords = null;
 root.closeAllLists();

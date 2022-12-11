@@ -41,17 +41,17 @@ namespace SharedPluginFeatures
         List<SystemAdminMainMenu> GetSystemAdminMainMenu();
 
         /// <summary>
-        /// Retrieves the Default main menu.
-        /// </summary>
-        /// <returns>SystemAdminMainMenu</returns>
-        SystemAdminMainMenu GetSystemAdminDefaultMainMenu();
-
-        /// <summary>
         /// Retrieves a specific menu item by Id
         /// </summary>
         /// <param name="id">Id of menu item.</param>
         /// <returns>SystemAdminMainMenu</returns>
         SystemAdminMainMenu GetSystemAdminMainMenu(in int id);
+
+        /// <summary>
+        /// Retrieves the Default main menu.
+        /// </summary>
+        /// <returns>SystemAdminMainMenu</returns>
+        SystemAdminMainMenu GetSystemAdminDefaultMainMenu();
 
         /// <summary>
         /// Retrieves all sub menu items.

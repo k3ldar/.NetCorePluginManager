@@ -163,7 +163,7 @@ namespace Resources.Plugin.Controllers
 			if (!ModelState.IsValid)
 				return View(new CreateCategoryModel(GetModelData(), model.ParentId, model.Name, model.Description));
 
-			ResourceCategory newCategory =_resourceProvider.AddResourceCategory(UserId(), model.ParentId, model.Name, model.Description);
+			_ = _resourceProvider.AddResourceCategory(UserId(), model.ParentId, model.Name, model.Description);
 
 			if (UserCanManageResources())
 				return RedirectToAction(nameof(ManageCategories));
@@ -675,7 +675,6 @@ namespace Resources.Plugin.Controllers
 			catch (UriFormatException)
 			{
 				ModelState.AddModelError(String.Empty, String.Format(LanguageStrings.InvalidImageNotAbsolute));
-				return;
 			}
 		}
 
@@ -744,7 +743,7 @@ namespace Resources.Plugin.Controllers
 			foreach (ResourceItem resourceItem in resourceCategory.ResourceItems)
 			{
 				resources.Add(new ResourceItemModel(resourceItem.Id, resourceCategory.Id,
-					(ResourceType)resourceItem.ResourceType, resourceItem.UserId,
+					resourceItem.ResourceType, resourceItem.UserId,
 					resourceItem.UserName, resourceCategory.Name,
 					resourceItem.Description, resourceItem.Value, resourceItem.Likes,
 					resourceItem.Dislikes, resourceItem.ViewCount, resourceItem.Approved));
@@ -782,7 +781,7 @@ namespace Resources.Plugin.Controllers
 			foreach (ResourceItem resourceItem in resourceCategory.ResourceItems.OrderBy(rc => rc.Name))
 			{
 				resources.Add(new ResourceItemModel(resourceItem.Id, resourceCategory.Id,
-					(ResourceType)resourceItem.ResourceType, resourceItem.UserId, 
+					resourceItem.ResourceType, resourceItem.UserId, 
 					resourceItem.UserName, resourceCategory.Name,
 					resourceItem.Description, resourceItem.Value, resourceItem.Likes,
 					resourceItem.Dislikes, resourceItem.ViewCount, resourceItem.Approved));
@@ -827,7 +826,7 @@ namespace Resources.Plugin.Controllers
 			ResourceCategory resourceCategory = _resourceProvider.GetResourceCategory(resourceItem.CategoryId);
 
 			ResourceViewItemModel Result = new ResourceViewItemModel(GetModelData(), resourceItem.Id, resourceItem.CategoryId,
-				(ResourceType)resourceItem.ResourceType, resourceItem.UserId,
+				resourceItem.ResourceType, resourceItem.UserId,
 				resourceItem.UserName, resourceCategory.Name,
 				resourceItem.Description, resourceItem.Value, resourceItem.Likes,
 				resourceItem.Dislikes, resourceItem.ViewCount, resourceItem.Approved, 

@@ -44,9 +44,7 @@ namespace SearchPlugin.Classes.Search
     {
         #region Private Members
 
-        private readonly IPluginClassesService _pluginClassesService;
         private readonly List<ISearchKeywordProvider> _searchProviders;
-        //private static readonly object _lockObject = new object();
 
         #endregion Private Members
 
@@ -58,9 +56,10 @@ namespace SearchPlugin.Classes.Search
         /// <param name="pluginClassesService">IPluginClassesService instance</param>
         public DefaultSearchProvider(IPluginClassesService pluginClassesService)
         {
-            _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
+			if (pluginClassesService == null)
+				throw new ArgumentNullException(nameof(pluginClassesService));
 
-            _searchProviders = _pluginClassesService.GetPluginClasses<ISearchKeywordProvider>();
+            _searchProviders = pluginClassesService.GetPluginClasses<ISearchKeywordProvider>();
         }
 
         #endregion Constructors

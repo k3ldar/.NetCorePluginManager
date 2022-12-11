@@ -102,7 +102,6 @@ root.updatePage(_settings.cacheId);
 },
 editClicked: function (e) {
 let control = e.currentTarget.id;
-let customEditor = e.currentTarget.dataset.cs;
 let url = _settings.editDialogueUrl + _settings.cacheId + '/' + control;
 $(_settings.editDialogue).load(url, function () {
 $(_settings.editDialogue).modal('show');
@@ -110,7 +109,6 @@ $(_settings.editDialogue).modal('show');
 },
 deleteClicked: function (e) {
 let control = e.currentTarget.id;
-let customEditor = e.currentTarget.dataset.cs;
 let url = _settings.deleteDialogueUrl + _settings.cacheId + '/' + control;
 $(_settings.deleteDialogue).load(url, function () {
 $(_settings.deleteDialogue).modal('show');

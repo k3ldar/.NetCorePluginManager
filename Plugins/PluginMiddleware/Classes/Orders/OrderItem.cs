@@ -146,7 +146,7 @@ namespace Middleware.Accounts.Orders
         {
             get
             {
-                decimal taxRate = 1 + ((decimal)TaxRate / 100);
+                decimal taxRate = 1 + (TaxRate / 100);
                 decimal totalCost = BankersRounding(Price * Quantity, Order.Culture.NumberFormat.NumberDecimalDigits);
 
                 return BankersRounding(taxRate * totalCost, Order.Culture.NumberFormat.NumberDecimalDigits) - TotalDiscount;
@@ -161,7 +161,7 @@ namespace Middleware.Accounts.Orders
         {
             get
             {
-                decimal taxRate = 1 + ((decimal)TaxRate / 100);
+                decimal taxRate = 1 + (TaxRate / 100);
                 decimal totalCost = BankersRounding(Price * Quantity, Order.Culture.NumberFormat.NumberDecimalDigits);
 
                 return BankersRounding(taxRate * totalCost, Order.Culture.NumberFormat.NumberDecimalDigits) - totalCost;

@@ -128,7 +128,36 @@ namespace Resources.Plugin.Classes
 					if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
 					{
 						AddSearchResult(results, resource, "ResourceDescription", offset);
-						continue;
+					}
+				}
+			}
+		}
+
+		private void ExactMatch(in List<SearchResponseItem> results, in KeywordSearchOptions searchOptions,
+			List<ResourceCategory> resources)
+		{
+			foreach (ResourceCategory resource in resources)
+			{
+				if (results.Count >= searchOptions.MaximumSearchResults)
+				{
+					return;
+				}
+
+				int offset = resource.Name.IndexOf(searchOptions.SearchTerm, StringComparison.InvariantCultureIgnoreCase);
+
+				if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
+				{
+					AddSearchResult(results, resource, "ResourceName", offset);
+					continue;
+				}
+
+				if (!searchOptions.QuickSearch)
+				{
+					offset = resource.Description.IndexOf(searchOptions.SearchTerm, StringComparison.InvariantCultureIgnoreCase);
+
+					if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
+					{
+						AddSearchResult(results, resource, "ResourceDescription", offset);
 					}
 				}
 			}
@@ -178,39 +207,7 @@ namespace Resources.Plugin.Classes
 						if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
 						{
 							AddSearchResult(results, resource, "ResourceDescription", offset);
-							continue;
 						}
-					}
-				}
-			}
-		}
-
-		private void ExactMatch(in List<SearchResponseItem> results, in KeywordSearchOptions searchOptions,
-			List<ResourceCategory> resources)
-		{
-			foreach (ResourceCategory resource in resources)
-			{
-				if (results.Count >= searchOptions.MaximumSearchResults)
-				{
-					return;
-				}
-
-				int offset = resource.Name.IndexOf(searchOptions.SearchTerm, StringComparison.InvariantCultureIgnoreCase);
-
-				if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
-				{
-					AddSearchResult(results, resource, "ResourceName", offset);
-					continue;
-				}
-
-				if (!searchOptions.QuickSearch)
-				{
-					offset = resource.Description.IndexOf(searchOptions.SearchTerm, StringComparison.InvariantCultureIgnoreCase);
-
-					if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
-					{
-						AddSearchResult(results, resource, "ResourceDescription", offset);
-						continue;
 					}
 				}
 			}
@@ -251,7 +248,6 @@ namespace Resources.Plugin.Classes
 						if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
 						{
 							AddSearchResult(results, resource, "ResourceDescription", offset);
-							continue;
 						}
 					}
 				}
