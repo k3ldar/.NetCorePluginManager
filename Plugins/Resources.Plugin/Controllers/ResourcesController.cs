@@ -598,7 +598,6 @@ namespace Resources.Plugin.Controllers
 			catch (UriFormatException)
 			{
 				ModelState.AddModelError(String.Empty, String.Format(LanguageStrings.InvalidUriNotAbsolute));
-				return;
 			}
 		}
 

@@ -285,10 +285,10 @@ namespace Subdomain.Plugin
         {
             foreach (Attribute attribute in classType.GetCustomAttributes(false))
             {
-                if (attribute is SubdomainAttribute)
-                {
-                    SubdomainAttribute subdomainAttribute = (SubdomainAttribute)attribute;
+				SubdomainAttribute subdomainAttribute = attribute as SubdomainAttribute;
 
+				if (subdomainAttribute != null)
+                {
                     if (!settings.Subdomains.ContainsKey(subdomainAttribute.ConfigurationName))
                     {
                         _logger.AddToLog(LogLevel.Warning, String.Format(ConfigurationMissing,

@@ -146,13 +146,10 @@ namespace UserAccount.Plugin.Controllers
                 return View(nameof(LicenceView), model);
             }
 
-            if (licence != null)
+            if (licence != null && _licenceProvider.LicenceUpdateDomain(UserId(), licence, model.Domain))
             {
-                if (_licenceProvider.LicenceUpdateDomain(UserId(), licence, model.Domain))
-                {
-                    GrowlAdd(Languages.LanguageStrings.LicenceUpdated);
-                    return RedirectToAction(nameof(Licences));
-                }
+                GrowlAdd(Languages.LanguageStrings.LicenceUpdated);
+                return RedirectToAction(nameof(Licences));
             }
 
             GrowlAdd(Languages.LanguageStrings.LicenceUpdateFailed);
@@ -163,13 +160,10 @@ namespace UserAccount.Plugin.Controllers
         {
             Licence licence = _licenceProvider.LicencesGet(UserId()).FirstOrDefault(l => l.Id == id);
 
-            if (licence != null)
+            if (licence != null && _licenceProvider.LicenceSendEmail(UserId(), id))
             {
-                if (_licenceProvider.LicenceSendEmail(UserId(), id))
-                {
-                    GrowlAdd(Languages.LanguageStrings.EmailSent);
-                    return RedirectToAction(nameof(Licences));
-                }
+                GrowlAdd(Languages.LanguageStrings.EmailSent);
+                return RedirectToAction(nameof(Licences));
             }
 
             GrowlAdd(Languages.LanguageStrings.EmailSendFailed);

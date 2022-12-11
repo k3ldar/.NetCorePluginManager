@@ -242,7 +242,7 @@ namespace PluginManager.Tests
 
                 List<Type> list = pluginManager.PluginGetTypesWithAttribute<SettingRangeAttribute>();
 
-                Assert.AreNotEqual(list.Count, 0);
+                Assert.AreNotEqual(0, list.Count);
             }
 
             Assert.AreEqual(LogLevel.PluginLoadSuccess, testLogger.Logs[0].LogLevel);

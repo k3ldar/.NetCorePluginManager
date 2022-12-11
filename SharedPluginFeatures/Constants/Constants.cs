@@ -30,7 +30,7 @@ namespace SharedPluginFeatures
     /// <summary>
     /// Constant values shared between all plugin modules and the AspNetCore.PluginManager
     /// </summary>
-    public sealed class Constants
+    public static class Constants
     {
         /// <summary>
         /// Name of web smoke test cache manager

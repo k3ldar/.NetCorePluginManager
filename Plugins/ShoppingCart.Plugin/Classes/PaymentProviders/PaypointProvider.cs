@@ -77,7 +77,7 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
             urlParameters = $"/Cart/Failed/";
 
             if (order == null)
-                throw new Exception("Invalid Order, can not find order during payment (Paypoint)");
+                throw new InvalidOperationException("Invalid Order, can not find order during payment (Paypoint)");
 
 
             if (order.Total > 0.00m)

@@ -106,7 +106,7 @@ namespace UserAccount.Plugin.Controllers
             {
                 Result = (CreateAccountCacheItem)loginCache.Value;
             }
-            else if (createIfNotExist && loginCache == null)
+            else if (createIfNotExist)
             {
                 Result = new CreateAccountCacheItem();
                 loginCache = new CacheItem(cacheId, Result);
@@ -120,10 +120,10 @@ namespace UserAccount.Plugin.Controllers
         {
             CreateAccountCacheItem createAccountCacheItem = GetCachedCreateAccountAttempt(true);
 
-            if (!String.IsNullOrEmpty(createAccountCacheItem.CaptchaText))
-            {
-                if (!createAccountCacheItem.CaptchaText.Equals(model.CaptchaText))
-                    ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
+            if (!String.IsNullOrEmpty(createAccountCacheItem.CaptchaText) && 
+				!createAccountCacheItem.CaptchaText.Equals(model.CaptchaText))
+			{
+				ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
             }
 
             createAccountCacheItem.CreateAttempts++;

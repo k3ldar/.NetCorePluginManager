@@ -89,18 +89,15 @@ namespace ShoppingCartPlugin.Controllers
 
             Result = s == HttpContext.Request.Query["hash"];
 
-            if (!Result)
+            if (!Result && (HttpContext.Request.Query["resp_code"] != "5" || HttpContext.Request.Query["resp_code"] != "10"))
             {
-                if (HttpContext.Request.Query["resp_code"] != "5" || HttpContext.Request.Query["resp_code"] != "10")
-                {
-                    string message = String.Format("Transaction Failed\n\nValid: {0}\n\nTransID: {1}\n\nCode: {2}\n\n" +
-                        "Resp Code: {7}\n\nMessage: {3}\n\nIP Addres: {4}\n\nCV2: {5}\n\nHash: {6}\n\nHash2: {8}",
-                        HttpContext.Request.Query["valid"], HttpContext.Request.Query["trans_id"],
-                        HttpContext.Request.Query["code"], HttpContext.Request.Query["message"],
-                        HttpContext.Request.Query["ip"], HttpContext.Request.Query["cv2avs"],
-                        HttpContext.Request.Query["hash"], HttpContext.Request.Query["resp_code"], s);
-                    _applicationProvider.Email("Transaction Failed - Hash", message);
-                }
+                string message = String.Format("Transaction Failed\n\nValid: {0}\n\nTransID: {1}\n\nCode: {2}\n\n" +
+                    "Resp Code: {7}\n\nMessage: {3}\n\nIP Addres: {4}\n\nCV2: {5}\n\nHash: {6}\n\nHash2: {8}",
+                    HttpContext.Request.Query["valid"], HttpContext.Request.Query["trans_id"],
+                    HttpContext.Request.Query["code"], HttpContext.Request.Query["message"],
+                    HttpContext.Request.Query["ip"], HttpContext.Request.Query["cv2avs"],
+                    HttpContext.Request.Query["hash"], HttpContext.Request.Query["resp_code"], s);
+                _applicationProvider.Email("Transaction Failed - Hash", message);
             }
 
             return (Result);

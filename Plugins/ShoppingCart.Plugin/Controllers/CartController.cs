@@ -192,7 +192,7 @@ namespace ShoppingCartPlugin.Controllers
             CheckoutModel model = new CheckoutModel(GetModelData());
             ShoppingCartDetail cartDetail = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
 
-            if (cartDetail.RequiresShipping && (!shippingId.HasValue || (shippingId.HasValue && shippingId.Value < 1)))
+            if (cartDetail.RequiresShipping && (!shippingId.HasValue || shippingId.Value < 1))
                 return RedirectToAction(nameof(Shipping));
 
             if (!cartDetail.RequiresShipping)
@@ -223,13 +223,11 @@ namespace ShoppingCartPlugin.Controllers
             ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
             UserSession session = GetUserSession();
 
-            if (_shoppingCartProvider.ConvertToOrder(cartDetails, session.UserID, out Order order))
+            if (_shoppingCartProvider.ConvertToOrder(cartDetails, session.UserID, out Order order) &&
+				provider.Execute(HttpContext.Request, order, PaymentStatus.Unpaid, session, out string providerUrl))
             {
-                if (provider.Execute(HttpContext.Request, order, PaymentStatus.Unpaid, session, out string providerUrl))
-                {
-                    session.Tag = order.Id;
-                    return Redirect(providerUrl);
-                }
+                session.Tag = order.Id;
+                return Redirect(providerUrl);
             }
 
             return RedirectToAction(nameof(Failed));
