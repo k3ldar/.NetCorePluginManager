@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Text;
 
 using Shared.Classes;
 
@@ -99,11 +100,11 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
         private string GetUserMapData()
         {
-            string Result = String.Empty;
+			StringBuilder data = new();
 
             foreach (UserSession session in UserSessionManager.Clone)
             {
-                Result += String.Format("['{0}<br />User: {3}<br />Converted: {4}<br />Mobile: {5}<br />Referrer: {6}" +
+                data.AppendFormat("['{0}<br />User: {3}<br />Converted: {4}<br />Mobile: {5}<br />Referrer: {6}" +
                     "<br />Country: {9}<br />City: {10}<br />Total Pages: {11}<br />Total Time: {12} (s)', {1}, {2}, {7}, {8}, {13}, '{14}'],",
                     session.IPAddress,
                     session.Latitude,
@@ -122,8 +123,10 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                     GetImageName(session));
             }
 
+			string Result = data.ToString();
+
             if (Result.EndsWith(","))
-                Result = Result.Substring(0, Result.Length - 1);
+				Result = Result[..^1];
 
             return Result;
         }

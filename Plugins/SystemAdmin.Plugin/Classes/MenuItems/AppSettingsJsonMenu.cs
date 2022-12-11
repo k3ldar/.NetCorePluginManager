@@ -83,8 +83,6 @@ namespace SystemAdmin.Plugin.Classes.MenuItems
 
             using (StreamReader rdr = new StreamReader("appsettings.json"))
             {
-                StringBuilder Result = new StringBuilder();
-
                 return rdr.ReadToEnd();
             }
         }

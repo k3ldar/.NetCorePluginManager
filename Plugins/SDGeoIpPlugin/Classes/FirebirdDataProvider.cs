@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 using FirebirdSql.Data.FirebirdClient;
 
@@ -65,69 +66,67 @@ namespace SieraDeltaGeoIp.Plugin
             rangeData.Clear();
 
             FbConnection db = new FbConnection(_settings.DatabaseConnectionString);
-            try
-            {
-                db.Open();
-                string SQL = "SELECT ipc.WD$ID, COALESCE(c.WD$COUNTRY_CODE, 'Unknown'), COALESCE(ipc.WD$REGION, ''), " +
-                    "COALESCE(ipc.WD$CITY, ''), COALESCE(ipc.WD$LATITUDE, 0.0), COALESCE(ipc.WD$LONGITUDE, 0.0), " +
-                    "COALESCE(c.WD$FROM_IP, 0), COALESCE(c.WD$TO_IP, 0) FROM WD$IPTOCOUNTRY c " +
-                    "LEFT JOIN WD$IPCITY ipc ON (ipc.WD$ID = c.WD$CITY_ID) ";
+			try
+			{
+				db.Open();
+				string SQL = "SELECT ipc.WD$ID, COALESCE(c.WD$COUNTRY_CODE, 'Unknown'), COALESCE(ipc.WD$REGION, ''), " +
+					"COALESCE(ipc.WD$CITY, ''), COALESCE(ipc.WD$LATITUDE, 0.0), COALESCE(ipc.WD$LONGITUDE, 0.0), " +
+					"COALESCE(c.WD$FROM_IP, 0), COALESCE(c.WD$TO_IP, 0) FROM WD$IPTOCOUNTRY c " +
+					"LEFT JOIN WD$IPCITY ipc ON (ipc.WD$ID = c.WD$CITY_ID) ";
 
-                string whereClause = String.Empty;
+				StringBuilder whereClause = new();
 
-                foreach (string countryCode in _settings.CountryList)
-                {
-                    if (String.IsNullOrEmpty(countryCode))
-                        continue;
+				foreach (string countryCode in _settings.CountryList)
+				{
+					if (String.IsNullOrEmpty(countryCode))
+						continue;
 
-                    if (whereClause.Length > 0)
-                        whereClause += ", ";
+					if (whereClause.Length > 0)
+						whereClause.Append(", ");
 
-                    whereClause += $"'{countryCode}'";
-                }
+					whereClause.Append($"'{countryCode}'");
+				}
 
-                if (!String.IsNullOrEmpty(whereClause))
-                    SQL += $"WHERE c.WD$COUNTRY_CODE IN ({whereClause})";
+				if (whereClause.Length > 0)
+					SQL += $"WHERE c.WD$COUNTRY_CODE IN ({whereClause})";
 
-                FbTransaction tran = db.BeginTransaction();
-                try
-                {
-                    FbCommand cmd = new FbCommand(SQL, db, tran);
-                    try
-                    {
-                        FbDataReader rdr = cmd.ExecuteReader();
-                        try
-                        {
-                            while (rdr.Read())
-                            {
-                                rangeData.Add(new IpCity(rdr.GetInt64(0), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3),
-                                    rdr.GetDecimal(4), rdr.GetDecimal(5), rdr.GetInt64(6), rdr.GetInt64(7)));
-                            }
-                        }
-                        finally
-                        {
-                            rdr.Close();
-                        }
-                    }
-                    finally
-                    {
-                        cmd.Dispose();
-                    }
-                }
-                finally
-                {
-                    tran.Rollback();
-                    tran.Dispose();
-                }
-            }
-            finally
-            {
-                db.Close();
-                db.Dispose();
-            }
+				FbTransaction tran = db.BeginTransaction();
+				try
+				{
+					FbCommand cmd = new FbCommand(SQL, db, tran);
+					try
+					{
+						FbDataReader rdr = cmd.ExecuteReader();
+						try
+						{
+							while (rdr.Read())
+							{
+								rangeData.Add(new IpCity(rdr.GetInt64(0), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3),
+									rdr.GetDecimal(4), rdr.GetDecimal(5), rdr.GetInt64(6), rdr.GetInt64(7)));
+							}
+						}
+						finally
+						{
+							rdr.Close();
+						}
+					}
+					finally
+					{
+						cmd.Dispose();
+					}
+				}
+				finally
+				{
+					tran.Rollback();
+					tran.Dispose();
+				}
+			}
+			finally
+			{
+				db.Dispose();
+			}
 
             rangeData.Sort();
-
 
             return false;
         }

@@ -117,11 +117,6 @@ namespace SystemAdmin.Plugin
             return (List<SystemAdminMainMenu>)cache.Value;
         }
 
-        public SystemAdminMainMenu GetSystemAdminDefaultMainMenu()
-        {
-            return GetSystemAdminMainMenu()[0];
-        }
-
         public SystemAdminMainMenu GetSystemAdminMainMenu(in int id)
         {
             // get from memory if available
@@ -138,6 +133,11 @@ namespace SystemAdmin.Plugin
             }
 
             return null;
+        }
+
+        public SystemAdminMainMenu GetSystemAdminDefaultMainMenu()
+        {
+            return GetSystemAdminMainMenu()[0];
         }
 
         public List<SystemAdminSubMenu> GetSubMenuItems()

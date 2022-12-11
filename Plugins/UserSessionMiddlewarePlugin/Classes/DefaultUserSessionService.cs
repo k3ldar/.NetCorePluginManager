@@ -58,7 +58,6 @@ namespace UserSessionMiddleware.Plugin.Classes
 	{
         #region Private Members
 
-        private readonly string _rootPath;
         private static readonly object _lockObject = new object();
         private static readonly Stack<UserSession> _closedSessions = new Stack<UserSession>();
 
@@ -143,20 +142,20 @@ namespace UserSessionMiddleware.Plugin.Classes
             if (String.IsNullOrEmpty(settings.SessionRootPath))
                 settings.SessionRootPath = hostingEnvironment.ContentRootPath;
 
-            _rootPath = Path.Combine(settings.SessionRootPath, "UserSession");
+            string rootPath = Path.Combine(settings.SessionRootPath, "UserSession");
 
-            _pageViewFile = GetFile(Path.Combine(_rootPath, "Sessions"), "PageViews.dat");
-            _referrerFile = GetFile(Path.Combine(_rootPath, "Sessions"), "InitialReferrer.dat");
-            _sessionHourlyFileHuman = GetFile(Path.Combine(_rootPath, "Sessions"), "HourlyHuman.dat");
-            _sessionDailyFileHuman = GetFile(Path.Combine(_rootPath, "Sessions"), "DailyHuman.dat");
-            _sessionWeeklyFileHuman = GetFile(Path.Combine(_rootPath, "Sessions"), "WeeklyHuman.dat");
-            _sessionMonthlyFileHuman = GetFile(Path.Combine(_rootPath, "Sessions"), "MonthlyHuman.dat");
-            _sessionYearlyFileHuman = GetFile(Path.Combine(_rootPath, "Sessions"), "YearlyHuman.dat");
-            _sessionHourlyFileBot = GetFile(Path.Combine(_rootPath, "Sessions"), "HourlyBot.dat");
-            _sessionDailyFileBot = GetFile(Path.Combine(_rootPath, "Sessions"), "DailyBot.dat");
-            _sessionWeeklyFileBot = GetFile(Path.Combine(_rootPath, "Sessions"), "WeeklyBot.dat");
-            _sessionMonthlyFileBot = GetFile(Path.Combine(_rootPath, "Sessions"), "MonthlyBot.dat");
-            _sessionYearlyFileBot = GetFile(Path.Combine(_rootPath, "Sessions"), "YearlyBot.dat");
+            _pageViewFile = GetFile(Path.Combine(rootPath, "Sessions"), "PageViews.dat");
+            _referrerFile = GetFile(Path.Combine(rootPath, "Sessions"), "InitialReferrer.dat");
+            _sessionHourlyFileHuman = GetFile(Path.Combine(rootPath, "Sessions"), "HourlyHuman.dat");
+            _sessionDailyFileHuman = GetFile(Path.Combine(rootPath, "Sessions"), "DailyHuman.dat");
+            _sessionWeeklyFileHuman = GetFile(Path.Combine(rootPath, "Sessions"), "WeeklyHuman.dat");
+            _sessionMonthlyFileHuman = GetFile(Path.Combine(rootPath, "Sessions"), "MonthlyHuman.dat");
+            _sessionYearlyFileHuman = GetFile(Path.Combine(rootPath, "Sessions"), "YearlyHuman.dat");
+            _sessionHourlyFileBot = GetFile(Path.Combine(rootPath, "Sessions"), "HourlyBot.dat");
+            _sessionDailyFileBot = GetFile(Path.Combine(rootPath, "Sessions"), "DailyBot.dat");
+            _sessionWeeklyFileBot = GetFile(Path.Combine(rootPath, "Sessions"), "WeeklyBot.dat");
+            _sessionMonthlyFileBot = GetFile(Path.Combine(rootPath, "Sessions"), "MonthlyBot.dat");
+            _sessionYearlyFileBot = GetFile(Path.Combine(rootPath, "Sessions"), "YearlyBot.dat");
 
             _maxHours = settings.MaxHourlyData;
             _maxDays = settings.MaxDailyData;
@@ -207,19 +206,17 @@ namespace UserSessionMiddleware.Plugin.Classes
         /// <param name="userSession"></param>
         public void Created(in UserSession userSession)
         {
-            if (userSession == null || !_enabled)
-                return;
-        }
+			// not used but is required as part of the interface
+		}
 
-        /// <summary>
-        /// Attempt to retrieve a previously saved user session
-        /// </summary>
-        /// <param name="userSessionId"></param>
-        /// <param name="userSession"></param>
-        public void Retrieve(in String userSessionId, ref UserSession userSession)
+		/// <summary>
+		/// Attempt to retrieve a previously saved user session
+		/// </summary>
+		/// <param name="userSessionId"></param>
+		/// <param name="userSession"></param>
+		public void Retrieve(in String userSessionId, ref UserSession userSession)
         {
-            if (String.IsNullOrEmpty(userSessionId))
-                return;
+            // not used but is required as part of the interface
         }
 
         /// <summary>
@@ -380,7 +377,7 @@ namespace UserSessionMiddleware.Plugin.Classes
 
 		#region Private Methods
 
-		private static List<SessionUserAgent> AmalgamateSessionData(List<SessionYearly> yearlySessions, ref List<SessionUserAgent> Result)
+		private static void AmalgamateSessionData(List<SessionYearly> yearlySessions, ref List<SessionUserAgent> Result)
         {
             foreach (SessionYearly year in yearlySessions)
             {
@@ -411,10 +408,11 @@ namespace UserSessionMiddleware.Plugin.Classes
             }
 
             if (Result == null)
-                return new List<SessionUserAgent>();
+                Result = new List<SessionUserAgent>();
 
-            return Result.OrderBy(o => o.IsBot).ThenByDescending(d => d.Count).ToList();
+            Result.OrderBy(o => o.IsBot).ThenByDescending(d => d.Count);
         }
+
         private static string GetHash(HashAlgorithm hashAlgorithm, string input)
         {
 
@@ -468,8 +466,10 @@ namespace UserSessionMiddleware.Plugin.Classes
                 sessionData = new T();
             }
 
-			if (sessionData is IUrlHash)
-				((IUrlHash)sessionData).SetUrlHash(this);
+			IUrlHash sessionHash = sessionData as IUrlHash;
+
+			if (sessionHash != null)
+				sessionHash.SetUrlHash(this);
 
 		}
 
@@ -713,7 +713,7 @@ namespace UserSessionMiddleware.Plugin.Classes
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void UpdateSessionData(UserSession session, SessionBaseData baseSessionData)
+        private static void UpdateSessionData(UserSession session, SessionBaseData baseSessionData)
         {
             baseSessionData.TotalVisits++;
 
@@ -798,12 +798,6 @@ namespace UserSessionMiddleware.Plugin.Classes
             }
 
             returnAgent.Count++;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static string GetSessionName(in string sessionId)
-        {
-            return $"Session Service {sessionId}";
         }
 
         #endregion Private Methods

@@ -88,7 +88,7 @@ namespace SharedPluginFeatures
         /// Back color used when drawing the menu item.
         /// </summary>
         /// <returns></returns>
-        public string BackColor()
+        public virtual string BackColor()
         {
             return "#707B7C";
         }
@@ -97,7 +97,7 @@ namespace SharedPluginFeatures
         /// Forecolor used when drawing the menu item.
         /// </summary>
         /// <returns></returns>
-        public string ForeColor()
+        public virtual string ForeColor()
         {
             return "white";
         }

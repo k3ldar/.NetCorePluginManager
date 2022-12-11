@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Text;
 
 using Shared.Classes;
 
@@ -70,7 +71,7 @@ namespace SieraDeltaGeoIp.Plugin
                     "COALESCE(c.[WD$FROM_IP], 0), COALESCE(c.[WD$TO_IP], 0) FROM WD$IPTOCOUNTRY c " +
                     "LEFT JOIN WD$IPCITY ipc ON (ipc.WD$ID = c.WD$CITY_ID) ";
 
-                string whereClause = String.Empty;
+                StringBuilder whereClause = new();
 
                 foreach (string countryCode in _settings.CountryList)
                 {
@@ -78,12 +79,12 @@ namespace SieraDeltaGeoIp.Plugin
                         continue;
 
                     if (whereClause.Length > 0)
-                        whereClause += ", ";
+                        whereClause.Append(", ");
 
-                    whereClause += $"'{countryCode}'";
+                    whereClause.Append($"'{countryCode}'");
                 }
 
-                if (!String.IsNullOrEmpty(whereClause))
+                if (whereClause.Length > 0)
                     SQL += $"WHERE c.WD$COUNTRY_CODE IN ({whereClause})";
 
                 SqlTransaction tran = db.BeginTransaction();

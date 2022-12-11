@@ -1,4 +1,5 @@
 ﻿.leftColumn {
+font-size: inherit;
 }
 .leftColumn h5 {
 font-size: 1.25rem;
@@ -27,6 +28,7 @@ margin: 0 0 10px 10px;
 padding: 0;
 }
 ul.imageList {
+display: inherit;
 }
 ul.imageList li {
 display: block;
@@ -95,6 +97,7 @@ max-width: 100%;
 overflow: auto;
 }
 .imageProperties {
+font-weight: inherit;
 }
 .imageProperties span {
 font-weight: bold;

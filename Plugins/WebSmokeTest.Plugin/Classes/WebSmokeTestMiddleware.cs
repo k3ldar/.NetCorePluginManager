@@ -284,7 +284,7 @@ namespace WebSmokeTest.Plugin
                 foreach (MethodInfo method in type.GetMethods())
                 {
                     List<object> attributes = method.GetCustomAttributes(true)
-                        .Where(a => a.GetType() == typeof(SmokeTestAttribute)).ToList();
+                        .Where(a => a is SmokeTestAttribute).ToList();
 
                     foreach (object attr in attributes)
                     {
@@ -356,7 +356,7 @@ namespace WebSmokeTest.Plugin
         private static WebSmokeTestItem GetSmokeTestFromControllerAction(in Type type, in MethodInfo method, in SmokeTestAttribute attribute)
         {
             string name = attribute.Name;
-            string route = $"{type.Name.Substring(0, type.Name.Length - 10)}/{method.Name}/";
+            StringBuilder route = new($"{type.Name.Substring(0, type.Name.Length - 10)}/{method.Name}/");
 
             if (String.IsNullOrEmpty(attribute.Name))
                 name = $"{route}";
@@ -369,15 +369,15 @@ namespace WebSmokeTest.Plugin
                 if (!hasQuestion)
                 {
                     hasQuestion = true;
-                    route += $"?{param.Name}={{{param.Name}}}";
+                    route.Append($"?{param.Name}={{{param.Name}}}");
                 }
                 else
                 {
-                    route += $"&{param.Name}={{{param.Name}}}";
+                    route.Append($"&{param.Name}={{{param.Name}}}");
                 }
             }
 
-            return new WebSmokeTestItem(route,
+            return new WebSmokeTestItem(route.ToString(),
                 httpMethod,
                 attribute.FormId,
                 attribute.Response,

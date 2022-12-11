@@ -61,7 +61,7 @@
         },
 
         performQuickSearch: function (s, ctrl) {
-            let kwords = new String(s);
+            let kwords = String(s);
 
             if (kwords.length < _options.minSearchLength) {
                 _keywords = null;

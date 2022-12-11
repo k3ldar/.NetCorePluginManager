@@ -176,10 +176,10 @@ namespace RestrictIp.Plugin
             {
                 foreach (Attribute attribute in type.GetCustomAttributes())
                 {
-                    if (attribute.GetType() == typeof(RestrictedIpRouteAttribute))
-                    {
-                        RestrictedIpRouteAttribute restrictedIpRouteAttribute = (RestrictedIpRouteAttribute)attribute;
+					RestrictedIpRouteAttribute restrictedIpRouteAttribute = attribute as RestrictedIpRouteAttribute;
 
+					if (restrictedIpRouteAttribute != null)
+                    {
                         string route = routeDataService.GetRouteFromClass(type, routeProvider);
 
                         if (String.IsNullOrEmpty(route))

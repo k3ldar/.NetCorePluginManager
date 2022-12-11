@@ -524,7 +524,7 @@ namespace SharedPluginFeatures
 
             if (currentPage > availablePages)
             {
-                currentPage = (int)availablePages;
+                currentPage = availablePages;
             }
 
             endItem = pageSize * currentPage;

@@ -301,7 +301,7 @@ namespace Spider.Plugin.Classes
             foreach (Type type in spiderAttributes)
             {
                 object[] attributes = type.GetCustomAttributes(true)
-                    .Where(a => a.GetType() == typeof(DenySpiderAttribute)).ToArray();
+                    .Where(a => a is DenySpiderAttribute).ToArray();
 
                 foreach (DenySpiderAttribute attribute in attributes)
                 {
@@ -318,7 +318,7 @@ namespace Spider.Plugin.Classes
                 foreach (MethodInfo method in type.GetMethods())
                 {
                     attributes = method.GetCustomAttributes(true)
-                        .Where(a => a.GetType() == typeof(DenySpiderAttribute)).ToArray();
+                        .Where(a => a is DenySpiderAttribute).ToArray();
 
                     foreach (DenySpiderAttribute attribute in attributes)
                     {

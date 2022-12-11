@@ -1807,13 +1807,6 @@
             </summary>
             <param name="totalItems">Total number of items within the cart.</param>
         </member>
-        <member name="M:SharedPluginFeatures.ShoppingCartSummary.ResetTotalCost(System.Decimal@,System.Globalization.CultureInfo@)">
-            <summary>
-            Forces the total costs for the cart to be reset.
-            </summary>
-            <param name="cost">New cost to be applied to the shopping cart.</param>
-            <param name="cultureInfo">Culture to be applied to the shopping cart.</param>
-        </member>
         <member name="M:SharedPluginFeatures.ShoppingCartSummary.ResetShipping(System.Decimal@)">
             <summary>
             Forces the shipping value to be reset within the shopping cart.
@@ -1825,6 +1818,13 @@
             Forces the total costs for the cart to be reset.
             </summary>
             <param name="cost">New cost to be applied to the shopping cart.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.ShoppingCartSummary.ResetTotalCost(System.Decimal@,System.Globalization.CultureInfo@)">
+            <summary>
+            Forces the total costs for the cart to be reset.
+            </summary>
+            <param name="cost">New cost to be applied to the shopping cart.</param>
+            <param name="cultureInfo">Culture to be applied to the shopping cart.</param>
         </member>
         <member name="P:SharedPluginFeatures.ShoppingCartSummary.Id">
             <summary>
@@ -4499,17 +4499,17 @@
             </summary>
             <returns>List&lt;SystemAdminMainMenu&gt;</returns>
         </member>
-        <member name="M:SharedPluginFeatures.ISystemAdminHelperService.GetSystemAdminDefaultMainMenu">
-            <summary>
-            Retrieves the Default main menu.
-            </summary>
-            <returns>SystemAdminMainMenu</returns>
-        </member>
         <member name="M:SharedPluginFeatures.ISystemAdminHelperService.GetSystemAdminMainMenu(System.Int32@)">
             <summary>
             Retrieves a specific menu item by Id
             </summary>
             <param name="id">Id of menu item.</param>
+            <returns>SystemAdminMainMenu</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.ISystemAdminHelperService.GetSystemAdminDefaultMainMenu">
+            <summary>
+            Retrieves the Default main menu.
+            </summary>
             <returns>SystemAdminMainMenu</returns>
         </member>
         <member name="M:SharedPluginFeatures.ISystemAdminHelperService.GetSubMenuItems">
