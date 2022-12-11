@@ -36,7 +36,7 @@ namespace Middleware.Classes
 	/// <summary>
 	/// Default email sender class
 	/// </summary>
-    public class DefaultEmailSender : ThreadManager, IEmailSender
+    public sealed class DefaultEmailSender : ThreadManager, IEmailSender
     {
         #region Private Members
 
@@ -56,7 +56,7 @@ namespace Middleware.Classes
         #region Private Classes / Records
 
 #if NET5_0_OR_GREATER
-        private record EmailToSend(string RecipientName, string RecipientEmail, string Message, string Subject, bool IsHtml, string[] Attachments);
+        private sealed record EmailToSend(string RecipientName, string RecipientEmail, string Message, string Subject, bool IsHtml, string[] Attachments);
 #else
         private sealed class EmailToSend
         {

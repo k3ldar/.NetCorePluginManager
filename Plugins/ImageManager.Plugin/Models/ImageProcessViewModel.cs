@@ -48,7 +48,7 @@ namespace ImageManager.Plugin.Models
         public ImageProcessViewModel(string fileUploadId)
         {
             if (string.IsNullOrEmpty(fileUploadId))
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(fileUploadId));
 
             FileUploadId = fileUploadId;
         }

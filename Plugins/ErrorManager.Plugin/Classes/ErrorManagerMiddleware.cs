@@ -52,7 +52,7 @@ namespace ErrorManager.Plugin
         private readonly IErrorManager _errorManager;
         private readonly string _loginPage;
 
-        private static ErrorThreadManager _errorThreadManager;
+        private readonly ErrorThreadManager _errorThreadManager;
 
         private static readonly object _lockObject = new object();
         private static readonly Dictionary<string, uint> _missingPageCount = new Dictionary<string, uint>();
@@ -237,9 +237,8 @@ namespace ErrorManager.Plugin
                 _missingPageCount[path]++;
 
                 // does the host have a replacement page for the missing page?
-                if (_errorManager.MissingPage(path, ref replacePage))
-                    if (!String.IsNullOrEmpty(replacePage))
-                        return replacePage;
+                if (_errorManager.MissingPage(path, ref replacePage) && !String.IsNullOrEmpty(replacePage))
+                    return replacePage;
             }
 
             return "/Error/NotFound404";

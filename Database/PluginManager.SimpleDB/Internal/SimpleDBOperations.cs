@@ -23,6 +23,7 @@
  *  23/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.IO.Compression;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -601,7 +602,7 @@ namespace SimpleDB.Internal
 
             if (compressionType == CompressionType.Brotli)
             {
-                Span<byte> uncompressed = uncompressedSize < MaxStackAllocSize ? uncompressed = stackalloc byte[uncompressedSize] : uncompressed = new byte[uncompressedSize];
+                Span<byte> uncompressed = uncompressedSize < MaxStackAllocSize ? stackalloc byte[uncompressedSize] : new byte[uncompressedSize];
 
                 System.IO.Compression.BrotliDecoder.TryDecompress(data, uncompressed, out int byteLength);
 
@@ -685,8 +686,8 @@ namespace SimpleDB.Internal
 
                 if (_tableAttributes.Compression == CompressionType.Brotli)
                 {
-					Span<byte> compressedData = data.Length < MaxStackAllocSize ? compressedData = stackalloc byte[data.Length] : compressedData = new byte[data.Length];
-                    isCompressed = System.IO.Compression.BrotliEncoder.TryCompress(data, compressedData, out dataLength);
+					Span<byte> compressedData = data.Length < MaxStackAllocSize ? stackalloc byte[data.Length] : new byte[data.Length];
+                    isCompressed = BrotliEncoder.TryCompress(data, compressedData, out dataLength);
 
 					if (isCompressed)
 					{
@@ -870,8 +871,7 @@ namespace SimpleDB.Internal
 
                     if (_indexes[item.Key].Contains(keyValue))
                     {
-                        if (_indexes[item.Key].Contains(keyValue))
-                            throw new UniqueIndexException($"Index already exists; Table: {TableName}; Index Name: {item.Key}; Property: {String.Join(',', item.Value.PropertyNames)}; Value: {keyValue}");
+                        throw new UniqueIndexException($"Index already exists; Table: {TableName}; Index Name: {item.Key}; Property: {String.Join(',', item.Value.PropertyNames)}; Value: {keyValue}");
                     }
                 }
             }
@@ -932,10 +932,10 @@ namespace SimpleDB.Internal
                 {
                     object keyValue = record.GetType().GetProperty(index.Key).GetValue(record, null);
 
-                    if (Int64.TryParse(keyValue.ToString(), out long value))
-                    {
-                        if (_foreignKeyManager.ValueInUse(TableName, index.Key, value, out string table, out string propertyName))
-                            throw new ForeignKeyException($"Foreign key value {keyValue} from table {TableName} is being used in Table: {table}; Property: {propertyName}");
+                    if (Int64.TryParse(keyValue.ToString(), out long value) &&
+						_foreignKeyManager.ValueInUse(TableName, index.Key, value, out string table, out string propertyName))
+					{ 
+                        throw new ForeignKeyException($"Foreign key value {keyValue} from table {TableName} is being used in Table: {table}; Property: {propertyName}");
                     }
                 }
             }
@@ -1013,7 +1013,7 @@ namespace SimpleDB.Internal
                 {
                     string indexName = String.IsNullOrEmpty(uniqueIndex.Name) ? property.Name : uniqueIndex.Name;
 
-                    if (Result.ContainsKey(indexName))
+                    if (Result.TryGetValue(indexName, out IIndexManager _))
                     {
                         List<string> propertyNames = Result[indexName].PropertyNames;
                         propertyNames.Add(property.Name);

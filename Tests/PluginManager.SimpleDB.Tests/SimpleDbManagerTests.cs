@@ -127,7 +127,7 @@ namespace SimpleDB.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void RegisterTable_TableAlreadyRegistered_Throws_IOException()
         {
             string directory = TestHelper.GetTestPath();

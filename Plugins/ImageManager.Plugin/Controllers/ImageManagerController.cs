@@ -396,7 +396,7 @@ namespace ImageManager.Plugin.Controllers
 			}
 			else
 			{
-				if (invalidResponse == null && !model.ConfirmDelete)
+				if (!model.ConfirmDelete)
 					invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorNoConfirmation);
 
 				if (invalidResponse == null && String.IsNullOrEmpty(model.ImageName))

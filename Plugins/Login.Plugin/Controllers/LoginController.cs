@@ -145,10 +145,10 @@ namespace LoginPlugin.Controllers
 
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
 
-            if (!String.IsNullOrEmpty(loginCacheItem.CaptchaText))
-            {
-                if (!loginCacheItem.CaptchaText.Equals(model.CaptchaText))
-                    ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
+            if (!String.IsNullOrEmpty(loginCacheItem.CaptchaText) &&
+				!loginCacheItem.CaptchaText.Equals(model.CaptchaText))
+			{
+				ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
             }
 
             loginCacheItem.LoginAttempts++;
@@ -273,10 +273,10 @@ namespace LoginPlugin.Controllers
             if (String.IsNullOrEmpty(model.CaptchaText) || String.IsNullOrEmpty(loginCacheItem.CaptchaText))
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
 
-            if (ModelState.IsValid && !String.IsNullOrEmpty(loginCacheItem.CaptchaText))
-            {
-                if (!loginCacheItem.CaptchaText.Equals(model.CaptchaText))
-                    ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
+            if (ModelState.IsValid && !String.IsNullOrEmpty(loginCacheItem.CaptchaText) &&
+				!loginCacheItem.CaptchaText.Equals(model.CaptchaText))
+			{
+                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
             }
 
             if (ModelState.IsValid && _loginProvider.ForgottenPassword(ValidateUserInput(model.Username, ValidationType.Name)))
@@ -435,7 +435,7 @@ namespace LoginPlugin.Controllers
 			{
 				Result = (LoginCacheItem)loginCache.Value;
 			}
-			else if (createIfNotExist && loginCache == null)
+			else if (createIfNotExist)
 			{
 				Result = new LoginCacheItem();
 				loginCache = new CacheItem(cacheId, Result);

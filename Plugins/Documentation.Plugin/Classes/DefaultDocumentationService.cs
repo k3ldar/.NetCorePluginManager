@@ -48,7 +48,6 @@ namespace DocumentationPlugin.Classes
         #region Private Members
 
         private static readonly object _lockObject = new object();
-        private readonly DocumentationSettings _documentation;
         private readonly IMemoryCache _memoryCache;
         private readonly string _fileNameFile;
         private readonly string _xmlFilePath;
@@ -64,13 +63,13 @@ namespace DocumentationPlugin.Classes
                 throw new ArgumentNullException(nameof(settingsProvider));
 
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
-            _documentation = settingsProvider.GetSettings<DocumentationSettings>(nameof(DocumentationSettings));
-            _fileNameFile = Path.Combine(Path.GetFullPath(_documentation.Path), "Settings", "Files.dat");
-            _xmlFilePath = Path.Combine(Path.GetFullPath(_documentation.Path), "XmlFiles");
-            _customDataPath = Path.Combine(Path.GetFullPath(_documentation.Path), "Custom");
+			DocumentationSettings documentation = settingsProvider.GetSettings<DocumentationSettings>(nameof(DocumentationSettings));
+            _fileNameFile = Path.Combine(Path.GetFullPath(documentation.Path), "Settings", "Files.dat");
+            _xmlFilePath = Path.Combine(Path.GetFullPath(documentation.Path), "XmlFiles");
+            _customDataPath = Path.Combine(Path.GetFullPath(documentation.Path), "Custom");
 
-            if (!Directory.Exists(_documentation.Path))
-                Directory.CreateDirectory(_documentation.Path);
+            if (!Directory.Exists(documentation.Path))
+                Directory.CreateDirectory(documentation.Path);
 
             if (!Directory.Exists(_xmlFilePath))
                 Directory.CreateDirectory(_xmlFilePath);

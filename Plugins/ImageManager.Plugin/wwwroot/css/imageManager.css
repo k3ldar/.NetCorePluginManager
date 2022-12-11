@@ -1,4 +1,5 @@
 ﻿.leftColumn {
+    font-size: inherit;
 }
 
     .leftColumn h5 {
@@ -33,6 +34,7 @@
 }
 
 ul.imageList {
+    display: inherit;
 }
 
     ul.imageList li {
@@ -115,7 +117,7 @@ li.selected {
 }
 
 .imageProperties {
-
+    font-weight: inherit;
 }
 
 .imageProperties span {

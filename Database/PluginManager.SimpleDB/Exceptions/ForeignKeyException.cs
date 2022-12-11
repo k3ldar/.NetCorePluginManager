@@ -26,6 +26,7 @@
 
 namespace SimpleDB
 {
+	[Serializable]
     public sealed class ForeignKeyException : Exception
     {
         public ForeignKeyException()

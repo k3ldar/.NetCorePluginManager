@@ -37,7 +37,7 @@ namespace DynamicContent.Plugin
 #else
     [ExcludeFromCodeCoverage]
 #endif
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {

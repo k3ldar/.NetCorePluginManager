@@ -96,7 +96,7 @@ namespace BadEgg.Plugin.WebDefender
         /// </summary>
         private static readonly object _lockObject = new object();
 
-        private static Dictionary<string, IpConnectionInfo> _connectionInformation;
+        private static Dictionary<string, IpConnectionInfo> _connectionInformation = new();
 
         private readonly HashSet<IpConnectionInfo> _connectionsAdd;
 
@@ -136,11 +136,6 @@ namespace BadEgg.Plugin.WebDefender
             : base(null, new TimeSpan(0, 0, 1), null, 1000, 200, false, true)
         {
             ContinueIfGlobalException = true;
-
-            if (_connectionInformation == null)
-            {
-                _connectionInformation = new Dictionary<string, IpConnectionInfo>();
-            }
 
             _connectionsAdd = new HashSet<IpConnectionInfo>();
             ConnectionTimeout = connectionTimeout;

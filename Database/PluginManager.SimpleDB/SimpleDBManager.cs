@@ -60,14 +60,11 @@ namespace SimpleDB
 
 			SimpleDBSettings settings = settingsProvider.GetSettings<SimpleDBSettings>(nameof(SimpleDBSettings));
 
-			if (settings == null)
+			if (settings == null || String.IsNullOrEmpty(settings.Path))
 				throw new InvalidOperationException();
 
-			if (String.IsNullOrEmpty(settings.Path))
-				throw new ArgumentNullException(nameof(settings.Path));
-
 			if (!Directory.Exists(settings.Path))
-				throw new ArgumentException($"Path does not exist: {settings.Path}", nameof(settings.Path));
+				throw new DirectoryNotFoundException($"Path does not exist: {settings.Path}");
 
 			Path = settings.Path;
 			EncryptionKey = settings.EnycryptionKey;
@@ -129,10 +126,10 @@ namespace SimpleDB
 			using (TimedLock timedLock = TimedLock.Lock(_lock))
 			{
 				if (String.IsNullOrEmpty(simpleDBTable.TableName))
-					throw new ArgumentException("Null table name", nameof(simpleDBTable.TableName));
+					throw new InvalidOperationException("Null table name");
 
 				if (_tables.ContainsKey(simpleDBTable.TableName))
-					throw new ArgumentException($"Table {simpleDBTable.TableName} already exists");
+					throw new InvalidOperationException($"Table {simpleDBTable.TableName} already exists");
 
 				_tables.Add(simpleDBTable.TableName, simpleDBTable);
 

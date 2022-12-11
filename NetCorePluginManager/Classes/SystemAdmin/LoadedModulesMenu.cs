@@ -77,8 +77,6 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
         /// <returns>string</returns>
         public override string Data()
         {
-            Dictionary<string, IPluginModule> plugins = PluginManagerService.GetPluginManager().PluginsGetLoaded();
-
             StringBuilder Result = new StringBuilder("Module|FileVersion", 2048);
             Dictionary<string, string> files = new Dictionary<string, string>();
 

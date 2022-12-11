@@ -26,7 +26,8 @@
 
 namespace SimpleDB
 {
-    public sealed class InvalidDataRowException : Exception
+	[Serializable]
+	public sealed class InvalidDataRowException : Exception
     {
         public InvalidDataRowException(string dataRow, string property, string message)
             : base($"{message}; Table: {dataRow}; Property {property}")

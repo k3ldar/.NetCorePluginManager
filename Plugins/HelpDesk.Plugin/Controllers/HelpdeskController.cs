@@ -147,7 +147,7 @@ namespace HelpdeskPlugin.Controllers
             {
                 Result = (HelpdeskCacheItem)helpdeskCache.Value;
             }
-            else if (createIfNotExist && helpdeskCache == null)
+            else if (createIfNotExist)
             {
                 Result = new HelpdeskCacheItem();
                 helpdeskCache = new CacheItem(cacheId, Result);

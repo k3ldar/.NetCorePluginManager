@@ -156,7 +156,6 @@ namespace DynamicContent.Plugin.Templates
 
             string disabled = isEditing ? " disabled" : "";
             string ctlStyle = String.IsNullOrEmpty(formModel.ControlStyle) ? "" : $" style=\"{formModel.ControlStyle}\"";
-            string[] options = formModel.LabelText.Split(';', StringSplitOptions.RemoveEmptyEntries);
 
             foreach (string option in formModel.Options)
             {

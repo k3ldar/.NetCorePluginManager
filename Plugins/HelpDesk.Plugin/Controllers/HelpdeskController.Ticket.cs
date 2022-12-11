@@ -174,10 +174,10 @@ namespace HelpdeskPlugin.Controllers
 
             HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);
 
-            if (_settings.ShowCaptchaText && helpdeskCache.Requests > 1)
-            {
-                if (!model.CaptchaText.Equals(helpdeskCache.CaptchaText, StringComparison.CurrentCultureIgnoreCase))
-                    ModelState.AddModelError(nameof(model.CaptchaText), Languages.LanguageStrings.CodeNotValid);
+            if (_settings.ShowCaptchaText && helpdeskCache.Requests > 1 &&
+				!model.CaptchaText.Equals(helpdeskCache.CaptchaText, StringComparison.CurrentCultureIgnoreCase))
+			{
+                ModelState.AddModelError(nameof(model.CaptchaText), Languages.LanguageStrings.CodeNotValid);
             }
 
             if (ModelState.IsValid)

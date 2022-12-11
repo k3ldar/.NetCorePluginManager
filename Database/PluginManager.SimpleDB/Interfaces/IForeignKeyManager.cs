@@ -26,16 +26,49 @@
 
 namespace SimpleDB
 {
+	/// <summary>
+	/// Foreign key manager interface
+	/// </summary>
     public interface IForeignKeyManager
     {
-        void AddRelationShip(string sourceTable, string targetTable, string propertyName, string targetPropertyName);
+		/// <summary>
+		/// Adds a relationship between two tables
+		/// </summary>
+		/// <param name="sourceTable">Source table</param>
+		/// <param name="targetTable">Target table that contains the foreign key</param>
+		/// <param name="propertyName">Name of propertyy</param>
+		/// <param name="targetPropertyName">Name of property used as foreign key</param>
+		void AddRelationShip(string sourceTable, string targetTable, string propertyName, string targetPropertyName);
 
+		/// <summary>
+		/// Registers a table with foreign key manager
+		/// </summary>
+		/// <param name="table">Table</param>
         void RegisterTable(ISimpleDBTable table);
 
+		/// <summary>
+		/// Unregisters a table
+		/// </summary>
+		/// <param name="table">Table</param>
         void UnregisterTable(ISimpleDBTable table);
 
+		/// <summary>
+		/// Validates whether a value that is or could be used for a foreign key exists
+		/// </summary>
+		/// <param name="tableName">Name of table</param>
+		/// <param name="id">value</param>
+		/// <returns>bool</returns>
         bool ValueExists(string tableName, long id);
 
+		/// <summary>
+		/// Determines whether a value is being used or not
+		/// </summary>
+		/// <param name="tableName"></param>
+		/// <param name="propertyName"></param>
+		/// <param name="value"></param>
+		/// <param name="table"></param>
+		/// <param name="property"></param>
+		/// <returns>bool</returns>
         bool ValueInUse(string tableName, string propertyName, long value, out string table, out string property);
     }
 }
