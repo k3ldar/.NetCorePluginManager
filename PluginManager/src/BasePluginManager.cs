@@ -667,32 +667,6 @@ namespace PluginManager
         }
 
         /// <summary>
-        /// Determines whether a plugin is loaded, and retrieves the version
-        /// </summary>
-        /// <param name="pluginLibraryName"></param>
-        /// <param name="version"></param>
-        /// <param name="module"></param>
-        /// <returns></returns>
-        public bool PluginLoaded(in string pluginLibraryName, out int version, out string module)
-        {
-            version = -1;
-            module = pluginLibraryName;
-
-            foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
-            {
-                if (plugin.Value.Module.EndsWith(pluginLibraryName, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    version = plugin.Value.Version;
-                    module = plugin.Value.Assembly.Location;
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
         /// Allows plugin descendents to load an Assembly, even if it is not a true plugin module, this will ensure
         /// it's classes and types can be found with other searches in other ways like when using IPluginClassesService etc.
         /// </summary>
@@ -773,13 +747,39 @@ namespace PluginManager
             return PluginLoaded(pluginLibraryName, out version, out _);
         }
 
-        /// <summary>
-        /// Retrieves the non instantiated classes which have attribute T, or if any of
-        /// the methods or properties have attribute T
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns>List&lt;Type&gt;</returns>
-        public List<Type> GetPluginTypesWithAttribute<T>()
+		/// <summary>
+		/// Determines whether a plugin is loaded, and retrieves the version
+		/// </summary>
+		/// <param name="pluginLibraryName"></param>
+		/// <param name="version"></param>
+		/// <param name="module"></param>
+		/// <returns></returns>
+		public bool PluginLoaded(in string pluginLibraryName, out int version, out string module)
+		{
+			version = -1;
+			module = pluginLibraryName;
+
+			foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
+			{
+				if (plugin.Value.Module.EndsWith(pluginLibraryName, StringComparison.CurrentCultureIgnoreCase))
+				{
+					version = plugin.Value.Version;
+					module = plugin.Value.Assembly.Location;
+
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		/// <summary>
+		/// Retrieves the non instantiated classes which have attribute T, or if any of
+		/// the methods or properties have attribute T
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <returns>List&lt;Type&gt;</returns>
+		public List<Type> GetPluginTypesWithAttribute<T>()
         {
             return PluginGetTypesWithAttribute<T>();
         }

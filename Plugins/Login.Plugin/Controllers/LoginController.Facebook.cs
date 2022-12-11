@@ -145,7 +145,7 @@ namespace LoginPlugin.Controllers
 
                 if (!BytesEqual(expectedHash, signature))
                 {
-                    throw new Exception("Invalid signature");
+                    throw new InvalidOperationException("Invalid signature");
                 }
 
                 FacebookRemoveUser fbUser = JsonSerializer.Deserialize<FacebookRemoveUser>(json, GetSerializerOptions());

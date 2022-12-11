@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 using PluginManager.Abstractions;
 
@@ -70,15 +71,14 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
         {
             Dictionary<string, IPluginModule> plugins = PluginManagerService.GetPluginManager().PluginsGetLoaded();
 
-            string Result = "Module|Plugin Version|File Version";
+            StringBuilder Result = new StringBuilder("Module|Plugin Version|File Version");
 
             foreach (KeyValuePair<string, IPluginModule> keyValuePair in plugins)
             {
-                Result += $"\r{keyValuePair.Value.Module}|{keyValuePair.Value.Version.ToString()}|" +
-                    $"{keyValuePair.Value.FileVersion}";
+                Result.AppendFormat("\r{0}|{1}|{2}", keyValuePair.Value.Module, keyValuePair.Value.Version.ToString(), keyValuePair.Value.FileVersion);
             }
 
-            return Result;
+            return Result.ToString();
         }
 
         public override string Name()

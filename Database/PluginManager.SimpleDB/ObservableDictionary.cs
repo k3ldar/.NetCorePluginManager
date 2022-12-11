@@ -26,6 +26,7 @@
 
 namespace SimpleDB
 {
+	[Serializable]
 	public sealed class ObservableDictionary<TKey, TValue> : Dictionary<TKey, TValue>
 	{
 		new public TValue this[TKey key]
@@ -41,6 +42,7 @@ namespace SimpleDB
 				Updated();
 			}
 		}
+
 		new public void Add(TKey key, TValue value)
 		{
 			base.Add(key, value);

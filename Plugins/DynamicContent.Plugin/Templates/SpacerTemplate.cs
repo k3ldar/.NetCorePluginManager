@@ -84,6 +84,7 @@ namespace DynamicContent.Plugin.Templates
 
             set
             {
+				// unused for this implementation
             }
         }
 

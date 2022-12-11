@@ -144,7 +144,7 @@ namespace Middleware.Accounts.Invoices
         {
             get
             {
-                decimal taxRate = 1 + ((decimal)TaxRate / 100);
+                decimal taxRate = 1 + (TaxRate / 100);
                 decimal totalCost = BankersRounding(Price * Quantity, Invoice.Culture.NumberFormat.NumberDecimalDigits);
 
                 return BankersRounding(taxRate * totalCost, Invoice.Culture.NumberFormat.NumberDecimalDigits) - TotalDiscount;
@@ -159,7 +159,7 @@ namespace Middleware.Accounts.Invoices
         {
             get
             {
-                decimal taxRate = 1 + ((decimal)TaxRate / 100);
+                decimal taxRate = 1 + (TaxRate / 100);
                 decimal totalCost = BankersRounding(Price * Quantity, Invoice.Culture.NumberFormat.NumberDecimalDigits);
 
                 return BankersRounding(taxRate * totalCost, Invoice.Culture.NumberFormat.NumberDecimalDigits) - totalCost;

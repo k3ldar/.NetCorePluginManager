@@ -476,7 +476,7 @@ namespace ImageManager.Plugin.Classes
             }
 
             if (fileExtension[0] != '.')
-                throw new ArgumentException();
+                throw new InvalidOperationException();
 
             string path = Path.Combine(_rootPath, TempPathName);
 
@@ -517,7 +517,7 @@ namespace ImageManager.Plugin.Classes
                 throw new ArgumentNullException(nameof(fileName));
 
             if (fileContents.Length < 1)
-                throw new ArgumentException();
+                throw new InvalidOperationException();
 
             string newFilePath = Path.Combine(_rootPath, groupName);
 
@@ -530,7 +530,7 @@ namespace ImageManager.Plugin.Classes
             string newFileName = Path.Combine(newFilePath, fileName);
 
             if (File.Exists(newFileName))
-                throw new ArgumentOutOfRangeException();
+                throw new InvalidOperationException();
 
             _imageProviderCache.Clear();
 

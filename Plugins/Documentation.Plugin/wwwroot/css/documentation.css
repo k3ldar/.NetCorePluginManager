@@ -13,11 +13,7 @@
     }
 
 .docModules {
-    align-content: center;
     float: left;
-}
-
-.docModules {
     width: 180px;
     height: 120px;
     margin: 20px 10px 0 0;

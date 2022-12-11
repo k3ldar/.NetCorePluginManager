@@ -184,23 +184,20 @@ namespace DocumentationPlugin.Classes
 
             DocumentData data = document.Tag as DocumentData;
 
-            if (data != null)
+            if (data != null && data.Contains.Count > 0)
             {
-                if (data.Contains.Count > 0)
+                Dictionary<string, string> contains = new Dictionary<string, string>();
+
+                foreach (KeyValuePair<String, String> item in data.Contains)
                 {
-                    Dictionary<string, string> contains = new Dictionary<string, string>();
+                    contains.Add(item.Key, FindReplaceableTags(document, document, item.Value, false, false, true));
+                }
 
-                    foreach (KeyValuePair<String, String> item in data.Contains)
-                    {
-                        contains.Add(item.Key, FindReplaceableTags(document, document, item.Value, false, false, true));
-                    }
+                data.Contains.Clear();
 
-                    data.Contains.Clear();
-
-                    foreach (KeyValuePair<string, string> item in contains)
-                    {
-                        data.Contains.Add(item.Key, item.Value);
-                    }
+                foreach (KeyValuePair<string, string> item in contains)
+                {
+                    data.Contains.Add(item.Key, item.Value);
                 }
             }
         }
@@ -403,7 +400,6 @@ namespace DocumentationPlugin.Classes
                 if (inTag)
                 {
                     currentTag.Append(c);
-                    continue;
                 }
             }
 

@@ -156,8 +156,6 @@ namespace DocumentationPlugin.Classes
                     {
                         Results.Add(AddDocumentToSearchResult(document, "DocumentLongDescription",
                             $"/docs/Document/{HtmlHelper.RouteFriendlyName(document.Title)}/", offset));
-
-                        continue;
                     }
                 }
             }

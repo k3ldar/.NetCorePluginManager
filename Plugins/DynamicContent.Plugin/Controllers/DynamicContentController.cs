@@ -659,10 +659,11 @@ namespace DynamicContent.Plugin.Controllers
             {
                 content.Append(template.Content());
 
-                if (template.TemplateType == DynamicContentTemplateType.Input)
-                {
-                    if (GetInputId(template, out string inputId) && !inputControlIds.Contains(inputId))
-                        inputControlIds.Add(inputId);
+                if (template.TemplateType == DynamicContentTemplateType.Input &&
+					GetInputId(template, out string inputId) && 
+					!inputControlIds.Contains(inputId))
+				{ 
+                    inputControlIds.Add(inputId);
                 }
             }
 

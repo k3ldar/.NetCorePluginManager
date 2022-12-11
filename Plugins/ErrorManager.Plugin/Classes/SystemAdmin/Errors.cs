@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 
 using SharedPluginFeatures;
@@ -61,17 +62,17 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
         /// <returns>string</returns>
         public override string Data()
         {
-            string Result = "Date|Error|Count";
+            StringBuilder Result = new("Date|Error|Count");
 
             List<ErrorInformation> errors = ErrorManagerMiddleware.GetErrors();
 
             foreach (ErrorInformation item in errors)
             {
-                Result += $"\r{item.Date.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat)}|" +
-                    $"{item.Error.Message.Replace('|', ' ').Replace("\r\n", " ")}|{item.ErrorCount}";
+                Result.Append($"\r{item.Date.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat)}|" +
+                    $"{item.Error.Message.Replace('|', ' ').Replace("\r\n", " ")}|{item.ErrorCount}");
             }
 
-            return Result;
+            return Result.ToString();
         }
 
         public override string Image()

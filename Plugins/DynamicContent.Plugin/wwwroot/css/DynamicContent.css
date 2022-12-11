@@ -126,9 +126,6 @@
     }
 
 .template {
-}
-
-.template {
     line-height: 25px;
     list-style-type: none;
     margin: 0 0 15px 0;
@@ -138,7 +135,3 @@
     .template li {
         padding: 0 0 5px 0;
     }
-
-.pageLayout {
-
-}

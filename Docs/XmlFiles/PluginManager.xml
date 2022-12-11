@@ -185,15 +185,6 @@
             <typeparam name="T">Type of interface/class</typeparam>
             <returns>List&lt;Type&gt;</returns>
         </member>
-        <member name="M:PluginManager.BasePluginManager.PluginLoaded(System.String@,System.Int32@,System.String@)">
-            <summary>
-            Determines whether a plugin is loaded, and retrieves the version
-            </summary>
-            <param name="pluginLibraryName"></param>
-            <param name="version"></param>
-            <param name="module"></param>
-            <returns></returns>
-        </member>
         <member name="M:PluginManager.BasePluginManager.AddAssembly(System.Reflection.Assembly@)">
             <summary>
             Allows plugin descendents to load an Assembly, even if it is not a true plugin module, this will ensure
@@ -231,6 +222,15 @@
             </summary>
             <param name="pluginLibraryName"></param>
             <param name="version"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.PluginLoaded(System.String@,System.Int32@,System.String@)">
+            <summary>
+            Determines whether a plugin is loaded, and retrieves the version
+            </summary>
+            <param name="pluginLibraryName"></param>
+            <param name="version"></param>
+            <param name="module"></param>
             <returns></returns>
         </member>
         <member name="M:PluginManager.BasePluginManager.GetPluginTypesWithAttribute``1">

@@ -1388,7 +1388,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void TemporaryImageFile_InvalidParam_DoesNotStartWithFullStop_Throws_ArgumentException()
         {
             DateTime fileCreated = DateTime.UtcNow;
@@ -1531,7 +1531,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void AddFile_InvalidParam_FileContents_ZeroLength_Throws_ArgumentException()
         {
             DateTime fileCreated = DateTime.UtcNow;
@@ -1554,7 +1554,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void AddFile_InvalidParam_FileName_AlreadyExists_Throws_ArgumentOutOfRangeException()
         {
             DateTime fileCreated = DateTime.UtcNow;

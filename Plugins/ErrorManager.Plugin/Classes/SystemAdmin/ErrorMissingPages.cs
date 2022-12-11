@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 using SharedPluginFeatures;
 
@@ -60,16 +61,16 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
         /// <returns>string</returns>
         public override string Data()
         {
-            string Result = "Page|Count";
+            StringBuilder Result = new StringBuilder("Page|Count");
 
             Dictionary<string, uint> missingPages = ErrorManagerMiddleware.GetMissingPages();
 
             foreach (KeyValuePair<string, uint> item in missingPages)
             {
-                Result += $"\r{item.Key}|{item.Value}";
+                Result.Append($"\r{item.Key}|{item.Value}");
             }
 
-            return Result;
+            return Result.ToString();
         }
 
         public override string Image()

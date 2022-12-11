@@ -47,7 +47,6 @@ namespace DynamicContent.Plugin.Internal
 
         private readonly Timings _updateContentTimings = new Timings();
         private readonly IDynamicContentProvider _dynamicContentProvider;
-        private readonly INotificationService _notificationService;
         private readonly object _lockObject = new object();
 
         #endregion Private Members
@@ -57,12 +56,14 @@ namespace DynamicContent.Plugin.Internal
         public DynamicContentThreadManager(INotificationService notificationService, IDynamicContentProvider dynamicContentProvider)
             : base(null, new TimeSpan(0, 0, 0, 0, 250))
         {
-            _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
+			if (notificationService == null)
+				throw new ArgumentNullException(nameof(notificationService));
+
             _dynamicContentProvider = dynamicContentProvider ?? throw new ArgumentNullException(nameof(dynamicContentProvider));
 
             UpdateRequired = true;
             ContinueIfGlobalException = true;
-            _notificationService.RegisterListener(this);
+            notificationService.RegisterListener(this);
         }
 
         #endregion Constructors

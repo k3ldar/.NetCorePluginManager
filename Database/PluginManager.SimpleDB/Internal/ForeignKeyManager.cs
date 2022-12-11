@@ -60,7 +60,7 @@ namespace SimpleDB.Internal
             using (TimedLock tl = TimedLock.Lock(_lock))
             {
                 if (_foreignKeys.ContainsKey(table.TableName))
-                    throw new ArgumentException("$Table is already registered", nameof(table.TableName));
+                    throw new InvalidOperationException($"Table is already registered: {nameof(table.TableName)}");
 
                 _foreignKeys[table.TableName] = table;
             }
@@ -74,7 +74,7 @@ namespace SimpleDB.Internal
             using (TimedLock tl = TimedLock.Lock(_lock))
             {
                 if (!_foreignKeys.ContainsKey(table.TableName))
-                    throw new ArgumentException("$Table is not registered", nameof(table.TableName));
+                    throw new InvalidOperationException($"Table is already registered: {nameof(table.TableName)}");
 
                 _foreignKeys.Remove(table.TableName);
             }
@@ -95,14 +95,12 @@ namespace SimpleDB.Internal
         {
             foreach (ForeignKeyRelationship relationship in _foreignKeyRelationships)
             {
-                if (relationship.TargetTable.Equals(tableName) && _foreignKeys.ContainsKey(relationship.Table))
+                if (relationship.TargetTable.Equals(tableName) && _foreignKeys.ContainsKey(relationship.Table) && 
+					_foreignKeys[relationship.Table].IdIsInUse(relationship.PropertyName, value))
                 {
-                    if (_foreignKeys[relationship.Table].IdIsInUse(relationship.PropertyName, value))
-                    {
-                        table = relationship.Table;
-                        property = relationship.PropertyName;
-                        return true;
-                    }
+                    table = relationship.Table;
+                    property = relationship.PropertyName;
+                    return true;
                 }
             }
 
