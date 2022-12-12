@@ -404,11 +404,8 @@ namespace SharedPluginFeatures
 
             string paginationParameters = parameters;
 
-            if (!String.IsNullOrEmpty(paginationParameters))
-            {
-                if (paginationParameters[0] != '&')
-                    paginationParameters = "&" + paginationParameters;
-            }
+            if (!String.IsNullOrEmpty(paginationParameters) && paginationParameters[0] != '&')
+                paginationParameters = "&" + paginationParameters;
 
             if (currentPage == 1 || pageCount == 1)
                 Result.Append(String.Format(CultureInfo.CurrentCulture, Constants.PaginationPrevDisabled, previous));

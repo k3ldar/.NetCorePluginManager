@@ -112,13 +112,10 @@ namespace Middleware.Search
 
                 using (TimedLock timedLock = TimedLock.Lock(_lockObject))
                 {
-                    if (cacheItem == null)
+                    if (cacheItem == null && !ThreadManager.Exists(keywordSearchOptions.SearchName))
                     {
-                        if (!ThreadManager.Exists(keywordSearchOptions.SearchName))
-                        {
-                            DefaultSearchThread searchThread = new DefaultSearchThread(searchProviders, keywordSearchOptions);
-                            ThreadStart(searchThread, keywordSearchOptions.SearchName, System.Threading.ThreadPriority.BelowNormal);
-                        }
+                        DefaultSearchThread searchThread = new DefaultSearchThread(searchProviders, keywordSearchOptions);
+                        ThreadStart(searchThread, keywordSearchOptions.SearchName, System.Threading.ThreadPriority.BelowNormal);
                     }
                 }
 
@@ -166,18 +163,15 @@ namespace Middleware.Search
 
                 using (TimedLock timedLock = TimedLock.Lock(_lockObject))
                 {
-                    if (cacheItem == null)
+                    if (cacheItem == null && !ThreadManager.Exists(keywordSearchOptions.SearchName))
                     {
-                        if (!ThreadManager.Exists(keywordSearchOptions.SearchName))
+                        List<ISearchKeywordProvider> searchProviders = new List<ISearchKeywordProvider>()
                         {
-                            List<ISearchKeywordProvider> searchProviders = new List<ISearchKeywordProvider>()
-                            {
-                                { searchProvider }
-                            };
+                            { searchProvider }
+                        };
 
-                            DefaultSearchThread searchThread = new DefaultSearchThread(searchProviders, keywordSearchOptions);
-                            ThreadStart(searchThread, keywordSearchOptions.SearchName, System.Threading.ThreadPriority.BelowNormal);
-                        }
+                        DefaultSearchThread searchThread = new DefaultSearchThread(searchProviders, keywordSearchOptions);
+                        ThreadStart(searchThread, keywordSearchOptions.SearchName, System.Threading.ThreadPriority.BelowNormal);
                     }
                 }
 
