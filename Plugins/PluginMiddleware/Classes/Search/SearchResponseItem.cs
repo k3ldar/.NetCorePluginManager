@@ -97,12 +97,9 @@ namespace Middleware.Search
             ResponseType = responseType ?? String.Empty;
             Response = response;
 
-            if (!String.IsNullOrEmpty(url))
+            if (!String.IsNullOrEmpty(url) && Uri.TryCreate(url, UriKind.Relative, out Uri uriResult))
             {
-                if (Uri.TryCreate(url, UriKind.Relative, out Uri uriResult))
-                {
-                    Url = uriResult;
-                }
+                Url = uriResult;
             }
 
             Offset = offset;

@@ -65,7 +65,7 @@ namespace WebSmokeTest.Plugin
         private Boolean _disposedValue;
         private readonly ILogger _logger;
         private readonly WebSmokeTestSettings _settings;
-        private static FileStream _testDataStream;
+        private readonly FileStream _testDataStream;
 
         #endregion Private Members
 
@@ -87,7 +87,9 @@ namespace WebSmokeTest.Plugin
                 throw new ArgumentNullException(nameof(settingsProvider));
 
 			File.WriteAllText(_savedData, String.Empty);
+
 			_testDataStream = new FileStream(_savedData, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+
             _next = next;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
