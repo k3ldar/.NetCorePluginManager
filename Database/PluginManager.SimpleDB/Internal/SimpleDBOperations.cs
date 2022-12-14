@@ -23,26 +23,28 @@
  *  23/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.IO.Compression;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Text.Json;
 
 using PluginManager.Abstractions;
 
 using Shared.Classes;
+
+using SimpleDB.Abstractions;
+using SimpleDB.Interfaces;
 
 namespace SimpleDB.Internal
 {
 	/// <summary>
 	/// Internal structure for file is:
 	/// 
-	/// ushort      Internal version number					0
+	/// ushort      Internal data version					0
 	/// byte[2]     Header									2
 	/// long        Primary Sequence						4
 	/// long        Secondary Sequence						12
-	/// int         Reserved for future use					20
+	/// ushort		File Version							20
+	/// ushort		Reserved								22
 	/// int         Reserved for future use					24
 	/// int         Reserved for future use					28
 	/// int         Page size								32
@@ -51,172 +53,140 @@ namespace SimpleDB.Internal
 	/// int         Length of data before compression		41
 	/// int         Length of data stored on disk			45
 	/// int			PageCount								49
-	///		this part repeats for all pages					53
-	/// int			page number
-	/// byte		page type
-	/// ushort		page version
-	/// int			Page n Datastart
-	/// long		Next page start
+	/// Data		version specific						53
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	internal sealed class SimpleDBOperations<T> : ISimpleDBOperations<T>, ISimpleDBTable
-        where T : TableRowDefinition
-    {
-        #region Private Classes
+		where T : TableRowDefinition
+	{
+		#region Private Classes
 
-        private sealed class ForeignKeyRelation
-        {
-            public ForeignKeyRelation(string name, bool allowDefaultValue)
-            {
-                if (String.IsNullOrEmpty(name))
-                    throw new ArgumentNullException(nameof(name));
+		private sealed class ForeignKeyRelation
+		{
+			public ForeignKeyRelation(string name, bool allowDefaultValue)
+			{
+				if (String.IsNullOrEmpty(name))
+					throw new ArgumentNullException(nameof(name));
 
-                Name = name;
-                AllowDefaultValue = allowDefaultValue;
-            }
+				Name = name;
+				AllowDefaultValue = allowDefaultValue;
+			}
 
-            public string Name { get; }
+			public string Name { get; }
 
-            public bool AllowDefaultValue { get; }
-        }
+			public bool AllowDefaultValue { get; }
+		}
 
-        #endregion Private Classes
-
-        #region Constants
-
-        private static readonly byte[] Header = new byte[] { 80, 77 };
-        private const string DefaultExtension = ".dat";
-        private const byte CompressionNone = 0;
-        private const byte CompressionBrotli = 1;
-        private const int RowCount = 0;
-        private const int DefaultLength = 0;
-        private const int TotalHeaderLength = sizeof(ushort) + HeaderLength + sizeof(long) + sizeof(long) + (sizeof(int) * 4) + sizeof(byte) + sizeof(int) + sizeof(int) + sizeof(int) + sizeof(int);
-        private const int PrimarySequenceStart = HeaderLength + sizeof(ushort);
-        private const int SecondarySequenceStart = PrimarySequenceStart + sizeof(long);
-		private const int PageHeaderSize = sizeof(int) + sizeof(byte) + sizeof(ushort) + sizeof(int) + sizeof(long);
-        private const int DefaultStackSize = 1000000;
-        private const int MaxStackAllocSize = DefaultStackSize / 4;
-		private const byte PageTypeData = 1;
-		private const ushort PageVersion = 1;
-
-
-        private const int StartOfRecordCount = TotalHeaderLength - ((sizeof(int) * 4) + sizeof(byte));
-		private const int StartOfPageSize = StartOfRecordCount - (sizeof(byte) + sizeof(int));
-
-		private const int HeaderLength = 2;
-        private const int DefaultSequenceIncrement = 1;
-        private const int VersionStart = 0;
-
-		#endregion Constants
+		#endregion Private Classes
 
 		#region Private Members
 
-		private readonly JsonSerializerOptions _jsonSerializerOptions;
-        private readonly string _tableName;
-        private readonly FileStream _fileStream;
-        private readonly ushort _version;
-        private bool _disposed;
-        private int _recordCount = 0;
-        private int _dataLength = 0;
-        private byte _compactPercent = 0;
+		private readonly IVersionedReadWriteFactory _readWriteFactory = new VersionedReadWriteFactory();
+		private readonly string _tableName;
+		private readonly FileStream _fileStream;
+		private ushort _internalDataVersion;
+		private ushort _internalWriteVersion;
+		private bool _disposed;
+		private int _recordCount = 0;
+		private int _dataLength = 0;
+		private byte _compactPercent = 0;
 		private int _pageCount;
-        private CompressionType _compressionAlgorithm = CompressionNone;
-        private long _primarySequence = -1;
-        private long _SecondarySequence = -1;
-        private readonly object _lockObject = new object();
-        private readonly TableAttribute _tableAttributes;
-        private readonly Dictionary<string, ForeignKeyRelation> _foreignKeys;
-        private readonly ISimpleDBManager _initializer;
-        private readonly IForeignKeyManager _foreignKeyManager;
-        private readonly BatchUpdateDictionary<string, IIndexManager> _indexes;
-        private readonly Dictionary<TriggerType, List<ITableTriggers<T>>> _triggersMap;
+		private CompressionType _compressionAlgorithm = Consts.CompressionNone;
+		private long _primarySequence = -1;
+		private long _SecondarySequence = -1;
+		private readonly object _lockObject = new object();
+		private readonly TableAttribute _tableAttributes;
+		private readonly Dictionary<string, ForeignKeyRelation> _foreignKeys;
+		private readonly ISimpleDBManager _initializer;
+		private readonly IForeignKeyManager _foreignKeyManager;
+		private readonly BatchUpdateDictionary<string, IIndexManager> _indexes;
+		private readonly Dictionary<TriggerType, List<ITableTriggers<T>>> _triggersMap;
 		private PageSize _pageSize;
-        private List<T> _allRecords = null;
+		private List<T> _allRecords = null;
 		private readonly bool _isMemoryCaching;
 
 		#endregion Private Members
 
 		#region Constructors / Destructors
 
-		public SimpleDBOperations(ISimpleDBManager readerWriterInitializer, 
-            IForeignKeyManager foreignKeyManager, IPluginClassesService pluginClassesService)
-        {
-            _initializer = readerWriterInitializer ?? throw new ArgumentNullException(nameof(readerWriterInitializer));
-            _foreignKeyManager = foreignKeyManager ?? throw new ArgumentNullException(nameof(foreignKeyManager));
+		public SimpleDBOperations(ISimpleDBManager readerWriterInitializer,
+			IForeignKeyManager foreignKeyManager, IPluginClassesService pluginClassesService)
+		{
+			_initializer = readerWriterInitializer ?? throw new ArgumentNullException(nameof(readerWriterInitializer));
+			_foreignKeyManager = foreignKeyManager ?? throw new ArgumentNullException(nameof(foreignKeyManager));
 
-            if (pluginClassesService == null)
-                throw new ArgumentNullException(nameof(pluginClassesService));
+			if (pluginClassesService == null)
+				throw new ArgumentNullException(nameof(pluginClassesService));
 
-            _tableAttributes = GetTableAttributes();
+			_tableAttributes = GetTableAttributes();
 
-            if (_tableAttributes == null)
-                throw new InvalidOperationException($"TableAttribute is missing from class {typeof(T).FullName}");
+			if (_tableAttributes == null)
+				throw new InvalidOperationException($"TableAttribute is missing from class {typeof(T).FullName}");
 
-            ITableDefaults<T> tableDefaults = pluginClassesService.GetPluginClasses<ITableDefaults<T>>()
-                .FirstOrDefault();
+			ITableDefaults<T> tableDefaults = pluginClassesService.GetPluginClasses<ITableDefaults<T>>()
+				.FirstOrDefault();
 
-            if (tableDefaults != null)
-            {
-                _primarySequence = tableDefaults.PrimarySequence;
-                _SecondarySequence = tableDefaults.SecondarySequence;
-            }
+			if (tableDefaults != null)
+			{
+				_primarySequence = tableDefaults.PrimarySequence;
+				_SecondarySequence = tableDefaults.SecondarySequence;
+			}
 
-			_isMemoryCaching = _tableAttributes.CachingStrategy == CachingStrategy.Memory || 
+			_isMemoryCaching = _tableAttributes.CachingStrategy == CachingStrategy.Memory ||
 				_tableAttributes.CachingStrategy == CachingStrategy.SlidingMemory ||
 				_tableAttributes.WriteStrategy == WriteStrategy.Lazy;
 
 			_triggersMap = new Dictionary<TriggerType, List<ITableTriggers<T>>>();
-            List<ITableTriggers<T>> triggers = pluginClassesService.GetPluginClasses<ITableTriggers<T>>();
+			List<ITableTriggers<T>> triggers = pluginClassesService.GetPluginClasses<ITableTriggers<T>>();
 
-            foreach (TriggerType triggerType in Enum.GetValues(typeof(TriggerType)))
-                _triggersMap.Add(triggerType, triggers.Where(t => t.TriggerTypes.HasFlag(triggerType)).ToList());
+			foreach (TriggerType triggerType in Enum.GetValues(typeof(TriggerType)))
+				_triggersMap.Add(triggerType, triggers.Where(t => t.TriggerTypes.HasFlag(triggerType)).ToList());
 
-            _foreignKeys = GetForeignKeysForTable();
-            _indexes = BuildIndexListForTable();
-            _jsonSerializerOptions = new JsonSerializerOptions();
+			_foreignKeys = GetForeignKeysForTable();
+			_indexes = BuildIndexListForTable();
 
-            bool tableCreated;
-            (tableCreated, _tableName) = ValidateTableName(_initializer.Path, _tableAttributes.Domain, _tableAttributes.TableName, _tableAttributes.PageSize);
-            _fileStream = File.Open(_tableName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
+			bool tableCreated;
+			(tableCreated, _tableName) = ValidateTableName(_initializer.Path, _tableAttributes.Domain, _tableAttributes.TableName, _tableAttributes.PageSize);
+			_fileStream = File.Open(_tableName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
 
-            try
-            {
-                ValidateTableContents();
-            }
-            catch (InvalidDataException)
-            {
-                _fileStream.Dispose();
-                _fileStream = null;
-                GC.SuppressFinalize(this);
+			try
+			{
+				ValidateTableContents();
+			}
+			catch (InvalidDataException)
+			{
+				_fileStream.Dispose();
+				_fileStream = null;
+				GC.SuppressFinalize(this);
 
-                throw;
-            }
+				throw;
+			}
 
-            _initializer.RegisterTable(this);
-            _foreignKeyManager.RegisterTable(this);
+			_initializer.RegisterTable(this);
+			_foreignKeyManager.RegisterTable(this);
 
-            if (tableCreated && tableDefaults != null && tableDefaults.InitialData != null)
-            {
-                for (ushort i = ++_version; i < ushort.MaxValue; i++)
-                {
-                    List<T> initialData = tableDefaults.InitialData(i);
+			if (tableCreated && tableDefaults != null && tableDefaults.InitialData != null)
+			{
+				for (ushort i = ++_internalDataVersion; i < ushort.MaxValue; i++)
+				{
+					List<T> initialData = tableDefaults.InitialData(i);
 
-                    if (initialData == null)
-                        break;
+					if (initialData == null)
+						break;
 
-                    Insert(initialData);
+					Insert(initialData);
 
-                    _version = InternalUpdateVersion(i);
-                }
-            }
+					_internalDataVersion = InternalUpdateVersion(i);
+				}
+			}
 
-            RebuildAllMissingIndexes();
-        }
+			RebuildAllMissingIndexes();
+		}
 
-        ~SimpleDBOperations()
-        {
-            Dispose(false);
-        }
+		~SimpleDBOperations()
+		{
+			Dispose(false);
+		}
 
 		#endregion Constructors / Destructors
 
@@ -225,15 +195,15 @@ namespace SimpleDB.Internal
 		#region Properties
 
 		public string TableName
-        {
-            get
-            {
-                if (_tableAttributes != null)
-                    return _tableAttributes.TableName;
+		{
+			get
+			{
+				if (_tableAttributes != null)
+					return _tableAttributes.TableName;
 
-                return null;
-            }
-        }
+				return null;
+			}
+		}
 
 		public TimeSpan SlidingMemoryTimeout => _tableAttributes.SlidingMemoryTimeout;
 
@@ -246,33 +216,33 @@ namespace SimpleDB.Internal
 		#region Methods
 
 		public bool IdExists(long id)
-        {
-            return _indexes[nameof(TableRowDefinition.Id)].Contains(id);
-        }
+		{
+			return _indexes[nameof(TableRowDefinition.Id)].Contains(id);
+		}
 
-        public bool IndexExists(string name, object value)
-        {
-            if (String.IsNullOrEmpty(name))
-                throw new ArgumentNullException(nameof(name));
+		public bool IndexExists(string name, object value)
+		{
+			if (String.IsNullOrEmpty(name))
+				throw new ArgumentNullException(nameof(name));
 
-            if (!_indexes.ContainsKey(name))
-                throw new ArgumentOutOfRangeException($"Index {name} does not exist");
+			if (!_indexes.ContainsKey(name))
+				throw new ArgumentOutOfRangeException($"Index {name} does not exist");
 
-            return _indexes[name].Contains(value);
-        }
+			return _indexes[name].Contains(value);
+		}
 
-        public bool IdIsInUse(string propertyName, long value)
-        {
-            foreach (T record in Select())
-            {
-                long keyValue = Convert.ToInt64(record.GetType().GetProperty(propertyName).GetValue(record, null));
+		public bool IdIsInUse(string propertyName, long value)
+		{
+			foreach (T record in Select())
+			{
+				long keyValue = Convert.ToInt64(record.GetType().GetProperty(propertyName).GetValue(record, null));
 
-                if (value.Equals(keyValue))
-                    return true;
-            }
+				if (value.Equals(keyValue))
+					return true;
+			}
 
-            return false;
-        }
+			return false;
+		}
 
 		#endregion Methods
 
@@ -288,23 +258,23 @@ namespace SimpleDB.Internal
 
 		#region Properties
 
-		public ushort FileVersion => _version;
+		public ushort FileVersion => _internalDataVersion;
 
-        public int DataLength => _dataLength;
+		public int DataLength => _dataLength;
 
-        public int RecordCount => _recordCount;
+		public int RecordCount => _recordCount;
 
-        public long PrimarySequence => _primarySequence;
+		public long PrimarySequence => _primarySequence;
 
-        public long SecondarySequence => _SecondarySequence;
+		public long SecondarySequence => _SecondarySequence;
 
-        public byte CompactPercent => _compactPercent;
+		public byte CompactPercent => _compactPercent;
 
 		public int PageCount => _pageCount;
 
 		public PageSize PageSize => _pageSize;
 
-        #endregion Properties
+		#endregion Properties
 
 		public void ClearAllMemory()
 		{
@@ -315,23 +285,23 @@ namespace SimpleDB.Internal
 		}
 
 		public IReadOnlyList<T> Select()
-        {
-            if (_disposed)
-                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
+		{
+			if (_disposed)
+				throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                return InternalReadAllRecords().AsReadOnly();
-            }
-        }
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				return InternalReadAllRecords().AsReadOnly();
+			}
+		}
 
-        public T Select(long id)
-        {
-            if (_disposed)
-                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
+		public T Select(long id)
+		{
+			if (_disposed)
+				throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
-            return InternalReadAllRecords().FirstOrDefault(r => r.Id.Equals(id));
-        }
+			return InternalReadAllRecords().FirstOrDefault(r => r.Id.Equals(id));
+		}
 
 		public IReadOnlyList<T> Select(Func<T, bool> predicate)
 		{
@@ -347,154 +317,154 @@ namespace SimpleDB.Internal
 			}
 		}
 
-        public void Insert(List<T> records)
-        {
-            Insert(records, new InsertOptions());
-        }
+		public void Insert(List<T> records)
+		{
+			Insert(records, new InsertOptions());
+		}
 
 		public void Insert(List<T> records, InsertOptions insertOptions)
-        {
-            if (_disposed)
-                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
+		{
+			if (_disposed)
+				throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
-            if (records == null)
-                throw new ArgumentNullException(nameof(records));
+			if (records == null)
+				throw new ArgumentNullException(nameof(records));
 
-            if (records.Count == 0)
-                throw new ArgumentException("Does not contain any records", nameof(records));
+			if (records.Count == 0)
+				throw new ArgumentException("Does not contain any records", nameof(records));
 
-            InternalInsertRecords(records, insertOptions ?? new InsertOptions());
-        }
+			InternalInsertRecords(records, insertOptions ?? new InsertOptions());
+		}
 
-        public void Insert(T record)
-        {
-            Insert(record, new InsertOptions());
-        }
+		public void Insert(T record)
+		{
+			Insert(record, new InsertOptions());
+		}
 
-        public void Insert(T record, InsertOptions insertOptions)
-        {
-            if (_disposed)
-                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
+		public void Insert(T record, InsertOptions insertOptions)
+		{
+			if (_disposed)
+				throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
-            if (record == null)
-                throw new ArgumentNullException(nameof(record));
+			if (record == null)
+				throw new ArgumentNullException(nameof(record));
 
-            InternalInsertRecords(new List<T> { record }, insertOptions ?? new InsertOptions());
-        }
+			InternalInsertRecords(new List<T> { record }, insertOptions ?? new InsertOptions());
+		}
 
-        public void Delete(List<T> records)
-        {
-            if (_disposed)
-                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
+		public void Delete(List<T> records)
+		{
+			if (_disposed)
+				throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
-            if (records == null)
-                throw new ArgumentNullException(nameof(records));
+			if (records == null)
+				throw new ArgumentNullException(nameof(records));
 
-            InternalDeleteRecords(records);
-        }
+			InternalDeleteRecords(records);
+		}
 
-        public void Delete(T record)
-        {
-            if (_disposed)
-                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
+		public void Delete(T record)
+		{
+			if (_disposed)
+				throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
-            if (record == null)
-                throw new ArgumentNullException(nameof(record));
+			if (record == null)
+				throw new ArgumentNullException(nameof(record));
 
-            InternalDeleteRecords(new List<T>() { record });
-        }
+			InternalDeleteRecords(new List<T>() { record });
+		}
 
-        public void Truncate()
-        {
-            InternalDeleteRecords(InternalReadAllRecords());
-        }
+		public void Truncate()
+		{
+			InternalDeleteRecords(InternalReadAllRecords());
+		}
 
-        public void Update(List<T> records)
-        {
-            if (_disposed)
-                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
+		public void Update(List<T> records)
+		{
+			if (_disposed)
+				throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
-            if (records == null)
-                throw new ArgumentNullException(nameof(records));
+			if (records == null)
+				throw new ArgumentNullException(nameof(records));
 
-            InternalUpdateRecords(records);
-        }
+			InternalUpdateRecords(records);
+		}
 
-        public void Update(T record)
-        {
-            if (_disposed)
-                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
+		public void Update(T record)
+		{
+			if (_disposed)
+				throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
-            if (record == null)
-                throw new ArgumentNullException(nameof(record));
+			if (record == null)
+				throw new ArgumentNullException(nameof(record));
 
-            InternalUpdateRecords(new List<T>() { record });
-        }
+			InternalUpdateRecords(new List<T>() { record });
+		}
 
-        public void InsertOrUpdate(T record)
-        {
-            if (_disposed)
-                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
+		public void InsertOrUpdate(T record)
+		{
+			if (_disposed)
+				throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
-            if (record == null)
-                throw new ArgumentNullException(nameof(record));
+			if (record == null)
+				throw new ArgumentNullException(nameof(record));
 
-            if (IdExists(record.Id))
-                InternalUpdateRecords(new List<T> { record }); 
-            else
-                InternalInsertRecords(new List<T>() { record }, new InsertOptions());
-        }
+			if (IdExists(record.Id))
+				InternalUpdateRecords(new List<T> { record });
+			else
+				InternalInsertRecords(new List<T>() { record }, new InsertOptions());
+		}
 
-        public void ForceWrite()
-        {
-            if (_tableAttributes != null && _tableAttributes.WriteStrategy != WriteStrategy.Forced)
-                InternalSaveRecordsToDisk(InternalReadAllRecords(), true);
-        }
+		public void ForceWrite()
+		{
+			if (_tableAttributes != null && _tableAttributes.WriteStrategy != WriteStrategy.Forced)
+				InternalSaveRecordsToDisk(InternalReadAllRecords(), true);
+		}
 
-        #region Sequences
+		#region Sequences
 
-        public long NextSequence()
-        {
-            if (_disposed)
-                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
+		public long NextSequence()
+		{
+			if (_disposed)
+				throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
-            return NextSequence(DefaultSequenceIncrement);
-        }
+			return NextSequence(Consts.DefaultSequenceIncrement);
+		}
 
-        public long NextSequence(long increment)
-        {
-            if (_disposed)
-                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
+		public long NextSequence(long increment)
+		{
+			if (_disposed)
+				throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
-            return InternalNextSequence(increment);
-        }
+			return InternalNextSequence(increment);
+		}
 
-        public long NextSecondarySequence(long increment)
-        {
-            if (_disposed)
-                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
+		public long NextSecondarySequence(long increment)
+		{
+			if (_disposed)
+				throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
-            return InternalNextSecondarySequence(increment);
-        }
+			return InternalNextSecondarySequence(increment);
+		}
 
-        public void ResetSequence(long primarySequence, long secondarySequence)
-        {
-            if (_disposed)
-                throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
+		public void ResetSequence(long primarySequence, long secondarySequence)
+		{
+			if (_disposed)
+				throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
-                writer.Seek(PrimarySequenceStart, SeekOrigin.Begin);
-                writer.Write(primarySequence);
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
+				writer.Seek(Consts.PrimarySequenceStart, SeekOrigin.Begin);
+				writer.Write(primarySequence);
 				writer.Write(secondarySequence);
 
 				_fileStream.Flush(true);
 
-                _primarySequence = primarySequence;
-                _SecondarySequence = secondarySequence;
-            }
-        }
+				_primarySequence = primarySequence;
+				_SecondarySequence = secondarySequence;
+			}
+		}
 
 		#endregion Sequences
 
@@ -503,52 +473,52 @@ namespace SimpleDB.Internal
 		#region Disposable
 
 		public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
 
-        #endregion Disposable
+		#endregion Disposable
 
-        #region Private Methods
+		#region Private Methods
 
-        private long InternalNextSequence(long increment)
-        {
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                _primarySequence += increment;
+		private long InternalNextSequence(long increment)
+		{
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				_primarySequence += increment;
 
-                using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
-                writer.Seek(PrimarySequenceStart, SeekOrigin.Begin);
-                writer.Write(_primarySequence);
-
-				if (_tableAttributes.WriteStrategy == WriteStrategy.Forced)
-                    _fileStream.Flush(true);
-
-                return _primarySequence;
-            }
-        }
-
-        private long InternalNextSecondarySequence(long increment)
-        {
-
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                _SecondarySequence += increment;
-
-                using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
-                writer.Seek(SecondarySequenceStart, SeekOrigin.Begin);
-                writer.Write(_SecondarySequence);
+				using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
+				writer.Seek(Consts.PrimarySequenceStart, SeekOrigin.Begin);
+				writer.Write(_primarySequence);
 
 				if (_tableAttributes.WriteStrategy == WriteStrategy.Forced)
-                    _fileStream.Flush(true);
+					_fileStream.Flush(true);
 
-                return _SecondarySequence;
-            }
-        }
+				return _primarySequence;
+			}
+		}
 
-        private List<T> InternalReadAllRecords()
-        {
+		private long InternalNextSecondarySequence(long increment)
+		{
+
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				_SecondarySequence += increment;
+
+				using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
+				writer.Seek(Consts.SecondarySequenceStart, SeekOrigin.Begin);
+				writer.Write(_SecondarySequence);
+
+				if (_tableAttributes.WriteStrategy == WriteStrategy.Forced)
+					_fileStream.Flush(true);
+
+				return _SecondarySequence;
+			}
+		}
+
+		private List<T> InternalReadAllRecords()
+		{
 			OnAction?.Invoke(this);
 
 			if (_allRecords != null)
@@ -556,639 +526,522 @@ namespace SimpleDB.Internal
 				return _allRecords;
 			}
 
-            using BinaryReader reader = new BinaryReader(_fileStream, Encoding.UTF8, true);
-            _fileStream.Seek(StartOfRecordCount, SeekOrigin.Begin);
-            CompressionType compressionType = (CompressionType)reader.ReadByte();
-            _ = reader.ReadInt32();
-            int uncompressedSize = reader.ReadInt32();
-            int dataLength = reader.ReadInt32();
+			IDataReader dataReader = _readWriteFactory.GetReader(_internalWriteVersion);
 
-            if (dataLength == 0)
-				return new List<T>();
+			List<T> Result = dataReader.ReadRecords<T>(_fileStream, ref _pageCount, ref _recordCount, ref _dataLength);
 
-			Span<byte> data = dataLength < MaxStackAllocSize ? stackalloc byte[dataLength] : new Byte[dataLength];
+			Result.ForEach(r => { r.Immutable = true; r.Loaded = true; });
 
-			int totalPageCount = reader.ReadInt32();
-
-			if (totalPageCount != _pageCount)
-				throw new InvalidOperationException("Invalid page count");
-
-			int bytePosition = 0;
-
-			for (int i = 0; i < _pageCount; i++)
+			if (_isMemoryCaching)
 			{
-				int pageNumber = reader.ReadInt32();
-				byte pageType = reader.ReadByte();
-				_ = reader.ReadUInt16();
-
-				if (pageNumber != 1 + i)
-					throw new InvalidOperationException("Invalid page number");
-
-				if (pageType == PageTypeData)
-				{
-					_ = reader.ReadInt64();
-					int sizeinPage = reader.ReadInt32();
-
-					Span<byte> pageData = reader.ReadBytes(sizeinPage);
-
-					for (int j = 0; j < sizeinPage; j++)
-					{
-						data[bytePosition++] = pageData[j];
-					}
-				}
+				_allRecords = Result;
 			}
 
-			List<T> Result = null;
-
-            if (compressionType == CompressionType.Brotli)
-            {
-                Span<byte> uncompressed = uncompressedSize < MaxStackAllocSize ? stackalloc byte[uncompressedSize] : new byte[uncompressedSize];
-
-                System.IO.Compression.BrotliDecoder.TryDecompress(data, uncompressed, out int byteLength);
-
-                if (byteLength != uncompressedSize)
-                    throw new InvalidDataException();
-
-                Result = JsonSerializer.Deserialize<List<T>>(uncompressed, _jsonSerializerOptions);
-            }
-            else
-            {
-                Result = JsonSerializer.Deserialize<List<T>>(data, _jsonSerializerOptions);
-            }
-
-            Result.ForEach(r => { r.Immutable = true; r.Loaded = true; });
-
-            if (_isMemoryCaching)
-            {
-                _allRecords = Result;
-            }
-			
 			return Result;
-        }
+		}
 
-        private void InternalUpdateRecords(List<T> records)
-        {
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                records = records.Where(r => r.HasChanged).ToList();
-
-                if (_foreignKeys.Count > 0)
-                    ValidateForeignKeys(records);
-
-                _indexes.BeginUpdate();
-                try
-                {
-                    List<T> existingRecords = InternalReadAllRecords();
-
-                    _triggersMap[TriggerType.BeforeUpdate].ForEach(t => t.BeforeUpdate(records));
-
-                    foreach (T record in records)
-                    {
-                        for (int i = existingRecords.Count - 1; i >= 0; i--)
-                        {
-                            T existingRecord = existingRecords[i];
-                            if (existingRecord.Id.Equals(record.Id))
-                            {
-                                _triggersMap[TriggerType.BeforeUpdateCompare].ForEach(t => t.BeforeUpdate(record, existingRecord));
-                                InternalRemoveIndex(existingRecords[i]);
-                                InternalAddIndex(record);
-                                existingRecords[i] = record;
-                                break;
-                            }
-                        }
-                    }
-
-                    InternalSaveRecordsToDisk(existingRecords, false);
-
-                    _triggersMap[TriggerType.AfterUpdate].ForEach(t => t.AfterUpdate(records));
-
-                    records.ForEach(r => r.HasChanged = false);
-                }
-                finally
-                {
-                    _indexes.EndUpdate();
-                }
-            }
-        }
-
-        private void InternalSaveRecordsToDisk(List<T> recordsToSave, bool forceWrite)
-        {
-            if (forceWrite || _tableAttributes.WriteStrategy == WriteStrategy.Forced)
-            {
-                byte[] data = JsonSerializer.SerializeToUtf8Bytes(recordsToSave, recordsToSave.GetType(), _jsonSerializerOptions);
-
-                int dataLength = data.Length;
-                bool isCompressed = false;
-                CompressionType compressionType = CompressionType.None;
-
-                using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
-                writer.Seek(StartOfRecordCount, SeekOrigin.Begin);
-
-                if (_tableAttributes.Compression == CompressionType.Brotli)
-                {
-					Span<byte> compressedData = data.Length < MaxStackAllocSize ? stackalloc byte[data.Length] : new byte[data.Length];
-                    isCompressed = BrotliEncoder.TryCompress(data, compressedData, out dataLength);
-
-					if (isCompressed)
-					{
-						compressionType = CompressionType.Brotli;
-						writer.Write((byte)compressionType);
-						writer.Write(recordsToSave.Count);
-						writer.Write(data.Length);
-						InternalSaveDataToPages(writer, compressedData[..dataLength].ToArray());
-						_compactPercent = Convert.ToByte(Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position));
-					}
-					else
-					{
-						writer.Write((byte)compressionType);
-						writer.Write(recordsToSave.Count);
-						writer.Write(data.Length);
-						InternalSaveDataToPages(writer, data);
-					}
-				}
-				else
-				{
-					writer.Write((byte)compressionType);
-					writer.Write(recordsToSave.Count);
-					writer.Write(data.Length);
-					InternalSaveDataToPages(writer, data);
-				}
-
-                _fileStream.Flush(true);
-            }
-
-            _recordCount = recordsToSave.Count;
-
-            if (_isMemoryCaching)
-            {
-                _allRecords = recordsToSave;
-                _allRecords.ForEach(ar => { ar.Immutable = true; ar.Loaded = true; });
-            }
-            else
-            {
-                _allRecords = null;
-            }
-
-			OnAction?.Invoke(this);
-        }
-
-		private void InternalSaveDataToPages(BinaryWriter writer, byte[] data)
+		private void InternalUpdateRecords(List<T> records)
 		{
-			_pageCount = data.Length / (int)_pageSize;
-
-			if (data.Length % (int)_pageSize > 0)
-				_pageCount++;
-
-			writer.Write(data.Length);
-			writer.Write(_pageCount);
-			int remainingData = data.Length;
-			int pageSize = (int)_pageSize;
-
-			for (int i = 0; i < _pageCount; i++)
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
 			{
-				long nextPageStart = _fileStream.Position + pageSize + PageHeaderSize;
-				int dataToWrite = remainingData > pageSize ? pageSize : remainingData;
+				records = records.Where(r => r.HasChanged).ToList();
 
-				// page number 4
-				writer.Write(i + 1);
+				if (_foreignKeys.Count > 0)
+					ValidateForeignKeys(records);
 
-				// page type 1
-				writer.Write(PageTypeData);
+				_indexes.BeginUpdate();
+				try
+				{
+					List<T> existingRecords = InternalReadAllRecords();
 
-				// page version 2
-				writer.Write(PageVersion);
+					_triggersMap[TriggerType.BeforeUpdate].ForEach(t => t.BeforeUpdate(records));
 
-				// next page 8
-				writer.Write(nextPageStart);
+					foreach (T record in records)
+					{
+						for (int i = existingRecords.Count - 1; i >= 0; i--)
+						{
+							T existingRecord = existingRecords[i];
+							if (existingRecord.Id.Equals(record.Id))
+							{
+								_triggersMap[TriggerType.BeforeUpdateCompare].ForEach(t => t.BeforeUpdate(record, existingRecord));
+								InternalRemoveIndex(existingRecords[i]);
+								InternalAddIndex(record);
+								existingRecords[i] = record;
+								break;
+							}
+						}
+					}
 
-				// size of data on page 4
-				writer.Write(dataToWrite);
+					InternalSaveRecordsToDisk(existingRecords, false);
 
-				// write chunk of data 
-				writer.Write(data, i * pageSize, dataToWrite);
+					_triggersMap[TriggerType.AfterUpdate].ForEach(t => t.AfterUpdate(records));
 
-				remainingData -= dataToWrite;
+					records.ForEach(r => r.HasChanged = false);
+				}
+				finally
+				{
+					_indexes.EndUpdate();
+				}
 			}
 		}
 
+		private void InternalSaveRecordsToDisk(List<T> recordsToSave, bool forceWrite)
+		{
+			_recordCount = recordsToSave.Count;
+
+			if (forceWrite || _tableAttributes.WriteStrategy == WriteStrategy.Forced)
+			{
+				IDataWriter dataWriter = _readWriteFactory.GetWriter();
+				dataWriter.WriteData<T>(_fileStream, recordsToSave, _tableAttributes.Compression,
+					_pageSize, ref _compactPercent, ref _pageCount);
+
+				if (_internalWriteVersion < dataWriter.Version)
+				{
+					using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
+					_fileStream.Seek(Consts.WriteVersionStart, SeekOrigin.Begin);
+					writer.Write(dataWriter.Version);
+					_internalWriteVersion = dataWriter.Version;
+				}
+
+				_fileStream.Flush(true);
+			}
+
+
+
+			if (_isMemoryCaching)
+			{
+				_allRecords = recordsToSave;
+				_allRecords.ForEach(ar => { ar.Immutable = true; ar.Loaded = true; });
+			}
+			else
+			{
+				_allRecords = null;
+			}
+
+			OnAction?.Invoke(this);
+		}
+
 		private void InternalDeleteRecords(List<T> records)
-        {
-            VerifyIndexNotInUseAsForeignKey(records);
+		{
+			VerifyIndexNotInUseAsForeignKey(records);
 
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                _indexes.BeginUpdate();
-                try
-                {
-                    _triggersMap[TriggerType.BeforeDelete].ForEach(t => t.BeforeDelete(records));
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				_indexes.BeginUpdate();
+				try
+				{
+					_triggersMap[TriggerType.BeforeDelete].ForEach(t => t.BeforeDelete(records));
 
-                    List<T> existingRecords = InternalReadAllRecords();
+					List<T> existingRecords = InternalReadAllRecords();
 
-                    for (int i = records.Count - 1; i >= 0; i--)
-                    {
-                        T record = records[i];
+					for (int i = records.Count - 1; i >= 0; i--)
+					{
+						T record = records[i];
 
-                        for (int j = existingRecords.Count - 1; j >= 0; j--)
-                        {
-                            T existingRecord = existingRecords[j];
+						for (int j = existingRecords.Count - 1; j >= 0; j--)
+						{
+							T existingRecord = existingRecords[j];
 
-                            if (existingRecord.Id.Equals(record.Id))
-                            {
-                                existingRecords.RemoveAt(j);
-                                InternalRemoveIndex(existingRecord);
+							if (existingRecord.Id.Equals(record.Id))
+							{
+								existingRecords.RemoveAt(j);
+								InternalRemoveIndex(existingRecord);
 
-                                break;
-                            }
+								break;
+							}
 
-                        }
-                    }
+						}
+					}
 
-                    InternalSaveRecordsToDisk(existingRecords, false);
+					InternalSaveRecordsToDisk(existingRecords, false);
 
-                    _triggersMap[TriggerType.AfterDelete].ForEach(t => t.AfterDelete(records));
-                }
-                finally
-                {
-                    _indexes.EndUpdate();
-                }
-            }
-        }
+					_triggersMap[TriggerType.AfterDelete].ForEach(t => t.AfterDelete(records));
+				}
+				finally
+				{
+					_indexes.EndUpdate();
+				}
+			}
+		}
 
-        private void InternalInsertRecords(List<T> records, InsertOptions textTableInsertOptions)
-        {
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                ValidateInternalIndexes(records);
+		private void InternalInsertRecords(List<T> records, InsertOptions textTableInsertOptions)
+		{
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				ValidateInternalIndexes(records);
 
-                long nextSequence;
+				long nextSequence;
 
-                if (textTableInsertOptions.AssignPrimaryKey)
-                {
-                    nextSequence = PrimarySequence + 1;
-                    _ = NextSequence(records.Count);
-                }
-                else
-                {
-                    nextSequence = 0;
-                }
+				if (textTableInsertOptions.AssignPrimaryKey)
+				{
+					nextSequence = PrimarySequence + 1;
+					_ = NextSequence(records.Count);
+				}
+				else
+				{
+					nextSequence = 0;
+				}
 
-                _indexes.BeginUpdate();
-                try
-                {
-                    _triggersMap[TriggerType.BeforeInsert].ForEach(t => t.BeforeInsert(records));
+				_indexes.BeginUpdate();
+				try
+				{
+					_triggersMap[TriggerType.BeforeInsert].ForEach(t => t.BeforeInsert(records));
 
-                    records.ForEach(r =>
-                    {
-                        ValidateForeignKeys(r);
-                        if (textTableInsertOptions.AssignPrimaryKey)
-                        {
-                            r.Id = nextSequence++;
-                        }
+					records.ForEach(r =>
+					{
+						ValidateForeignKeys(r);
+						if (textTableInsertOptions.AssignPrimaryKey)
+						{
+							r.Id = nextSequence++;
+						}
 
-                        InternalAddIndex(r);
-                    });
+						InternalAddIndex(r);
+					});
 
-                    List<T> existingRecords = InternalReadAllRecords();
-                    existingRecords.AddRange(records);
-                    InternalSaveRecordsToDisk(existingRecords, false);
+					List<T> existingRecords = InternalReadAllRecords();
+					existingRecords.AddRange(records);
+					InternalSaveRecordsToDisk(existingRecords, false);
 
-                    _triggersMap[TriggerType.AfterInsert].ForEach(t => t.AfterInsert(records));
-                }
-                finally
-                {
-                    _indexes.EndUpdate();
-                }
-            }
-        }
+					_triggersMap[TriggerType.AfterInsert].ForEach(t => t.AfterInsert(records));
+				}
+				finally
+				{
+					_indexes.EndUpdate();
+				}
+			}
+		}
 
-        private void ValidateInternalIndexes(List<T> records)
-        {
-            foreach (KeyValuePair<string, IIndexManager> item in _indexes)
-            {
-                foreach (T record in records)
-                {
-                    object keyValue = GetIndexValue(record, item.Value);
+		private void ValidateInternalIndexes(List<T> records)
+		{
+			foreach (KeyValuePair<string, IIndexManager> item in _indexes)
+			{
+				foreach (T record in records)
+				{
+					object keyValue = GetIndexValue(record, item.Value);
 
-                    if (_indexes[item.Key].Contains(keyValue))
-                    {
-                        throw new UniqueIndexException($"Index already exists; Table: {TableName}; Index Name: {item.Key}; Property: {String.Join(',', item.Value.PropertyNames)}; Value: {keyValue}");
-                    }
-                }
-            }
-        }
+					if (_indexes[item.Key].Contains(keyValue))
+					{
+						if (_indexes[item.Key].Contains(keyValue))
+							throw new UniqueIndexException($"Index already exists; Table: {TableName}; Index Name: {item.Key}; Property: {String.Join(',', item.Value.PropertyNames)}; Value: {keyValue}");
+					}
+				}
+			}
+		}
 
-        private void InternalAddIndex(T record)
-        {
-            foreach (KeyValuePair<string, IIndexManager> item in _indexes)
-            {
-                object keyValue = GetIndexValue(record, item.Value);
+		private void InternalAddIndex(T record)
+		{
+			foreach (KeyValuePair<string, IIndexManager> item in _indexes)
+			{
+				object keyValue = GetIndexValue(record, item.Value);
 
-                _indexes[item.Key].Add(keyValue);
-            }
-        }
+				_indexes[item.Key].Add(keyValue);
+			}
+		}
 
-        private void InternalRemoveIndex(T record)
-        {
-            foreach (KeyValuePair<string, IIndexManager> item in _indexes)
-            {
-                object value = GetIndexValue(record, item.Value);
+		private void InternalRemoveIndex(T record)
+		{
+			foreach (KeyValuePair<string, IIndexManager> item in _indexes)
+			{
+				object value = GetIndexValue(record, item.Value);
 
-                _indexes[item.Key].Remove(value);
-            }
-        }
+				_indexes[item.Key].Remove(value);
+			}
+		}
 
-        private void RebuildAllMissingIndexes()
-        {
-            IReadOnlyList<T> allRecords = Select();
+		private void RebuildAllMissingIndexes()
+		{
+			IReadOnlyList<T> allRecords = Select();
 
-            foreach (KeyValuePair<string, IIndexManager> item in _indexes)
-            {
-                item.Value.BeginUpdate();
-                try
-                {
-                    foreach (T record in allRecords)
-                    {
-                        object keyValue = GetIndexValue(record, item.Value);
+			foreach (KeyValuePair<string, IIndexManager> item in _indexes)
+			{
+				item.Value.BeginUpdate();
+				try
+				{
+					foreach (T record in allRecords)
+					{
+						object keyValue = GetIndexValue(record, item.Value);
 
-                        if (!_indexes[item.Key].Contains(keyValue))
-                            _indexes[item.Key].Add(keyValue);
-                    }
-                }
-                finally
-                {
-                    item.Value.EndUpdate();
-                }
-            }
-        }
+						if (!_indexes[item.Key].Contains(keyValue))
+							_indexes[item.Key].Add(keyValue);
+					}
+				}
+				finally
+				{
+					item.Value.EndUpdate();
+				}
+			}
+		}
 
-        private void VerifyIndexNotInUseAsForeignKey(List<T> records)
-        {
-            foreach (KeyValuePair<string, IIndexManager> index in _indexes)
-            {
+		private void VerifyIndexNotInUseAsForeignKey(List<T> records)
+		{
+			foreach (KeyValuePair<string, IIndexManager> index in _indexes)
+			{
 				if (index.Value.PropertyNames.Count > 1)
 					continue;
 
-                foreach (T record in records)
-                {
-                    object keyValue = record.GetType().GetProperty(index.Key).GetValue(record, null);
+				foreach (T record in records)
+				{
+					object keyValue = record.GetType().GetProperty(index.Key).GetValue(record, null);
 
-                    if (Int64.TryParse(keyValue.ToString(), out long value) &&
-						_foreignKeyManager.ValueInUse(TableName, index.Key, value, out string table, out string propertyName))
-					{ 
-                        throw new ForeignKeyException($"Foreign key value {keyValue} from table {TableName} is being used in Table: {table}; Property: {propertyName}");
-                    }
-                }
-            }
-        }
+					if (Int64.TryParse(keyValue.ToString(), out long value))
+					{
+						if (_foreignKeyManager.ValueInUse(TableName, index.Key, value, out string table, out string propertyName))
+							throw new ForeignKeyException($"Foreign key value {keyValue} from table {TableName} is being used in Table: {table}; Property: {propertyName}");
+					}
+				}
+			}
+		}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void ValidateForeignKeys(List<T> records)
-        {
-            foreach (KeyValuePair<string, ForeignKeyRelation> foreignKey in _foreignKeys)
-            {
-                foreach (T record in records)
-                {
-                    long keyValue = Convert.ToInt64(record.GetType().GetProperty(foreignKey.Key).GetValue(record, null));
-                    ForeignKeyRelation foreignKeyRelation = foreignKey.Value;
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private void ValidateForeignKeys(List<T> records)
+		{
+			foreach (KeyValuePair<string, ForeignKeyRelation> foreignKey in _foreignKeys)
+			{
+				foreach (T record in records)
+				{
+					long keyValue = Convert.ToInt64(record.GetType().GetProperty(foreignKey.Key).GetValue(record, null));
+					ForeignKeyRelation foreignKeyRelation = foreignKey.Value;
 
-                    if (!_foreignKeyManager.ValueExists(foreignKeyRelation.Name, keyValue))
-                    {
-                        if (!(foreignKeyRelation.AllowDefaultValue && keyValue.Equals(0)))
-                            throw new ForeignKeyException($"Foreign key value {keyValue} does not exist in table {foreignKey.Value}; Table: {TableName}; Property: {foreignKey.Key}");
-                    }
-                }
-            }
-        }
+					if (!_foreignKeyManager.ValueExists(foreignKeyRelation.Name, keyValue))
+					{
+						if (!(foreignKeyRelation.AllowDefaultValue && keyValue.Equals(0)))
+							throw new ForeignKeyException($"Foreign key value {keyValue} does not exist in table {foreignKey.Value}; Table: {TableName}; Property: {foreignKey.Key}");
+					}
+				}
+			}
+		}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void ValidateForeignKeys(T record)
-        {
-            foreach (KeyValuePair<string, ForeignKeyRelation> foreignKey in _foreignKeys)
-            {
-                long keyValue = Convert.ToInt64(record.GetType().GetProperty(foreignKey.Key).GetValue(record, null));
-                ForeignKeyRelation foreignKeyRelation = foreignKey.Value;
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private void ValidateForeignKeys(T record)
+		{
+			foreach (KeyValuePair<string, ForeignKeyRelation> foreignKey in _foreignKeys)
+			{
+				long keyValue = Convert.ToInt64(record.GetType().GetProperty(foreignKey.Key).GetValue(record, null));
+				ForeignKeyRelation foreignKeyRelation = foreignKey.Value;
 
-                if (!_foreignKeyManager.ValueExists(foreignKeyRelation.Name, keyValue))
-                {
-                    if (!(foreignKeyRelation.AllowDefaultValue && keyValue.Equals(0)))
-                        throw new ForeignKeyException($"Foreign key value {keyValue} does not exist in table {foreignKey.Value}; Table: {TableName}; Property: {foreignKey.Key}");
-                }
-            }
-        }
+				if (!_foreignKeyManager.ValueExists(foreignKeyRelation.Name, keyValue))
+				{
+					if (!(foreignKeyRelation.AllowDefaultValue && keyValue.Equals(0)))
+						throw new ForeignKeyException($"Foreign key value {keyValue} does not exist in table {foreignKey.Value}; Table: {TableName}; Property: {foreignKey.Key}");
+				}
+			}
+		}
 
-        private Dictionary<string, ForeignKeyRelation> GetForeignKeysForTable()
-        {
-            Dictionary<string, ForeignKeyRelation> Result = new Dictionary<string, ForeignKeyRelation>();
+		private Dictionary<string, ForeignKeyRelation> GetForeignKeysForTable()
+		{
+			Dictionary<string, ForeignKeyRelation> Result = new Dictionary<string, ForeignKeyRelation>();
 
-            foreach (PropertyInfo property in typeof(T).GetProperties())
-            {
-                ForeignKeyAttribute foreignKey = (ForeignKeyAttribute)property.GetCustomAttributes(true)
+			foreach (PropertyInfo property in typeof(T).GetProperties())
+			{
+				ForeignKeyAttribute foreignKey = (ForeignKeyAttribute)property.GetCustomAttributes(true)
 					.FirstOrDefault(ca => ca.GetType().Equals(typeof(ForeignKeyAttribute)));
 
-                if (foreignKey != null && property.PropertyType.Equals(typeof(long)))
-                {
-                    _foreignKeyManager.AddRelationShip(TableName, foreignKey.TableName, property.Name, foreignKey.PropertyName);
-                    Result.Add(property.Name, new ForeignKeyRelation(foreignKey.TableName, foreignKey.AllowDefaultValue));
-                }
-            }
+				if (foreignKey != null && property.PropertyType.Equals(typeof(long)))
+				{
+					_foreignKeyManager.AddRelationShip(TableName, foreignKey.TableName, property.Name, foreignKey.PropertyName);
+					Result.Add(property.Name, new ForeignKeyRelation(foreignKey.TableName, foreignKey.AllowDefaultValue));
+				}
+			}
 
-            return Result;
-        }
+			return Result;
+		}
 
-        private static TableAttribute GetTableAttributes()
-        {
-            return (TableAttribute)typeof(T).GetCustomAttributes(true)
-                .FirstOrDefault(a => a.GetType() == typeof(TableAttribute));
-        }
+		private static TableAttribute GetTableAttributes()
+		{
+			return (TableAttribute)typeof(T).GetCustomAttributes(true)
+				.FirstOrDefault(a => a.GetType() == typeof(TableAttribute));
+		}
 
-        private static BatchUpdateDictionary<string, IIndexManager> BuildIndexListForTable()
-        {
-            BatchUpdateDictionary<string, IIndexManager> Result = new BatchUpdateDictionary<string, IIndexManager>();
-            foreach (PropertyInfo property in typeof(T).GetProperties())
-            {
-                UniqueIndexAttribute uniqueIndex = (UniqueIndexAttribute)property.GetCustomAttributes(true)
+		private static BatchUpdateDictionary<string, IIndexManager> BuildIndexListForTable()
+		{
+			BatchUpdateDictionary<string, IIndexManager> Result = new BatchUpdateDictionary<string, IIndexManager>();
+			foreach (PropertyInfo property in typeof(T).GetProperties())
+			{
+				UniqueIndexAttribute uniqueIndex = (UniqueIndexAttribute)property.GetCustomAttributes(true)
 					.FirstOrDefault(ca => ca.GetType().Equals(typeof(UniqueIndexAttribute)));
 
-                if (uniqueIndex != null)
-                {
-                    string indexName = String.IsNullOrEmpty(uniqueIndex.Name) ? property.Name : uniqueIndex.Name;
+				if (uniqueIndex != null)
+				{
+					string indexName = String.IsNullOrEmpty(uniqueIndex.Name) ? property.Name : uniqueIndex.Name;
 
-                    if (Result.TryGetValue(indexName, out IIndexManager _))
-                    {
-                        List<string> propertyNames = Result[indexName].PropertyNames;
-                        propertyNames.Add(property.Name);
-                        Result.Remove(indexName);
-                        Result.Add(indexName, new IndexManager<string>(uniqueIndex.IndexType, propertyNames.ToArray()));
-                    }
-                    else
-                    {
-                        if (property.PropertyType == typeof(long))
-                            Result.Add(indexName, new IndexManager<long>(uniqueIndex.IndexType, property.Name));
-                        else if (property.PropertyType == typeof(string))
-                            Result.Add(indexName, new IndexManager<string>(uniqueIndex.IndexType, property.Name));
-                        else if (property.PropertyType == typeof(int))
-                            Result.Add(indexName, new IndexManager<int>(uniqueIndex.IndexType, property.Name));
-                        else if (property.PropertyType == typeof(float))
-                            Result.Add(indexName, new IndexManager<float>(uniqueIndex.IndexType, property.Name));
-                        else if (property.PropertyType == typeof(double))
-                            Result.Add(indexName, new IndexManager<double>(uniqueIndex.IndexType, property.Name));
-                        else if (property.PropertyType == typeof(decimal))
-                            Result.Add(indexName, new IndexManager<decimal>(uniqueIndex.IndexType, property.Name));
-                        else if (property.PropertyType == typeof(uint))
-                            Result.Add(indexName, new IndexManager<uint>(uniqueIndex.IndexType, property.Name));
-                        else if (property.PropertyType == typeof(ulong))
-                            Result.Add(indexName, new IndexManager<ulong>(uniqueIndex.IndexType, property.Name));
-                        else if (property.PropertyType == typeof(short))
-                            Result.Add(indexName, new IndexManager<short>(uniqueIndex.IndexType, property.Name));
-                        else if (property.PropertyType == typeof(ushort))
-                            Result.Add(indexName, new IndexManager<ushort>(uniqueIndex.IndexType, property.Name));
-                        else
-                            throw new InvalidOperationException($"Type {property.PropertyType.Name} not supported");
-                    }
-                }
-            }
+					if (Result.ContainsKey(indexName))
+					{
+						List<string> propertyNames = Result[indexName].PropertyNames;
+						propertyNames.Add(property.Name);
+						Result.Remove(indexName);
+						Result.Add(indexName, new IndexManager<string>(uniqueIndex.IndexType, propertyNames.ToArray()));
+					}
+					else
+					{
+						if (property.PropertyType == typeof(long))
+							Result.Add(indexName, new IndexManager<long>(uniqueIndex.IndexType, property.Name));
+						else if (property.PropertyType == typeof(string))
+							Result.Add(indexName, new IndexManager<string>(uniqueIndex.IndexType, property.Name));
+						else if (property.PropertyType == typeof(int))
+							Result.Add(indexName, new IndexManager<int>(uniqueIndex.IndexType, property.Name));
+						else if (property.PropertyType == typeof(float))
+							Result.Add(indexName, new IndexManager<float>(uniqueIndex.IndexType, property.Name));
+						else if (property.PropertyType == typeof(double))
+							Result.Add(indexName, new IndexManager<double>(uniqueIndex.IndexType, property.Name));
+						else if (property.PropertyType == typeof(decimal))
+							Result.Add(indexName, new IndexManager<decimal>(uniqueIndex.IndexType, property.Name));
+						else if (property.PropertyType == typeof(uint))
+							Result.Add(indexName, new IndexManager<uint>(uniqueIndex.IndexType, property.Name));
+						else if (property.PropertyType == typeof(ulong))
+							Result.Add(indexName, new IndexManager<ulong>(uniqueIndex.IndexType, property.Name));
+						else if (property.PropertyType == typeof(short))
+							Result.Add(indexName, new IndexManager<short>(uniqueIndex.IndexType, property.Name));
+						else if (property.PropertyType == typeof(ushort))
+							Result.Add(indexName, new IndexManager<ushort>(uniqueIndex.IndexType, property.Name));
+						else
+							throw new InvalidOperationException($"Type {property.PropertyType.Name} not supported");
+					}
+				}
+			}
 
-            return Result;
-        }
+			return Result;
+		}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static object GetIndexValue(T record, IIndexManager indexManager)
-        {
-            if (indexManager.PropertyNames.Count == 1)
-            {
-                return record.GetType().GetProperty(indexManager.PropertyNames[0]).GetValue(record, null);
-            }
-            else
-            {
-                StringBuilder sb = new StringBuilder();
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private static object GetIndexValue(T record, IIndexManager indexManager)
+		{
+			if (indexManager.PropertyNames.Count == 1)
+			{
+				return record.GetType().GetProperty(indexManager.PropertyNames[0]).GetValue(record, null);
+			}
+			else
+			{
+				StringBuilder sb = new StringBuilder();
 
-                foreach (string propertyName in indexManager.PropertyNames)
-                {
-                    sb.Append(record.GetType().GetProperty(propertyName).GetValue(record, null) ?? String.Empty);
-                }
+				foreach (string propertyName in indexManager.PropertyNames)
+				{
+					sb.Append(record.GetType().GetProperty(propertyName).GetValue(record, null) ?? String.Empty);
+				}
 
-                return sb.ToString();
-            }
-        }
+				return sb.ToString();
+			}
+		}
 
-        private void Dispose(bool disposing)
-        {
-            if (_disposed)
-                return;
+		private void Dispose(bool disposing)
+		{
+			if (_disposed)
+				return;
 
-            if (disposing)
-            {
-                _initializer?.UnregisterTable(this);
+			if (disposing)
+			{
+				_initializer?.UnregisterTable(this);
 
-                if (_foreignKeyManager != null)
-                    _foreignKeyManager?.UnregisterTable(this);
-            }
+				if (_foreignKeyManager != null)
+					_foreignKeyManager?.UnregisterTable(this);
+			}
 
-            ForceWrite();
+			ForceWrite();
 
-            if (_fileStream != null)
-            {
-                _fileStream.Flush(true);
-                _fileStream.Close();
-                _fileStream.Dispose();
-            }
+			if (_fileStream != null)
+			{
+				_fileStream.Flush(true);
+				_fileStream.Close();
+				_fileStream.Dispose();
+			}
 
-            _disposed = true;
-        }
+			_disposed = true;
+		}
 
-        private void ValidateTableContents()
-        {
-            using BinaryReader reader = new BinaryReader(_fileStream, Encoding.UTF8, true);
+		private void ValidateTableContents()
+		{
+			using BinaryReader reader = new BinaryReader(_fileStream, Encoding.UTF8, true);
 			_fileStream.Seek(0, SeekOrigin.Begin);
 
-            _ = reader.ReadUInt16();
+			_internalDataVersion = reader.ReadUInt16();
 
-            Span<byte> header = stackalloc byte[HeaderLength];
-            header = reader.ReadBytes(HeaderLength);
+			Span<byte> header = stackalloc byte[Consts.HeaderLength];
+			header = reader.ReadBytes(Consts.HeaderLength);
 
-            for (int i = 0; i < header.Length; i++)
-            {
-                if (header[i] != Header[i])
-                    throw new InvalidDataException();
-            }
+			for (int i = 0; i < header.Length; i++)
+			{
+				if (header[i] != Consts.Header[i])
+					throw new InvalidDataException();
+			}
 
-            _primarySequence = reader.ReadInt64();
-            _SecondarySequence = reader.ReadInt64();
-            _ = reader.ReadInt32();
-            _ = reader.ReadInt32();
-            _ = reader.ReadInt32();
+			_primarySequence = reader.ReadInt64();
+			_SecondarySequence = reader.ReadInt64();
+			_internalWriteVersion = reader.ReadUInt16();
+			_ = reader.ReadUInt16();
+			_ = reader.ReadInt32();
+			_ = reader.ReadInt32();
 			_pageSize = (PageSize)reader.ReadInt32();
-            _compressionAlgorithm = (CompressionType)reader.ReadByte();
-            _recordCount = reader.ReadInt32();
-            _ = reader.ReadInt32();
-            _dataLength = reader.ReadInt32();
+			_compressionAlgorithm = (CompressionType)reader.ReadByte();
+			_recordCount = reader.ReadInt32();
+			_ = reader.ReadInt32();
+			_dataLength = reader.ReadInt32();
 			_pageCount = reader.ReadInt32();
-        }
+		}
 
-        private (bool, string) ValidateTableName(string path, string domain, string name, PageSize pageSize)
-        {
-            string extension = Path.GetExtension(name);
+		private (bool, string) ValidateTableName(string path, string domain, string name, PageSize pageSize)
+		{
+			string extension = Path.GetExtension(name);
 
-            if (String.IsNullOrEmpty(extension))
-                name += DefaultExtension;
+			if (String.IsNullOrEmpty(extension))
+				name += Consts.DefaultExtension;
 
-            string tableName = path;
+			string tableName = path;
 
-            if (!String.IsNullOrEmpty(domain))
-                tableName = Path.Combine(tableName, domain);
+			if (!String.IsNullOrEmpty(domain))
+				tableName = Path.Combine(tableName, domain);
 
-            if (!Directory.Exists(tableName))
-                Directory.CreateDirectory(tableName);
+			if (!Directory.Exists(tableName))
+				Directory.CreateDirectory(tableName);
 
-            tableName = Path.Combine(tableName, name);
+			tableName = Path.Combine(tableName, name);
 
-            bool tableCreated = false;
+			bool tableCreated = false;
 
-            if (!File.Exists(tableName))
-            {
-                CreateTableHeaderRecords(tableName, pageSize);
-                tableCreated = true;
-            }
+			if (!File.Exists(tableName))
+			{
+				CreateTableHeaderRecords(tableName, pageSize);
+				tableCreated = true;
+			}
 
-            return (tableCreated, tableName);
-        }
+			return (tableCreated, tableName);
+		}
 
-        private ushort InternalUpdateVersion(ushort version)
-        {
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
-                writer.Seek(VersionStart, SeekOrigin.Begin);
-                writer.Write(version);
+		private ushort InternalUpdateVersion(ushort version)
+		{
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
+				writer.Seek(Consts.DataVersionStart, SeekOrigin.Begin);
+				writer.Write(version);
 				_fileStream.Flush(true);
-            }
+			}
 
-            return version;
-        }
+			return version;
+		}
 
-        private void CreateTableHeaderRecords(string fileName, PageSize pageSize)
-        {
-            using FileStream stream = File.Open(fileName, FileMode.OpenOrCreate);
-            using BinaryWriter writer = new BinaryWriter(stream, Encoding.UTF8, false);
+		private void CreateTableHeaderRecords(string fileName, PageSize pageSize)
+		{
+			using FileStream stream = File.Open(fileName, FileMode.OpenOrCreate);
+			using BinaryWriter writer = new BinaryWriter(stream, Encoding.UTF8, false);
 			writer.Seek(0, SeekOrigin.Begin);
 
-            writer.Write(FileVersion);
-            writer.Write(Header);
+			writer.Write(FileVersion);
+			writer.Write(Consts.Header);
 			writer.Write(_primarySequence);
 			writer.Write(_SecondarySequence);
-			writer.Write((int)0);
+			writer.Write((ushort)0);
+			writer.Write((ushort)0);
 			writer.Write((int)0);
 			writer.Write((int)0);
 			writer.Write((int)pageSize);
 			writer.Write((byte)_tableAttributes.Compression);
-			writer.Write(RowCount);
-			writer.Write(DefaultLength);
-			writer.Write(DefaultLength);
-			writer.Write(DefaultLength);
+			writer.Write(Consts.RowCountZero);
+			writer.Write(Consts.DefaultLength);
+			writer.Write(Consts.DefaultLength);
+			writer.Write(Consts.DefaultLength);
 
 			writer.Flush();
-        }
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
