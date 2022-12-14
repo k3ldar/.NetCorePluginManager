@@ -718,8 +718,7 @@ namespace SimpleDB.Internal
 				{
 					object keyValue = GetIndexValue(record, item.Value);
 
-					if (_indexes[item.Key].Contains(keyValue) && 
-						_indexes[item.Key].Contains(keyValue))
+					if (_indexes[item.Key].Contains(keyValue))
 					{
 						throw new UniqueIndexException($"Index already exists; Table: {TableName}; Index Name: {item.Key}; Property: {String.Join(',', item.Value.PropertyNames)}; Value: {keyValue}");
 					}
