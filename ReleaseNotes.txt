@@ -6,6 +6,7 @@ Multiple bug fixes
 # 216 Page corruption on SimpleDB
 # 215 Provide support for external users on resources
 # 207 Remove Newtonsoft.Json
+# 248 Extract data read/write from simple db
 
 Version 5.0.3
 =============
