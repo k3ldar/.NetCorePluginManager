@@ -39,7 +39,6 @@ namespace SimpleDB.Writers
 		{
 			byte[] data = recordsToSave.Count > 0 ? JsonSerializer.SerializeToUtf8Bytes(recordsToSave, recordsToSave.GetType(), Consts.JsonSerializerOptions) : Array.Empty<byte>();
 
-			int dataLength = data.Length;
 			bool isCompressed = false;
 
 			using BinaryWriter writer = new BinaryWriter(fileStream, Encoding.UTF8, true);
@@ -48,7 +47,7 @@ namespace SimpleDB.Writers
 			if (compressionType == CompressionType.Brotli)
 			{
 				Span<byte> compressedData = data.Length < Consts.MaxStackAllocSize ? stackalloc byte[data.Length] : new byte[data.Length];
-				isCompressed = System.IO.Compression.BrotliEncoder.TryCompress(data, compressedData, out dataLength);
+				isCompressed = System.IO.Compression.BrotliEncoder.TryCompress(data, compressedData, out int dataLength);
 
 				if (isCompressed)
 				{
@@ -56,7 +55,7 @@ namespace SimpleDB.Writers
 					writer.Write((byte)compressionType);
 					writer.Write(recordsToSave.Count);
 					writer.Write(data.Length);
-					writer.Write(compressedData.ToArray(), 0, data.Length);
+					writer.Write(compressedData.ToArray(), 0, dataLength);
 					compactPercent = Convert.ToByte(Shared.Utilities.Percentage(fileStream.Length, fileStream.Position));
 				}
 				else

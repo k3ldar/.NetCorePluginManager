@@ -91,7 +91,6 @@ namespace SimpleDB.Internal
 		private int _dataLength = 0;
 		private byte _compactPercent = 0;
 		private int _pageCount;
-		private CompressionType _compressionAlgorithm = Consts.CompressionNone;
 		private long _primarySequence = -1;
 		private long _SecondarySequence = -1;
 		private readonly object _lockObject = new object();
@@ -719,10 +718,10 @@ namespace SimpleDB.Internal
 				{
 					object keyValue = GetIndexValue(record, item.Value);
 
-					if (_indexes[item.Key].Contains(keyValue))
+					if (_indexes[item.Key].Contains(keyValue) && 
+						_indexes[item.Key].Contains(keyValue))
 					{
-						if (_indexes[item.Key].Contains(keyValue))
-							throw new UniqueIndexException($"Index already exists; Table: {TableName}; Index Name: {item.Key}; Property: {String.Join(',', item.Value.PropertyNames)}; Value: {keyValue}");
+						throw new UniqueIndexException($"Index already exists; Table: {TableName}; Index Name: {item.Key}; Property: {String.Join(',', item.Value.PropertyNames)}; Value: {keyValue}");
 					}
 				}
 			}
@@ -783,10 +782,10 @@ namespace SimpleDB.Internal
 				{
 					object keyValue = record.GetType().GetProperty(index.Key).GetValue(record, null);
 
-					if (Int64.TryParse(keyValue.ToString(), out long value))
+					if (Int64.TryParse(keyValue.ToString(), out long value) && 
+						_foreignKeyManager.ValueInUse(TableName, index.Key, value, out string table, out string propertyName))
 					{
-						if (_foreignKeyManager.ValueInUse(TableName, index.Key, value, out string table, out string propertyName))
-							throw new ForeignKeyException($"Foreign key value {keyValue} from table {TableName} is being used in Table: {table}; Property: {propertyName}");
+						throw new ForeignKeyException($"Foreign key value {keyValue} from table {TableName} is being used in Table: {table}; Property: {propertyName}");
 					}
 				}
 			}
@@ -954,8 +953,7 @@ namespace SimpleDB.Internal
 
 			_internalDataVersion = reader.ReadUInt16();
 
-			Span<byte> header = stackalloc byte[Consts.HeaderLength];
-			header = reader.ReadBytes(Consts.HeaderLength);
+			Span<byte> header = reader.ReadBytes(Consts.HeaderLength);
 
 			for (int i = 0; i < header.Length; i++)
 			{
@@ -970,7 +968,7 @@ namespace SimpleDB.Internal
 			_ = reader.ReadInt32();
 			_ = reader.ReadInt32();
 			_pageSize = (PageSize)reader.ReadInt32();
-			_compressionAlgorithm = (CompressionType)reader.ReadByte();
+			_ = (CompressionType)reader.ReadByte();
 			_recordCount = reader.ReadInt32();
 			_ = reader.ReadInt32();
 			_dataLength = reader.ReadInt32();
