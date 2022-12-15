@@ -26,8 +26,6 @@ visibility: hidden;
 }
 .fixed {
 display: block;
-}
-.fixed {
 min-height: 1%;
 }
 * html .fixed {
@@ -382,14 +380,6 @@ text-shadow: 0 1px 0 #757575;
 .mainContent .pagination ul li a:hover {
 background-color: #ddd;
 color: #333;
-}
-.mainContent .pagination ul li.current a {
-background: #b4b4b4;
-color: #fff;
-}
-.mainContent .pagination ul li.disabled a {
-background: #f4f4f4;
-color: #ccc;
 }
 .content .faq {
 margin: 10px auto auto auto;
