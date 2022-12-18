@@ -354,8 +354,7 @@ namespace PluginManager
 
 						IPluginVersion version = pluginService as IPluginVersion;
 						
-						if (version == null)
-							version = GetPluginClass<IPluginVersion>(pluginModule);
+						version ??= GetPluginClass<IPluginVersion>(pluginModule);
 
                         pluginModule.Version = version.GetVersion();
 

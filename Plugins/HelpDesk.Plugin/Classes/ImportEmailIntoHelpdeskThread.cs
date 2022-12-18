@@ -38,9 +38,10 @@ using Shared.Communication;
 
 using SharedPluginFeatures;
 
+#if NET6_0_OR_GREATER
+
 namespace HelpdeskPlugin.Classes
 {
-#if NET6_0_OR_GREATER
 
 	/// <summary>
 	/// Thread which imports emails into helpdesk system
@@ -147,7 +148,6 @@ namespace HelpdeskPlugin.Classes
 			using (TimedLock timedLock = TimedLock.Lock(_lock))
 			{
 				string pop3Server = Environment.GetEnvironmentVariable("EmailPop3ServerName");
-				bool useSSL = Environment.GetEnvironmentVariable("EmailSSL").Equals("true");
 				string userName = Environment.GetEnvironmentVariable("EmailUserName");
 				string password = Environment.GetEnvironmentVariable("EmailUserPassword");
 				string port = Environment.GetEnvironmentVariable("EmailPop3Port");
@@ -163,7 +163,7 @@ namespace HelpdeskPlugin.Classes
 					{
 						string message = popClient.RetrieveMessage(i + 1, out string initialResponse);
 						messages.Add(new ReceivedEmail(new StringBuilder(message)));
-						string deleteResponse = popClient.DeleteMessage(i + 1);
+						_ = popClient.DeleteMessage(i + 1);
 					}
 					catch (Exception ex)
 					{
@@ -173,6 +173,6 @@ namespace HelpdeskPlugin.Classes
 			}
 		}
 	}
+}
 
 #endif
-}

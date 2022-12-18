@@ -27,10 +27,10 @@ using Shared.Communication;
 
 using SharedPluginFeatures;
 
-namespace HelpdeskPlugin.Classes
-{
 #if NET6_0_OR_GREATER
 
+namespace HelpdeskPlugin.Classes
+{
 	/// <summary>
 	/// Factory for creating IPop3Clients
 	/// </summary>
@@ -45,6 +45,6 @@ namespace HelpdeskPlugin.Classes
 			return new Pop3Client();
 		}
 	}
+}
 
 #endif
-}
