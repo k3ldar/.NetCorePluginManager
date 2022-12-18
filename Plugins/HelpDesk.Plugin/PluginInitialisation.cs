@@ -20,40 +20,60 @@
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  11/04/2019  Simon Carter        Initially Created
+ *  15/12/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
+using HelpdeskPlugin.Classes;
+
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
+
+using Shared.Communication;
+
+using SharedPluginFeatures;
 
 #pragma warning disable IDE0060, CS1591
 
 namespace HelpdeskPlugin
 {
-    /// <summary>
-    /// Implements IPlugin and IPluginVersion which allows the HelpdeskPlugin module to be
-    /// loaded as a plugin module
-    /// </summary>
-    public class PluginInitialisation : IPlugin
-    {
-        public void ConfigureServices(IServiceCollection services)
-        {
-			// from interface but unused in this context
+	/// <summary>
+	/// Implements IPlugin and IPluginVersion which allows the HelpdeskPlugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	public class PluginInitialisation : IPlugin
+	{
+		public PluginInitialisation(IThreadManagerServices threadManagerServices)
+		{
+			if (threadManagerServices == null)
+				throw new ArgumentNullException(nameof(threadManagerServices));
+
+#if NET6_0_OR_GREATER
+			threadManagerServices.RegisterStartupThread(Constants.ImportEmailIntoHelpdeskThread, typeof(ImportEmailIntoHelpdeskThread));
+#endif
+		}
+
+		public void ConfigureServices(IServiceCollection services)
+		{
+#if NET6_0_OR_GREATER
+			services.AddTransient<IPop3ClientFactory, Pop3ClientFactory>();
+#endif
 		}
 
 		public void Finalise()
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public ushort GetVersion()
-        {
-            return 1;
-        }
+		{
+			return 1;
+		}
 
-        public void Initialise(ILogger logger)
-        {
+		public void Initialise(ILogger logger)
+		{
 			// from interface but unused in this context
 		}
 	}

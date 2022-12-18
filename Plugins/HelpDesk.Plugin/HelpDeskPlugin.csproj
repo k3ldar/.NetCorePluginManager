@@ -111,10 +111,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Classes\SystemAdmin\" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="ApplicationSettings" Version="2.1.0" />
 	</ItemGroup>
 

@@ -127,4 +127,70 @@
   <data name="DynamicContent1Item" xml:space="preserve">
     <value>{"Id":10,"Name":"Custom Page 10","Content":[{"AssemblyQualifiedName":"DynamicContent.Plugin.Templates.HtmlTextTemplate, DynamicContent.Plugin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=null","EditorAction":"/DynamicContent/TextTemplateEditor/","Name":"Html Content","SortOrder":0,"HeightType":2,"Height":-1,"WidthType":0,"Width":12,"Data":"&lt;p&gt;This is &lt;br /&gt;html over&lt;br /&gt;three lines&lt;/p&gt;","ActiveFrom":"0001-01-01T00:00:00","ActiveTo":"9999-12-31T23:59:59.9999999","UniqueId":"control-1","ColumnCount":12},{"AssemblyQualifiedName":"DynamicContent.Plugin.Templates.HtmlTextTemplate, DynamicContent.Plugin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=null","EditorAction":"/DynamicContent/TextTemplateEditor/","Name":"Html Content","SortOrder":2,"HeightType":2,"Height":-1,"WidthType":0,"Width":4,"Data":"&lt;p&gt;This is html&lt;br /&gt;Content 2&lt;/p&gt;","ActiveFrom":"0001-01-01T00:00:00","ActiveTo":"9999-12-31T23:59:59.9999999","UniqueId":"control-2","ColumnCount":4},{"AssemblyQualifiedName":"DynamicContent.Plugin.Templates.HtmlTextTemplate, DynamicContent.Plugin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=null","EditorAction":"/DynamicContent/TextTemplateEditor/","Name":"Html Content","SortOrder":9,"HeightType":2,"Height":-1,"WidthType":0,"Width":4,"Data":"&lt;p&gt;This is html&lt;br /&gt;Content 3&lt;/p&gt;","ActiveFrom":"0001-01-01T00:00:00","ActiveTo":"9999-12-31T23:59:59.9999999","UniqueId":"control-3","ColumnCount":4},{"AssemblyQualifiedName":"DynamicContent.Plugin.Templates.HtmlTextTemplate, DynamicContent.Plugin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=null","EditorAction":"/DynamicContent/TextTemplateEditor/","Name":"Html Content","SortOrder":8,"HeightType":2,"Height":-1,"WidthType":0,"Width":4,"Data":"&lt;p&gt;This is html&lt;br /&gt;Content 4&lt;/p&gt;","ActiveFrom":"0001-01-01T00:00:00","ActiveTo":"9999-12-31T23:59:59.9999999","UniqueId":"control-4","ColumnCount":4},{"AssemblyQualifiedName":"DynamicContent.Plugin.Templates.HtmlTextTemplate, DynamicContent.Plugin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=null","EditorAction":"/DynamicContent/TextTemplateEditor/","Name":"Html Content","SortOrder":7,"HeightType":2,"Height":-1,"WidthType":0,"Width":4,"Data":"&lt;p&gt;This is html&lt;br /&gt;Content 5&lt;/p&gt;","ActiveFrom":"0001-01-01T00:00:00","ActiveTo":"9999-12-31T23:59:59.9999999","UniqueId":"control-5","ColumnCount":4},{"AssemblyQualifiedName":"DynamicContent.Plugin.Templates.HtmlTextTemplate, DynamicContent.Plugin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=null","EditorAction":"/DynamicContent/TextTemplateEditor/","Name":"Html Content","SortOrder":6,"HeightType":2,"Height":-1,"WidthType":0,"Width":4,"Data":"&lt;p&gt;This is html&lt;br /&gt;Content 6&lt;/p&gt;","ActiveFrom":"0001-01-01T00:00:00","ActiveTo":"9999-12-31T23:59:59.9999999","UniqueId":"control-6","ColumnCount":4},{"AssemblyQualifiedName":"DynamicContent.Plugin.Templates.HtmlTextTemplate, DynamicContent.Plugin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=null","EditorAction":"/DynamicContent/TextTemplateEditor/","Name":"Html Content","SortOrder":5,"HeightType":2,"Height":-1,"WidthType":0,"Width":4,"Data":"&lt;p&gt;This is html&lt;br /&gt;Content 7&lt;/p&gt;","ActiveFrom":"0001-01-01T00:00:00","ActiveTo":"9999-12-31T23:59:59.9999999","UniqueId":"control-7","ColumnCount":4},{"AssemblyQualifiedName":"DynamicContent.Plugin.Templates.HtmlTextTemplate, DynamicContent.Plugin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=null","EditorAction":"/DynamicContent/TextTemplateEditor/","Name":"Html Content","SortOrder":4,"HeightType":2,"Height":-1,"WidthType":0,"Width":4,"Data":"&lt;p&gt;This is html&lt;br /&gt;Content 8&lt;/p&gt;","ActiveFrom":"0001-01-01T00:00:00","ActiveTo":"9999-12-31T23:59:59.9999999","UniqueId":"control-8","ColumnCount":4},{"AssemblyQualifiedName":"DynamicContent.Plugin.Templates.HtmlTextTemplate, DynamicContent.Plugin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=null","EditorAction":"/DynamicContent/TextTemplateEditor/","Name":"Html Content","SortOrder":3,"HeightType":2,"Height":-1,"WidthType":0,"Width":4,"Data":"&lt;p&gt;This is html&lt;br /&gt;Content 9&lt;/p&gt;","ActiveFrom":"0001-01-01T00:00:00","ActiveTo":"9999-12-31T23:59:59.9999999","UniqueId":"control-9","ColumnCount":4},{"AssemblyQualifiedName":"DynamicContent.Plugin.Templates.HtmlTextTemplate, DynamicContent.Plugin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=null","EditorAction":"/DynamicContent/TextTemplateEditor/","Name":"Html Content","SortOrder":20,"HeightType":2,"Height":-1,"WidthType":0,"Width":4,"Data":"&lt;p&gt;This is html&lt;br /&gt;Content 10&lt;/p&gt;","ActiveFrom":"0001-01-01T00:00:00","ActiveTo":"9999-12-31T23:59:59.9999999","UniqueId":"control-10","ColumnCount":4}],"ActiveFrom":"0001-01-01T00:00:00","ActiveTo":"9999-12-31T23:59:59.9999999","RouteName":"","BackgroundColor":"#FFFFFF","BackgroundImage":null}</value>
   </data>
+  <data name="TestEmail1" xml:space="preserve">
+    <value>MIME-Version: 1.0
+Date: Fri, 23 Sep 2022 09:51:16 +0200
+Message-ID: &lt;CANY3bHNCowtzhX7RwD0g5_Xsv66s59O-X0-QuUNcGxLByB4wmA@mail.gmail.com&gt;
+Subject: sonar cloud
+From: Some User &lt;a_user@gmail.com&gt;
+To: helpdesktest@helpdesktesting.com
+Content-Type: multipart/alternative; boundary="00000000000066df2505e953716d"
+
+--00000000000066df2505e953716d
+Content-Type: text/plain; charset="UTF-8"
+
+This is a basic text message
+
+--00000000000066df2505e953716d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+&lt;div dir=3D"ltr"&gt;&lt;p&gt;this is a basic text message&lt;/p&gt;&lt;br&gt;&lt;/div&gt;
+
+--00000000000066df2505e953716d--</value>
+  </data>
+  <data name="TestEmail2" xml:space="preserve">
+    <value>MIME-Version: 1.0
+Date: Fri, 23 Sep 2022 09:51:16 +0200
+Message-ID: &lt;CANYFasgfsdlj37RwD0g5_Xsv66s59O-X0-QuUNcGxLByB4wmA@mail.gmail.com&gt;
+Subject: sonar cloud
+From: Some User &lt;a_user2@gmail.com&gt;
+To: helpdesktest@helpdesktesting.com
+Content-Type: multipart/alternative; boundary="00000000000066df2505e953716d"
+
+--00000000000066df2505e953716d
+Content-Type: text/plain; charset="UTF-8"
+
+This is second basic text message
+
+--00000000000066df2505e953716d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+&lt;div dir=3D"ltr"&gt;&lt;p&gt;this is second basic text message&lt;/p&gt;&lt;br&gt;&lt;/div&gt;
+
+--00000000000066df2505e953716d--</value>
+  </data>
+  <data name="TestEmail3" xml:space="preserve">
+    <value>MIME-Version: 1.0
+Date: Fri, 23 Sep 2022 09:51:16 +0200
+Message-ID: &lt;NOTY3bHNCowtzhX7RwD0g5_Xsv66s59O-X0-QuUNcGxLByB4wmA@mail.gmail.com&gt;
+Subject: sonar cloud
+From: Some User &lt;a_user3@gmail.com&gt;
+To: helpdesktest@helpdesktesting.com
+Content-Type: multipart/alternative; boundary="00000000000066df2505e953716d"
+
+--00000000000066df2505e953716d
+Content-Type: text/plain; charset="UTF-8"
+
+This is the third basic text message
+
+--00000000000066df2505e953716d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+&lt;div dir=3D"ltr"&gt;&lt;p&gt;this is the third basic text message&lt;/p&gt;&lt;br&gt;&lt;/div&gt;
+
+--00000000000066df2505e953716d--</value>
+  </data>
 </root>

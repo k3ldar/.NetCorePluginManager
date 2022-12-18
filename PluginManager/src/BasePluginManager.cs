@@ -352,7 +352,10 @@ namespace PluginManager
 
                         PluginModule pluginModule = new PluginModule(assembly, assemblyName, pluginService);
 
-                        IPluginVersion version = GetPluginClass<IPluginVersion>(pluginModule);
+						IPluginVersion version = pluginService as IPluginVersion;
+						
+						if (version == null)
+							version = GetPluginClass<IPluginVersion>(pluginModule);
 
                         pluginModule.Version = version.GetVersion();
 
@@ -497,8 +500,15 @@ namespace PluginManager
 
             foreach (KeyValuePair<string, Type> registeredThread in RegisteredStartupThreads)
             {
-                ThreadManager threadToStart = (ThreadManager)Activator.CreateInstance(registeredThread.Value, GetParameterInstances(registeredThread.Value));
-                ThreadManager.ThreadStart(threadToStart, registeredThread.Key, System.Threading.ThreadPriority.Normal);
+				try
+				{
+					ThreadManager threadToStart = (ThreadManager)Activator.CreateInstance(registeredThread.Value, GetParameterInstances(registeredThread.Value));
+					ThreadManager.ThreadStart(threadToStart, registeredThread.Key, System.Threading.ThreadPriority.Normal);
+				}
+				catch (MissingMethodException mme)
+				{
+					_configuration.Logger.AddToLog(LogLevel.Warning, mme, registeredThread.Key);
+				}
             }
 
             RegisteredStartupThreads = null;

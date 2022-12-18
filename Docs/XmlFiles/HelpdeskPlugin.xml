@@ -54,6 +54,53 @@
             </summary>
             <returns>List&lt;ISitemapItem&gt;</returns>
         </member>
+        <member name="T:HelpdeskPlugin.Classes.ImportEmailIntoHelpdeskThread">
+            <summary>
+            Thread which imports emails into helpdesk system
+            </summary>
+        </member>
+        <member name="M:HelpdeskPlugin.Classes.ImportEmailIntoHelpdeskThread.#ctor(Middleware.Helpdesk.IHelpdeskProvider,SharedPluginFeatures.IPop3ClientFactory,Middleware.IUserSearch,PluginManager.Abstractions.ILogger)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="helpdeskProvider">Valid IHelpdeskProvider instance</param>
+            <param name="pop3ClientFactory">Valid IPop3Client instance</param>
+            <param name="userSearch">Valid IUserSearch instacnce</param>
+            <param name="logger">Valid logger instance</param>
+        </member>
+        <member name="M:HelpdeskPlugin.Classes.ImportEmailIntoHelpdeskThread.#ctor(Middleware.Helpdesk.IHelpdeskProvider,SharedPluginFeatures.IPop3ClientFactory,Middleware.IUserSearch,PluginManager.Abstractions.ILogger,System.TimeSpan)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="helpdeskProvider">Valid IHelpdeskProvider instance</param>
+            <param name="pop3ClientFactory">Valid IPop3Client instance</param>
+            <param name="userSearch">Valid IUserSearch instance</param>
+            <param name="logger">Valid logger instance</param>
+            <param name="timeSpan">Timspan depicting the interval between checks</param>
+        </member>
+        <member name="M:HelpdeskPlugin.Classes.ImportEmailIntoHelpdeskThread.Run(System.Object)">
+            <summary>
+            Thread used to check for emails and import into helpdesk
+            </summary>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HelpdeskPlugin.Classes.ImportEmailIntoHelpdeskThread.ProcessIncomingEmails">
+            <summary>
+            Processes incoming emails
+            </summary>
+        </member>
+        <member name="T:HelpdeskPlugin.Classes.Pop3ClientFactory">
+            <summary>
+            Factory for creating IPop3Clients
+            </summary>
+        </member>
+        <member name="M:HelpdeskPlugin.Classes.Pop3ClientFactory.Create">
+            <summary>
+            Create new instance of pop 3 client
+            </summary>
+            <returns>IPop3Client</returns>
+        </member>
         <member name="T:HelpdeskPlugin.Controllers.HelpdeskController">
             <summary>
             Helpdesk controller, provides Helpdesk functionality for any website.

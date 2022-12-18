@@ -387,10 +387,15 @@ namespace SharedPluginFeatures
         /// </summary>
         public const string DocumentationLoadThread = "Documentation load thread";
 
-        /// <summary>
-        /// Defines the names of the forward for header, should the request be received via a proxy.
-        /// </summary>
-        public static readonly string[] ForwardForHeader = new string[] { "HTTP_X_FORWARDED_FOR", "X-Forwarded-For", "http-X-Forwarded-For", "X-Real-IP" };
+		/// <summary>
+		/// Name of thread used to import emails into the helpdesk
+		/// </summary>
+		public const string ImportEmailIntoHelpdeskThread = "Email import thread";
+
+		/// <summary>
+		/// Defines the names of the forward for header, should the request be received via a proxy.
+		/// </summary>
+		public static readonly string[] ForwardForHeader = new string[] { "HTTP_X_FORWARDED_FOR", "X-Forwarded-For", "http-X-Forwarded-For", "X-Real-IP" };
 
         /// <summary>
         /// Hex value for color white 

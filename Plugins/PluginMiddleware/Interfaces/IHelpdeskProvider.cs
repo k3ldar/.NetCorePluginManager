@@ -90,12 +90,29 @@ namespace Middleware.Helpdesk
             in string userName, in string email, in string subject, in string message,
             out HelpdeskTicket ticket);
 
-        /// <summary>
-        /// Retrieve a ticket using the unique ticket Id.
-        /// </summary>
-        /// <param name="id">Unique ticket id being requested.</param>
-        /// <returns>HelpdeskTicket</returns>
-        HelpdeskTicket GetTicket(in long id);
+		/// <summary>
+		/// Submits a support ticket to the website.
+		/// </summary>
+		/// <param name="userId">Unique id of user submitting a ticket, if they are logged on.</param>
+		/// <param name="department">Department the ticket is being submitted to.</param>
+		/// <param name="priority">User defined priority of the ticket.</param>
+		/// <param name="userName">Name of the user submitting the ticket.</param>
+		/// <param name="email">Email address of the user submitting the ticket.</param>
+		/// <param name="subject">Subject of the support ticket.</param>
+		/// <param name="message">Support ticket message.</param>
+		/// <param name="ticketId">Unique id of ticket</param>
+		/// <param name="ticket">out.  Helpdeskticket of newly created ticket.</param>
+		/// <returns>bool.  True if the ticket was successfully submitted.</returns>
+		bool SubmitTicket(in long userId, in int department, in int priority,
+			in string userName, in string email, in string subject, in string message,
+			in string ticketId, out HelpdeskTicket ticket);
+
+		/// <summary>
+		/// Retrieve a ticket using the unique ticket Id.
+		/// </summary>
+		/// <param name="id">Unique ticket id being requested.</param>
+		/// <returns>HelpdeskTicket</returns>
+		HelpdeskTicket GetTicket(in long id);
 
         /// <summary>
         /// Retreive a ticket using the users email address and the unique ticket key.
