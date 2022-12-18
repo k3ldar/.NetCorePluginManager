@@ -40,10 +40,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="3.6.0" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="3.8.0" />
     <PackageReference Include="ApplicationSettings" Version="2.1.0" />
   </ItemGroup>
 

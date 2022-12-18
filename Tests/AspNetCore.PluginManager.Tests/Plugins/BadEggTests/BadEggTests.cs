@@ -474,7 +474,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.BadEggTests
             await badEgg.Invoke(httpContext);
 
             Assert.IsTrue(httpContext.Response.Headers.ContainsKey(Constants.BadEggValidationIgnoreHeaderName));
-            Assert.AreEqual(httpContext.Response.Headers[Constants.BadEggValidationIgnoreHeaderName], Boolean.TrueString);
+            Assert.AreEqual(httpContext.Response.Headers[Constants.BadEggValidationIgnoreHeaderName].ToString(), Boolean.TrueString);
             Assert.IsTrue(nextDelegateCalled);
             Assert.AreEqual(200, httpContext.Response.StatusCode);
         }

@@ -2665,6 +2665,11 @@
             Name of the thread that loads default documentation
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.ImportEmailIntoHelpdeskThread">
+            <summary>
+            Name of thread used to import emails into the helpdesk
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.ForwardForHeader">
             <summary>
             Defines the names of the forward for header, should the request be received via a proxy.

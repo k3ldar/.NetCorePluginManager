@@ -87,5 +87,77 @@ namespace AspNetCore.PluginManager.Tests.Properties {
                 return ResourceManager.GetString("DynamicContent1Item", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MIME-Version: 1.0
+        ///Date: Fri, 23 Sep 2022 09:51:16 +0200
+        ///Message-ID: &lt;CANY3bHNCowtzhX7RwD0g5_Xsv66s59O-X0-QuUNcGxLByB4wmA@mail.gmail.com&gt;
+        ///Subject: sonar cloud
+        ///From: Some User &lt;a_user@gmail.com&gt;
+        ///To: helpdesktest@helpdesktesting.com
+        ///Content-Type: multipart/alternative; boundary=&quot;00000000000066df2505e953716d&quot;
+        ///
+        ///--00000000000066df2505e953716d
+        ///Content-Type: text/plain; charset=&quot;UTF-8&quot;
+        ///
+        ///This is a basic text message
+        ///
+        ///--00000000000066df2505e953716d
+        ///Content-Type: text/html; charset=&quot;UTF-8&quot;
+        ///Content-Trans [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TestEmail1 {
+            get {
+                return ResourceManager.GetString("TestEmail1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MIME-Version: 1.0
+        ///Date: Fri, 23 Sep 2022 09:51:16 +0200
+        ///Message-ID: &lt;CANYFasgfsdlj37RwD0g5_Xsv66s59O-X0-QuUNcGxLByB4wmA@mail.gmail.com&gt;
+        ///Subject: sonar cloud
+        ///From: Some User &lt;a_user2@gmail.com&gt;
+        ///To: helpdesktest@helpdesktesting.com
+        ///Content-Type: multipart/alternative; boundary=&quot;00000000000066df2505e953716d&quot;
+        ///
+        ///--00000000000066df2505e953716d
+        ///Content-Type: text/plain; charset=&quot;UTF-8&quot;
+        ///
+        ///This is second basic text message
+        ///
+        ///--00000000000066df2505e953716d
+        ///Content-Type: text/html; charset=&quot;UTF-8&quot;
+        ///Content- [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TestEmail2 {
+            get {
+                return ResourceManager.GetString("TestEmail2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MIME-Version: 1.0
+        ///Date: Fri, 23 Sep 2022 09:51:16 +0200
+        ///Message-ID: &lt;NOTY3bHNCowtzhX7RwD0g5_Xsv66s59O-X0-QuUNcGxLByB4wmA@mail.gmail.com&gt;
+        ///Subject: sonar cloud
+        ///From: Some User &lt;a_user3@gmail.com&gt;
+        ///To: helpdesktest@helpdesktesting.com
+        ///Content-Type: multipart/alternative; boundary=&quot;00000000000066df2505e953716d&quot;
+        ///
+        ///--00000000000066df2505e953716d
+        ///Content-Type: text/plain; charset=&quot;UTF-8&quot;
+        ///
+        ///This is the third basic text message
+        ///
+        ///--00000000000066df2505e953716d
+        ///Content-Type: text/html; charset=&quot;UTF-8&quot;
+        ///Cont [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TestEmail3 {
+            get {
+                return ResourceManager.GetString("TestEmail3", resourceCulture);
+            }
+        }
     }
 }

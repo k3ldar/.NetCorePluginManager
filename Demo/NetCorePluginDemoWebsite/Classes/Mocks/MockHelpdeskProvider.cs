@@ -176,31 +176,37 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             in string userName, in string email, in string subject, in string message,
             out HelpdeskTicket ticket)
         {
-            int idPriority = priority;
-            int idStatus = 2;
-            int idDepartment = department;
-
-            ticket = new HelpdeskTicket(_tickets.Count + 1,
-                GetTicketPriorities().FirstOrDefault(p => p.Id == idPriority),
-                GetTicketDepartments().FirstOrDefault(d => d.Id == idDepartment),
-                GetTicketStatus().FirstOrDefault(s => s.Id == idStatus),
-                Shared.Utilities.GetRandomKey(),
-                subject,
-                DateTime.Now,
-                DateTime.Now,
-                userName,
-                email, userName,
-                new List<HelpdeskTicketMessage>()
-                {
-                    new HelpdeskTicketMessage(DateTime.Now, userName, message)
-                });
-
-            _tickets.Add(ticket);
-
-            return true;
+			return SubmitTicket(userId, department, priority, userName, email, subject, message, Shared.Utilities.GetRandomKey(), out ticket);
         }
 
-        public HelpdeskTicket GetTicket(in long id)
+		public bool SubmitTicket(in long userId, in int department, in int priority, in string userName, in string email, 
+			in string subject, in string message, in string ticketId, out HelpdeskTicket ticket)
+		{
+			int idPriority = priority;
+			int idStatus = 2;
+			int idDepartment = department;
+
+			ticket = new HelpdeskTicket(_tickets.Count + 1,
+				GetTicketPriorities().FirstOrDefault(p => p.Id == idPriority),
+				GetTicketDepartments().FirstOrDefault(d => d.Id == idDepartment),
+				GetTicketStatus().FirstOrDefault(s => s.Id == idStatus),
+				ticketId,
+				subject,
+				DateTime.Now,
+				DateTime.Now,
+				userName,
+				email, userName,
+				new List<HelpdeskTicketMessage>()
+				{
+					new HelpdeskTicketMessage(DateTime.Now, userName, message)
+				});
+
+			_tickets.Add(ticket);
+
+			return true;
+		}
+
+		public HelpdeskTicket GetTicket(in long id)
         {
             foreach (HelpdeskTicket ticket in _tickets)
             {
@@ -296,12 +302,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             item.IncreaseViewCount();
         }
 
-        #endregion Public FaQ Methods
+		#endregion Public FaQ Methods
 
-        #region Private Methods
+		#region Private Methods
 
 
-        #endregion Private Methods
+		#endregion Private Methods
 
-    }
+	}
 }

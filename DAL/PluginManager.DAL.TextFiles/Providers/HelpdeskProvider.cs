@@ -189,10 +189,29 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             return (List<LookupListItem>)cacheItem.Value;
         }
+		public bool SubmitTicket(in long userId, in int department, in int priority,
+			in string userName, in string email, in string subject, in string message,
+			out HelpdeskTicket ticket)
+		{
+			ticket = null;
+			string newKey = Shared.Utilities.GetRandomKey();
+			int loopCount = 0;
 
-        public bool SubmitTicket(in long userId, in int department, in int priority,
+			while (_tickets.IndexExists(TicketDataRow.IndexUserKey, $"{newKey}{email}"))
+			{
+				newKey = Shared.Utilities.GetRandomKey();
+				loopCount++;
+
+				if (loopCount > 100)
+					return false;
+			}
+
+			return SubmitTicket(userId, department, priority, userName, email, subject, message, newKey, out ticket);
+		}
+
+		public bool SubmitTicket(in long userId, in int department, in int priority,
             in string userName, in string email, in string subject, in string message,
-            out HelpdeskTicket ticket)
+            in string ticketId, out HelpdeskTicket ticket)
         {
             ticket = null;
 
@@ -212,24 +231,12 @@ namespace PluginManager.DAL.TextFiles.Providers
             int idStatus = StatusOpen;
             int idDepartment = _ticketDepartments.IdExists(department) ? department : SupportDepartment;
 
-            string newKey = Shared.Utilities.GetRandomKey();
-            int loopCount = 0;
-
-            while (_tickets.IndexExists(TicketDataRow.IndexUserKey, $"{newKey}{email}"))
-            {
-                newKey = Shared.Utilities.GetRandomKey();
-                loopCount++;
-
-                if (loopCount > 100)
-                    return false;
-            }
-
             TicketDataRow ticketDataRow = new TicketDataRow()
             {
                 Priority = idPriority,
                 Department = idDepartment,
                 Status = idStatus,
-                Key = newKey,
+                Key = ticketId,
                 Subject = subject,
                 CreatedBy = userName,
                 CreatedByEmail = email,
