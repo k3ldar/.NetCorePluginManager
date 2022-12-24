@@ -56,6 +56,7 @@
     <Content Remove="Views\SystemAdmin\Map.cshtml" />
     <Content Remove="Views\SystemAdmin\PartialView.cshtml" />
     <Content Remove="Views\SystemAdmin\Permissions.cshtml" />
+    <Content Remove="Views\SystemAdmin\Settings.cshtml" />
     <Content Remove="Views\SystemAdmin\Text.cshtml" />
     <Content Remove="Views\SystemAdmin\TextEx.cshtml" />
     <Content Remove="Views\SystemAdmin\_SeoUpdate.cshtml" />
@@ -80,6 +81,7 @@
     <EmbeddedResource Include="Views\Shared\_UpdatePageSeoDlg.cshtml" />
     <EmbeddedResource Include="Views\Shared\_UserSearch.cshtml" />
     <EmbeddedResource Include="Views\SystemAdmin\Chart.cshtml" />
+    <EmbeddedResource Include="Views\SystemAdmin\Settings.cshtml" />
     <EmbeddedResource Include="Views\SystemAdmin\PartialView.cshtml" />
     <EmbeddedResource Include="Views\SystemAdmin\Permissions.cshtml" />
     <EmbeddedResource Include="Views\SystemAdmin\_SeoUpdate.cshtml" />
@@ -109,7 +111,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="ApplicationSettings" Version="2.1.0" />
+    <PackageReference Include="ApplicationSettings" Version="2.2.0" />
     <PackageReference Include="jQuery.Bootgrid" Version="1.3.1" />
   </ItemGroup>
 
@@ -145,6 +147,12 @@
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="7.0.1" />
     <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Controllers\SystemAdminController.Settings.cs">
+      <Generator></Generator>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
