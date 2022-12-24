@@ -59,6 +59,11 @@
             Default Constructor
             </summary>
         </member>
+        <member name="P:CacheControl.Plugin.CacheControlSettings.SettingsName">
+            <summary>
+            Name
+            </summary>
+        </member>
         <member name="P:CacheControl.Plugin.CacheControlSettings.Disabled">
             <summary>
             Indicates that caching is disabled or enabled.

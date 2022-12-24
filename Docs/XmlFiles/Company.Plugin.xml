@@ -9,6 +9,11 @@
             Settings for the Company plugin module which determine which pages are visible or not.
             </summary>
         </member>
+        <member name="P:Company.Plugin.Classes.CompanySettings.SettingsName">
+            <summary>
+            Name
+            </summary>
+        </member>
         <member name="P:Company.Plugin.Classes.CompanySettings.ShowAbout">
             <summary>
             Show the about page, provide information about the website and/or company operating it.

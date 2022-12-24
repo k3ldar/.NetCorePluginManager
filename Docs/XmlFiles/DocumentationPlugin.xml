@@ -86,6 +86,11 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="P:DocumentationPlugin.Classes.DocumentationSettings.SettingsName">
+            <summary>
+            Name
+            </summary>
+        </member>
         <member name="T:DocumentationPlugin.Classes.DocumentationSitemapProvider">
             <summary>
             Documentation sitemap provider, provides sitemap information for documentation items

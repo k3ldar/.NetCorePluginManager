@@ -30,6 +30,11 @@
             Settings which affect how breadcrumb data is served.
             </summary>
         </member>
+        <member name="P:Breadcrumb.Plugin.BreadcrumbSettings.SettingsName">
+            <summary>
+            Name
+            </summary>
+        </member>
         <member name="P:Breadcrumb.Plugin.BreadcrumbSettings.ProcessStaticFiles">
             <summary>
             Determines whether breadcrumb data is applied to static filed, .css, .js etc
