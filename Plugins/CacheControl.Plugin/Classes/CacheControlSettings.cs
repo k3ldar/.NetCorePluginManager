@@ -25,13 +25,15 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Collections.Generic;
 
+using SharedPluginFeatures;
+
 namespace CacheControl.Plugin
 {
     /// <summary>
     /// Dictionary of CacheControlRoute values loaded from settings using ISettingsProvider
     /// </summary>
-    public class CacheControlSettings
-    {
+    public class CacheControlSettings : IPluginSettings
+	{
         #region Constructors
 
         /// <summary>
@@ -42,9 +44,14 @@ namespace CacheControl.Plugin
             CacheControlRoutes = new Dictionary<string, CacheControlRoute>();
         }
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
+
+		/// <summary>
+		/// Name
+		/// </summary>
+		public string SettingsName => nameof(CacheControl);
 
         /// <summary>
         /// Indicates that caching is disabled or enabled.

@@ -33,6 +33,8 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+using SystemAdmin.Plugin.Classes.MenuItems;
+
 #pragma warning disable CS1591
 
 namespace SystemAdmin.Plugin
@@ -74,50 +76,87 @@ namespace SystemAdmin.Plugin
             CacheItem cache = _memoryCache.GetCache().Get(SystemAdminMainMenuCache);
 
             if (cache == null)
-            {
-                int uniqueId = 0;
+			{
+				int uniqueId = 0;
+				List<SystemAdminMainMenu> menuItems = _pluginClassesService.GetPluginClasses<SystemAdminMainMenu>();
 
-                //should loop through all child items, add to a parent (create if not found) and then finally sort all parent and parent menu items
+				uniqueId = BuildDefaultSystemAdminMenuItems(uniqueId, menuItems);
 
-                List<SystemAdminMainMenu> menuItems = _pluginClassesService.GetPluginClasses<SystemAdminMainMenu>();
-                menuItems.ForEach(mi => mi.UniqueId = ++uniqueId);
-                List<SystemAdminSubMenu> allSubMenuItems = _pluginClassesService.GetPluginClasses<SystemAdminSubMenu>();
+				_ = BuildSystemSettingsMenuItems(uniqueId, menuItems);
 
-                // get sub menu items
-                foreach (SystemAdminSubMenu menu in allSubMenuItems.Where(sm => sm.Enabled()).ToList())
-                {
-                    // get parent menu
-                    SystemAdminMainMenu parent = menuItems.FirstOrDefault(p => p.Name.Equals(menu.ParentMenuName()));
+				menuItems.Sort();
 
-                    if (parent == null)
-                    {
-                        parent = new SystemAdminMainMenu(menu.ParentMenuName(), ++uniqueId);
-                        menuItems.Add(parent);
-                        _memoryCache.GetCache().Add(String.Format(SystemAdminMainMenu, parent.UniqueId),
-                            new CacheItem(String.Format(SystemAdminMainMenu, parent.UniqueId), parent));
-                    }
+				cache = new CacheItem(SystemAdminMainMenuCache, menuItems);
+				_memoryCache.GetCache().Add(SystemAdminMainMenuCache, cache);
+			}
 
-                    menu.UniqueId = ++uniqueId;
-
-                    menu.ParentMenu = parent;
-                    parent.ChildMenuItems.Add(menu);
-
-                    _memoryCache.GetCache().Add(String.Format(SystemAdminSubMenu, menu.UniqueId),
-                        new CacheItem(String.Format(SystemAdminSubMenu, menu.UniqueId), menu));
-
-                    parent.ChildMenuItems.Sort();
-                }
-
-                menuItems.Sort();
-
-                cache = new CacheItem(SystemAdminMainMenuCache, menuItems);
-                _memoryCache.GetCache().Add(SystemAdminMainMenuCache, cache);
-            }
-
-            return (List<SystemAdminMainMenu>)cache.Value;
+			return (List<SystemAdminMainMenu>)cache.Value;
         }
 
-        public SystemAdminMainMenu GetSystemAdminMainMenu(in int id)
+		private int BuildDefaultSystemAdminMenuItems(int uniqueId, List<SystemAdminMainMenu> menuItems)
+		{
+			//should loop through all child items, add to a parent (create if not found) and then finally sort all parent and parent menu items
+
+			menuItems.ForEach(mi => mi.UniqueId = ++uniqueId);
+			List<SystemAdminSubMenu> allSubMenuItems = _pluginClassesService.GetPluginClasses<SystemAdminSubMenu>();
+
+			// get sub menu items
+			foreach (SystemAdminSubMenu menu in allSubMenuItems.Where(sm => sm.Enabled()).ToList())
+			{
+				// get parent menu
+				SystemAdminMainMenu parent = menuItems.FirstOrDefault(p => p.Name.Equals(menu.ParentMenuName()));
+
+				if (parent == null)
+				{
+					parent = new SystemAdminMainMenu(menu.ParentMenuName(), ++uniqueId);
+					menuItems.Add(parent);
+					_memoryCache.GetCache().Add(String.Format(SystemAdminMainMenu, parent.UniqueId),
+						new CacheItem(String.Format(SystemAdminMainMenu, parent.UniqueId), parent));
+				}
+
+				menu.UniqueId = ++uniqueId;
+
+				menu.ParentMenu = parent;
+				parent.ChildMenuItems.Add(menu);
+
+				_memoryCache.GetCache().Add(String.Format(SystemAdminSubMenu, menu.UniqueId),
+					new CacheItem(String.Format(SystemAdminSubMenu, menu.UniqueId), menu));
+
+				parent.ChildMenuItems.Sort();
+			}
+
+			return uniqueId;
+		}
+
+		private int BuildSystemSettingsMenuItems(int uniqueId, List<SystemAdminMainMenu> menuItems)
+		{
+			List<IPluginSettings> settings = _pluginClassesService.GetPluginClasses<IPluginSettings>();
+
+			if (settings.Count > 0)
+			{
+				SystemAdminMainMenu settingsParent = new SystemAdminMainMenu(Languages.LanguageStrings.Settings, ++uniqueId);
+				menuItems.Add(settingsParent);
+
+				_memoryCache.GetCache().Add(String.Format(SystemAdminMainMenu, settingsParent.UniqueId),
+					new CacheItem(String.Format(SystemAdminMainMenu, settingsParent.UniqueId), settingsParent));
+
+				foreach (IPluginSettings pluginSettings in settings)
+				{
+					SettingsMenuItem settingsMenuItem = new SettingsMenuItem(pluginSettings);
+					settingsMenuItem.UniqueId = ++uniqueId;
+					settingsParent.ChildMenuItems.Add(settingsMenuItem);
+
+					_memoryCache.GetCache().Add(String.Format(SystemAdminSubMenu, settingsMenuItem.UniqueId),
+						new CacheItem(String.Format(SystemAdminSubMenu, settingsMenuItem.UniqueId), settingsMenuItem));
+				}
+
+				settingsParent.ChildMenuItems.Sort();
+			}
+
+			return uniqueId;
+		}
+
+		public SystemAdminMainMenu GetSystemAdminMainMenu(in int id)
         {
             // get from memory if available
             CacheItem cacheItem = _memoryCache.GetCache().Get(String.Format(SystemAdminMainMenu, id));

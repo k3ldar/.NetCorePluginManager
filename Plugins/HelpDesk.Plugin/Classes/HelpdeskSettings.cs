@@ -23,15 +23,24 @@
  *  18/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using AppSettings;
+
+using SharedPluginFeatures;
 
 namespace HelpdeskPlugin.Classes
 {
     /// <summary>
     /// Settings that define how the HelpdeskPlugin module is configured.
     /// </summary>
-    public sealed class HelpdeskSettings
-    {
+    public sealed class HelpdeskSettings : IPluginSettings
+	{
+		/// <summary>
+		/// Settings name
+		/// </summary>
+		public string SettingsName => Controllers.HelpdeskController.Name;
+
         /// <summary>
         /// Determines if captcha text is displayed for user input.
         /// </summary>
@@ -39,9 +48,10 @@ namespace HelpdeskPlugin.Classes
         public bool ShowCaptchaText { get; set; }
 
         /// <summary>
-        /// Width of captcha text to be displayed for input, to verify the user is real.
+        /// Length of captcha text to be displayed for input, to verify the user is real.
         /// </summary>
         [SettingDefault(6)]
+		[SettingRange(4, 10)]
         public int CaptchaWordLength { get; set; }
 
         /// <summary>

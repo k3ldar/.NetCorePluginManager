@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
 
 using AspNetCore.PluginManager.Tests.Controllers;
 using AspNetCore.PluginManager.Tests.Shared;
@@ -37,6 +38,7 @@ using Middleware.Users;
 
 using SharedPluginFeatures;
 
+using SystemAdmin.Plugin.Classes.MenuItems;
 using SystemAdmin.Plugin.Controllers;
 using SystemAdmin.Plugin.Models;
 
@@ -839,7 +841,383 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
             Assert.AreEqual("Tag2", keywords[1]);
         }
 
-        private SystemAdminController CreateSystemAdminController(MockSettingsProvider settingsProvider = null,
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void Settings_SystemAdmin_Settings_ReturnsSelectedView_Success()
+		{
+			List<SystemAdminMainMenu> adminMenuItems = new List<SystemAdminMainMenu>();
+			adminMenuItems.Add(new MockSystemAdminMainMenu("settings", 123));
+			adminMenuItems[0].ChildMenuItems.Add(new SettingsMenuItem(new SystemAdmin.Plugin.SystemAdminSettings()));
+			adminMenuItems[0].ChildMenuItems[0].UniqueId = 23;
+			MockSystemAdminHelperService mockSystemAdminHelperService = new MockSystemAdminHelperService(adminMenuItems);
+			SystemAdminController sut = CreateSystemAdminController(null, mockSystemAdminHelperService);
+
+			ViewResult viewResult = sut.Settings(23) as ViewResult;
+			Assert.IsNotNull(viewResult);
+			Assert.IsNull(viewResult.ViewName);
+			Assert.IsNotNull(viewResult.Model);
+
+			SettingsViewModel viewModel = viewResult.Model as SettingsViewModel;
+			Assert.IsNotNull(viewModel);
+
+			Assert.AreEqual("SystemAdmin", viewModel.SettingsName);
+			Assert.AreEqual(23, viewModel.SettingId);
+			Assert.AreEqual(3, viewModel.Settings.Count);
+
+			Assert.AreEqual("GoogleMapApiKey", viewModel.Settings[0].Name);
+			Assert.AreEqual("", viewModel.Settings[0].Value);
+			Assert.AreEqual("String", viewModel.Settings[0].DataType);
+
+			Assert.AreEqual("ShowAppSettingsJson", viewModel.Settings[1].Name);
+			Assert.AreEqual("True", viewModel.Settings[1].Value);
+			Assert.AreEqual("Boolean", viewModel.Settings[1].DataType);
+
+			Assert.AreEqual("EnableFormattedText", viewModel.Settings[2].Name);
+			Assert.AreEqual("False", viewModel.Settings[2].Value);
+			Assert.AreEqual("Boolean", viewModel.Settings[2].DataType);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void Settings_Helpdesk_Settings_ReturnsSelectedView_Success()
+		{
+			List<SystemAdminMainMenu> adminMenuItems = new List<SystemAdminMainMenu>();
+			adminMenuItems.Add(new MockSystemAdminMainMenu("settings", 123));
+			adminMenuItems[0].ChildMenuItems.Add(new SettingsMenuItem(new HelpdeskPlugin.Classes.HelpdeskSettings()));
+			adminMenuItems[0].ChildMenuItems[0].UniqueId = 29;
+			MockSystemAdminHelperService mockSystemAdminHelperService = new MockSystemAdminHelperService(adminMenuItems);
+			SystemAdminController sut = CreateSystemAdminController(null, mockSystemAdminHelperService);
+
+			ViewResult viewResult = sut.Settings(29) as ViewResult;
+			Assert.IsNotNull(viewResult);
+			Assert.IsNull(viewResult.ViewName);
+			Assert.IsNotNull(viewResult.Model);
+
+			SettingsViewModel viewModel = viewResult.Model as SettingsViewModel;
+			Assert.IsNotNull(viewModel);
+
+			Assert.AreEqual("Helpdesk", viewModel.SettingsName);
+			Assert.AreEqual(29, viewModel.SettingId);
+			Assert.AreEqual(5, viewModel.Settings.Count);
+
+			Assert.AreEqual("ShowCaptchaText", viewModel.Settings[0].Name);
+			Assert.AreEqual("True", viewModel.Settings[0].Value);
+			Assert.AreEqual("Boolean", viewModel.Settings[0].DataType);
+
+			Assert.AreEqual("CaptchaWordLength", viewModel.Settings[1].Name);
+			Assert.AreEqual("6", viewModel.Settings[1].Value);
+			Assert.AreEqual("Int32", viewModel.Settings[1].DataType);
+
+			Assert.AreEqual("ShowTickets", viewModel.Settings[2].Name);
+			Assert.AreEqual("True", viewModel.Settings[2].Value);
+			Assert.AreEqual("Boolean", viewModel.Settings[2].DataType);
+
+			Assert.AreEqual("ShowFaq", viewModel.Settings[3].Name);
+			Assert.AreEqual("True", viewModel.Settings[3].Value);
+			Assert.AreEqual("Boolean", viewModel.Settings[3].DataType);
+
+			Assert.AreEqual("ShowFeedback", viewModel.Settings[4].Name);
+			Assert.AreEqual("True", viewModel.Settings[4].Value);
+			Assert.AreEqual("Boolean", viewModel.Settings[4].DataType);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void Settings_Post_NullModel_RedirectsToIndex()
+		{
+			List<SystemAdminMainMenu> adminMenuItems = new List<SystemAdminMainMenu>();
+			adminMenuItems.Add(new MockSystemAdminMainMenu("settings", 123));
+			adminMenuItems[0].ChildMenuItems.Add(new SettingsMenuItem(new HelpdeskPlugin.Classes.HelpdeskSettings()));
+			adminMenuItems[0].ChildMenuItems[0].UniqueId = 29;
+			MockSystemAdminHelperService mockSystemAdminHelperService = new MockSystemAdminHelperService(adminMenuItems);
+			SystemAdminController sut = CreateSystemAdminController(null, mockSystemAdminHelperService);
+
+			RedirectToActionResult viewResult = sut.Settings(null) as RedirectToActionResult;
+			Assert.IsNotNull(viewResult);
+			Assert.AreEqual("Index", viewResult.ActionName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void Settings_Post_SettingsIdNotFound_RedirectsToIndex()
+		{
+			List<SystemAdminMainMenu> adminMenuItems = new List<SystemAdminMainMenu>();
+			adminMenuItems.Add(new MockSystemAdminMainMenu("settings", 123));
+			adminMenuItems[0].ChildMenuItems.Add(new SettingsMenuItem(new SystemAdmin.Plugin.SystemAdminSettings()));
+			adminMenuItems[0].ChildMenuItems[0].UniqueId = 23;
+			MockSystemAdminHelperService mockSystemAdminHelperService = new MockSystemAdminHelperService(adminMenuItems);
+			SystemAdminController sut = CreateSystemAdminController(null, mockSystemAdminHelperService);
+
+			ViewResult viewResult = sut.Settings(23) as ViewResult;
+
+			Assert.IsNotNull(viewResult);
+			Assert.IsNull(viewResult.ViewName);
+			Assert.IsNotNull(viewResult.Model);
+			SettingsViewModel viewModel = viewResult.Model as SettingsViewModel;
+			viewModel.SettingId = -98745;
+
+			RedirectToActionResult redirectResult = sut.Settings(viewModel) as RedirectToActionResult;
+			Assert.IsNotNull(redirectResult);
+			Assert.AreEqual("Index", redirectResult.ActionName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void Settings_Post_InvalidSettingsItem_RedirectsToIndex()
+		{
+			List<SystemAdminMainMenu> adminMenuItems = new List<SystemAdminMainMenu>();
+			adminMenuItems.Add(new MockSystemAdminMainMenu("settings", 123));
+			adminMenuItems[0].ChildMenuItems.Add(new SettingsMenuItem(new SystemAdmin.Plugin.SystemAdminSettings()));
+			adminMenuItems[0].ChildMenuItems[0].UniqueId = 23;
+			MockSystemAdminHelperService mockSystemAdminHelperService = new MockSystemAdminHelperService(adminMenuItems);
+			SystemAdminController sut = CreateSystemAdminController(null, mockSystemAdminHelperService);
+
+			ViewResult viewResult = sut.Settings(23) as ViewResult;
+			adminMenuItems[0].ChildMenuItems[0] = new GCAdminMenu();
+			adminMenuItems[0].ChildMenuItems[0].UniqueId = 23;
+
+			Assert.IsNotNull(viewResult);
+			Assert.IsNull(viewResult.ViewName);
+			Assert.IsNotNull(viewResult.Model);
+			SettingsViewModel viewModel = viewResult.Model as SettingsViewModel;
+
+			RedirectToActionResult redirectResult = sut.Settings(viewModel) as RedirectToActionResult;
+			Assert.IsNotNull(redirectResult);
+			Assert.AreEqual("Index", redirectResult.ActionName);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void Settings_Post_PropertyNamesDoNotMatch_ReturnsModelStateError()
+		{
+			List<SystemAdminMainMenu> adminMenuItems = new List<SystemAdminMainMenu>();
+			adminMenuItems.Add(new MockSystemAdminMainMenu("settings", 123));
+			adminMenuItems[0].ChildMenuItems.Add(new SettingsMenuItem(new SystemAdmin.Plugin.SystemAdminSettings()));
+			adminMenuItems[0].ChildMenuItems[0].UniqueId = 23;
+			MockSystemAdminHelperService mockSystemAdminHelperService = new MockSystemAdminHelperService(adminMenuItems);
+			SystemAdminController sut = CreateSystemAdminController(null, mockSystemAdminHelperService);
+
+			ViewResult viewResult = sut.Settings(23) as ViewResult;
+
+			Assert.IsNotNull(viewResult);
+			Assert.IsNull(viewResult.ViewName);
+			Assert.IsNotNull(viewResult.Model);
+			SettingsViewModel viewModel = viewResult.Model as SettingsViewModel;
+
+			viewModel.Settings[0].Name += "A";
+			viewModel.Settings[1].Name += "A";
+			viewModel.Settings[2].Name += "A";
+
+			JsonResult postViewResult = sut.Settings(viewModel) as JsonResult;
+			Assert.IsNotNull(postViewResult);
+
+			JsonResponseModel jsonResponseModel = postViewResult.Value as JsonResponseModel;
+			Assert.IsNotNull(jsonResponseModel);
+			Assert.IsFalse(jsonResponseModel.Success);
+
+			List<string> errors = JsonSerializer.Deserialize<List<string>>(jsonResponseModel.ResponseData);
+
+			Assert.AreEqual(3, errors.Count);
+			Assert.AreEqual("Property GoogleMapApiKeyA was not found", errors[0]);
+			Assert.AreEqual("Property ShowAppSettingsJsonA was not found", errors[1]);
+			Assert.AreEqual("Property EnableFormattedTextA was not found", errors[2]);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void Settings_Post_SystemSettings_ValidateSettingsAgainstAppSettings_ErrorsIdentified()
+		{
+			List<SystemAdminMainMenu> adminMenuItems = new List<SystemAdminMainMenu>();
+			adminMenuItems.Add(new MockSystemAdminMainMenu("settings", 123));
+			adminMenuItems[0].ChildMenuItems.Add(new SettingsMenuItem(new SystemAdmin.Plugin.SystemAdminSettings()));
+			adminMenuItems[0].ChildMenuItems[0].UniqueId = 23;
+			MockSystemAdminHelperService mockSystemAdminHelperService = new MockSystemAdminHelperService(adminMenuItems);
+			SystemAdminController sut = CreateSystemAdminController(null, mockSystemAdminHelperService);
+
+			ViewResult viewResult = sut.Settings(23) as ViewResult;
+
+			Assert.IsNotNull(viewResult);
+			Assert.IsNull(viewResult.ViewName);
+			Assert.IsNotNull(viewResult.Model);
+			SettingsViewModel viewModel = viewResult.Model as SettingsViewModel;
+			viewModel.Settings[0].Value = "short api";
+
+			JsonResult postViewResult = sut.Settings(viewModel) as JsonResult;
+			Assert.IsNotNull(postViewResult);
+
+			JsonResponseModel jsonResponseModel = postViewResult.Value as JsonResponseModel;
+			Assert.IsNotNull(jsonResponseModel);
+			Assert.IsFalse(jsonResponseModel.Success);
+			List<string> errors = JsonSerializer.Deserialize<List<string>>(jsonResponseModel.ResponseData);
+
+			Assert.AreEqual(1, errors.Count);
+			Assert.AreEqual("GoogleMapApiKey: Minimum length should be at least 15 characters long, is currently 9 characters", errors[0]);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void Settings_Post_SystemSettings_ValidateSettingsAgainstAppSettings_Success()
+		{
+			List<SystemAdminMainMenu> adminMenuItems = new List<SystemAdminMainMenu>();
+			adminMenuItems.Add(new MockSystemAdminMainMenu("settings", 123));
+			adminMenuItems[0].ChildMenuItems.Add(new SettingsMenuItem(new SystemAdmin.Plugin.SystemAdminSettings()));
+			adminMenuItems[0].ChildMenuItems[0].UniqueId = 23;
+			MockSystemAdminHelperService mockSystemAdminHelperService = new MockSystemAdminHelperService(adminMenuItems);
+			SystemAdminController sut = CreateSystemAdminController(null, mockSystemAdminHelperService);
+
+			ViewResult viewResult = sut.Settings(23) as ViewResult;
+
+			Assert.IsNotNull(viewResult);
+			Assert.IsNull(viewResult.ViewName);
+			Assert.IsNotNull(viewResult.Model);
+			SettingsViewModel viewModel = viewResult.Model as SettingsViewModel;
+			viewModel.Settings[0].Value = "short api asdfasdf";
+
+			JsonResult postViewResult = sut.Settings(viewModel) as JsonResult;
+			Assert.IsNotNull(postViewResult);
+
+			JsonResponseModel jsonResponseModel = postViewResult.Value as JsonResponseModel;
+			Assert.IsNotNull(jsonResponseModel);
+			Assert.IsTrue(jsonResponseModel.Success);
+			string growl = jsonResponseModel.ResponseData;
+			Assert.AreEqual("The settings have been updated", growl);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void Settings_Post_BadEggSettings_ValidateSettingsAgainstAppSettings_Success()
+		{
+			List<SystemAdminMainMenu> adminMenuItems = new List<SystemAdminMainMenu>();
+			adminMenuItems.Add(new MockSystemAdminMainMenu("settings", 123));
+			adminMenuItems[0].ChildMenuItems.Add(new SettingsMenuItem(new SystemAdmin.Plugin.SystemAdminSettings()));
+			adminMenuItems[0].ChildMenuItems[0].UniqueId = 23;
+			MockSystemAdminHelperService mockSystemAdminHelperService = new MockSystemAdminHelperService(adminMenuItems);
+			SystemAdminController sut = CreateSystemAdminController(null, mockSystemAdminHelperService);
+
+			ViewResult viewResult = sut.Settings(23) as ViewResult;
+
+			Assert.IsNotNull(viewResult);
+			Assert.IsNull(viewResult.ViewName);
+			Assert.IsNotNull(viewResult.Model);
+			SettingsViewModel viewModel = viewResult.Model as SettingsViewModel;
+
+			JsonResult postViewResult = sut.Settings(viewModel) as JsonResult;
+			Assert.IsNotNull(postViewResult);
+
+			JsonResponseModel jsonResponseModel = postViewResult.Value as JsonResponseModel;
+			Assert.IsNotNull(jsonResponseModel);
+			Assert.IsTrue(jsonResponseModel.Success);
+			string growl = jsonResponseModel.ResponseData;
+			Assert.AreEqual("The settings have been updated", growl);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void Settings_Post_InvalidBoolValue_ReturnsError()
+		{
+			List<SystemAdminMainMenu> adminMenuItems = new List<SystemAdminMainMenu>();
+			adminMenuItems.Add(new MockSystemAdminMainMenu("settings", 123));
+			adminMenuItems[0].ChildMenuItems.Add(new SettingsMenuItem(new SystemAdmin.Plugin.SystemAdminSettings()));
+			adminMenuItems[0].ChildMenuItems[0].UniqueId = 23;
+			MockSystemAdminHelperService mockSystemAdminHelperService = new MockSystemAdminHelperService(adminMenuItems);
+			SystemAdminController sut = CreateSystemAdminController(null, mockSystemAdminHelperService);
+
+			ViewResult viewResult = sut.Settings(23) as ViewResult;
+
+			Assert.IsNotNull(viewResult);
+			Assert.IsNull(viewResult.ViewName);
+			Assert.IsNotNull(viewResult.Model);
+			SettingsViewModel viewModel = viewResult.Model as SettingsViewModel;
+			viewModel.Settings[1].Value = "9874569874569874569874569874569874";
+
+			JsonResult postViewResult = sut.Settings(viewModel) as JsonResult;
+			Assert.IsNotNull(postViewResult);
+
+			JsonResponseModel jsonResponseModel = postViewResult.Value as JsonResponseModel;
+			Assert.IsNotNull(jsonResponseModel);
+			Assert.IsFalse(jsonResponseModel.Success);
+			Assert.AreEqual("[\"Property ShowAppSettingsJson does not contain a valid Boolean value\"]", jsonResponseModel.ResponseData);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void Settings_Post_InvalidInt32Value_ReturnsError()
+		{
+			List<SystemAdminMainMenu> adminMenuItems = new List<SystemAdminMainMenu>();
+			adminMenuItems.Add(new MockSystemAdminMainMenu("settings", 123));
+			adminMenuItems[0].ChildMenuItems.Add(new SettingsMenuItem(new HelpdeskPlugin.Classes.HelpdeskSettings()));
+			adminMenuItems[0].ChildMenuItems[0].UniqueId = 23;
+			MockSystemAdminHelperService mockSystemAdminHelperService = new MockSystemAdminHelperService(adminMenuItems);
+			SystemAdminController sut = CreateSystemAdminController(null, mockSystemAdminHelperService);
+
+			ViewResult viewResult = sut.Settings(23) as ViewResult;
+
+			Assert.IsNotNull(viewResult);
+			Assert.IsNull(viewResult.ViewName);
+			Assert.IsNotNull(viewResult.Model);
+			SettingsViewModel viewModel = viewResult.Model as SettingsViewModel;
+			viewModel.Settings[1].Value = "9874569874569874569874569874569874";
+
+			JsonResult postViewResult = sut.Settings(viewModel) as JsonResult;
+			Assert.IsNotNull(postViewResult);
+
+			JsonResponseModel jsonResponseModel = postViewResult.Value as JsonResponseModel;
+			Assert.IsNotNull(jsonResponseModel);
+			Assert.IsFalse(jsonResponseModel.Success);
+			Assert.AreEqual("[\"Property CaptchaWordLength does not contain a valid Int32 value\"]", jsonResponseModel.ResponseData);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void Settings_Post_InvalidInt64Value_ReturnsError()
+		{
+			List<SystemAdminMainMenu> adminMenuItems = new List<SystemAdminMainMenu>();
+			adminMenuItems.Add(new MockSystemAdminMainMenu("settings", 123));
+			adminMenuItems[0].ChildMenuItems.Add(new SettingsMenuItem(new BadEgg.Plugin.BadEggSettings()));
+			adminMenuItems[0].ChildMenuItems[0].UniqueId = 23;
+			MockSystemAdminHelperService mockSystemAdminHelperService = new MockSystemAdminHelperService(adminMenuItems);
+			SystemAdminController sut = CreateSystemAdminController(null, mockSystemAdminHelperService);
+
+			ViewResult viewResult = sut.Settings(23) as ViewResult;
+
+			Assert.IsNotNull(viewResult);
+			Assert.IsNull(viewResult.ViewName);
+			Assert.IsNotNull(viewResult.Model);
+			SettingsViewModel viewModel = viewResult.Model as SettingsViewModel;
+			viewModel.Settings[1].Value = "987456987456987456987456987456asdf12q349874";
+
+			JsonResult postViewResult = sut.Settings(viewModel) as JsonResult;
+			Assert.IsNotNull(postViewResult);
+
+			JsonResponseModel jsonResponseModel = postViewResult.Value as JsonResponseModel;
+			Assert.IsNotNull(jsonResponseModel);
+			Assert.IsFalse(jsonResponseModel.Success);
+			Assert.AreEqual("[\"Property ConnectionsPerSecond does not contain a valid UInt32 value\"]", jsonResponseModel.ResponseData);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void Settings_SettingsContainsStringArray_ReturnsAsValidProperty()
+		{
+			List<SystemAdminMainMenu> adminMenuItems = new List<SystemAdminMainMenu>();
+			adminMenuItems.Add(new MockSystemAdminMainMenu("settings", 123));
+			adminMenuItems[0].ChildMenuItems.Add(new SettingsMenuItem(new ErrorManager.Plugin.ErrorManagerSettings()));
+			adminMenuItems[0].ChildMenuItems[0].UniqueId = 23;
+			MockSystemAdminHelperService mockSystemAdminHelperService = new MockSystemAdminHelperService(adminMenuItems);
+			SystemAdminController sut = CreateSystemAdminController(null, mockSystemAdminHelperService);
+
+			ViewResult viewResult = sut.Settings(23) as ViewResult;
+
+			Assert.IsNotNull(viewResult);
+			Assert.IsNull(viewResult.ViewName);
+			Assert.IsNotNull(viewResult.Model);
+			SettingsViewModel viewModel = viewResult.Model as SettingsViewModel;
+			Assert.AreEqual(4, viewModel.Settings.Count);
+			Assert.AreEqual("String[]", viewModel.Settings[1].DataType);
+			Assert.AreEqual("", viewModel.Settings[1].Value);
+		}
+
+		private SystemAdminController CreateSystemAdminController(MockSettingsProvider settingsProvider = null,
             MockSystemAdminHelperService systemAdminHelperService = null,
             MockSeoProvider seoProvider = null,
             MockUserSearch userSearch = null,

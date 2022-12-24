@@ -112,9 +112,21 @@ namespace SystemAdmin.Plugin
                     policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameStaff)
                         .RequireClaim(Constants.ClaimNameUserId));
             });
-        }
 
-        public void BeforeConfigure(in IApplicationBuilder app)
+			services.AddAuthorization(options =>
+			{
+				options.AddPolicy(
+					Constants.PolicyNameManageSystemSettings,
+					policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameManageSystemSettings)
+						.RequireClaim(Constants.ClaimNameAdministrator)
+						.RequireClaim(Constants.ClaimNameStaff)
+						.RequireClaim(Constants.ClaimNameUsername)
+						.RequireClaim(Constants.ClaimNameUserId)
+						.RequireClaim(Constants.ClaimNameUserEmail));
+			});
+		}
+
+		public void BeforeConfigure(in IApplicationBuilder app)
         {
 			// from interface but unused in this context
 		}
@@ -144,6 +156,7 @@ namespace SystemAdmin.Plugin
                 Constants.ClaimNameAdministrator,
                 Constants.ClaimNameManageSeo,
                 Constants.ClaimNameUserPermissions,
+				Constants.ClaimNameManageSystemSettings,
             };
         }
 

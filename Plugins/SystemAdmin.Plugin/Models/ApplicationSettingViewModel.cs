@@ -13,34 +13,36 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Blog Plugin
+ *  Product:  SystemAdmin.Plugin
  *  
- *  File: BlogSettings.cs
+ *  File: ApplicationSettingViewModel.cs
  *
- *  Purpose:  Settings
+ *  Purpose:  View model for individual settings
  *
  *  Date        Name                Reason
- *  20/06/2019  Simon Carter        Initially Created
+ *  20/12/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-using SharedPluginFeatures;
-
-namespace Blog.Plugin
+namespace SystemAdmin.Plugin.Models
 {
-    /// <summary>
-    /// Settings that affect how the Blog.Plugin module is configured.
-    /// </summary>
-    public class BlogSettings : IPluginSettings
+	/// <summary>
+	/// View model for individual application settings
+	/// </summary>
+	public sealed class ApplicationSettingViewModel
 	{
 		/// <summary>
-		/// Settings name
+		/// Name of setting
 		/// </summary>
-		public string SettingsName => Controllers.BlogController.Name;
+		public string Name { get; set; }
 
 		/// <summary>
-		/// Determines whether people can leave comments or not.
+		/// Type of setting, string, int, bool etc
 		/// </summary>
-		public bool AllowComments { get; set; }
-    }
+		public string DataType { get; set; }
+
+		/// <summary>
+		/// Current value of setting
+		/// </summary>
+		public string Value { get; set; }
+	}
 }

@@ -116,6 +116,9 @@ namespace SystemAdmin.Plugin.Models
 
                 case Enums.SystemAdminMenuType.Chart:
                     return $"/SystemAdmin/Chart/{menu.UniqueId}";
+
+				case Enums.SystemAdminMenuType.Settings:
+					return $"/SystemAdmin/Settings/{menu.UniqueId}";
             }
 
             throw new InvalidOperationException();

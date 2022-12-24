@@ -25,14 +25,21 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using AppSettings;
 
+using SharedPluginFeatures;
+
 namespace Company.Plugin.Classes
 {
     /// <summary>
     /// Settings for the Company plugin module which determine which pages are visible or not.
     /// </summary>
-    public sealed class CompanySettings
-    {
-        #region Properties
+    public sealed class CompanySettings : IPluginSettings
+	{
+		#region Properties
+
+		/// <summary>
+		/// Name
+		/// </summary>
+		public string SettingsName => Controllers.CompanyController.Name;
 
         /// <summary>
         /// Show the about page, provide information about the website and/or company operating it.

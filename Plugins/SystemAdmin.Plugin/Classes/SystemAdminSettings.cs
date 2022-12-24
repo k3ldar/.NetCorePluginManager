@@ -23,15 +23,24 @@
  *  28/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using AppSettings;
+
+using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin
 {
     /// <summary>
     /// Contains settings and configuration data for displaying items within the SystemAdmin.Plugin module.
     /// </summary>
-    public class SystemAdminSettings
+    public class SystemAdminSettings : IPluginSettings
     {
+		/// <summary>
+		/// Settings name
+		/// </summary>
+		public string SettingsName => Controllers.SystemAdminController.Name;
+
         /// <summary>
         /// Google maps api key, should map data be viewed.
         /// 

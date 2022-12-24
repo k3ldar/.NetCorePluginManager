@@ -25,14 +25,21 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using AppSettings;
 
+using SharedPluginFeatures;
+
 namespace BadEgg.Plugin
 {
     /// <summary>
     /// Settings which affect how BadEgg is configured and used.
     /// </summary>
-    public class BadEggSettings
-    {
-        #region Properties
+    public class BadEggSettings : IPluginSettings
+	{
+		#region Properties
+
+		/// <summary>
+		/// Name of settings
+		/// </summary>
+		public string SettingsName => nameof(BadEgg);
 
         /// <summary>
         /// Number of minutes until a connection is timed out and removed from the list of monitored connections.
@@ -87,7 +94,7 @@ namespace BadEgg.Plugin
         /// sent within the header of the request, if it matches this code, no validation takes place
         /// </summary>
         /// <value>string</value>
-        [SettingString(0, 30)]
+        [SettingString(true, 0, 30)]
         public string IgnoreValidationHeaderCode { get; set; }
 
         #endregion Properties

@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
+using System.Text.Json;
 using System.IO;
 
 using AspNetCore.PluginManager.Tests.Shared;
@@ -37,8 +38,6 @@ using ImageManager.Plugin.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware.Interfaces;
-
-using Newtonsoft.Json;
 
 using PluginManager.Abstractions;
 
@@ -141,7 +140,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 
                 MockImageProvider mockImageProvider = MockImageProvider.CreateDefaultMockImageProviderWithSubgroupAndImage();
                 mockImageProvider.ThrowExceptionWhenAddingFile = true;
-                MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"Products\":" + JsonConvert.SerializeObject(settings) + "}");
+                MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"Products\":" + JsonSerializer.Serialize(settings) + "}");
 
                 ExtractImageResources(imagePath);
                 ImageUploadNotificationListener sut = CreateListener(mockImageProvider, testSettingsProvider);
@@ -349,7 +348,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
                 };
 
                 IImageProvider mockImageProvider = CreateDefaultImageProvider(imagePath);
-                MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"Products\":" + JsonConvert.SerializeObject(settings) + "}");
+                MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"Products\":" + JsonSerializer.Serialize(settings) + "}");
 
                 ExtractImageResources(imagePath);
                 ImageUploadNotificationListener sut = CreateListener(mockImageProvider, testSettingsProvider);
@@ -395,7 +394,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
                 };
 
                 IImageProvider mockImageProvider = CreateDefaultImageProvider(imagePath);
-                MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"Products\":" + JsonConvert.SerializeObject(settings) + "}");
+                MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"Products\":" + JsonSerializer.Serialize(settings) + "}");
 
                 ExtractImageResources(imagePath);
                 ImageUploadNotificationListener sut = CreateListener(mockImageProvider, testSettingsProvider);
@@ -437,7 +436,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
                 };
 
                 IImageProvider mockImageProvider = CreateDefaultImageProvider(imagePath);
-                MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"Products\":" + JsonConvert.SerializeObject(settings) + "}");
+                MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"Products\":" + JsonSerializer.Serialize(settings) + "}");
 
                 ExtractImageResources(imagePath);
                 ImageUploadNotificationListener sut = CreateListener(mockImageProvider, testSettingsProvider);

@@ -13,34 +13,29 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Blog Plugin
+ *  Product:  SharedPluginFeatues
  *  
- *  File: BlogSettings.cs
+ *  File: IPluginSettings.cs
  *
- *  Purpose:  Settings
+ *  Purpose:  IPluginSettings interface for managing plugin settings
  *
  *  Date        Name                Reason
- *  20/06/2019  Simon Carter        Initially Created
+ *  18/12/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-using SharedPluginFeatures;
+using System;
 
-namespace Blog.Plugin
+namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Settings that affect how the Blog.Plugin module is configured.
-    /// </summary>
-    public class BlogSettings : IPluginSettings
+	/// <summary>
+	/// Interface used by settings for individual plugins
+	/// </summary>
+	public interface IPluginSettings
 	{
 		/// <summary>
-		/// Settings name
+		/// Name of setting
 		/// </summary>
-		public string SettingsName => Controllers.BlogController.Name;
-
-		/// <summary>
-		/// Determines whether people can leave comments or not.
-		/// </summary>
-		public bool AllowComments { get; set; }
-    }
+		string SettingsName { get; }
+	}
 }

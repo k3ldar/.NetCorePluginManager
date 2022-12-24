@@ -26,13 +26,15 @@
 
 using AppSettings;
 
+using SharedPluginFeatures;
+
 namespace DocumentationPlugin.Classes
 {
     /// <summary>
     /// Settings which affect how the Documentation Plugin is configured.
     /// </summary>
-    public sealed class DocumentationSettings
-    {
+    public sealed class DocumentationSettings : IPluginSettings
+	{
         /// <summary>
         /// Default path where documentation files are located.
         /// 
@@ -41,5 +43,10 @@ namespace DocumentationPlugin.Classes
         /// <value>string</value>
         [SettingDefault("%AppPath%\\Plugins")]
         public string Path { get; set; }
-    }
+
+		/// <summary>
+		/// Name
+		/// </summary>
+		public string SettingsName => Controllers.DocsController.Name;
+	}
 }

@@ -176,7 +176,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 
             List<string> claims = sut.GetClaims();
 
-            Assert.AreEqual(7, claims.Count);
+            Assert.AreEqual(8, claims.Count);
             Assert.AreEqual("StaffMember", claims[0]);
             Assert.AreEqual("Name", claims[1]);
             Assert.AreEqual("UserId", claims[2]);
@@ -184,7 +184,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
             Assert.AreEqual("Administrator", claims[4]);
             Assert.AreEqual("ManageSeo", claims[5]);
             Assert.AreEqual("UserPermissions", claims[6]);
-        }
+			Assert.AreEqual("SystemSettings", claims[7]);
+		}
 
         [TestMethod]
         [TestCategory(TestsCategoryName)]

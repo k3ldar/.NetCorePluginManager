@@ -112,6 +112,11 @@ namespace SharedPluginFeatures
             /// Data to be shown will be a chart
             /// </summary>
             Chart = 7,
+
+			/// <summary>
+			/// Contains settings for a plugin
+			/// </summary>
+			Settings = 8,
         }
 
         /// <summary>

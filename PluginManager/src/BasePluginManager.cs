@@ -533,7 +533,7 @@ namespace PluginManager
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns>List&lt;Type&gt;</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Mustn't allow a single plugin load failure to prevent others loading")]
         public List<Type> PluginGetTypesWithAttribute<T>()
         {
             List<Type> Result = new List<Type>();

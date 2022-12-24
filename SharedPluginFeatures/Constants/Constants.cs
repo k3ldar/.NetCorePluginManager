@@ -452,10 +452,15 @@ namespace SharedPluginFeatures
         /// </summary>
         public const string W3CDateFormat = "yyyy-MM-ddTHH:mm:ss.fffffffzzz";
 
-        /// <summary>
-        /// Name of Policy for creating blogs
-        /// </summary>
-        public const string PolicyNameBlogCreate = "BlogCreate";
+		/// <summary>
+		/// Name of policy for system settings
+		/// </summary>
+		public const string PolicyNameManageSystemSettings = "SystemSettings";
+
+		/// <summary>
+		/// Name of Policy for creating blogs
+		/// </summary>
+		public const string PolicyNameBlogCreate = "BlogCreate";
 
         /// <summary>
         /// Name of Policy for responding to blogs
@@ -520,10 +525,15 @@ namespace SharedPluginFeatures
         /// </summary>
         public const string ClaimNameAdministrator = "Administrator";
 
-        /// <summary>
-        /// Claim name for staff members
-        /// </summary>
-        public const string ClaimNameStaff = "StaffMember";
+		/// <summary>
+		/// Claim name for managing system settings
+		/// </summary>
+		public const string ClaimNameManageSystemSettings = "SystemSettings";
+
+		/// <summary>
+		/// Claim name for staff members
+		/// </summary>
+		public const string ClaimNameStaff = "StaffMember";
 
         /// <summary>
         /// Name of claim for managing Seo data
