@@ -38,7 +38,7 @@ namespace ProductPlugin
 		/// <summary>
 		/// Settings name
 		/// </summary>
-		public string SettingsName => Controllers.ProductController.Name;
+		public string SettingsName => "Products";
 
         /// <summary>
         /// Number of products to display on each page.

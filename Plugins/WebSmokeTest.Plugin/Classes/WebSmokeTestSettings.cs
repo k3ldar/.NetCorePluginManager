@@ -34,9 +34,14 @@ namespace WebSmokeTest.Plugin
     /// <summary>
     /// Settings which affect how WebSmokeTest data is served.
     /// </summary>
-    public class WebSmokeTestSettings
+    public class WebSmokeTestSettings : IPluginSettings
     {
-        #region Properties
+		#region Properties
+
+		/// <summary>
+		/// Name
+		/// </summary>
+		public string SettingsName => nameof(WebSmokeTest);
 
         /// <summary>
         /// Delimited list of file extensions to ignore

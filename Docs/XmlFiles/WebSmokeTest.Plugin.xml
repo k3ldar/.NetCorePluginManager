@@ -44,6 +44,11 @@
             Settings which affect how WebSmokeTest data is served.
             </summary>
         </member>
+        <member name="P:WebSmokeTest.Plugin.WebSmokeTestSettings.SettingsName">
+            <summary>
+            Name
+            </summary>
+        </member>
         <member name="P:WebSmokeTest.Plugin.WebSmokeTestSettings.StaticFileExtensions">
             <summary>
             Delimited list of file extensions to ignore

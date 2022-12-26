@@ -37,7 +37,7 @@ namespace UserAccount.Plugin
 		/// <summary>
 		/// Name
 		/// </summary>
-		public string SettingsName => Controllers.AccountController.Name;
+		public string SettingsName => "UserAccount";
 
 		/// <summary>
 		/// Determines whether orders are shown within the website.

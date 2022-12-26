@@ -63,6 +63,11 @@
             Default constructor
             </summary>
         </member>
+        <member name="P:Subdomain.Plugin.SubdomainSettings.SettingsName">
+            <summary>
+            Name
+            </summary>
+        </member>
         <member name="P:Subdomain.Plugin.SubdomainSettings.Subdomains">
             <summary>
             Dictionary of subdomain settings for each individual subdomain

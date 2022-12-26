@@ -34,7 +34,7 @@ namespace Subdomain.Plugin
     /// <summary>
     /// Settings for all subdomains using the <seealso cref="SubdomainAttribute"/>
     /// </summary>
-    public class SubdomainSettings
+    public class SubdomainSettings : IPluginSettings
     {
         #region Constructors
 
@@ -46,9 +46,14 @@ namespace Subdomain.Plugin
             Subdomains = new Dictionary<string, SubdomainSetting>();
         }
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
+
+		/// <summary>
+		/// Name
+		/// </summary>
+		public string SettingsName => nameof(SubdomainSettings);
 
         /// <summary>
         /// Dictionary of subdomain settings for each individual subdomain

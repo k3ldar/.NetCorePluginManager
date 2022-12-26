@@ -37,7 +37,7 @@ namespace ShoppingCartPlugin.Classes
 		/// <summary>
 		/// Name
 		/// </summary>
-		public string SettingsName => Controllers.CartController.Name;
+		public string SettingsName => Constants.ShoppingCart;
 
         /// <summary>
         /// Default currency to be used.

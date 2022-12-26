@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Text.Json;
 
 using AspNetCore.PluginManager.Tests.Controllers;
@@ -922,7 +923,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 			SettingsViewModel viewModel = viewResult.Model as SettingsViewModel;
 			Assert.IsNotNull(viewModel);
 
-			Assert.AreEqual("Helpdesk", viewModel.SettingsName);
+			Assert.AreEqual("HelpdeskSettings", viewModel.SettingsName);
 			Assert.AreEqual(29, viewModel.SettingId);
 			Assert.AreEqual(5, viewModel.Settings.Count);
 
@@ -1240,7 +1241,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 			SettingsViewModel viewModel = viewResult.Model as SettingsViewModel;
 			Assert.AreEqual(4, viewModel.Settings.Count);
 			Assert.AreEqual("String[]", viewModel.Settings[1].DataType);
-			Assert.AreEqual("", viewModel.Settings[1].Value);
+			Assert.AreEqual(603, viewModel.Settings[1].Value.Length);
 		}
 
 		[TestMethod]
@@ -1263,6 +1264,39 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 			Assert.AreEqual(13, viewModel.Settings.Count);
 			Assert.AreEqual("FacebookSecret", viewModel.Settings[12].Name);
 			Assert.AreEqual("%FacebookSecret%", viewModel.Settings[12].Value);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void Settings_Post_WebSmokeTestSettings_UpdateJson_Success()
+		{
+			MockPluginManagerConfiguration mockPluginManagerConfiguration = new MockPluginManagerConfiguration();
+
+			List<SystemAdminMainMenu> adminMenuItems = new List<SystemAdminMainMenu>();
+			adminMenuItems.Add(new MockSystemAdminMainMenu("settings", 123));
+			adminMenuItems[0].ChildMenuItems.Add(new SettingsMenuItem(new WebSmokeTest.Plugin.WebSmokeTestSettings()));
+			adminMenuItems[0].ChildMenuItems[0].UniqueId = 23;
+			MockSystemAdminHelperService mockSystemAdminHelperService = new MockSystemAdminHelperService(adminMenuItems);
+			SystemAdminController sut = CreateSystemAdminController(null, mockSystemAdminHelperService, 
+				null, null, null, mockPluginManagerConfiguration);
+
+			ViewResult viewResult = sut.Settings(23) as ViewResult;
+
+			Assert.IsNotNull(viewResult);
+			Assert.IsNull(viewResult.ViewName);
+			Assert.IsNotNull(viewResult.Model);
+			SettingsViewModel viewModel = viewResult.Model as SettingsViewModel;
+			viewModel.Settings[2].Value = "[\"NewValue1\",\"NewValue2\",\"NewValue3\"]";
+			JsonResult postViewResult = sut.Settings(viewModel) as JsonResult;
+			Assert.IsNotNull(postViewResult);
+
+			JsonResponseModel jsonResponseModel = postViewResult.Value as JsonResponseModel;
+			Assert.IsNotNull(jsonResponseModel);
+			Assert.IsTrue(jsonResponseModel.Success);
+			Assert.AreEqual("The settings have been updated", jsonResponseModel.ResponseData);
+
+			string fileContents = System.IO.File.ReadAllText(mockPluginManagerConfiguration.ConfigurationFile);
+			Assert.IsTrue(fileContents.Contains("\"SiteId\": [\r\n      \"NewValue1\",\r\n      \"NewValue2\",\r\n      \"NewValue3\"\r\n    ],"));
 		}
 
 		private SystemAdminController CreateSystemAdminController(MockSettingsProvider settingsProvider = null,

@@ -37,7 +37,7 @@ namespace SearchPlugin
 		/// <summary>
 		/// Settings name
 		/// </summary>
-		public string SettingsName => Controllers.SearchController.Name;
+		public string SettingsName => nameof(SearchPlugin);
 
         /// <summary>
         /// Maximum number of attempts to search before the user is prevented from logging in for several minutes.

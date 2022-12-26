@@ -39,7 +39,7 @@ namespace Company.Plugin.Classes
 		/// <summary>
 		/// Name
 		/// </summary>
-		public string SettingsName => Controllers.CompanyController.Name;
+		public string SettingsName => nameof(CompanySettings);
 
         /// <summary>
         /// Show the about page, provide information about the website and/or company operating it.

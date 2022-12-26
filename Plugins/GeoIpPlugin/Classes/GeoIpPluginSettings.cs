@@ -32,7 +32,7 @@ namespace GeoIp.Plugin
     /// <summary>
     /// Settings to determine how GeoIp.Plugin module is configured.
     /// </summary>
-    public class GeoIpPluginSettings
+    public class GeoIpPluginSettings : IPluginSettings
     {
         #region Constructors
 
@@ -44,15 +44,20 @@ namespace GeoIp.Plugin
             IpStack = new IpStackSettings();
         }
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Webnet77CSVData.  The filename and path for Webnet77 Ip Address data held in CSV format.
-        /// </summary>
-        /// <value>string</value>
-        public string Webnet77CSVDataPath { get; set; }
+		/// <summary>
+		/// Name of settings
+		/// </summary>
+		public string SettingsName => "GeoIpPluginConfiguration";
+
+		/// <summary>
+		/// Webnet77CSVData.  The filename and path for Webnet77 Ip Address data held in CSV format.
+		/// </summary>
+		/// <value>string</value>
+		public string Webnet77CSVDataPath { get; set; }
 
         /// <summary>
         /// Automatically downloads webnet 77 data if true

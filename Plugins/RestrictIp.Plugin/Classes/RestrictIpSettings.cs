@@ -52,7 +52,7 @@ namespace RestrictIp.Plugin
 		/// <summary>
 		/// Name
 		/// </summary>
-		public string SettingsName => nameof(RestrictIp);
+		public string SettingsName => "RestrictedIpRoutes.Plugin";
 
         /// <summary>
         /// Determines whether the middleware router is disabled or not.

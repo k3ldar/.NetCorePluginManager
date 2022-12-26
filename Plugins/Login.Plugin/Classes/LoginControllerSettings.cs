@@ -39,7 +39,7 @@ namespace LoginPlugin
 		/// <summary>
 		/// Settings name
 		/// </summary>
-		public string SettingsName => Controllers.LoginController.Name;
+		public string SettingsName => nameof(LoginPlugin);
 
         /// <summary>
         /// Maximum number of attempts to login before the user is prevented from logging in for several minutes.

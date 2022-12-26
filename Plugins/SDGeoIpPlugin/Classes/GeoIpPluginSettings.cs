@@ -32,14 +32,19 @@ namespace SieraDeltaGeoIp.Plugin
     /// <summary>
     /// Contains GeoIp settings that are used to connect to MySql, MSSql or Firebird.
     /// </summary>
-    public class GeoIpPluginSettings
+    public class GeoIpPluginSettings : IPluginSettings
     {
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Determines whether all Geo Ip data is cached in memory or not.
-        /// </summary>
-        public bool CacheAllData { get; set; }
+		/// <summary>
+		/// Name
+		/// </summary>
+		public string SettingsName => "SieraDeltaGeoIpPluginConfiguration";
+
+		/// <summary>
+		/// Determines whether all Geo Ip data is cached in memory or not.
+		/// </summary>
+		public bool CacheAllData { get; set; }
 
         /// <summary>
         /// Database connection string, this can also point to a file that contains the connection string.

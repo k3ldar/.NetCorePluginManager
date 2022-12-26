@@ -36,7 +36,7 @@ namespace Blog.Plugin
 		/// <summary>
 		/// Settings name
 		/// </summary>
-		public string SettingsName => Controllers.BlogController.Name;
+		public string SettingsName => nameof(BlogSettings);
 
 		/// <summary>
 		/// Determines whether people can leave comments or not.

@@ -45,9 +45,11 @@ using SharedPluginFeatures;
 using SystemAdmin.Plugin.Classes.MenuItems;
 using SystemAdmin.Plugin.Models;
 using System.Dynamic;
+using System.Text.Encodings.Web;
 
 
-#pragma warning disable CS1591
+
+#pragma warning disable CS1591, IDE0008
 
 namespace SystemAdmin.Plugin.Controllers
 {
@@ -96,20 +98,7 @@ namespace SystemAdmin.Plugin.Controllers
 
 			if (errors.Count == 0)
 			{
-				string json = System.IO.File.ReadAllText(_pluginManagerConfiguration.ConfigurationFile);
-				//JsonSerializerSettings jsonSettings = new JsonSerializerSettings();
-				//jsonSettings.Converters.Add(new ExpandoObjectConverter());
-				//jsonSettings.Converters.Add(new StringEnumConverter());
-				//dynamic config = Json.DeserializeObject<ExpandoObject>(json, jsonSettings);
-
-				var jsonData = JsonSerializer.Deserialize<Dictionary<string, object>>(json);
-
-				ConfigurationBuilder builder = new ConfigurationBuilder();
-				IConfigurationBuilder configBuilder = builder.SetBasePath(Path.GetDirectoryName(_pluginManagerConfiguration.ConfigurationFile));
-				configBuilder.AddJsonFile(_pluginManagerConfiguration.ConfigurationFile);
-				IConfigurationRoot config = builder.Build();
-
-				//configBuilder.Sources
+				SaveUpdatedSettingsToAppSettings(baseType);
 
 				return new JsonResult(new JsonResponseModel(Languages.LanguageStrings.SettingsUpdated));
 			}
@@ -122,6 +111,24 @@ namespace SystemAdmin.Plugin.Controllers
 		#endregion Controller Action Methods
 
 		#region Private Methods
+
+		private void SaveUpdatedSettingsToAppSettings(SettingsMenuItem baseType)
+		{
+			string json = System.IO.File.ReadAllText(_pluginManagerConfiguration.ConfigurationFile);
+
+			var jsonData = JsonSerializer.Deserialize<Dictionary<string, object>>(json);
+			JsonSerializerOptions options = new JsonSerializerOptions()
+			{
+				WriteIndented = true,
+				IgnoreReadOnlyProperties = true,
+				Encoder = JavaScriptEncoder.Create(new TextEncoderSettings(System.Text.Unicode.UnicodeRanges.All))
+			};
+
+			object newSettings = baseType.PluginSettings;
+			jsonData[baseType.PluginSettings.SettingsName] = newSettings;
+
+			System.IO.File.WriteAllText(_pluginManagerConfiguration.ConfigurationFile, JsonSerializer.Serialize(jsonData, options));
+		}
 
 		private static void ValidateIncomingProperties(SettingsViewModel model, SettingsMenuItem baseType, List<string> errors)
 		{
@@ -221,6 +228,23 @@ namespace SystemAdmin.Plugin.Controllers
 						errors.Add($"Property {modelProperty.Name} does not contain a valid UInt64 value");
 
 					break;
+
+				case "Decimal":
+
+					if (Decimal.TryParse(modelProperty.Value, out decimal decimalValue))
+						property.SetValue(baseType.PluginSettings, decimalValue, null);
+					else
+						errors.Add($"Property {modelProperty.Name} does not contain a valid Decimal value");
+
+					break;
+
+				default:
+
+					Type settingsType = property.PropertyType;
+					var propValue = JsonSerializer.Deserialize(modelProperty.Value, property.PropertyType);
+					property.SetValue(baseType.PluginSettings, propValue, null);
+
+					break;
 			}
 		}
 
@@ -241,10 +265,8 @@ namespace SystemAdmin.Plugin.Controllers
 			configBuilder.AddJsonFile(jsonFile);
 			IConfigurationRoot config = builder.Build();
 
-#pragma warning disable IDE0008 // Use explicit type
 			Type settingsType = baseType.PluginSettings.GetType();
 			var test = Activator.CreateInstance(settingsType, _pluginClassesService.GetParameterInstances(settingsType));
-#pragma warning restore IDE0008 // Use explicit type
 
 			config.GetSection(baseType.Name()).Bind(test);
 
@@ -256,6 +278,7 @@ namespace SystemAdmin.Plugin.Controllers
 
 				switch (property.PropertyType.Name)
 				{
+					case "Decimal":
 					case "String":
 					case "Int32":
 					case "Int64":
@@ -295,6 +318,7 @@ namespace SystemAdmin.Plugin.Controllers
 
 						string json = JsonSerializer.Serialize(property.GetValue(test, null));
 						appSetting = CreatePropertySetting(json, property);
+						appSetting.DataType = "Json";
 
 						break;
 				}
@@ -332,4 +356,4 @@ namespace SystemAdmin.Plugin.Controllers
 	}
 }
 
-#pragma warning restore CS1591
+#pragma warning restore CS1591, IDE0008

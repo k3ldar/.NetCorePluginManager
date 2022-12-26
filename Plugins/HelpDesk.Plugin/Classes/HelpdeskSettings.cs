@@ -39,7 +39,7 @@ namespace HelpdeskPlugin.Classes
 		/// <summary>
 		/// Settings name
 		/// </summary>
-		public string SettingsName => Controllers.HelpdeskController.Name;
+		public string SettingsName => nameof(HelpdeskSettings);
 
         /// <summary>
         /// Determines if captcha text is displayed for user input.

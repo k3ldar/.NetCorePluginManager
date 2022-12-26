@@ -39,7 +39,7 @@ namespace Spider.Plugin
 		/// <summary>
 		/// Name
 		/// </summary>
-		public string SettingsName => Controllers.SpiderController.Name;
+		public string SettingsName => Constants.SpiderSettings;
 
         /// <summary>
         /// Determines whether static files are ignored when determining whether a connection is allowed to connect to the resource.

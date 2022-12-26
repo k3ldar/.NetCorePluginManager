@@ -39,7 +39,7 @@ namespace Breadcrumb.Plugin
 		/// <summary>
 		/// Name
 		/// </summary>
-		public string SettingsName => nameof(Breadcrumb);
+		public string SettingsName => Constants.PluginSettingBreadcrumb;
 
         /// <summary>
         /// Determines whether breadcrumb data is applied to static filed, .css, .js etc

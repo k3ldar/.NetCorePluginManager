@@ -66,6 +66,7 @@
 
                                         break;
 
+                                    case "Decimal":
                                     case "Int32":
                                     case "Int64":
                                     case "UInt32":
@@ -76,7 +77,7 @@
 
                                     default:
                                         @Html.Hidden($"Settings_{i}__Value", setting.Value)
-                                        <td>@setting.Value</td>
+                                        <td><textarea class="settingsInput" id="@settingValue" type="text">@setting.Value</textarea></td>
 
                                         break;
                                 }

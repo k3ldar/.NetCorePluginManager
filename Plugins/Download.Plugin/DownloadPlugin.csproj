@@ -43,6 +43,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Classes\SystemAdmin\**" />
+	  <Content Remove="Classes\SystemAdmin\**" />
+	  <EmbeddedResource Remove="Classes\SystemAdmin\**" />
+	  <None Remove="Classes\SystemAdmin\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Content Remove="Views\Download\Category.cshtml" />
 		<Content Remove="Views\Download\_LeftMenu.cshtml" />
 		<Content Remove="wwwroot\css\Downloads.css" />
@@ -66,10 +73,6 @@
 		<EmbeddedResource Include="wwwroot\images\Download\xlsfile.jpg" />
 		<EmbeddedResource Include="wwwroot\images\Download\zipfile.jpg" />
 		<EmbeddedResource Include="wwwroot\images\Error\Default404.png" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Classes\SystemAdmin\" />
 	</ItemGroup>
 
 	<ItemGroup>

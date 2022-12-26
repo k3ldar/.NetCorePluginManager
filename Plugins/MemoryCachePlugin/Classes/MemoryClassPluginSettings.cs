@@ -39,7 +39,7 @@ namespace MemoryCache.Plugin
 		/// <summary>
 		/// Name
 		/// </summary>
-		public string SettingsName => nameof(MemoryCache);
+		public string SettingsName => "MemoryCachePluginConfiguration";
 
         /// <summary>
         /// Default number of minutes the default cache stores items.

@@ -47,6 +47,6 @@ namespace DocumentationPlugin.Classes
 		/// <summary>
 		/// Name
 		/// </summary>
-		public string SettingsName => Controllers.DocsController.Name;
+		public string SettingsName => nameof(DocumentationSettings);
 	}
 }

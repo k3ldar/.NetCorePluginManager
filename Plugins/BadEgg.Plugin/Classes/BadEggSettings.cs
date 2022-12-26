@@ -39,7 +39,7 @@ namespace BadEgg.Plugin
 		/// <summary>
 		/// Name of settings
 		/// </summary>
-		public string SettingsName => nameof(BadEgg);
+		public string SettingsName => Constants.BadEggSettingsName;
 
         /// <summary>
         /// Number of minutes until a connection is timed out and removed from the list of monitored connections.

@@ -37,7 +37,7 @@ namespace ImageManager.Plugin.Classes
 		/// <summary>
 		/// Settings name
 		/// </summary>
-		public string SettingsName => Controllers.ImageManagerController.Name;
+		public string SettingsName => nameof(ImageManager);
 
         /// <summary>
         /// Root path of all images

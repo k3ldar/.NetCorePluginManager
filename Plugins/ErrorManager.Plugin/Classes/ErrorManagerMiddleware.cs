@@ -79,7 +79,7 @@ namespace ErrorManager.Plugin
 
             _errorCacheManager.ItemRemoved += ErrorCacheManager_ItemRemoved;
 
-            ErrorManagerSettings settings = settingsProvider.GetSettings<ErrorManagerSettings>("ErrorManager");
+            ErrorManagerSettings settings = settingsProvider.GetSettings<ErrorManagerSettings>(nameof(ErrorManager));
 
             _loginPage = settings.LoginPage;
         }

@@ -51,15 +51,15 @@ namespace CacheControl.Plugin
 		/// <summary>
 		/// Name
 		/// </summary>
-		public string SettingsName => nameof(CacheControl);
+		public string SettingsName => "CacheControlRoute";
 
-        /// <summary>
-        /// Indicates that caching is disabled or enabled.
-        /// 
-        /// If disabled then no values will be applied to any header.
-        /// </summary>
-        /// <value>bool</value>
-        public bool Disabled { get; set; }
+		/// <summary>
+		/// Indicates that caching is disabled or enabled.
+		/// 
+		/// If disabled then no values will be applied to any header.
+		/// </summary>
+		/// <value>bool</value>
+		public bool Disabled { get; set; }
 
         /// <summary>
         /// Dictionary of CacheControlRoute values, definining routes cache values.

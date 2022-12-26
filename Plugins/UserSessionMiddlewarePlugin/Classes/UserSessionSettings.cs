@@ -39,7 +39,7 @@ namespace UserSessionMiddleware.Plugin
 		/// <summary>
 		/// Name
 		/// </summary>
-		public string SettingsName => "User Session";
+		public string SettingsName => Constants.UserSessionConfiguration;
 
         /// <summary>
         /// Contains a delimited list of static file extensions
