@@ -257,7 +257,9 @@ namespace SharedPluginFeatures
         /// </summary>
         public const string SpiderSettings = "Spider.Plugin";
 
-
+		/// <summary>
+		/// Memory cache settings name
+		/// </summary>
 		public const string MemoryCacheSettings = "MemoryCachePluginConfiguration";
 
 		/// <summary>
