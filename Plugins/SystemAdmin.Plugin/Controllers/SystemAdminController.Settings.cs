@@ -238,7 +238,6 @@ namespace SystemAdmin.Plugin.Controllers
 
 				default:
 
-					Type settingsType = property.PropertyType;
 					var propValue = JsonSerializer.Deserialize(modelProperty.Value, property.PropertyType);
 					property.SetValue(baseType.PluginSettings, propValue, null);
 
@@ -268,6 +267,20 @@ namespace SystemAdmin.Plugin.Controllers
 
 			config.GetSection(baseType.Name()).Bind(test);
 
+			ProcessIndividualProperties(baseType, Result, test);
+
+			SystemAdminMainMenu selectedMenu = _systemAdminHelperService.GetSystemAdminMainMenu()
+				.First(sam => sam.Name.Equals(Languages.LanguageStrings.Settings, StringComparison.InvariantCultureIgnoreCase));
+
+			Result.Breadcrumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+			Result.Breadcrumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.Settings, $"/SystemAdmin/Index/{selectedMenu.UniqueId}/", false));
+			Result.Breadcrumbs.Add(new BreadcrumbItem(Result.SettingsName, $"/SystemAdmin/Setting/{Result.SettingId}/", false));
+
+			return Result;
+		}
+
+		private static void ProcessIndividualProperties(SettingsMenuItem baseType, SettingsViewModel Result, object test)
+		{
 			PropertyInfo[] allProperties = baseType.PluginSettings.GetType().GetProperties().Where(p => p.CanRead && p.CanWrite).ToArray();
 
 			foreach (PropertyInfo property in allProperties)
@@ -325,16 +338,8 @@ namespace SystemAdmin.Plugin.Controllers
 				if (appSetting != null)
 					Result.Settings.Add(appSetting);
 			}
-
-			SystemAdminMainMenu selectedMenu = _systemAdminHelperService.GetSystemAdminMainMenu()
-				.First(sam => sam.Name.Equals(Languages.LanguageStrings.Settings, StringComparison.InvariantCultureIgnoreCase));
-
-			Result.Breadcrumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
-			Result.Breadcrumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.Settings, $"/SystemAdmin/Index/{selectedMenu.UniqueId}/", false));
-			Result.Breadcrumbs.Add(new BreadcrumbItem(Result.SettingsName, $"/SystemAdmin/Setting/{Result.SettingId}/", false));
-
-			return Result;
 		}
+
 		private static object GetDefault(in Type type)
 		{
 			if (type == null || !type.IsValueType)

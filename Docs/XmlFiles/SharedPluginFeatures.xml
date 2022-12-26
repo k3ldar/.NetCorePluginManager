@@ -2535,6 +2535,11 @@
             Spider settings name
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.MemoryCacheSettings">
+            <summary>
+            Memory cache settings name
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.PluginNameUserSession">
             <summary>
             Name of the UserSessionMiddleware.Plugin module.

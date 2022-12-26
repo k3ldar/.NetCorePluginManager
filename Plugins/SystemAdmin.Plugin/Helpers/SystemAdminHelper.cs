@@ -93,6 +93,29 @@ namespace SystemAdmin.Plugin
 			return (List<SystemAdminMainMenu>)cache.Value;
 		}
 
+		public SystemAdminMainMenu GetSystemAdminMainMenu(in int id)
+		{
+			// get from memory if available
+			CacheItem cacheItem = _memoryCache.GetCache().Get(String.Format(SystemAdminMainMenu, id));
+
+			if (cacheItem != null)
+				return (SystemAdminMainMenu)cacheItem.Value;
+
+			// not in memory try looping all items
+			foreach (SystemAdminMainMenu menu in GetSystemAdminMainMenu())
+			{
+				if (menu.UniqueId == id)
+					return menu;
+			}
+
+			return null;
+		}
+
+		public SystemAdminMainMenu GetSystemAdminDefaultMainMenu()
+		{
+			return GetSystemAdminMainMenu()[0];
+		}
+
 		private int BuildDefaultSystemAdminMenuItems(int uniqueId, List<SystemAdminMainMenu> menuItems)
 		{
 			//should loop through all child items, add to a parent (create if not found) and then finally sort all parent and parent menu items
@@ -154,29 +177,6 @@ namespace SystemAdmin.Plugin
 			}
 
 			return uniqueId;
-		}
-
-		public SystemAdminMainMenu GetSystemAdminMainMenu(in int id)
-		{
-			// get from memory if available
-			CacheItem cacheItem = _memoryCache.GetCache().Get(String.Format(SystemAdminMainMenu, id));
-
-			if (cacheItem != null)
-				return (SystemAdminMainMenu)cacheItem.Value;
-
-			// not in memory try looping all items
-			foreach (SystemAdminMainMenu menu in GetSystemAdminMainMenu())
-			{
-				if (menu.UniqueId == id)
-					return menu;
-			}
-
-			return null;
-		}
-
-		public SystemAdminMainMenu GetSystemAdminDefaultMainMenu()
-		{
-			return GetSystemAdminMainMenu()[0];
 		}
 
 		public List<SystemAdminSubMenu> GetSubMenuItems()

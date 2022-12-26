@@ -141,10 +141,10 @@ namespace Breadcrumb.Plugin
                 {
                     bool found = false;
 
-                    if (_breadcrumbRoutes.ContainsKey(route))
+                    if (_breadcrumbRoutes.TryGetValue(route, out BreadcrumbRoute value))
                     {
                         context.Items.Add(Constants.Breadcrumbs,
-                            GetBreadCrumbs(route, _breadcrumbRoutes[route].Breadcrumbs, String.Empty));
+                            GetBreadCrumbs(route, value.Breadcrumbs, String.Empty));
                         found = true;
                     }
                     else
@@ -348,7 +348,7 @@ namespace Breadcrumb.Plugin
             }
         }
 
-        private void AddDefaultRoute(in string routeDescription, in List<BreadcrumbItem> breadcrumbs,
+        private static void AddDefaultRoute(in string routeDescription, in List<BreadcrumbItem> breadcrumbs,
             in bool hasParameters)
         {
             BreadcrumbRoute defaultRoute = new BreadcrumbRoute(routeDescription, hasParameters);
@@ -362,7 +362,7 @@ namespace Breadcrumb.Plugin
             _breadcrumbRoutes.Add(defaultRoute.Route.ToLower(), defaultRoute);
         }
 
-        private BreadcrumbAttribute GetParentRoute(ref Dictionary<string, BreadcrumbAttribute> allBreadcrumbs,
+        private static BreadcrumbAttribute GetParentRoute(ref Dictionary<string, BreadcrumbAttribute> allBreadcrumbs,
             in string route, out string parentRoute)
         {
             if (!String.IsNullOrEmpty(route))
