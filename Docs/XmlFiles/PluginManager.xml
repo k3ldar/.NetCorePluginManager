@@ -241,6 +241,14 @@
             <typeparam name="T"></typeparam>
             <returns>List&lt;Type&gt;</returns>
         </member>
+        <member name="M:PluginManager.BasePluginManager.GetParameterInstances(System.Type)">
+            <summary>
+            Retrieves an array of instantiated parameters for a classes constructor
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
         <member name="M:PluginManager.BasePluginManager.Dispose">
             <summary>
             IDisposable Dispose method
@@ -635,6 +643,13 @@
             <typeparam name="T">Class or interface to be searched for.</typeparam>
             <returns>List&lt;Type&gt;</returns>
         </member>
+        <member name="M:PluginManager.Abstractions.IPluginClassesService.GetParameterInstances(System.Type)">
+            <summary>
+            Retrieves an array of instantiated parameters for a class type
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
         <member name="T:PluginManager.Abstractions.IPluginHelperService">
             <summary>
             Provides a mechanism for the host application or other plugin modules to query the 
@@ -887,6 +902,26 @@
             </summary>
             <param name="listener">INotificationListener instance being unregistered.</param>
             <returns>bool</returns>
+        </member>
+        <member name="T:PluginManager.IPluginManagerConfiguration">
+            <summary>
+            Plugin manager configuration interface
+            </summary>
+        </member>
+        <member name="P:PluginManager.IPluginManagerConfiguration.CurrentPath">
+            <summary>
+            Current path used by plugin manager
+            </summary>
+        </member>
+        <member name="P:PluginManager.IPluginManagerConfiguration.ConfigFileName">
+            <summary>
+            Configuration file name used by plugin manager
+            </summary>
+        </member>
+        <member name="P:PluginManager.IPluginManagerConfiguration.ConfigurationFile">
+            <summary>
+            Configuration file used by plugin manager
+            </summary>
         </member>
         <member name="F:PluginManager.Internal.Constants.InvalidListener">
             <summary>

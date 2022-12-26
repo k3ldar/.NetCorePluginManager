@@ -1,0 +1,165 @@
+﻿@model SystemAdmin.Plugin.Models.SettingsViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Model.SeoTitle;
+}
+
+<link rel="stylesheet" href="~/css/SystemAdmin.css" asp-append-version="true" />
+
+<script src="/js/growl.js" type="text/javascript"></script>
+<link href="/css/growl.css" rel="stylesheet" type="text/css" />
+
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Settings: @Model.SettingsName</h2>
+    </div>
+</div>
+@using (Html.BeginForm(nameof(SystemAdmin.Plugin.Controllers.SystemAdminController.Settings), SystemAdmin.Plugin.Controllers.SystemAdminController.Name, FormMethod.Post))
+{
+    <div class="row rowSpace">
+        <div class="validation-summary-errors" data-valmsg-summary="true">
+            <ul id="errorList" style="padding: 10px 20px 10px 20px;">
+                <li style="display:none"></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row rowSpace">
+        <div class="col systemGrid">
+            @Html.HiddenFor(m => m.SettingId)
+            @Html.HiddenFor(m => m.SettingsName)
+            <table>
+                <thead>
+                    <tr>
+                        <th>@Localizer[nameof(Languages.LanguageStrings.Name)]</th>
+                        <th>@Localizer[nameof(Languages.LanguageStrings.SettingDataType)]</th>
+                        <th>@Localizer[nameof(Languages.LanguageStrings.Value)]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Settings.Count; i++)
+                    {
+                        SystemAdmin.Plugin.Models.ApplicationSettingViewModel setting = Model.Settings[i];
+
+                        <tr>
+                            @{
+                                string settingValue = $"Settings_{i}__Value";
+                                string isChecked = setting.Value.Equals(Boolean.TrueString) ? "checked" : "";
+                                @Html.Hidden($"Settings_{i}__Name", setting.Name)
+                                @Html.Hidden($"Settings_{i}__DataType", setting.DataType)
+
+                                <td>@setting.Name</td>
+                                <td>@setting.DataType</td>
+
+                                switch (setting.DataType)
+                                {
+                                    case "Boolean":
+                                        <td><input id="@settingValue" type="checkbox" @isChecked /></td>
+                                        break;
+
+                                    case "String":
+                                        <td><input class="settingsInput" id="@settingValue" type="text" value="@setting.Value" /></td>
+
+                                        break;
+
+                                    case "String[]":
+                                        <td><textarea class="settingsInput" id="@settingValue" type="text">@setting.Value.Replace("\t", "\r\n")</textarea></td>
+
+                                        break;
+
+                                    case "Decimal":
+                                    case "Int32":
+                                    case "Int64":
+                                    case "UInt32":
+                                    case "UInt64":
+                                        <td><input class="settingsInput" id="@settingValue" type="number" value="@setting.Value" /></td>
+
+                                        break;
+
+                                    default:
+                                        @Html.Hidden($"Settings_{i}__Value", setting.Value)
+                                        <td><textarea class="settingsInput" id="@settingValue" type="text">@setting.Value</textarea></td>
+
+                                        break;
+                                }
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row rowSpace">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button class="btn btn-primary" id="saveSettingsBtn" type="button">@Localizer[nameof(Languages.LanguageStrings.Save)]</button>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#saveSettingsBtn').on('click', function (e) {
+            e.preventDefault();
+            let valSum = document.getElementById("errorList");
+            valSum.innerHTML = "";
+
+            let itemCount = @Model.Settings.Count;
+            let items = [];
+            var settings = new Object();
+            settings.SettingId = document.getElementById('SettingId').value;
+
+            for (let i = 0; i < itemCount; i++) {
+                var setting = new Object();
+
+                setting.DataType = document.getElementById('Settings_' + i + '__DataType').value;
+                setting.Name = document.getElementById('Settings_' + i + '__Name').value;
+
+                if (setting.DataType === "Boolean") {
+                    setting.Value = document.getElementById('Settings_' + i + '__Value').checked.toString();
+                }
+                else {
+                    setting.Value = document.getElementById('Settings_' + i + '__Value').value;
+                }
+                items[i] = setting;
+            }
+
+            settings.Settings = items;
+
+
+
+            $.ajax({
+                url: '/SystemAdmin/Settings',
+                type: 'POST',
+                data: JSON.stringify(settings),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    let valSum = document.getElementById("errorList");
+                    valSum.innerHTML = "";
+
+                    if (response.success) {
+                        let growl = response.responseData;
+                        let header = '@Languages.LanguageStrings.UpdateSettings';
+                        if (growl !== '')
+                            $.growl.notice({ title: header, message: growl });
+                    }
+                    else {
+                        var responseData = JSON.parse(response.responseData);
+
+                        for (let i = 0; i < responseData.length; i++) {
+                            var newLi = document.createElement("li");
+                            newLi.innerText = responseData[i];
+                            valSum.appendChild(newLi);
+                        }
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    let valSum = document.getElementById("errorList");
+                    valSum.innerHTML = "";
+                    var newLi = document.createElement("li");
+                    newLi.innerText = "Unexpected error";
+                    valSum.appendChild(newLi);
+                }
+            });
+        });
+    });
+</script>

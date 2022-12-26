@@ -96,7 +96,7 @@ namespace BadEgg.Plugin.WebDefender
         /// </summary>
         private static readonly object _lockObject = new object();
 
-        private static Dictionary<string, IpConnectionInfo> _connectionInformation = new();
+        private static readonly Dictionary<string, IpConnectionInfo> _connectionInformation = new();
 
         private readonly HashSet<IpConnectionInfo> _connectionsAdd;
 

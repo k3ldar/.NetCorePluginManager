@@ -34,8 +34,13 @@ namespace UserSessionMiddleware.Plugin
     /// <summary>
     /// Contains settings that are required by the UserSessionMiddleware.Plugin module.
     /// </summary>
-    public sealed class UserSessionSettings
-    {
+    public sealed class UserSessionSettings : IPluginSettings
+	{
+		/// <summary>
+		/// Name
+		/// </summary>
+		public string SettingsName => Constants.UserSessionConfiguration;
+
         /// <summary>
         /// Contains a delimited list of static file extensions
         /// </summary>

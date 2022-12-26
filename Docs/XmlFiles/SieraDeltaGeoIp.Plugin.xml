@@ -14,6 +14,11 @@
             Contains GeoIp settings that are used to connect to MySql, MSSql or Firebird.
             </summary>
         </member>
+        <member name="P:SieraDeltaGeoIp.Plugin.GeoIpPluginSettings.SettingsName">
+            <summary>
+            Name
+            </summary>
+        </member>
         <member name="P:SieraDeltaGeoIp.Plugin.GeoIpPluginSettings.CacheAllData">
             <summary>
             Determines whether all Geo Ip data is cached in memory or not.

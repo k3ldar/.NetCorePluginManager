@@ -26,23 +26,30 @@
 
 using AppSettings;
 
+using SharedPluginFeatures;
+
 #pragma warning disable CS1591
 
 namespace ShoppingCartPlugin.Classes
 {
-    public sealed class SunTech24PaymentSettings : PaymentProviderSettings
-    {
-        [SettingString(false, 1, 100)]
-        public string MerchantPassword { get; set; }
+	public sealed class SunTech24PaymentSettings : PaymentProviderSettings, IPluginSettings
+	{
+		/// <summary>
+		/// Name
+		/// </summary>
+		public string SettingsName => "SunTech24";
 
-        [SettingString(false, 1, 100)]
-        public string MerchantId { get; set; }
+		[SettingString(false, 1, 100)]
+		public string MerchantPassword { get; set; }
 
-        public bool TestMode { get; set; }
+		[SettingString(false, 1, 100)]
+		public string MerchantId { get; set; }
 
-        [SettingRange(1, 500)]
-        public int DueDateDays { get; set; }
-    }
+		public bool TestMode { get; set; }
+
+		[SettingRange(1, 500)]
+		public int DueDateDays { get; set; }
+	}
 }
 
 #pragma warning restore CS1591

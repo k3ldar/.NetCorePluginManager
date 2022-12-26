@@ -26,20 +26,27 @@
 
 using AppSettings;
 
+using SharedPluginFeatures;
+
 namespace DocumentationPlugin.Classes
 {
-    /// <summary>
-    /// Settings which affect how the Documentation Plugin is configured.
-    /// </summary>
-    public sealed class DocumentationSettings
-    {
-        /// <summary>
-        /// Default path where documentation files are located.
-        /// 
-        /// Default value: %AppPath%\\Plugins
-        /// </summary>
-        /// <value>string</value>
-        [SettingDefault("%AppPath%\\Plugins")]
-        public string Path { get; set; }
-    }
+	/// <summary>
+	/// Settings which affect how the Documentation Plugin is configured.
+	/// </summary>
+	public sealed class DocumentationSettings : IPluginSettings
+	{
+		/// <summary>
+		/// Default path where documentation files are located.
+		/// 
+		/// Default value: %AppPath%\\Plugins
+		/// </summary>
+		/// <value>string</value>
+		[SettingDefault("%AppPath%\\Plugins")]
+		public string Path { get; set; }
+
+		/// <summary>
+		/// Name
+		/// </summary>
+		public string SettingsName => nameof(DocumentationSettings);
+	}
 }

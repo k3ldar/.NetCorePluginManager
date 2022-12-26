@@ -26,6 +26,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Reflection;
 
 using PluginManager.Abstractions;
 
@@ -67,6 +69,44 @@ namespace AspNetCore.PluginManager.Tests.Shared
             throw new NotImplementedException();
         }
 
-        public List<object> Items => _items;
+		public object[] GetParameterInstances(Type type)
+		{
+			{
+				if (type == null)
+					throw new ArgumentNullException(nameof(type));
+
+				List<object> Result = new List<object>();
+
+				//grab a list of all constructors in the class, start with the one with most parameters
+				List<ConstructorInfo> constructors = type.GetConstructors()
+					.Where(c => c.IsPublic && !c.IsStatic && c.GetParameters().Length > 0)
+					.OrderByDescending(c => c.GetParameters().Length)
+					.ToList();
+
+				foreach (ConstructorInfo constructor in constructors)
+				{
+					foreach (ParameterInfo param in constructor.GetParameters())
+					{
+						object paramClass = _items.FirstOrDefault(p => p.GetType().Equals(param.ParameterType));
+
+						// if we didn't find a specific param type for this constructor, try the next constructor
+						if (paramClass == null)
+						{
+							Result.Clear();
+							break;
+						}
+
+						Result.Add(paramClass);
+					}
+
+					if (Result.Count > 0)
+						return Result.ToArray();
+				}
+
+				return Result.ToArray();
+			}
+		}
+
+		public List<object> Items => _items;
     }
 }

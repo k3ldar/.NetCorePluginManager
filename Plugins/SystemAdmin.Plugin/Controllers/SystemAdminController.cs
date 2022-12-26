@@ -30,6 +30,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using Middleware;
 
+using PluginManager;
 using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
@@ -63,19 +64,24 @@ namespace SystemAdmin.Plugin.Controllers
         private readonly ISeoProvider _seoProvider;
         private readonly IUserSearch _userSearch;
         private readonly IClaimsProvider _claimsProvider;
+		private readonly IPluginClassesService _pluginClassesService;
+		private readonly IPluginManagerConfiguration _pluginManagerConfiguration;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public SystemAdminController(ISettingsProvider settingsProvider, ISystemAdminHelperService systemAdminHelperService,
-            ISeoProvider seoProvider, IUserSearch userSearch, IClaimsProvider claimsProvider)
+		public SystemAdminController(ISettingsProvider settingsProvider, ISystemAdminHelperService systemAdminHelperService,
+            ISeoProvider seoProvider, IUserSearch userSearch, IClaimsProvider claimsProvider, IPluginClassesService pluginClassesService,
+			IPluginManagerConfiguration pluginManagerConfiguration)
         {
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
             _systemAdminHelperService = systemAdminHelperService ?? throw new ArgumentNullException(nameof(systemAdminHelperService));
             _seoProvider = seoProvider ?? throw new ArgumentNullException(nameof(seoProvider));
             _userSearch = userSearch ?? throw new ArgumentNullException(nameof(userSearch));
             _claimsProvider = claimsProvider ?? throw new ArgumentNullException(nameof(claimsProvider));
+			_pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
+			_pluginManagerConfiguration = pluginManagerConfiguration ?? throw new ArgumentNullException(nameof(pluginManagerConfiguration));
         }
 
         #endregion Constructors

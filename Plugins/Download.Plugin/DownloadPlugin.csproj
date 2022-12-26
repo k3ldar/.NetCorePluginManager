@@ -43,6 +43,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Classes\SystemAdmin\**" />
+	  <Content Remove="Classes\SystemAdmin\**" />
+	  <EmbeddedResource Remove="Classes\SystemAdmin\**" />
+	  <None Remove="Classes\SystemAdmin\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Content Remove="Views\Download\Category.cshtml" />
 		<Content Remove="Views\Download\_LeftMenu.cshtml" />
 		<Content Remove="wwwroot\css\Downloads.css" />
@@ -69,11 +76,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Classes\SystemAdmin\" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="ApplicationSettings" Version="2.1.0" />
+		<PackageReference Include="ApplicationSettings" Version="2.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -51,7 +51,7 @@
 	</PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ApplicationSettings" Version="2.1.0" />
+    <PackageReference Include="ApplicationSettings" Version="2.2.0" />
 	<PackageReference Include="SC.Shared.Library.Core" Version="3.8.0" />
   </ItemGroup>
 

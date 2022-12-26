@@ -92,6 +92,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             // when deployed live as a demo site
             if (File.Exists("t:\\testimages.tst"))
             {
+				webClaims.Add(new Claim(Constants.ClaimNameManageSystemSettings, "true"));
                 webClaims.Add(new Claim(Constants.ClaimNameUserPermissions, "true"));
                 webClaims.Add(new Claim(Constants.ClaimNameManageImages, "true"));
                 webClaims.Add(new Claim(Constants.ClaimNameManageProducts, "true"));

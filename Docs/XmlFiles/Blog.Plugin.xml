@@ -36,6 +36,11 @@
             Settings that affect how the Blog.Plugin module is configured.
             </summary>
         </member>
+        <member name="P:Blog.Plugin.BlogSettings.SettingsName">
+            <summary>
+            Settings name
+            </summary>
+        </member>
         <member name="P:Blog.Plugin.BlogSettings.AllowComments">
             <summary>
             Determines whether people can leave comments or not.

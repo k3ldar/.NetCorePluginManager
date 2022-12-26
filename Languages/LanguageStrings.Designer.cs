@@ -29194,6 +29194,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data Type.
+        /// </summary>
+        public static string SettingDataType {
+            get {
+                return ResourceManager.GetString("SettingDataType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string Settings {
@@ -29298,6 +29307,15 @@ namespace Languages {
         public static string SettingsSystem {
             get {
                 return ResourceManager.GetString("SettingsSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The settings have been updated.
+        /// </summary>
+        public static string SettingsUpdated {
+            get {
+                return ResourceManager.GetString("SettingsUpdated", resourceCulture);
             }
         }
         
@@ -31086,6 +31104,15 @@ namespace Languages {
         public static string UpdateSalons {
             get {
                 return ResourceManager.GetString("UpdateSalons", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Settings.
+        /// </summary>
+        public static string UpdateSettings {
+            get {
+                return ResourceManager.GetString("UpdateSettings", resourceCulture);
             }
         }
         

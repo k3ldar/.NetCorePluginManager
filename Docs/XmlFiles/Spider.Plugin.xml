@@ -57,6 +57,11 @@
             Contains setting values that determine how Spider.Plugin is configured.
             </summary>
         </member>
+        <member name="P:Spider.Plugin.SpiderSettings.SettingsName">
+            <summary>
+            Name
+            </summary>
+        </member>
         <member name="P:Spider.Plugin.SpiderSettings.ProcessStaticFiles">
             <summary>
             Determines whether static files are ignored when determining whether a connection is allowed to connect to the resource.

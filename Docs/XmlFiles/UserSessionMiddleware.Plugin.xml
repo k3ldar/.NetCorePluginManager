@@ -560,6 +560,11 @@
             Contains settings that are required by the UserSessionMiddleware.Plugin module.
             </summary>
         </member>
+        <member name="P:UserSessionMiddleware.Plugin.UserSessionSettings.SettingsName">
+            <summary>
+            Name
+            </summary>
+        </member>
         <member name="P:UserSessionMiddleware.Plugin.UserSessionSettings.StaticFileExtensions">
             <summary>
             Contains a delimited list of static file extensions

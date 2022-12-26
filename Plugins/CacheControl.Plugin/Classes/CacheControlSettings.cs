@@ -25,41 +25,48 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Collections.Generic;
 
+using SharedPluginFeatures;
+
 namespace CacheControl.Plugin
 {
-    /// <summary>
-    /// Dictionary of CacheControlRoute values loaded from settings using ISettingsProvider
-    /// </summary>
-    public class CacheControlSettings
-    {
-        #region Constructors
+	/// <summary>
+	/// Dictionary of CacheControlRoute values loaded from settings using ISettingsProvider
+	/// </summary>
+	public class CacheControlSettings : IPluginSettings
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default Constructor
-        /// </summary>
-        public CacheControlSettings()
-        {
-            CacheControlRoutes = new Dictionary<string, CacheControlRoute>();
-        }
+		/// <summary>
+		/// Default Constructor
+		/// </summary>
+		public CacheControlSettings()
+		{
+			CacheControlRoutes = new Dictionary<string, CacheControlRoute>();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Indicates that caching is disabled or enabled.
-        /// 
-        /// If disabled then no values will be applied to any header.
-        /// </summary>
-        /// <value>bool</value>
-        public bool Disabled { get; set; }
+		/// <summary>
+		/// Name
+		/// </summary>
+		public string SettingsName => "CacheControlRoute";
 
-        /// <summary>
-        /// Dictionary of CacheControlRoute values, definining routes cache values.
-        /// </summary>
-        /// <value>Dictionary&lt;string, CacheControlRoute&gt;</value>
-        public Dictionary<string, CacheControlRoute> CacheControlRoutes { get; set; }
+		/// <summary>
+		/// Indicates that caching is disabled or enabled.
+		/// 
+		/// If disabled then no values will be applied to any header.
+		/// </summary>
+		/// <value>bool</value>
+		public bool Disabled { get; set; }
 
-        #endregion Properties
-    }
+		/// <summary>
+		/// Dictionary of CacheControlRoute values, definining routes cache values.
+		/// </summary>
+		/// <value>Dictionary&lt;string, CacheControlRoute&gt;</value>
+		public Dictionary<string, CacheControlRoute> CacheControlRoutes { get; set; }
+
+		#endregion Properties
+	}
 }

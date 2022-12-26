@@ -68,5 +68,12 @@ namespace PluginManager.Abstractions
         /// <typeparam name="T">Class or interface to be searched for.</typeparam>
         /// <returns>List&lt;Type&gt;</returns>
         List<Type> GetPluginClassTypes<T>();
+
+		/// <summary>
+		/// Retrieves an array of instantiated parameters for a class type
+		/// </summary>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		object[] GetParameterInstances(Type type);
     }
 }

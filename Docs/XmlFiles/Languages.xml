@@ -16353,6 +16353,11 @@
               Looks up a localized string similar to Setting.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.SettingDataType">
+            <summary>
+              Looks up a localized string similar to Data Type.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.Settings">
             <summary>
               Looks up a localized string similar to Settings.
@@ -16411,6 +16416,11 @@
         <member name="P:Languages.LanguageStrings.SettingsSystem">
             <summary>
               Looks up a localized string similar to System.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.SettingsUpdated">
+            <summary>
+              Looks up a localized string similar to The settings have been updated.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.Shellac">
@@ -17407,6 +17417,11 @@
         <member name="P:Languages.LanguageStrings.UpdateSalons">
             <summary>
               Looks up a localized string similar to Update Salons.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.UpdateSettings">
+            <summary>
+              Looks up a localized string similar to Update Settings.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.Upload">

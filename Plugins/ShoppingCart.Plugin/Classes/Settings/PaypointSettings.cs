@@ -25,23 +25,30 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using AppSettings;
 
+using SharedPluginFeatures;
+
 namespace ShoppingCartPlugin.Classes
 {
-    /// <summary>
-    /// Settings related specifically to Paypoint payment provider.
-    /// </summary>
-    public sealed class PaypointSettings : PaymentProviderSettings
-    {
-        /// <summary>
-        /// Merchant Id
-        /// </summary>
-        [SettingString(false, 1, 100)]
-        public string MerchantId { get; set; }
+	/// <summary>
+	/// Settings related specifically to Paypoint payment provider.
+	/// </summary>
+	public sealed class PaypointSettings : PaymentProviderSettings, IPluginSettings
+	{
+		/// <summary>
+		/// Name
+		/// </summary>
+		public string SettingsName => "Paypoint";
 
-        /// <summary>
-        /// Remote password.
-        /// </summary>
-        [SettingString(false, 1, 100)]
-        public string RemotePassword { get; set; }
-    }
+		/// <summary>
+		/// Merchant Id
+		/// </summary>
+		[SettingString(false, 1, 100)]
+		public string MerchantId { get; set; }
+
+		/// <summary>
+		/// Remote password.
+		/// </summary>
+		[SettingString(false, 1, 100)]
+		public string RemotePassword { get; set; }
+	}
 }

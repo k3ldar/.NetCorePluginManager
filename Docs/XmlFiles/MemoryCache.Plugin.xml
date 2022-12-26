@@ -23,6 +23,11 @@
             Provides settings loaded by ISettingsProvider that determine how MemoryCachePlugin is configures.
             </summary>
         </member>
+        <member name="P:MemoryCache.Plugin.MemoryClassPluginSettings.SettingsName">
+            <summary>
+            Name
+            </summary>
+        </member>
         <member name="P:MemoryCache.Plugin.MemoryClassPluginSettings.DefaultCacheDuration">
             <summary>
             Default number of minutes the default cache stores items.

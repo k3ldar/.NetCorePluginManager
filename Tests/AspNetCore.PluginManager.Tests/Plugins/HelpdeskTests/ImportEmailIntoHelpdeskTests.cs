@@ -124,7 +124,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.HelpdeskTests
 			Assert.AreEqual(2, helpdeskProvider.TicketsSubmitted[0].Department.Id);
 			Assert.AreEqual(2, helpdeskProvider.TicketsSubmitted[0].Status.Id);
 			Assert.AreEqual(2, helpdeskProvider.TicketsSubmitted[0].Priority.Id);
-			Assert.AreEqual(2, helpdeskProvider.TicketsSubmitted[0].Messages.Count);
+			Assert.AreEqual(1, helpdeskProvider.TicketsSubmitted[0].Messages.Count);
 		}
 
 		[TestMethod]

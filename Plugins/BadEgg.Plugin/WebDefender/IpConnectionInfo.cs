@@ -143,7 +143,7 @@ namespace BadEgg.Plugin.WebDefender
         /// <returns></returns>
         public double HitsPerSecond()
         {
-            double Result = 0;
+            double Result;
 
             //how many hits per second are being generated?
             TimeSpan span = LastEntry - Created;
@@ -162,7 +162,7 @@ namespace BadEgg.Plugin.WebDefender
         /// <returns></returns>
         public double HitsPerMinute()
         {
-            double Result = 0;
+            double Result;
 
             //how many hits per second are being generated?
             TimeSpan span = LastEntry - Created;

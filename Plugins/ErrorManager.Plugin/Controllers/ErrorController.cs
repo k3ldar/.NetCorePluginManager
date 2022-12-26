@@ -91,7 +91,7 @@ namespace ErrorManager.Plugin.Controllers
         {
             Error404Model model;
 
-            ErrorManagerSettings settings = _settingsProvider.GetSettings<ErrorManagerSettings>("ErrorManager");
+            ErrorManagerSettings settings = _settingsProvider.GetSettings<ErrorManagerSettings>(nameof(ErrorManager));
 
             if (settings.RandomQuotes)
             {

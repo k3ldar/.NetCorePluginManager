@@ -38,67 +38,67 @@ using Shared.Classes;
 
 namespace ShoppingCartPlugin.Classes.PaymentProviders
 {
-    /// <summary>
-    /// Cash on delivry payment provider.  This payment provider is used when a user orders online, but then the goods are delivered and payment is taken upon delivery.
-    /// 
-    /// This class implements IPaymentProvider interface.
-    /// </summary>
-    public sealed class CashOnDelivery : IPaymentProvider
-    {
-        #region Private Members
+	/// <summary>
+	/// Cash on delivry payment provider.  This payment provider is used when a user orders online, but then the goods are delivered and payment is taken upon delivery.
+	/// 
+	/// This class implements IPaymentProvider interface.
+	/// </summary>
+	public sealed class CashOnDelivery : IPaymentProvider
+	{
+		#region Private Members
 
-        private readonly PaymentProviderSettings _paymentProviderSettings;
+		private readonly PaymentProviderSettings _paymentProviderSettings;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public CashOnDelivery(ISettingsProvider settingsProvider)
-        {
-            if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+		public CashOnDelivery(ISettingsProvider settingsProvider)
+		{
+			if (settingsProvider == null)
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            _paymentProviderSettings = settingsProvider.GetSettings<PaymentProviderSettings>(nameof(CashOnDelivery));
-        }
+			_paymentProviderSettings = settingsProvider.GetSettings<PaymentProviderSettings>(nameof(CashOnDelivery));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IPaymentProvider Methods
+		#region IPaymentProvider Methods
 
-        public bool Execute(in HttpRequest request, in Order order, in PaymentStatus paymentStatus,
-            in UserSession userSession, out string urlParameters)
-        {
-            urlParameters = $"/Cart/Success/{UniqueId()}/";
-            return true;
-        }
+		public bool Execute(in HttpRequest request, in Order order, in PaymentStatus paymentStatus,
+			in UserSession userSession, out string urlParameters)
+		{
+			urlParameters = $"/Cart/Success/{UniqueId()}/";
+			return true;
+		}
 
-        public bool ExecuteTest(in NVPCodec codec)
-        {
-            return false;
-        }
+		public bool ExecuteTest(in NVPCodec codec)
+		{
+			return false;
+		}
 
-        public string GetCurrencies()
-        {
-            return _paymentProviderSettings.Currencies;
-        }
+		public string GetCurrencies()
+		{
+			return _paymentProviderSettings.Currencies;
+		}
 
-        public string Name()
-        {
-            return Middleware.Constants.PaymentProviderCashOnDelivery;
-        }
+		public string Name()
+		{
+			return Middleware.Constants.PaymentProviderCashOnDelivery;
+		}
 
-        public bool Enabled()
-        {
-            return _paymentProviderSettings.Enabled;
-        }
+		public bool Enabled()
+		{
+			return _paymentProviderSettings.Enabled;
+		}
 
-        public Guid UniqueId()
-        {
-            return Guid.Parse(_paymentProviderSettings.UniqueId);
-        }
+		public Guid UniqueId()
+		{
+			return Guid.Parse(_paymentProviderSettings.UniqueId);
+		}
 
-        #endregion IPaymentProvider Methods
-    }
+		#endregion IPaymentProvider Methods
+	}
 }
 
 #pragma warning restore CS1591

@@ -25,94 +25,101 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using AppSettings;
 
+using SharedPluginFeatures;
+
 namespace Company.Plugin.Classes
 {
-    /// <summary>
-    /// Settings for the Company plugin module which determine which pages are visible or not.
-    /// </summary>
-    public sealed class CompanySettings
-    {
-        #region Properties
+	/// <summary>
+	/// Settings for the Company plugin module which determine which pages are visible or not.
+	/// </summary>
+	public sealed class CompanySettings : IPluginSettings
+	{
+		#region Properties
 
-        /// <summary>
-        /// Show the about page, provide information about the website and/or company operating it.
-        /// </summary>
-        /// <value>bool</value>
-        [SettingDefault(true)]
-        public bool ShowAbout { get; set; }
+		/// <summary>
+		/// Name
+		/// </summary>
+		public string SettingsName => nameof(CompanySettings);
 
-
-        /// <summary>
-        /// Show the careers page, if the company has job openings, details can be shown on the careers page.
-        /// </summary>
-        /// <value>bool</value>
-        [SettingDefault(false)]
-        public bool ShowCareers { get; set; }
+		/// <summary>
+		/// Show the about page, provide information about the website and/or company operating it.
+		/// </summary>
+		/// <value>bool</value>
+		[SettingDefault(true)]
+		public bool ShowAbout { get; set; }
 
 
-        /// <summary>
-        /// Show the contact us page, provide visitors with company contact details.
-        /// </summary>
-        /// <value>bool</value>
-        [SettingDefault(true)]
-        public bool ShowContact { get; set; }
+		/// <summary>
+		/// Show the careers page, if the company has job openings, details can be shown on the careers page.
+		/// </summary>
+		/// <value>bool</value>
+		[SettingDefault(false)]
+		public bool ShowCareers { get; set; }
 
 
-        /// <summary>
-        /// Show the cookie page, provide visitors with details information regarding the site cookie policy.
-        /// </summary>
-        /// <value>bool</value>
-        [SettingDefault(false)]
-        public bool ShowCookies { get; set; }
+		/// <summary>
+		/// Show the contact us page, provide visitors with company contact details.
+		/// </summary>
+		/// <value>bool</value>
+		[SettingDefault(true)]
+		public bool ShowContact { get; set; }
 
 
-        /// <summary>
-        /// Show the delivery page, detailing information on delivery options etc.
-        /// </summary>
-        /// <value>bool</value>
-        [SettingDefault(false)]
-        public bool ShowDelivery { get; set; }
+		/// <summary>
+		/// Show the cookie page, provide visitors with details information regarding the site cookie policy.
+		/// </summary>
+		/// <value>bool</value>
+		[SettingDefault(false)]
+		public bool ShowCookies { get; set; }
 
 
-        /// <summary>
-        /// Show the newsletter page, giving visitors details of any newsletters that may be provided.
-        /// </summary>
-        /// <value>bool</value>
-        [SettingDefault(false)]
-        public bool ShowNewsletter { get; set; }
+		/// <summary>
+		/// Show the delivery page, detailing information on delivery options etc.
+		/// </summary>
+		/// <value>bool</value>
+		[SettingDefault(false)]
+		public bool ShowDelivery { get; set; }
 
 
-        /// <summary>
-        /// Show the privacy page, giving visitors details of the privacy policy.
-        /// </summary>
-        /// <value>bool</value>
-        [SettingDefault(false)]
-        public bool ShowPrivacy { get; set; }
+		/// <summary>
+		/// Show the newsletter page, giving visitors details of any newsletters that may be provided.
+		/// </summary>
+		/// <value>bool</value>
+		[SettingDefault(false)]
+		public bool ShowNewsletter { get; set; }
 
 
-        /// <summary>
-        /// Show the returns page, if the company allows users to return items, details of the procedure/policy can be shown here.
-        /// </summary>
-        /// <value>bool</value>
-        [SettingDefault(false)]
-        public bool ShowReturns { get; set; }
+		/// <summary>
+		/// Show the privacy page, giving visitors details of the privacy policy.
+		/// </summary>
+		/// <value>bool</value>
+		[SettingDefault(false)]
+		public bool ShowPrivacy { get; set; }
 
 
-        /// <summary>
-        /// Show the Terms and conditions page, provide visitors with terms and conditions on using the website.
-        /// </summary>
-        /// <value>bool</value>
-        [SettingDefault(false)]
-        public bool ShowTerms { get; set; }
+		/// <summary>
+		/// Show the returns page, if the company allows users to return items, details of the procedure/policy can be shown here.
+		/// </summary>
+		/// <value>bool</value>
+		[SettingDefault(false)]
+		public bool ShowReturns { get; set; }
 
 
-        /// <summary>
-        /// Show the affiliates page, if an affiliate program is provided, details on its useage con be provided here.
-        /// </summary>
-        /// <value>bool</value>
-        [SettingDefault(false)]
-        public bool ShowAffiliates { get; set; }
+		/// <summary>
+		/// Show the Terms and conditions page, provide visitors with terms and conditions on using the website.
+		/// </summary>
+		/// <value>bool</value>
+		[SettingDefault(false)]
+		public bool ShowTerms { get; set; }
 
-        #endregion Properties
-    }
+
+		/// <summary>
+		/// Show the affiliates page, if an affiliate program is provided, details on its useage con be provided here.
+		/// </summary>
+		/// <value>bool</value>
+		[SettingDefault(false)]
+		public bool ShowAffiliates { get; set; }
+
+		#endregion Properties
+	}
 }

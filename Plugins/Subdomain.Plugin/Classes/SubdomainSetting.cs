@@ -28,44 +28,44 @@ using AppSettings;
 
 namespace Subdomain.Plugin
 {
-    /// <summary>
-    /// Loads settings to configure the routes that are subdomains.
-    /// </summary>
-    public class SubdomainSetting
-    {
-        #region Constructors
+	/// <summary>
+	/// Loads settings to configure the routes that are subdomains.
+	/// </summary>
+	public class SubdomainSetting
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public SubdomainSetting()
-        {
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public SubdomainSetting()
+		{
 
-        }
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Determines whether subdomain routing is disabled or not.
-        /// </summary>
-        /// <value>bool</value>
-        public bool Disabled { get; set; }
+		/// <summary>
+		/// Determines whether subdomain routing is disabled or not.
+		/// </summary>
+		/// <value>bool</value>
+		public bool Disabled { get; set; }
 
-        /// <summary>
-        /// Route that the configuration will be redirected to, this must be a relative route.
-        /// </summary>
-        /// <value>string</value>
-        [SettingUri(false, System.UriKind.Relative)]
-        public string RedirectedRoute { get; set; }
+		/// <summary>
+		/// Route that the configuration will be redirected to, this must be a relative route.
+		/// </summary>
+		/// <value>string</value>
+		[SettingUri(false, System.UriKind.Relative)]
+		public string RedirectedRoute { get; set; }
 
-        /// <summary>
-        /// Indicates whether the route is permanently redirected (301) or temporarily directed (302)
-        /// </summary>
-        /// <value>bool</value>
-        public bool PermanentRedirect { get; set; }
+		/// <summary>
+		/// Indicates whether the route is permanently redirected (301) or temporarily directed (302)
+		/// </summary>
+		/// <value>bool</value>
+		public bool PermanentRedirect { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

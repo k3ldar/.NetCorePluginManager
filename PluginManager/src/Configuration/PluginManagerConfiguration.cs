@@ -38,7 +38,7 @@ namespace PluginManager
     /// <summary>
     /// Plugin Manager configuration class.  Used when Initialising the Plugin Manager.
     /// </summary>
-    public class PluginManagerConfiguration
+    public class PluginManagerConfiguration : IPluginManagerConfiguration
     {
         #region Constructors
 

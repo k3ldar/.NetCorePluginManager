@@ -27,18 +27,25 @@ using System;
 
 using AppSettings;
 
+using SharedPluginFeatures;
+
 namespace ErrorManager.Plugin
 {
     /// <summary>
     /// Settings that affect how the ErrorManager.Plugin module is configured.
     /// </summary>
-    public class ErrorManagerSettings
-    {
-        /// <summary>
-        /// Use random quotes
-        /// </summary>
-        /// <value>bool.  If true then ransomly selects a quote from Quotes property.</value>
-        public bool RandomQuotes { get; set; }
+    public class ErrorManagerSettings : IPluginSettings
+	{
+		/// <summary>
+		/// Name
+		/// </summary>
+		public string SettingsName => nameof(ErrorManager);
+		
+		/// <summary>
+		/// Use random quotes
+		/// </summary>
+		/// <value>bool.  If true then ransomly selects a quote from Quotes property.</value>
+		public bool RandomQuotes { get; set; }
 
         /// <summary>
         /// Array of quotes that can be displayed.

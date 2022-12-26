@@ -29,6 +29,11 @@
             Settings that affect how the ErrorManager.Plugin module is configured.
             </summary>
         </member>
+        <member name="P:ErrorManager.Plugin.ErrorManagerSettings.SettingsName">
+            <summary>
+            Name
+            </summary>
+        </member>
         <member name="P:ErrorManager.Plugin.ErrorManagerSettings.RandomQuotes">
             <summary>
             Use random quotes

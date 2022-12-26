@@ -27,6 +27,11 @@
             Settings which affect how BadEgg is configured and used.
             </summary>
         </member>
+        <member name="P:BadEgg.Plugin.BadEggSettings.SettingsName">
+            <summary>
+            Name of settings
+            </summary>
+        </member>
         <member name="P:BadEgg.Plugin.BadEggSettings.ConnectionTimeOut">
             <summary>
             Number of minutes until a connection is timed out and removed from the list of monitored connections.

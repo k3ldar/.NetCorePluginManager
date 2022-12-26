@@ -2535,6 +2535,11 @@
             Spider settings name
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.MemoryCacheSettings">
+            <summary>
+            Memory cache settings name
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.PluginNameUserSession">
             <summary>
             Name of the UserSessionMiddleware.Plugin module.
@@ -2730,6 +2735,11 @@
             Date format for W3C string conversioni
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.PolicyNameManageSystemSettings">
+            <summary>
+            Name of policy for system settings
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.PolicyNameBlogCreate">
             <summary>
             Name of Policy for creating blogs
@@ -2798,6 +2808,11 @@
         <member name="F:SharedPluginFeatures.Constants.ClaimNameAdministrator">
             <summary>
             Claim name for administrators
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimNameManageSystemSettings">
+            <summary>
+            Claim name for managing system settings
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.ClaimNameStaff">
@@ -3130,6 +3145,11 @@
         <member name="F:SharedPluginFeatures.Enums.SystemAdminMenuType.Chart">
             <summary>
             Data to be shown will be a chart
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.SystemAdminMenuType.Settings">
+            <summary>
+            Contains settings for a plugin
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.Enums.ValidateRequestResult">
@@ -4213,6 +4233,16 @@
         <member name="P:SharedPluginFeatures.IMinifyResult.TimeTaken">
             <summary>
             Time taken to minify the data.
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.IPluginSettings">
+            <summary>
+            Interface used by settings for individual plugins
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.IPluginSettings.SettingsName">
+            <summary>
+            Name of setting
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.IRobotRouteData">

@@ -125,6 +125,11 @@
             Settings that configure how the Shopping cart is configured.
             </summary>
         </member>
+        <member name="P:ShoppingCartPlugin.Classes.CartSettings.SettingsName">
+            <summary>
+            Name
+            </summary>
+        </member>
         <member name="P:ShoppingCartPlugin.Classes.CartSettings.DefaultCurrency">
             <summary>
             Default currency to be used.
@@ -140,6 +145,11 @@
             Settings related specifically to Paypoint payment provider.
             </summary>
         </member>
+        <member name="P:ShoppingCartPlugin.Classes.PaypointSettings.SettingsName">
+            <summary>
+            Name
+            </summary>
+        </member>
         <member name="P:ShoppingCartPlugin.Classes.PaypointSettings.MerchantId">
             <summary>
             Merchant Id
@@ -148,6 +158,11 @@
         <member name="P:ShoppingCartPlugin.Classes.PaypointSettings.RemotePassword">
             <summary>
             Remote password.
+            </summary>
+        </member>
+        <member name="P:ShoppingCartPlugin.Classes.SunTech24PaymentSettings.SettingsName">
+            <summary>
+            Name
             </summary>
         </member>
         <member name="T:ShoppingCartPlugin.ShoppingCartMiddleware">

@@ -25,43 +25,50 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using AppSettings;
 
+using SharedPluginFeatures;
+
 namespace Spider.Plugin
 {
-    /// <summary>
-    /// Contains setting values that determine how Spider.Plugin is configured.
-    /// </summary>
-    public class SpiderSettings
-    {
-        #region Properties
+	/// <summary>
+	/// Contains setting values that determine how Spider.Plugin is configured.
+	/// </summary>
+	public class SpiderSettings : IPluginSettings
+	{
+		#region Properties
 
-        /// <summary>
-        /// Determines whether static files are ignored when determining whether a connection is allowed to connect to the resource.
-        /// </summary>
-        /// <value>string</value>
-        public bool ProcessStaticFiles { get; set; }
+		/// <summary>
+		/// Name
+		/// </summary>
+		public string SettingsName => Constants.SpiderSettings;
 
-        /// <summary>
-        /// Delimited list of file extensions to ignore
-        /// </summary>
-        /// <value>string</value>
-        [SettingDefault(SharedPluginFeatures.Constants.StaticFileExtensions)]
-        [SettingString(false)]
-        [SettingDelimitedString(';', 1)]
-        public string StaticFileExtensions { get; set; }
+		/// <summary>
+		/// Determines whether static files are ignored when determining whether a connection is allowed to connect to the resource.
+		/// </summary>
+		/// <value>string</value>
+		public bool ProcessStaticFiles { get; set; }
 
-        /// <summary>
-        /// Provides an opportunity to add a non existant route to sitemap which is dissalowed, if a bot goes to the route
-        /// data is logged about the none behaving bot who is abusing sitemap.
-        /// 
-        /// The value must be a valid root, i.e. /api/v19.x/ that is not in use elsewhere, this route is added to the sitemap
-        /// and any visits to the route are notified.
-        /// </summary>
-        /// <value>string</value>
-        [SettingDefault("/identities/reveal")]
-        [SettingOptional]
-        [SettingUri(false, System.UriKind.Relative)]
-        public string BotTrapRoute { get; set; }
+		/// <summary>
+		/// Delimited list of file extensions to ignore
+		/// </summary>
+		/// <value>string</value>
+		[SettingDefault(SharedPluginFeatures.Constants.StaticFileExtensions)]
+		[SettingString(false)]
+		[SettingDelimitedString(';', 1)]
+		public string StaticFileExtensions { get; set; }
 
-        #endregion Properties
-    }
+		/// <summary>
+		/// Provides an opportunity to add a non existant route to sitemap which is dissalowed, if a bot goes to the route
+		/// data is logged about the none behaving bot who is abusing sitemap.
+		/// 
+		/// The value must be a valid root, i.e. /api/v19.x/ that is not in use elsewhere, this route is added to the sitemap
+		/// and any visits to the route are notified.
+		/// </summary>
+		/// <value>string</value>
+		[SettingDefault("/identities/reveal")]
+		[SettingOptional]
+		[SettingUri(false, System.UriKind.Relative)]
+		public string BotTrapRoute { get; set; }
+
+		#endregion Properties
+	}
 }

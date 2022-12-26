@@ -4,9 +4,19 @@
         <name>SystemAdmin.Plugin</name>
     </assembly>
     <members>
+        <member name="T:SystemAdmin.Plugin.Classes.MenuItems.SettingsMenuItem">
+            <summary>
+            Settings menu item
+            </summary>
+        </member>
         <member name="T:SystemAdmin.Plugin.SystemAdminSettings">
             <summary>
             Contains settings and configuration data for displaying items within the SystemAdmin.Plugin module.
+            </summary>
+        </member>
+        <member name="P:SystemAdmin.Plugin.SystemAdminSettings.SettingsName">
+            <summary>
+            Settings name
             </summary>
         </member>
         <member name="P:SystemAdmin.Plugin.SystemAdminSettings.GoogleMapApiKey">
@@ -34,6 +44,59 @@
         <member name="T:SystemAdmin.Plugin.SystemAdminHelper">
             <summary>
             This class acts as a wrapper around the elements you extend through plugin manager
+            </summary>
+        </member>
+        <member name="T:SystemAdmin.Plugin.Models.ApplicationSettingViewModel">
+            <summary>
+            View model for individual application settings
+            </summary>
+        </member>
+        <member name="P:SystemAdmin.Plugin.Models.ApplicationSettingViewModel.Name">
+            <summary>
+            Name of setting
+            </summary>
+        </member>
+        <member name="P:SystemAdmin.Plugin.Models.ApplicationSettingViewModel.DataType">
+            <summary>
+            Type of setting, string, int, bool etc
+            </summary>
+        </member>
+        <member name="P:SystemAdmin.Plugin.Models.ApplicationSettingViewModel.Value">
+            <summary>
+            Current value of setting
+            </summary>
+        </member>
+        <member name="T:SystemAdmin.Plugin.Models.SettingsViewModel">
+            <summary>
+            View model for system admin settings
+            </summary>
+        </member>
+        <member name="M:SystemAdmin.Plugin.Models.SettingsViewModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:SystemAdmin.Plugin.Models.SettingsViewModel.#ctor(SharedPluginFeatures.BaseModelData,System.Int32,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="data">Base model data</param>
+            <param name="settingId">Unique id for setting</param>
+            <param name="settingsName">Name of settings</param>
+        </member>
+        <member name="P:SystemAdmin.Plugin.Models.SettingsViewModel.SettingId">
+            <summary>
+            Id of the individual setting
+            </summary>
+        </member>
+        <member name="P:SystemAdmin.Plugin.Models.SettingsViewModel.SettingsName">
+            <summary>
+            Name of settings
+            </summary>
+        </member>
+        <member name="P:SystemAdmin.Plugin.Models.SettingsViewModel.Settings">
+            <summary>
+            List of individual application settings
             </summary>
         </member>
         <member name="T:SystemAdmin.Plugin.PluginInitialisation">
