@@ -25,13 +25,20 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using AppSettings;
 
+using SharedPluginFeatures;
+
 namespace ShoppingCartPlugin.Classes
 {
     /// <summary>
     /// Settings related specifically to Paypoint payment provider.
     /// </summary>
-    public sealed class PaypointSettings : PaymentProviderSettings
+    public sealed class PaypointSettings : PaymentProviderSettings, IPluginSettings
     {
+		/// <summary>
+		/// Name
+		/// </summary>
+		public string SettingsName => "Paypoint";
+
         /// <summary>
         /// Merchant Id
         /// </summary>

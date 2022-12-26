@@ -25,14 +25,21 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using AppSettings;
 
+using SharedPluginFeatures;
+
 namespace MemoryCache.Plugin
 {
     /// <summary>
     /// Provides settings loaded by ISettingsProvider that determine how MemoryCachePlugin is configures.
     /// </summary>
-    public class MemoryClassPluginSettings
-    {
+    public class MemoryClassPluginSettings : IPluginSettings
+	{
         #region Properties
+
+		/// <summary>
+		/// Name
+		/// </summary>
+		public string SettingsName => nameof(MemoryCache);
 
         /// <summary>
         /// Default number of minutes the default cache stores items.
@@ -58,6 +65,6 @@ namespace MemoryCache.Plugin
         [SettingRange(1, 60)]
         public int ShortCacheDuration { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

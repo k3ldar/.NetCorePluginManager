@@ -26,13 +26,20 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using AppSettings;
 
+using SharedPluginFeatures;
+
 namespace ProductPlugin
 {
     /// <summary>
     /// Products which affect how ProductsPlugin is configured.
     /// </summary>
-    public sealed class ProductPluginSettings
-    {
+    public sealed class ProductPluginSettings : IPluginSettings
+	{
+		/// <summary>
+		/// Settings name
+		/// </summary>
+		public string SettingsName => Controllers.ProductController.Name;
+
         /// <summary>
         /// Number of products to display on each page.
         /// 

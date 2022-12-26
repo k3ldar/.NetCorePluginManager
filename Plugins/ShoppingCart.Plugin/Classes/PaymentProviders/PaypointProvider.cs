@@ -45,7 +45,7 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
     /// 
     /// This class implements IPaymentProvider interface.
     /// </summary>
-    public sealed class PaypointProvider : IPaymentProvider
+    public sealed class PaypointProvider
     {
         #region Private Members
 
@@ -63,11 +63,11 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
             _paymentProviderSettings = settingsProvider.GetSettings<PaypointSettings>(nameof(PaypointProvider));
         }
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IPaymentProvider Methods
+		#region IPaymentProvider Methods
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "I deem it to be valid in this context!")]
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "I deem it to be valid in this context!")]
         public bool Execute(in HttpRequest request, in Order order, in PaymentStatus paymentStatus,
             in UserSession userSession, out string urlParameters)
         {

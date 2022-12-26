@@ -56,7 +56,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         public void Construct_InvalidParam_SettingProvider_Null_Throws_ArgumentNullException()
         {
             new SystemAdminController(null, new MockSystemAdminHelperService(), new MockSeoProvider(),
-                new MockUserSearch(), new MockClaimsProvider());
+                new MockUserSearch(), new MockClaimsProvider(), new MockPluginClassesService(),
+				new MockPluginManagerConfiguration());
         }
 
         [TestMethod]
@@ -65,7 +66,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         public void Construct_InvalidParam_SystemAdminHelperService_Null_Throws_ArgumentNullException()
         {
             new SystemAdminController(new MockSettingsProvider(), null, new MockSeoProvider(),
-                new MockUserSearch(), new MockClaimsProvider());
+                new MockUserSearch(), new MockClaimsProvider(), new MockPluginClassesService(),
+				new MockPluginManagerConfiguration());
         }
 
         [TestMethod]
@@ -74,7 +76,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         public void Construct_InvalidParam_SeoProvider_Null_Throws_ArgumentNullException()
         {
             new SystemAdminController(new MockSettingsProvider(), new MockSystemAdminHelperService(), null,
-                new MockUserSearch(), new MockClaimsProvider());
+                new MockUserSearch(), new MockClaimsProvider(), new MockPluginClassesService(),
+				new MockPluginManagerConfiguration());
         }
 
         [TestMethod]
@@ -83,24 +86,47 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         public void Construct_InvalidParam_userSearch_Null_Throws_ArgumentNullException()
         {
             new SystemAdminController(new MockSettingsProvider(), new MockSystemAdminHelperService(), new MockSeoProvider(),
-                null, new MockClaimsProvider());
+                null, new MockClaimsProvider(), new MockPluginClassesService(),
+				new MockPluginManagerConfiguration());
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_InvalidParam_ClaimsProvider_Null_Throws_ArgumentNullException()
+        public void Construct_InvalidParam_PluginClassesService_Null_Throws_ArgumentNullException()
         {
-            new SystemAdminController(new MockSettingsProvider(), new MockSystemAdminHelperService(), new MockSeoProvider(),
-                new MockUserSearch(), null);
-        }
+			new SystemAdminController(new MockSettingsProvider(), new MockSystemAdminHelperService(), new MockSeoProvider(),
+				new MockUserSearch(), null, null,
+				new MockPluginManagerConfiguration());
+		}
 
-        [TestMethod]
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Construct_InvalidParam_PluginManagerConfiguration_Null_Throws_ArgumentNullException()
+		{
+			new SystemAdminController(new MockSettingsProvider(), new MockSystemAdminHelperService(), new MockSeoProvider(),
+				new MockUserSearch(), null, new MockPluginClassesService(),
+				null);
+		}
+
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Construct_InvalidParam_ClaimsProvider_Null_Throws_ArgumentNullException()
+		{
+			new SystemAdminController(new MockSettingsProvider(), new MockSystemAdminHelperService(), new MockSeoProvider(),
+				new MockUserSearch(), null, new MockPluginClassesService(),
+				new MockPluginManagerConfiguration());
+		}
+
+		[TestMethod]
         [TestCategory(TestCategoryName)]
         public void Construct_ValidInstance_Success()
         {
             SystemAdminController sut = new SystemAdminController(new MockSettingsProvider(), new MockSystemAdminHelperService(), new MockSeoProvider(),
-                new MockUserSearch(), new MockClaimsProvider());
+                new MockUserSearch(), new MockClaimsProvider(), new MockPluginClassesService(),
+				new MockPluginManagerConfiguration());
 
             Assert.IsNotNull(sut);
         }
@@ -869,7 +895,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 			Assert.AreEqual("String", viewModel.Settings[0].DataType);
 
 			Assert.AreEqual("ShowAppSettingsJson", viewModel.Settings[1].Name);
-			Assert.AreEqual("True", viewModel.Settings[1].Value);
+			Assert.AreEqual("False", viewModel.Settings[1].Value);
 			Assert.AreEqual("Boolean", viewModel.Settings[1].DataType);
 
 			Assert.AreEqual("EnableFormattedText", viewModel.Settings[2].Name);
@@ -1217,19 +1243,45 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 			Assert.AreEqual("", viewModel.Settings[1].Value);
 		}
 
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void Settings_SettingsUsesApplicationVariables_DisplaysAppVariables()
+		{
+			List<SystemAdminMainMenu> adminMenuItems = new List<SystemAdminMainMenu>();
+			adminMenuItems.Add(new MockSystemAdminMainMenu("settings", 123));
+			adminMenuItems[0].ChildMenuItems.Add(new SettingsMenuItem(new LoginPlugin.LoginControllerSettings()));
+			adminMenuItems[0].ChildMenuItems[0].UniqueId = 23;
+			MockSystemAdminHelperService mockSystemAdminHelperService = new MockSystemAdminHelperService(adminMenuItems);
+			SystemAdminController sut = CreateSystemAdminController(null, mockSystemAdminHelperService);
+
+			ViewResult viewResult = sut.Settings(23) as ViewResult;
+
+			Assert.IsNotNull(viewResult);
+			Assert.IsNull(viewResult.ViewName);
+			Assert.IsNotNull(viewResult.Model);
+			SettingsViewModel viewModel = viewResult.Model as SettingsViewModel;
+			Assert.AreEqual(13, viewModel.Settings.Count);
+			Assert.AreEqual("FacebookSecret", viewModel.Settings[12].Name);
+			Assert.AreEqual("%FacebookSecret%", viewModel.Settings[12].Value);
+		}
+
 		private SystemAdminController CreateSystemAdminController(MockSettingsProvider settingsProvider = null,
             MockSystemAdminHelperService systemAdminHelperService = null,
             MockSeoProvider seoProvider = null,
             MockUserSearch userSearch = null,
-            MockClaimsProvider claimsProvider = null)
+            MockClaimsProvider claimsProvider = null,
+			MockPluginManagerConfiguration pluginManagerConfiguration = null)
         {
+			settingsProvider = settingsProvider ?? new MockSettingsProvider();
 
-            SystemAdminController Result = new SystemAdminController(
-                settingsProvider ?? new MockSettingsProvider(),
+			SystemAdminController Result = new SystemAdminController(
+				settingsProvider,
                 systemAdminHelperService ?? new MockSystemAdminHelperService(),
                 seoProvider ?? new MockSeoProvider(),
                 userSearch ?? new MockUserSearch(),
-                claimsProvider ?? new MockClaimsProvider());
+                claimsProvider ?? new MockClaimsProvider(), 
+				new MockPluginClassesService(new List<object>() { settingsProvider }),
+				pluginManagerConfiguration ?? new MockPluginManagerConfiguration());
 
             Result.ControllerContext = CreateTestControllerContext();
 

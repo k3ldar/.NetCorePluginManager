@@ -50,9 +50,9 @@ namespace ShoppingCartPlugin.Controllers
     [Subdomain(CartController.Name)]
     public partial class CartController : BaseController
     {
-        #region Private Members
-
-        private const string Name = "Cart";
+        public const string Name = "Cart";
+     
+		#region Private Members
 
         private readonly IShoppingCartProvider _shoppingCartProvider;
         private readonly IAccountProvider _accountProvider;

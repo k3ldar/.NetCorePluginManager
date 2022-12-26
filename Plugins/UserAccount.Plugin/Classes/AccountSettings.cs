@@ -25,17 +25,24 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using AppSettings;
 
+using SharedPluginFeatures;
+
 namespace UserAccount.Plugin
 {
     /// <summary>
     /// Settings that affect how the UserAccount.Plugin module is used and configured.
     /// </summary>
-    public sealed class AccountSettings
-    {
-        /// <summary>
-        /// Determines whether orders are shown within the website.
-        /// </summary>
-        public bool ShowOrders { get; set; }
+    public sealed class AccountSettings : IPluginSettings
+	{
+		/// <summary>
+		/// Name
+		/// </summary>
+		public string SettingsName => Controllers.AccountController.Name;
+
+		/// <summary>
+		/// Determines whether orders are shown within the website.
+		/// </summary>
+		public bool ShowOrders { get; set; }
 
         /// <summary>
         /// Detemines whether invoices are shown within the website.
@@ -157,5 +164,5 @@ namespace UserAccount.Plugin
         /// <value>string</value>
         [SettingDefault("£$^*()#,.<>?:;!@")]
         public string PasswordSpecialCharacters { get; set; }
-    }
+	}
 }

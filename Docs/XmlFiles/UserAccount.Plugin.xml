@@ -9,6 +9,11 @@
             Settings that affect how the UserAccount.Plugin module is used and configured.
             </summary>
         </member>
+        <member name="P:UserAccount.Plugin.AccountSettings.SettingsName">
+            <summary>
+            Name
+            </summary>
+        </member>
         <member name="P:UserAccount.Plugin.AccountSettings.ShowOrders">
             <summary>
             Determines whether orders are shown within the website.

@@ -50,9 +50,9 @@ namespace UserAccount.Plugin.Controllers
     [Subdomain(AccountController.Name)]
     public partial class AccountController : BaseController
     {
-        #region Private Members
+        public const string Name = "Account";
 
-        private const string Name = "Account";
+        #region Private Members
 
 		private readonly AccountSettings _accountSettings;
 		private readonly IAccountProvider _accountProvider;

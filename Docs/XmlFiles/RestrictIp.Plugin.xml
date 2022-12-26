@@ -21,6 +21,11 @@
             Default constructor
             </summary>
         </member>
+        <member name="P:RestrictIp.Plugin.RestrictIpSettings.SettingsName">
+            <summary>
+            Name
+            </summary>
+        </member>
         <member name="P:RestrictIp.Plugin.RestrictIpSettings.Disabled">
             <summary>
             Determines whether the middleware router is disabled or not.

@@ -25,14 +25,21 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using AppSettings;
 
+using SharedPluginFeatures;
+
 namespace Spider.Plugin
 {
     /// <summary>
     /// Contains setting values that determine how Spider.Plugin is configured.
     /// </summary>
-    public class SpiderSettings
-    {
-        #region Properties
+    public class SpiderSettings : IPluginSettings
+	{
+		#region Properties
+
+		/// <summary>
+		/// Name
+		/// </summary>
+		public string SettingsName => Controllers.SpiderController.Name;
 
         /// <summary>
         /// Determines whether static files are ignored when determining whether a connection is allowed to connect to the resource.

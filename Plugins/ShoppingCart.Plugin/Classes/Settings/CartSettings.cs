@@ -25,13 +25,20 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using AppSettings;
 
+using SharedPluginFeatures;
+
 namespace ShoppingCartPlugin.Classes
 {
     /// <summary>
     /// Settings that configure how the Shopping cart is configured.
     /// </summary>
-    public sealed class CartSettings
-    {
+    public sealed class CartSettings : IPluginSettings
+	{
+		/// <summary>
+		/// Name
+		/// </summary>
+		public string SettingsName => Controllers.CartController.Name;
+
         /// <summary>
         /// Default currency to be used.
         /// </summary>

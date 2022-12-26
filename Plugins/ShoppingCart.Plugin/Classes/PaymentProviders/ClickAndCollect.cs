@@ -43,7 +43,7 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
     /// 
     /// This class implements IPaymentProvider interface.
     /// </summary>
-    public sealed class ClickAndCollect : IPaymentProvider
+    public sealed class ClickAndCollect
     {
         #region Private Members
 
@@ -61,11 +61,11 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
             _paymentProviderSettings = settingsProvider.GetSettings<PaymentProviderSettings>(nameof(ClickAndCollect));
         }
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IPaymentProvider Methods
+		#region IPaymentProvider Methods
 
-        public bool Execute(in HttpRequest request, in Order order, in PaymentStatus paymentStatus,
+		public bool Execute(in HttpRequest request, in Order order, in PaymentStatus paymentStatus,
             in UserSession userSession, out string urlParameters)
         {
             urlParameters = $"/Cart/Success/{UniqueId()}/";

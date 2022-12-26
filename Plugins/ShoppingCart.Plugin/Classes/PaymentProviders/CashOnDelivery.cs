@@ -34,6 +34,8 @@ using PluginManager.Abstractions;
 
 using Shared.Classes;
 
+using SharedPluginFeatures;
+
 #pragma warning disable CS1591
 
 namespace ShoppingCartPlugin.Classes.PaymentProviders
@@ -61,7 +63,7 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
             _paymentProviderSettings = settingsProvider.GetSettings<PaymentProviderSettings>(nameof(CashOnDelivery));
         }
 
-        #endregion Constructors
+		#endregion Constructors
 
         #region IPaymentProvider Methods
 

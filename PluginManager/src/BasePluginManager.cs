@@ -797,8 +797,14 @@ namespace PluginManager
 
 		#region Internal Methods
 
+		/// <summary>
+		/// Retrieves an array of instantiated parameters for a classes constructor
+		/// </summary>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal object[] GetParameterInstances(Type type)
+        public object[] GetParameterInstances(Type type)
         {
             if (type == null)
                 throw new ArgumentNullException(nameof(type));

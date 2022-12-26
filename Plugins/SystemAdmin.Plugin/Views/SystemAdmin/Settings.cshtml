@@ -57,7 +57,12 @@
                                         break;
 
                                     case "String":
-                                        <td><input id="@settingValue" type="text" value="@setting.Value.ToLower()" /></td>
+                                        <td><input class="settingsInput" id="@settingValue" type="text" value="@setting.Value" /></td>
+
+                                        break;
+
+                                    case "String[]":
+                                        <td><textarea class="settingsInput" id="@settingValue" type="text">@setting.Value.Replace("\t", "\r\n")</textarea></td>
 
                                         break;
 
@@ -65,7 +70,7 @@
                                     case "Int64":
                                     case "UInt32":
                                     case "UInt64":
-                                        <td><input id="@settingValue" type="number" value="@setting.Value.ToLower()" /></td>
+                                        <td><input class="settingsInput" id="@settingValue" type="number" value="@setting.Value" /></td>
 
                                         break;
 

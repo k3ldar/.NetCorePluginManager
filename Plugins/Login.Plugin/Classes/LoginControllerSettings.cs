@@ -27,13 +27,20 @@ using System;
 
 using AppSettings;
 
+using SharedPluginFeatures;
+
 namespace LoginPlugin
 {
     /// <summary>
     /// Settings that determine how the Login.Plugin module is configured and used.
     /// </summary>
-    public sealed class LoginControllerSettings
-    {
+    public sealed class LoginControllerSettings : IPluginSettings
+	{
+		/// <summary>
+		/// Settings name
+		/// </summary>
+		public string SettingsName => Controllers.LoginController.Name;
+
         /// <summary>
         /// Maximum number of attempts to login before the user is prevented from logging in for several minutes.
         /// </summary>

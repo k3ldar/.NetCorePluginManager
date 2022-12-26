@@ -25,13 +25,20 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using AppSettings;
 
+using SharedPluginFeatures;
+
 namespace SearchPlugin
 {
     /// <summary>
     /// Settings that determine how the Search.Plugin module is configured and used.
     /// </summary>
-    public sealed class SearchControllerSettings
-    {
+    public sealed class SearchControllerSettings : IPluginSettings
+	{
+		/// <summary>
+		/// Settings name
+		/// </summary>
+		public string SettingsName => Controllers.SearchController.Name;
+
         /// <summary>
         /// Maximum number of attempts to search before the user is prevented from logging in for several minutes.
         /// </summary>

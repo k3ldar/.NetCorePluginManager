@@ -44,6 +44,8 @@ using SharedPluginFeatures;
 
 using SystemAdmin.Plugin.Classes.MenuItems;
 using SystemAdmin.Plugin.Models;
+using System.Dynamic;
+
 
 #pragma warning disable CS1591
 
@@ -93,9 +95,28 @@ namespace SystemAdmin.Plugin.Controllers
 			ValidateIncomingProperties(model, baseType, errors);
 
 			if (errors.Count == 0)
+			{
+				string json = System.IO.File.ReadAllText(_pluginManagerConfiguration.ConfigurationFile);
+				//JsonSerializerSettings jsonSettings = new JsonSerializerSettings();
+				//jsonSettings.Converters.Add(new ExpandoObjectConverter());
+				//jsonSettings.Converters.Add(new StringEnumConverter());
+				//dynamic config = Json.DeserializeObject<ExpandoObject>(json, jsonSettings);
+
+				var jsonData = JsonSerializer.Deserialize<Dictionary<string, object>>(json);
+
+				ConfigurationBuilder builder = new ConfigurationBuilder();
+				IConfigurationBuilder configBuilder = builder.SetBasePath(Path.GetDirectoryName(_pluginManagerConfiguration.ConfigurationFile));
+				configBuilder.AddJsonFile(_pluginManagerConfiguration.ConfigurationFile);
+				IConfigurationRoot config = builder.Build();
+
+				//configBuilder.Sources
+
 				return new JsonResult(new JsonResponseModel(Languages.LanguageStrings.SettingsUpdated));
+			}
 			else
+			{
 				return new JsonResult(new JsonResponseModel(false, JsonSerializer.Serialize(errors)));
+			}
 		}
 
 		#endregion Controller Action Methods
@@ -139,6 +160,17 @@ namespace SystemAdmin.Plugin.Controllers
 		{
 			switch (modelProperty.DataType)
 			{
+				case "String[]":
+					StringSplitOptions splitOptions = StringSplitOptions.RemoveEmptyEntries;
+
+#if NET5_0_OR_GREATER
+					splitOptions |= StringSplitOptions.TrimEntries;
+#endif
+
+					string[] values = modelProperty.Value.Split("\n", splitOptions);
+					property.SetValue(baseType.PluginSettings, values, null);
+					break;
+
 				case "String":
 
 					property.SetValue(baseType.PluginSettings, modelProperty.Value, null);
@@ -210,13 +242,11 @@ namespace SystemAdmin.Plugin.Controllers
 			IConfigurationRoot config = builder.Build();
 
 #pragma warning disable IDE0008 // Use explicit type
-			var test = Activator.CreateInstance(baseType.PluginSettings.GetType());
+			Type settingsType = baseType.PluginSettings.GetType();
+			var test = Activator.CreateInstance(settingsType, _pluginClassesService.GetParameterInstances(settingsType));
 #pragma warning restore IDE0008 // Use explicit type
 
 			config.GetSection(baseType.Name()).Bind(test);
-
-			ValidateSettings<SettingsViewModel>.ValidateAllSettings(test.GetType(), test, null, null, null);
-
 
 			PropertyInfo[] allProperties = baseType.PluginSettings.GetType().GetProperties().Where(p => p.CanRead && p.CanWrite).ToArray();
 
@@ -234,6 +264,22 @@ namespace SystemAdmin.Plugin.Controllers
 					case "Boolean":
 
 						string value = property.GetValue(test, null)?.ToString() ?? String.Empty;
+
+						CustomAttributeData defaultAttr = property.CustomAttributes.FirstOrDefault(ca => ca.AttributeType.FullName.Equals(typeof(SettingDefaultAttribute).FullName));
+
+						if (defaultAttr != null)
+						{
+							bool isDefault = (property.PropertyType.FullName == "System.String" &&
+								String.IsNullOrEmpty((string)property.GetValue(baseType.PluginSettings))) ||
+								property.GetValue(baseType.PluginSettings) == null ||
+								property.GetValue(baseType.PluginSettings).Equals(GetDefault(property.PropertyType));
+
+							if (isDefault)
+							{
+								value = defaultAttr.ConstructorArguments[0].Value.ToString();
+							}
+						}
+
 						appSetting = CreatePropertySetting(value, property);
 
 						break;
@@ -242,6 +288,13 @@ namespace SystemAdmin.Plugin.Controllers
 
 						string[] valueArray = (string[])(property.GetValue(test, null));
 						appSetting = CreatePropertySetting(String.Join('\t', valueArray), property);
+
+						break;
+
+					default:
+
+						string json = JsonSerializer.Serialize(property.GetValue(test, null));
+						appSetting = CreatePropertySetting(json, property);
 
 						break;
 				}
@@ -257,6 +310,13 @@ namespace SystemAdmin.Plugin.Controllers
 			Result.Breadcrumbs.Add(new BreadcrumbItem(Result.SettingsName, $"/SystemAdmin/Setting/{Result.SettingId}/", false));
 
 			return Result;
+		}
+		private static object GetDefault(in Type type)
+		{
+			if (type == null || !type.IsValueType)
+				return null;
+
+			return Activator.CreateInstance(type);
 		}
 
 		private static ApplicationSettingViewModel CreatePropertySetting(string value, PropertyInfo property)

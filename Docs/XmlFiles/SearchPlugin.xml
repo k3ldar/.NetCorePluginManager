@@ -9,6 +9,11 @@
             Settings that determine how the Search.Plugin module is configured and used.
             </summary>
         </member>
+        <member name="P:SearchPlugin.SearchControllerSettings.SettingsName">
+            <summary>
+            Settings name
+            </summary>
+        </member>
         <member name="P:SearchPlugin.SearchControllerSettings.CaptchaShowFailCount">
             <summary>
             Maximum number of attempts to search before the user is prevented from logging in for several minutes.

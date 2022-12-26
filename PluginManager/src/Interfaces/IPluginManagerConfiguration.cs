@@ -1,5 +1,5 @@
 ﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *  .Net Core Plugin Manager is distributed under the GNU General Public License version 3 and  
+ *  Plugin Manager is distributed under the GNU General Public License version 3 and  
  *  is also available under alternative licenses negotiated directly with Simon Carter.  
  *  If you obtained Service Manager under the GPL, then the GPL applies to all loadable 
  *  Service Manager modules used on your system as well. The GPL (version 3) is 
@@ -11,40 +11,44 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2012 - 2022 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  ImageManager Plugin
+ *  Product:  PluginManager
  *  
- *  File: ImageManagerSettings.cs
+ *  File: IPluginManagerConfiguration.cs
  *
- *  Purpose:  Image manager settings
+ *  Purpose:  
  *
  *  Date        Name                Reason
- *  18/04/2021  Simon Carter        Initially Created
+ *  26/12/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using AppSettings;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-using SharedPluginFeatures;
-
-namespace ImageManager.Plugin.Classes
+namespace PluginManager
 {
-    /// <summary>
-    /// Settings for controlling image manager
-    /// </summary>
-    public sealed class ImageManagerSettings : IPluginSettings
+	/// <summary>
+	/// Plugin manager configuration interface
+	/// </summary>
+	public interface IPluginManagerConfiguration
 	{
 		/// <summary>
-		/// Settings name
+		/// Current path used by plugin manager
 		/// </summary>
-		public string SettingsName => Controllers.ImageManagerController.Name;
+		string CurrentPath { get; }
 
-        /// <summary>
-        /// Root path of all images
-        /// </summary>
-        /// <value>string</value>
-        [SettingOptional]
-        [SettingValidPath]
-        public string ImagePath { get; set; }
-    }
+		/// <summary>
+		/// Configuration file name used by plugin manager
+		/// </summary>
+		string ConfigFileName { get; }
+
+		/// <summary>
+		/// Configuration file used by plugin manager
+		/// </summary>
+		string ConfigurationFile { get; }
+	}
 }

@@ -157,6 +157,11 @@
             Settings for controlling image manager
             </summary>
         </member>
+        <member name="P:ImageManager.Plugin.Classes.ImageManagerSettings.SettingsName">
+            <summary>
+            Settings name
+            </summary>
+        </member>
         <member name="P:ImageManager.Plugin.Classes.ImageManagerSettings.ImagePath">
             <summary>
             Root path of all images

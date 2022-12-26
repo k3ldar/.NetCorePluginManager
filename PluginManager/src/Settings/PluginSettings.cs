@@ -36,7 +36,7 @@ namespace PluginManager
     /// Settings that affect how PluginManager works.
     /// </summary>
     public class PluginSettings
-    {
+	{
         #region Constructors
 
         /// <summary>
@@ -47,9 +47,9 @@ namespace PluginManager
             Plugins = new List<PluginSetting>();
         }
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
         /// <summary>
         /// Opionally disable plugin manager and prevent it from loading any plugins.

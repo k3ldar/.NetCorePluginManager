@@ -238,6 +238,8 @@ namespace AspNetCore.PluginManager
             if (_pluginSettings.Disabled)
                 return;
 
+			services.AddSingleton<IPluginManagerConfiguration>(_configuration);
+
             if (!_pluginSettings.DisableRouteDataService)
                 services.AddSingleton<IRouteDataService, RouteDataServices>();
 

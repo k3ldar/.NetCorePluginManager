@@ -9,6 +9,11 @@
             Settings that determine how the Login.Plugin module is configured and used.
             </summary>
         </member>
+        <member name="P:LoginPlugin.LoginControllerSettings.SettingsName">
+            <summary>
+            Settings name
+            </summary>
+        </member>
         <member name="P:LoginPlugin.LoginControllerSettings.CaptchaShowFailCount">
             <summary>
             Maximum number of attempts to login before the user is prevented from logging in for several minutes.
