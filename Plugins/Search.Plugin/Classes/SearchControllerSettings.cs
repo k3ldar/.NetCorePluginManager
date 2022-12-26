@@ -29,106 +29,106 @@ using SharedPluginFeatures;
 
 namespace SearchPlugin
 {
-    /// <summary>
-    /// Settings that determine how the Search.Plugin module is configured and used.
-    /// </summary>
-    public sealed class SearchControllerSettings : IPluginSettings
+	/// <summary>
+	/// Settings that determine how the Search.Plugin module is configured and used.
+	/// </summary>
+	public sealed class SearchControllerSettings : IPluginSettings
 	{
 		/// <summary>
 		/// Settings name
 		/// </summary>
 		public string SettingsName => nameof(SearchPlugin);
 
-        /// <summary>
-        /// Maximum number of attempts to search before the user is prevented from logging in for several minutes.
-        /// </summary>
-        /// <value>int</value>
-        [SettingDefault(2)]
-        public int CaptchaShowFailCount { get; set; }
+		/// <summary>
+		/// Maximum number of attempts to search before the user is prevented from logging in for several minutes.
+		/// </summary>
+		/// <value>int</value>
+		[SettingDefault(2)]
+		public int CaptchaShowFailCount { get; set; }
 
-        /// <summary>
-        /// Length of the Captcha word.
-        /// 
-        /// Default: 7
-        /// Minimum: 6
-        /// Maximum: 12
-        /// </summary>
-        [SettingRange(6, 12)]
-        [SettingDefault(7)]
-        public int CaptchaWordLength { get; set; }
+		/// <summary>
+		/// Length of the Captcha word.
+		/// 
+		/// Default: 7
+		/// Minimum: 6
+		/// Maximum: 12
+		/// </summary>
+		[SettingRange(6, 12)]
+		[SettingDefault(7)]
+		public int CaptchaWordLength { get; set; }
 
-        /// <summary>
-        /// Determines whether the ip address or unique Net Core session id is used to cache data.
-        /// 
-        /// This is mainly useful in a debug environment and should be set to true.
-        /// </summary>
-        /// <value>bool</value>
-        [SettingDefault(false)]
-        public bool CacheUseSession { get; set; }
+		/// <summary>
+		/// Determines whether the ip address or unique Net Core session id is used to cache data.
+		/// 
+		/// This is mainly useful in a debug environment and should be set to true.
+		/// </summary>
+		/// <value>bool</value>
+		[SettingDefault(false)]
+		public bool CacheUseSession { get; set; }
 
-        /// <summary>
-        /// Determines whether the Remember Me option is shown or not.
-        /// </summary>
-        /// <value>bool</value>
-        [SettingDefault(true)]
-        public bool ShowRememberMe { get; set; }
+		/// <summary>
+		/// Determines whether the Remember Me option is shown or not.
+		/// </summary>
+		/// <value>bool</value>
+		[SettingDefault(true)]
+		public bool ShowRememberMe { get; set; }
 
-        /// <summary>
-        /// Remember me cookie name.
-        /// 
-        /// Must be between 6 and 20 characters long.
-        /// 
-        /// Default: RememberMe
-        /// </summary>
-        [SettingString(false, 6, 20)]
-        [SettingDefault("RememberMe")]
-        public string RememberMeCookieName { get; set; }
+		/// <summary>
+		/// Remember me cookie name.
+		/// 
+		/// Must be between 6 and 20 characters long.
+		/// 
+		/// Default: RememberMe
+		/// </summary>
+		[SettingString(false, 6, 20)]
+		[SettingDefault("RememberMe")]
+		public string RememberMeCookieName { get; set; }
 
-        /// <summary>
-        /// Encryption key used to encrypt cookie values.
-        /// 
-        /// Must be between 20 and 60 characters long.
-        /// </summary>
-        /// <value>string</value>
-        [SettingString(false, SharedPluginFeatures.Constants.MinimumKeyLength, SharedPluginFeatures.Constants.MaximumKeyLength)]
-        [SettingDefault("A^SSDFasdkl;fjanewrun[ca'ekd jf;z4sieurn;fdmmjf")]
-        public string EncryptionKey { get; set; }
+		/// <summary>
+		/// Encryption key used to encrypt cookie values.
+		/// 
+		/// Must be between 20 and 60 characters long.
+		/// </summary>
+		/// <value>string</value>
+		[SettingString(false, SharedPluginFeatures.Constants.MinimumKeyLength, SharedPluginFeatures.Constants.MaximumKeyLength)]
+		[SettingDefault("A^SSDFasdkl;fjanewrun[ca'ekd jf;z4sieurn;fdmmjf")]
+		public string EncryptionKey { get; set; }
 
 
-        /// <summary>
-        /// Url that the user can be redirected to, in order to change their password.
-        /// 
-        /// This must be either a relative or absolute Uri.
-        /// </summary>
-        /// <value>string</value>
-        [SettingUri(false, System.UriKind.RelativeOrAbsolute)]
-        [SettingDefault("/Account/ChangePassword")]
-        public string ChangePasswordUrl { get; set; }
+		/// <summary>
+		/// Url that the user can be redirected to, in order to change their password.
+		/// 
+		/// This must be either a relative or absolute Uri.
+		/// </summary>
+		/// <value>string</value>
+		[SettingUri(false, System.UriKind.RelativeOrAbsolute)]
+		[SettingDefault("/Account/ChangePassword")]
+		public string ChangePasswordUrl { get; set; }
 
-        /// <summary>
-        /// The name of the authentication scheme
-        /// </summary>
-        /// <value>string</value>
-        [SettingDefault("DefaultAuthSchemeName")]
-        [SettingString(false)]
-        public string AuthenticationScheme { get; set; }
+		/// <summary>
+		/// The name of the authentication scheme
+		/// </summary>
+		/// <value>string</value>
+		[SettingDefault("DefaultAuthSchemeName")]
+		[SettingString(false)]
+		public string AuthenticationScheme { get; set; }
 
-        /// <summary>
-        /// Minimum length of keyword search string
-        /// </summary>
-        [SettingDefault((byte)3)]
-        public byte MinimumKeywordSearchLength { get; set; }
+		/// <summary>
+		/// Minimum length of keyword search string
+		/// </summary>
+		[SettingDefault((byte)3)]
+		public byte MinimumKeywordSearchLength { get; set; }
 
-        /// <summary>
-        /// Indicates that the keyword search result should have the search keyword highlighted in html
-        /// </summary>
-        [SettingDefault(true)]
-        public bool HighlightQuickSearchTerms { get; set; }
+		/// <summary>
+		/// Indicates that the keyword search result should have the search keyword highlighted in html
+		/// </summary>
+		[SettingDefault(true)]
+		public bool HighlightQuickSearchTerms { get; set; }
 
-        /// <summary>
-        /// Total number of search results per page
-        /// </summary>
-        [SettingDefault(12)]
-        public int ItemsPerPage { get; set; }
-    }
+		/// <summary>
+		/// Total number of search results per page
+		/// </summary>
+		[SettingDefault(12)]
+		public int ItemsPerPage { get; set; }
+	}
 }

@@ -29,22 +29,22 @@ using SharedPluginFeatures;
 
 namespace ImageManager.Plugin.Classes
 {
-    /// <summary>
-    /// Settings for controlling image manager
-    /// </summary>
-    public sealed class ImageManagerSettings : IPluginSettings
+	/// <summary>
+	/// Settings for controlling image manager
+	/// </summary>
+	public sealed class ImageManagerSettings : IPluginSettings
 	{
 		/// <summary>
 		/// Settings name
 		/// </summary>
 		public string SettingsName => nameof(ImageManager);
 
-        /// <summary>
-        /// Root path of all images
-        /// </summary>
-        /// <value>string</value>
-        [SettingOptional]
-        [SettingValidPath]
-        public string ImagePath { get; set; }
-    }
+		/// <summary>
+		/// Root path of all images
+		/// </summary>
+		/// <value>string</value>
+		[SettingOptional]
+		[SettingValidPath]
+		public string ImagePath { get; set; }
+	}
 }

@@ -29,20 +29,20 @@ using SharedPluginFeatures;
 
 namespace GeoIp.Plugin
 {
-    /// <summary>
-    /// Settings to determine how GeoIp.Plugin module is configured.
-    /// </summary>
-    public class GeoIpPluginSettings : IPluginSettings
-    {
-        #region Constructors
+	/// <summary>
+	/// Settings to determine how GeoIp.Plugin module is configured.
+	/// </summary>
+	public class GeoIpPluginSettings : IPluginSettings
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public GeoIpPluginSettings()
-        {
-            IpStack = new IpStackSettings();
-        }
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public GeoIpPluginSettings()
+		{
+			IpStack = new IpStackSettings();
+		}
 
 		#endregion Constructors
 
@@ -59,39 +59,39 @@ namespace GeoIp.Plugin
 		/// <value>string</value>
 		public string Webnet77CSVDataPath { get; set; }
 
-        /// <summary>
-        /// Automatically downloads webnet 77 data if true
-        /// </summary>
-        /// <value>bool</value>
-        public bool AutoDownloadWebnet77Data { get; set; }
+		/// <summary>
+		/// Automatically downloads webnet 77 data if true
+		/// </summary>
+		/// <value>bool</value>
+		public bool AutoDownloadWebnet77Data { get; set; }
 
-        /// <summary>
-        /// Webnet77 download url
-        /// </summary>
-        /// <value>string</value>
-        [SettingDefault("https://software77.net/geo-ip/?DL=2")]
-        [SettingUri(false, System.UriKind.Absolute)]
-        public string Webnet77CsvUrl { get; set; }
+		/// <summary>
+		/// Webnet77 download url
+		/// </summary>
+		/// <value>string</value>
+		[SettingDefault("https://software77.net/geo-ip/?DL=2")]
+		[SettingUri(false, System.UriKind.Absolute)]
+		public string Webnet77CsvUrl { get; set; }
 
-        /// <summary>
-        /// Frequency of download of Webnet77 data in days
-        /// </summary>
-        /// <value>int</value>
-        [SettingDefault(1)]
-        [SettingRange(1, 20)]
-        public int DownloadFrequency { get; set; }
+		/// <summary>
+		/// Frequency of download of Webnet77 data in days
+		/// </summary>
+		/// <value>int</value>
+		[SettingDefault(1)]
+		[SettingRange(1, 20)]
+		public int DownloadFrequency { get; set; }
 
-        /// <summary>
-        /// GeoIpProvider used by GeoIp.Plugin module.
-        /// </summary>
-        public Enums.GeoIpProvider GeoIpProvider { get; set; }
+		/// <summary>
+		/// GeoIpProvider used by GeoIp.Plugin module.
+		/// </summary>
+		public Enums.GeoIpProvider GeoIpProvider { get; set; }
 
-        /// <summary>
-        /// IpStackSettings, individual settings for retrieving data from Ip Stack.
-        /// </summary>
-        /// <value>IpStackSettings</value>
-        public IpStackSettings IpStack { get; set; }
+		/// <summary>
+		/// IpStackSettings, individual settings for retrieving data from Ip Stack.
+		/// </summary>
+		/// <value>IpStackSettings</value>
+		public IpStackSettings IpStack { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

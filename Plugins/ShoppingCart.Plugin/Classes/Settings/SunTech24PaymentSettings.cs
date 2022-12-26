@@ -32,23 +32,23 @@ using SharedPluginFeatures;
 
 namespace ShoppingCartPlugin.Classes
 {
-    public sealed class SunTech24PaymentSettings : PaymentProviderSettings, IPluginSettings
-    {
+	public sealed class SunTech24PaymentSettings : PaymentProviderSettings, IPluginSettings
+	{
 		/// <summary>
 		/// Name
 		/// </summary>
 		public string SettingsName => "SunTech24";
 
-        [SettingString(false, 1, 100)]
-        public string MerchantPassword { get; set; }
+		[SettingString(false, 1, 100)]
+		public string MerchantPassword { get; set; }
 
-        [SettingString(false, 1, 100)]
-        public string MerchantId { get; set; }
+		[SettingString(false, 1, 100)]
+		public string MerchantId { get; set; }
 
-        public bool TestMode { get; set; }
+		public bool TestMode { get; set; }
 
-        [SettingRange(1, 500)]
-        public int DueDateDays { get; set; }
+		[SettingRange(1, 500)]
+		public int DueDateDays { get; set; }
 	}
 }
 

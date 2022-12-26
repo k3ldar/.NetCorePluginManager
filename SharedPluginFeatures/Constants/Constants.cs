@@ -257,10 +257,13 @@ namespace SharedPluginFeatures
         /// </summary>
         public const string SpiderSettings = "Spider.Plugin";
 
-        /// <summary>
-        /// Name of the UserSessionMiddleware.Plugin module.
-        /// </summary>
-        public const string PluginNameUserSession = "UserSessionMiddleware.Plugin.dll";
+
+		public const string MemoryCacheSettings = "MemoryCachePluginConfiguration";
+
+		/// <summary>
+		/// Name of the UserSessionMiddleware.Plugin module.
+		/// </summary>
+		public const string PluginNameUserSession = "UserSessionMiddleware.Plugin.dll";
 
         /// <summary>
         /// Name of the Localization.Plugin module which controlls all localization requests.

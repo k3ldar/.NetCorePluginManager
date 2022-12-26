@@ -28,10 +28,10 @@ using SharedPluginFeatures;
 
 namespace Blog.Plugin
 {
-    /// <summary>
-    /// Settings that affect how the Blog.Plugin module is configured.
-    /// </summary>
-    public class BlogSettings : IPluginSettings
+	/// <summary>
+	/// Settings that affect how the Blog.Plugin module is configured.
+	/// </summary>
+	public class BlogSettings : IPluginSettings
 	{
 		/// <summary>
 		/// Settings name
@@ -42,5 +42,5 @@ namespace Blog.Plugin
 		/// Determines whether people can leave comments or not.
 		/// </summary>
 		public bool AllowComments { get; set; }
-    }
+	}
 }

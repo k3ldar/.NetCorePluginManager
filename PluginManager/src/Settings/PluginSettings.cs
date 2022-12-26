@@ -32,84 +32,84 @@ using AppSettings;
 
 namespace PluginManager
 {
-    /// <summary>
-    /// Settings that affect how PluginManager works.
-    /// </summary>
-    public class PluginSettings
+	/// <summary>
+	/// Settings that affect how PluginManager works.
+	/// </summary>
+	public class PluginSettings
 	{
-        #region Constructors
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public PluginSettings()
-        {
-            Plugins = new List<PluginSetting>();
-        }
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public PluginSettings()
+		{
+			Plugins = new List<PluginSetting>();
+		}
 
 		#endregion Constructors
 
 		#region Properties
 
-        /// <summary>
-        /// Opionally disable plugin manager and prevent it from loading any plugins.
-        /// </summary>
-        /// <value>bool</value>
-        public bool Disabled { get; set; }
+		/// <summary>
+		/// Opionally disable plugin manager and prevent it from loading any plugins.
+		/// </summary>
+		/// <value>bool</value>
+		public bool Disabled { get; set; }
 
-        /// <summary>
-        /// Path where plugin assembly modules are located.
-        /// </summary>
-        /// <value>string</value>
-        [SettingString(true)]
-        [SettingDefault("%AppPath%\\Plugins")]
-        public string PluginPath { get; set; }
+		/// <summary>
+		/// Path where plugin assembly modules are located.
+		/// </summary>
+		/// <value>string</value>
+		[SettingString(true)]
+		[SettingDefault("%AppPath%\\Plugins")]
+		public string PluginPath { get; set; }
 
-        /// <summary>
-        /// Root path that is used to search for plugin assembly modules.
-        /// </summary>
-        /// <value>string</value>
-        [SettingString(true)]
-        [SettingValidPath]
-        [SettingDefault("%AppPath%\\Bin")]
-        public string PluginSearchPath { get; set; }
+		/// <summary>
+		/// Root path that is used to search for plugin assembly modules.
+		/// </summary>
+		/// <value>string</value>
+		[SettingString(true)]
+		[SettingValidPath]
+		[SettingDefault("%AppPath%\\Bin")]
+		public string PluginSearchPath { get; set; }
 
-        /// <summary>
-        /// Root path that will be searched for dll's that can not be found when loading plugin modules.
-        /// </summary>
-        /// <value>string</value>
-        [SettingString(true)]
-        public string SystemFiles { get; set; }
+		/// <summary>
+		/// Root path that will be searched for dll's that can not be found when loading plugin modules.
+		/// </summary>
+		/// <value>string</value>
+		[SettingString(true)]
+		public string SystemFiles { get; set; }
 
-        /// <summary>
-        /// Indicates whether a copy of the plugin will be sent to <seealso cref="LocalCopyPath"/>, where it will be loaded from.
-        /// </summary>
-        /// <value>bool</value>
-        [SettingDefault(false)]
-        public bool CreateLocalCopy { get; set; }
+		/// <summary>
+		/// Indicates whether a copy of the plugin will be sent to <seealso cref="LocalCopyPath"/>, where it will be loaded from.
+		/// </summary>
+		/// <value>bool</value>
+		[SettingDefault(false)]
+		public bool CreateLocalCopy { get; set; }
 
-        /// <summary>
-        /// If CreateLocalCopy is true, this path will be used to store and load the plugins from.
-        /// </summary>
-        /// <value>string</value>
-        [SettingOptional]
-        [SettingValidPath]
-        public string LocalCopyPath { get; set; }
+		/// <summary>
+		/// If CreateLocalCopy is true, this path will be used to store and load the plugins from.
+		/// </summary>
+		/// <value>string</value>
+		[SettingOptional]
+		[SettingValidPath]
+		public string LocalCopyPath { get; set; }
 
-        /// <summary>
-        /// User defined list of plugin modules that will be loaded in order prior to generic loading of plugins.
-        /// 
-        /// If you need to specify the load order of plugins the assembly names (with or without path) need to be included in this list.
-        /// </summary>
-        /// <value>List&lt;string&gt;</value>
-        public List<string> PluginFiles { get; set; }
+		/// <summary>
+		/// User defined list of plugin modules that will be loaded in order prior to generic loading of plugins.
+		/// 
+		/// If you need to specify the load order of plugins the assembly names (with or without path) need to be included in this list.
+		/// </summary>
+		/// <value>List&lt;string&gt;</value>
+		public List<string> PluginFiles { get; set; }
 
-        /// <summary>
-        /// Individual plugin module settings.
-        /// </summary>
-        /// <value>List&lt;PluginSetting&gt;</value>
-        public List<PluginSetting> Plugins { get; }
+		/// <summary>
+		/// Individual plugin module settings.
+		/// </summary>
+		/// <value>List&lt;PluginSetting&gt;</value>
+		public List<PluginSetting> Plugins { get; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

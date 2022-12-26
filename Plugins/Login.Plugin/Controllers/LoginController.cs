@@ -63,10 +63,9 @@ namespace LoginPlugin.Controllers
     [Subdomain(LoginController.Name)]
     public partial class LoginController : BaseController
     {
-        public const string Name = "Login";
-
         #region Private Members
 
+        private const string Name = "Login";
         private const string ExternalLoginCacheItem = "Extern Login {0}";
         private const string OAuthCode = "code";
         private const string OAuthClientId = "client_id";

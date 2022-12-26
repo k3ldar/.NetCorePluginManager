@@ -23,56 +23,54 @@
  *  18/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-
 using AppSettings;
 
 using SharedPluginFeatures;
 
 namespace HelpdeskPlugin.Classes
 {
-    /// <summary>
-    /// Settings that define how the HelpdeskPlugin module is configured.
-    /// </summary>
-    public sealed class HelpdeskSettings : IPluginSettings
+	/// <summary>
+	/// Settings that define how the HelpdeskPlugin module is configured.
+	/// </summary>
+	public sealed class HelpdeskSettings : IPluginSettings
 	{
 		/// <summary>
 		/// Settings name
 		/// </summary>
 		public string SettingsName => nameof(HelpdeskSettings);
 
-        /// <summary>
-        /// Determines if captcha text is displayed for user input.
-        /// </summary>
-        [SettingDefault(true)]
-        public bool ShowCaptchaText { get; set; }
+		/// <summary>
+		/// Determines if captcha text is displayed for user input.
+		/// </summary>
+		[SettingDefault(true)]
+		public bool ShowCaptchaText { get; set; }
 
-        /// <summary>
-        /// Length of captcha text to be displayed for input, to verify the user is real.
-        /// </summary>
-        [SettingDefault(6)]
+		/// <summary>
+		/// Length of captcha text to be displayed for input, to verify the user is real.
+		/// </summary>
+		[SettingDefault(6)]
 		[SettingRange(4, 10)]
-        public int CaptchaWordLength { get; set; }
+		public int CaptchaWordLength { get; set; }
 
-        /// <summary>
-        /// Determines whether support tickets are displayed on a website or not.
-        /// </summary>
-        /// <value>bool.  If true users can obtain support via online support tickets.</value>
-        [SettingDefault(true)]
-        public bool ShowTickets { get; set; }
+		/// <summary>
+		/// Determines whether support tickets are displayed on a website or not.
+		/// </summary>
+		/// <value>bool.  If true users can obtain support via online support tickets.</value>
+		[SettingDefault(true)]
+		public bool ShowTickets { get; set; }
 
-        /// <summary>
-        /// Show frequently asked questions on website.
-        /// </summary>
-        /// <value>bool.  If true then frequently asked questions will be displayed.</value>
-        [SettingDefault(true)]
-        public bool ShowFaq { get; set; }
+		/// <summary>
+		/// Show frequently asked questions on website.
+		/// </summary>
+		/// <value>bool.  If true then frequently asked questions will be displayed.</value>
+		[SettingDefault(true)]
+		public bool ShowFaq { get; set; }
 
-        /// <summary>
-        /// Show feedback on website.
-        /// </summary>
-        /// <value>bool.  If true then feedback will be displayed.</value>
-        [SettingDefault(true)]
-        public bool ShowFeedback { get; set; }
-    }
+		/// <summary>
+		/// Show feedback on website.
+		/// </summary>
+		/// <value>bool.  If true then feedback will be displayed.</value>
+		[SettingDefault(true)]
+		public bool ShowFeedback { get; set; }
+	}
 }

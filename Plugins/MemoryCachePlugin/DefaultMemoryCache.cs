@@ -56,7 +56,7 @@ namespace MemoryCache.Plugin
 
         public DefaultMemoryCache(ISettingsProvider settingsProvider)
         {
-			MemoryClassPluginSettings settings = settingsProvider.GetSettings<MemoryClassPluginSettings>("MemoryCachePluginConfiguration");
+			MemoryClassPluginSettings settings = settingsProvider.GetSettings<MemoryClassPluginSettings>(Constants.MemoryCacheSettings);
 
 			// create the caches
 			if (_cache == null)
@@ -105,7 +105,7 @@ namespace MemoryCache.Plugin
 				_permanentCache = null;
 			}
 
-			MemoryClassPluginSettings settings = settingsProvider.GetSettings<MemoryClassPluginSettings>("MemoryCachePluginConfiguration");
+			MemoryClassPluginSettings settings = settingsProvider.GetSettings<MemoryClassPluginSettings>(Constants.MemoryCacheSettings);
 
             // create the caches
             if (_cache == null)

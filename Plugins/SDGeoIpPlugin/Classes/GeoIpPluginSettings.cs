@@ -29,11 +29,11 @@ using SharedPluginFeatures;
 
 namespace SieraDeltaGeoIp.Plugin
 {
-    /// <summary>
-    /// Contains GeoIp settings that are used to connect to MySql, MSSql or Firebird.
-    /// </summary>
-    public class GeoIpPluginSettings : IPluginSettings
-    {
+	/// <summary>
+	/// Contains GeoIp settings that are used to connect to MySql, MSSql or Firebird.
+	/// </summary>
+	public class GeoIpPluginSettings : IPluginSettings
+	{
 		#region Properties
 
 		/// <summary>
@@ -46,26 +46,26 @@ namespace SieraDeltaGeoIp.Plugin
 		/// </summary>
 		public bool CacheAllData { get; set; }
 
-        /// <summary>
-        /// Database connection string, this can also point to a file that contains the connection string.
-        /// </summary>
-        [SettingString(false)]
-        public string DatabaseConnectionString { get; set; }
+		/// <summary>
+		/// Database connection string, this can also point to a file that contains the connection string.
+		/// </summary>
+		[SettingString(false)]
+		public string DatabaseConnectionString { get; set; }
 
-        /// <summary>
-        /// Type of provider to be used.
-        /// </summary>
-        public Enums.GeoIpProvider GeoIpProvider { get; set; }
+		/// <summary>
+		/// Type of provider to be used.
+		/// </summary>
+		public Enums.GeoIpProvider GeoIpProvider { get; set; }
 
-        /// <summary>
-        /// Array of country data that will be loaded in the background whilst the middleware is initialised.  This allows
-        /// for a faster response for specific countries that the website serves.  For instance, if your primary customer
-        /// base is from the USA you could load all Geo Ip address data for that country so it is cached.
-        /// </summary>
-        /// <value>string[]</value>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
-        public string[] CountryList { get; set; }
+		/// <summary>
+		/// Array of country data that will be loaded in the background whilst the middleware is initialised.  This allows
+		/// for a faster response for specific countries that the website serves.  For instance, if your primary customer
+		/// base is from the USA you could load all Geo Ip address data for that country so it is cached.
+		/// </summary>
+		/// <value>string[]</value>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
+		public string[] CountryList { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

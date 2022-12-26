@@ -27,11 +27,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 
 using AppSettings;
@@ -44,8 +43,6 @@ using SharedPluginFeatures;
 
 using SystemAdmin.Plugin.Classes.MenuItems;
 using SystemAdmin.Plugin.Models;
-using System.Dynamic;
-using System.Text.Encodings.Web;
 
 
 
@@ -163,7 +160,8 @@ namespace SystemAdmin.Plugin.Controllers
 			}
 		}
 
-		private static void ValidateAndSetPropertyValues(SettingsMenuItem baseType, List<string> errors, ApplicationSettingViewModel modelProperty, PropertyInfo property)
+		private static void ValidateAndSetPropertyValues(SettingsMenuItem baseType, List<string> errors, 
+			ApplicationSettingViewModel modelProperty, PropertyInfo property)
 		{
 			switch (modelProperty.DataType)
 			{
@@ -257,7 +255,7 @@ namespace SystemAdmin.Plugin.Controllers
 
 			if (isDebugPos > -1)
 				path = path[..isDebugPos];
-			
+
 			string jsonFile = Path.Combine(path, "appsettings.json");
 
 			ConfigurationBuilder builder = new ConfigurationBuilder();
@@ -288,7 +286,8 @@ namespace SystemAdmin.Plugin.Controllers
 
 						string value = property.GetValue(test, null)?.ToString() ?? String.Empty;
 
-						CustomAttributeData defaultAttr = property.CustomAttributes.FirstOrDefault(ca => ca.AttributeType.FullName.Equals(typeof(SettingDefaultAttribute).FullName));
+						CustomAttributeData defaultAttr = property.CustomAttributes
+							.FirstOrDefault(ca => ca.AttributeType.FullName.Equals(typeof(SettingDefaultAttribute).FullName));
 
 						if (defaultAttr != null)
 						{
@@ -327,7 +326,8 @@ namespace SystemAdmin.Plugin.Controllers
 					Result.Settings.Add(appSetting);
 			}
 
-			SystemAdminMainMenu selectedMenu = _systemAdminHelperService.GetSystemAdminMainMenu().First(sam => sam.Name.Equals(Languages.LanguageStrings.Settings, StringComparison.InvariantCultureIgnoreCase));
+			SystemAdminMainMenu selectedMenu = _systemAdminHelperService.GetSystemAdminMainMenu()
+				.First(sam => sam.Name.Equals(Languages.LanguageStrings.Settings, StringComparison.InvariantCultureIgnoreCase));
 
 			Result.Breadcrumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
 			Result.Breadcrumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.Settings, $"/SystemAdmin/Index/{selectedMenu.UniqueId}/", false));

@@ -29,20 +29,20 @@ using SharedPluginFeatures;
 
 namespace CacheControl.Plugin
 {
-    /// <summary>
-    /// Dictionary of CacheControlRoute values loaded from settings using ISettingsProvider
-    /// </summary>
-    public class CacheControlSettings : IPluginSettings
+	/// <summary>
+	/// Dictionary of CacheControlRoute values loaded from settings using ISettingsProvider
+	/// </summary>
+	public class CacheControlSettings : IPluginSettings
 	{
-        #region Constructors
+		#region Constructors
 
-        /// <summary>
-        /// Default Constructor
-        /// </summary>
-        public CacheControlSettings()
-        {
-            CacheControlRoutes = new Dictionary<string, CacheControlRoute>();
-        }
+		/// <summary>
+		/// Default Constructor
+		/// </summary>
+		public CacheControlSettings()
+		{
+			CacheControlRoutes = new Dictionary<string, CacheControlRoute>();
+		}
 
 		#endregion Constructors
 
@@ -61,12 +61,12 @@ namespace CacheControl.Plugin
 		/// <value>bool</value>
 		public bool Disabled { get; set; }
 
-        /// <summary>
-        /// Dictionary of CacheControlRoute values, definining routes cache values.
-        /// </summary>
-        /// <value>Dictionary&lt;string, CacheControlRoute&gt;</value>
-        public Dictionary<string, CacheControlRoute> CacheControlRoutes { get; set; }
+		/// <summary>
+		/// Dictionary of CacheControlRoute values, definining routes cache values.
+		/// </summary>
+		/// <value>Dictionary&lt;string, CacheControlRoute&gt;</value>
+		public Dictionary<string, CacheControlRoute> CacheControlRoutes { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

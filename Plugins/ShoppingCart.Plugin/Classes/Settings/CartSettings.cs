@@ -29,26 +29,26 @@ using SharedPluginFeatures;
 
 namespace ShoppingCartPlugin.Classes
 {
-    /// <summary>
-    /// Settings that configure how the Shopping cart is configured.
-    /// </summary>
-    public sealed class CartSettings : IPluginSettings
+	/// <summary>
+	/// Settings that configure how the Shopping cart is configured.
+	/// </summary>
+	public sealed class CartSettings : IPluginSettings
 	{
 		/// <summary>
 		/// Name
 		/// </summary>
 		public string SettingsName => Constants.ShoppingCart;
 
-        /// <summary>
-        /// Default currency to be used.
-        /// </summary>
-        [SettingString(false, 3, 3)]
-        [SettingDefault("GBP")]
-        public string DefaultCurrency { get; set; }
+		/// <summary>
+		/// Default currency to be used.
+		/// </summary>
+		[SettingString(false, 3, 3)]
+		[SettingDefault("GBP")]
+		public string DefaultCurrency { get; set; }
 
-        /// <summary>
-        /// Default tax rate to be applied.  This can later be overridden depending on shipping address.
-        /// </summary>
-        public decimal DefaultTaxRate { get; set; }
-    }
+		/// <summary>
+		/// Default tax rate to be applied.  This can later be overridden depending on shipping address.
+		/// </summary>
+		public decimal DefaultTaxRate { get; set; }
+	}
 }

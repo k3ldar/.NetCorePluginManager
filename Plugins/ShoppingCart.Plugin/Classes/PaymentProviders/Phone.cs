@@ -38,67 +38,67 @@ using Shared.Classes;
 
 namespace ShoppingCartPlugin.Classes.PaymentProviders
 {
-    /// <summary>
-    /// Pay by phone payment provider.  This payment provider is used when a user orders online, but then telephones the office to complete the sale and make payment.
-    /// 
-    /// This class implements IPaymentProvider interface.
-    /// </summary>
-    public sealed class Phone
-    {
-        #region Private Members
+	/// <summary>
+	/// Pay by phone payment provider.  This payment provider is used when a user orders online, but then telephones the office to complete the sale and make payment.
+	/// 
+	/// This class implements IPaymentProvider interface.
+	/// </summary>
+	public sealed class Phone
+	{
+		#region Private Members
 
-        private readonly PaymentProviderSettings _paymentProviderSettings;
+		private readonly PaymentProviderSettings _paymentProviderSettings;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public Phone(ISettingsProvider settingsProvider)
-        {
-            if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+		public Phone(ISettingsProvider settingsProvider)
+		{
+			if (settingsProvider == null)
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            _paymentProviderSettings = settingsProvider.GetSettings<PaymentProviderSettings>(nameof(Phone));
-        }
+			_paymentProviderSettings = settingsProvider.GetSettings<PaymentProviderSettings>(nameof(Phone));
+		}
 
 		#endregion Constructors
 
 		#region IPaymentProvider Methods
 
 		public bool Execute(in HttpRequest request, in Order order, in PaymentStatus paymentStatus,
-            in UserSession userSession, out string urlParameters)
-        {
-            urlParameters = $"/Cart/Success/{UniqueId()}/";
-            return true;
-        }
+			in UserSession userSession, out string urlParameters)
+		{
+			urlParameters = $"/Cart/Success/{UniqueId()}/";
+			return true;
+		}
 
-        public bool ExecuteTest(in NVPCodec codec)
-        {
-            return false;
-        }
+		public bool ExecuteTest(in NVPCodec codec)
+		{
+			return false;
+		}
 
-        public string GetCurrencies()
-        {
-            return _paymentProviderSettings.Currencies;
-        }
+		public string GetCurrencies()
+		{
+			return _paymentProviderSettings.Currencies;
+		}
 
-        public string Name()
-        {
-            return Middleware.Constants.PaymentProviderPhone;
-        }
+		public string Name()
+		{
+			return Middleware.Constants.PaymentProviderPhone;
+		}
 
-        public bool Enabled()
-        {
-            return _paymentProviderSettings.Enabled;
-        }
+		public bool Enabled()
+		{
+			return _paymentProviderSettings.Enabled;
+		}
 
-        public Guid UniqueId()
-        {
-            return Guid.Parse(_paymentProviderSettings.UniqueId);
-        }
+		public Guid UniqueId()
+		{
+			return Guid.Parse(_paymentProviderSettings.UniqueId);
+		}
 
-        #endregion IPaymentProvider Methods
-    }
+		#endregion IPaymentProvider Methods
+	}
 }
 
 #pragma warning restore CS1591

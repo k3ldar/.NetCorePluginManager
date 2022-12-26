@@ -40,87 +40,87 @@ using ShoppingCartPlugin.Classes.Paypoint;
 
 namespace ShoppingCartPlugin.Classes.PaymentProviders
 {
-    /// <summary>
-    /// Paypoint payment provider.  This payment provider is used when a user orders online and makes a payment using the online Paypoint payment service.
-    /// 
-    /// This class implements IPaymentProvider interface.
-    /// </summary>
-    public sealed class PaypointProvider
-    {
-        #region Private Members
+	/// <summary>
+	/// Paypoint payment provider.  This payment provider is used when a user orders online and makes a payment using the online Paypoint payment service.
+	/// 
+	/// This class implements IPaymentProvider interface.
+	/// </summary>
+	public sealed class PaypointProvider
+	{
+		#region Private Members
 
-        private readonly PaypointSettings _paymentProviderSettings;
+		private readonly PaypointSettings _paymentProviderSettings;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public PaypointProvider(ISettingsProvider settingsProvider)
-        {
-            if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+		public PaypointProvider(ISettingsProvider settingsProvider)
+		{
+			if (settingsProvider == null)
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            _paymentProviderSettings = settingsProvider.GetSettings<PaypointSettings>(nameof(PaypointProvider));
-        }
+			_paymentProviderSettings = settingsProvider.GetSettings<PaypointSettings>(nameof(PaypointProvider));
+		}
 
 		#endregion Constructors
 
 		#region IPaymentProvider Methods
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "I deem it to be valid in this context!")]
-        public bool Execute(in HttpRequest request, in Order order, in PaymentStatus paymentStatus,
-            in UserSession userSession, out string urlParameters)
-        {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
+		public bool Execute(in HttpRequest request, in Order order, in PaymentStatus paymentStatus,
+			in UserSession userSession, out string urlParameters)
+		{
+			if (request == null)
+				throw new ArgumentNullException(nameof(request));
 
-            urlParameters = $"/Cart/Failed/";
+			urlParameters = $"/Cart/Failed/";
 
-            if (order == null)
-                throw new InvalidOperationException("Invalid Order, can not find order during payment (Paypoint)");
+			if (order == null)
+				throw new InvalidOperationException("Invalid Order, can not find order during payment (Paypoint)");
 
 
-            if (order.Total > 0.00m)
-            {
-                PaypointHelper vc = new PaypointHelper(order.Id.ToString(), order.Total,
-                    _paymentProviderSettings.Currencies.Split(';')[0],
-                    _paymentProviderSettings.MerchantId, _paymentProviderSettings.RemotePassword,
-                    $"{request.Scheme}://{request.Host.Value}/Cart/Paypoint/");
+			if (order.Total > 0.00m)
+			{
+				PaypointHelper vc = new PaypointHelper(order.Id.ToString(), order.Total,
+					_paymentProviderSettings.Currencies.Split(';')[0],
+					_paymentProviderSettings.MerchantId, _paymentProviderSettings.RemotePassword,
+					$"{request.Scheme}://{request.Host.Value}/Cart/Paypoint/");
 
-                urlParameters = vc.GetURL();
-                return true;
-            }
+				urlParameters = vc.GetURL();
+				return true;
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        public bool ExecuteTest(in NVPCodec codec)
-        {
-            return false;
-        }
+		public bool ExecuteTest(in NVPCodec codec)
+		{
+			return false;
+		}
 
-        public string GetCurrencies()
-        {
-            return _paymentProviderSettings.Currencies;
-        }
+		public string GetCurrencies()
+		{
+			return _paymentProviderSettings.Currencies;
+		}
 
-        public string Name()
-        {
-            return Middleware.Constants.PaymentProviderPaypoint;
-        }
+		public string Name()
+		{
+			return Middleware.Constants.PaymentProviderPaypoint;
+		}
 
-        public bool Enabled()
-        {
-            return _paymentProviderSettings.Enabled;
-        }
+		public bool Enabled()
+		{
+			return _paymentProviderSettings.Enabled;
+		}
 
-        public Guid UniqueId()
-        {
-            return Guid.Parse(_paymentProviderSettings.UniqueId);
-        }
+		public Guid UniqueId()
+		{
+			return Guid.Parse(_paymentProviderSettings.UniqueId);
+		}
 
-        #endregion IPaymentProvider Methods
-    }
+		#endregion IPaymentProvider Methods
+	}
 }
 
 #pragma warning restore CS1591

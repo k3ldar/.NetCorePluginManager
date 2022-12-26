@@ -29,42 +29,42 @@ using SharedPluginFeatures;
 
 namespace RestrictIp.Plugin
 {
-    /// <summary>
-    /// Loads settings us ISettingsProvider to configure the routes that are restricted to
-    /// specific Ip addresses etc using RestrictedIpRouteAttribute.
-    /// </summary>
-    public class RestrictIpSettings : IPluginSettings
+	/// <summary>
+	/// Loads settings us ISettingsProvider to configure the routes that are restricted to
+	/// specific Ip addresses etc using RestrictedIpRouteAttribute.
+	/// </summary>
+	public class RestrictIpSettings : IPluginSettings
 	{
-        #region Constructors
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public RestrictIpSettings()
-        {
-            RouteRestrictions = new Dictionary<string, string>();
-        }
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public RestrictIpSettings()
+		{
+			RouteRestrictions = new Dictionary<string, string>();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
 		/// <summary>
 		/// Name
 		/// </summary>
 		public string SettingsName => "RestrictedIpRoutes.Plugin";
 
-        /// <summary>
-        /// Determines whether the middleware router is disabled or not.
-        /// </summary>
-        /// <value>bool</value>
-        public bool Disabled { get; set; }
+		/// <summary>
+		/// Determines whether the middleware router is disabled or not.
+		/// </summary>
+		/// <value>bool</value>
+		public bool Disabled { get; set; }
 
-        /// <summary>
-        /// Dictionary of restricted routes
-        /// </summary>
-        /// <value>Dictionary&lt;string, string&gt;</value>
-        public Dictionary<string, string> RouteRestrictions { get; set; }
+		/// <summary>
+		/// Dictionary of restricted routes
+		/// </summary>
+		/// <value>Dictionary&lt;string, string&gt;</value>
+		public Dictionary<string, string> RouteRestrictions { get; set; }
 
 		#endregion Properties
 	}
