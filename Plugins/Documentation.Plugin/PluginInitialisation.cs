@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2023 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Documentation Plugin
  *  
@@ -56,7 +56,7 @@ namespace DocumentationPlugin
 
         public void ConfigureServices(IServiceCollection services)
         {
-			// from interface but unused in this context
+			services.AddTransient(typeof(DocumentLoadThread));
 		}
 
 		public void Finalise()

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2023 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginManager
  *  
@@ -169,9 +169,11 @@ namespace PluginManager
 
             set
             {
-                if (_serviceProvider == null)
-                    _serviceProvider = value;
-            }
+				if (_serviceProvider == null)
+				{
+					_serviceProvider = value;
+				}
+			}
         }
 
         /// <summary>
@@ -459,73 +461,82 @@ namespace PluginManager
         /// </summary>
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
-        {
-            _serviceCollection = services ?? throw new ArgumentNullException(nameof(services));
+		{
+			_serviceCollection = services ?? throw new ArgumentNullException(nameof(services));
 
-            RegisterBasePluginMangerServices(services);
+			RegisterBasePluginMangerServices(services);
 
-            // run pre-initialise events
-            PreConfigurePluginServices(services);
+			// run pre-initialise events
+			PreConfigurePluginServices(services);
 
-            ThreadManager.ThreadStart(_notificationService,
-                Constants.ThreadNotificationService,
-                System.Threading.ThreadPriority.Lowest);
+			ThreadManager.ThreadStart(_notificationService,
+				Constants.ThreadNotificationService,
+				System.Threading.ThreadPriority.Lowest);
 
 
-            foreach (IPluginModule pluginModule in _plugins.Values)
-            {
-                pluginModule.Plugin.ConfigureServices(services);
-            }
+			foreach (IPluginModule pluginModule in _plugins.Values)
+			{
+				pluginModule.Plugin.ConfigureServices(services);
+			}
 
-            // if no ILogger instance has been registered, register the default instance now.
-            services.TryAddSingleton<ILogger>(Logger);
+			// if no ILogger instance has been registered, register the default instance now.
+			services.TryAddSingleton<ILogger>(Logger);
 
-            // if no plugin has registered a setting provider, add the default appsettings json provider
-            IApplicationOverride appOverride = services.GetServiceInstance<IApplicationOverride>();
-            ISettingError settingsError = services.GetServiceInstance<ISettingError>();
-            DefaultSettingProvider settingProvider = new DefaultSettingProvider(RootPath, appOverride, settingsError);
-            services.TryAddSingleton<ISettingsProvider>(settingProvider);
+			// if no plugin has registered a setting provider, add the default appsettings json provider
+			IApplicationOverride appOverride = services.GetServiceInstance<IApplicationOverride>();
+			ISettingError settingsError = services.GetServiceInstance<ISettingError>();
+			DefaultSettingProvider settingProvider = new DefaultSettingProvider(RootPath, appOverride, settingsError);
+			services.TryAddSingleton<ISettingsProvider>(settingProvider);
 
-            PostConfigurePluginServices(services);
+			PostConfigurePluginServices(services);
 
-            if (ServiceConfigurator != null)
-            {
-                ServiceConfigurator.RegisterServices(services);
-                ServiceConfigurator = null;
-                _serviceConfigurationComplete = true;
-            }
+			if (ServiceConfigurator != null)
+			{
+				ServiceConfigurator.RegisterServices(services);
+				ServiceConfigurator = null;
+				_serviceConfigurationComplete = true;
+			}
 
-            ServiceConfigurationComplete(services);
+			ServiceConfigurationComplete(services);
 
-            foreach (KeyValuePair<string, Type> registeredThread in RegisteredStartupThreads)
-            {
-				try
+			_serviceCollection = null;
+		}
+
+		/// <summary>
+		/// Indicates that the configuration is complete and any post complete actions can be run
+		/// </summary>
+		protected void ConfigurationComplete()
+		{
+			if (RegisteredStartupThreads != null)
+			{
+				foreach (KeyValuePair<string, Type> registeredThread in RegisteredStartupThreads)
 				{
-					ThreadManager threadToStart = (ThreadManager)Activator.CreateInstance(registeredThread.Value, GetParameterInstances(registeredThread.Value));
-					ThreadManager.ThreadStart(threadToStart, registeredThread.Key, System.Threading.ThreadPriority.Normal);
+					try
+					{
+						ThreadManager threadToStart = ServiceProvider.GetService(registeredThread.Value) as ThreadManager;
+						ThreadManager.ThreadStart(threadToStart, registeredThread.Key, System.Threading.ThreadPriority.Normal);
+					}
+					catch (MissingMethodException mme)
+					{
+						_configuration.Logger.AddToLog(LogLevel.Warning, mme, registeredThread.Key);
+					}
 				}
-				catch (MissingMethodException mme)
-				{
-					_configuration.Logger.AddToLog(LogLevel.Warning, mme, registeredThread.Key);
-				}
-            }
 
-            RegisteredStartupThreads = null;
-            _serviceCollection = null;
-        }
+				RegisteredStartupThreads = null;
+			}
+		}
 
-        /// <summary>
-        /// Provides an opportunity for plugins to configure services that can be used in IOC, this method creates 
-        /// a custom IServiceCollection class and should only be used where the host does not natively include
-        /// it's own IServiceCollection.  i.e. unit test environment
-        /// </summary>
-        public void ConfigureServices()
+		/// <summary>
+		/// Provides an opportunity for plugins to configure services that can be used in IOC, this method creates 
+		/// a custom IServiceCollection class and should only be used where the host does not natively include
+		/// it's own IServiceCollection.  i.e. unit test environment
+		/// </summary>
+		public void ConfigureServices()
         {
             IServiceCollection serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
         }
-
 
         /// <summary>
         /// Retrieves the non instantiated classes which have attribute T, or if any of
