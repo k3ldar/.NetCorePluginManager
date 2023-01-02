@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2019 - 2022 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2023 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Download Plugin
  *  

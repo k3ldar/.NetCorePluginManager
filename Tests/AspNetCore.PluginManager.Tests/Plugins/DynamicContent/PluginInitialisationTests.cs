@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2023 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -163,7 +163,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
         [TestMethod]
         [TestCategory(GeneralTestsCategory)]
-        public void ConfigureServices_DoesNotThrowException()
+        public void ConfigureServices_RegistersASingleService_Success()
         {
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
@@ -171,7 +171,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
             sut.ConfigureServices(mockServiceCollection);
 
-            Assert.AreEqual(0, mockServiceCollection.Count);
+            Assert.AreEqual(1, mockServiceCollection.Count);
         }
 
         [TestMethod]

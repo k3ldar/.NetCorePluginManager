@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2023 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -138,6 +138,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 			Assert.AreEqual("Resource desc 1", resourceModel.Description);
 			Assert.AreEqual("black", resourceModel.ForeColor);
 			Assert.AreEqual("resource-1", resourceModel.RouteName);
+			Assert.AreEqual(0, resourceModel.Categories.Count);
+			Assert.AreEqual("Child 0 for Resource 1", resourceModel.ResourceItems[0].Name);
 		}
 
 		[TestMethod]

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2020 - 2022 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2023 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Helpdesk Plugin
  *  
@@ -58,6 +58,7 @@ namespace HelpdeskPlugin
 		public void ConfigureServices(IServiceCollection services)
 		{
 #if NET6_0_OR_GREATER
+			services.AddTransient(typeof(ImportEmailIntoHelpdeskThread));
 			services.AddTransient<IPop3ClientFactory, Pop3ClientFactory>();
 #endif
 		}

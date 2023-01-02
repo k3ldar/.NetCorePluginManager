@@ -154,6 +154,11 @@
             </summary>
             <param name="services"></param>
         </member>
+        <member name="M:PluginManager.BasePluginManager.ConfigurationComplete">
+            <summary>
+            Indicates that the configuration is complete and any post complete actions can be run
+            </summary>
+        </member>
         <member name="M:PluginManager.BasePluginManager.ConfigureServices">
             <summary>
             Provides an opportunity for plugins to configure services that can be used in IOC, this method creates 

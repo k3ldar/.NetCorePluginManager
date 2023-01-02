@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2023 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Resources.Plugin
  *  
@@ -25,21 +25,17 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 using Languages;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using Middleware;
 using Middleware.Resources;
@@ -52,9 +48,9 @@ using SharedPluginFeatures;
 
 namespace Resources.Plugin.Controllers
 {
-    [DenySpider]
-    public class ResourcesController : BaseController
-    {
+	[DenySpider]
+	public class ResourcesController : BaseController
+	{
 		#region Private Members
 
 		private readonly static string[] SupportedImageTypes = { ".apng", ".gif", ".ico", ".jpeg", ".jpg", ".png", ".svg" };
@@ -68,15 +64,15 @@ namespace Resources.Plugin.Controllers
 		#region Constructors
 
 		public ResourcesController(IResourceProvider resourceProvider)
-        {
+		{
 			_resourceProvider = resourceProvider ?? throw new ArgumentNullException(nameof(resourceProvider));
-        }
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Constants
+		#region Constants
 
-        public const string Name = "Resources";
+		public const string Name = "Resources";
 		public const int MaximumNameLength = 30;
 		public const int MinimumNameLength = 5;
 		public const int MinimumDescriptionLength = 15;
@@ -93,10 +89,10 @@ namespace Resources.Plugin.Controllers
 
 		[HttpGet]
 		[Breadcrumb(nameof(LanguageStrings.ResourcesMain))]
-        public IActionResult Index()
-        {
-            return View(CreateResourcesModel(_resourceProvider.GetAllResources()));
-        }
+		public IActionResult Index()
+		{
+			return View(CreateResourcesModel(_resourceProvider.GetAllResources()));
+		}
 
 		[HttpGet]
 		[Route("/Resources/Category/{id}/{categoryName}/")]
@@ -217,14 +213,14 @@ namespace Resources.Plugin.Controllers
 
 			if (!ModelState.IsValid)
 			{
-				ResourceCategoryModel resourceCategoryModel = new ResourceCategoryModel(model.Id, model.Name, model.Description, model.ForeColor, 
+				ResourceCategoryModel resourceCategoryModel = new ResourceCategoryModel(model.Id, model.Name, model.Description, model.ForeColor,
 					model.BackColor, model.Image, model.RouteName, model.IsVisible, model.ParentId);
 				return View(resourceCategoryModel);
 			}
 
-			_resourceProvider.UpdateResourceCategory(UserId(), 
-				new ResourceCategory(model.Id, model.ParentId, model.Name, 
-				model.Description, model.ForeColor, model.BackColor, 
+			_resourceProvider.UpdateResourceCategory(UserId(),
+				new ResourceCategory(model.Id, model.ParentId, model.Name,
+				model.Description, model.ForeColor, model.BackColor,
 				model.Image, model.RouteName, model.IsVisible));
 
 			GrowlAdd(String.Format(LanguageStrings.CategoryUpdated, model.Name));
@@ -390,8 +386,8 @@ namespace Resources.Plugin.Controllers
 				allCategories.Add(new NameIdModel(c.Id, c.Name));
 			});
 
-			ResourceEditResourceItemModel model =  new ResourceEditResourceItemModel(GetModelData(), resourceItem.Id, 
-				resourceItem.CategoryId, resourceItem.ResourceType, resourceItem.UserId, resourceItem.UserName, 
+			ResourceEditResourceItemModel model = new ResourceEditResourceItemModel(GetModelData(), resourceItem.Id,
+				resourceItem.CategoryId, resourceItem.ResourceType, resourceItem.UserId, resourceItem.UserName,
 				resourceItem.Name, resourceItem.Description, resourceItem.Value, resourceItem.Approved,
 				String.Join(SharedPluginFeatures.Constants.NewLineChar, resourceItem.Tags), allCategories);
 
@@ -416,7 +412,7 @@ namespace Resources.Plugin.Controllers
 					allCategories.Add(new NameIdModel(c.Id, c.Name));
 				});
 
-				ResourceEditResourceItemModel resourceCategoryModel = new ResourceEditResourceItemModel(GetModelData(), model.Id, 
+				ResourceEditResourceItemModel resourceCategoryModel = new ResourceEditResourceItemModel(GetModelData(), model.Id,
 					model.CategoryId, model.ResourceType, model.UserId, model.UserName, model.Name, model.Description,
 					model.Value, model.Approved, model.Tags, allCategories);
 
@@ -426,7 +422,7 @@ namespace Resources.Plugin.Controllers
 			ResourceItem existingResourceItem = _resourceProvider.GetResourceItem(model.Id);
 
 			_resourceProvider.UpdateResourceItem(UserId(),
-				new ResourceItem(model.Id, model.CategoryId, model.ResourceType, existingResourceItem.UserId, model.UserName, 
+				new ResourceItem(model.Id, model.CategoryId, model.ResourceType, existingResourceItem.UserId, model.UserName,
 				model.Name, model.Description, model.Value, existingResourceItem.Likes, existingResourceItem.Dislikes,
 				existingResourceItem.ViewCount, model.Approved, ValidateAndCleanTags(model.Tags)));
 
@@ -482,7 +478,7 @@ namespace Resources.Plugin.Controllers
 			}
 
 			List<ResourceItem> resourceBookmarks = _resourceProvider.RetrieveUserBookmarks(UserId());
-			
+
 			List<NameIdModel> nameIdModels = new List<NameIdModel>();
 
 			resourceBookmarks.ForEach(rb => nameIdModels.Add(new NameIdModel(rb.Id, rb.Name)));
@@ -503,7 +499,7 @@ namespace Resources.Plugin.Controllers
 
 			string[] tagList = tags.Split(SharedPluginFeatures.Constants.NewLineChar,
 #if NET_5_ABOVE
-				StringSplitOptions.TrimEntries | 
+				StringSplitOptions.TrimEntries |
 #endif
 				StringSplitOptions.RemoveEmptyEntries);
 
@@ -524,13 +520,13 @@ namespace Resources.Plugin.Controllers
 
 			if (model.Name.Length < MinimumNameLength || model.Name.Length > MaximumNameLength)
 			{
-				ModelState.AddModelError(nameof(model.Name), 
+				ModelState.AddModelError(nameof(model.Name),
 					String.Format(LanguageStrings.InvalidName, MinimumNameLength, MaximumNameLength));
 			}
 
 			if (model.Description.Length < MinimumDescriptionLength || model.Description.Length > MaximumDescriptionLength)
 			{
-				ModelState.AddModelError(nameof(model.Description), 
+				ModelState.AddModelError(nameof(model.Description),
 					String.Format(LanguageStrings.InvalidDescription, MinimumDescriptionLength, MaximumDescriptionLength));
 			}
 
@@ -549,7 +545,7 @@ namespace Resources.Plugin.Controllers
 		{
 			ResourceType resourceType = (ResourceType)model.ResourceType;
 
-			switch (resourceType) 
+			switch (resourceType)
 			{
 				case ResourceType.Text:
 					ValidateResourceText(model);
@@ -656,9 +652,9 @@ namespace Resources.Plugin.Controllers
 
 				if (!SupportedImageTypes.Contains(extension))
 				{
-					ModelState.AddModelError(String.Empty, 
-						String.Format(LanguageStrings.InvalidImageNotSupported, 
-						extension, 
+					ModelState.AddModelError(String.Empty,
+						String.Format(LanguageStrings.InvalidImageNotSupported,
+						extension,
 						String.Join(SharedPluginFeatures.Constants.CommaChar, SupportedImageTypes)));
 					return;
 				}
@@ -711,7 +707,7 @@ namespace Resources.Plugin.Controllers
 
 			foreach (ResourceCategory row in _resourceProvider.RetrieveAllCategories())
 			{
-				resources.Add(new ResourceCategoryModel(row.Id, row.Name, row.Description, row.ForeColor, row.BackColor, 
+				resources.Add(new ResourceCategoryModel(row.Id, row.Name, row.Description, row.ForeColor, row.BackColor,
 					row.Image, row.RouteName, row.IsVisible, row.ParentId));
 			}
 
@@ -780,8 +776,8 @@ namespace Resources.Plugin.Controllers
 			foreach (ResourceItem resourceItem in resourceCategory.ResourceItems.OrderBy(rc => rc.Name))
 			{
 				resources.Add(new ResourceItemModel(resourceItem.Id, resourceCategory.Id,
-					resourceItem.ResourceType, resourceItem.UserId, 
-					resourceItem.UserName, resourceCategory.Name,
+					resourceItem.ResourceType, resourceItem.UserId,
+					resourceItem.UserName, resourceItem.Name,
 					resourceItem.Description, resourceItem.Value, resourceItem.Likes,
 					resourceItem.Dislikes, resourceItem.ViewCount, resourceItem.Approved));
 			}
@@ -795,7 +791,7 @@ namespace Resources.Plugin.Controllers
 
 			ResourceCategoryModel Result = new ResourceCategoryModel(GetModelData(), resourceCategory.Id, resourceCategory.Name,
 				resourceCategory.Description, resourceCategory.ForeColor, resourceCategory.BackColor,
-				resourceCategory.Image, resourceCategory.RouteName, resourceCategory.IsVisible, resourceCategory.ParentId, 
+				resourceCategory.Image, resourceCategory.RouteName, resourceCategory.IsVisible, resourceCategory.ParentId,
 				modelSubCategories, resources);
 
 			Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, ResourcesBreadcrumb, false));
@@ -813,7 +809,7 @@ namespace Resources.Plugin.Controllers
 
 			foreach (ResourceCategory row in resourceList)
 			{
-				resources.Add(new ResourceCategoryModel(row.Id, row.Name, row.Description, row.ForeColor, row.BackColor, row.Image, 
+				resources.Add(new ResourceCategoryModel(row.Id, row.Name, row.Description, row.ForeColor, row.BackColor, row.Image,
 					row.RouteName, row.IsVisible, row.ParentId));
 			}
 
@@ -828,7 +824,7 @@ namespace Resources.Plugin.Controllers
 				resourceItem.ResourceType, resourceItem.UserId,
 				resourceItem.UserName, resourceCategory.Name,
 				resourceItem.Description, resourceItem.Value, resourceItem.Likes,
-				resourceItem.Dislikes, resourceItem.ViewCount, resourceItem.Approved, 
+				resourceItem.Dislikes, resourceItem.ViewCount, resourceItem.Approved,
 				resourceItem.Tags);
 
 			Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, ResourcesBreadcrumb, false));
@@ -854,7 +850,7 @@ namespace Resources.Plugin.Controllers
 			}
 		}
 
-#endregion Private Methods
+		#endregion Private Methods
 	}
 }
 

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2023 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -84,7 +84,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.HelpdeskTests
 
             sut.ConfigureServices(mockServiceCollection);
 
-            Assert.AreEqual(1, mockServiceCollection.ServicesRegistered);
+            Assert.AreEqual(2, mockServiceCollection.ServicesRegistered);
         }
     }
 }
