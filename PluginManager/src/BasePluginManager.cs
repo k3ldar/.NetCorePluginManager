@@ -503,6 +503,18 @@ namespace PluginManager
 		}
 
 		/// <summary>
+		/// Provides an opportunity for plugins to configure services that can be used in IOC, this method creates 
+		/// a custom IServiceCollection class and should only be used where the host does not natively include
+		/// it's own IServiceCollection.  i.e. unit test environment
+		/// </summary>
+		public void ConfigureServices()
+        {
+            IServiceCollection serviceCollection = new ServiceCollection();
+            ConfigureServices(serviceCollection);
+            _serviceProvider = serviceCollection.BuildServiceProvider();
+        }
+
+		/// <summary>
 		/// Indicates that the configuration is complete and any post complete actions can be run
 		/// </summary>
 		protected void ConfigurationComplete()
@@ -525,18 +537,6 @@ namespace PluginManager
 				RegisteredStartupThreads = null;
 			}
 		}
-
-		/// <summary>
-		/// Provides an opportunity for plugins to configure services that can be used in IOC, this method creates 
-		/// a custom IServiceCollection class and should only be used where the host does not natively include
-		/// it's own IServiceCollection.  i.e. unit test environment
-		/// </summary>
-		public void ConfigureServices()
-        {
-            IServiceCollection serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
-            _serviceProvider = serviceCollection.BuildServiceProvider();
-        }
 
         /// <summary>
         /// Retrieves the non instantiated classes which have attribute T, or if any of
