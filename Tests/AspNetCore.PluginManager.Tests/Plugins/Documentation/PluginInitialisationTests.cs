@@ -152,7 +152,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-        public void ConfigureServices_DoesNotRegisterAnyServices_Success()
+        public void ConfigureServices_RegistersASingleServices_Success()
         {
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
@@ -160,7 +160,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
 
             sut.ConfigureServices(mockServiceCollection);
 
-            Assert.AreEqual(0, mockServiceCollection.ServicesRegistered);
+            Assert.AreEqual(1, mockServiceCollection.ServicesRegistered);
         }
     }
 }

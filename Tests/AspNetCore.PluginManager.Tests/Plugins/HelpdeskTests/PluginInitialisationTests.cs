@@ -84,7 +84,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.HelpdeskTests
 
             sut.ConfigureServices(mockServiceCollection);
 
-            Assert.AreEqual(1, mockServiceCollection.ServicesRegistered);
+            Assert.AreEqual(2, mockServiceCollection.ServicesRegistered);
         }
     }
 }

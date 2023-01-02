@@ -163,7 +163,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
         [TestMethod]
         [TestCategory(GeneralTestsCategory)]
-        public void ConfigureServices_DoesNotThrowException()
+        public void ConfigureServices_RegistersASingleService_Success()
         {
             MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
@@ -171,7 +171,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
             sut.ConfigureServices(mockServiceCollection);
 
-            Assert.AreEqual(0, mockServiceCollection.Count);
+            Assert.AreEqual(1, mockServiceCollection.Count);
         }
 
         [TestMethod]
