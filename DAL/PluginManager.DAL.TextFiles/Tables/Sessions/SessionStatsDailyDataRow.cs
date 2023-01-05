@@ -28,12 +28,13 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-	[Table(Constants.DomainSessions, Constants.TableNameSessionStatsDaily)]
+	[Table(Constants.DomainSessions, Constants.TableNameSessionStatsDaily, CompressionType.Brotli, CachingStrategy.SlidingMemory, WriteStrategy.Lazy)]
 	internal class SessionStatsDailyDataRow : SessionStatsBaseData
 	{
 		private long _dateTicks;
+		private bool _isBot;
 
-		[UniqueIndex]
+		[UniqueIndex("DailySessionData")]
 		public long DateTicks
 		{
 			get => _dateTicks;
@@ -44,6 +45,21 @@ namespace PluginManager.DAL.TextFiles.Tables
 					return;
 
 				_dateTicks = value;
+				Update();
+			}
+		}
+
+		[UniqueIndex("DailySessionData")]
+		public bool IsBot
+		{
+			get => _isBot;
+
+			set
+			{
+				if (value == _isBot)
+					return;
+
+				_isBot = value;
 				Update();
 			}
 		}

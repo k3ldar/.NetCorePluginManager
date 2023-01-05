@@ -28,11 +28,28 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-	[Table(Constants.DomainSessions, Constants.TableNameSessionStatsYearly)]
+	[Table(Constants.DomainSessions, Constants.TableNameSessionStatsYearly, CompressionType.Brotli, CachingStrategy.SlidingMemory, WriteStrategy.Lazy)]
 	internal class SessionStatsYearlyDataRow : SessionStatsBaseData
 	{
 		private int _year;
+		private bool _isBot;
 
+		[UniqueIndex("YearlySessionData")]
+		public bool IsBot
+		{
+			get => _isBot;
+
+			set
+			{
+				if (value == _isBot)
+					return;
+
+				_isBot = value;
+				Update();
+			}
+		}
+
+		[UniqueIndex("YearlySessionData")]
 		public int Year
 		{
 			get => _year;

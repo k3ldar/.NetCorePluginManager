@@ -28,12 +28,28 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-	[Table(Constants.DomainSessions, Constants.TableNameSessionStatsHourly)]
+	[Table(Constants.DomainSessions, Constants.TableNameSessionStatsHourly, CompressionType.Brotli, CachingStrategy.SlidingMemory, WriteStrategy.Lazy)]
 	internal class SessionStatsHourlyDataRow : SessionStatsBaseData
 	{
 		private int _hour;
 		private int _quarter;
 		private long _dateTicks;
+		private bool _isBot;
+
+		[UniqueIndex("HourlySessionData")]
+		public bool IsBot
+		{
+			get => _isBot;
+
+			set
+			{
+				if (value == _isBot)
+					return;
+
+				_isBot = value;
+				Update();
+			}
+		}
 
 		[UniqueIndex("HourlySessionData")]
 		public long DateTicks

@@ -38,7 +38,6 @@ namespace PluginManager.DAL.TextFiles.Tables
 			_countryData.Changed += ObservableItem_Changed;
 		}
 
-		private bool _isBot;
 		private uint _totalVisits;
 		private uint _humanVisits;
 		private uint _mobileVisits;
@@ -59,20 +58,6 @@ namespace PluginManager.DAL.TextFiles.Tables
 		private uint _referOther;
 		private ObservableDictionary<string, uint> _userAgents;
 		private ObservableDictionary<string, uint> _countryData;
-
-		public bool IsBot
-		{
-			get => _isBot;
-
-			set
-			{
-				if (value == _isBot)
-					return;
-
-				_isBot = value;
-				Update();
-			}
-		}
 
 		public uint TotalVisits
 		{
