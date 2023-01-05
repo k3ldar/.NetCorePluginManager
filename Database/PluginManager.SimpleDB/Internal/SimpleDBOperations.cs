@@ -891,6 +891,8 @@ namespace SimpleDB.Internal
 							Result.Add(indexName, new IndexManager<short>(uniqueIndex.IndexType, property.Name));
 						else if (property.PropertyType == typeof(ushort))
 							Result.Add(indexName, new IndexManager<ushort>(uniqueIndex.IndexType, property.Name));
+						else if (property.PropertyType == typeof(bool))
+							Result.Add(indexName, new IndexManager<bool>(uniqueIndex.IndexType, property.Name));
 						else
 							throw new InvalidOperationException($"Type {property.PropertyType.Name} not supported");
 					}

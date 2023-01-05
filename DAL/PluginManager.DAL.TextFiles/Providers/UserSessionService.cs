@@ -29,7 +29,6 @@ using System.Runtime.CompilerServices;
 
 using Middleware;
 
-using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Tables;
 
 using Shared.Classes;
@@ -62,7 +61,9 @@ namespace PluginManager.DAL.TextFiles.Providers
 		private readonly ISimpleDBOperations<SessionStatsYearlyDataRow> _sessionDataYearly;
 		private readonly IUrlHashProvider _urlHashProvider;
 		internal readonly static Timings _timingsSaveSessions = new Timings();
+		internal readonly static Timings _timingsUpdateAllSessions = new();
 		private readonly IGeoIpProvider _geoIpProvider;
+		private bool _InitialProcessing = true;
 
 		#endregion Private Members
 
@@ -87,7 +88,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			ISimpleDBOperations<SessionStatsMonthlyDataRow> sessionDataMonthly,
 			ISimpleDBOperations<SessionStatsYearlyDataRow> sessionDataYearly)
 			: this(null, urlHashProvider, users, settingsData, sessionData, sessionPageData,
-				  initialRefererData, sessionDataHourly, sessionDataDaily, sessionDataWeekly, 
+				  initialRefererData, sessionDataHourly, sessionDataDaily, sessionDataWeekly,
 				  sessionDataMonthly, sessionDataYearly)
 		{
 		}
@@ -295,7 +296,15 @@ namespace PluginManager.DAL.TextFiles.Providers
 		/// <returns></returns>
 		protected override Boolean Run(Object parameters)
 		{
-			ProcessClosedSessions();
+			if (_InitialProcessing)
+			{
+				// rebuild all session data when first run
+				ProcessAllSessions();
+			}
+			else
+			{
+				ProcessClosedSessions();
+			}
 
 			return !base.HasCancelled();
 		}
@@ -317,20 +326,72 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (sessionsToSave.Count < 1)
 				return;
 
+			ProcessSessions(sessionsToSave);
+		}
+
+		private void ProcessAllSessions()
+		{
+			_initialRefererData.Truncate();
+			_sessionDataHourly.Truncate();
+			_sessionDataDaily.Truncate();
+			_sessionDataWeekly.Truncate();
+			_sessionDataMonthly.Truncate();
+			_sessionDataYearly.Truncate();
+
+			IReadOnlyList<SessionPageDataRow> sessionPages = _sessionPageData.Select();
+
+			foreach (SessionDataRow session in _sessionData.Select())
+			{
+				using (StopWatchTimer timer = StopWatchTimer.Initialise(_timingsUpdateAllSessions))
+				{
+					UserSession sessionData = new UserSession(session.Id, session.Created, session.SessionId, session.UserAgent,
+					session.InitialReferrer, session.IpAddress, session.HostName, session.IsMobile, session.IsBrowserMobile,
+					session.MobileRedirect, (ReferalType)session.ReferralType, session.Bounced, session.IsBot, session.MobileManufacturer,
+					session.MobileModel, session.UserId, 0, 0, session.SaleCurrency, session.SaleAmount)
+					{
+						SaveStatus = SaveStatus.Saved,
+					};
+
+					UpdateGeoIpDataForSession(sessionData);
+
+
+					SessionPageDataRow firstPage = sessionPages.FirstOrDefault(spd => spd.SessionId.Equals(session.Id));
+
+					if (firstPage != null)
+					{
+						sessionData.Pages.Add(new PageViewData(firstPage.Url, firstPage.Referrer, firstPage.IsPostBack)
+						{
+							SaveStatus = SaveStatus.Saved,
+						});
+
+						UpdateInitialReferrer(sessionData);
+					}
+
+					UpdateHourlySessionData(sessionData);
+					UpdateDailySessionData(sessionData);
+					UpdateWeeklySessionData(sessionData);
+					UpdateMonthlySessionData(sessionData);
+					UpdateYearlySessionData(sessionData);
+				}
+			}
+
+			_initialRefererData.ForceWrite();
+			_sessionDataHourly.ForceWrite();
+			_sessionDataDaily.ForceWrite();
+			_sessionDataWeekly.ForceWrite();
+			_sessionDataMonthly.ForceWrite();
+			_sessionDataYearly.ForceWrite();
+
+			_InitialProcessing = false;
+		}
+
+		private void ProcessSessions(List<UserSession> sessionsToSave)
+		{
 			using (StopWatchTimer timer = StopWatchTimer.Initialise(_timingsSaveSessions))
 			{
 				foreach (UserSession session in sessionsToSave)
 				{
-					// update the country data if not already set
-					if (_geoIpProvider != null && (session.CountryCode == null || session.CountryCode.Equals("zz", StringComparison.InvariantCultureIgnoreCase)))
-					{
-						if (_geoIpProvider.GetIpAddressDetails(session.IPAddress, out string countryCode,
-							out string regionName, out string cityName, out decimal lat, out decimal lon,
-							out long _, out long _, out long _))
-						{
-							session.UpdateIPDetails(0, lat, lon, regionName, cityName, countryCode);
-						}
-					}
+					UpdateGeoIpDataForSession(session);
 
 					SessionDataRow sessionData = _sessionData.Select(session.InternalSessionID);
 
@@ -385,21 +446,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 						_sessionPageData.Insert(pages);
 
-						string pageHash = _urlHashProvider.GetUrlHash(session.Pages[0].URL);
-						InitialReferralsDataRow referrer = _initialRefererData.Select().FirstOrDefault(rd => rd.Hash.Equals(pageHash));
-
-						if (referrer == null)
-						{
-							referrer = new InitialReferralsDataRow()
-							{
-								Hash = pageHash,
-								Url = session.Pages[0].URL,
-							};
-						}
-
-						referrer.Usage++;
-
-						_initialRefererData.InsertOrUpdate(referrer);
+						UpdateInitialReferrer(session);
 					}
 
 					UpdateHourlySessionData(session);
@@ -408,6 +455,42 @@ namespace PluginManager.DAL.TextFiles.Providers
 					UpdateMonthlySessionData(session);
 					UpdateYearlySessionData(session);
 				}
+			}
+		}
+
+		private void UpdateGeoIpDataForSession(UserSession session)
+		{
+			// update the country data if not already set
+			if (_geoIpProvider != null && (session.CountryCode == null || session.CountryCode.Equals("zz", StringComparison.InvariantCultureIgnoreCase)))
+			{
+				if (_geoIpProvider.GetIpAddressDetails(session.IPAddress, out string countryCode,
+					out string regionName, out string cityName, out decimal lat, out decimal lon,
+					out long _, out long _, out long _))
+				{
+					session.UpdateIPDetails(0, lat, lon, regionName, cityName, countryCode);
+				}
+			}
+		}
+
+		private void UpdateInitialReferrer(UserSession session)
+		{
+			if (session.Pages.Count > 0)
+			{
+				string pageHash = _urlHashProvider.GetUrlHash(session.Pages[0].URL);
+				InitialReferralsDataRow referrer = _initialRefererData.Select().FirstOrDefault(rd => rd.Hash.Equals(pageHash));
+
+				if (referrer == null)
+				{
+					referrer = new InitialReferralsDataRow()
+					{
+						Hash = pageHash,
+						Url = session.Pages[0].URL,
+					};
+				}
+
+				referrer.Usage++;
+
+				_initialRefererData.InsertOrUpdate(referrer);
 			}
 		}
 
@@ -477,7 +560,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				DateTime sessionDate = session.Created;
 
 #if NET_5_ABOVE
-		        int week = ISOWeek.GetWeekOfYear(sessionDate);
+				int week = ISOWeek.GetWeekOfYear(sessionDate);
 #else
 				int week = (sessionDate.DayOfYear / 7) + 1;
 #endif

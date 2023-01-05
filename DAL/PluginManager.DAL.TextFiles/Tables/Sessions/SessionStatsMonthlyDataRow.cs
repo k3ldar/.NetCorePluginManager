@@ -28,12 +28,29 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-	[Table(Constants.DomainSessions, Constants.TableNameSessionStatsMonthly)]
+	[Table(Constants.DomainSessions, Constants.TableNameSessionStatsMonthly, CompressionType.Brotli, CachingStrategy.SlidingMemory, WriteStrategy.Lazy)]
 	internal class SessionStatsMonthlyDataRow : SessionStatsBaseData
 	{
 		private int _year;
 		private int _month;
+		private bool _isBot;
 
+		[UniqueIndex("MonthlySessionData")]
+		public bool IsBot
+		{
+			get => _isBot;
+
+			set
+			{
+				if (value == _isBot)
+					return;
+
+				_isBot = value;
+				Update();
+			}
+		}
+
+		[UniqueIndex("MonthlySessionData")]
 		public int Year
 		{
 			get => _year;
@@ -48,6 +65,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 			}
 		}
 
+		[UniqueIndex("MonthlySessionData")]
 		public int Month
 		{
 			get => _month;

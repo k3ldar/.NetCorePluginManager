@@ -27,11 +27,27 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-	[Table(Constants.DomainSessions, Constants.TableNameSessionStatsWeekly)]
+	[Table(Constants.DomainSessions, Constants.TableNameSessionStatsWeekly, CompressionType.Brotli, CachingStrategy.SlidingMemory, WriteStrategy.Lazy)]
 	internal class SessionStatsWeeklyDataRow : SessionStatsBaseData
 	{
 		private int _year;
 		private int _week;
+		private bool _isBot;
+
+		[UniqueIndex("SessionStatsWeekly")]
+		public bool IsBot
+		{
+			get => _isBot;
+
+			set
+			{
+				if (value == _isBot)
+					return;
+
+				_isBot = value;
+				Update();
+			}
+		}
 
 		[UniqueIndex("SessionStatsWeekly")]
 		public int Year
