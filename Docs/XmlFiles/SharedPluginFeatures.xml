@@ -3772,6 +3772,17 @@
             </summary>
             <returns>string[]</returns>
         </member>
+        <member name="T:SharedPluginFeatures.IDatabaseTimings">
+            <summary>
+            IDatabaseTimings interface, used to retrieve times from a database
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.IDatabaseTimings.GetDatabaseTimings">
+            <summary>
+            Retrieves all timings from the database
+            </summary>
+            <returns>Dictionary&lt;string, Dictionary&lt;string, Timings&gt;&gt;</returns>
+        </member>
         <member name="T:SharedPluginFeatures.IDocumentationService">
             <summary>
             Provides services that enable DocumentationPlugin to build documentation based on 

@@ -154,16 +154,16 @@
             </summary>
             <param name="services"></param>
         </member>
-        <member name="M:PluginManager.BasePluginManager.ConfigurationComplete">
-            <summary>
-            Indicates that the configuration is complete and any post complete actions can be run
-            </summary>
-        </member>
         <member name="M:PluginManager.BasePluginManager.ConfigureServices">
             <summary>
             Provides an opportunity for plugins to configure services that can be used in IOC, this method creates 
             a custom IServiceCollection class and should only be used where the host does not natively include
             it's own IServiceCollection.  i.e. unit test environment
+            </summary>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.ConfigurationComplete">
+            <summary>
+            Indicates that the configuration is complete and any post complete actions can be run
             </summary>
         </member>
         <member name="M:PluginManager.BasePluginManager.PluginGetTypesWithAttribute``1">
