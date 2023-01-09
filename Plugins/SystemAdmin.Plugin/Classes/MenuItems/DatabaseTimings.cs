@@ -15,12 +15,12 @@
  *
  *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
- *  File: AllTimings.cs
+ *  File: DatabaseTimings.cs
  *
- *  Purpose:  Displays all timings in a single grid for easy overview
+ *  Purpose:  Displays all timings for a database
  *
  *  Date        Name                Reason
- *  10/04/2020  Simon Carter        Initially Created
+ *  08/01/2023  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -28,38 +28,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using PluginManager.Abstractions;
+
 using SharedPluginFeatures;
 
 #pragma warning disable CS1591
 
 namespace SystemAdmin.Plugin.Classes.MenuItems
 {
-	public class AllTimings : SystemAdminSubMenu
+	public sealed class DatabaseTimings : SystemAdminSubMenu
 	{
 		#region Private Members
 
-		private readonly static string[] IgnoredTimingMenus = { "Route Load Times" };
-
 		private const int MinimumResetMilliseconds = 1500;
 
-		private List<SystemAdminSubMenu> _timingItems;
 		private DateTime _lastRun = DateTime.MinValue;
 		private string _lastData;
 
-		private readonly ISystemAdminHelperService _systemAdminHelperService;
+		private readonly IDatabaseTimings _databaseTimings;
 
 		#endregion Private Members
 
 		#region Constructors
 
-		public AllTimings(ISystemAdminHelperService systemAdminHelperService)
+		public DatabaseTimings(IDatabaseTimings databaseTimings)
 		{
-			_systemAdminHelperService = systemAdminHelperService ?? throw new ArgumentNullException(nameof(systemAdminHelperService));
+			_databaseTimings = databaseTimings ?? throw new ArgumentNullException(nameof(databaseTimings));
+		}
+
+		public DatabaseTimings()
+		{ 
+			_databaseTimings = null;
 		}
 
 		#endregion Constructors
 
 		#region SystemAdminSubMenu Methods
+
+		public override bool Enabled()
+		{
+			return _databaseTimings != null;
+		}
 
 		public override String Action()
 		{
@@ -78,37 +87,55 @@ namespace SystemAdmin.Plugin.Classes.MenuItems
 
 		public override String Data()
 		{
+			if (_databaseTimings == null)
+				return String.Empty;
+
 			TimeSpan span = DateTime.Now - _lastRun;
 
 			if (span.TotalMilliseconds > MinimumResetMilliseconds)
 			{
 				_lastRun = DateTime.Now;
 
-				if (_timingItems == null)
+				StringBuilder Result = new StringBuilder("Operation|Total Requests|Fastest|Slowest|Average|Trimmed Avg ms|Total ms\r");
+				bool isFirst = true;
+
+				foreach (KeyValuePair<string, Dictionary<string, Timings>> item in _databaseTimings.GetDatabaseTimings())
 				{
-					_timingItems = _systemAdminHelperService.GetSubMenuItems(nameof(Languages.LanguageStrings.Timings))
-						.Where(t => t.UniqueId != UniqueId).ToList();
-				}
+					StringBuilder tableData = new StringBuilder(2048);
 
-				StringBuilder Result = new StringBuilder("Name|Total Requests|Fastest|Slowest|Average|Trimmed Avg ms|Total ms", 2048);
-
-				foreach (SystemAdminSubMenu item in _timingItems)
-				{
-					if (IgnoredTimingMenus.Contains(item.Name()))
-						continue;
-
-					Result.Append('\r');
-					Result.Append(item.Name());
-					string[] data = item.Data().Split('\r');
-
-					for (int i = 1; i < data.Length; i++)
+					if (isFirst)
 					{
-						Result.Append('|');
-						Result.Append(data[i].Split('|')[1]);
+						isFirst = false;
 					}
+					else
+					{
+						tableData.Append("||||||\r");
+					}
+
+					tableData.Append($"{item.Key}||||||\r");
+
+					foreach (KeyValuePair<string, Timings> table in item.Value)
+					{
+						tableData.Append(table.Key);
+						tableData.Append("|");
+						tableData.Append($"{table.Value.Requests}");
+						tableData.Append("|");
+						tableData.Append($"{table.Value.Fastest}");
+						tableData.Append("|");
+						tableData.Append($"{table.Value.Slowest}");
+						tableData.Append("|");
+						tableData.Append($"{table.Value.Average}");
+						tableData.Append("|");
+						tableData.Append($"{table.Value.TrimmedAverage}");
+						tableData.Append("|");
+						tableData.Append($"{table.Value.Total}");
+						tableData.Append("\r");
+					}
+
+					Result.Append(tableData);
 				}
 
-				_lastData = Result.ToString();
+				_lastData = Result.ToString().Trim(); 
 			}
 
 			return _lastData;
@@ -126,12 +153,12 @@ namespace SystemAdmin.Plugin.Classes.MenuItems
 
 		public override string Name()
 		{
-			return nameof(Languages.LanguageStrings.AllTimings);
+			return nameof(Languages.LanguageStrings.DatabaseTimings);
 		}
 
 		public override string ParentMenuName()
 		{
-			return nameof(Languages.LanguageStrings.Timings);
+			return nameof(Languages.LanguageStrings.Database);
 		}
 
 		public override int SortOrder()

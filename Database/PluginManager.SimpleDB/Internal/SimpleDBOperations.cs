@@ -31,6 +31,8 @@ using PluginManager.Abstractions;
 
 using Shared.Classes;
 
+using SharedPluginFeatures;
+
 using SimpleDB.Abstractions;
 using SimpleDB.Interfaces;
 
@@ -81,6 +83,19 @@ namespace SimpleDB.Internal
 
 		#region Private Members
 
+		private const string TimingsSelectAll = "TimingsSelectAll";
+		private const string TimingsSelectId = "TimingsSelectId";
+		private const string TimingsSelectPredicate = "TimingsSelectPredicate";
+		private const string TimingsInsertList = "TimingsInsertList";
+		private const string TimingsInsert = "TimingsInsert";
+		private const string TimingsDeleteList = "TimingsDeleteList";
+		private const string TimingsDelete = "TimingsDelete";
+		private const string TimingsTruncate = "TimingsTruncate";
+		private const string TimingsUpdateList = "TimingsUpdateList";
+		private const string TimingsUpdate = "TimingsUpdate";
+		private const string TimingsInsertOrUpdate = "TimingsInsertOrUpdate";
+		private const string TimingsForceWrite = "TimingsForceWrite";
+
 		private readonly IVersionedReadWriteFactory _readWriteFactory = new VersionedReadWriteFactory();
 		private readonly string _tableName;
 		private readonly FileStream _fileStream;
@@ -103,6 +118,21 @@ namespace SimpleDB.Internal
 		private PageSize _pageSize;
 		private List<T> _allRecords = null;
 		private readonly bool _isMemoryCaching;
+		private readonly Dictionary<string, Timings> _ReadWriteTimes = new()
+			{
+				{ TimingsSelectAll, new() },
+				{ TimingsSelectId, new() },
+				{ TimingsSelectPredicate, new() },
+				{ TimingsInsertList, new() },
+				{ TimingsInsert, new() },
+				{ TimingsDeleteList, new() },
+				{ TimingsDelete, new() },
+				{ TimingsTruncate, new() },
+				{ TimingsUpdateList, new() },
+				{ TimingsUpdate, new() },
+				{ TimingsInsertOrUpdate, new() },
+				{ TimingsForceWrite, new() }
+			};
 
 		#endregion Private Members
 
@@ -210,6 +240,21 @@ namespace SimpleDB.Internal
 
 		public WriteStrategy WriteStrategy => _tableAttributes.WriteStrategy;
 
+		public Dictionary<string, Timings> GetAllTimings
+		{
+			get
+			{
+				Dictionary<string, Timings> Result = new();
+
+				foreach (KeyValuePair<string, Timings> item in _ReadWriteTimes)
+				{
+					Result.Add(item.Key, item.Value.Clone());
+				}
+
+				return Result;
+			}
+		}
+
 		#endregion Properties
 
 		#region Methods
@@ -285,34 +330,43 @@ namespace SimpleDB.Internal
 
 		public IReadOnlyList<T> Select()
 		{
-			if (_disposed)
-				throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
-
-			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			using (StopWatchTimer timer = StopWatchTimer.Initialise(_ReadWriteTimes[TimingsSelectAll]))
 			{
-				return InternalReadAllRecords().AsReadOnly();
+				if (_disposed)
+					throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
+
+				using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+				{
+					return InternalReadAllRecords().AsReadOnly();
+				}
 			}
 		}
 
 		public T Select(long id)
 		{
-			if (_disposed)
-				throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
+			using (StopWatchTimer timer = StopWatchTimer.Initialise(_ReadWriteTimes[TimingsSelectId]))
+			{
+				if (_disposed)
+					throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
-			return InternalReadAllRecords().FirstOrDefault(r => r.Id.Equals(id));
+				return InternalReadAllRecords().FirstOrDefault(r => r.Id.Equals(id));
+			}
 		}
 
 		public IReadOnlyList<T> Select(Func<T, bool> predicate)
 		{
-			if (_disposed)
-				throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
-
-			if (predicate == null)
-				throw new ArgumentNullException(nameof(predicate));
-
-			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			using (StopWatchTimer timer = StopWatchTimer.Initialise(_ReadWriteTimes[TimingsSelectPredicate]))
 			{
-				return InternalReadAllRecords().Where(predicate).ToList().AsReadOnly();
+				if (_disposed)
+					throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
+
+				if (predicate == null)
+					throw new ArgumentNullException(nameof(predicate));
+
+				using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+				{
+					return InternalReadAllRecords().Where(predicate).ToList().AsReadOnly();
+				}
 			}
 		}
 
@@ -332,7 +386,10 @@ namespace SimpleDB.Internal
 			if (records.Count == 0)
 				throw new ArgumentException("Does not contain any records", nameof(records));
 
-			InternalInsertRecords(records, insertOptions ?? new InsertOptions());
+			using (StopWatchTimer timer = StopWatchTimer.Initialise(_ReadWriteTimes[TimingsInsertList]))
+			{
+				InternalInsertRecords(records, insertOptions ?? new InsertOptions());
+			}
 		}
 
 		public void Insert(T record)
@@ -348,7 +405,10 @@ namespace SimpleDB.Internal
 			if (record == null)
 				throw new ArgumentNullException(nameof(record));
 
-			InternalInsertRecords(new List<T> { record }, insertOptions ?? new InsertOptions());
+			using (StopWatchTimer timer = StopWatchTimer.Initialise(_ReadWriteTimes[TimingsInsert]))
+			{
+				InternalInsertRecords(new List<T> { record }, insertOptions ?? new InsertOptions());
+			}
 		}
 
 		public void Delete(List<T> records)
@@ -359,7 +419,10 @@ namespace SimpleDB.Internal
 			if (records == null)
 				throw new ArgumentNullException(nameof(records));
 
-			InternalDeleteRecords(records);
+			using (StopWatchTimer timer = StopWatchTimer.Initialise(_ReadWriteTimes[TimingsDeleteList]))
+			{
+				InternalDeleteRecords(records);
+			}
 		}
 
 		public void Delete(T record)
@@ -370,12 +433,18 @@ namespace SimpleDB.Internal
 			if (record == null)
 				throw new ArgumentNullException(nameof(record));
 
-			InternalDeleteRecords(new List<T>() { record });
+			using (StopWatchTimer timer = StopWatchTimer.Initialise(_ReadWriteTimes[TimingsDelete]))
+			{
+				InternalDeleteRecords(new List<T>() { record });
+			}
 		}
 
 		public void Truncate()
 		{
-			InternalDeleteRecords(InternalReadAllRecords());
+			using (StopWatchTimer timer = StopWatchTimer.Initialise(_ReadWriteTimes[TimingsTruncate]))
+			{
+				InternalDeleteRecords(InternalReadAllRecords());
+			}
 		}
 
 		public void Update(List<T> records)
@@ -386,7 +455,10 @@ namespace SimpleDB.Internal
 			if (records == null)
 				throw new ArgumentNullException(nameof(records));
 
-			InternalUpdateRecords(records);
+			using (StopWatchTimer timer = StopWatchTimer.Initialise(_ReadWriteTimes[TimingsUpdateList]))
+			{
+				InternalUpdateRecords(records);
+			}
 		}
 
 		public void Update(T record)
@@ -397,7 +469,10 @@ namespace SimpleDB.Internal
 			if (record == null)
 				throw new ArgumentNullException(nameof(record));
 
-			InternalUpdateRecords(new List<T>() { record });
+			using (StopWatchTimer timer = StopWatchTimer.Initialise(_ReadWriteTimes[TimingsUpdate]))
+			{
+				InternalUpdateRecords(new List<T>() { record });
+			}
 		}
 
 		public void InsertOrUpdate(T record)
@@ -408,16 +483,22 @@ namespace SimpleDB.Internal
 			if (record == null)
 				throw new ArgumentNullException(nameof(record));
 
-			if (IdExists(record.Id))
-				InternalUpdateRecords(new List<T> { record });
-			else
-				InternalInsertRecords(new List<T>() { record }, new InsertOptions());
+			using (StopWatchTimer timer = StopWatchTimer.Initialise(_ReadWriteTimes[TimingsInsertOrUpdate]))
+			{
+				if (IdExists(record.Id))
+					InternalUpdateRecords(new List<T> { record });
+				else
+					InternalInsertRecords(new List<T>() { record }, new InsertOptions());
+			}
 		}
 
 		public void ForceWrite()
 		{
-			if (_tableAttributes != null && _tableAttributes.WriteStrategy != WriteStrategy.Forced)
-				InternalSaveRecordsToDisk(InternalReadAllRecords(), true);
+			using (StopWatchTimer timer = StopWatchTimer.Initialise(_ReadWriteTimes[TimingsForceWrite]))
+			{
+				if (_tableAttributes != null && _tableAttributes.WriteStrategy != WriteStrategy.Forced)
+					InternalSaveRecordsToDisk(InternalReadAllRecords(), true);
+			}
 		}
 
 		#region Sequences

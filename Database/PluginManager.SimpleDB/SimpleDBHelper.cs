@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.Extensions.DependencyInjection;
 
+using SharedPluginFeatures;
+
 using SimpleDB.Internal;
 
 namespace SimpleDB
@@ -36,6 +38,7 @@ namespace SimpleDB
 			services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
 			services.AddSingleton<ISimpleDBManager, SimpleDBManager>();
 			services.AddSingleton(typeof(ISimpleDBOperations<>), typeof(SimpleDBOperations<>));
+			services.AddSingleton<IDatabaseTimings, DatabaseTimings>();
 
 			return services;
 		}
@@ -45,6 +48,7 @@ namespace SimpleDB
 			services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
 			services.AddSingleton<ISimpleDBManager>(new SimpleDBManager(path, encryptionKey));
 			services.AddSingleton(typeof(ISimpleDBOperations<>), typeof(SimpleDBOperations<>));
+			services.AddSingleton<IDatabaseTimings, DatabaseTimings>();
 
 			return services;
 		}

@@ -13,36 +13,41 @@
  *
  *  Copyright (c) 2018 - 2023 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SimpleDB
+ *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: ISimpleDBInitializer.cs
+ *  File: MockDatabaseTimings.cs
  *
- *  Purpose:  ISimpleDBInitializer interface for SimpleDB
+ *  Purpose:  Mock IDatabaseTimings class
  *
  *  Date        Name                Reason
- *  23/05/2022  Simon Carter        Initially Created
+ *  08/01/2023  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
-namespace SimpleDB
+namespace AspNetCore.PluginManager.Tests.Shared
 {
-	/// <summary>
-	/// Interface for managing SimpleDB initialization and other key areas of operation
-	/// </summary>
-    public interface ISimpleDBManager
-    {
-        string Path { get; }
+	public sealed class MockDatabaseTimings : IDatabaseTimings
+	{
+		public Dictionary<string, Dictionary<string, Timings>> GetDatabaseTimings()
+		{
+			Dictionary<string, Dictionary<string, Timings>> Result = new();
 
-        void RegisterTable(ISimpleDBTable simpleDBTable);
+			Result["Table 1"] = new();
+			Result["Table 1"].Add("Op1", new());
+			Result["Table 1"].Add("Op2", new());
+			Result["Table 1"].Add("Op3", new());
+			Result["Table 1"].Add("Op4", new());
 
-        void UnregisterTable(ISimpleDBTable simpleDBTable);
+			Result["Table 2"] = new();
+			Result["Table 2"].Add("Op1", new());
+			Result["Table 2"].Add("Op2", new());
+			Result["Table 2"].Add("Op3", new());
+			Result["Table 2"].Add("Op4", new());
 
-        IReadOnlyDictionary<string, ISimpleDBTable> Tables { get; }
-
-		void ClearMemory();
-
-		event SimpleDbEvent OnMemoryCleared;
-    }
+			return Result;
+		}
+	}
 }

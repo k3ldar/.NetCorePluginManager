@@ -11,38 +11,31 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2023 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2012 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SimpleDB
+ *  Product:  SharedPluginFeatues
  *  
- *  File: ISimpleDBInitializer.cs
+ *  File: IDatabaseTimings.cs
  *
- *  Purpose:  ISimpleDBInitializer interface for SimpleDB
+ *  Purpose:  Interface for providing database timings
  *
  *  Date        Name                Reason
- *  23/05/2022  Simon Carter        Initially Created
+ *  08/01/2023  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Collections.Generic;
 
-using SharedPluginFeatures;
-
-namespace SimpleDB
+namespace SharedPluginFeatures
 {
 	/// <summary>
-	/// Interface for managing SimpleDB initialization and other key areas of operation
+	/// IDatabaseTimings interface, used to retrieve times from a database
 	/// </summary>
-    public interface ISimpleDBManager
-    {
-        string Path { get; }
-
-        void RegisterTable(ISimpleDBTable simpleDBTable);
-
-        void UnregisterTable(ISimpleDBTable simpleDBTable);
-
-        IReadOnlyDictionary<string, ISimpleDBTable> Tables { get; }
-
-		void ClearMemory();
-
-		event SimpleDbEvent OnMemoryCleared;
-    }
+	public interface IDatabaseTimings
+	{
+		/// <summary>
+		/// Retrieves all timings from the database
+		/// </summary>
+		/// <returns>Dictionary&lt;string, Dictionary&lt;string, Timings&gt;&gt;</returns>
+		Dictionary<string, Dictionary<string, Timings>> GetDatabaseTimings();
+	}
 }

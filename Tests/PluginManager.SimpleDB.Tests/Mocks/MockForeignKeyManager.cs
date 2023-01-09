@@ -26,36 +26,38 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-namespace SimpleDB.Tests
+namespace SimpleDB.Tests.Mocks
 {
 	[ExcludeFromCodeCoverage]
 	internal class MockForeignKeyManager : IForeignKeyManager
-    {
-        public List<string> RegisteredTables = new List<string>();
+	{
+		public List<string> RegisteredTables = new List<string>();
 
-        public void AddRelationShip(string table, string targetTable, string propertyName, string targetPropertyName)
-        {
-            throw new NotImplementedException();
-        }
+		public void AddRelationShip(string table, string targetTable, string propertyName, string targetPropertyName)
+		{
+			throw new NotImplementedException();
+		}
 
-        public bool ValueExists(string tableName, long id)
-        {
-            throw new NotImplementedException();
-        }
+		public bool ValueExists(string tableName, long id)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void RegisterTable(ISimpleDBTable table)
-        {
-            RegisteredTables.Add(table.TableName);
-        }
+		public void RegisterTable(ISimpleDBTable table)
+		{
+			RegisteredTables.Add(table.TableName);
+		}
 
-        public void UnregisterTable(ISimpleDBTable table)
-        {
-            RegisteredTables.Remove(table.TableName);
-        }
+		public void UnregisterTable(ISimpleDBTable table)
+		{
+			RegisteredTables.Remove(table.TableName);
+		}
 
-        public bool ValueInUse(string tableName, string propertyName, long value, out string table, out string property)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public bool ValueInUse(string tableName, string propertyName, long value, out string table, out string property)
+		{
+			table = null;
+			property = null;
+			return false;
+		}
+	}
 }

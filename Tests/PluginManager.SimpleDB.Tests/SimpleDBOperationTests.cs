@@ -215,13 +215,13 @@ namespace SimpleDB.Tests
 
 					sut.Insert(new MockRow());
 					fileInfo = new FileInfo(Path.Combine(directory, "MockTable.dat"));
-					Assert.AreEqual(140, fileInfo.Length);
+					Assert.AreEqual(144, fileInfo.Length);
 					Assert.AreEqual(1, sut.RecordCount);
 				}
 
 				Assert.IsTrue(onActionCalled);
 				fileInfo = new FileInfo(Path.Combine(directory, "MockTable.dat"));
-				Assert.AreEqual(140, fileInfo.Length);
+				Assert.AreEqual(144, fileInfo.Length);
 
 				using SimpleDBOperations<MockRow> sutRead = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService());
 				IReadOnlyList<MockRow> records = sutRead.Select();
@@ -256,7 +256,7 @@ namespace SimpleDB.Tests
 				}
 
 				fileInfo = new FileInfo(Path.Combine(directory, "MockLazyWriteTable.dat"));
-				Assert.AreEqual(159, fileInfo.Length);
+				Assert.AreEqual(163, fileInfo.Length);
 
 				using SimpleDBOperations<MockLazyWriteRow> sutRead = new SimpleDBOperations<MockLazyWriteRow>(initializer, keyManager, new MockPluginClassesService());
 				IReadOnlyList<MockLazyWriteRow> records = sutRead.Select();
@@ -1239,13 +1239,13 @@ namespace SimpleDB.Tests
 
 					sut.Insert(new MockRow());
 					fileInfo = new FileInfo(Path.Combine(directory, "MockTable.dat"));
-					Assert.AreEqual(140, fileInfo.Length);
+					Assert.AreEqual(144, fileInfo.Length);
 					Assert.AreEqual(1, sut.RecordCount);
 				}
 
 				Assert.IsTrue(onActionCalled);
 				fileInfo = new FileInfo(Path.Combine(directory, "MockTable.dat"));
-				Assert.AreEqual(140, fileInfo.Length);
+				Assert.AreEqual(144, fileInfo.Length);
 
 				using (SimpleDBOperations<MockRow> sutRead = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
@@ -1259,7 +1259,7 @@ namespace SimpleDB.Tests
 				FileStream stream = new FileStream(Path.Combine(directory, "MockTable.dat"), FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
 				try
 				{
-					Assert.AreEqual(140, stream.Length);
+					Assert.AreEqual(144, stream.Length);
 					stream.Seek(0, SeekOrigin.Begin);
 					using BinaryReader reader = new BinaryReader(stream, Encoding.UTF8, true);
 					Assert.AreEqual((ushort)0, reader.ReadUInt16(), "Data Version");
@@ -1275,15 +1275,15 @@ namespace SimpleDB.Tests
 
 					Assert.AreEqual(0L, reader.ReadInt64(), "Primary Sequence");
 					Assert.AreEqual(-1L, reader.ReadInt64(), "Secondary Sequence");
-					Assert.AreEqual((ushort)2, reader.ReadUInt16(), "File Version");
+					Assert.AreEqual((ushort)3, reader.ReadUInt16(), "File Version");
 					Assert.AreEqual((ushort)0, reader.ReadUInt16(), "Reserved 1");
 					Assert.AreEqual(0, reader.ReadInt32(), "Reserved 2");
 					Assert.AreEqual(0, reader.ReadInt32(), "Reserved 3");
 					Assert.AreEqual(8192, reader.ReadInt32(), "Page size");
 					Assert.AreEqual(CompressionType.None, (CompressionType)reader.ReadByte(), "Compression Type");
 					Assert.AreEqual(1, reader.ReadInt32(), "Record Count");
+					Assert.AreEqual(95, reader.ReadInt32(), "Data length after compression");
 					Assert.AreEqual(95, reader.ReadInt32(), "Data length before compression");
-
 				}
 				finally
 				{

@@ -129,9 +129,9 @@ namespace SimpleDB.Tests
 
         [TestMethod]
         [TestCategory(GeneralTestsCategory)]
-        public void BeforeConfigureServices_DoesNotThrowException()
+        public void BeforeConfigureServices_RegistersCorrectServices_Success()
         {
-            const int RegisteredService = 3;
+            const int RegisteredService = 4;
 
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();

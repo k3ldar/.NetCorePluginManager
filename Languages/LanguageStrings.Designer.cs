@@ -22768,6 +22768,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database Timings.
+        /// </summary>
+        public static string DatabaseTimings {
+            get {
+                return ResourceManager.GetString("DatabaseTimings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Database Type.
         /// </summary>
         public static string DatabaseType {

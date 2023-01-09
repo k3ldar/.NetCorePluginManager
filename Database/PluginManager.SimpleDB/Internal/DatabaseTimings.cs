@@ -15,34 +15,49 @@
  *
  *  Product:  SimpleDB
  *  
- *  File: ISimpleDBInitializer.cs
+ *  File: DatabaseTimings.cs
  *
- *  Purpose:  ISimpleDBInitializer interface for SimpleDB
+ *  Purpose:  Retrieves database timings
  *
  *  Date        Name                Reason
- *  23/05/2022  Simon Carter        Initially Created
+ *  08/01/2023  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 using SharedPluginFeatures;
 
-namespace SimpleDB
+namespace SimpleDB.Internal
 {
-	/// <summary>
-	/// Interface for managing SimpleDB initialization and other key areas of operation
-	/// </summary>
-    public interface ISimpleDBManager
-    {
-        string Path { get; }
+	internal sealed class DatabaseTimings : IDatabaseTimings
+	{
+		#region Private Members
 
-        void RegisterTable(ISimpleDBTable simpleDBTable);
+		private readonly ISimpleDBManager _simpleDBManager;
 
-        void UnregisterTable(ISimpleDBTable simpleDBTable);
+		#endregion Private Members
 
-        IReadOnlyDictionary<string, ISimpleDBTable> Tables { get; }
+		#region Constructors
 
-		void ClearMemory();
+		public DatabaseTimings(ISimpleDBManager simpleDBManager)
+		{
+			_simpleDBManager = simpleDBManager ?? throw new ArgumentNullException(nameof(simpleDBManager));
+		}
 
-		event SimpleDbEvent OnMemoryCleared;
-    }
+		#endregion Constructors
+
+		#region IDatabaseTimings Methods
+
+		public Dictionary<string, Dictionary<string, Timings>> GetDatabaseTimings()
+		{
+			Dictionary<string, Dictionary<string, Timings>> Result = new();
+
+			foreach (KeyValuePair<string, ISimpleDBTable> table in _simpleDBManager.Tables)
+			{
+				Result.Add(table.Key, table.Value.GetAllTimings);
+			}
+
+			return Result;
+		}
+
+		#endregion IDatabaseTimings Methods
+	}
 }
