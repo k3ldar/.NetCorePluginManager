@@ -68,8 +68,6 @@ namespace SimpleDB.Readers
 					if (uncompressed.Length != dataLength)
 						throw new InvalidDataException();
 
-					string s = Encoding.UTF8.GetString(data);
-
 					Result = JsonSerializer.Deserialize<List<T>>(data, Consts.JsonSerializerOptions);
 				}
 			}
