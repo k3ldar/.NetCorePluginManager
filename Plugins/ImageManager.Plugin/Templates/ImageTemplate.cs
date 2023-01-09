@@ -140,7 +140,7 @@ namespace ImageManager.Plugin.Templates
                 else
                 {
                     Result.Append(CssStyle);
-                    Result.Append("\"");
+                    Result.Append('\"');
 
                     if (!String.IsNullOrEmpty(CssClassName))
                     {
@@ -148,7 +148,7 @@ namespace ImageManager.Plugin.Templates
                     }
                 }
 
-                Result.Append(">");
+                Result.Append('>');
             }
 
             HtmlEnd(Result);

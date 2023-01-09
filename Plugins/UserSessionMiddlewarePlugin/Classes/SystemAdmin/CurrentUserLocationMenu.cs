@@ -98,7 +98,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
         #region Private Methods
 
-        private string GetUserMapData()
+        private static string GetUserMapData()
         {
 			StringBuilder data = new();
 
@@ -131,7 +131,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
             return Result;
         }
 
-        private string GetImageName(UserSession session)
+        private static string GetImageName(UserSession session)
         {
             if (session.IsBot)
                 return "orange";

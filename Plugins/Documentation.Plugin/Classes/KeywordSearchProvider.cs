@@ -200,7 +200,7 @@ namespace DocumentationPlugin.Classes
 
         #region Private Methods
 
-        private SearchResponseItem AddDocumentToSearchResult(in Document document, in string searchType,
+        private static SearchResponseItem AddDocumentToSearchResult(in Document document, in string searchType,
             in string url, in int offset, in int relevance = 0)
         {
             SearchResponseItem Result = new SearchResponseItem(searchType, document.Title, offset,

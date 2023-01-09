@@ -55,7 +55,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
             return Result;
         }
 
-        private string RemoveCarriageReturns(string data)
+        private static string RemoveCarriageReturns(string data)
         {
             StringBuilder Result = new StringBuilder(data.Length);
 

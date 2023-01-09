@@ -162,7 +162,7 @@ namespace DynamicContent.Plugin.Templates
                 if (_autoPlay)
                     Result.Append("?autoplay=1\"");
                 else
-                    Result.Append("\"");
+                    Result.Append('\"');
 
                 Result.Append(" frameborder=\"0\"");
 

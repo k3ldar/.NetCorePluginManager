@@ -267,7 +267,7 @@ namespace Blog.Plugin.Controllers
 
         #region Private Methods
 
-        private string GetBlogItemUrl(in BlogItem blogItem)
+        private static string GetBlogItemUrl(in BlogItem blogItem)
         {
             return $"/Blog/{RouteFriendlyName(blogItem.Username)}/{blogItem.Id}/" +
                 $"{blogItem.LastModified.ToString("dd-MM-yyyy")}/{RouteFriendlyName(blogItem.Title)}";

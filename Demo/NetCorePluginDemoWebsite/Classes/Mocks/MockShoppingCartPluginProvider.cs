@@ -243,7 +243,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         private void cartCacheManager_ItemNotFound(object sender, Shared.CacheItemNotFoundArgs e)
         {
-            if (!Int64.TryParse(e.Name.Substring(5), out long cartId))
+            if (!Int64.TryParse(e.Name.AsSpan(5), out long cartId))
                 cartId = ++_basketId;
 
             ShoppingCartDetail cartDetail = new ShoppingCartDetail(cartId,

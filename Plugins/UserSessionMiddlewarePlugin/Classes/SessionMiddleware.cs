@@ -211,12 +211,12 @@ namespace UserSessionMiddleware.Plugin
 
         #region Private Methods
 
-        private string GetNextID()
+        private static string GetNextID()
         {
             return $"SN{DateTime.UtcNow.ToFileTimeUtc()}{_cookieID++}";
         }
 
-        private Uri GetAbsoluteUri(HttpContext context)
+        private static Uri GetAbsoluteUri(HttpContext context)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));

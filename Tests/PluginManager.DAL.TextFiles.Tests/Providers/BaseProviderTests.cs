@@ -49,7 +49,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
     {
         protected const string TestPathSettings = "{\"SimpleDBSettings\":{\"Path\":\"$$\"}}";
 
-        protected IProductProvider GetTestProductProvider(ServiceProvider provider, bool addProducts = true)
+        protected static IProductProvider GetTestProductProvider(ServiceProvider provider, bool addProducts = true)
         {
             IProductProvider Result = provider.GetService<IProductProvider>();
             Assert.IsNotNull(Result);
@@ -69,7 +69,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             return Result;
         }
 
-		protected ServiceCollection CreateDefaultServiceCollection(string directory, out MockPluginClassesService mockPluginClassesService)
+		protected static ServiceCollection CreateDefaultServiceCollection(string directory, out MockPluginClassesService mockPluginClassesService)
 		{
 			PluginInitialisation initialisation = new PluginInitialisation();
 			ServiceCollection services = new ServiceCollection();

@@ -48,7 +48,7 @@ namespace UserAccount.Plugin.Models
                 throw new ArgumentNullException(nameof(order));
 
             OrderId = order.Id;
-            Culture = order.Culture ?? throw new ArgumentNullException(nameof(order.Culture));
+            Culture = order.Culture ?? throw new ArgumentOutOfRangeException(nameof(order.Culture));
             Date = order.Date;
             SubTotal = order.SubTotal;
             Postage = order.Postage;

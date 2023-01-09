@@ -356,11 +356,12 @@ namespace BadEgg.Plugin.WebDefender
             return Result;
         }
 
-        /// <summary>
-        /// Adds an IP address to a black list
-        /// </summary>
-        /// <param name="ipAddress">Ip address to add to black list</param>
-        public void AddToBlackList(in string ipAddress)
+		/// <summary>
+		/// Adds an IP address to a black list
+		/// </summary>
+		/// <param name="ipAddress">Ip address to add to black list</param>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Public and used in other places")]
+		public void AddToBlackList(in string ipAddress)
         {
             if (String.IsNullOrEmpty(ipAddress))
                 throw new ArgumentNullException(nameof(ipAddress));
@@ -371,11 +372,12 @@ namespace BadEgg.Plugin.WebDefender
             }
         }
 
-        /// <summary>
-        /// Adds an IP address to a black list
-        /// </summary>
-        /// <param name="ipAddress">Ip address to add to black list</param>
-        public void AddToWhiteList(in string ipAddress)
+		/// <summary>
+		/// Adds an IP address to a black list
+		/// </summary>
+		/// <param name="ipAddress">Ip address to add to black list</param>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Public and used in other places")]
+		public void AddToWhiteList(in string ipAddress)
         {
             if (String.IsNullOrEmpty(ipAddress))
                 throw new ArgumentNullException(nameof(ipAddress));
@@ -515,7 +517,7 @@ namespace BadEgg.Plugin.WebDefender
 
         #region Private Methods
 
-        private string GetIpAddress(HttpRequest request)
+        private static string GetIpAddress(HttpRequest request)
         {
             foreach (string key in Constants.ForwardForHeader)
                 if (request.Headers.ContainsKey(key))
@@ -529,7 +531,7 @@ namespace BadEgg.Plugin.WebDefender
         /// </summary>
         /// <param name="value"></param>
         /// <returns>true if value should be ignored, otherwise false</returns>
-        private bool IgnoreFormValue(in string value)
+        private static bool IgnoreFormValue(in string value)
         {
             switch (value)
             {
@@ -545,7 +547,7 @@ namespace BadEgg.Plugin.WebDefender
         /// </summary>
         /// <param name="Result">Result of this validation</param>
         /// <param name="connection">connection info object</param>
-        private void UpdateConnectionInfo(ref ValidateRequestResult Result, in IpConnectionInfo connection)
+        private static void UpdateConnectionInfo(ref ValidateRequestResult Result, in IpConnectionInfo connection)
         {
             // spider bot
             if (Result.HasFlag(ValidateRequestResult.SpiderBot) && !connection.Results.HasFlag(ValidateRequestResult.SpiderBot))
@@ -657,7 +659,7 @@ namespace BadEgg.Plugin.WebDefender
         /// </summary>
         /// <param name="ipAddress">Ip address to verify</param>
         /// <returns>ValidateRequestResult enum with results</returns>
-        private ValidateRequestResult VerifyAddress(in string ipAddress)
+        private static ValidateRequestResult VerifyAddress(in string ipAddress)
         {
             using (TimedLock lockobj = TimedLock.Lock(InternalIpAddressLock))
             {
@@ -827,7 +829,7 @@ namespace BadEgg.Plugin.WebDefender
         /// </summary>
         /// <param name="word">Word which is being tested</param>
         /// <returns>true if contains 2 or more upper/lower case chars and at least 1 number, otherwise false</returns>
-        private bool IsRandomWord(in string word)
+        private static bool IsRandomWord(in string word)
         {
             bool Result = false;
 

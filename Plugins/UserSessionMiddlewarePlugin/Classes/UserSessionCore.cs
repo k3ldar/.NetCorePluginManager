@@ -189,7 +189,7 @@ namespace UserSessionMiddleware.Plugin
 
         #region Private Methods
 
-        private string GetIpAddress(in HttpContext context)
+        private static string GetIpAddress(in HttpContext context)
         {
             foreach (string key in SharedPluginFeatures.Constants.ForwardForHeader)
                 if (context.Request.Headers.ContainsKey(key))

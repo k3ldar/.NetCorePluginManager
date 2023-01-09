@@ -168,8 +168,8 @@ namespace SharedPluginFeatures
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            if (context.Items.ContainsKey(RouteNormal))
-                return context.Items[RouteNormal].ToString();
+            if (context.Items.TryGetValue(RouteNormal, out object value))
+                return value.ToString();
 
             string route = context.Request.Path.ToString();
 
@@ -212,8 +212,8 @@ namespace SharedPluginFeatures
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            if (context.Items.ContainsKey(ExtensionLowered))
-                return context.Items[ExtensionLowered].ToString();
+            if (context.Items.TryGetValue(ExtensionLowered, out object value))
+                return value.ToString();
 
             string loweredExtension = System.IO.Path.GetExtension(RouteLowered(context));
 

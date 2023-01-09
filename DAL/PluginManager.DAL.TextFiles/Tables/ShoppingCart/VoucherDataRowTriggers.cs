@@ -68,7 +68,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 			// from interface but unused in this context
 		}
 
-		private void ValidateVoucherData(List<VoucherDataRow> records)
+		private static void ValidateVoucherData(List<VoucherDataRow> records)
         {
             foreach (VoucherDataRow record in records)
             {

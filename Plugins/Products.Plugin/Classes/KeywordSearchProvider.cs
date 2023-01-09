@@ -148,7 +148,7 @@ namespace ProductPlugin.Classes
 
         #region Private Methods
 
-        private void ExactMatch(in List<SearchResponseItem> results, in KeywordSearchOptions searchOptions,
+        private static void ExactMatch(in List<SearchResponseItem> results, in KeywordSearchOptions searchOptions,
             in List<Product> products)
         {
             foreach (Product product in products)
@@ -186,7 +186,7 @@ namespace ProductPlugin.Classes
             }
         }
 
-        private void AddSearchResult(in List<SearchResponseItem> results, in Product product, in string searchType, in int offset)
+        private static void AddSearchResult(in List<SearchResponseItem> results, in Product product, in string searchType, in int offset)
         {
             SearchResponseItem searchItem = new SearchResponseItem(searchType, product.Name, offset,
                 $"/Product/{product.Id}/{HtmlHelper.RouteFriendlyName(product.Name)}/",
@@ -205,7 +205,7 @@ namespace ProductPlugin.Classes
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private string StockMessage(in uint stockCount)
+        private static string StockMessage(in uint stockCount)
         {
             if (stockCount == 0)
             {
@@ -284,7 +284,7 @@ namespace ProductPlugin.Classes
             return Result;
         }
 
-        private bool AddToSearchResults(in List<int> productGroups, in Product product,
+        private static bool AddToSearchResults(in List<int> productGroups, in Product product,
             in KeywordSearchOptions searchOptions, in string word, out int offset)
         {
             bool Result = false;

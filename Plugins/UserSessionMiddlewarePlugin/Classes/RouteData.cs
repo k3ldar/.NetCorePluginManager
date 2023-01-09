@@ -69,7 +69,7 @@ namespace UserSessionMiddleware.Plugin
             if (Route.Equals(route, StringComparison.InvariantCultureIgnoreCase))
                 return true;
 
-            if (route.EndsWith("/") && Route.Equals(route.Substring(0, route.Length - 1)))
+            if (route.EndsWith("/") && Route.Equals(route[..^1]))
                 return true;
 
             return false;

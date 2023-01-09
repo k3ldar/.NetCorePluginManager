@@ -180,13 +180,13 @@ namespace LoginPlugin.Controllers
             return Content("Valid User");
         }
 
-        private string Base64Decode(string data)
+        private static string Base64Decode(string data)
         {
             byte[] convertedData = Convert.FromBase64String(data);
             return Encoding.UTF8.GetString(convertedData);
         }
 
-        private bool BytesEqual(byte[] value1, byte[] value2)
+        private static bool BytesEqual(byte[] value1, byte[] value2)
         {
             if (value1.Length != value2.Length)
                 return false;
