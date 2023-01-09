@@ -1,5 +1,6 @@
 ﻿@model Resources.Plugin.Models.IdModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
 <div class="col-sm-4 col-md-2">
-<a href="/Resources/CreateResourceItem/@Model.Id/" class="btn btn-info" role="button">@Localizer[nameof(Languages.LanguageStrings.CreateResource)]</a>
+    <a href="/Resources/CreateResourceItem/@Model.Id/" class="btn btn-info" role="button">@Localizer[nameof(Languages.LanguageStrings.CreateResource)]</a>
 </div>

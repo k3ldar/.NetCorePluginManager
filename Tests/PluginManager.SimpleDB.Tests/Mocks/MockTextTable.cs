@@ -26,6 +26,8 @@
 
 using System.Diagnostics.CodeAnalysis;
 
+using SharedPluginFeatures;
+
 namespace SimpleDB.Tests.Mocks
 {
 	[ExcludeFromCodeCoverage]
@@ -47,6 +49,8 @@ namespace SimpleDB.Tests.Mocks
 		public WriteStrategy WriteStrategy => throw new NotImplementedException();
 
 		public TimeSpan SlidingMemoryTimeout => throw new NotImplementedException();
+
+		public Dictionary<string, Timings> GetAllTimings => throw new NotImplementedException();
 
 #pragma warning disable CS0067
 		public event SimpleDbEvent OnAction;

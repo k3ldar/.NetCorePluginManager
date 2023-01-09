@@ -27,6 +27,8 @@ using PluginManager.Abstractions;
 
 using Shared.Classes;
 
+using SharedPluginFeatures;
+
 #pragma warning disable CA2208
 
 namespace SimpleDB

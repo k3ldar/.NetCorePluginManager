@@ -24,6 +24,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+using SharedPluginFeatures;
+
 namespace SimpleDB
 {
 
@@ -73,6 +75,11 @@ namespace SimpleDB
 		/// Instructs the class to clear all cached items
 		/// </summary>
 		void ClearAllMemory();
+
+		/// <summary>
+		/// Retrieves timings for operations within the table
+		/// </summary>
+		Dictionary<string, Timings> GetAllTimings { get; }
 
 
 		event SimpleDbEvent OnAction;

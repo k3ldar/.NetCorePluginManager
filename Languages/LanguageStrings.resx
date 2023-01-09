@@ -14677,4 +14677,8 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Update Settings</value>
     <comment>Update Settings</comment>
   </data>
+  <data name="DatabaseTimings" xml:space="preserve">
+    <value>Database Timings</value>
+    <comment>Database Timings</comment>
+  </data>
 </root>

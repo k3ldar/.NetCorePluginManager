@@ -58,7 +58,7 @@ namespace SimpleDB.Tests
 			MockServiceCollection mockServiceCollection = new MockServiceCollection(serviceDescriptors);
 
 			MockServiceCollection Result = SimpleDBHelper.AddSimpleDB(mockServiceCollection) as MockServiceCollection;
-			Assert.AreEqual(3, Result.ServicesRegistered);
+			Assert.AreEqual(4, Result.ServicesRegistered);
 			Assert.AreSame(Result, mockServiceCollection);
 			Assert.IsTrue(Result.HasServiceRegistered<IForeignKeyManager>(ServiceLifetime.Singleton));
 			Assert.IsTrue(Result.HasServiceRegistered<ISimpleDBManager>(ServiceLifetime.Singleton));
@@ -101,7 +101,7 @@ namespace SimpleDB.Tests
 				MockServiceCollection mockServiceCollection = new MockServiceCollection(serviceDescriptors);
 
 				MockServiceCollection Result = SimpleDBHelper.AddSimpleDB(mockServiceCollection, directory, "EncKey") as MockServiceCollection;
-				Assert.AreEqual(3, Result.ServicesRegistered);
+				Assert.AreEqual(4, Result.ServicesRegistered);
 				Assert.AreSame(Result, mockServiceCollection);
 				Assert.IsTrue(Result.HasServiceRegistered<IForeignKeyManager>(ServiceLifetime.Singleton));
 				Assert.IsTrue(Result.HasServiceRegistered<ISimpleDBManager>(ServiceLifetime.Singleton));

@@ -43,6 +43,9 @@ namespace SimpleDB.Internal
 				case 2:
 					return new TableReadVersionTwo();
 
+				case 3:
+					return new TableReadVersionThree();
+
 				default:
 					throw new ArgumentException(nameof(version));
 			}
@@ -51,7 +54,7 @@ namespace SimpleDB.Internal
 		public IDataWriter GetWriter()
 		{
 			// always return the latest version
-			return new TableWriteVersionTwo();
+			return new TableWriteVersionThree();
 		}
 	}
 }

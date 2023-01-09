@@ -28,6 +28,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
+#pragma warning disable CA1416
+
 namespace SharedPluginFeatures
 {
     /// <summary>
@@ -273,3 +275,5 @@ namespace SharedPluginFeatures
         #endregion Private Methds
     }
 }
+
+#pragma warning restore CA1416

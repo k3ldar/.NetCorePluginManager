@@ -12771,6 +12771,11 @@
               Looks up a localized string similar to Please test the connection before continuing!.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.DatabaseTimings">
+            <summary>
+              Looks up a localized string similar to Database Timings.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.DatabaseType">
             <summary>
               Looks up a localized string similar to Database Type.

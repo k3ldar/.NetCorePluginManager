@@ -380,3 +380,4 @@ ASALocalRun/
 /Demo/NetCorePluginDemoWebsite/wwwroot/js/*
 /Demo/NetCorePluginDemoWebsite/wwwroot/css/*
 /Tests/AspNetCore.PluginManager.Tests/Output/TestFolders/
+/Tests/PluginManager.DAL.TextFiles.Tests/Providers/LocalTestsOnly.cs
