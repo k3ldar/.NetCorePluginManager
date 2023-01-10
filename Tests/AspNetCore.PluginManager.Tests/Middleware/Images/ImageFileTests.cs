@@ -67,7 +67,7 @@ namespace AspNetCore.PluginManager.Tests.Middleware
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(FileNotFoundException))]
         public void Construct_InvalidParamFileName_DoesNotExist_Throws_ArgumentException()
         {
             string tmpFile = Path.GetTempFileName();

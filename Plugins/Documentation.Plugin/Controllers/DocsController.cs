@@ -228,7 +228,7 @@ namespace DocumentationPlugin.Controllers
             }
         }
 
-        private DocumentViewTypeViewModel BuildConstructorViewModel(DocumentViewTypeViewModel model, Document selected, string name)
+        private static DocumentViewTypeViewModel BuildConstructorViewModel(DocumentViewTypeViewModel model, Document selected, string name)
         {
             DocumentMethod constructor = selected.Constructors.FirstOrDefault(f => HtmlHelper.RouteFriendlyName(f.MethodName) == name);
 
@@ -258,7 +258,7 @@ namespace DocumentationPlugin.Controllers
             return model;
         }
 
-        private DocumentViewTypeViewModel BuildMethodViewModel(DocumentViewTypeViewModel model, Document selected, string name)
+        private static DocumentViewTypeViewModel BuildMethodViewModel(DocumentViewTypeViewModel model, Document selected, string name)
         {
             DocumentMethod method = selected.Methods.FirstOrDefault(f => HtmlHelper.RouteFriendlyName(f.MethodName) == name);
 
@@ -288,7 +288,7 @@ namespace DocumentationPlugin.Controllers
             return model;
         }
 
-        private DocumentViewTypeViewModel BuildPropertyViewModel(DocumentViewTypeViewModel model, Document selected, string name)
+        private static DocumentViewTypeViewModel BuildPropertyViewModel(DocumentViewTypeViewModel model, Document selected, string name)
         {
             DocumentProperty property = selected.Properties.FirstOrDefault(f => HtmlHelper.RouteFriendlyName(f.PropertyName) == name);
 
@@ -316,7 +316,7 @@ namespace DocumentationPlugin.Controllers
             return model;
         }
 
-        private DocumentViewTypeViewModel BuildFieldViewModel(DocumentViewTypeViewModel model, Document selected, string name)
+        private static DocumentViewTypeViewModel BuildFieldViewModel(DocumentViewTypeViewModel model, Document selected, string name)
         {
             DocumentField field = selected.Fields.FirstOrDefault(f => HtmlHelper.RouteFriendlyName(f.FieldName) == name);
 
@@ -345,7 +345,7 @@ namespace DocumentationPlugin.Controllers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private string ReturnUptoParam(string s)
+        private static string ReturnUptoParam(string s)
         {
             int bracket = s.IndexOf("(");
 
@@ -441,7 +441,7 @@ namespace DocumentationPlugin.Controllers
             return model;
         }
 
-        private string GetAllReferences(Document document, DocumentData data, List<Document> documents)
+        private static string GetAllReferences(Document document, DocumentData data, List<Document> documents)
         {
             StringBuilder allReferences = new StringBuilder("<ul>", 2048);
 

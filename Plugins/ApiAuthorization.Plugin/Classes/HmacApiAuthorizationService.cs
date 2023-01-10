@@ -125,7 +125,7 @@ namespace ApiAuthorization.Plugin.Classes
 
         #region Private Methods
 
-        private ApiUserDetails ValidateHeaders(HttpRequest request)
+        private static ApiUserDetails ValidateHeaders(HttpRequest request)
         {
             if (!request.Headers.ContainsKey(ApiKey) ||
                 !request.Headers.ContainsKey(MerchantId) ||

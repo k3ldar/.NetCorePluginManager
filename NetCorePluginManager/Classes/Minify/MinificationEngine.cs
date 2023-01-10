@@ -122,7 +122,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
 
         #region Private Methods
 
-        private List<PreserveBlock> PreserveBlocks(string data, in bool isRazor)
+        private static List<PreserveBlock> PreserveBlocks(string data, in bool isRazor)
         {
             const string preStart = "<pre>";
             const string preEnd = "</pre>";

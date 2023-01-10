@@ -103,7 +103,7 @@ namespace AspNetCore.PluginManager.Middleware
         #region Private Methods
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private Timings GetPageTimings(string route)
+        private static Timings GetPageTimings(string route)
         {
             using (TimedLock tl = TimedLock.Lock(_lockObject))
             {

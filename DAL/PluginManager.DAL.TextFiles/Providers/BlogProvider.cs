@@ -156,7 +156,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         #region Private Methods
 
-        private bool BlogHasTag(BlogDataRow tableBlog, string[] tags)
+        private static bool BlogHasTag(BlogDataRow tableBlog, string[] tags)
         {
             foreach (string searchTag in tags)
             {
@@ -215,7 +215,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             }
         }
 
-        private BlogComment CreateBlogComment(BlogCommentDataRow comment, int? parentId)
+        private static BlogComment CreateBlogComment(BlogCommentDataRow comment, int? parentId)
         {
             return new BlogComment((int)comment.Id, parentId, comment.Created,
                     comment.UserId, comment.Username, comment.Approved, comment.Comment);

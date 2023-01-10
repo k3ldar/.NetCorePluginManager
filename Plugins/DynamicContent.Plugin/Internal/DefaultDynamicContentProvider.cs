@@ -282,7 +282,7 @@ namespace DynamicContent.Plugin.Internal
             byte[] byteData;
 
             if (String.IsNullOrEmpty(data))
-                byteData = new byte[] { };
+                byteData = Array.Empty<byte>();
             else
                 byteData = Encoding.UTF8.GetBytes(data);
 
@@ -386,7 +386,7 @@ namespace DynamicContent.Plugin.Internal
             File.WriteAllBytes(filename, contents);
         }
 
-        private IDynamicContentPage ReadFileContents(string filename)
+        private static IDynamicContentPage ReadFileContents(string filename)
         {
             return ConvertFromByteArray(File.ReadAllBytes(filename));
         }

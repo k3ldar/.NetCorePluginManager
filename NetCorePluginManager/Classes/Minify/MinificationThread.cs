@@ -115,7 +115,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
 
         #region Private Methods
 
-        private MinificationFileType GetFileType(in string fileName)
+        private static MinificationFileType GetFileType(in string fileName)
         {
             switch (Path.GetExtension(fileName).ToLower())
             {

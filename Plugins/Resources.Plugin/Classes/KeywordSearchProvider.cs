@@ -94,7 +94,7 @@ namespace Resources.Plugin.Classes
 			return Result;
 		}
 
-		private void ExactMatch(in List<SearchResponseItem> results, in KeywordSearchOptions searchOptions,
+		private static void ExactMatch(in List<SearchResponseItem> results, in KeywordSearchOptions searchOptions,
 			List<ResourceItem> resources)
 		{
 			foreach (ResourceItem resource in resources)
@@ -133,7 +133,7 @@ namespace Resources.Plugin.Classes
 			}
 		}
 
-		private void ExactMatch(in List<SearchResponseItem> results, in KeywordSearchOptions searchOptions,
+		private static void ExactMatch(in List<SearchResponseItem> results, in KeywordSearchOptions searchOptions,
 			List<ResourceCategory> resources)
 		{
 			foreach (ResourceCategory resource in resources)
@@ -163,7 +163,7 @@ namespace Resources.Plugin.Classes
 			}
 		}
 
-		private void NonExactMatch(in List<SearchResponseItem> results, in KeywordSearchOptions searchOptions,
+		private static void NonExactMatch(in List<SearchResponseItem> results, in KeywordSearchOptions searchOptions,
 			in List<ResourceItem> resources)
 		{
 			string[] words = searchOptions.SearchTerm.Split(" ", StringSplitOptions.RemoveEmptyEntries);
@@ -213,7 +213,7 @@ namespace Resources.Plugin.Classes
 			}
 		}
 
-		private void NonExactMatch(in List<SearchResponseItem> results, in KeywordSearchOptions searchOptions,
+		private static void NonExactMatch(in List<SearchResponseItem> results, in KeywordSearchOptions searchOptions,
 			in List<ResourceCategory> resources)
 		{
 			string[] words = searchOptions.SearchTerm.Split(" ", StringSplitOptions.RemoveEmptyEntries);
@@ -254,7 +254,7 @@ namespace Resources.Plugin.Classes
 			}
 		}
 
-		private void AddSearchResult(in List<SearchResponseItem> results, in ResourceItem resource, in string searchType, in int offset)
+		private static void AddSearchResult(in List<SearchResponseItem> results, in ResourceItem resource, in string searchType, in int offset)
 		{
 			SearchResponseItem searchItem = new SearchResponseItem(searchType, resource.Name, offset,
 				$"/{Controllers.ResourcesController.Name}/View/{resource.Id}/", resource.Name, null);
@@ -264,7 +264,7 @@ namespace Resources.Plugin.Classes
 			results.Add(searchItem);
 		}
 
-		private void AddSearchResult(in List<SearchResponseItem> results, in ResourceCategory resource, in string searchType, in int offset)
+		private static void AddSearchResult(in List<SearchResponseItem> results, in ResourceCategory resource, in string searchType, in int offset)
 		{
 			SearchResponseItem searchItem = new SearchResponseItem(searchType, resource.Name, offset,
 				$"/{Controllers.ResourcesController.Name}/Category/{resource.Id}/{resource.Name}/", resource.Name, null);

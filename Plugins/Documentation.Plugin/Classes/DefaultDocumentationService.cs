@@ -274,7 +274,7 @@ namespace DocumentationPlugin.Classes
 
         #region Private Methods
 
-        private void SetPreviousNext(List<Document> documents)
+        private static void SetPreviousNext(List<Document> documents)
         {
             List<Document> topLevel = documents.Where(d => d.DocumentType == DocumentType.Assembly ||
                 d.DocumentType == DocumentType.Custom ||
@@ -304,7 +304,7 @@ namespace DocumentationPlugin.Classes
             }
         }
 
-        private string FixMethodName(string name, string newName)
+        private static string FixMethodName(string name, string newName)
         {
             if (!name.Contains('('))
                 name += "()";
@@ -315,7 +315,7 @@ namespace DocumentationPlugin.Classes
             return name.Replace(",", ", ");
         }
 
-        private void BuildReferences(Document document, in List<Document> documents)
+        private static void BuildReferences(Document document, in List<Document> documents)
         {
             DocumentData data = new DocumentData();
 
@@ -335,7 +335,7 @@ namespace DocumentationPlugin.Classes
             document.Tag = data;
         }
 
-        private void SetParentData(in List<Document> documents)
+        private static void SetParentData(in List<Document> documents)
         {
             foreach (Document docParent in documents.Where(d => d.DocumentType == DocumentType.Assembly).ToList())
             {
@@ -350,7 +350,7 @@ namespace DocumentationPlugin.Classes
             }
         }
 
-        private void BuildAssemblyReferences(in Document document, in DocumentData data, in List<Document> documents)
+        private static void BuildAssemblyReferences(in Document document, in DocumentData data, in List<Document> documents)
         {
             foreach (Document doc in documents)
             {
@@ -365,7 +365,7 @@ namespace DocumentationPlugin.Classes
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Left in for future work, so documents can be linked")]
-        private void BuildClassReferences(in Document document, in DocumentData data, in List<Document> documents)
+        private static void BuildClassReferences(in Document document, in DocumentData data, in List<Document> documents)
         {
             if (!String.IsNullOrEmpty(document.AcquisitionMethod))
                 data.Contains.Add("#acquire", nameof(Languages.LanguageStrings.Acquisition));
@@ -399,7 +399,7 @@ namespace DocumentationPlugin.Classes
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Left in for future work, so documents can be linked")]
-        private void BuildCustomReferences(in Document document, in DocumentData data, in List<Document> documents)
+        private static void BuildCustomReferences(in Document document, in DocumentData data, in List<Document> documents)
         {
             int nextHStart = document.LongDescription.IndexOf("<h");
 
@@ -419,7 +419,7 @@ namespace DocumentationPlugin.Classes
 
                     string hType = reference.Substring(0, 3);
 
-                    string newhRef = $"{hType} id=\"{idName}\">" + reference.Substring(4);
+                    string newhRef = string.Concat($"{hType} id=\"{idName}\">", reference.AsSpan(4));
                     document.LongDescription = document.LongDescription.Replace(reference, newhRef);
 
                     if (!data.Contains.ContainsKey(idName))
@@ -432,7 +432,7 @@ namespace DocumentationPlugin.Classes
             }
         }
 
-        private void BuildAllReferences(in List<Document> documents)
+        private static void BuildAllReferences(in List<Document> documents)
         {
             StringBuilder allReferences = new StringBuilder("<ul>", 2048);
 

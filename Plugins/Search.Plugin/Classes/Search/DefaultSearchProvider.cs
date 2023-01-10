@@ -148,7 +148,8 @@ namespace SearchPlugin.Classes.Search
             }
         }
 
-        internal CacheManager GetCacheManager
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Internal and used in other places")]
+		internal CacheManager GetCacheManager
         {
             get
             {

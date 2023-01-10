@@ -53,7 +53,7 @@ namespace Middleware.Images
                 throw new ArgumentNullException(nameof(fileName));
 
             if (!File.Exists(fileName))
-                throw new ArgumentException(nameof(fileName));
+                throw new FileNotFoundException(nameof(fileName));
 
             Name = Path.GetFileName(fileName);
             FileExtension = Path.GetExtension(fileName);

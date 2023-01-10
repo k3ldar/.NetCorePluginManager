@@ -74,9 +74,8 @@ namespace BadEgg.Plugin
 
             using (TimedLock lck = TimedLock.Lock(WebDefender.ValidateConnections.InternalIpAddressLock))
             {
-                if (WebDefender.ValidateConnections.InternalIpAddressList.ContainsKey(ipAddress))
-                    WebDefender.ValidateConnections.InternalIpAddressList.Remove(ipAddress);
-            }
+				WebDefender.ValidateConnections.InternalIpAddressList.Remove(ipAddress);
+			}
         }
 
         #endregion IIpManagement Methods

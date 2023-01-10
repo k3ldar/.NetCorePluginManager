@@ -22,7 +22,7 @@ namespace Middleware.Classes.Search
 		/// </summary>
 		/// <param name="word"></param>
 		/// <returns></returns>
-		protected bool ExcludeWordFromSearch(string word)
+		protected static bool ExcludeWordFromSearch(string word)
 		{
 			if (String.IsNullOrWhiteSpace(word))
 				return true;

@@ -303,7 +303,7 @@ namespace ProductPlugin.Controllers
             return Result;
         }
 
-        private void GetSearchId(in ProductSearchViewModel model)
+        private static void GetSearchId(in ProductSearchViewModel model)
         {
             // Use input string to calculate MD5 hash
             using (MD5 md5 = MD5.Create())

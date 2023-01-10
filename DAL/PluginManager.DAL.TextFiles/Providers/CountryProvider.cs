@@ -48,7 +48,7 @@ namespace PluginManager.DAL.TextFiles.Providers
                 throw new ArgumentNullException(nameof(code));
 
             if (code.Length > 3)
-                throw new ArgumentException(nameof(code));
+                throw new ArgumentOutOfRangeException(nameof(code));
 
             CountryDataRow tableCountries = new CountryDataRow()
             {
@@ -103,7 +103,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             return ConvertTableCountriesToCountries(_countries.Select().Where(c => c.Visible).ToList());
         }
 
-        private List<Country> ConvertTableCountriesToCountries(IReadOnlyList<CountryDataRow> tableCountries)
+        private static List<Country> ConvertTableCountriesToCountries(IReadOnlyList<CountryDataRow> tableCountries)
         {
             List<Country> Result = new List<Country>();
 

@@ -82,7 +82,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void CountryCreate_InvalidParamCode_LengthGreaterThan3_Throws_ArgumentException()
         {
             CountryProvider sut = new CountryProvider(new MockTextTableOperations<CountryDataRow>());

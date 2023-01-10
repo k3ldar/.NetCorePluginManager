@@ -99,11 +99,12 @@ namespace ErrorManager.Plugin
             return !HasCancelled();
         }
 
-        #endregion Overridden Methods
+		#endregion Overridden Methods
 
-        #region Internal Methods
+		#region Internal Methods
 
-        internal void AddError(ErrorInformation errorInformation)
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Internal and used in other places")]
+		internal void AddError(ErrorInformation errorInformation)
         {
             using (TimedLock lck = TimedLock.Lock(_lockObject))
             {
