@@ -1,113 +1,97 @@
 ﻿@model Resources.Plugin.Models.ResourceEditCategoryModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
-
 @{
-    ViewData["Title"] = Model.SeoTitle;
+ViewData["Title"] = Model.SeoTitle;
 }
-
 <div class="row">
-    <div class="col">
-        <h1>@Localizer[nameof(Languages.LanguageStrings.EditCategory)]</h1>
-    </div>
+<div class="col">
+<h1>@Localizer[nameof(Languages.LanguageStrings.EditCategory)]</h1>
 </div>
-
+</div>
 <link rel="stylesheet" href="/css/resources.css" />
-
 <div class="row res-row">
-    <div class="col">
-        @Html.ValidationSummary(true)
-    </div>
+<div class="col">
+@Html.ValidationSummary(true)
 </div>
-
+</div>
 @using (Html.BeginForm("CategoryEdit", "Resources", FormMethod.Post, new { id = "editCategory" }))
 {
-    @Html.HiddenFor(m => m.Id)
-
-    <div class="row res-row">
-        <div class="col-sm-12 col-md-4 col-lg-3">
-            @Html.LabelFor(m => m.ParentId)
-        </div>
-        <div class="col-sm-12 col-md-5 col-lg-4">
-            @Html.DropDownListFor(m => m.ParentId, new SelectList(Model.AllCategories, "Id", "Name"), new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.ParentId)
-        </div>
-    </div>
-
-    <div class="row res-row">
-        <div class="col-sm-12 col-md-4 col-lg-3">
-            @Html.LabelFor(m => m.Name)
-        </div>
-        <div class="col-sm-12 col-md-5 col-lg-4">
-            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Name)
-        </div>
-    </div>
-
-    <div class="row res-row">
-        <div class="col-sm-12 col-md-4 col-lg-3">
-            @Html.LabelFor(m => m.Description)
-        </div>
-        <div class="col-sm-12 col-md-5 col-lg-4">
-            @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Description)
-        </div>
-    </div>
-
-    <div class="row res-row">
-        <div class="col-sm-12 col-md-4 col-lg-3">
-            @Html.LabelFor(m => m.ForeColor)
-        </div>
-        <div class="col-sm-12 col-md-5 col-lg-4">
-            @Html.TextBoxFor(m => m.ForeColor, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.ForeColor)
-        </div>
-    </div>
-
-    <div class="row res-row">
-        <div class="col-sm-12 col-md-4 col-lg-3">
-            @Html.LabelFor(m => m.BackColor)
-        </div>
-        <div class="col-sm-12 col-md-5 col-lg-4">
-            @Html.TextBoxFor(m => m.BackColor, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.BackColor)
-        </div>
-    </div>
-
-    <div class="row res-row">
-        <div class="col-sm-12 col-md-4 col-lg-3">
-            @Html.LabelFor(m => m.Image)
-        </div>
-        <div class="col-sm-12 col-md-5 col-lg-4">
-            @Html.TextBoxFor(m => m.Image, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Image)
-        </div>
-    </div>
-
-    <div class="row res-row">
-        <div class="col-sm-12 col-md-4 col-lg-3">
-            @Html.LabelFor(m => m.RouteName)
-        </div>
-        <div class="col-sm-12 col-md-5 col-lg-4">
-            @Html.TextBoxFor(m => m.RouteName, new { @class = "form-control", @readonly="readonly" })
-            @Html.ValidationMessageFor(m => m.RouteName)
-        </div>
-    </div>
-
-    <div class="row res-row">
-        <div class="col-sm-12 col-md-4 col-lg-3">
-            @Html.LabelFor(m => m.IsVisible)
-        </div>
-        <div class="col-sm-12 col-md-5 col-lg-4">
-            @Html.CheckBoxFor(m => m.IsVisible)
-            @Html.ValidationMessageFor(m => m.IsVisible)
-        </div>
-    </div>
-
-    <div class="row res-row">
-        <div class="col">
-            <input id="btnSaveCategory" class="btn btn-primary" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Save)]" />
-        </div>
-    </div>
+@Html.HiddenFor(m => m.Id)
+<div class="row res-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.ParentId)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.DropDownListFor(m => m.ParentId, new SelectList(Model.AllCategories, "Id", "Name"), new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.ParentId)
+</div>
+</div>
+<div class="row res-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.Name)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.Name)
+</div>
+</div>
+<div class="row res-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.Description)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.Description)
+</div>
+</div>
+<div class="row res-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.ForeColor)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextBoxFor(m => m.ForeColor, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.ForeColor)
+</div>
+</div>
+<div class="row res-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.BackColor)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextBoxFor(m => m.BackColor, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.BackColor)
+</div>
+</div>
+<div class="row res-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.Image)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextBoxFor(m => m.Image, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.Image)
+</div>
+</div>
+<div class="row res-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.RouteName)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextBoxFor(m => m.RouteName, new { @class = "form-control", @readonly="readonly" })
+@Html.ValidationMessageFor(m => m.RouteName)
+</div>
+</div>
+<div class="row res-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.IsVisible)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.CheckBoxFor(m => m.IsVisible)
+@Html.ValidationMessageFor(m => m.IsVisible)
+</div>
+</div>
+<div class="row res-row">
+<div class="col">
+<input id="btnSaveCategory" class="btn btn-primary" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Save)]" />
+</div>
+</div>
 }
-
-

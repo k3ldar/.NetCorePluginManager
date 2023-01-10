@@ -4268,7 +4268,7 @@
             </summary>
             <param name="resourceId"></param>
         </member>
-        <member name="M:Middleware.IResourceProvider.AddResourceCategory(System.Int64,System.Int64,System.String,System.String)">
+        <member name="M:Middleware.IResourceProvider.AddResourceCategory(System.Int64,System.Int64,System.String,System.String,System.Boolean)">
             <summary>
             Creates a new resource category
             </summary>
@@ -4276,6 +4276,7 @@
             <param name="parent">Parent category id</param>
             <param name="name">Name of the new category</param>
             <param name="description">Description of the category</param>
+            <param name="isVisible">Indicates whether the category is visible or not</param>
         </member>
         <member name="M:Middleware.IResourceProvider.UpdateResourceCategory(System.Int64,Middleware.Resources.ResourceCategory)">
             <summary>

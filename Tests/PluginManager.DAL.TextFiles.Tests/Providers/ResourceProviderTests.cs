@@ -626,7 +626,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.AddResourceCategory(0, 0, null, "description");
+					sut.AddResourceCategory(0, 0, null, "description", true);
 				}
 			}
 			finally
@@ -654,7 +654,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.AddResourceCategory(0, 0, "New category", null);
+					sut.AddResourceCategory(0, 0, "New category", null, true);
 				}
 			}
 			finally
@@ -682,7 +682,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.AddResourceCategory(25, 0, "New category", "Description");
+					sut.AddResourceCategory(25, 0, "New category", "Description", true);
 				}
 			}
 			finally
@@ -719,7 +719,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.AddResourceCategory(0, 0, "test", "Description");
+					sut.AddResourceCategory(0, 0, "test", "Description", true);
 				}
 			}
 			finally
@@ -758,7 +758,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					ResourceCategory result = sut.AddResourceCategory(1, 0, "test cat", "The Description");
+					ResourceCategory result = sut.AddResourceCategory(1, 0, "test cat", "The Description", true);
 
 					Assert.IsNotNull(result);
 					Assert.AreEqual("test cat", result.Name);
@@ -809,7 +809,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					ResourceCategory result = sut.AddResourceCategory(-9383747575, 0, "test cat", "The Description");
+					ResourceCategory result = sut.AddResourceCategory(-9383747575, 0, "test cat", "The Description", true);
 
 					Assert.IsNotNull(result);
 					Assert.AreEqual("test cat", result.Name);

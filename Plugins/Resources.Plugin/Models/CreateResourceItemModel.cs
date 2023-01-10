@@ -117,5 +117,10 @@ namespace Resources.Plugin.Models
 		/// Resource tags
 		/// </summary>
 		public string Tags { get; set; }
+
+		/// <summary>
+		/// Indicates whether the resource will be visible or not
+		/// </summary>
+		public bool Visible { get; set; }
 	}
 }

@@ -1,24 +1,21 @@
 ﻿@model Resources.Plugin.Models.ResourceItemResponseModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
-
 @{
-
-    string itemLikeCount = $"likeCount{Model.Id}";
-    string itemDislikeCount = $"dislikeCount{Model.Id}";
-    string enabled = Model.IsEnabled ? "" : " disabled";
-    string likeName = $"itemLikeCount{Model.Id}";
-    string dislikeName = $"itemDislikeCount{Model.Id}";
+string itemLikeCount = $"likeCount{Model.Id}";
+string itemDislikeCount = $"dislikeCount{Model.Id}";
+string enabled = Model.IsEnabled ? "" : " disabled";
+string likeName = $"itemLikeCount{Model.Id}";
+string dislikeName = $"itemDislikeCount{Model.Id}";
 }
-
 <div>
-    <span style="display:block;float:left;padding:4px 4px 2px 4px;">@Localizer[nameof(Languages.LanguageStrings.Views)]: @Model.ViewCount</span>
-    <span style="display:block;float:left;padding:2px 8px 2px 10px;">
-        <img class="img-con @enabled" onclick="resources.itemResponse(@Model.Id, true);" src="~/images/Resources/like.png" alt="Toggle bookmark" /> <span id="@likeName" style="padding: 0 0 0 3px;">@Model.Likes</span>
-    </span>
-    <span style="display:block;float:left;padding:2px 8px 2px 10px;">
-        <img class="img-con @enabled" onclick="resources.itemResponse(@Model.Id, false);" src="~/images/Resources/dislike.png" alt="Toggle bookmark" /> <span id="@dislikeName" style="padding: 0 0 0 3px;">@Model.Dislikes</span>
-    </span>
-    <span style="display:block;float:right;padding:2px 8px 2px 10px;">
-        <img class="@enabled img-con" onclick="resources.toggleBookmark(@Model.Id)" src="~/images/Resources/bookmark.png" alt="Toggle bookmark" />
-    </span>
+<span style="display:block;float:left;padding:4px 4px 2px 4px;">@Localizer[nameof(Languages.LanguageStrings.Views)]: @Model.ViewCount</span>
+<span style="display:block;float:left;padding:2px 8px 2px 10px;">
+<img class="img-con @enabled" onclick="resources.itemResponse(@Model.Id, true);" src="~/images/Resources/like.png" alt="Toggle bookmark" /><span id="@likeName" style="padding: 0 0 0 3px;">@Model.Likes</span>
+</span>
+<span style="display:block;float:left;padding:2px 8px 2px 10px;">
+<img class="img-con @enabled" onclick="resources.itemResponse(@Model.Id, false);" src="~/images/Resources/dislike.png" alt="Toggle bookmark" /><span id="@dislikeName" style="padding: 0 0 0 3px;">@Model.Dislikes</span>
+</span>
+<span style="display:block;float:right;padding:2px 8px 2px 10px;">
+<img class="@enabled img-con" onclick="resources.toggleBookmark(@Model.Id)" src="~/images/Resources/bookmark.png" alt="Toggle bookmark" />
+</span>
 </div>

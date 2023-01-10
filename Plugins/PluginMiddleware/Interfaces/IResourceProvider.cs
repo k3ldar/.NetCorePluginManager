@@ -87,7 +87,8 @@ namespace Middleware
 		/// <param name="parent">Parent category id</param>
 		/// <param name="name">Name of the new category</param>
 		/// <param name="description">Description of the category</param>
-		ResourceCategory AddResourceCategory(long userId, long parent, string name, string description);
+		/// <param name="isVisible">Indicates whether the category is visible or not</param>
+		ResourceCategory AddResourceCategory(long userId, long parent, string name, string description, bool isVisible);
 
 		/// <summary>
 		/// Updates an existing resource category

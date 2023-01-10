@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = Model.SeoTitle;
+    bool UserHasAdminPermission = Context.User.HasClaim(SharedPluginFeatures.Constants.ClaimNameManageResources, "true");
 }
 
 <link rel="stylesheet" href="/css/resources.css" />
@@ -44,6 +45,18 @@
             @Html.ValidationMessageFor(m => m.Description)
         </div>
     </div>
+
+    @if (UserHasAdminPermission)
+    {
+        <div class="row res-row">
+            <div class="col-sm-12 col-md-4 col-lg-3">
+                @Html.LabelFor(m => m.IsVisible)
+            </div>
+            <div class="col-sm-12 col-md-5 col-lg-4">
+                @Html.CheckBoxFor(m => m.IsVisible, new { @class = "form-check-input" })
+            </div>
+        </div>
+    }
 
     <div class="row res-row">
         <div class="col">

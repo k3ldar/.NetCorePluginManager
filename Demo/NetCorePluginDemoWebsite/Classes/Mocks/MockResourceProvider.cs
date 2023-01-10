@@ -159,12 +159,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			item.ViewCount++;
 		}
 
-		public ResourceCategory AddResourceCategory(long userId, long parent, string name, string description)
+		public ResourceCategory AddResourceCategory(long userId, long parent, string name, string description, bool isVisible)
 		{
 			if (string.IsNullOrEmpty(name))
 				throw new ArgumentNullException(nameof(name));
 
-			ResourceCategory newResourceCategory = new ResourceCategory(_nextId++, parent, name, description, null, null, null, name, false);
+			ResourceCategory newResourceCategory = new ResourceCategory(_nextId++, parent, name, description, null, null, null, name, isVisible);
 			_resources.Add(newResourceCategory);
 
 			return newResourceCategory;
