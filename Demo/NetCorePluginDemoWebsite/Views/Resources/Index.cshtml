@@ -2,61 +2,49 @@
 @using SharedPluginFeatures
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @{
-    ViewData["Title"] = @Model.SeoTitle;
+ViewData["Title"] = @Model.SeoTitle;
 }
-
-
 <link rel="stylesheet" href="/css/resources.css" />
 <script src="/js/resources.js"></script>
-
 <h2>Some data</h2>
-
 <div class="docContainer">
-    <div class="row">
-        <div class="col">
-            <p>desc</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            @foreach (var item in Model.ResourceCategories)
-            {
-                string resStyle = "";
-                string resStyleBody = "";
-
-                if (!String.IsNullOrEmpty(item.ForeColor))
-                    resStyle += $"color: {item.ForeColor};";
-
-                if (!String.IsNullOrEmpty(item.BackColor))
-                    resStyle += $"background-color: {item.BackColor};border-color: {item.BackColor};";
-
-                resStyleBody = resStyle;
-
-                if (!String.IsNullOrEmpty(resStyle))
-                    resStyle = $" style=\"{resStyle}\"";
-
-                if (!String.IsNullOrEmpty(item.Image))
-                    resStyleBody = $"{resStyleBody};background:url('{item.Image}') no-repeat center;background-size:80% 80%;";
-
-                if (!String.IsNullOrEmpty(resStyleBody))
-                    resStyleBody = $"style=\"{resStyleBody}\"";
-
-                <div class="card">
-                    <div class="card-header" @Html.Raw(resStyle)>
-                        @item.Name
-                    </div>
-                    <div class="card-body" @Html.Raw(resStyleBody)>
-                        <a href="/Resources/Category/@item.Id/@item.RouteName/" class="card-link" style="display:inline-block;width:100%;height:100%;">
-                            <p class="card-text">@item.Description</p>
-                        </a>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
-
-    @if (Model.UserIsLoggedIn && Context.User.HasClaim(SharedPluginFeatures.Constants.ClaimNameAddResources, "true"))
-    {
-        @await Html.PartialAsync("_CreateCategory.cshtml", new Resources.Plugin.Models.IdModel(0))
-    }
+<div class="row">
+<div class="col">
+<p>desc</p>
+</div>
+</div>
+<div class="row">
+<div class="col">
+@foreach (var item in Model.ResourceCategories)
+{
+string resStyle = "";
+string resStyleBody = "";
+if (!String.IsNullOrEmpty(item.ForeColor))
+resStyle += $"color: {item.ForeColor};";
+if (!String.IsNullOrEmpty(item.BackColor))
+resStyle += $"background-color: {item.BackColor};border-color: {item.BackColor};";
+resStyleBody = resStyle;
+if (!String.IsNullOrEmpty(resStyle))
+resStyle = $" style=\"{resStyle}\"";
+if (!String.IsNullOrEmpty(item.Image))
+resStyleBody = $"{resStyleBody};background:url('{item.Image}') no-repeat center;background-size:80% 80%;";
+if (!String.IsNullOrEmpty(resStyleBody))
+resStyleBody = $"style=\"{resStyleBody}\"";
+<div class="card">
+<div class="card-header" @Html.Raw(resStyle)>
+@item.Name
+</div>
+<div class="card-body" @Html.Raw(resStyleBody)>
+<a href="/Resources/Category/@item.Id/@item.RouteName/" class="card-link" style="display:inline-block;width:100%;height:100%;">
+<p class="card-text">@item.Description</p>
+</a>
+</div>
+</div>
+}
+</div>
+</div>
+@if (Model.UserIsLoggedIn && Context.User.HasClaim(SharedPluginFeatures.Constants.ClaimNameAddResources, "true"))
+{
+@await Html.PartialAsync("_CreateCategory.cshtml", new Resources.Plugin.Models.IdModel(0))
+}
 </div>

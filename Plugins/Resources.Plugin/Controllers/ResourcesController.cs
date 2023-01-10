@@ -159,7 +159,7 @@ namespace Resources.Plugin.Controllers
 			if (!ModelState.IsValid)
 				return View(new CreateCategoryModel(GetModelData(), model.ParentId, model.Name, model.Description));
 
-			_ = _resourceProvider.AddResourceCategory(UserId(), model.ParentId, model.Name, model.Description);
+			_ = _resourceProvider.AddResourceCategory(UserId(), model.ParentId, model.Name, model.Description, model.IsVisible);
 
 			if (UserCanManageResources())
 				return RedirectToAction(nameof(ManageCategories));
@@ -336,7 +336,7 @@ namespace Resources.Plugin.Controllers
 			if (ModelState.IsValid)
 			{
 				_resourceProvider.AddResourceItem(model.ParentId, (ResourceType)model.ResourceType, UserId(), UserName(),
-					model.Name, model.Description, model.Value, false, ValidateAndCleanTags(model.Tags));
+					model.Name, model.Description, model.Value, model.Visible, ValidateAndCleanTags(model.Tags));
 
 				if (UserCanManageResources())
 					return RedirectToAction(nameof(ManageResourceItems));

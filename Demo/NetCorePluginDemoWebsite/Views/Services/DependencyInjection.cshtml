@@ -1,66 +1,52 @@
 ﻿@model SharedPluginFeatures.BaseModel
-
 @{
-    ViewData["Title"] = "DependencyInjection";
+ViewData["Title"] = "DependencyInjection";
 }
-
 <div class="row">
-    <div class="col-sm-12">
-
-        <h2>Dependency Injection</h2>
-
-        <p>ASP.NET Core supports the dependency injection (DI) software design pattern, which is a technique for achieving Inversion of Control (IoC) between classes and their dependencies.</p>
-
-        <p>Plugin Manager fully supports this type of plugin, during the initialisaton phase individual plugins can register services via the IServiceCollection, which can then be used by the host application, or other plugins.</p>
-
-        <h3>How it Works</h3>
-
-        <p>This method is slightly different than the other native plugin types.  We create a lightweight library who's only purpose is to contain interfaces and/or abstract classes.</p>
-
-        <p>This library is referenced by the plugin which implements the interface or abstract class, and is also responsible for registering the interface with the IServiceCollection instance for the host application.</p>
-
-        <img src="~/images/DependencyInjection.png" alt="dependency injection" />
-
-        <h3>Example Memory Cache Plugin</h3>
-        <p>The source control contains a sample plugin which implements an IMemoryCache object.  The interface is registered within the SharedPluginFeatures library.</p>
-        <p>The plugin implements 3 methods:</p>
-        <ul>
-            <li>GetShortCache.  Returns a cache which has a default lifetime of 5 minutes.</li>
-            <li>GetCache.  Returns a Cache which has a default lifetime of 2 hours.</li>
-            <li>ResetCaches.  Clears all caches of all data.</li>
-        </ul>
-
-        <p>Although their are default lifetimes, these can be overridden within appsettings.json.</p>
-
-        <p>When the class is initialised, it registers the IMemoryCache interface as a service for DI.</p>
-
+<div class="col-sm-12">
+<h2>Dependency Injection</h2>
+<p>ASP.NET Core supports the dependency injection (DI) software design pattern, which is a technique for achieving Inversion of Control (IoC) between classes and their dependencies.</p>
+<p>Plugin Manager fully supports this type of plugin, during the initialisaton phase individual plugins can register services via the IServiceCollection, which can then be used by the host application, or other plugins.</p>
+<h3>How it Works</h3>
+<p>This method is slightly different than the other native plugin types. We create a lightweight library who's only purpose is to contain interfaces and/or abstract classes.</p>
+<p>This library is referenced by the plugin which implements the interface or abstract class, and is also responsible for registering the interface with the IServiceCollection instance for the host application.</p>
+<img src="~/images/DependencyInjection.png" alt="dependency injection" />
+<h3>Example Memory Cache Plugin</h3>
+<p>The source control contains a sample plugin which implements an IMemoryCache object. The interface is registered within the SharedPluginFeatures library.</p>
+<p>The plugin implements 3 methods:</p>
+<ul>
+<li>GetShortCache. Returns a cache which has a default lifetime of 5 minutes.</li>
+<li>GetCache. Returns a Cache which has a default lifetime of 2 hours.</li>
+<li>ResetCaches. Clears all caches of all data.</li>
+</ul>
+<p>Although their are default lifetimes, these can be overridden within appsettings.json.</p>
+<p>When the class is initialised, it registers the IMemoryCache interface as a service for DI.</p>
 <pre><code class="c#">
 public void ConfigureServices(IServiceCollection services)
 {
-    services.AddSingleton&lt;IMemoryCache, MemoryCache&gt;();
+services.AddSingleton&lt;IMemoryCache, MemoryCache&gt;();
 }
 </code></pre>
-        <p>Controllers can then get the IMemoryCache instance when being created, and take advantage of the IMemoryCache instance to add or get cached data.</p>
-
+<p>Controllers can then get the IMemoryCache instance when being created, and take advantage of the IMemoryCache instance to add or get cached data.</p>
 <pre><code class="c#">
 public class HomeController : Controller
 {
-    #region Private Members
+#region Private Members
 
-    private readonly IMemoryCache _memoryCache;
+private readonly IMemoryCache _memoryCache;
 
-    #endregion Private Members
+#endregion Private Members
 
-    #region Constructors
+#region Constructors
 
-    public HomeController(IMemoryCache memoryCache)
-    {
-        // Memory Cache is initialised during the Plugin Manager and set to be injected in using DI
-        _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
-    }
+public HomeController(IMemoryCache memoryCache)
+{
+// Memory Cache is initialised during the Plugin Manager and set to be injected in using DI
+_memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
+}
 
-    #endregion Constructors
+#endregion Constructors
 }
 </code></pre>
-    </div>
+</div>
 </div>

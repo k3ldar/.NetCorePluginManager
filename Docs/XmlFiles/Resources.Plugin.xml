@@ -66,6 +66,11 @@
             Parent category id
             </summary>
         </member>
+        <member name="P:Resources.Plugin.Models.CreateCategoryModel.IsVisible">
+            <summary>
+            Indicates whether the category is visible or not
+            </summary>
+        </member>
         <member name="T:Resources.Plugin.Models.CreateResourceItemModel">
             <summary>
             Model used to create resource items
@@ -121,6 +126,11 @@
         <member name="P:Resources.Plugin.Models.CreateResourceItemModel.Tags">
             <summary>
             Resource tags
+            </summary>
+        </member>
+        <member name="P:Resources.Plugin.Models.CreateResourceItemModel.Visible">
+            <summary>
+            Indicates whether the resource will be visible or not
             </summary>
         </member>
         <member name="T:Resources.Plugin.Models.IdModel">

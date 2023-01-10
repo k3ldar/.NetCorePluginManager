@@ -89,5 +89,10 @@ namespace Resources.Plugin.Models
 		/// Parent category id
 		/// </summary>
 		public long ParentId { get; set; }
+
+		/// <summary>
+		/// Indicates whether the category is visible or not
+		/// </summary>
+		public bool IsVisible { get; set; }
 	}
 }
