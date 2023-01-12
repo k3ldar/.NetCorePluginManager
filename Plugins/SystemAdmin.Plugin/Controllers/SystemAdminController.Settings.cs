@@ -146,17 +146,14 @@ namespace SystemAdmin.Plugin.Controllers
 				}
 			}
 
-			if (errors.Count == 0)
+			try
 			{
-				try
-				{
-					ValidateSettings<SettingsViewModel>.ValidateAllSettings(baseType.PluginSettings.GetType(),
-						baseType.PluginSettings, null, null, null);
-				}
-				catch (SettingException ex)
-				{
-					errors.Add(ex.Message);
-				}
+				ValidateSettings<SettingsViewModel>.ValidateAllSettings(baseType.PluginSettings.GetType(),
+					baseType.PluginSettings, null, null, null);
+			}
+			catch (SettingException ex)
+			{
+				errors.Add(ex.Message);
 			}
 		}
 
@@ -249,13 +246,7 @@ namespace SystemAdmin.Plugin.Controllers
 		{
 			SettingsViewModel Result = new(GetModelData(), baseType.UniqueId, baseType.Name());
 
-			string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-			int isDebugPos = path.IndexOf("\\bin\\debug\\", StringComparison.InvariantCultureIgnoreCase);
-
-			if (isDebugPos > -1)
-				path = path[..isDebugPos];
-
-			string jsonFile = Path.Combine(path, "appsettings.json");
+			string jsonFile = _pluginManagerConfiguration.ConfigurationFile;
 
 			ConfigurationBuilder builder = new ConfigurationBuilder();
 			IConfigurationBuilder configBuilder = builder.SetBasePath(Path.GetDirectoryName(jsonFile));

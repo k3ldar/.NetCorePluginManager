@@ -36,6 +36,8 @@ using HelpdeskPlugin.Classes;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Middleware.Users;
+
 using PluginManager.Internal;
 
 using PluginManager.Tests.Mocks;
@@ -50,37 +52,59 @@ namespace AspNetCore.PluginManager.Tests.Plugins.HelpdeskTests
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void Construct_InvalidParameter_HelpdeskProviderNull_Throws_ArgumentNullException()
 		{
-			new ImportEmailIntoHelpdeskThread(null, new MockPop3ClientFactory(), new MockUserSearch(), new MockLogger());
+			new ImportEmailIntoHelpdeskThread(null, new MockPop3ClientFactory(), new MockUserSearch(),
+				new MockSettingsProvider(), new MockLogger());
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void Construct_InvalidParameter_Pop3ClientFactoryNull_Throws_ArgumentNullException()
 		{
-			new ImportEmailIntoHelpdeskThread(new MockHelpdeskProvider(), null, new MockUserSearch(), new MockLogger());
+			new ImportEmailIntoHelpdeskThread(new MockHelpdeskProvider(), null, new MockUserSearch(),
+				new MockSettingsProvider(), new MockLogger());
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void Construct_InvalidParameter_UserSearchNull_Throws_ArgumentNullException()
 		{
-			new ImportEmailIntoHelpdeskThread(new MockHelpdeskProvider(), new MockPop3ClientFactory(), null, new MockLogger());
+			new ImportEmailIntoHelpdeskThread(new MockHelpdeskProvider(), new MockPop3ClientFactory(), null,
+				new MockSettingsProvider(), new MockLogger());
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void Construct_InvalidParameter_LoggerNull_Throws_ArgumentNullException()
 		{
-			new ImportEmailIntoHelpdeskThread(new MockHelpdeskProvider(), new MockPop3ClientFactory(), new MockUserSearch(), null);
+			new ImportEmailIntoHelpdeskThread(new MockHelpdeskProvider(), new MockPop3ClientFactory(), new MockUserSearch(),
+				new MockSettingsProvider(), null);
 		}
 
 		[TestMethod]
 		public void ProcessIncomingEmails_NoEmailsToAdd_CompletesWithoutError()
 		{
 			MockHelpdeskProvider helpdeskProvider = new();
-			ImportEmailIntoHelpdeskThread sut = new(helpdeskProvider, new MockPop3ClientFactory(), new MockUserSearch(), new MockLogger());
+			ImportEmailIntoHelpdeskThread sut = new(helpdeskProvider, new MockPop3ClientFactory(), new MockUserSearch(),
+				new MockSettingsProvider(), new MockLogger());
 			sut.ProcessIncomingEmails();
 			Assert.AreEqual(0, helpdeskProvider.TicketsSubmitted.Count);
+		}
+
+		[TestMethod]
+		public void ProcessIncomingEmails_EmailAddressNotRegisteredUser_LogsInfo_DoesNotLogEmailInHelpdesk()
+		{
+			MockPop3Client mockPop3Client = new MockPop3Client();
+			mockPop3Client.Messages.Add(Properties.Resources.TestEmail1);
+
+			MockPop3ClientFactory mockPop3ClientFactory = new(mockPop3Client);
+
+			MockLogger mockLogger = new MockLogger();
+			MockHelpdeskProvider helpdeskProvider = new();
+			ImportEmailIntoHelpdeskThread sut = new(helpdeskProvider, mockPop3ClientFactory, new MockUserSearch(),
+				new MockSettingsProvider(), mockLogger);
+			sut.ProcessIncomingEmails();
+			Assert.AreEqual(0, helpdeskProvider.TicketsSubmitted.Count);
+			Assert.IsTrue(mockLogger.ContainsMessage("Information Email received from a_user@gmail.com but discarded as not a registered user"));
 		}
 
 		[TestMethod]
@@ -93,7 +117,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.HelpdeskTests
 			mockPop3Client.Messages.Add("not a real email");
 			MockPop3ClientFactory mockPop3ClientFactory = new(mockPop3Client);
 
-			ImportEmailIntoHelpdeskThread sut = new(helpdeskProvider, mockPop3ClientFactory, new MockUserSearch(), mockLogger);
+			ImportEmailIntoHelpdeskThread sut = new(helpdeskProvider, mockPop3ClientFactory, new MockUserSearch(),
+				new MockSettingsProvider(), mockLogger);
 			sut.ProcessIncomingEmails();
 			Assert.AreEqual(0, helpdeskProvider.TicketsSubmitted.Count);
 			Assert.AreEqual("Invalid email received from Pop3 Server", mockLogger.Logs[0].Data);
@@ -111,7 +136,17 @@ namespace AspNetCore.PluginManager.Tests.Plugins.HelpdeskTests
 			MockHelpdeskProvider helpdeskProvider = new();
 			MockPop3ClientFactory mockPop3ClientFactory = new(mockPop3Client);
 
-			ImportEmailIntoHelpdeskThread sut = new(helpdeskProvider, mockPop3ClientFactory, new MockUserSearch(), new MockLogger());
+			List<SearchUser> users = new()
+			{
+				{ new SearchUser(1, "a_user@gmail.com", "a_user@gmail.com") },
+				{ new SearchUser(1, "a_user2@gmail.com", "a_user2@gmail.com") },
+				{ new SearchUser(1, "a_user3@gmail.com", "a_user3@gmail.com") },
+			};
+
+			MockUserSearch mockUserSearch = new MockUserSearch(users);
+
+			ImportEmailIntoHelpdeskThread sut = new(helpdeskProvider, mockPop3ClientFactory, mockUserSearch,
+				new MockSettingsProvider(), new MockLogger());
 
 			sut.ProcessIncomingEmails();
 
@@ -130,17 +165,26 @@ namespace AspNetCore.PluginManager.Tests.Plugins.HelpdeskTests
 		[TestMethod]
 		public void ProcessIncomingEmails_AddToExistingEmailWithSameId_CompletesProcessingCorrectly()
 		{
+			MockLogger mockLogger = new();
 			MockPop3Client mockPop3Client = new MockPop3Client();
 
 			mockPop3Client.Messages.Add(Properties.Resources.TestEmail1);
 			mockPop3Client.Messages.Add(Properties.Resources.TestEmail2);
 			mockPop3Client.Messages.Add(Properties.Resources.TestEmail3);
-			mockPop3Client.Messages.Add(Properties.Resources.TestEmail1); 
+			mockPop3Client.Messages.Add(Properties.Resources.TestEmail1);
+
+			List<SearchUser> users = new()
+			{
+				{ new SearchUser(1, "a_user@gmail.com", "a_user@gmail.com") },
+				{ new SearchUser(1, "a_user2@gmail.com", "a_user2@gmail.com") },
+				{ new SearchUser(1, "a_user3@gmail.com", "a_user3@gmail.com") },
+			};
 
 			MockHelpdeskProvider helpdeskProvider = new();
 			MockPop3ClientFactory mockPop3ClientFactory = new(mockPop3Client);
 
-			ImportEmailIntoHelpdeskThread sut = new(helpdeskProvider, mockPop3ClientFactory, new MockUserSearch(), new MockLogger());
+			ImportEmailIntoHelpdeskThread sut = new(helpdeskProvider, mockPop3ClientFactory, new MockUserSearch(users),
+				new MockSettingsProvider(), mockLogger);
 
 			sut.ProcessIncomingEmails();
 
@@ -155,6 +199,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.HelpdeskTests
 			Assert.AreEqual(2, helpdeskProvider.TicketsSubmitted[0].Priority.Id);
 
 			Assert.AreEqual(2, helpdeskProvider.TicketsSubmitted[0].Messages.Count);
+
+			Assert.AreEqual(0, mockLogger.Logs.Count);
+			Assert.AreEqual(0, mockLogger.Errors.Count);
 		}
 	}
 }
