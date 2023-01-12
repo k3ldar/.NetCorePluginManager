@@ -925,7 +925,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 
 			Assert.AreEqual("HelpdeskSettings", viewModel.SettingsName);
 			Assert.AreEqual(29, viewModel.SettingId);
-			Assert.AreEqual(5, viewModel.Settings.Count);
+			Assert.AreEqual(6, viewModel.Settings.Count);
 
 			Assert.AreEqual("ShowCaptchaText", viewModel.Settings[0].Name);
 			Assert.AreEqual("True", viewModel.Settings[0].Value);
@@ -946,6 +946,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 			Assert.AreEqual("ShowFeedback", viewModel.Settings[4].Name);
 			Assert.AreEqual("True", viewModel.Settings[4].Value);
 			Assert.AreEqual("Boolean", viewModel.Settings[4].DataType);
+
+			Assert.AreEqual("AnyUserEmailCanSubmitTickets", viewModel.Settings[5].Name);
+			Assert.AreEqual("False", viewModel.Settings[5].Value);
+			Assert.AreEqual("Boolean", viewModel.Settings[5].DataType);
 		}
 
 		[TestMethod]

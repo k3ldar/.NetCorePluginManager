@@ -55,6 +55,7 @@ namespace HelpdeskPlugin.Classes
 		private readonly IUserSearch _userSearch;
 		private readonly int _priorityId;
 		private readonly int _departmentId;
+		private readonly bool _registeredEmailsOnly;
 
 		/// <summary>
 		/// Constructor
@@ -62,9 +63,11 @@ namespace HelpdeskPlugin.Classes
 		/// <param name="helpdeskProvider">Valid IHelpdeskProvider instance</param>
 		/// <param name="pop3ClientFactory">Valid IPop3Client instance</param>
 		/// <param name="userSearch">Valid IUserSearch instacnce</param>
+		/// <param name="settingsProvider">Valid ISettingsProvider instance</param>
 		/// <param name="logger">Valid logger instance</param>
-		public ImportEmailIntoHelpdeskThread(IHelpdeskProvider helpdeskProvider, IPop3ClientFactory pop3ClientFactory, IUserSearch userSearch, ILogger logger)
-			: this(helpdeskProvider, pop3ClientFactory, userSearch, logger, TimeSpan.FromMinutes(1))
+		public ImportEmailIntoHelpdeskThread(IHelpdeskProvider helpdeskProvider, IPop3ClientFactory pop3ClientFactory, 
+			IUserSearch userSearch, ISettingsProvider settingsProvider, ILogger logger)
+			: this(helpdeskProvider, pop3ClientFactory, userSearch, settingsProvider, logger, TimeSpan.FromMinutes(1))
 		{
 
 		}
@@ -75,9 +78,11 @@ namespace HelpdeskPlugin.Classes
 		/// <param name="helpdeskProvider">Valid IHelpdeskProvider instance</param>
 		/// <param name="pop3ClientFactory">Valid IPop3Client instance</param>
 		/// <param name="userSearch">Valid IUserSearch instance</param>
+		/// <param name="settingsProvider">Valid ISettingsProvider instance</param>
 		/// <param name="logger">Valid logger instance</param>
 		/// <param name="timeSpan">Timspan depicting the interval between checks</param>
-		public ImportEmailIntoHelpdeskThread(IHelpdeskProvider helpdeskProvider, IPop3ClientFactory pop3ClientFactory, IUserSearch userSearch, ILogger logger, TimeSpan timeSpan)
+		public ImportEmailIntoHelpdeskThread(IHelpdeskProvider helpdeskProvider, IPop3ClientFactory pop3ClientFactory, 
+			IUserSearch userSearch, ISettingsProvider settingsProvider, ILogger logger, TimeSpan timeSpan)
 			: base(null, timeSpan)
 		{
 			_helpdeskProvider = helpdeskProvider ?? throw new ArgumentNullException(nameof(helpdeskProvider));
@@ -87,6 +92,9 @@ namespace HelpdeskPlugin.Classes
 
 			_priorityId = _helpdeskProvider.GetTicketPriorities().FirstOrDefault(s => s.Description.Equals("medium", StringComparison.InvariantCultureIgnoreCase))?.Id ?? 0;
 			_departmentId = _helpdeskProvider.GetTicketDepartments().FirstOrDefault(s => s.Description.Equals("support", StringComparison.InvariantCultureIgnoreCase))?.Id ?? 0;
+
+			HelpdeskSettings settings = settingsProvider.GetSettings<HelpdeskSettings>(nameof(HelpdeskSettings));
+			_registeredEmailsOnly = !settings.AnyUserEmailCanSubmitTickets;
 		}
 
 		/// <summary>
@@ -129,6 +137,12 @@ namespace HelpdeskPlugin.Classes
 				{
 					Middleware.Users.SearchUser user = _userSearch.GetUsers(1, int.MaxValue, String.Empty, String.Empty)
 						.FirstOrDefault(u => u.Email.Equals(fromEmail, StringComparison.InvariantCultureIgnoreCase));
+
+					if (user == null && _registeredEmailsOnly)
+					{
+						_logger.AddToLog(PluginManager.LogLevel.Information, $"Email received from {fromEmail} but discarded as not a registered user");
+						continue;
+					}
 
 					long userId = user == null ? 0 : user.Id;
 

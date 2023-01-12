@@ -72,5 +72,11 @@ namespace HelpdeskPlugin.Classes
 		/// <value>bool.  If true then feedback will be displayed.</value>
 		[SettingDefault(true)]
 		public bool ShowFeedback { get; set; }
+
+		/// <summary>
+		/// If false (default) only registered user emails are allowed to be automatically imported into the
+		/// helpdesk system, if true all emails will be imported
+		/// </summary>
+		public bool AnyUserEmailCanSubmitTickets { get; set; }
 	}
 }

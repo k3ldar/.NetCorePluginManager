@@ -42,6 +42,12 @@
             </summary>
             <value>bool.  If true then feedback will be displayed.</value>
         </member>
+        <member name="P:HelpdeskPlugin.Classes.HelpdeskSettings.AnyUserEmailCanSubmitTickets">
+            <summary>
+            If false (default) only registered user emails are allowed to be automatically imported into the
+            helpdesk system, if true all emails will be imported
+            </summary>
+        </member>
         <member name="T:HelpdeskPlugin.Classes.HelpdeskSitemapProvider">
             <summary>
             Helpdesk sitemap provider, provides sitemap information for helpdesk items
@@ -64,22 +70,24 @@
             Thread which imports emails into helpdesk system
             </summary>
         </member>
-        <member name="M:HelpdeskPlugin.Classes.ImportEmailIntoHelpdeskThread.#ctor(Middleware.Helpdesk.IHelpdeskProvider,SharedPluginFeatures.IPop3ClientFactory,Middleware.IUserSearch,PluginManager.Abstractions.ILogger)">
+        <member name="M:HelpdeskPlugin.Classes.ImportEmailIntoHelpdeskThread.#ctor(Middleware.Helpdesk.IHelpdeskProvider,SharedPluginFeatures.IPop3ClientFactory,Middleware.IUserSearch,PluginManager.Abstractions.ISettingsProvider,PluginManager.Abstractions.ILogger)">
             <summary>
             Constructor
             </summary>
             <param name="helpdeskProvider">Valid IHelpdeskProvider instance</param>
             <param name="pop3ClientFactory">Valid IPop3Client instance</param>
             <param name="userSearch">Valid IUserSearch instacnce</param>
+            <param name="settingsProvider">Valid ISettingsProvider instance</param>
             <param name="logger">Valid logger instance</param>
         </member>
-        <member name="M:HelpdeskPlugin.Classes.ImportEmailIntoHelpdeskThread.#ctor(Middleware.Helpdesk.IHelpdeskProvider,SharedPluginFeatures.IPop3ClientFactory,Middleware.IUserSearch,PluginManager.Abstractions.ILogger,System.TimeSpan)">
+        <member name="M:HelpdeskPlugin.Classes.ImportEmailIntoHelpdeskThread.#ctor(Middleware.Helpdesk.IHelpdeskProvider,SharedPluginFeatures.IPop3ClientFactory,Middleware.IUserSearch,PluginManager.Abstractions.ISettingsProvider,PluginManager.Abstractions.ILogger,System.TimeSpan)">
             <summary>
             Constructor
             </summary>
             <param name="helpdeskProvider">Valid IHelpdeskProvider instance</param>
             <param name="pop3ClientFactory">Valid IPop3Client instance</param>
             <param name="userSearch">Valid IUserSearch instance</param>
+            <param name="settingsProvider">Valid ISettingsProvider instance</param>
             <param name="logger">Valid logger instance</param>
             <param name="timeSpan">Timspan depicting the interval between checks</param>
         </member>
