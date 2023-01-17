@@ -66,6 +66,11 @@ namespace PluginManager.DAL.TextFiles.Providers
             return ConvertProductGroupDataRowToProductGroup(_productGroupsData.Select(groupId));
         }
 
+		public int ProductCountForGroup(ProductGroup productGroup)
+		{
+			return _productData.Select(r => r.ProductGroupId.Equals(productGroup.Id)).Count();
+		}
+
         public List<ProductGroup> ProductGroupsGet()
         {
             IReadOnlyList<ProductGroupDataRow> allGroups = _productGroupsData.Select();
@@ -294,7 +299,7 @@ namespace PluginManager.DAL.TextFiles.Providers
                 return null;
 
             return new Product((int)product.Id, product.ProductGroupId, product.Name, product.Description, product.Features, product.VideoLink,
-                new string[] { "NoImage" }, product.RetailPrice, product.Sku, product.IsDownload, product.AllowBackorder);
+                new string[] { "NoImage" }, product.RetailPrice, product.Sku, product.IsDownload, product.AllowBackorder, product.IsVisible);
         }
 
         #endregion Private Members

@@ -75,7 +75,7 @@ namespace PluginManager.Tests.Mocks
 			ServiceDescriptor descriptor = _serviceDescriptors.FirstOrDefault(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType.Equals(typeof(T)));
 
 			if (descriptor == null)
-				return default(T);
+				return default;
 
 			return (T)descriptor.ImplementationInstance;
 		}

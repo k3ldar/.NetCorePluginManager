@@ -1951,7 +1951,7 @@
             Display options for a product within a website.
             </summary>
         </member>
-        <member name="M:Middleware.Products.Product.#ctor(System.Int32@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.String[]@,System.Decimal@,System.String@,System.Boolean@,System.Boolean@)">
+        <member name="M:Middleware.Products.Product.#ctor(System.Int32@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.String[]@,System.Decimal@,System.String@,System.Boolean@,System.Boolean@,System.Boolean@)">
             <summary>
             Constructor
             </summary>
@@ -1966,8 +1966,9 @@
             <param name="sku">Unique product SKU.</param>
             <param name="isDownload">Indicates the product is downloadable.</param>
             <param name="allowBackorder">Indicates the product is allowed to be back ordered, if there is no stock available at the time of purchase.</param>
+            <param name="isVisible">Indicates whether the product is visible or not</param>
         </member>
-        <member name="M:Middleware.Products.Product.#ctor(System.Int32@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.String[]@,System.Decimal@,System.String@,System.Boolean@,System.Boolean@,System.Boolean@,System.Boolean@)">
+        <member name="M:Middleware.Products.Product.#ctor(System.Int32@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.String[]@,System.Decimal@,System.String@,System.Boolean@,System.Boolean@,System.Boolean@,System.Boolean@,System.Boolean@)">
             <summary>
             Constructor
             </summary>
@@ -1984,6 +1985,7 @@
             <param name="allowBackorder">Indicates the product is allowed to be back ordered, if there is no stock available at the time of purchase.</param>
             <param name="isNew">Indicates the product is a new product.</param>
             <param name="isBestSeller">Indicates the product is a best selling product.</param>
+            <param name="isVisible">Indicates whether the product is visible or not</param>
         </member>
         <member name="M:Middleware.Products.Product.SetCurrentStockLevel(System.UInt32)">
             <summary>
@@ -2074,6 +2076,11 @@
             The quantity of stock available for the product.
             </summary>
             <value>uint.  Quantity of stock or zero.</value>
+        </member>
+        <member name="P:Middleware.Products.Product.IsVisible">
+            <summary>
+            Indicates whether the product is available and visible or not
+            </summary>
         </member>
         <member name="T:Middleware.Products.ProductGroup">
             <summary>
@@ -4193,6 +4200,11 @@
         <member name="P:Middleware.IProductProvider.ProductCount">
             <summary>
             Retrieves the count of visible products
+            </summary>
+        </member>
+        <member name="M:Middleware.IProductProvider.ProductCountForGroup(Middleware.Products.ProductGroup)">
+            <summary>
+            Retrieves the count of visible products within a group
             </summary>
         </member>
         <member name="M:Middleware.IProductProvider.ProductSave(System.Int32@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.Boolean@,System.Decimal@,System.String@,System.Boolean@,System.Boolean@,System.String@)">

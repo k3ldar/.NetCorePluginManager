@@ -28,6 +28,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Microsoft.Extensions.Primitives;
+
 using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
@@ -117,19 +119,19 @@ namespace SystemAdmin.Plugin.Classes.MenuItems
 					foreach (KeyValuePair<string, Timings> table in item.Value)
 					{
 						tableData.Append(table.Key);
-						tableData.Append("|");
+						tableData.Append('|');
 						tableData.Append($"{table.Value.Requests}");
-						tableData.Append("|");
+						tableData.Append('|');
 						tableData.Append($"{table.Value.Fastest}");
-						tableData.Append("|");
+						tableData.Append('|');
 						tableData.Append($"{table.Value.Slowest}");
-						tableData.Append("|");
+						tableData.Append('|');
 						tableData.Append($"{table.Value.Average}");
-						tableData.Append("|");
+						tableData.Append('|');
 						tableData.Append($"{table.Value.TrimmedAverage}");
-						tableData.Append("|");
+						tableData.Append('|');
 						tableData.Append($"{table.Value.Total}");
-						tableData.Append("\r");
+						tableData.Append('\r');
 					}
 
 					Result.Append(tableData);

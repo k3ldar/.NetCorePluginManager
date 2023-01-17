@@ -69,11 +69,16 @@ namespace AspNetCore.PluginManager.Tests.Shared
             return String.IsNullOrEmpty(ProductDeleteError);
         }
 
-        #endregion Product Groups
+		public int ProductCountForGroup(ProductGroup productGroup)
+		{
+			return GetProducts(1, 10000).Where(p => p.ProductGroupId == productGroup.Id).Count();
+		}
 
-        #region Products
+		#endregion Product Groups
 
-        public List<Product> GetProducts(in int page, in int pageSize)
+		#region Products
+
+		public List<Product> GetProducts(in int page, in int pageSize)
         {
             if (page < 1)
                 throw new ArgumentOutOfRangeException(nameof(page));
@@ -83,17 +88,17 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
             List<Product> products = new List<Product>()
             {
-                new Product(1, 1, "Product A & - &", "This is product a", "1 year guarantee", "", new string[] { "ProdA_1" }, 0, "ProdA", false, false),
-                new Product(2, 1, "Product B", "This is product b", "1 year guarantee", "", new string[] { "ProdB_1" }, 0, "ProdB", true, false),
-                new Product(3, 1, "Product C", "This is product c", "1 year guarantee", "E7Voso411Vs", new string[] { "ProdC_1" }, 1.99m, "ProdC", true, true, false, true),
-                new Product(4, 2, "Product D", "This is product d", "1 year guarantee", "", new string[] { "ProdD_1" }, 22.99m, "ProdD", false, true, true, true),
-                new Product(5, 2, "Product E", "This is product e", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdE_1" }, 0, "SKUE", false, false),
+                new Product(1, 1, "Product A & - &", "This is product a", "1 year guarantee", "", new string[] { "ProdA_1" }, 0, "ProdA", false, false, true),
+                new Product(2, 1, "Product B", "This is product b", "1 year guarantee", "", new string[] { "ProdB_1" }, 0, "ProdB", true, false, true),
+                new Product(3, 1, "Product C", "This is product c", "1 year guarantee", "E7Voso411Vs", new string[] { "ProdC_1" }, 1.99m, "ProdC", true, true, false, true, true),
+                new Product(4, 2, "Product D", "This is product d", "1 year guarantee", "", new string[] { "ProdD_1" }, 22.99m, "ProdD", false, true, true),
+                new Product(5, 2, "Product E", "This is product e", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdE_1" }, 0, "SKUE", false, false, true),
 
 
-                new Product(6, 2, "Product F", "This is product f", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdF_1" }, 0, "ProdF", false, false, true, true),
-                new Product(7, 2, "Product G", "This is product g", "1 year guarantee", "", new string[] { "ProdG_1" }, 15.95m, "SKUG", false, false, true, false),
-                new Product(8, 2, "Product H", "This is product description h", "1 year guarantee", "", new string[] { "ProdH_1" }, 1.99m, "SKUH", false, false, false, true),
-                new Product(9, 2, "Product I", "This is product description i", "1 year guarantee", "", new string[] { "ProdI_1" }, 0, "ProdI", false, false, false, true)
+                new Product(6, 2, "Product F", "This is product f", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdF_1" }, 0, "ProdF", false, false, true, true, true),
+                new Product(7, 2, "Product G", "This is product g", "1 year guarantee", "", new string[] { "ProdG_1" }, 15.95m, "SKUG", false, false, true, false, true),
+                new Product(8, 2, "Product H", "This is product description h", "1 year guarantee", "", new string[] { "ProdH_1" }, 1.99m, "SKUH", false, false, false, true, true),
+                new Product(9, 2, "Product I", "This is product description i", "1 year guarantee", "", new string[] { "ProdI_1" }, 0, "ProdI", false, false, false, true, true)
             };
 
             products[0].SetCurrentStockLevel(5);
