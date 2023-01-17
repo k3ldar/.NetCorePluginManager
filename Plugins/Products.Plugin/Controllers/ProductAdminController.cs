@@ -151,7 +151,8 @@ namespace ProductPlugin.Controllers
 
             // product provider can have it's own rules and fail to save at this point
             if (!_productProvider.ProductSave(model.Id, model.ProductGroupId, model.Name, model.Description, model.Features, model.VideoLink,
-                model.NewProduct, model.BestSeller, model.RetailPrice, model.Sku, model.IsDownload, model.AllowBackorder, out string errorMessage))
+                model.NewProduct, model.BestSeller, model.RetailPrice, model.Sku, model.IsDownload, model.AllowBackorder,
+				model.IsVisible, out string errorMessage))
             {
                 ModelState.AddModelError(String.Empty, errorMessage);
             }
@@ -388,7 +389,7 @@ namespace ProductPlugin.Controllers
             EditProductModel result = new EditProductModel(GetModelData(), productGroups, product.Id, product.ProductGroupId,
                 product.Name, product.Description, product.Features, product.VideoLink, product.NewProduct,
                 product.BestSeller, product.RetailPrice, product.Sku, product.IsDownload, product.AllowBackorder,
-                pageNumber);
+                product.IsVisible, pageNumber);
 
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
 
@@ -412,7 +413,7 @@ namespace ProductPlugin.Controllers
             EditProductModel result = new EditProductModel(GetModelData(), productGroups, model.Id, model.ProductGroupId,
                 model.Name, model.Description, model.Features, model.VideoLink, model.NewProduct,
                 model.BestSeller, model.RetailPrice, model.Sku, model.IsDownload, model.AllowBackorder,
-                model.PageNumber);
+				model.IsVisible, model.PageNumber);
 
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
 

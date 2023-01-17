@@ -148,7 +148,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return false;
         }
 
-        public bool ProductSave(in int id, in int productGroupId, in string name, in string description, in string features, in string videoLink, in bool newProduct, in bool bestSeller, in decimal retailPrice, in string sku, in bool isDownload, in bool allowBackOrder, out string errorMessage)
+        public bool ProductSave(in int id, in int productGroupId, in string name, in string description, in string features, in string videoLink, in bool newProduct, in bool bestSeller, in decimal retailPrice, in string sku, in bool isDownload, in bool allowBackOrder, in bool isVisible, out string errorMessage)
         {
             errorMessage = "Unable to save in demo project";
             return false;

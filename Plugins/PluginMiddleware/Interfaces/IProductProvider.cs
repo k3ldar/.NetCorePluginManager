@@ -127,11 +127,12 @@ namespace Middleware
 		/// <param name="sku">Product SKU</param>
 		/// <param name="isDownload">Indicates whether it is a downloadable product or not</param>
 		/// <param name="allowBackOrder">Indicates that the product is available for back order if not currently available.</param>
+		/// <param name="isVisible">Indicates whether the product is visible or not</param>
 		/// <param name="errorMessage">Error message when saving the product, if the result is false</param>
 		/// <returns></returns>
 		bool ProductSave(in int id, in int productGroupId, in string name, in string description,
             in string features, in string videoLink, in bool newProduct, in bool bestSeller, in decimal retailPrice, in string sku,
-            in bool isDownload, in bool allowBackOrder, out string errorMessage);
+            in bool isDownload, in bool allowBackOrder, in bool isVisible, out string errorMessage);
 
         /// <summary>
         /// 

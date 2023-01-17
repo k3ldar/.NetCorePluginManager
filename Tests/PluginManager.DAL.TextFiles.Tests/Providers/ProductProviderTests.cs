@@ -607,7 +607,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(sut);
 
                     bool result = sut.ProductSave(-1, 0, "adf", "my product description", "", "",
-                        true, true, 1.99m, "sku", false, true, out string errorMessage);
+                        true, true, 1.99m, "sku", false, true, true, out string errorMessage);
                     Assert.IsFalse(result);
                     Assert.AreEqual("Minimum length for Name is 5 characters; Table: ProductDataRow; Property Name", errorMessage);
                 }
@@ -634,11 +634,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(sut);
 
                     bool result = sut.ProductSave(-1, 0, "Test Product", "my product description", "", "",
-                        true, true, 1.99m, "sku", false, true, out string errorMessage);
+                        true, true, 1.99m, "sku", false, true, true, out string errorMessage);
                     Assert.IsTrue(result);
 
                     result = sut.ProductSave(0, 0, "tst", "My product description", "", "",
-                        true, true, 1.99m, "sku", false, true, out errorMessage);
+                        true, true, 1.99m, "sku", false, true, true, out errorMessage);
                     Assert.IsFalse(result);
                     Assert.AreEqual("Minimum length for Name is 5 characters; Table: ProductDataRow; Property Name", errorMessage);
                 }
@@ -665,7 +665,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(sut);
 
                     bool result = sut.ProductSave(-1, 0, "The maximum length of a product name is capped at one hundred charactgers which this piece of text will exceed", "my product description", "", "",
-                        true, true, 1.99m, "sku", false, true, out string errorMessage);
+                        true, true, 1.99m, "sku", false, true, true, out string errorMessage);
                     Assert.IsFalse(result);
                     Assert.AreEqual("Maximum length for Name is 100 characters; Table: ProductDataRow; Property Name", errorMessage);
                 }
@@ -692,7 +692,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(sut);
 
                     bool result = sut.ProductSave(-1, 0, null, "my product description", "", "",
-                        true, true, 1.99m, "sku", false, true, out string errorMessage);
+                        true, true, 1.99m, "sku", false, true, true, out string errorMessage);
                     Assert.IsFalse(result);
                     Assert.AreEqual("Can not be null or empty; Table: ProductDataRow; Property Name", errorMessage);
                 }
@@ -719,7 +719,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(sut);
 
                     bool result = sut.ProductSave(-1, 0, "My product", "desc", "", "",
-                        true, true, 1.99m, "sku", false, true, out string errorMessage);
+                        true, true, 1.99m, "sku", false, true, true, out string errorMessage);
                     Assert.IsFalse(result);
                     Assert.AreEqual("Minimum length for Description is 20 characters; Table: ProductDataRow; Property Description", errorMessage);
                 }
@@ -746,7 +746,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(sut);
 
                     bool result = sut.ProductSave(-1, 0, "My Product", null, "", "",
-                        true, true, 1.99m, "sku", false, true, out string errorMessage);
+                        true, true, 1.99m, "sku", false, true, true, out string errorMessage);
                     Assert.IsFalse(result);
                     Assert.AreEqual("Can not be null or empty; Table: ProductDataRow; Property Description", errorMessage);
                 }
@@ -756,5 +756,36 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 Directory.Delete(directory, true);
             }
         }
-    }
+
+		[TestMethod]
+		public void ProductSave_IsVisibleSetToFalse_SavesCorrectly()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+					Assert.IsNotNull(sut);
+
+					bool result = sut.ProductSave(-1, 0, "My Product", "This is the product description", "", "",
+						true, true, 1.99m, "sku", false, true, false, out string errorMessage);
+					Assert.IsTrue(result);
+					Assert.AreEqual("", errorMessage);
+
+					Product product = sut.GetProduct(0);
+					Assert.IsNotNull(product);
+					Assert.IsFalse(product.IsVisible);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+	}
 }

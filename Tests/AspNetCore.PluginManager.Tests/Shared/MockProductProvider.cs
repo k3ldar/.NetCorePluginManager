@@ -149,7 +149,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
         }
 
         public bool ProductSave(in int id, in int productGroupId, in string name, in string description, in string features, in string videoLink, in bool newProduct, 
-            in bool bestSeller, in decimal retailPrice, in string sku, in bool isDownload, in bool allowBackOrder, out string errorMessage)
+            in bool bestSeller, in decimal retailPrice, in string sku, in bool isDownload, in bool allowBackOrder, in bool isVisible, out string errorMessage)
         {
             errorMessage = ProductSaveError;
 

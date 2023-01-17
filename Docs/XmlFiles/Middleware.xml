@@ -4207,7 +4207,7 @@
             Retrieves the count of visible products within a group
             </summary>
         </member>
-        <member name="M:Middleware.IProductProvider.ProductSave(System.Int32@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.Boolean@,System.Decimal@,System.String@,System.Boolean@,System.Boolean@,System.String@)">
+        <member name="M:Middleware.IProductProvider.ProductSave(System.Int32@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.Boolean@,System.Decimal@,System.String@,System.Boolean@,System.Boolean@,System.Boolean@,System.String@)">
             <summary>
             Saves changes to an existing product or creates a new product
             </summary>
@@ -4223,6 +4223,7 @@
             <param name="sku">Product SKU</param>
             <param name="isDownload">Indicates whether it is a downloadable product or not</param>
             <param name="allowBackOrder">Indicates that the product is available for back order if not currently available.</param>
+            <param name="isVisible">Indicates whether the product is visible or not</param>
             <param name="errorMessage">Error message when saving the product, if the result is false</param>
             <returns></returns>
         </member>

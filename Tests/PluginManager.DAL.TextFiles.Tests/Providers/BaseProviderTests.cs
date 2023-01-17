@@ -56,13 +56,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
             if (addProducts)
             {
-                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 1", "", "", true, false, 1.99m, "sku1", false, true, out string errorMessage))
+                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 1", "", "", true, false, 1.99m, "sku1", false, true, true, out string errorMessage))
                     throw new InvalidOperationException("product should have saved; Error: " + errorMessage);
 
-                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 2", "", "", true, false, 2.99m, "sku2", false, true, out errorMessage))
+                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 2", "", "", true, false, 2.99m, "sku2", false, true, true, out errorMessage))
                     throw new InvalidOperationException("product should have saved; Error: " + errorMessage);
 
-                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 3", "", "", true, false, 3.99m, "sku3", false, true, out errorMessage))
+                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 3", "", "", true, false, 3.99m, "sku3", false, true, true, out errorMessage))
                     throw new InvalidOperationException("product should have saved; Error: " + errorMessage);
             }
 
