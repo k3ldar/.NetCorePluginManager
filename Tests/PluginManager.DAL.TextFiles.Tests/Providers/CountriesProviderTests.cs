@@ -34,6 +34,7 @@ using Middleware;
 
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
+using PluginManager.Tests.Mocks;
 
 using SimpleDB;
 using SimpleDB.Tests.Mocks;
@@ -100,11 +101,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    ISimpleDBOperations<CountryDataRow> countryTable = provider.GetRequiredService<ISimpleDBOperations<CountryDataRow>>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					ISimpleDBOperations<CountryDataRow> countryTable = provider.GetRequiredService<ISimpleDBOperations<CountryDataRow>>();
                     Assert.IsNotNull(countryTable);
 
                     ICountryProvider sut = provider.GetRequiredService<ICountryProvider>();
@@ -135,11 +138,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    ISimpleDBOperations<CountryDataRow> countryTable = provider.GetRequiredService<ISimpleDBOperations<CountryDataRow>>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					ISimpleDBOperations<CountryDataRow> countryTable = provider.GetRequiredService<ISimpleDBOperations<CountryDataRow>>();
                     Assert.IsNotNull(countryTable);
 
                     ICountryProvider sut = provider.GetRequiredService<ICountryProvider>();
@@ -238,11 +243,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    ISimpleDBOperations<CountryDataRow> countryTable = provider.GetRequiredService<ISimpleDBOperations<CountryDataRow>>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					ISimpleDBOperations<CountryDataRow> countryTable = provider.GetRequiredService<ISimpleDBOperations<CountryDataRow>>();
                     Assert.IsNotNull(countryTable);
 
                     ICountryProvider sut = provider.GetRequiredService<ICountryProvider>();
@@ -331,11 +338,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    ISimpleDBOperations<CountryDataRow> countryTable = provider.GetRequiredService<ISimpleDBOperations<CountryDataRow>>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					ISimpleDBOperations<CountryDataRow> countryTable = provider.GetRequiredService<ISimpleDBOperations<CountryDataRow>>();
                     Assert.IsNotNull(countryTable);
 
                     Assert.AreEqual(251, countryTable.RecordCount);

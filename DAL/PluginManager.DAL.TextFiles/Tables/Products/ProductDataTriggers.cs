@@ -29,10 +29,16 @@ namespace PluginManager.DAL.TextFiles.Tables.Products
 {
     internal class ProductDataTriggers : ITableTriggers<ProductDataRow>
     {
+		private readonly ISimpleDBOperations<StockDataRow> _stockData;
         private const int MinimumDescriptionLength = 20;
         private const int MaximumDescriptionLength = 3000;
         private const int MinimumNameLength = 5;
         private const int MaximumNameLength = 100;
+
+		public ProductDataTriggers(ISimpleDBOperations<StockDataRow> stockData)
+		{
+			_stockData = stockData ?? throw new ArgumentNullException(nameof(stockData));
+		}
 
         public int Position => 0;
 
@@ -40,12 +46,25 @@ namespace PluginManager.DAL.TextFiles.Tables.Products
 
         public void AfterDelete(List<ProductDataRow> records)
         {
-			// from interface but unused in this context
+			records.ForEach(r =>
+			{
+				StockDataRow stockData = _stockData.Select(sd => sd.Id.Equals(r.Id)).FirstOrDefault();
+
+				if (stockData != null)
+					_stockData.Delete(stockData);
+			});
 		}
 
 		public void AfterInsert(List<ProductDataRow> records)
         {
-			// from interface but unused in this context
+			List<StockDataRow> stockData = new();
+
+			records.ForEach(r =>
+			{
+				stockData.Add(new StockDataRow() { ProductId = r.Id});
+			});
+
+			_stockData.Insert(stockData);
 		}
 
 		public void AfterUpdate(List<ProductDataRow> records)

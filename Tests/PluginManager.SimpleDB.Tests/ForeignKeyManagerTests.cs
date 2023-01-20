@@ -95,9 +95,10 @@ namespace SimpleDB.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ISimpleDBManager initializer = new SimpleDBManager(directory);
+                ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
-                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(simpleDBManager, sut);
+				simpleDBManager.Initialize(new MockPluginClassesService());
                 List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
                 for (int i = 0; i < 5; i++)
@@ -105,8 +106,9 @@ namespace SimpleDB.Tests
 
                 mockUsers.Insert(testData);
 
-                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new SimpleDBOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
-                mockAddresses.Insert(new MockTableAddressRow(10));
+                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new SimpleDBOperations<MockTableAddressRow>(simpleDBManager, sut);
+				simpleDBManager.Initialize(new MockPluginClassesService());
+				mockAddresses.Insert(new MockTableAddressRow(10));
             }
             finally
             {
@@ -123,9 +125,9 @@ namespace SimpleDB.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ISimpleDBManager initializer = new SimpleDBManager(directory);
+                ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
-                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(simpleDBManager, sut);
                 mockUsers.ResetSequence(10, 10);
                 List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
@@ -134,7 +136,7 @@ namespace SimpleDB.Tests
 
                 mockUsers.Insert(testData);
 
-                using SimpleDBOperations<MockTableForeignKeyDefaultAllowed> mockAddresses = new SimpleDBOperations<MockTableForeignKeyDefaultAllowed>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableForeignKeyDefaultAllowed> mockAddresses = new SimpleDBOperations<MockTableForeignKeyDefaultAllowed>(simpleDBManager, sut);
                 mockAddresses.Insert(new MockTableForeignKeyDefaultAllowed(0));
             }
             finally
@@ -152,9 +154,9 @@ namespace SimpleDB.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ISimpleDBManager initializer = new SimpleDBManager(directory);
+                ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
-                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(simpleDBManager, sut);
                 List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
                 for (int i = 0; i < 5; i++)
@@ -162,7 +164,7 @@ namespace SimpleDB.Tests
 
                 mockUsers.Insert(testData);
 
-                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new SimpleDBOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new SimpleDBOperations<MockTableAddressRow>(simpleDBManager, sut);
                 mockAddresses.Insert(new MockTableAddressRow(3));
 
                 MockTableAddressRow addressRow = mockAddresses.Select(0);
@@ -186,9 +188,9 @@ namespace SimpleDB.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ISimpleDBManager initializer = new SimpleDBManager(directory);
+                ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
-                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(simpleDBManager, sut);
                 List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
                 for (int i = 0; i < 5; i++)
@@ -196,7 +198,7 @@ namespace SimpleDB.Tests
 
                 mockUsers.Insert(testData);
 
-                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new SimpleDBOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new SimpleDBOperations<MockTableAddressRow>(simpleDBManager, sut);
                 mockAddresses.Insert(new MockTableAddressRow(3));
 
                 MockTableAddressRow addressRow = mockAddresses.Select(0);
@@ -219,9 +221,9 @@ namespace SimpleDB.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ISimpleDBManager initializer = new SimpleDBManager(directory);
+                ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
-                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(simpleDBManager, sut);
                 List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
                 for (int i = 0; i < 5; i++)
@@ -229,7 +231,7 @@ namespace SimpleDB.Tests
 
                 mockUsers.Insert(testData);
 
-                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new SimpleDBOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new SimpleDBOperations<MockTableAddressRow>(simpleDBManager, sut);
                 mockAddresses.Insert(new MockTableAddressRow(3));
             }
             finally
@@ -246,9 +248,9 @@ namespace SimpleDB.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ISimpleDBManager initializer = new SimpleDBManager(directory);
+                ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
-                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(simpleDBManager, sut);
                 List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
                 for (int i = 0; i < 5; i++)
@@ -256,7 +258,7 @@ namespace SimpleDB.Tests
 
                 mockUsers.Insert(testData);
 
-                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new SimpleDBOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new SimpleDBOperations<MockTableAddressRow>(simpleDBManager, sut);
                 mockAddresses.Insert(new MockTableAddressRow(3));
 
                 MockTableAddressRow addressRow = mockAddresses.Select(0);
@@ -279,9 +281,9 @@ namespace SimpleDB.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ISimpleDBManager initializer = new SimpleDBManager(directory);
+                ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
-                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(simpleDBManager, sut);
                 List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
                 for (int i = 0; i < 5; i++)
@@ -289,7 +291,7 @@ namespace SimpleDB.Tests
 
                 mockUsers.Insert(testData);
 
-                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new SimpleDBOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
+                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new SimpleDBOperations<MockTableAddressRow>(simpleDBManager, sut);
                 mockAddresses.Insert(new MockTableAddressRow(4));
                 mockAddresses.Truncate();
 

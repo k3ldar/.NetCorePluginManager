@@ -40,6 +40,7 @@ using SimpleDB;
 using Shared.Classes;
 
 using SharedPluginFeatures;
+using PluginManager.Tests.Mocks;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
@@ -55,15 +56,18 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-                UserSession userSession = new UserSession();
+				UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
-                    System.Threading.Thread.CurrentThread.CurrentUICulture, "GBP");
+                System.Threading.Thread.CurrentThread.CurrentUICulture, "GBP");
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    ISimpleDBOperations<StockDataRow> stockTable = provider.GetRequiredService<ISimpleDBOperations<StockDataRow>>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					mockPluginClassesService.Provider = provider;
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					ISimpleDBOperations<StockDataRow> stockTable = provider.GetRequiredService<ISimpleDBOperations<StockDataRow>>();
                     Assert.IsNotNull(stockTable);
 
                     IProductProvider productProvider = GetTestProductProvider(provider);
@@ -107,15 +111,19 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
                     System.Threading.Thread.CurrentThread.CurrentUICulture, "GBP");
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    ISimpleDBOperations<StockDataRow> stockTable = provider.GetRequiredService<ISimpleDBOperations<StockDataRow>>();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					mockPluginClassesService.Provider = provider;
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					ISimpleDBOperations<StockDataRow> stockTable = provider.GetRequiredService<ISimpleDBOperations<StockDataRow>>();
                     Assert.IsNotNull(stockTable);
 
                     IProductProvider productProvider = GetTestProductProvider(provider);
@@ -167,13 +175,17 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    ISimpleDBOperations<StockDataRow> stockTable = provider.GetRequiredService<ISimpleDBOperations<StockDataRow>>();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					mockPluginClassesService.Provider = provider;
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					ISimpleDBOperations<StockDataRow> stockTable = provider.GetRequiredService<ISimpleDBOperations<StockDataRow>>();
                     Assert.IsNotNull(stockTable);
 
                     IProductProvider productProvider = GetTestProductProvider(provider);
@@ -208,15 +220,18 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
                     System.Threading.Thread.CurrentThread.CurrentUICulture, "GBP");
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    ISimpleDBOperations<StockDataRow> stockTable = provider.GetRequiredService<ISimpleDBOperations<StockDataRow>>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					mockPluginClassesService.Provider = provider;
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+					
+					ISimpleDBOperations<StockDataRow> stockTable = provider.GetRequiredService<ISimpleDBOperations<StockDataRow>>();
                     Assert.IsNotNull(stockTable);
 
                     IProductProvider productProvider = GetTestProductProvider(provider);

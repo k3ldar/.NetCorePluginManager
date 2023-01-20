@@ -44,6 +44,7 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 using System.Globalization;
+using PluginManager.Tests.Mocks;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
@@ -59,11 +60,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IShoppingCartProvider sut = provider.GetService<IShoppingCartProvider>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+					
+					IShoppingCartProvider sut = provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(sut);
                 }
             }
@@ -81,17 +84,20 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
                     System.Threading.Thread.CurrentThread.CurrentUICulture,
                     "GBP");
 
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IProductProvider productProvider = GetTestProductProvider(provider);
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					mockPluginClassesService.Provider = provider;
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+					
+					IProductProvider productProvider = GetTestProductProvider(provider);
 
                     ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(sut);
@@ -135,17 +141,19 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
                     System.Threading.Thread.CurrentThread.CurrentUICulture,
                     "GBP");
 
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IProductProvider productProvider = GetTestProductProvider(provider);
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					IProductProvider productProvider = GetTestProductProvider(provider);
 
                     ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(sut);
@@ -197,15 +205,17 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
                     System.Threading.Thread.CurrentThread.CurrentUICulture, "GBP");
 
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
                     IProductProvider productProvider = GetTestProductProvider(provider);
 
                     ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
@@ -244,17 +254,19 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
                     System.Threading.Thread.CurrentThread.CurrentUICulture,
                     "GBP");
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IProductProvider productProvider = GetTestProductProvider(provider);
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					mockPluginClassesService.Provider = provider;
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+					
+					IProductProvider productProvider = GetTestProductProvider(provider);
 
                     ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(sut);
@@ -307,16 +319,17 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 				Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
                     Thread.CurrentThread.CurrentUICulture, "GBP");
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					mockPluginClassesService.Provider = provider;
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
                     IProductProvider productProvider = GetTestProductProvider(provider);
 
                     IAccountProvider accountProvider = provider.GetService<IAccountProvider>();
@@ -562,16 +575,18 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
                     System.Threading.Thread.CurrentThread.CurrentUICulture, "GBP");
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IProductProvider productProvider = GetTestProductProvider(provider);
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					mockPluginClassesService.Provider = provider;
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+					
+					IProductProvider productProvider = GetTestProductProvider(provider);
 
                     ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(sut);
@@ -610,16 +625,18 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
 				Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
                     System.Threading.Thread.CurrentThread.CurrentUICulture, "GBP");
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IProductProvider productProvider = GetTestProductProvider(provider);
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					mockPluginClassesService.Provider = provider;
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+					
+					IProductProvider productProvider = GetTestProductProvider(provider);
                     ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(sut);
                     ShoppingCartProvider.ClearCache();

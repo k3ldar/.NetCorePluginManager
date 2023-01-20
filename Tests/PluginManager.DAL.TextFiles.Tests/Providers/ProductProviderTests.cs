@@ -35,6 +35,7 @@ using Middleware.Products;
 
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
+using PluginManager.Tests.Mocks;
 
 using SimpleDB;
 using SimpleDB.Tests.Mocks;
@@ -67,11 +68,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    ISimpleDBOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ISimpleDBOperations<ProductGroupDataRow>>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					ISimpleDBOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ISimpleDBOperations<ProductGroupDataRow>>();
                     Assert.IsNotNull(prodGroups);
 
                     IReadOnlyList<ProductGroupDataRow> allRows = prodGroups.Select();
@@ -95,11 +98,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
 
                     bool result = sut.ProductGroupDelete(0, out string err);
@@ -121,11 +126,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    ISimpleDBOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ISimpleDBOperations<ProductGroupDataRow>>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					ISimpleDBOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ISimpleDBOperations<ProductGroupDataRow>>();
                     Assert.IsNotNull(prodGroups);
 
                     prodGroups.Insert(new ProductGroupDataRow() { Description = "test group" });
@@ -152,11 +159,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    ISimpleDBOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ISimpleDBOperations<ProductGroupDataRow>>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					ISimpleDBOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ISimpleDBOperations<ProductGroupDataRow>>();
                     Assert.IsNotNull(prodGroups);
 
                     prodGroups.Insert(new ProductGroupDataRow() { Description = "test group" });
@@ -189,11 +198,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    ISimpleDBOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ISimpleDBOperations<ProductGroupDataRow>>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					ISimpleDBOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ISimpleDBOperations<ProductGroupDataRow>>();
                     Assert.IsNotNull(prodGroups);
 
                     prodGroups.Insert(new ProductGroupDataRow() { Description = "test group" });
@@ -220,11 +231,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    ISimpleDBOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ISimpleDBOperations<ProductGroupDataRow>>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					ISimpleDBOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ISimpleDBOperations<ProductGroupDataRow>>();
                     Assert.IsNotNull(prodGroups);
 
                     prodGroups.Insert(new ProductGroupDataRow() { Description = "test group" });
@@ -250,11 +263,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
 
                     ProductGroup result = sut.ProductGroupGet(1);
@@ -276,11 +291,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
 
                     List<ProductGroup> result = sut.ProductGroupsGet();
@@ -303,11 +320,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    ISimpleDBOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ISimpleDBOperations<ProductGroupDataRow>>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					ISimpleDBOperations<ProductGroupDataRow> prodGroups = provider.GetRequiredService<ISimpleDBOperations<ProductGroupDataRow>>();
                     Assert.IsNotNull(prodGroups);
 
                     prodGroups.Insert(new ProductGroupDataRow() { Description = "test 1", SortOrder = 5 });
@@ -341,11 +360,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
 
                     bool result = sut.ProductGroupSave(1, "tst", true, 5, null, null, out string errorMessage);
@@ -367,11 +388,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
 
                     bool result = sut.ProductGroupSave(-1, "tst", true, 5, null, null, out string errorMessage);
@@ -393,11 +416,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
 
                     bool result = sut.ProductGroupSave(-3, null, true, 5, null, null, out string errorMessage);
@@ -419,11 +444,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
 
                     bool result = sut.ProductGroupSave(-1, "This is my exceedingly long description for a product group and it is clearly too long to be of any use", true, 5, null, null, out string errorMessage);
@@ -445,11 +472,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
 
                     bool result = sut.ProductGroupSave(-1, "Fancy Products", true, 5, null, null, out string errorMessage);
@@ -599,11 +628,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					mockPluginClassesService.Provider = provider;
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
 
                     bool result = sut.ProductSave(-1, 0, "adf", "my product description", "", "",
@@ -626,11 +658,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					mockPluginClassesService.Provider = provider;
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
 
                     bool result = sut.ProductSave(-1, 0, "Test Product", "my product description", "", "",
@@ -657,11 +692,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					mockPluginClassesService.Provider = provider;
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
 
                     bool result = sut.ProductSave(-1, 0, "The maximum length of a product name is capped at one hundred charactgers which this piece of text will exceed", "my product description", "", "",
@@ -684,11 +722,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					mockPluginClassesService.Provider = provider;
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
 
                     bool result = sut.ProductSave(-1, 0, null, "my product description", "", "",
@@ -711,11 +752,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					mockPluginClassesService.Provider = provider;
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
 
                     bool result = sut.ProductSave(-1, 0, "My product", "desc", "", "",
@@ -738,11 +782,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					mockPluginClassesService.Provider = provider;
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
 
                     bool result = sut.ProductSave(-1, 0, "My Product", null, "", "",
@@ -769,6 +816,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
+					mockPluginClassesService.Provider = provider;
 					IProductProvider sut = provider.GetRequiredService<IProductProvider>();
 					Assert.IsNotNull(sut);
 

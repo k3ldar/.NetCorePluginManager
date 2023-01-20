@@ -98,6 +98,7 @@ namespace SimpleDB.Internal
 
 		private readonly IVersionedReadWriteFactory _readWriteFactory = new VersionedReadWriteFactory();
 		private readonly string _tableName;
+		private readonly bool _tableCreated;
 		private readonly FileStream _fileStream;
 		private ushort _internalDataVersion;
 		private ushort _internalWriteVersion;
@@ -111,7 +112,8 @@ namespace SimpleDB.Internal
 		private readonly object _lockObject = new object();
 		private readonly TableAttribute _tableAttributes;
 		private readonly Dictionary<string, ForeignKeyRelation> _foreignKeys;
-		private readonly ISimpleDBManager _initializer;
+		private readonly ISimpleDBManager _simleDBManager;
+		private bool _hasInitialized;
 		private readonly IForeignKeyManager _foreignKeyManager;
 		private readonly BatchUpdateDictionary<string, IIndexManager> _indexes;
 		private readonly Dictionary<TriggerType, List<ITableTriggers<T>>> _triggersMap;
@@ -138,44 +140,29 @@ namespace SimpleDB.Internal
 
 		#region Constructors / Destructors
 
-		public SimpleDBOperations(ISimpleDBManager readerWriterInitializer,
-			IForeignKeyManager foreignKeyManager, IPluginClassesService pluginClassesService)
+		public SimpleDBOperations(ISimpleDBManager readerWriterInitializer, IForeignKeyManager foreignKeyManager)
 		{
-			_initializer = readerWriterInitializer ?? throw new ArgumentNullException(nameof(readerWriterInitializer));
+			_simleDBManager = readerWriterInitializer ?? throw new ArgumentNullException(nameof(readerWriterInitializer));
 			_foreignKeyManager = foreignKeyManager ?? throw new ArgumentNullException(nameof(foreignKeyManager));
-
-			if (pluginClassesService == null)
-				throw new ArgumentNullException(nameof(pluginClassesService));
 
 			_tableAttributes = GetTableAttributes();
 
 			if (_tableAttributes == null)
 				throw new InvalidOperationException($"TableAttribute is missing from class {typeof(T).FullName}");
 
-			ITableDefaults<T> tableDefaults = pluginClassesService.GetPluginClasses<ITableDefaults<T>>()
-				.FirstOrDefault();
-
-			if (tableDefaults != null)
-			{
-				_primarySequence = tableDefaults.PrimarySequence;
-				_SecondarySequence = tableDefaults.SecondarySequence;
-			}
-
 			_isMemoryCaching = _tableAttributes.CachingStrategy == CachingStrategy.Memory ||
 				_tableAttributes.CachingStrategy == CachingStrategy.SlidingMemory ||
 				_tableAttributes.WriteStrategy == WriteStrategy.Lazy;
 
 			_triggersMap = new Dictionary<TriggerType, List<ITableTriggers<T>>>();
-			List<ITableTriggers<T>> triggers = pluginClassesService.GetPluginClasses<ITableTriggers<T>>();
 
 			foreach (TriggerType triggerType in Enum.GetValues(typeof(TriggerType)))
-				_triggersMap.Add(triggerType, triggers.Where(t => t.TriggerTypes.HasFlag(triggerType)).ToList());
+				_triggersMap.Add(triggerType, new());
 
 			_foreignKeys = GetForeignKeysForTable();
 			_indexes = BuildIndexListForTable();
 
-			bool tableCreated;
-			(tableCreated, _tableName) = ValidateTableName(_initializer.Path, _tableAttributes.Domain, _tableAttributes.TableName, _tableAttributes.PageSize);
+			(_tableCreated, _tableName) = ValidateTableName(_simleDBManager.Path, _tableAttributes.Domain, _tableAttributes.TableName, _tableAttributes.PageSize);
 			_fileStream = File.Open(_tableName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
 
 			try
@@ -191,23 +178,9 @@ namespace SimpleDB.Internal
 				throw;
 			}
 
-			_initializer.RegisterTable(this);
+			_simleDBManager.RegisterTable(this);
 			_foreignKeyManager.RegisterTable(this);
 
-			if (tableCreated && tableDefaults != null && tableDefaults.InitialData != null)
-			{
-				for (ushort i = ++_internalDataVersion; i < ushort.MaxValue; i++)
-				{
-					List<T> initialData = tableDefaults.InitialData(i);
-
-					if (initialData == null)
-						break;
-
-					Insert(initialData);
-
-					_internalDataVersion = InternalUpdateVersion(i);
-				}
-			}
 
 			RebuildAllMissingIndexes();
 		}
@@ -258,6 +231,46 @@ namespace SimpleDB.Internal
 		#endregion Properties
 
 		#region Methods
+
+		public void Initialize(IPluginClassesService pluginClassesService)
+		{
+			if (pluginClassesService == null)
+				throw new ArgumentNullException(nameof(pluginClassesService));
+
+			if (_hasInitialized)
+				return;
+
+			ITableDefaults<T> tableDefaults = pluginClassesService.GetPluginClasses<ITableDefaults<T>>()
+				.FirstOrDefault();
+
+			if (tableDefaults != null)
+			{
+				_primarySequence = tableDefaults.PrimarySequence;
+				_SecondarySequence = tableDefaults.SecondarySequence;
+			}
+
+			List<ITableTriggers<T>> triggers = pluginClassesService.GetPluginClasses<ITableTriggers<T>>();
+
+			foreach (TriggerType triggerType in Enum.GetValues(typeof(TriggerType)))
+				_triggersMap[triggerType].AddRange(triggers.Where(t => t.TriggerTypes.HasFlag(triggerType)).ToList());
+
+			if (_tableCreated && tableDefaults != null && tableDefaults.InitialData != null)
+			{
+				for (ushort i = ++_internalDataVersion; i < ushort.MaxValue; i++)
+				{
+					List<T> initialData = tableDefaults.InitialData(i);
+
+					if (initialData == null || initialData.Count == 0)
+						break;
+
+					Insert(initialData);
+
+					_internalDataVersion = InternalUpdateVersion(i);
+				}
+			}
+
+			_hasInitialized = true;
+		}
 
 		public bool IdExists(long id)
 		{
@@ -1010,7 +1023,7 @@ namespace SimpleDB.Internal
 
 			if (disposing)
 			{
-				_initializer?.UnregisterTable(this);
+				_simleDBManager?.UnregisterTable(this);
 
 				if (_foreignKeyManager != null)
 					_foreignKeyManager?.UnregisterTable(this);
