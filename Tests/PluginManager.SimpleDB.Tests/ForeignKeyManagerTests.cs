@@ -59,7 +59,7 @@ namespace SimpleDB.Tests
         public void AddRelationShip_InvalidParamSourceTable_Null_Throws_ArgumentNullException()
         {
             ForeignKeyManager sut = new ForeignKeyManager();
-            sut.AddRelationShip(null, "targetTable", "Id", "Id");
+            sut.AddRelationShip(null, "targetTable", "Id", "Id", ForeignKeyAttributes.None);
         }
 
         [TestMethod]
@@ -67,7 +67,7 @@ namespace SimpleDB.Tests
         public void AddRelationShip_InvalidParamTargetTable_Null_Throws_ArgumentNullException()
         {
             ForeignKeyManager sut = new ForeignKeyManager();
-            sut.AddRelationShip("sourceTable", null, "Id", "Id");
+            sut.AddRelationShip("sourceTable", null, "Id", "Id", ForeignKeyAttributes.None);
         }
 
         [TestMethod]
@@ -75,7 +75,7 @@ namespace SimpleDB.Tests
         public void AddRelationShip_InvalidParamPropertyName_Null_Throws_ArgumentNullException()
         {
             ForeignKeyManager sut = new ForeignKeyManager();
-            sut.AddRelationShip("sourceTable", "targetTable", null, "Id");
+            sut.AddRelationShip("sourceTable", "targetTable", null, "Id", ForeignKeyAttributes.None);
         }
 
         [TestMethod]
@@ -83,7 +83,7 @@ namespace SimpleDB.Tests
         public void AddRelationShip_InvalidParamTargetPropertyName_Null_Throws_ArgumentNullException()
         {
             ForeignKeyManager sut = new ForeignKeyManager();
-            sut.AddRelationShip("sourceTable", "targetTable", "Id", "");
+            sut.AddRelationShip("sourceTable", "targetTable", "Id", "", ForeignKeyAttributes.None);
         }
 
         [TestMethod]

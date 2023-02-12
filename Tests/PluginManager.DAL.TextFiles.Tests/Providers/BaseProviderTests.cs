@@ -42,6 +42,7 @@ using PluginManager.DAL.TextFiles.Tables.Products;
 using PluginManager.Tests.Mocks;
 using PluginManager.DAL.TextFiles.Tables.Sessions;
 using Shared.Classes;
+using PluginManager.DAL.TextFiles.Tables.Stock;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
@@ -125,6 +126,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 			services.AddSingleton<ITableTriggers<ProductDataRow>, ProductDataTriggers>();
 			services.AddSingleton<ITableDefaults<StockDataRow>, StockDataRowDefaults>();
+			services.AddSingleton<ITableTriggers<StockDataRow>, StockDataTriggers>();
 
 			services.AddSingleton<ISettingsProvider>(settingsProvider);
 			services.AddSingleton<IPluginClassesService>(mockPluginClassesService);

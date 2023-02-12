@@ -120,6 +120,8 @@ namespace SimpleDB.Tests.Mocks
             throw new NotImplementedException();
         }
 
+		public object TableLock => this;
+
         public IReadOnlyList<T> Select()
         {
             throw new NotImplementedException();

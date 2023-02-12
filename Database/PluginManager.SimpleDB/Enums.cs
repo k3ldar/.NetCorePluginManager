@@ -140,4 +140,52 @@ namespace SimpleDB
 		/// </summary>
 		Size1634 = 16384,
 	}
+
+	/// <summary>
+	/// Usage for foreign keys
+	/// </summary>
+	[Flags]
+	public enum ForeignKeyUsage
+	{
+		/// <summary>
+		/// No usage found
+		/// </summary>
+		None = 0,
+
+		/// <summary>
+		/// Foreign key has a reference
+		/// </summary>
+		Referenced = 1,
+
+		/// <summary>
+		/// Foreign key is allowed default value for type
+		/// </summary>
+		AllowDefault = 2,
+
+		/// <summary>
+		/// Cascade delete is supported by foreign key
+		/// </summary>
+		CascadeDelete = 4,
+	}
+
+	/// <summary>
+	/// Foreign key attributes
+	/// </summary>
+	public enum ForeignKeyAttributes
+	{
+		/// <summary>
+		/// No special attributes
+		/// </summary>
+		None,
+
+		/// <summary>
+		/// Value is set to default if foreign key deleted
+		/// </summary>
+		DefaultValue,
+
+		/// <summary>
+		/// Data is deleted if foreign key deleted
+		/// </summary>
+		CascadeDelete,
+	}
 }

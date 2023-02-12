@@ -37,7 +37,8 @@ namespace PluginManager.DAL.TextFiles.Tables
 		private long _storeId;
 		private bool _autoRenew;
 
-        [ForeignKey(Constants.TableNameProducts)]
+		[UniqueIndex("Idx_UniqueStockItem")]
+        [ForeignKey(Constants.TableNameProducts, ForeignKeyAttributes.CascadeDelete)]
         public long ProductId
         {
             get
@@ -72,6 +73,7 @@ namespace PluginManager.DAL.TextFiles.Tables
             }
         }
 
+		[UniqueIndex("Idx_UniqueStockItem")]
 		[ForeignKey(Constants.TableNameStore)]
 		public long StoreId
 		{

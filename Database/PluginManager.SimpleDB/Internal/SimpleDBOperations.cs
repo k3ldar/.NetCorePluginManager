@@ -65,18 +65,18 @@ namespace SimpleDB.Internal
 
 		private sealed class ForeignKeyRelation
 		{
-			public ForeignKeyRelation(string name, bool allowDefaultValue)
+			public ForeignKeyRelation(string name, ForeignKeyAttributes foreignKeyAttributes)
 			{
 				if (String.IsNullOrEmpty(name))
 					throw new ArgumentNullException(nameof(name));
 
 				Name = name;
-				AllowDefaultValue = allowDefaultValue;
+				Attributes = foreignKeyAttributes;
 			}
 
 			public string Name { get; }
 
-			public bool AllowDefaultValue { get; }
+			public ForeignKeyAttributes Attributes { get; }
 		}
 
 		#endregion Private Classes
@@ -331,6 +331,8 @@ namespace SimpleDB.Internal
 
 		public PageSize PageSize => _pageSize;
 
+		public object TableLock => _lockObject;
+
 		#endregion Properties
 
 		public void ClearAllMemory()
@@ -348,10 +350,7 @@ namespace SimpleDB.Internal
 				if (_disposed)
 					throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
-				using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-				{
-					return InternalReadAllRecords().AsReadOnly();
-				}
+				return InternalReadAllRecords().AsReadOnly();
 			}
 		}
 
@@ -376,10 +375,7 @@ namespace SimpleDB.Internal
 				if (predicate == null)
 					throw new ArgumentNullException(nameof(predicate));
 
-				using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-				{
-					return InternalReadAllRecords().Where(predicate).ToList().AsReadOnly();
-				}
+				return InternalReadAllRecords().Where(predicate).ToList().AsReadOnly();
 			}
 		}
 
@@ -510,7 +506,13 @@ namespace SimpleDB.Internal
 			using (StopWatchTimer timer = StopWatchTimer.Initialise(_ReadWriteTimes[TimingsForceWrite]))
 			{
 				if (_tableAttributes != null && _tableAttributes.WriteStrategy != WriteStrategy.Forced)
-					InternalSaveRecordsToDisk(InternalReadAllRecords(), true);
+				{
+					using (TimedLock timedLock = TimedLock.Lock(_lockObject, TimeSpan.FromMilliseconds(30)))
+					{
+
+						InternalSaveRecordsToDisk(InternalReadAllRecords(), true);
+					}
+				}
 			}
 		}
 
@@ -619,18 +621,22 @@ namespace SimpleDB.Internal
 				return _allRecords;
 			}
 
-			IDataReader dataReader = _readWriteFactory.GetReader(_internalWriteVersion);
-
-			List<T> Result = dataReader.ReadRecords<T>(_fileStream, ref _pageCount, ref _recordCount, ref _dataLength);
-
-			Result.ForEach(r => { r.Immutable = true; r.Loaded = true; });
-
-			if (_isMemoryCaching)
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
 			{
-				_allRecords = Result;
-			}
 
-			return Result;
+				IDataReader dataReader = _readWriteFactory.GetReader(_internalWriteVersion);
+
+				List<T> Result = dataReader.ReadRecords<T>(_fileStream, ref _pageCount, ref _recordCount, ref _dataLength);
+
+				Result.ForEach(r => { r.Immutable = true; r.Loaded = true; });
+
+				if (_isMemoryCaching)
+				{
+					_allRecords = Result;
+				}
+
+				return Result;
+			}
 		}
 
 		private void InternalUpdateRecords(List<T> records)
@@ -716,10 +722,10 @@ namespace SimpleDB.Internal
 
 		private void InternalDeleteRecords(List<T> records)
 		{
-			VerifyIndexNotInUseAsForeignKey(records);
-
 			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
 			{
+				ValidateForeignKeysPriorToDelete(records);
+
 				_indexes.BeginUpdate();
 				try
 				{
@@ -864,7 +870,7 @@ namespace SimpleDB.Internal
 			}
 		}
 
-		private void VerifyIndexNotInUseAsForeignKey(List<T> records)
+		private void ValidateForeignKeysPriorToDelete(List<T> records)
 		{
 			foreach (KeyValuePair<string, IIndexManager> index in _indexes)
 			{
@@ -875,10 +881,15 @@ namespace SimpleDB.Internal
 				{
 					object keyValue = record.GetType().GetProperty(index.Key).GetValue(record, null);
 
-					if (Int64.TryParse(keyValue.ToString(), out long value) && 
-						_foreignKeyManager.ValueInUse(TableName, index.Key, value, out string table, out string propertyName))
+					if (Int64.TryParse(keyValue.ToString(), out long value))
 					{
-						throw new ForeignKeyException($"Foreign key value {keyValue} from table {TableName} is being used in Table: {table}; Property: {propertyName}");
+						ForeignKeyUsage foreignKeyUsage = _foreignKeyManager.ValueInUse(TableName, index.Key, value, out string table, out string propertyName);
+
+						if (foreignKeyUsage == ForeignKeyUsage.Referenced && 
+							(foreignKeyUsage != ForeignKeyUsage.AllowDefault && foreignKeyUsage != ForeignKeyUsage.CascadeDelete))
+						{
+							throw new ForeignKeyException($"Foreign key value {keyValue} from table {TableName} is being used in Table: {table}; Property: {propertyName}");
+						}
 					}
 				}
 			}
@@ -896,7 +907,7 @@ namespace SimpleDB.Internal
 
 					if (!_foreignKeyManager.ValueExists(foreignKeyRelation.Name, keyValue))
 					{
-						if (!(foreignKeyRelation.AllowDefaultValue && keyValue.Equals(0)))
+						if (!(foreignKeyRelation.Attributes == ForeignKeyAttributes.DefaultValue && keyValue.Equals(0)))
 							throw new ForeignKeyException($"Foreign key value {keyValue} does not exist in table {foreignKey.Value}; Table: {TableName}; Property: {foreignKey.Key}");
 					}
 				}
@@ -913,7 +924,7 @@ namespace SimpleDB.Internal
 
 				if (!_foreignKeyManager.ValueExists(foreignKeyRelation.Name, keyValue))
 				{
-					if (!(foreignKeyRelation.AllowDefaultValue && keyValue.Equals(0)))
+					if (!(foreignKeyRelation.Attributes == ForeignKeyAttributes.DefaultValue && keyValue.Equals(0)))
 						throw new ForeignKeyException($"Foreign key value {keyValue} does not exist in table {foreignKey.Value}; Table: {TableName}; Property: {foreignKey.Key}");
 				}
 			}
@@ -930,8 +941,8 @@ namespace SimpleDB.Internal
 
 				if (foreignKey != null && property.PropertyType.Equals(typeof(long)))
 				{
-					_foreignKeyManager.AddRelationShip(TableName, foreignKey.TableName, property.Name, foreignKey.PropertyName);
-					Result.Add(property.Name, new ForeignKeyRelation(foreignKey.TableName, foreignKey.AllowDefaultValue));
+					_foreignKeyManager.AddRelationShip(TableName, foreignKey.TableName, property.Name, foreignKey.PropertyName, foreignKey.Attributes);
+					Result.Add(property.Name, new ForeignKeyRelation(foreignKey.TableName, foreignKey.Attributes));
 				}
 			}
 

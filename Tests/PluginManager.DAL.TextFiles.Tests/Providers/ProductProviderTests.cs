@@ -532,12 +532,19 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
+					mockPluginClassesService.Provider = provider;
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
                     ISimpleDBOperations<ProductDataRow> productsData = provider.GetRequiredService<ISimpleDBOperations<ProductDataRow>>();
                     Assert.IsNotNull(productsData);
+
+					ISimpleDBOperations<StockDataRow> stocksData = provider.GetRequiredService<ISimpleDBOperations<StockDataRow>>();
+					Assert.IsNotNull(stocksData);
+					Assert.AreEqual(0, stocksData.RecordCount);
 
                     productsData.Insert(new ProductDataRow()
                     {
@@ -546,8 +553,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         Description = "The product description goes here",
                         Features = "",
                         IsDownload = false,
-                        Name = "My Product"
+                        Name = "My Product",
+						Sku = "Prod1"
                     });
+
+					Assert.AreEqual(1, stocksData.RecordCount);
 
                     IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
@@ -805,6 +815,36 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         }
 
 		[TestMethod]
+		public void ProductSave_NewRecord_InvalidSku_Null_ReturnsFalse()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					mockPluginClassesService.Provider = provider;
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+					Assert.IsNotNull(sut);
+
+					bool result = sut.ProductSave(-1, 0, "My Product", "This is the product description", "", "",
+						true, true, 1.99m, null, false, true, true, out string errorMessage);
+					Assert.IsFalse(result);
+					Assert.AreEqual("Minimum length for Sku is 3 characters; Table: ProductDataRow; Property Sku", errorMessage);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+
+		[TestMethod]
 		public void ProductSave_IsVisibleSetToFalse_SavesCorrectly()
 		{
 			string directory = TestHelper.GetTestPath();
@@ -828,6 +868,132 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Product product = sut.GetProduct(0);
 					Assert.IsNotNull(product);
 					Assert.IsFalse(product.IsVisible);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+
+		[TestMethod]
+		public void ProductCreated_StockRecordCreated_StockRecordDeletedWhenProductDeleted()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					mockPluginClassesService.Provider = provider;
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					ISimpleDBOperations<ProductDataRow> productsData = provider.GetRequiredService<ISimpleDBOperations<ProductDataRow>>();
+					Assert.IsNotNull(productsData);
+
+					ISimpleDBOperations<StockDataRow> stocksData = provider.GetRequiredService<ISimpleDBOperations<StockDataRow>>();
+					Assert.IsNotNull(stocksData);
+					Assert.AreEqual(0, stocksData.RecordCount);
+
+					ProductDataRow newProduct = new ProductDataRow()
+					{
+						AllowBackorder = true,
+						BestSeller = false,
+						Description = "The product description goes here",
+						Features = "",
+						IsDownload = false,
+						Name = "My Product",
+						Sku = "Prod1"
+					};
+
+					productsData.Insert(newProduct);
+
+					Assert.AreEqual(1, stocksData.RecordCount);
+
+					IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+					Assert.IsNotNull(sut);
+
+					Product result = sut.GetProduct(0);
+					Assert.IsNotNull(result);
+					Assert.AreEqual("My Product", result.Name);
+
+					productsData.Delete(newProduct);
+					Assert.AreEqual(0, productsData.RecordCount);
+
+					Assert.AreEqual(0, stocksData.RecordCount);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+
+		[TestMethod]
+		public void ProductCreated_StockRecordCreated_StockRecordNotDeletedWhenProductDeletedAsStockAvailable()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				PluginInitialisation initialisation = new PluginInitialisation();
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					mockPluginClassesService.Provider = provider;
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+
+					ISimpleDBOperations<ProductDataRow> productsData = provider.GetRequiredService<ISimpleDBOperations<ProductDataRow>>();
+					Assert.IsNotNull(productsData);
+
+					ISimpleDBOperations<StockDataRow> stocksData = provider.GetRequiredService<ISimpleDBOperations<StockDataRow>>();
+					Assert.IsNotNull(stocksData);
+					Assert.AreEqual(0, stocksData.RecordCount);
+
+					IStockProvider stockProvider = provider.GetRequiredService<IStockProvider>();
+					Assert.IsNotNull(stockProvider);
+
+					ProductDataRow newProduct = new ProductDataRow()
+					{
+						AllowBackorder = true,
+						BestSeller = false,
+						Description = "The product description goes here",
+						Features = "",
+						IsDownload = false,
+						Name = "My Product",
+						Sku = "Prod1"
+					};
+
+					productsData.Insert(newProduct);
+
+					Assert.AreEqual(1, stocksData.RecordCount);
+
+					IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+					Assert.IsNotNull(sut);
+
+					Product result = sut.GetProduct(0);
+					Assert.IsNotNull(result);
+					Assert.AreEqual("My Product", result.Name);
+
+					stockProvider.AddStockToProduct(result, 2, out string error);
+					bool exceptionRaised = false;
+					try
+					{
+						productsData.Delete(newProduct);
+					}
+					catch (InvalidDataRowException ex)
+					{
+						Assert.IsTrue(ex.Message.Contains("Unable to delete a product when stock is available."));
+						exceptionRaised = true;
+					}
+
+					Assert.IsTrue(exceptionRaised);
+					Assert.AreEqual(1, productsData.RecordCount);
+					Assert.AreEqual(1, stocksData.RecordCount);
 				}
 			}
 			finally
