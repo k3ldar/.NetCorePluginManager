@@ -63,7 +63,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public int ProductCountForGroup(ProductGroup productGroup)
 		{
-			return GetProducts(1, 10000).Where(p => p.ProductGroupId == productGroup.Id).Count();
+			return GetProducts(1, 10000).Count(p => p.ProductGroupId == productGroup.Id);
 		}
 
 		#endregion Product Groups
