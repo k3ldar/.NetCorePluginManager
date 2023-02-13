@@ -32,7 +32,7 @@ namespace SimpleDB
 	[AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
     public class ForeignKeyAttribute : Attribute
     {
-		private ForeignKeyAttribute(string tableName, string propertyName, ForeignKeyAttributes foreignKeyAttributes)
+        private ForeignKeyAttribute(string tableName, string propertyName, bool allowDefault)
         {
             if (String.IsNullOrEmpty(tableName))
                 throw new ArgumentNullException(nameof(tableName));
@@ -42,16 +42,15 @@ namespace SimpleDB
 
             TableName = tableName;
             PropertyName = propertyName;
-            Attributes = foreignKeyAttributes;
+            AllowDefaultValue = allowDefault;
         }
-
         /// <summary>
         /// Default constructor
         /// </summary>
         /// <param name="tableName">Name of table the foreign key is linked to</param>
         /// <exception cref="ArgumentNullException">Thrown if tableName is null or empty</exception>
         public ForeignKeyAttribute(string tableName)
-            : this(tableName, "Id", ForeignKeyAttributes.None)
+            : this(tableName, "Id", false)
         {
         }
 
@@ -60,15 +59,15 @@ namespace SimpleDB
         /// </summary>
         /// <param name="tableName">Name of table the foreign key is linked to</param>
         /// <param name="allowDefault">Allows default value of type if foreign key does not exist</param>
-        public ForeignKeyAttribute(string tableName, ForeignKeyAttributes foreignKeyAttributes)
-            : this(tableName, "Id", foreignKeyAttributes)
+        public ForeignKeyAttribute(string tableName, bool allowDefault)
+            : this(tableName, "Id", allowDefault)
         {
         }
 
-		/// <summary>
-		/// Name of table the foreign key is linked to
-		/// </summary>
-		public string TableName { get; }
+        /// <summary>
+        /// Name of table the foreign key is linked to
+        /// </summary>
+        public string TableName { get; }
 
         /// <summary>
         /// Name of property on foreign key table
@@ -78,6 +77,6 @@ namespace SimpleDB
         /// <summary>
         /// Allows the foreign key value to be the default for the type of property the value is linked to
         /// </summary>
-        public ForeignKeyAttributes Attributes { get; }
+        public bool AllowDefaultValue { get; }
     }
 }

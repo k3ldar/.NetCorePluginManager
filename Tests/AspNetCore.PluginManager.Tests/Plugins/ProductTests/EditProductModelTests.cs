@@ -50,7 +50,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_ProductGroups_Null_Throws_ArgumentNullException()
         {
-            EditProductModel sut = new EditProductModel(GenerateTestBaseModelData(), null, -1, -1, "test", "desc", "features", "", false, true, 1.99m, "123", false, false, true, 1);
+            EditProductModel sut = new EditProductModel(GenerateTestBaseModelData(), null, -1, -1, "test", "desc", "features", "", false, true, 1.99m, "123", false, false, 1);
             Assert.IsInstanceOfType(sut, typeof(BaseModel));
             Assert.AreEqual(0, sut.Id);
         }
@@ -82,7 +82,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
                 new LookupListItem(5, "test 5")
             };
 
-            EditProductModel sut = new EditProductModel(GenerateTestBaseModelData(), productGroups, 10, 5, "test prod", "my description", "features", "XYZ123", true, true, 1.99m, "TST01", true, true, true, 5);
+            EditProductModel sut = new EditProductModel(GenerateTestBaseModelData(), productGroups, 10, 5, "test prod", "my description", "features", "XYZ123", true, true, 1.99m, "TST01", true, true, 5);
             Assert.AreEqual(10, sut.Id);
             Assert.AreEqual(5, sut.ProductGroupId);
             Assert.AreEqual("test prod", sut.Name);
@@ -95,7 +95,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             Assert.AreEqual("TST01", sut.Sku);
             Assert.IsTrue(sut.IsDownload);
             Assert.IsTrue(sut.AllowBackorder);
-			Assert.IsTrue(sut.IsVisible);
             Assert.IsNotNull(sut.ProductGroups);
             Assert.AreEqual(2, sut.ProductGroups.Count);
             Assert.AreEqual(5, sut.PageNumber);

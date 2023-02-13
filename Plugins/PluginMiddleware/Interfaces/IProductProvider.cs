@@ -106,33 +106,26 @@ namespace Middleware
         /// </summary>
         int ProductCount { get; }
 
-
-		/// <summary>
-		/// Retrieves the count of visible products within a group
-		/// </summary>
-		int ProductCountForGroup(ProductGroup productGroup);
-
-		/// <summary>
-		/// Saves changes to an existing product or creates a new product
-		/// </summary>
-		/// <param name="id">id of product being saved if an existing product, otherwise -1 for a new product</param>
-		/// <param name="productGroupId">Primary product id</param>
-		/// <param name="name">Product Name</param>
-		/// <param name="description">Product Description</param>
-		/// <param name="features">List of features for a product</param>
-		/// <param name="videoLink">Video link for a product</param>
-		/// <param name="newProduct">Indicates that this is a new product</param>
-		/// <param name="bestSeller">Indicates that this is a best seller</param>
-		/// <param name="retailPrice">Retail price (excluding taxes) for a product</param>
-		/// <param name="sku">Product SKU</param>
-		/// <param name="isDownload">Indicates whether it is a downloadable product or not</param>
-		/// <param name="allowBackOrder">Indicates that the product is available for back order if not currently available.</param>
-		/// <param name="isVisible">Indicates whether the product is visible or not</param>
-		/// <param name="errorMessage">Error message when saving the product, if the result is false</param>
-		/// <returns></returns>
-		bool ProductSave(in int id, in int productGroupId, in string name, in string description,
+        /// <summary>
+        /// Saves changes to an existing product or creates a new product
+        /// </summary>
+        /// <param name="id">id of product being saved if an existing product, otherwise -1 for a new product</param>
+        /// <param name="productGroupId">Primary product id</param>
+        /// <param name="name">Product Name</param>
+        /// <param name="description">Product Description</param>
+        /// <param name="features">List of features for a product</param>
+        /// <param name="videoLink">Video link for a product</param>
+        /// <param name="newProduct">Indicates that this is a new product</param>
+        /// <param name="bestSeller">Indicates that this is a best seller</param>
+        /// <param name="retailPrice">Retail price (excluding taxes) for a product</param>
+        /// <param name="sku">Product SKU</param>
+        /// <param name="isDownload">Indicates whether it is a downloadable product or not</param>
+        /// <param name="allowBackOrder">Indicates that the product is available for back order if not currently available.</param>
+        /// <param name="errorMessage">Error message when saving the product, if the result is false</param>
+        /// <returns></returns>
+        bool ProductSave(in int id, in int productGroupId, in string name, in string description,
             in string features, in string videoLink, in bool newProduct, in bool bestSeller, in decimal retailPrice, in string sku,
-            in bool isDownload, in bool allowBackOrder, in bool isVisible, out string errorMessage);
+            in bool isDownload, in bool allowBackOrder, out string errorMessage);
 
         /// <summary>
         /// 

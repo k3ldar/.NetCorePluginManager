@@ -144,14 +144,7 @@ namespace PluginManager.DAL.TextFiles
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<UserDataRow>>();
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<UserClaimsDataRow>>();
 
-			_ = app.ApplicationServices.GetService<ISimpleDBOperations<StoreDataRow>>();
-
 			_ = app.ApplicationServices.GetService<IUserSessionService>();
-
-			ISimpleDBManager simpleDBManager = app.ApplicationServices.GetRequiredService<ISimpleDBManager>();
-			IPluginClassesService pluginClassesService = app.ApplicationServices.GetRequiredService<IPluginClassesService>();
-
-			simpleDBManager.Initialize(pluginClassesService);
 		}
 
 		public void Configure(in IApplicationBuilder app)
@@ -227,8 +220,6 @@ namespace PluginManager.DAL.TextFiles
 
 			services.AddSingleton(typeof(TableRowDefinition), typeof(UserClaimsDataRow));
 			services.AddSingleton(typeof(TableRowDefinition), typeof(UserDataRow));
-
-			services.AddSingleton(typeof(TableRowDefinition), typeof(StoreDataRow));
 
 			// register providers
 			services.AddTransient<IAccountProvider, AccountProvider>();

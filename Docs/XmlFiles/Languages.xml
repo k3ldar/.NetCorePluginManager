@@ -7895,16 +7895,6 @@
               Looks up a localized string similar to Product.
             </summary>
         </member>
-        <member name="P:Languages.LanguageStrings.AppProductAddStock">
-            <summary>
-              Looks up a localized string similar to Add Stock.
-            </summary>
-        </member>
-        <member name="P:Languages.LanguageStrings.AppProductAddStockPrompt">
-            <summary>
-              Looks up a localized string similar to Enter the quantity of stock to add for product {0}.
-            </summary>
-        </member>
         <member name="P:Languages.LanguageStrings.AppProductAdministration">
             <summary>
               Looks up a localized string similar to Administration - Product Edit.

@@ -54,7 +54,7 @@ namespace SimpleDB.Tests
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
 				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer,
-					new ForeignKeyManager());
+					new ForeignKeyManager(), new MockPluginClassesService());
 
 				Assert.IsNotNull(sut);
 			}
@@ -68,7 +68,7 @@ namespace SimpleDB.Tests
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void Initialize_InvalidParam_InitializerNull_Throws_ArgumentNullException()
 		{
-			using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(null, new ForeignKeyManager());
+			using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(null, new ForeignKeyManager(), new MockPluginClassesService());
 		}
 
 		[TestMethod]
@@ -80,7 +80,7 @@ namespace SimpleDB.Tests
 			{
 				io.Directory.CreateDirectory(directory);
 				SimpleDBManager initializer = CreateTestInitializer(directory);
-				new SimpleDBOperations<MockRow>(initializer, null);
+				new SimpleDBOperations<MockRow>(initializer, null, new MockPluginClassesService());
 			}
 			finally
 			{
@@ -97,7 +97,7 @@ namespace SimpleDB.Tests
 				io.Directory.CreateDirectory(directory);
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
-				using (SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager()))
+				using (SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService()))
 				{
 					Assert.IsTrue(io.File.Exists(io.Path.Combine(directory, "MockTable.dat")));
 
@@ -126,7 +126,7 @@ namespace SimpleDB.Tests
 				io.Directory.CreateDirectory(directory);
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
-				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager());
+				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
 
 				Assert.IsTrue(io.File.Exists(io.Path.Combine(directory, "MockTable.dat")));
 			}
@@ -146,7 +146,7 @@ namespace SimpleDB.Tests
 				io.Directory.CreateDirectory(directory);
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
-				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager());
+				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
 
 				sut.Insert(records: null);
 			}
@@ -166,7 +166,7 @@ namespace SimpleDB.Tests
 				io.Directory.CreateDirectory(directory);
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
-				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager());
+				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
 
 				sut.Insert(record: null!);
 			}
@@ -186,7 +186,7 @@ namespace SimpleDB.Tests
 				io.Directory.CreateDirectory(directory);
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
-				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager());
+				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
 				sut.Dispose();
 				sut.Insert(new MockRow());
 			}
@@ -209,7 +209,7 @@ namespace SimpleDB.Tests
 
 				bool onActionCalled = false;
 
-				using (SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, keyManager))
+				using (SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					sut.OnAction += (simpleDb) => onActionCalled = true;
 
@@ -223,7 +223,7 @@ namespace SimpleDB.Tests
 				fileInfo = new FileInfo(Path.Combine(directory, "MockTable.dat"));
 				Assert.AreEqual(144, fileInfo.Length);
 
-				using SimpleDBOperations<MockRow> sutRead = new SimpleDBOperations<MockRow>(initializer, keyManager);
+				using SimpleDBOperations<MockRow> sutRead = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService());
 				IReadOnlyList<MockRow> records = sutRead.Select();
 
 				Assert.AreEqual(1, records.Count);
@@ -247,7 +247,7 @@ namespace SimpleDB.Tests
 				IForeignKeyManager keyManager = new ForeignKeyManager();
 				FileInfo fileInfo = null;
 
-				using (SimpleDBOperations<MockLazyWriteRow> sut = new SimpleDBOperations<MockLazyWriteRow>(initializer, keyManager))
+				using (SimpleDBOperations<MockLazyWriteRow> sut = new SimpleDBOperations<MockLazyWriteRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					sut.Insert(new MockLazyWriteRow("some data"));
 					fileInfo = new FileInfo(Path.Combine(directory, "MockLazyWriteTable.dat"));
@@ -258,7 +258,7 @@ namespace SimpleDB.Tests
 				fileInfo = new FileInfo(Path.Combine(directory, "MockLazyWriteTable.dat"));
 				Assert.AreEqual(163, fileInfo.Length);
 
-				using SimpleDBOperations<MockLazyWriteRow> sutRead = new SimpleDBOperations<MockLazyWriteRow>(initializer, keyManager);
+				using SimpleDBOperations<MockLazyWriteRow> sutRead = new SimpleDBOperations<MockLazyWriteRow>(initializer, keyManager, new MockPluginClassesService());
 				IReadOnlyList<MockLazyWriteRow> records = sutRead.Select();
 
 				Assert.AreEqual(1, records.Count);
@@ -282,13 +282,13 @@ namespace SimpleDB.Tests
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 				IForeignKeyManager keyManager = new ForeignKeyManager();
 
-				using (SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, keyManager))
+				using (SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					sut.Insert(new MockRow());
 					sut.Insert(new MockRow());
 				}
 
-				using SimpleDBOperations<MockRow> sutRead = new SimpleDBOperations<MockRow>(initializer, keyManager);
+				using SimpleDBOperations<MockRow> sutRead = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService());
 				IReadOnlyList<MockRow> records = sutRead.Select();
 
 				Assert.AreEqual(2, records.Count);
@@ -312,7 +312,7 @@ namespace SimpleDB.Tests
 				io.Directory.CreateDirectory(directory);
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
-				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager());
+				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
 				sut.Dispose();
 				sut.Delete(new MockRow());
 
@@ -333,7 +333,7 @@ namespace SimpleDB.Tests
 				io.Directory.CreateDirectory(directory);
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
-				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager());
+				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
 				sut.Delete(record: null!);
 
 			}
@@ -350,10 +350,10 @@ namespace SimpleDB.Tests
 			try
 			{
 				io.Directory.CreateDirectory(directory);
-				ISimpleDBManager simpleDBManager = CreateTestInitializer(directory);
+				ISimpleDBManager initializer = CreateTestInitializer(directory);
 				IForeignKeyManager keyManager = new ForeignKeyManager();
 
-				using (SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					List<MockRow> testData = new List<MockRow>();
 
@@ -365,7 +365,7 @@ namespace SimpleDB.Tests
 
 				bool onActionCalled = false;
 
-				using (SimpleDBOperations<MockRow> deleteSut = new SimpleDBOperations<MockRow>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRow> deleteSut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					deleteSut.OnAction += (simpleDb) => onActionCalled = true;
 					Assert.AreEqual(15168, deleteSut.RecordCount);
@@ -375,7 +375,7 @@ namespace SimpleDB.Tests
 				}
 				Assert.IsTrue(onActionCalled);
 
-				using (SimpleDBOperations<MockRow> readSut = new SimpleDBOperations<MockRow>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRow> readSut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					Assert.AreEqual(15167, readSut.RecordCount);
 					Assert.AreEqual(1475258, readSut.DataLength);
@@ -399,8 +399,8 @@ namespace SimpleDB.Tests
 				io.Directory.CreateDirectory(directory);
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
-				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager());
-				sut.Dispose();	
+				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
+				sut.Dispose();
 				sut.Delete(new List<MockRow>() { new MockRow() });
 
 			}
@@ -420,7 +420,7 @@ namespace SimpleDB.Tests
 				io.Directory.CreateDirectory(directory);
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
-				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager());
+				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
 				sut.Delete(records: null!);
 
 			}
@@ -437,10 +437,10 @@ namespace SimpleDB.Tests
 			try
 			{
 				io.Directory.CreateDirectory(directory);
-				ISimpleDBManager simpleDBManager = CreateTestInitializer(directory);
+				ISimpleDBManager initializer = CreateTestInitializer(directory);
 				IForeignKeyManager keyManager = new ForeignKeyManager();
 
-				using (SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					List<MockRow> testData = new List<MockRow>();
 
@@ -450,7 +450,7 @@ namespace SimpleDB.Tests
 					sut.Insert(testData);
 				}
 
-				using (SimpleDBOperations<MockRow> deleteSut = new SimpleDBOperations<MockRow>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRow> deleteSut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					Assert.AreEqual(15168, deleteSut.RecordCount);
 					Assert.AreEqual(1475355, deleteSut.DataLength);
@@ -463,7 +463,7 @@ namespace SimpleDB.Tests
 					});
 				}
 
-				using (SimpleDBOperations<MockRow> readSut = new SimpleDBOperations<MockRow>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRow> readSut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					Assert.AreEqual(15165, readSut.RecordCount);
 					Assert.AreEqual(1475063, readSut.DataLength);
@@ -489,7 +489,7 @@ namespace SimpleDB.Tests
 				io.Directory.CreateDirectory(directory);
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
-				using SimpleDBOperations<MockUpdateRow> sut = new SimpleDBOperations<MockUpdateRow>(initializer, new ForeignKeyManager());
+				using SimpleDBOperations<MockUpdateRow> sut = new SimpleDBOperations<MockUpdateRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
 				sut.Dispose();
 				sut.Update(new MockUpdateRow());
 
@@ -510,7 +510,7 @@ namespace SimpleDB.Tests
 				io.Directory.CreateDirectory(directory);
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
-				using SimpleDBOperations<MockUpdateRow> sut = new SimpleDBOperations<MockUpdateRow>(initializer, new ForeignKeyManager());
+				using SimpleDBOperations<MockUpdateRow> sut = new SimpleDBOperations<MockUpdateRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
 				sut.Update(record: null!);
 
 			}
@@ -527,12 +527,12 @@ namespace SimpleDB.Tests
 			try
 			{
 				io.Directory.CreateDirectory(directory);
-				ISimpleDBManager simpleDBManager = CreateTestInitializer(directory);
+				ISimpleDBManager initializer = CreateTestInitializer(directory);
 				IForeignKeyManager keyManager = new ForeignKeyManager();
 
 				bool onActionCalled = false;
 
-				using (SimpleDBOperations<MockUpdateRow> sut = new SimpleDBOperations<MockUpdateRow>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockUpdateRow> sut = new SimpleDBOperations<MockUpdateRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					sut.OnAction += (simpleDb) => onActionCalled = true;
 					List<MockUpdateRow> testData = new List<MockUpdateRow>();
@@ -546,7 +546,7 @@ namespace SimpleDB.Tests
 				Assert.IsTrue(onActionCalled);
 				onActionCalled = false;
 
-				using (SimpleDBOperations<MockUpdateRow> updateSut = new SimpleDBOperations<MockUpdateRow>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockUpdateRow> updateSut = new SimpleDBOperations<MockUpdateRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					updateSut.OnAction += (simpleDb) => onActionCalled = true;
 					Assert.AreEqual(15168, updateSut.RecordCount);
@@ -560,7 +560,7 @@ namespace SimpleDB.Tests
 				Assert.IsTrue(onActionCalled);
 				onActionCalled = false;
 
-				using (SimpleDBOperations<MockUpdateRow> readSut = new SimpleDBOperations<MockUpdateRow>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockUpdateRow> readSut = new SimpleDBOperations<MockUpdateRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					readSut.OnAction += (simpleDb) => onActionCalled = true;
 					Assert.AreEqual(15168, readSut.RecordCount);
@@ -588,7 +588,7 @@ namespace SimpleDB.Tests
 				io.Directory.CreateDirectory(directory);
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
-				using SimpleDBOperations<MockUpdateRow> sut = new SimpleDBOperations<MockUpdateRow>(initializer, new ForeignKeyManager());
+				using SimpleDBOperations<MockUpdateRow> sut = new SimpleDBOperations<MockUpdateRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
 				sut.Dispose();
 				sut.Update(new List<MockUpdateRow>() { new MockUpdateRow() });
 
@@ -609,7 +609,7 @@ namespace SimpleDB.Tests
 				io.Directory.CreateDirectory(directory);
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
-				using SimpleDBOperations<MockUpdateRow> sut = new SimpleDBOperations<MockUpdateRow>(initializer, new ForeignKeyManager());
+				using SimpleDBOperations<MockUpdateRow> sut = new SimpleDBOperations<MockUpdateRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
 				sut.Update(records: null!);
 
 			}
@@ -626,10 +626,10 @@ namespace SimpleDB.Tests
 			try
 			{
 				io.Directory.CreateDirectory(directory);
-				ISimpleDBManager simpleDBManager = CreateTestInitializer(directory);
+				ISimpleDBManager initializer = CreateTestInitializer(directory);
 				IForeignKeyManager keyManager = new ForeignKeyManager();
 
-				using (SimpleDBOperations<MockUpdateRow> sut = new SimpleDBOperations<MockUpdateRow>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockUpdateRow> sut = new SimpleDBOperations<MockUpdateRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					List<MockUpdateRow> testData = new List<MockUpdateRow>();
 
@@ -639,7 +639,7 @@ namespace SimpleDB.Tests
 					sut.Insert(testData);
 				}
 
-				using (SimpleDBOperations<MockUpdateRow> updateSut = new SimpleDBOperations<MockUpdateRow>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockUpdateRow> updateSut = new SimpleDBOperations<MockUpdateRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					Assert.AreEqual(15168, updateSut.RecordCount);
 					Assert.AreEqual(1657371, updateSut.DataLength);
@@ -657,7 +657,7 @@ namespace SimpleDB.Tests
 					updateSut.Update(updateList);
 				}
 
-				using (SimpleDBOperations<MockUpdateRow> readSut = new SimpleDBOperations<MockUpdateRow>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockUpdateRow> readSut = new SimpleDBOperations<MockUpdateRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					Assert.AreEqual(15168, readSut.RecordCount);
 					Assert.AreEqual(1657404, readSut.DataLength);
@@ -686,7 +686,7 @@ namespace SimpleDB.Tests
 				io.Directory.CreateDirectory(directory);
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
-				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager());
+				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
 				sut.Dispose();
 				sut.Insert(new List<MockRow>());
 
@@ -704,10 +704,10 @@ namespace SimpleDB.Tests
 			try
 			{
 				io.Directory.CreateDirectory(directory);
-				ISimpleDBManager simpleDBManager = CreateTestInitializer(directory);
+				ISimpleDBManager initializer = CreateTestInitializer(directory);
 				IForeignKeyManager keyManager = new ForeignKeyManager();
 
-				using (SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					List<MockRow> testData = new List<MockRow>();
 
@@ -719,7 +719,7 @@ namespace SimpleDB.Tests
 					Assert.AreEqual(0, sut.PageCount);
 				}
 
-				using (SimpleDBOperations<MockRow> readSut = new SimpleDBOperations<MockRow>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRow> readSut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					Assert.AreEqual(15168, readSut.RecordCount);
 					Assert.AreEqual(1475355, readSut.DataLength);
@@ -740,10 +740,10 @@ namespace SimpleDB.Tests
 			try
 			{
 				io.Directory.CreateDirectory(directory);
-				ISimpleDBManager simpleDBManager = CreateTestInitializer(directory);
+				ISimpleDBManager initializer = CreateTestInitializer(directory);
 				IForeignKeyManager keyManager = new ForeignKeyManager();
 
-				using (SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					List<MockRow> testData = new List<MockRow>();
 
@@ -755,7 +755,7 @@ namespace SimpleDB.Tests
 					Assert.AreEqual(0, sut.PageCount);
 				}
 
-				using (SimpleDBOperations<MockRow> readSut = new SimpleDBOperations<MockRow>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRow> readSut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					Assert.AreEqual(5, readSut.RecordCount);
 					Assert.AreEqual(471, readSut.DataLength);
@@ -783,10 +783,10 @@ namespace SimpleDB.Tests
 			try
 			{
 				io.Directory.CreateDirectory(directory);
-				ISimpleDBManager simpleDBManager = CreateTestInitializer(directory);
+				ISimpleDBManager initializer = CreateTestInitializer(directory);
 				IForeignKeyManager keyManager = new ForeignKeyManager();
 
-				using (SimpleDBOperations<MockRowCompressed> sut = new SimpleDBOperations<MockRowCompressed>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRowCompressed> sut = new SimpleDBOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					List<MockRowCompressed> testData = new List<MockRowCompressed>();
 
@@ -798,7 +798,7 @@ namespace SimpleDB.Tests
 					Assert.IsTrue(sut.PageCount == 0);
 				}
 
-				using (SimpleDBOperations<MockRowCompressed> readSut = new SimpleDBOperations<MockRowCompressed>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRowCompressed> readSut = new SimpleDBOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					Assert.AreEqual(15168, readSut.RecordCount);
 					IReadOnlyList<MockRowCompressed> testData = readSut.Select();
@@ -824,7 +824,7 @@ namespace SimpleDB.Tests
 				io.Directory.CreateDirectory(directory);
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
-				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager());
+				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
 				sut.Dispose();
 				_ = sut.Select(1);
 			}
@@ -843,7 +843,7 @@ namespace SimpleDB.Tests
 				io.Directory.CreateDirectory(directory);
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
-				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager());
+				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
 				MockRow row = sut.Select(1);
 
 				Assert.IsNull(row);
@@ -861,10 +861,10 @@ namespace SimpleDB.Tests
 			try
 			{
 				io.Directory.CreateDirectory(directory);
-				ISimpleDBManager simpleDBManager = CreateTestInitializer(directory);
+				ISimpleDBManager initializer = CreateTestInitializer(directory);
 				IForeignKeyManager keyManager = new ForeignKeyManager();
 
-				using (SimpleDBOperations<MockRowCompressed> sut = new SimpleDBOperations<MockRowCompressed>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRowCompressed> sut = new SimpleDBOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					List<MockRowCompressed> testData = new List<MockRowCompressed>();
 
@@ -879,7 +879,7 @@ namespace SimpleDB.Tests
 				}
 
 
-				using (SimpleDBOperations<MockRowCompressed> readSut = new SimpleDBOperations<MockRowCompressed>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRowCompressed> readSut = new SimpleDBOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					Assert.AreEqual(200, readSut.RecordCount);
 					IReadOnlyList<MockRowCompressed> testData = readSut.Select();
@@ -905,8 +905,8 @@ namespace SimpleDB.Tests
 				io.Directory.CreateDirectory(directory);
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
-				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager());
-				sut.Dispose();	
+				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
+				sut.Dispose();
 				_ = sut.NextSequence();
 
 			}
@@ -923,11 +923,11 @@ namespace SimpleDB.Tests
 			try
 			{
 				io.Directory.CreateDirectory(directory);
-				ISimpleDBManager simpleDBManager = CreateTestInitializer(directory);
+				ISimpleDBManager initializer = CreateTestInitializer(directory);
 
 				for (int i = 0; i < 100; i++)
 				{
-					using (SimpleDBOperations<MockRowCompressed> sut = new SimpleDBOperations<MockRowCompressed>(simpleDBManager, new ForeignKeyManager()))
+					using (SimpleDBOperations<MockRowCompressed> sut = new SimpleDBOperations<MockRowCompressed>(initializer, new ForeignKeyManager(), new MockPluginClassesService()))
 					{
 						long nextSequence = sut.NextSequence();
 						Assert.AreEqual(i, (long)nextSequence);
@@ -951,7 +951,7 @@ namespace SimpleDB.Tests
 				io.Directory.CreateDirectory(directory);
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
-				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager());
+				using SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
 				sut.Dispose();
 				sut.ResetSequence(123, 1);
 
@@ -969,15 +969,15 @@ namespace SimpleDB.Tests
 			try
 			{
 				io.Directory.CreateDirectory(directory);
-				ISimpleDBManager simpleDBManager = CreateTestInitializer(directory);
+				ISimpleDBManager initializer = CreateTestInitializer(directory);
 				IForeignKeyManager keyManager = new ForeignKeyManager();
 
-				using (SimpleDBOperations<MockRowCompressed> sut = new SimpleDBOperations<MockRowCompressed>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRowCompressed> sut = new SimpleDBOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					sut.ResetSequence(368745, -3287);
 				}
 
-				using (SimpleDBOperations<MockRowCompressed> sut = new SimpleDBOperations<MockRowCompressed>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRowCompressed> sut = new SimpleDBOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					long nextPrimarySequence = sut.NextSequence();
 					Assert.AreEqual(368746L, nextPrimarySequence);
@@ -1002,10 +1002,10 @@ namespace SimpleDB.Tests
 			try
 			{
 				io.Directory.CreateDirectory(directory);
-				ISimpleDBManager simpleDBManager = CreateTestInitializer(directory);
+				ISimpleDBManager initializer = CreateTestInitializer(directory);
 				IForeignKeyManager keyManager = new ForeignKeyManager();
 
-				using (SimpleDBOperations<MockRowCompressed> sut = new SimpleDBOperations<MockRowCompressed>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRowCompressed> sut = new SimpleDBOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					List<MockRowCompressed> testData = new List<MockRowCompressed>();
 
@@ -1036,7 +1036,7 @@ namespace SimpleDB.Tests
 				}
 
 
-				using (SimpleDBOperations<MockRowCompressed> readSut = new SimpleDBOperations<MockRowCompressed>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRowCompressed> readSut = new SimpleDBOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					Assert.AreEqual(1, readSut.RecordCount);
 					IReadOnlyList<MockRowCompressed> testData = readSut.Select();
@@ -1063,16 +1063,16 @@ namespace SimpleDB.Tests
 			try
 			{
 				io.Directory.CreateDirectory(directory);
-				ISimpleDBManager simpleDBManager = CreateTestInitializer(directory);
+				ISimpleDBManager initializer = CreateTestInitializer(directory);
 				IForeignKeyManager keyManager = new ForeignKeyManager();
 
-				using (SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					for (int i = 0; i < 5; i++)
 						sut.InsertOrUpdate(new MockRow() { Id = -1 });
 				}
 
-				using (SimpleDBOperations<MockRow> readSut = new SimpleDBOperations<MockRow>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRow> readSut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					Assert.AreEqual(5, readSut.RecordCount);
 					Assert.AreEqual(471, readSut.DataLength);
@@ -1097,10 +1097,10 @@ namespace SimpleDB.Tests
 			try
 			{
 				io.Directory.CreateDirectory(directory);
-				ISimpleDBManager simpleDBManager = CreateTestInitializer(directory);
+				ISimpleDBManager initializer = CreateTestInitializer(directory);
 				IForeignKeyManager keyManager = new ForeignKeyManager();
 
-				using (SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockTableUserRow> mockUsers = new SimpleDBOperations<MockTableUserRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
@@ -1109,7 +1109,7 @@ namespace SimpleDB.Tests
 
 					mockUsers.Insert(testData);
 
-					using (SimpleDBOperations<MockTableAddressRow> sut = new SimpleDBOperations<MockTableAddressRow>(simpleDBManager, keyManager))
+					using (SimpleDBOperations<MockTableAddressRow> sut = new SimpleDBOperations<MockTableAddressRow>(initializer, keyManager, new MockPluginClassesService()))
 					{
 						List<MockTableAddressRow> itemsToInsert = new List<MockTableAddressRow>();
 
@@ -1119,7 +1119,7 @@ namespace SimpleDB.Tests
 						sut.Insert(itemsToInsert);
 					}
 
-					using (SimpleDBOperations<MockTableAddressRow> readSut = new SimpleDBOperations<MockTableAddressRow>(simpleDBManager, keyManager))
+					using (SimpleDBOperations<MockTableAddressRow> readSut = new SimpleDBOperations<MockTableAddressRow>(initializer, keyManager, new MockPluginClassesService()))
 					{
 						Assert.AreEqual(5, readSut.RecordCount);
 						Assert.AreEqual(631, readSut.DataLength);
@@ -1138,7 +1138,7 @@ namespace SimpleDB.Tests
 						readSut.Delete(records[4]);
 					}
 
-					using (SimpleDBOperations<MockTableAddressRow> readSut = new SimpleDBOperations<MockTableAddressRow>(simpleDBManager, keyManager))
+					using (SimpleDBOperations<MockTableAddressRow> readSut = new SimpleDBOperations<MockTableAddressRow>(initializer, keyManager, new MockPluginClassesService()))
 					{
 						Assert.AreEqual(4, readSut.RecordCount);
 						Assert.AreEqual(508, readSut.DataLength);
@@ -1168,16 +1168,16 @@ namespace SimpleDB.Tests
 			try
 			{
 				io.Directory.CreateDirectory(directory);
-				ISimpleDBManager simpleDBManager = CreateTestInitializer(directory);
+				ISimpleDBManager initializer = CreateTestInitializer(directory);
 				IForeignKeyManager keyManager = new ForeignKeyManager();
 
-				using (SimpleDBOperations<MockRowMultipleIndex> sut = new SimpleDBOperations<MockRowMultipleIndex>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRowMultipleIndex> sut = new SimpleDBOperations<MockRowMultipleIndex>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					for (int i = 0; i < 5; i++)
 						sut.InsertOrUpdate(new MockRowMultipleIndex() { Name = $"Name {i}", Index = i });
 				}
 
-				using (SimpleDBOperations<MockRowMultipleIndex> readSut = new SimpleDBOperations<MockRowMultipleIndex>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRowMultipleIndex> readSut = new SimpleDBOperations<MockRowMultipleIndex>(initializer, keyManager, new MockPluginClassesService()))
 				{
 					Assert.AreEqual(5, readSut.RecordCount);
 					Assert.AreEqual(601, readSut.DataLength);
@@ -1203,13 +1203,11 @@ namespace SimpleDB.Tests
 			try
 			{
 				io.Directory.CreateDirectory(directory);
-				ISimpleDBManager simpleDBManager = CreateTestInitializer(directory);
+				ISimpleDBManager initializer = CreateTestInitializer(directory);
 				IForeignKeyManager keyManager = new ForeignKeyManager();
 
-				using (SimpleDBOperations<MockRowMultipleIndex> sut = new SimpleDBOperations<MockRowMultipleIndex>(simpleDBManager, keyManager))
+				using (SimpleDBOperations<MockRowMultipleIndex> sut = new SimpleDBOperations<MockRowMultipleIndex>(initializer, keyManager, new MockPluginClassesService()))
 				{
-					simpleDBManager.Initialize(new MockPluginClassesService());
-
 					for (int i = 0; i < 5; i++)
 						sut.InsertOrUpdate(new MockRowMultipleIndex() { Name = $"Name {i}", Index = i });
 
@@ -1235,9 +1233,8 @@ namespace SimpleDB.Tests
 
 				bool onActionCalled = false;
 
-				using (SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, keyManager))
+				using (SimpleDBOperations<MockRow> sut = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
-					initializer.Initialize(new MockPluginClassesService());
 					sut.OnAction += (simpleDb) => onActionCalled = true;
 
 					sut.Insert(new MockRow());
@@ -1250,9 +1247,8 @@ namespace SimpleDB.Tests
 				fileInfo = new FileInfo(Path.Combine(directory, "MockTable.dat"));
 				Assert.AreEqual(144, fileInfo.Length);
 
-				using (SimpleDBOperations<MockRow> sutRead = new SimpleDBOperations<MockRow>(initializer, keyManager))
+				using (SimpleDBOperations<MockRow> sutRead = new SimpleDBOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
 				{
-					initializer.Initialize(new MockPluginClassesService());
 					IReadOnlyList<MockRow> records = sutRead.Select();
 
 					Assert.AreEqual(1, records.Count);

@@ -35,7 +35,7 @@ namespace PluginManager.DAL.TextFiles.Tables
         private string _message;
         private bool _showOnWebsite;
 
-        [ForeignKey(Constants.TableNameUsers, ForeignKeyAttributes.DefaultValue)]
+        [ForeignKey(Constants.TableNameUsers, true)]
         public long UserId
         {
             get => _userId;

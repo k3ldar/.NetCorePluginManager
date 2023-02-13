@@ -14100,24 +14100,6 @@ namespace Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Stock.
-        /// </summary>
-        public static string AppProductAddStock {
-            get {
-                return ResourceManager.GetString("AppProductAddStock", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enter the quantity of stock to add for product {0}.
-        /// </summary>
-        public static string AppProductAddStockPrompt {
-            get {
-                return ResourceManager.GetString("AppProductAddStockPrompt", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Administration - Product Edit.
         /// </summary>
         public static string AppProductAdministration {

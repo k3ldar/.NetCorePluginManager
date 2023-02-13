@@ -53,7 +53,7 @@ namespace PluginManager.DAL.TextFiles.Tables
             }
         }
 
-        [ForeignKey(Constants.TableNameFAQ, ForeignKeyAttributes.DefaultValue)]
+        [ForeignKey(Constants.TableNameFAQ, true)]
         public long Parent
         {
             get

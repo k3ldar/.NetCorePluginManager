@@ -32,13 +32,8 @@ namespace PluginManager.DAL.TextFiles.Tables
     {
         private long _productId;
         private uint _quantity;
-		private uint _minimumStockLevel;
-		private uint _reorderQuantity;
-		private long _storeId;
-		private bool _autoRenew;
 
-		[UniqueIndex("Idx_UniqueStockItem")]
-        [ForeignKey(Constants.TableNameProducts, ForeignKeyAttributes.CascadeDelete)]
+        [ForeignKey(Constants.TableNameProducts)]
         public long ProductId
         {
             get
@@ -55,7 +50,6 @@ namespace PluginManager.DAL.TextFiles.Tables
                 Update();
             }
         }
-
         public uint StockAvailability
         {
             get
@@ -72,63 +66,5 @@ namespace PluginManager.DAL.TextFiles.Tables
                 Update();
             }
         }
-
-		[UniqueIndex("Idx_UniqueStockItem")]
-		[ForeignKey(Constants.TableNameStore)]
-		public long StoreId
-		{
-			get => _storeId;
-
-			set
-			{
-				if (value == _storeId)
-					return;
-
-				_storeId = value;
-				Update();
-			}
-		}
-
-		public uint	MinimumStockLevel
-		{
-			get => _minimumStockLevel;
-
-			set
-			{
-				if (value == _minimumStockLevel)
-					return;
-
-				_minimumStockLevel = value;
-				Update();
-			}
-		}
-
-		public uint ReorderQuantity
-		{
-			get => _reorderQuantity;
-
-			set
-			{
-				if (value == _reorderQuantity)
-					return;
-
-				_reorderQuantity = value;
-				Update();
-			}
-		}
-
-		public bool AutoRenew
-		{
-			get => _autoRenew;
-
-			set
-			{
-				if (value == _autoRenew)
-					return;
-
-				_autoRenew = value;
-				Update();
-			}
-		}
-	}
+    }
 }

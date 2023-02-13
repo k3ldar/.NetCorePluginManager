@@ -33,7 +33,7 @@ namespace SimpleDB.Tests.Mocks
 	{
 		public List<string> RegisteredTables = new List<string>();
 
-		public void AddRelationShip(string table, string targetTable, string propertyName, string targetPropertyName, ForeignKeyAttributes foreignKeyAttributes)
+		public void AddRelationShip(string table, string targetTable, string propertyName, string targetPropertyName)
 		{
 			throw new NotImplementedException();
 		}
@@ -53,11 +53,11 @@ namespace SimpleDB.Tests.Mocks
 			RegisteredTables.Remove(table.TableName);
 		}
 
-		public ForeignKeyUsage ValueInUse(string tableName, string propertyName, long value, out string table, out string property)
+		public bool ValueInUse(string tableName, string propertyName, long value, out string table, out string property)
 		{
 			table = null;
 			property = null;
-			return ForeignKeyUsage.None;
+			return false;
 		}
 	}
 }

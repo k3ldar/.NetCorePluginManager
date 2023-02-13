@@ -44,7 +44,7 @@ namespace SimpleDB.Tests.Mocks
             Description = $"Address {userId}";
         }
 
-        [ForeignKey("MockTableUser", ForeignKeyAttributes.DefaultValue)]
+        [ForeignKey("MockTableUser", true)]
         public long UserId
         {
             get => _userId;

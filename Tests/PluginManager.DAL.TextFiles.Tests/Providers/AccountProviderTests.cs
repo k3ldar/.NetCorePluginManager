@@ -42,7 +42,6 @@ using SimpleDB;
 
 using SharedPluginFeatures;
 using System.Globalization;
-using PluginManager.Tests.Mocks;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
@@ -89,12 +88,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
-
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
 
                     IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
@@ -367,13 +364,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-				using (ServiceProvider provider = services.BuildServiceProvider())
-				{
-					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
-
-					ISimpleDBOperations<AddressDataRow> addressTable = (ISimpleDBOperations<AddressDataRow>)provider.GetService(typeof(ISimpleDBOperations<AddressDataRow>));
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ISimpleDBOperations<AddressDataRow> addressTable = (ISimpleDBOperations<AddressDataRow>)provider.GetService(typeof(ISimpleDBOperations<AddressDataRow>));
                     Assert.IsNotNull(addressTable);
 
                     IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
@@ -907,13 +902,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-				using (ServiceProvider provider = services.BuildServiceProvider())
-				{
-					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
-
-					ISimpleDBOperations<AddressDataRow> addressTable = (ISimpleDBOperations<AddressDataRow>)provider.GetService(typeof(ISimpleDBOperations<AddressDataRow>));
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ISimpleDBOperations<AddressDataRow> addressTable = (ISimpleDBOperations<AddressDataRow>)provider.GetService(typeof(ISimpleDBOperations<AddressDataRow>));
                     Assert.IsNotNull(addressTable);
 
                     IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
@@ -1007,12 +1000,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			{
 				Directory.CreateDirectory(directory);
 				PluginInitialisation initialisation = new PluginInitialisation();
-				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
-
 					ISimpleDBOperations<SettingsDataRow> settings = provider.GetService<ISimpleDBOperations<SettingsDataRow>>();
 					Assert.IsNotNull(settings);
 
@@ -1073,12 +1064,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			{
 				Directory.CreateDirectory(directory);
 				PluginInitialisation initialisation = new PluginInitialisation();
-				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
-
 					ISimpleDBOperations<SettingsDataRow> settings = provider.GetService<ISimpleDBOperations<SettingsDataRow>>();
 					Assert.IsNotNull(settings);
 

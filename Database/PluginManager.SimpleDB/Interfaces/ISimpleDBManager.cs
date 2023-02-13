@@ -24,8 +24,6 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-using PluginManager.Abstractions;
-
 using SharedPluginFeatures;
 
 namespace SimpleDB
@@ -35,41 +33,16 @@ namespace SimpleDB
 	/// </summary>
     public interface ISimpleDBManager
     {
-		/// <summary>
-		/// Path to database files
-		/// </summary>
         string Path { get; }
 
-		/// <summary>
-		/// Registers a table with DB Manager
-		/// </summary>
-		/// <param name="simpleDBTable"></param>
         void RegisterTable(ISimpleDBTable simpleDBTable);
 
-		/// <summary>
-		/// Unregisters a table from the DB Manager
-		/// </summary>
-		/// <param name="simpleDBTable"></param>
         void UnregisterTable(ISimpleDBTable simpleDBTable);
 
-		/// <summary>
-		/// List of all tables tht have been registered
-		/// </summary>
         IReadOnlyDictionary<string, ISimpleDBTable> Tables { get; }
 
-		/// <summary>
-		/// Initializes all tables after they have been loaded
-		/// </summary>
-		void Initialize(IPluginClassesService pluginClassesService);
-
-		/// <summary>
-		/// Clears all memory used by tables that have a strategy to retain data in memory
-		/// </summary>
 		void ClearMemory();
 
-		/// <summary>
-		/// Event raised when memory is cleared
-		/// </summary>
 		event SimpleDbEvent OnMemoryCleared;
     }
 }

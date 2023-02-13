@@ -66,11 +66,6 @@ namespace PluginManager.DAL.TextFiles.Providers
             return ConvertProductGroupDataRowToProductGroup(_productGroupsData.Select(groupId));
         }
 
-		public int ProductCountForGroup(ProductGroup productGroup)
-		{
-			return _productData.Select(r => r.ProductGroupId.Equals(productGroup.Id)).Count();
-		}
-
         public List<ProductGroup> ProductGroupsGet()
         {
             IReadOnlyList<ProductGroupDataRow> allGroups = _productGroupsData.Select();
@@ -209,7 +204,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public bool ProductSave(in int id, in int productGroupId, in string name, in string description, in string features,
             in string videoLink, in bool newProduct, in bool bestSeller, in decimal retailPrice, in string sku, 
-            in bool isDownload, in bool allowBackOrder, in bool isVisible, out string errorMessage)
+            in bool isDownload, in bool allowBackOrder, out string errorMessage)
         {
             try
             {
@@ -229,7 +224,6 @@ namespace PluginManager.DAL.TextFiles.Providers
                 productDataRow.IsDownload = isDownload;
                 productDataRow.AllowBackorder = allowBackOrder;
                 productDataRow.RetailPrice = retailPrice;
-				productDataRow.IsVisible = isVisible;
 
                 _productData.InsertOrUpdate(productDataRow);
 
@@ -300,7 +294,7 @@ namespace PluginManager.DAL.TextFiles.Providers
                 return null;
 
             return new Product((int)product.Id, product.ProductGroupId, product.Name, product.Description, product.Features, product.VideoLink,
-                new string[] { "NoImage" }, product.RetailPrice, product.Sku, product.IsDownload, product.AllowBackorder, product.IsVisible);
+                new string[] { "NoImage" }, product.RetailPrice, product.Sku, product.IsDownload, product.AllowBackorder);
         }
 
         #endregion Private Members

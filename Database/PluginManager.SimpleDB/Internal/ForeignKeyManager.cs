@@ -35,7 +35,7 @@ namespace SimpleDB.Internal
         private readonly Dictionary<string, ISimpleDBTable> _foreignKeys = new Dictionary<string, ISimpleDBTable>();
         private readonly List<ForeignKeyRelationship> _foreignKeyRelationships = new List<ForeignKeyRelationship>();
 
-        public void AddRelationShip(string sourceTable, string targetTable, string propertyName, string targetPropertyName, ForeignKeyAttributes foreignKeyAttributes)
+        public void AddRelationShip(string sourceTable, string targetTable, string propertyName, string targetPropertyName)
         {
             if (String.IsNullOrEmpty(sourceTable))
                 throw new ArgumentNullException(nameof(sourceTable));
@@ -49,7 +49,7 @@ namespace SimpleDB.Internal
             if (String.IsNullOrEmpty(targetPropertyName))
                 throw new ArgumentNullException(nameof(targetPropertyName));
 
-            _foreignKeyRelationships.Add(new ForeignKeyRelationship(sourceTable, targetTable, propertyName, targetPropertyName, foreignKeyAttributes));
+            _foreignKeyRelationships.Add(new ForeignKeyRelationship(sourceTable, targetTable, propertyName, targetPropertyName));
         }
 
         public void RegisterTable(ISimpleDBTable table)
@@ -91,32 +91,25 @@ namespace SimpleDB.Internal
             return _foreignKeys[tableName].IdExists(id);
         }
 
-        public ForeignKeyUsage ValueInUse(string tableName, string propertyName, long value, out string table, out string property)
+        public bool ValueInUse(string tableName, string propertyName, long value, out string table, out string property)
         {
             foreach (ForeignKeyRelationship relationship in _foreignKeyRelationships)
             {
                 if (relationship.TargetTable.Equals(tableName) && _foreignKeys.ContainsKey(relationship.Table) && 
 					_foreignKeys[relationship.Table].IdIsInUse(relationship.PropertyName, value))
                 {
-					ForeignKeyUsage result = ForeignKeyUsage.Referenced;
-					table = relationship.Table;
+                    table = relationship.Table;
                     property = relationship.PropertyName;
-
-					if (relationship.Attributes == ForeignKeyAttributes.DefaultValue)
-						result |= ForeignKeyUsage.AllowDefault;
-					else if (relationship.Attributes == ForeignKeyAttributes.CascadeDelete)
-						result |= ForeignKeyUsage.CascadeDelete;
-
-                    return result;
+                    return true;
                 }
             }
 
             table = null;
             property = null;
 
-            return ForeignKeyUsage.None;
+            return false;
         }
-	}
+    }
 }
 
 #pragma warning restore CA2208

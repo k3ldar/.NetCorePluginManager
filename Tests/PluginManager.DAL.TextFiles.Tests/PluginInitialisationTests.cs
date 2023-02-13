@@ -30,7 +30,6 @@ using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 using PluginManager.Tests.Mocks;
-using Google.Protobuf.WellKnownTypes;
 
 namespace PluginManager.DAL.TextFiles.Tests
 {
@@ -68,6 +67,18 @@ namespace PluginManager.DAL.TextFiles.Tests
             sut.Initialise(testLogger);
 
             Assert.AreEqual(0, testLogger.Logs.Count);
+        }
+
+        [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
+        public void AfterConfigure_DoesNotConfigurePipeline_Success()
+        {
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation();
+
+            sut.AfterConfigure(testApplicationBuilder);
+
+            Assert.IsFalse(testApplicationBuilder.UseCalled);
         }
 
         [TestMethod]
@@ -120,7 +131,7 @@ namespace PluginManager.DAL.TextFiles.Tests
         [TestCategory(GeneralTestsCategory)]
         public void BeforeConfigureServices_DoesNotThrowException()
         {
-            const int RegisteredService = 69;
+            const int RegisteredService = 68;
 
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();

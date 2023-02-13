@@ -28,13 +28,12 @@ namespace SimpleDB.Internal
 {
     internal sealed class ForeignKeyRelationship
     {
-        public ForeignKeyRelationship(string table, string targetTable, string propertyName, string targetPropertyName, ForeignKeyAttributes foreignKeyAttributes)
+        public ForeignKeyRelationship(string table, string targetTable, string propertyName, string targetPropertyName)
         {
             Table = table;
             TargetTable = targetTable;
             PropertyName = propertyName;
             TargetPropertyName = targetPropertyName;
-			Attributes = foreignKeyAttributes;
         }
 
         public string Table { get; }
@@ -44,7 +43,5 @@ namespace SimpleDB.Internal
         public string PropertyName { get; }
 
         public string TargetPropertyName { get; }
-
-		public ForeignKeyAttributes Attributes { get; }
     }
 }
