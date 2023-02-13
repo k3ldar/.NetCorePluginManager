@@ -29,8 +29,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
-using Microsoft.Extensions.DependencyInjection;
-
 using PluginManager.Abstractions;
 
 namespace AspNetCore.PluginManager.Tests.Shared
@@ -62,14 +60,6 @@ namespace AspNetCore.PluginManager.Tests.Shared
                         Result.Add((T)item);
                 }
             }
-
-			if (Provider != null)
-			{
-				T registered = Provider.GetService<T>();
-
-				if (registered != null)
-					Result.Add(registered);
-			}
 
             return Result;
         }
@@ -118,7 +108,5 @@ namespace AspNetCore.PluginManager.Tests.Shared
 		}
 
 		public List<object> Items => _items;
-
-		public ServiceProvider Provider { get; set; }
-	}
+    }
 }

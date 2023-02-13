@@ -29,21 +29,14 @@ namespace PluginManager.DAL.TextFiles.Tables.Products
 {
     internal class ProductDataTriggers : ITableTriggers<ProductDataRow>
     {
-		private readonly ISimpleDBOperations<StockDataRow> _stockData;
         private const int MinimumDescriptionLength = 20;
         private const int MaximumDescriptionLength = 3000;
         private const int MinimumNameLength = 5;
         private const int MaximumNameLength = 100;
-		private const int MinimumSkuLength = 3;
-
-		public ProductDataTriggers(ISimpleDBOperations<StockDataRow> stockData)
-		{
-			_stockData = stockData ?? throw new ArgumentNullException(nameof(stockData));
-		}
 
         public int Position => 0;
 
-        public TriggerType TriggerTypes => TriggerType.BeforeUpdate | TriggerType.BeforeInsert | TriggerType.AfterInsert | TriggerType.BeforeDelete;
+        public TriggerType TriggerTypes => TriggerType.BeforeUpdate | TriggerType.BeforeInsert;
 
         public void AfterDelete(List<ProductDataRow> records)
         {
@@ -52,16 +45,7 @@ namespace PluginManager.DAL.TextFiles.Tables.Products
 
 		public void AfterInsert(List<ProductDataRow> records)
         {
-			IReadOnlyList<StockDataRow> allStock = _stockData.Select();
-			List<StockDataRow> stockData = new();
-
-			records.ForEach(r =>
-			{
-				if (!allStock.Any(sd => sd.ProductId.Equals(r.Id)))
-					stockData.Add(new StockDataRow() { ProductId = r.Id});
-			});
-
-			_stockData.Insert(stockData);
+			// from interface but unused in this context
 		}
 
 		public void AfterUpdate(List<ProductDataRow> records)
@@ -71,13 +55,7 @@ namespace PluginManager.DAL.TextFiles.Tables.Products
 
 		public void BeforeDelete(List<ProductDataRow> records)
         {
-			records.ForEach(r =>
-			{
-				List<StockDataRow> stockData = _stockData.Select(sd => sd.ProductId.Equals(r.Id)).ToList();
-
-				if (stockData != null && stockData.Count > 0)
-					_stockData.Delete(stockData);
-			});
+			// from interface but unused in this context
 		}
 
 		public void BeforeInsert(List<ProductDataRow> records)
@@ -114,9 +92,6 @@ namespace PluginManager.DAL.TextFiles.Tables.Products
 
             if (row.Description.Length > MaximumDescriptionLength)
                 throw new InvalidDataRowException(nameof(ProductDataRow), nameof(row.Description), $"Maximum length for {nameof(row.Description)} is {MaximumDescriptionLength} characters");
-
-			if (String.IsNullOrEmpty(row.Sku) || row.Sku.Length < MinimumSkuLength)
-				throw new InvalidDataRowException(nameof(ProductDataRow), nameof(row.Sku), $"Minimum length for {nameof(row.Sku)} is {MinimumSkuLength} characters");
         }
     }
 }

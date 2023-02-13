@@ -64,13 +64,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-				using (ServiceProvider provider = services.BuildServiceProvider())
-				{
-					mockPluginClassesService.Provider = provider;
-					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
-					mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
 
                     IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
                     Assert.IsNotNull(sut);
@@ -105,14 +103,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-				using (ServiceProvider provider = services.BuildServiceProvider())
-				{
-					mockPluginClassesService.Provider = provider;
-					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
-					
-					mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
 
                     IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
                     Assert.IsNotNull(sut);
@@ -147,14 +142,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-				using (ServiceProvider provider = services.BuildServiceProvider())
-				{
-					mockPluginClassesService.Provider = provider;
-					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
-					
-					mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
 
                     IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
                     Assert.IsNotNull(sut);

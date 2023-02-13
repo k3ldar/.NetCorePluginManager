@@ -48,7 +48,7 @@ namespace AspNetCore.PluginManager.Tests.Middleware
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_Name_Null_Throws_ArgumentNullException()
         {
-            new Product(-1, 0, null, "description", "features", "videolink", new string[] { }, 1, "sku", false, false, true);
+            new Product(-1, 0, null, "description", "features", "videolink", new string[] { }, 1, "sku", false, false);
         }
 
         [TestMethod]
@@ -56,7 +56,7 @@ namespace AspNetCore.PluginManager.Tests.Middleware
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_Name_EmptyString_Throws_ArgumentNullException()
         {
-            new Product(-1, 0, "", "description", "features", "videolink", new string[] { }, 1, "sku", false, false, true);
+            new Product(-1, 0, "", "description", "features", "videolink", new string[] { }, 1, "sku", false, false);
         }
 
         [TestMethod]
@@ -64,7 +64,7 @@ namespace AspNetCore.PluginManager.Tests.Middleware
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_Description_Null_Throws_ArgumentNullException()
         {
-            new Product(-1, 0, "name", null, "features", "videolink", new string[] { }, 1, "sku", false, false, true);
+            new Product(-1, 0, "name", null, "features", "videolink", new string[] { }, 1, "sku", false, false);
         }
 
         [TestMethod]
@@ -72,14 +72,14 @@ namespace AspNetCore.PluginManager.Tests.Middleware
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_Description_EmptyString_Throws_ArgumentNullException()
         {
-            new Product(-1, 0, "name", "", "features", "videolink", new string[] { }, 1, "sku", false, false, true);
+            new Product(-1, 0, "name", "", "features", "videolink", new string[] { }, 1, "sku", false, false);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Construct_ValidInstance()
         {
-            Product sut = new Product(-1, 21, "name", "description", "features", "videolink", new string[] { "img" }, 1.11m, "sku", true, true, true, true, true);
+            Product sut = new Product(-1, 21, "name", "description", "features", "videolink", new string[] { "img" }, 1.11m, "sku", true, true, true, true);
 
             Assert.AreEqual(-1, sut.Id);
             Assert.AreEqual(21, sut.ProductGroupId);
@@ -102,7 +102,7 @@ namespace AspNetCore.PluginManager.Tests.Middleware
         [TestCategory(TestCategoryName)]
         public void SetCurrentStockLevel_Success()
         {
-            Product sut = new Product(-1, 21, "name", "description", "features", "videolink", new string[] { "img" }, 1.11m, "sku", true, true, true);
+            Product sut = new Product(-1, 21, "name", "description", "features", "videolink", new string[] { "img" }, 1.11m, "sku", true, true);
 
             Assert.AreEqual(0u, sut.StockAvailability);
 

@@ -37,7 +37,6 @@ namespace PluginManager.DAL.TextFiles.Tables
         private string _videoLink;
         private bool _newProduct;
         private bool _bestSeller;
-		private bool _isVisible;
         private decimal _retailPrice;
         private string _sku;
         private bool _isDownload;
@@ -164,24 +163,7 @@ namespace PluginManager.DAL.TextFiles.Tables
             }
         }
 
-		public bool IsVisible
-		{
-			get
-			{
-				return _isVisible;
-			}
-
-			set
-			{
-				if (_isVisible == value)
-					return;
-
-				_isVisible = value;
-				Update();
-			}
-		}
-
-		public decimal RetailPrice
+        public decimal RetailPrice
         {
             get
             {

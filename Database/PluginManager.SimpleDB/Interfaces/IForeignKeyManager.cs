@@ -38,8 +38,7 @@ namespace SimpleDB
 		/// <param name="targetTable">Target table that contains the foreign key</param>
 		/// <param name="propertyName">Name of propertyy</param>
 		/// <param name="targetPropertyName">Name of property used as foreign key</param>
-		/// <param name="foreignKeyAttributes">Foreign key attributes</param>
-		void AddRelationShip(string sourceTable, string targetTable, string propertyName, string targetPropertyName, ForeignKeyAttributes foreignKeyAttributes);
+		void AddRelationShip(string sourceTable, string targetTable, string propertyName, string targetPropertyName);
 
 		/// <summary>
 		/// Registers a table with foreign key manager
@@ -70,6 +69,6 @@ namespace SimpleDB
 		/// <param name="table"></param>
 		/// <param name="property"></param>
 		/// <returns>bool</returns>
-		ForeignKeyUsage ValueInUse(string tableName, string propertyName, long value, out string table, out string property);
+        bool ValueInUse(string tableName, string propertyName, long value, out string table, out string property);
     }
 }

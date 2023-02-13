@@ -131,7 +131,7 @@ namespace PluginManager.DAL.TextFiles.Tables
             }
         }
 
-        [ForeignKey(Constants.TableNameUsers, ForeignKeyAttributes.DefaultValue)]
+        [ForeignKey(Constants.TableNameUsers, true)]
         public long UserId
         {
             get
@@ -149,7 +149,7 @@ namespace PluginManager.DAL.TextFiles.Tables
             }
         }
 
-        [ForeignKey(Constants.TableNameProducts, ForeignKeyAttributes.DefaultValue)]
+        [ForeignKey(Constants.TableNameProducts, true)]
         public long ProductId
         {
             get

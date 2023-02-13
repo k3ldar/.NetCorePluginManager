@@ -36,7 +36,6 @@ using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 using SimpleDB.Tests.Mocks;
 using SimpleDB;
-using PluginManager.Tests.Mocks;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
@@ -75,13 +74,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-				using (ServiceProvider provider = services.BuildServiceProvider())
-				{
-					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
-
-					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user"});
@@ -137,13 +134,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-				using (ServiceProvider provider = services.BuildServiceProvider())
-				{
-					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
-
-					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
@@ -202,13 +197,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-				using (ServiceProvider provider = services.BuildServiceProvider())
-				{
-					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
-
-					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
@@ -260,13 +253,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-				using (ServiceProvider provider = services.BuildServiceProvider())
-				{
-					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
-
-					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
@@ -318,13 +309,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-				using (ServiceProvider provider = services.BuildServiceProvider())
-				{
-					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
-
-					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
@@ -376,13 +365,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-				using (ServiceProvider provider = services.BuildServiceProvider())
-				{
-					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
-
-					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
@@ -434,13 +421,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-				using (ServiceProvider provider = services.BuildServiceProvider())
-				{
-					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
-
-					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
@@ -494,13 +479,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-				using (ServiceProvider provider = services.BuildServiceProvider())
-				{
-					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
-
-					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
@@ -609,13 +592,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-				using (ServiceProvider provider = services.BuildServiceProvider())
-				{
-					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
-
-					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
@@ -683,13 +664,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-				using (ServiceProvider provider = services.BuildServiceProvider())
-				{
-					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
-
-					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
@@ -742,13 +721,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-				using (ServiceProvider provider = services.BuildServiceProvider())
-				{
-					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
-
-					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });

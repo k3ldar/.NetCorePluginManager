@@ -187,7 +187,7 @@ namespace ProductPlugin.Controllers
             Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.Home, "/", false));
             Result.Breadcrumbs.Add(new BreadcrumbItem(group.Description, $"/Products/{group.Id}/", false));
 
-            Result.Pagination = BuildPagination(_productProvider.ProductCountForGroup(group), (int)_settings.ProductsPerPage, page,
+            Result.Pagination = BuildPagination(products.Count, (int)_settings.ProductsPerPage, page,
                 $"/Products/{Result.RouteText(group.Description)}/{group.Id}/", "",
                 LanguageStrings.Previous, LanguageStrings.Next);
 

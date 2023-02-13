@@ -28,9 +28,6 @@ using Middleware.Products;
 using Middleware.ShoppingCart;
 
 using PluginManager.DAL.TextFiles.Tables;
-
-using Shared.Classes;
-
 using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Providers
@@ -50,11 +47,11 @@ namespace PluginManager.DAL.TextFiles.Providers
             _stock = stock ?? throw new ArgumentNullException(nameof(stock));
         }
 
-		#endregion Constructors
+        #endregion Constructors
 
-		#region IStockProvider Methods
+        #region IStockProvider Methods
 
-		public void GetStockAvailability(in Product product)
+        public void GetStockAvailability(in Product product)
         {
             if (product == null)
                 throw new ArgumentNullException(nameof(product));
@@ -106,34 +103,6 @@ namespace PluginManager.DAL.TextFiles.Providers
             });
         }
 
-		public bool AddStockToProduct(Product product, uint stockCount, out string error)
-		{
-			error = String.Empty;
-			try
-			{
-				if (product == null)
-					throw new ArgumentNullException(nameof(product));
-
-				StockDataRow stockDataRow = _stock.Select().FirstOrDefault(ps => ps.ProductId.Equals(product.Id));
-
-				if (stockDataRow == null)
-					throw new InvalidOperationException($"Stock data is missing for product {product.Name} {product.Id}");
-
-				using (TimedLock tl = TimedLock.Lock(_stock.TableLock))
-				{
-					stockDataRow.StockAvailability += stockCount;
-					_stock.Update(stockDataRow);
-				}
-
-				return true;
-			}
-			catch (Exception ex)
-			{
-				error = ex.Message;
-				return false;
-			}
-		}
-
-		#endregion IStockProvider Methods
-	}
+        #endregion IStockProvider Methods
+    }
 }

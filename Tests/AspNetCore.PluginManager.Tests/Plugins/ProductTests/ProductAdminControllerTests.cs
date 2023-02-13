@@ -71,7 +71,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_ProductProviderNull_Throws_ArgumentNullException()
         {
-            new ProductAdminController(null, new MockSettingsProvider(), new MockStockProvider(), new MockMemoryCache());
+            new ProductAdminController(null, new MockSettingsProvider(), new MockMemoryCache());
         }
 
         [TestMethod]
@@ -79,7 +79,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_SettingsProviderNull_Throws_ArgumentNullException()
         {
-            new ProductAdminController(new MockProductProvider(), null, new MockStockProvider(), new MockMemoryCache());
+            new ProductAdminController(new MockProductProvider(), null, new MockMemoryCache());
         }
 
         [TestMethod]
@@ -87,14 +87,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_MemoryCacheNull_Throws_ArgumentNullException()
         {
-            new ProductAdminController(new MockProductProvider(), new MockSettingsProvider(), new MockStockProvider(), null);
+            new ProductAdminController(new MockProductProvider(), new MockSettingsProvider(), null);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Construct_ValidInstance_Success()
         {
-            ProductAdminController sut = new ProductAdminController(new MockProductProvider(), new MockSettingsProvider(), new MockStockProvider(), new MockMemoryCache());
+            ProductAdminController sut = new ProductAdminController(new MockProductProvider(), new MockSettingsProvider(), new MockMemoryCache());
             Assert.IsNotNull(sut);
         }
 
@@ -1088,8 +1088,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             ProductAdminController Result = new ProductAdminController(
                 productProvider ?? new MockProductProvider(),
                 settingsProvider ?? new MockSettingsProvider(),
-				new MockStockProvider(),
-				memoryCache ?? new MockMemoryCache());
+                memoryCache ?? new MockMemoryCache());
 
             Result.ControllerContext = CreateTestControllerContext(breadcrumbs ?? GetBreadcrumbs());
 

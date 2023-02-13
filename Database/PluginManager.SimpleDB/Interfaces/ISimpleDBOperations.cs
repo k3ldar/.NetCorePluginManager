@@ -183,10 +183,5 @@ namespace SimpleDB
         /// <param name="value">Index value</param>
         /// <returns></returns>
         bool IndexExists(string name, object value);
-
-		/// <summary>
-		/// Retrieves a table lock instance to be used for table level locking
-		/// </summary>
-		object TableLock { get; }
     }
 }

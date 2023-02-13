@@ -39,11 +39,8 @@ foreach (ProductPlugin.Models.ProductListModel customPage in Model.Items)
 <div class="col-sm-2">
 @customPage.Sku
 </div>
-<div class="col-sm-6">
+<div class="col-sm-8">
 @customPage.Name
-</div>
-<div class="col-sm-2">
-<input class="btn btn-primary" type="button" value="Add Stock" onclick="javascript:showAddProductStock(@customPage.Id);" />
 </div>
 <div class="col-sm-1">
 <input class="btn btn-primary" type="submit" value="Edit" />
@@ -67,9 +64,7 @@ foreach (ProductPlugin.Models.ProductListModel customPage in Model.Items)
 }
 </div>
 </div>
-<div class="modal fade" id="dlgDelProd" tabindex="-1" role="dialog" aria-labelledby="deleteProductLabel" aria-hidden="true">
-</div>
-<div class="modal fade" id="dlgAddProdStock" tabindex="-1" role="dialog" aria-labelledby="addStockLabel" aria-hidden="true">
+<div class="modal fade" id="dlgDelProd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 </div>
 <div class="row justify-content-sm-center" style="margin-top:20px;">
 <div class="col-sm-auto">
@@ -80,14 +75,6 @@ foreach (ProductPlugin.Models.ProductListModel customPage in Model.Items)
 function showDeleteProduct(id) {
 $('#dlgDelProd').load('/ProductAdmin/ViewDeleteProduct/' + id + '/', function () {
 $('#dlgDelProd').modal('show');
-let header = $('#dlgPermissionHeader').val();
-header += " - " + name;
-$('#dlgPermissionHeader').val(header);
-});
-}
-function showAddProductStock(id) {
-$('#dlgAddProdStock').load('/ProductAdmin/ViewAddProductStock/' + id + '/', function () {
-$('#dlgAddProdStock').modal('show');
 let header = $('#dlgPermissionHeader').val();
 header += " - " + name;
 $('#dlgPermissionHeader').val(header);

@@ -25,8 +25,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Text.Json;
 
-#pragma warning disable IDE0230
-
 namespace SimpleDB.Internal
 {
 	internal static class Consts
@@ -62,5 +60,3 @@ namespace SimpleDB.Internal
 		public const ushort PageVersion = 1;
 	}
 }
-
-#pragma warning restore IDE0230

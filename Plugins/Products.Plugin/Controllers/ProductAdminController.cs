@@ -61,11 +61,9 @@ namespace ProductPlugin.Controllers
         private const string InvalidModel = "Invalid model";
         private const string ProductNotFound = "Invalid product";
         private const string ProductGroupNotFound = "Invalid product group";
-		private const string ProductQuantityMustBeAtLeastOne = "Product quantity must be at least one";
 
         private readonly IProductProvider _productProvider;
-		private readonly IStockProvider _stockProvider;
-		private readonly ProductPluginSettings _settings;
+        private readonly ProductPluginSettings _settings;
         private readonly IMemoryCache _memoryCache;
 
         #endregion Private Members
@@ -78,10 +76,9 @@ namespace ProductPlugin.Controllers
         /// <param name="productProvider">IProductProvider instance</param>
         /// <param name="settingsProvider">ISettingsProvider instance</param>
         /// <param name="memoryCache"></param>
-        public ProductAdminController(IProductProvider productProvider, ISettingsProvider settingsProvider, IStockProvider stockProvider, IMemoryCache memoryCache)
+        public ProductAdminController(IProductProvider productProvider, ISettingsProvider settingsProvider, IMemoryCache memoryCache)
         {
             _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
-			_stockProvider = stockProvider ?? throw new ArgumentNullException(nameof(stockProvider));
 
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
@@ -154,8 +151,7 @@ namespace ProductPlugin.Controllers
 
             // product provider can have it's own rules and fail to save at this point
             if (!_productProvider.ProductSave(model.Id, model.ProductGroupId, model.Name, model.Description, model.Features, model.VideoLink,
-                model.NewProduct, model.BestSeller, model.RetailPrice, model.Sku, model.IsDownload, model.AllowBackorder,
-				model.IsVisible, out string errorMessage))
+                model.NewProduct, model.BestSeller, model.RetailPrice, model.Sku, model.IsDownload, model.AllowBackorder, out string errorMessage))
             {
                 ModelState.AddModelError(String.Empty, errorMessage);
             }
@@ -206,45 +202,9 @@ namespace ProductPlugin.Controllers
             return GenerateJsonSuccessResponse();
         }
 
-		[HttpGet]
-		[Route("/ProductAdmin/ViewAddProductStock/{productId}/")]
-		[AjaxOnly]
-		public IActionResult ViewAddProductStock(int productId)
-		{
-			Product product = _productProvider.GetProduct(productId);
+        #region Product Groups
 
-			if (product == null)
-				return GenerateJsonErrorResponse(HtmlResponseBadRequest, ProductNotFound);
-
-			return PartialView("_ShowAddProductStock", new ProductAddStockModel(productId, product.Name));
-		}
-
-		[HttpPost]
-		[AjaxOnly]
-		public JsonResult AddStockToProduct(ProductAddStockModel model)
-		{
-			if (model == null)
-				return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidModel);
-
-			Product product = _productProvider.GetProduct(model.Id);
-
-			if (product == null)
-				return GenerateJsonErrorResponse(HtmlResponseBadRequest, ProductNotFound);
-
-			if (model.Quantity < 1)
-				return GenerateJsonErrorResponse(HtmlResponseBadRequest, ProductQuantityMustBeAtLeastOne);
-
-			if (!_stockProvider.AddStockToProduct(product, model.Quantity, out string error))
-				return GenerateJsonErrorResponse(HtmlResponseBadRequest, error);
-
-			_memoryCache.GetShortCache().Clear();
-
-			return GenerateJsonSuccessResponse();
-		}
-
-		#region Product Groups
-
-		[HttpGet]
+        [HttpGet]
         public IActionResult GroupIndex()
         {
             return View(CreateProductGroupListModel());
@@ -428,7 +388,7 @@ namespace ProductPlugin.Controllers
             EditProductModel result = new EditProductModel(GetModelData(), productGroups, product.Id, product.ProductGroupId,
                 product.Name, product.Description, product.Features, product.VideoLink, product.NewProduct,
                 product.BestSeller, product.RetailPrice, product.Sku, product.IsDownload, product.AllowBackorder,
-                product.IsVisible, pageNumber);
+                pageNumber);
 
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
 
@@ -452,7 +412,7 @@ namespace ProductPlugin.Controllers
             EditProductModel result = new EditProductModel(GetModelData(), productGroups, model.Id, model.ProductGroupId,
                 model.Name, model.Description, model.Features, model.VideoLink, model.NewProduct,
                 model.BestSeller, model.RetailPrice, model.Sku, model.IsDownload, model.AllowBackorder,
-				model.IsVisible, model.PageNumber);
+                model.PageNumber);
 
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
 

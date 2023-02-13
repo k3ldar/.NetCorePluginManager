@@ -93,12 +93,6 @@ namespace SimpleDB
 
 		#endregion Constructors
 
-		public void Initialize(IPluginClassesService pluginClassesService)
-		{
-			foreach (KeyValuePair<string, ISimpleDBTable> table in _tables)
-				table.Value.Initialize(pluginClassesService);
-		}
-
 		public void ClearMemory()
 		{
 			foreach (string table in _tables.Keys)

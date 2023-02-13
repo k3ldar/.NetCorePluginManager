@@ -26,8 +26,6 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-using PluginManager.Abstractions;
-
 using SharedPluginFeatures;
 
 namespace SimpleDB.Tests.Mocks
@@ -120,8 +118,6 @@ namespace SimpleDB.Tests.Mocks
             throw new NotImplementedException();
         }
 
-		public object TableLock => this;
-
         public IReadOnlyList<T> Select()
         {
             throw new NotImplementedException();
@@ -173,11 +169,6 @@ namespace SimpleDB.Tests.Mocks
 		}
 
 		public IReadOnlyList<T> Select(Func<T, bool> predicate)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void Initialize(IPluginClassesService pluginClassesService)
 		{
 			throw new NotImplementedException();
 		}

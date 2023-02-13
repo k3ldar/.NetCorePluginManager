@@ -35,7 +35,7 @@ namespace SystemAdmin.Plugin.Classes
             TimeTaken = timeTaken;
 
             if (memorySaved < 0)
-                memorySaved *= -1;
+                memorySaved = memorySaved * -1;
 
             MemorySaved = memorySaved;
         }

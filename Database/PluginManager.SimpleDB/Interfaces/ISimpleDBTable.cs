@@ -24,8 +24,6 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-using PluginManager.Abstractions;
-
 using SharedPluginFeatures;
 
 namespace SimpleDB
@@ -72,10 +70,6 @@ namespace SimpleDB
 		/// <returns></returns>
         bool IdIsInUse(string propertyName, long value);
 
-		/// <summary>
-		/// Initializes the table
-		/// </summary>
-		void Initialize(IPluginClassesService pluginClassesService);
 
 		/// <summary>
 		/// Instructs the class to clear all cached items

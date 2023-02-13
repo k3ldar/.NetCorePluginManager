@@ -61,16 +61,11 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return false;
         }
 
-		public int ProductCountForGroup(ProductGroup productGroup)
-		{
-			return GetProducts(1, 10000).Count(p => p.ProductGroupId == productGroup.Id);
-		}
+        #endregion Product Groups
 
-		#endregion Product Groups
+        #region Products
 
-		#region Products
-
-		public List<Product> GetProducts(in int page, in int pageSize)
+        public List<Product> GetProducts(in int page, in int pageSize)
         {
             if (page < 1)
                 throw new ArgumentOutOfRangeException(nameof(page));
@@ -80,22 +75,18 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
             List<Product> products = new List<Product>()
             {
-                new Product(1, 1, "Product A & - &", "This is product a", "1 year guarantee", "", new string[] { "ProdA_1" }, 0, "ProdA", false, false, true),
-                new Product(2, 1, "Product B", "This is product b", "1 year guarantee", "", new string[] { "ProdB_1" }, 0, "ProdB", true, false, true),
-                new Product(3, 1, "Product C", "This is product c", "1 year guarantee", "E7Voso411Vs", new string[] { "ProdC_1" }, 1.99m, "ProdC", true, true, false, true, true),
-                new Product(4, 2, "Product D", "This is product d", "1 year guarantee", "", new string[] { "ProdD_1" }, 22.99m, "ProdD", false, true, true, true, true),
-                new Product(5, 2, "Product E", "This is product e", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdE_1" }, 0, "ProdE", false, false, true),
+                new Product(1, 1, "Product A & - &", "This is product a", "1 year guarantee", "", new string[] { "ProdA_1" }, 0, "ProdA", false, false),
+                new Product(2, 1, "Product B", "This is product b", "1 year guarantee", "", new string[] { "ProdB_1" }, 0, "ProdB", true, false),
+                new Product(3, 1, "Product C", "This is product c", "1 year guarantee", "E7Voso411Vs", new string[] { "ProdC_1" }, 1.99m, "ProdC", true, true, false, true),
+                new Product(4, 2, "Product D", "This is product d", "1 year guarantee", "", new string[] { "ProdD_1" }, 22.99m, "ProdD", false, true, true, true),
+                new Product(5, 2, "Product E", "This is product e", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdE_1" }, 0, "ProdE", false, false),
 
 
-                new Product(6, 2, "Product F", "This is product f", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdF_1" }, 0, "ProdF", false, false, true, true, true),
-                new Product(7, 2, "Product G", "This is product g", "1 year guarantee", "", new string[] { "ProdG_1" }, 15.95m, "ProdG", false, false, true, false, true),
-                new Product(8, 2, "Product H", "This is product h", "1 year guarantee", "", new string[] { "ProdH_1" }, 1.99m, "ProdH", false, false, false, true, true),
-                new Product(9, 2, "Product I", "This is product i", "1 year guarantee", "", new string[] { "ProdI_1" }, 0, "ProdI", false, false, false, true, true),
-
-				new Product(10, 1, "Product Hidden", "This is product Hidden", "1 year guarantee", "", new string[] { "ProdI_1" }, 0, "ProdI", false, false, false, true, false)
-			}
-			.Where(p => p.IsVisible)
-			.ToList();
+                new Product(6, 2, "Product F", "This is product f", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdF_1" }, 0, "ProdF", false, false, true, true),
+                new Product(7, 2, "Product G", "This is product g", "1 year guarantee", "", new string[] { "ProdG_1" }, 15.95m, "ProdG", false, false, true, false),
+                new Product(8, 2, "Product H", "This is product h", "1 year guarantee", "", new string[] { "ProdH_1" }, 1.99m, "ProdH", false, false, false, true),
+                new Product(9, 2, "Product I", "This is product i", "1 year guarantee", "", new string[] { "ProdI_1" }, 0, "ProdI", false, false, false, true)
+            };
 
             products[0].SetCurrentStockLevel(5);
 
@@ -127,13 +118,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public List<Product> GetProducts(in ProductGroup productGroup, in int page, in int pageSize)
         {
-			int skip = (page - 1) * pageSize;
-			int take = pageSize;
             ProductGroup prodGroup = productGroup;
-
-			List<Product> productsByGroup = GetProducts(1, 10000).Where(p => p.ProductGroupId == prodGroup.Id).ToList();
-
-			return productsByGroup.Skip(skip).Take(take).ToList();
+            return GetProducts(page, pageSize).Where(p => p.ProductGroupId == prodGroup.Id).ToList();
         }
 
         public Product GetProduct(in int id)
@@ -148,7 +134,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return false;
         }
 
-        public bool ProductSave(in int id, in int productGroupId, in string name, in string description, in string features, in string videoLink, in bool newProduct, in bool bestSeller, in decimal retailPrice, in string sku, in bool isDownload, in bool allowBackOrder, in bool isVisible, out string errorMessage)
+        public bool ProductSave(in int id, in int productGroupId, in string name, in string description, in string features, in string videoLink, in bool newProduct, in bool bestSeller, in decimal retailPrice, in string sku, in bool isDownload, in bool allowBackOrder, out string errorMessage)
         {
             errorMessage = "Unable to save in demo project";
             return false;
