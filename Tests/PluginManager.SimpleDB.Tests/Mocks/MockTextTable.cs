@@ -26,6 +26,8 @@
 
 using System.Diagnostics.CodeAnalysis;
 
+using PluginManager.Abstractions;
+
 using SharedPluginFeatures;
 
 namespace SimpleDB.Tests.Mocks
@@ -70,5 +72,10 @@ namespace SimpleDB.Tests.Mocks
         {
             throw new NotImplementedException();
         }
-    }
+
+		public void Initialize(IPluginClassesService pluginClassesService)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

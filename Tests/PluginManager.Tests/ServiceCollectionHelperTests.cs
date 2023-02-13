@@ -222,7 +222,7 @@ namespace PluginManager.Tests
             Assert.IsNull(msc[0].ImplementationInstance);
             Assert.IsNotNull(msc[0].ImplementationType);
 
-            TestClassWithConstructorParams testClass = ServiceCollectionHelper.GetServiceInstance<TestClassWithConstructorParams>(msc);
+            _ = ServiceCollectionHelper.GetServiceInstance<TestClassWithConstructorParams>(msc);
         }
 
         [TestMethod]

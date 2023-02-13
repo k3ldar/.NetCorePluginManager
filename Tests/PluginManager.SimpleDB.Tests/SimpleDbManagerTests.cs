@@ -138,7 +138,7 @@ namespace SimpleDB.Tests
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
 
-                using (SimpleDBOperations<MockRow> mockTable = new SimpleDBOperations<MockRow>(sut, new ForeignKeyManager(), new MockPluginClassesService()))
+                using (SimpleDBOperations<MockRow> mockTable = new SimpleDBOperations<MockRow>(sut, new ForeignKeyManager()))
                     sut.RegisterTable(mockTable);
             }
             finally
@@ -158,7 +158,7 @@ namespace SimpleDB.Tests
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
 
-                using (SimpleDBOperations<MockRow> mockTable = new SimpleDBOperations<MockRow>(sut, new ForeignKeyManager(), new MockPluginClassesService()))
+                using (SimpleDBOperations<MockRow> mockTable = new SimpleDBOperations<MockRow>(sut, new ForeignKeyManager()))
                 {
                     IReadOnlyDictionary<string, ISimpleDBTable> tables = sut.Tables;
                     Assert.AreEqual(1, tables.Count);
@@ -184,9 +184,10 @@ namespace SimpleDB.Tests
                 MockForeignKeyManager foreignKeyManager = new MockForeignKeyManager();
                 Assert.AreEqual(0, foreignKeyManager.RegisteredTables.Count);
 
-                using (SimpleDBOperations<MockRow> mockTable = new SimpleDBOperations<MockRow>(sut, foreignKeyManager, new MockPluginClassesService()))
+                using (SimpleDBOperations<MockRow> mockTable = new SimpleDBOperations<MockRow>(sut, foreignKeyManager))
                 {
-                    Assert.AreEqual(1, foreignKeyManager.RegisteredTables.Count);
+					sut.Initialize(new MockPluginClassesService());
+					Assert.AreEqual(1, foreignKeyManager.RegisteredTables.Count);
                     Assert.IsTrue(foreignKeyManager.RegisteredTables.Contains("MockTable"));
 
                     IReadOnlyDictionary<string, ISimpleDBTable> tables = sut.Tables;
@@ -218,8 +219,9 @@ namespace SimpleDB.Tests
 				MockForeignKeyManager foreignKeyManager = new MockForeignKeyManager();
 				Assert.AreEqual(0, foreignKeyManager.RegisteredTables.Count);
 
-				using (SimpleDBOperations<MockRowSlidingMemory> mockTable = new SimpleDBOperations<MockRowSlidingMemory>(sut, foreignKeyManager, new MockPluginClassesService()))
+				using (SimpleDBOperations<MockRowSlidingMemory> mockTable = new SimpleDBOperations<MockRowSlidingMemory>(sut, foreignKeyManager))
 				{
+					sut.Initialize(new MockPluginClassesService());
 					Assert.AreEqual(1, foreignKeyManager.RegisteredTables.Count);
 					Assert.IsTrue(foreignKeyManager.RegisteredTables.Contains("MockTableSlidingMemory"));
 

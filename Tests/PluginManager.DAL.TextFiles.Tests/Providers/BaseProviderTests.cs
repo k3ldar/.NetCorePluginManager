@@ -41,6 +41,8 @@ using DynamicContent.Plugin.Templates;
 using PluginManager.DAL.TextFiles.Tables.Products;
 using PluginManager.Tests.Mocks;
 using PluginManager.DAL.TextFiles.Tables.Sessions;
+using Shared.Classes;
+using PluginManager.DAL.TextFiles.Tables.Stock;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
@@ -56,13 +58,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
             if (addProducts)
             {
-                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 1", "", "", true, false, 1.99m, "sku1", false, true, out string errorMessage))
+                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 1", "", "", true, false, 1.99m, "sku1", false, true, true, out string errorMessage))
                     throw new InvalidOperationException("product should have saved; Error: " + errorMessage);
 
-                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 2", "", "", true, false, 2.99m, "sku2", false, true, out errorMessage))
+                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 2", "", "", true, false, 2.99m, "sku2", false, true, true, out errorMessage))
                     throw new InvalidOperationException("product should have saved; Error: " + errorMessage);
 
-                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 3", "", "", true, false, 3.99m, "sku3", false, true, out errorMessage))
+                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 3", "", "", true, false, 3.99m, "sku3", false, true, true, out errorMessage))
                     throw new InvalidOperationException("product should have saved; Error: " + errorMessage);
             }
 
@@ -71,7 +73,15 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 		protected static ServiceCollection CreateDefaultServiceCollection(string directory, out MockPluginClassesService mockPluginClassesService)
 		{
-			PluginInitialisation initialisation = new PluginInitialisation();
+			return CreateDefaultServiceCollection(directory, out PluginInitialisation _, out mockPluginClassesService, false);
+		}
+
+		protected static ServiceCollection CreateDefaultServiceCollection(string directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService, bool initThreadManager = true)
+		{
+			if (initThreadManager)
+				ThreadManager.Initialise();
+
+			pluginInitialisation = new PluginInitialisation();
 			ServiceCollection services = new ServiceCollection();
 
 			services.AddSingleton<IMemoryCache, MockMemoryCache>();
@@ -97,7 +107,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					new SettingsDataRowDefaults(),
 					new ProductGroupDataRowDefaults(),
 					new ProductGroupDataTriggers(),
-					new ProductDataTriggers(),
 					new ShoppingCartDataRowDefaults(),
 					new AddressDataRowDefaults(),
 					new VoucherDataRowTriggers(),
@@ -110,16 +119,21 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					new SessionDataRowDefaults(),
 					new ResourceCategoryTriggers(),
 					new ResourceItemTriggers(),
+					new StoreDataRowDefaults(),
 				};
 
 			mockPluginClassesService = new MockPluginClassesService(classServices);
+
+			services.AddSingleton<ITableTriggers<ProductDataRow>, ProductDataTriggers>();
+			services.AddSingleton<ITableDefaults<StockDataRow>, StockDataRowDefaults>();
+			services.AddSingleton<ITableTriggers<StockDataRow>, StockDataTriggers>();
 
 			services.AddSingleton<ISettingsProvider>(settingsProvider);
 			services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
 
 			services.AddSingleton<ILogger>(new MockLogger());
 
-			initialisation.BeforeConfigureServices(services);
+			pluginInitialisation.BeforeConfigureServices(services);
 
 			return services;
 		}

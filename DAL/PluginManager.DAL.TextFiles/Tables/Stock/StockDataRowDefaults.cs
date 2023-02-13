@@ -13,51 +13,57 @@
  *
  *  Copyright (c) 2018 - 2023 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SimpleDB.Tests
+ *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: MockForeignKeyManager.cs
+ *  File: StockDataRowDefaults.cs
  *
- *  Purpose:  Mock foreign key manager
+ *  Purpose:  Default table definition for stock
  *
  *  Date        Name                Reason
- *  02/06/2022  Simon Carter        Initially Created
+ *  19/01/2023  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using SimpleDB;
 
-using System.Diagnostics.CodeAnalysis;
-
-namespace SimpleDB.Tests.Mocks
+namespace PluginManager.DAL.TextFiles.Tables
 {
-	[ExcludeFromCodeCoverage]
-	internal class MockForeignKeyManager : IForeignKeyManager
+	internal class StockDataRowDefaults : ITableDefaults<StockDataRow>
 	{
-		public List<string> RegisteredTables = new List<string>();
+		private readonly ISimpleDBOperations<ProductDataRow> _productDataRow;
 
-		public void AddRelationShip(string table, string targetTable, string propertyName, string targetPropertyName, ForeignKeyAttributes foreignKeyAttributes)
+		public StockDataRowDefaults(ISimpleDBOperations<ProductDataRow> productDataRow)
 		{
-			throw new NotImplementedException();
+			_productDataRow = productDataRow ?? throw new ArgumentNullException(nameof(productDataRow));
 		}
 
-		public bool ValueExists(string tableName, long id)
-		{
-			throw new NotImplementedException();
-		}
+		public long PrimarySequence => 1;
 
-		public void RegisterTable(ISimpleDBTable table)
-		{
-			RegisteredTables.Add(table.TableName);
-		}
+		public long SecondarySequence => 1;
 
-		public void UnregisterTable(ISimpleDBTable table)
-		{
-			RegisteredTables.Remove(table.TableName);
-		}
+		public ushort Version => 1;
 
-		public ForeignKeyUsage ValueInUse(string tableName, string propertyName, long value, out string table, out string property)
+		public List<StockDataRow> InitialData(ushort version)
 		{
-			table = null;
-			property = null;
-			return ForeignKeyUsage.None;
+			if (version == 1)
+			{
+				List<StockDataRow> initialData = new();
+
+				foreach (ProductDataRow item in _productDataRow.Select())
+				{
+					initialData.Add(new StockDataRow()
+					{
+						AutoRenew = false,
+						MinimumStockLevel = 0,
+						ReorderQuantity = 0,
+						ProductId = item.Id,
+						StoreId = 0
+					});
+				}
+
+				return initialData;
+			}
+
+			return null;
 		}
 	}
 }

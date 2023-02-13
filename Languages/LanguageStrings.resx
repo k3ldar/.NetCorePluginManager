@@ -14681,4 +14681,12 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Database Timings</value>
     <comment>Database Timings</comment>
   </data>
+  <data name="AppProductAddStock" xml:space="preserve">
+    <value>Add Stock</value>
+    <comment>Add Stock</comment>
+  </data>
+  <data name="AppProductAddStockPrompt" xml:space="preserve">
+    <value>Enter the quantity of stock to add for product {0}</value>
+    <comment>Enter the quantity of stock to add for product {0}</comment>
+  </data>
 </root>

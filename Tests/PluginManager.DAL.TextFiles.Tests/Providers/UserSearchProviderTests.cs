@@ -36,6 +36,7 @@ using Middleware.Users;
 
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
+using PluginManager.Tests.Mocks;
 
 using SimpleDB;
 
@@ -60,12 +61,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
 
-                    IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
+					IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
 
                     Assert.IsNotNull(accountProvider);
 
@@ -109,12 +111,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
 
-                    IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
+					IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
 
                     Assert.IsNotNull(accountProvider);
 

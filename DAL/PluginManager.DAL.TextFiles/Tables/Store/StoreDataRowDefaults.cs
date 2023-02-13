@@ -13,51 +13,41 @@
  *
  *  Copyright (c) 2018 - 2023 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SimpleDB.Tests
+ *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: MockForeignKeyManager.cs
+ *  File: StockDataRowDefaults.cs
  *
- *  Purpose:  Mock foreign key manager
+ *  Purpose:  Default table definition for stock
  *
  *  Date        Name                Reason
- *  02/06/2022  Simon Carter        Initially Created
+ *  19/01/2023  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using SimpleDB;
 
-using System.Diagnostics.CodeAnalysis;
-
-namespace SimpleDB.Tests.Mocks
+namespace PluginManager.DAL.TextFiles.Tables
 {
-	[ExcludeFromCodeCoverage]
-	internal class MockForeignKeyManager : IForeignKeyManager
+	internal class StoreDataRowDefaults : ITableDefaults<StoreDataRow>
 	{
-		public List<string> RegisteredTables = new List<string>();
+		public long PrimarySequence => -1;
 
-		public void AddRelationShip(string table, string targetTable, string propertyName, string targetPropertyName, ForeignKeyAttributes foreignKeyAttributes)
-		{
-			throw new NotImplementedException();
-		}
+		public long SecondarySequence => 0;
 
-		public bool ValueExists(string tableName, long id)
-		{
-			throw new NotImplementedException();
-		}
+		public ushort Version => 1;
 
-		public void RegisterTable(ISimpleDBTable table)
+		public List<StoreDataRow> InitialData(ushort version)
 		{
-			RegisteredTables.Add(table.TableName);
-		}
+			if (version == 1)
+			{
+				List<StoreDataRow> initialData = new()
+				{
+					new StoreDataRow { Name = "Default" }
+				};
 
-		public void UnregisterTable(ISimpleDBTable table)
-		{
-			RegisteredTables.Remove(table.TableName);
-		}
+				return initialData;
+			}
 
-		public ForeignKeyUsage ValueInUse(string tableName, string propertyName, long value, out string table, out string property)
-		{
-			table = null;
-			property = null;
-			return ForeignKeyUsage.None;
+			return null;
 		}
 	}
 }

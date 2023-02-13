@@ -1951,7 +1951,7 @@
             Display options for a product within a website.
             </summary>
         </member>
-        <member name="M:Middleware.Products.Product.#ctor(System.Int32@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.String[]@,System.Decimal@,System.String@,System.Boolean@,System.Boolean@)">
+        <member name="M:Middleware.Products.Product.#ctor(System.Int32@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.String[]@,System.Decimal@,System.String@,System.Boolean@,System.Boolean@,System.Boolean@)">
             <summary>
             Constructor
             </summary>
@@ -1966,8 +1966,9 @@
             <param name="sku">Unique product SKU.</param>
             <param name="isDownload">Indicates the product is downloadable.</param>
             <param name="allowBackorder">Indicates the product is allowed to be back ordered, if there is no stock available at the time of purchase.</param>
+            <param name="isVisible">Indicates whether the product is visible or not</param>
         </member>
-        <member name="M:Middleware.Products.Product.#ctor(System.Int32@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.String[]@,System.Decimal@,System.String@,System.Boolean@,System.Boolean@,System.Boolean@,System.Boolean@)">
+        <member name="M:Middleware.Products.Product.#ctor(System.Int32@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.String[]@,System.Decimal@,System.String@,System.Boolean@,System.Boolean@,System.Boolean@,System.Boolean@,System.Boolean@)">
             <summary>
             Constructor
             </summary>
@@ -1984,6 +1985,7 @@
             <param name="allowBackorder">Indicates the product is allowed to be back ordered, if there is no stock available at the time of purchase.</param>
             <param name="isNew">Indicates the product is a new product.</param>
             <param name="isBestSeller">Indicates the product is a best selling product.</param>
+            <param name="isVisible">Indicates whether the product is visible or not</param>
         </member>
         <member name="M:Middleware.Products.Product.SetCurrentStockLevel(System.UInt32)">
             <summary>
@@ -2074,6 +2076,11 @@
             The quantity of stock available for the product.
             </summary>
             <value>uint.  Quantity of stock or zero.</value>
+        </member>
+        <member name="P:Middleware.Products.Product.IsVisible">
+            <summary>
+            Indicates whether the product is available and visible or not
+            </summary>
         </member>
         <member name="T:Middleware.Products.ProductGroup">
             <summary>
@@ -4195,7 +4202,12 @@
             Retrieves the count of visible products
             </summary>
         </member>
-        <member name="M:Middleware.IProductProvider.ProductSave(System.Int32@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.Boolean@,System.Decimal@,System.String@,System.Boolean@,System.Boolean@,System.String@)">
+        <member name="M:Middleware.IProductProvider.ProductCountForGroup(Middleware.Products.ProductGroup)">
+            <summary>
+            Retrieves the count of visible products within a group
+            </summary>
+        </member>
+        <member name="M:Middleware.IProductProvider.ProductSave(System.Int32@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.Boolean@,System.Decimal@,System.String@,System.Boolean@,System.Boolean@,System.Boolean@,System.String@)">
             <summary>
             Saves changes to an existing product or creates a new product
             </summary>
@@ -4211,6 +4223,7 @@
             <param name="sku">Product SKU</param>
             <param name="isDownload">Indicates whether it is a downloadable product or not</param>
             <param name="allowBackOrder">Indicates that the product is available for back order if not currently available.</param>
+            <param name="isVisible">Indicates whether the product is visible or not</param>
             <param name="errorMessage">Error message when saving the product, if the result is false</param>
             <returns></returns>
         </member>
@@ -4520,27 +4533,35 @@
         </member>
         <member name="M:Middleware.IStockProvider.GetStockAvailability(Middleware.Products.Product@)">
             <summary>
-            Sets the current available stock level for an individual product.
+            Gets the current available stock level for an individual product.
             </summary>
             <param name="product">Product who's stock will be checked, the StockAvailability property for the product will be updated with the stock level.</param>
         </member>
         <member name="M:Middleware.IStockProvider.GetStockAvailability(System.Collections.Generic.List{Middleware.Products.Product}@)">
             <summary>
-            Sets the current available stock level for a list of product items.
+            Gets the current available stock level for a list of product items.
             </summary>
             <param name="productList">List of products who's stock will be checked, the StockAvailability property for the product will be updated with the stock level.</param>
         </member>
         <member name="M:Middleware.IStockProvider.GetStockAvailability(Middleware.ShoppingCart.ShoppingCartItem@)">
             <summary>
-            Sets the current available stock level for an individual product within a shopping cart.
+            Gets the current available stock level for an individual product within a shopping cart.
             </summary>
             <param name="shoppingCartItem">ShoppingCartItem who's stock will be updated.</param>
         </member>
         <member name="M:Middleware.IStockProvider.GetStockAvailability(System.Collections.Generic.List{Middleware.ShoppingCart.ShoppingCartItem}@)">
             <summary>
-            Sets the current available stock level for a list of products within a shopping cart.
+            Gets the current available stock level for a list of products within a shopping cart.
             </summary>
             <param name="shoppingCartItemList">ShoppingCartItem who's stock will be updated.</param>
+        </member>
+        <member name="M:Middleware.IStockProvider.AddStockToProduct(Middleware.Products.Product,System.UInt32,System.String@)">
+            <summary>
+            Adds new stock availability for a product
+            </summary>
+            <param name="product">Product for which stock will be added</param>
+            <param name="stockCount">Amount of stock to add</param>
+            <param name="error">Error if the stock provider raises it's own issue</param>
         </member>
         <member name="T:Middleware.ITokenUserDetails">
             <summary>

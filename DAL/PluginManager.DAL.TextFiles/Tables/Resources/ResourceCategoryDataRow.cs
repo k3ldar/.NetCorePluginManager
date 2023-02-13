@@ -40,7 +40,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 		private string _routeName;
 		private bool _isVisible;
 
-		[ForeignKey(Constants.TableNameUsers, true)]
+		[ForeignKey(Constants.TableNameUsers, ForeignKeyAttributes.DefaultValue)]
 		public long UserId
 		{
 			get => _userId;
@@ -55,7 +55,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 			}
 		}
 
-		[ForeignKey(Constants.TableNameResourceCateogories, true)]
+		[ForeignKey(Constants.TableNameResourceCateogories, ForeignKeyAttributes.DefaultValue)]
 		public long ParentCategoryId
 		{
 			get => _parentCategoryId;

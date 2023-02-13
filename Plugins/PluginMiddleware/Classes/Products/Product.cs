@@ -32,49 +32,51 @@ namespace Middleware.Products
     /// </summary>
     public sealed class Product
     {
-        #region Constructors
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="id">Unique product id.</param>
-        /// <param name="productGroupId">Primary ProductGroup the product belongs to.</param>
-        /// <param name="name">Name of the product.</param>
-        /// <param name="description">Description of the product.</param>
-        /// <param name="features">Product feature list.  This will be converted to a bullet list when displayed on a website.</param>
-        /// <param name="videoLink">The url for a video link to the product if one exists.</param>
-        /// <param name="images">List of images which represent the product.</param>
-        /// <param name="retailPrice">Retail price of product.</param>
-        /// <param name="sku">Unique product SKU.</param>
-        /// <param name="isDownload">Indicates the product is downloadable.</param>
-        /// <param name="allowBackorder">Indicates the product is allowed to be back ordered, if there is no stock available at the time of purchase.</param>
-        public Product(in int id, in int productGroupId, in string name, in string description, in string features,
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="id">Unique product id.</param>
+		/// <param name="productGroupId">Primary ProductGroup the product belongs to.</param>
+		/// <param name="name">Name of the product.</param>
+		/// <param name="description">Description of the product.</param>
+		/// <param name="features">Product feature list.  This will be converted to a bullet list when displayed on a website.</param>
+		/// <param name="videoLink">The url for a video link to the product if one exists.</param>
+		/// <param name="images">List of images which represent the product.</param>
+		/// <param name="retailPrice">Retail price of product.</param>
+		/// <param name="sku">Unique product SKU.</param>
+		/// <param name="isDownload">Indicates the product is downloadable.</param>
+		/// <param name="allowBackorder">Indicates the product is allowed to be back ordered, if there is no stock available at the time of purchase.</param>
+		/// <param name="isVisible">Indicates whether the product is visible or not</param>
+		public Product(in int id, in int productGroupId, in string name, in string description, in string features,
             in string videoLink, in string[] images, in decimal retailPrice, in string sku, in bool isDownload,
-            in bool allowBackorder)
-            : this(id, productGroupId, name, description, features, videoLink, images, retailPrice, sku, isDownload, allowBackorder, false, false)
+            in bool allowBackorder, in bool isVisible)
+            : this(id, productGroupId, name, description, features, videoLink, images, retailPrice, sku, isDownload, allowBackorder, false, false, isVisible)
         {
 
         }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="id">Unique product id.</param>
-        /// <param name="productGroupId">Primary ProductGroup the product belongs to.</param>
-        /// <param name="name">Name of the product.</param>
-        /// <param name="description">Description of the product.</param>
-        /// <param name="features">Product feature list.  This will be converted to a bullet list when displayed on a website.</param>
-        /// <param name="videoLink">The url for a video link to the product if one exists.</param>
-        /// <param name="images">List of images which represent the product.</param>
-        /// <param name="retailPrice">Retail price of product.</param>
-        /// <param name="sku">Unique product SKU.</param>
-        /// <param name="isDownload">Indicates the product is downloadable.</param>
-        /// <param name="allowBackorder">Indicates the product is allowed to be back ordered, if there is no stock available at the time of purchase.</param>
-        /// <param name="isNew">Indicates the product is a new product.</param>
-        /// <param name="isBestSeller">Indicates the product is a best selling product.</param>
-        public Product(in int id, in int productGroupId, in string name, in string description, in string features,
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="id">Unique product id.</param>
+		/// <param name="productGroupId">Primary ProductGroup the product belongs to.</param>
+		/// <param name="name">Name of the product.</param>
+		/// <param name="description">Description of the product.</param>
+		/// <param name="features">Product feature list.  This will be converted to a bullet list when displayed on a website.</param>
+		/// <param name="videoLink">The url for a video link to the product if one exists.</param>
+		/// <param name="images">List of images which represent the product.</param>
+		/// <param name="retailPrice">Retail price of product.</param>
+		/// <param name="sku">Unique product SKU.</param>
+		/// <param name="isDownload">Indicates the product is downloadable.</param>
+		/// <param name="allowBackorder">Indicates the product is allowed to be back ordered, if there is no stock available at the time of purchase.</param>
+		/// <param name="isNew">Indicates the product is a new product.</param>
+		/// <param name="isBestSeller">Indicates the product is a best selling product.</param>
+		/// <param name="isVisible">Indicates whether the product is visible or not</param>
+		public Product(in int id, in int productGroupId, in string name, in string description, in string features,
             in string videoLink, in string[] images, in decimal retailPrice, in string sku, in bool isDownload,
-            in bool allowBackorder, in bool isNew, in bool isBestSeller)
+            in bool allowBackorder, in bool isNew, in bool isBestSeller, in bool isVisible)
         {
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
@@ -95,6 +97,7 @@ namespace Middleware.Products
             AllowBackorder = allowBackorder;
             NewProduct = isNew;
             BestSeller = isBestSeller;
+			IsVisible = isVisible;
         }
 
         #endregion Constructors
@@ -198,6 +201,11 @@ namespace Middleware.Products
         /// </summary>
         /// <value>uint.  Quantity of stock or zero.</value>
         public uint StockAvailability { get; private set; }
+
+		/// <summary>
+		/// Indicates whether the product is available and visible or not
+		/// </summary>
+		public bool IsVisible { get; set; }
 
         #endregion Properties
     }

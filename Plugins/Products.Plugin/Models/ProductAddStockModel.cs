@@ -13,51 +13,36 @@
  *
  *  Copyright (c) 2018 - 2023 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SimpleDB.Tests
+ *  Product:  Products.Plugin
  *  
- *  File: MockForeignKeyManager.cs
+ *  File: ProductAddStockModel.cs
  *
- *  Purpose:  Mock foreign key manager
+ *  Purpose:  Product add stock model
  *
  *  Date        Name                Reason
- *  02/06/2022  Simon Carter        Initially Created
+ *  12/02/2023  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 
-using System.Diagnostics.CodeAnalysis;
-
-namespace SimpleDB.Tests.Mocks
+namespace ProductPlugin.Models
 {
-	[ExcludeFromCodeCoverage]
-	internal class MockForeignKeyManager : IForeignKeyManager
+	public class ProductAddStockModel
 	{
-		public List<string> RegisteredTables = new List<string>();
-
-		public void AddRelationShip(string table, string targetTable, string propertyName, string targetPropertyName, ForeignKeyAttributes foreignKeyAttributes)
+		public ProductAddStockModel()
 		{
-			throw new NotImplementedException();
 		}
 
-		public bool ValueExists(string tableName, long id)
+		public ProductAddStockModel(int id, string productName)
 		{
-			throw new NotImplementedException();
+			Id = id;
+			ProductName = productName ?? throw new ArgumentNullException(nameof(productName));
 		}
 
-		public void RegisterTable(ISimpleDBTable table)
-		{
-			RegisteredTables.Add(table.TableName);
-		}
+		public int Id { get; set; }
 
-		public void UnregisterTable(ISimpleDBTable table)
-		{
-			RegisteredTables.Remove(table.TableName);
-		}
+		public string ProductName { get; set; }
 
-		public ForeignKeyUsage ValueInUse(string tableName, string propertyName, long value, out string table, out string property)
-		{
-			table = null;
-			property = null;
-			return ForeignKeyUsage.None;
-		}
+		public uint Quantity { get; set; }
 	}
 }

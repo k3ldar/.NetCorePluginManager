@@ -1,0 +1,45 @@
+@model ProductPlugin.Models.ProductAddStockModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+<div class="modal-dialog deleteProductDialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="deleteModalLabel">@Localizer[nameof(Languages.LanguageStrings.AppProductAddStock)]</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+@using (Html.BeginForm(nameof(ProductPlugin.Controllers.ProductAdminController.AddStockToProduct), ProductPlugin.Controllers.ProductAdminController.Name, FormMethod.Post, new { id = "frmAddStockToProduct" }))
+{
+@Html.HiddenFor(m => m.Id);
+<div class="modal-body">
+<div class="form-group">
+<p>@String.Format(Languages.LanguageStrings.AppProductAddStockPrompt, Model.ProductName)</p>
+@Html.TextBoxFor(m => m.Quantity, new { @class = "form-control", autocomplete = "off" })<br />
+<p id="qDelValidation" style="color:red;"></p>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer[nameof(Languages.LanguageStrings.Cancel)]</button>
+<button type="button" class="btn btn-primary" id="btnDelProduct" onclick="javascript:deleteProduct();">@Localizer[nameof(Languages.LanguageStrings.Add)]</button>
+</div>
+}
+</div>
+</div>
+<script type="text/javascript">
+function deleteProduct() {
+let form = $('#frmAddStockToProduct');
+$.ajax({
+type: 'POST',
+url: form.attr('action'),
+data: form.serialize(),
+success: function (response) {
+$('#dlgAddProdStock').modal('hide');
+},
+error: function (jqXHR, textStatus, errorThrown) {
+if (!jqXHR.responseJSON.success) {
+document.getElementById("qDelValidation").innerHTML = jqXHR.responseJSON.responseData;
+}
+}
+});
+}
+</script>

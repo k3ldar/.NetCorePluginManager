@@ -75,7 +75,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
-                    ISimpleDBManager initializer = new SimpleDBManager(directory);
+                    ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
 
                     IUserApiQueryProvider sut = provider.GetService<IUserApiQueryProvider>();
@@ -106,7 +106,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
-                    ISimpleDBManager initializer = new SimpleDBManager(directory);
+                    ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
 
                     IUserApiQueryProvider sut = provider.GetService<IUserApiQueryProvider>();
@@ -137,7 +137,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
-                    ISimpleDBManager initializer = new SimpleDBManager(directory);
+                    ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
 
                     IMemoryCache memoryCache = provider.GetService<IMemoryCache>();
@@ -173,7 +173,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
-                    ISimpleDBManager initializer = new SimpleDBManager(directory);
+                    ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
 
                     IUserApiQueryProvider sut = provider.GetService<IUserApiQueryProvider>();
@@ -204,7 +204,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
-                    ISimpleDBManager initializer = new SimpleDBManager(directory);
+                    ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
                     IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
 
@@ -212,9 +212,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     bool created = accountProvider.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
 
-                    using (SimpleDBOperations<UserApiDataRow> apiTable = new SimpleDBOperations<UserApiDataRow>(initializer, provider.GetService<IForeignKeyManager>(), pluginClassesService))
+                    using (SimpleDBOperations<UserApiDataRow> apiTable = new SimpleDBOperations<UserApiDataRow>(simpleDBManager, provider.GetService<IForeignKeyManager>()))
                     {
-                        Assert.IsNotNull(apiTable);
+						simpleDBManager.Initialize(pluginClassesService);
+
+						Assert.IsNotNull(apiTable);
 
                         UserApiDataRow userApiDataRow = new UserApiDataRow()
                         {

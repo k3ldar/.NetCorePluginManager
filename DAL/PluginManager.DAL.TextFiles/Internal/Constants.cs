@@ -87,5 +87,7 @@ namespace PluginManager.DAL.TextFiles
 		public const string TableNameResourceItems = "ResourceItems";
 		public const string TableNameResourceResponse = "ResourceResponse";
 		public const string TableNameResourceBookmarks = "ResourceBookmarks";
+
+		public const string TableNameStore = "Store";
 	}
 }

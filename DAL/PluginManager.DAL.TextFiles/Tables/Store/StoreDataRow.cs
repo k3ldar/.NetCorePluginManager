@@ -13,51 +13,40 @@
  *
  *  Copyright (c) 2018 - 2023 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SimpleDB.Tests
+ *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: MockForeignKeyManager.cs
+ *  File: StoreDataRow.cs
  *
- *  Purpose:  Mock foreign key manager
+ *  Purpose:  Table definition for a store
  *
  *  Date        Name                Reason
- *  02/06/2022  Simon Carter        Initially Created
+ *  19/01/2023  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using SimpleDB;
 
-using System.Diagnostics.CodeAnalysis;
-
-namespace SimpleDB.Tests.Mocks
+namespace PluginManager.DAL.TextFiles.Tables
 {
-	[ExcludeFromCodeCoverage]
-	internal class MockForeignKeyManager : IForeignKeyManager
+	[Table(Constants.TableNameStore, CompressionType.None, CachingStrategy.Memory)]
+	internal sealed class StoreDataRow : TableRowDefinition
 	{
-		public List<string> RegisteredTables = new List<string>();
+		private string _name;
 
-		public void AddRelationShip(string table, string targetTable, string propertyName, string targetPropertyName, ForeignKeyAttributes foreignKeyAttributes)
+		public string Name
 		{
-			throw new NotImplementedException();
-		}
+			get
+			{
+				return _name;
+			}
 
-		public bool ValueExists(string tableName, long id)
-		{
-			throw new NotImplementedException();
-		}
+			set
+			{
+				if (_name == value)
+					return;
 
-		public void RegisterTable(ISimpleDBTable table)
-		{
-			RegisteredTables.Add(table.TableName);
-		}
-
-		public void UnregisterTable(ISimpleDBTable table)
-		{
-			RegisteredTables.Remove(table.TableName);
-		}
-
-		public ForeignKeyUsage ValueInUse(string tableName, string propertyName, long value, out string table, out string property)
-		{
-			table = null;
-			property = null;
-			return ForeignKeyUsage.None;
+				_name = value;
+				Update();
+			}
 		}
 	}
 }

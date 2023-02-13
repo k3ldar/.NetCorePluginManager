@@ -141,7 +141,7 @@ namespace PluginManager.DAL.TextFiles.Tables
             }
         }
 
-        [ForeignKey(Constants.TableNameInvoices, true)]
+        [ForeignKey(Constants.TableNameInvoices, ForeignKeyAttributes.DefaultValue)]
         public long InvoiceId
         {
             get => _invoiceId;
