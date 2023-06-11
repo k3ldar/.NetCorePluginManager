@@ -83,6 +83,7 @@ namespace SimpleDB.Internal
 
 		#region Private Members
 
+		private const int DefaultSequenceId = -1;
 		private const string TimingsSelectAll = "TimingsSelectAll";
 		private const string TimingsSelectId = "TimingsSelectId";
 		private const string TimingsSelectPredicate = "TimingsSelectPredicate";
@@ -107,8 +108,8 @@ namespace SimpleDB.Internal
 		private int _dataLength = 0;
 		private byte _compactPercent = 0;
 		private int _pageCount;
-		private long _primarySequence = -1;
-		private long _SecondarySequence = -1;
+		private long _primarySequence = DefaultSequenceId;
+		private long _SecondarySequence = DefaultSequenceId;
 		private readonly object _lockObject = new object();
 		private readonly TableAttribute _tableAttributes;
 		private readonly Dictionary<string, ForeignKeyRelation> _foreignKeys;
@@ -243,29 +244,32 @@ namespace SimpleDB.Internal
 			ITableDefaults<T> tableDefaults = pluginClassesService.GetPluginClasses<ITableDefaults<T>>()
 				.FirstOrDefault();
 
-			if (tableDefaults != null)
-			{
-				_primarySequence = tableDefaults.PrimarySequence;
-				_SecondarySequence = tableDefaults.SecondarySequence;
-			}
-
 			List<ITableTriggers<T>> triggers = pluginClassesService.GetPluginClasses<ITableTriggers<T>>();
 
 			foreach (TriggerType triggerType in Enum.GetValues(typeof(TriggerType)))
 				_triggersMap[triggerType].AddRange(triggers.Where(t => t.TriggerTypes.HasFlag(triggerType)).ToList());
 
-			if (_tableCreated && tableDefaults != null && tableDefaults.InitialData != null)
+			if (_tableCreated && tableDefaults != null)
 			{
-				for (ushort i = ++_internalDataVersion; i < ushort.MaxValue; i++)
+				if (_primarySequence == DefaultSequenceId)
+					_primarySequence = tableDefaults.PrimarySequence;
+
+				if (_SecondarySequence == DefaultSequenceId)
+					_SecondarySequence = tableDefaults.SecondarySequence;
+
+				if (tableDefaults.InitialData != null)
 				{
-					List<T> initialData = tableDefaults.InitialData(i);
+					for (ushort i = ++_internalDataVersion; i < ushort.MaxValue; i++)
+					{
+						List<T> initialData = tableDefaults.InitialData(i);
 
-					if (initialData == null || initialData.Count == 0)
-						break;
+						if (initialData == null || initialData.Count == 0)
+							break;
 
-					Insert(initialData);
+						Insert(initialData);
 
-					_internalDataVersion = InternalUpdateVersion(i);
+						_internalDataVersion = InternalUpdateVersion(i);
+					}
 				}
 			}
 
