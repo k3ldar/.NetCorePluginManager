@@ -39,15 +39,17 @@ namespace Localization.Plugin
         #region Private Members
 
         private readonly ILogger _logger;
-        private const string _cacheName = "IStringLocalizerFactory";
+		private readonly IPluginClassesService _pluginClassesService;
+		private const string _cacheName = "IStringLocalizerFactory";
 
         #endregion Private Members
 
         #region Constructors
 
-        public StringLocalizerFactory(ILogger logger)
+        public StringLocalizerFactory(ILogger logger, IPluginClassesService pluginClassesService)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			_pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
         }
 
         #endregion Constructors
@@ -60,7 +62,7 @@ namespace Localization.Plugin
 
             if (cacheItem == null)
             {
-                cacheItem = new CacheItem(_cacheName, new StringLocalizer(_logger));
+                cacheItem = new CacheItem(_cacheName, new StringLocalizer(_logger, _pluginClassesService));
                 PluginInitialisation.CultureCacheManager.Add(_cacheName, cacheItem);
             }
 
@@ -73,7 +75,7 @@ namespace Localization.Plugin
 
             if (cacheItem == null)
             {
-                cacheItem = new CacheItem(_cacheName, new StringLocalizer(_logger));
+                cacheItem = new CacheItem(_cacheName, new StringLocalizer(_logger, _pluginClassesService));
                 PluginInitialisation.CultureCacheManager.Add(_cacheName, cacheItem);
             }
 

@@ -4117,6 +4117,21 @@
             on the blacklist and further requests will be denied.  If false is returned then
             no further action will be taken.</returns>
         </member>
+        <member name="T:SharedPluginFeatures.ILanguageFile">
+            <summary>
+            Interface when implemented allows use of multiple language files
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ILanguageFile.Name">
+            <summary>
+            Base name
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ILanguageFile.Assembly">
+            <summary>
+            Assembly where contained
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.ILoadData">
             <summary>
             Interface used for reading data from storage, the type of storage used will depend on the implementation
