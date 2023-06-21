@@ -48,7 +48,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ApiAuthorizationTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_ApiKey_Null_Throws_ArgumentNullException()
         {
-            new ApiUserDetails(null, "token", "auth", 23, 12345);
+            new ApiUserDetails(null, "token", "auth", 23, 12345, 0);
         }
 
         [TestMethod]
@@ -56,7 +56,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ApiAuthorizationTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_ApiKey_EmptyString_Throws_ArgumentNullException()
         {
-            new ApiUserDetails("", "token", "auth", 23, 12345);
+            new ApiUserDetails("", "token", "auth", 23, 12345, 0);
         }
 
         [TestMethod]
@@ -64,7 +64,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ApiAuthorizationTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_Token_Null_Throws_ArgumentNullException()
         {
-            new ApiUserDetails("apikey", null, "auth", 23, 12345);
+            new ApiUserDetails("apikey", null, "auth", 23, 12345, 0);
         }
 
         [TestMethod]
@@ -72,7 +72,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ApiAuthorizationTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_Token_EmptyString_Throws_ArgumentNullException()
         {
-            new ApiUserDetails("apikey", "", "auth", 23, 12345);
+            new ApiUserDetails("apikey", "", "auth", 23, 12345, 0);
         }
 
         [TestMethod]
@@ -80,7 +80,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ApiAuthorizationTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_Authorization_Null_Throws_ArgumentNullException()
         {
-            new ApiUserDetails("apikey", "token", null, 23, 12345);
+            new ApiUserDetails("apikey", "token", null, 23, 12345, 0);
         }
 
         [TestMethod]
@@ -88,7 +88,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ApiAuthorizationTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_Authorization_EmptyString_Throws_ArgumentNullException()
         {
-            new ApiUserDetails("apikey", "token", "", 23, 12345);
+            new ApiUserDetails("apikey", "token", "", 23, 12345, 0);
         }
 
         [TestMethod]
@@ -96,7 +96,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ApiAuthorizationTests
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void Construct_InvalidParam_Nonce_LessThanOne_Throws_ArgumentOutOfRangeException()
         {
-            new ApiUserDetails("apikey", "token", "auth", 0, 12345);
+            new ApiUserDetails("apikey", "token", "auth", 0, 12345, 0);
         }
 
         [TestMethod]
@@ -104,7 +104,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ApiAuthorizationTests
         [ExpectedException(typeof(OverflowException))]
         public void Construct_InvalidParam_Epoch_TooBig_Throws_ArgumentOutOfRangeException()
         {
-            new ApiUserDetails("apikey", "token", "auth", 12345, Int64.MaxValue);
+            new ApiUserDetails("apikey", "token", "auth", 12345, Int64.MaxValue, 0);
         }
 
         [TestMethod]
@@ -112,7 +112,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ApiAuthorizationTests
         public void Construct_ValidInstance_Success()
         {
             ApiUserDetails sut = new ApiUserDetails("apikey", "token", "auth", 12345, 
-                new DateTime(DateTime.UtcNow.Ticks - DateTime.UnixEpoch.Ticks, DateTimeKind.Utc).Ticks);
+                new DateTime(DateTime.UtcNow.Ticks - DateTime.UnixEpoch.Ticks, DateTimeKind.Utc).Ticks, 0);
 
             Assert.AreEqual("apikey", sut.ApiKey);
             Assert.AreEqual("token", sut.MerchantId);

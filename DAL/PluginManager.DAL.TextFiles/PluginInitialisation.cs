@@ -30,6 +30,7 @@ using Middleware;
 using Middleware.Accounts;
 using Middleware.DynamicContent;
 using Middleware.Helpdesk;
+using Middleware.Interfaces;
 
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
@@ -252,6 +253,7 @@ namespace PluginManager.DAL.TextFiles
 			services.AddSingleton<ISessionStatisticsProvider, SessionStatisticsProvider>();
 			services.AddSingleton<IUrlHashProvider, UrlHashProvider>();
 			services.AddSingleton<IUserSessionService, UserSessionService>();
+			services.AddSingleton<IUserApiProvider, UserApiProvider>();
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)

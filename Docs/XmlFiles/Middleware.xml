@@ -4614,6 +4614,27 @@
             </summary>
             <returns>string</returns>
         </member>
+        <member name="T:Middleware.IUserApiProvider">
+            <summary>
+            Interface for user api provider
+            </summary>
+        </member>
+        <member name="M:Middleware.IUserApiProvider.AddApi(System.Int64,System.String,System.String)">
+            <summary>
+            Adds a new api key/secret for a user
+            </summary>
+            <param name="userId"></param>
+            <param name="apiKey"></param>
+            <param name="secret"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.IUserApiProvider.GetMerchantId(System.Int64)">
+            <summary>
+            Retrieves the merchant id for a user
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
         <member name="T:Middleware.IUserApiQueryProvider">
             <summary>
             Interface used to query a users api details in order to validate requests
