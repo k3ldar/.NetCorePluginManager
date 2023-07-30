@@ -31,6 +31,8 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
+using MySqlX.XDevAPI;
+
 namespace AspNetCore.PluginManager.Tests.Shared
 {
     [ExcludeFromCodeCoverage]
@@ -40,11 +42,11 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
         private readonly Dictionary<string, StringValues> _headerDictionary;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public MockHeaderDictionary()
+		public MockHeaderDictionary()
         {
             _headerDictionary = new Dictionary<string, StringValues>();
         }
@@ -71,7 +73,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
         public Int64? ContentLength { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public ICollection<String> Keys => throw new NotImplementedException();
+        public ICollection<String> Keys => _headerDictionary.Keys;
 
         public ICollection<StringValues> Values => throw new NotImplementedException();
 
