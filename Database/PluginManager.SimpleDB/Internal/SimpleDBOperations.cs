@@ -65,24 +65,25 @@ namespace SimpleDB.Internal
 
 		private sealed class ForeignKeyRelation
 		{
-			public ForeignKeyRelation(string name, bool allowDefaultValue)
+			public ForeignKeyRelation(string name, ForeignKeyAttributes foreignKeyAttributes)
 			{
 				if (String.IsNullOrEmpty(name))
 					throw new ArgumentNullException(nameof(name));
 
 				Name = name;
-				AllowDefaultValue = allowDefaultValue;
+				Attributes = foreignKeyAttributes;
 			}
 
 			public string Name { get; }
 
-			public bool AllowDefaultValue { get; }
+			public ForeignKeyAttributes Attributes { get; }
 		}
 
 		#endregion Private Classes
 
 		#region Private Members
 
+		private const int DefaultSequenceId = -1;
 		private const string TimingsSelectAll = "TimingsSelectAll";
 		private const string TimingsSelectId = "TimingsSelectId";
 		private const string TimingsSelectPredicate = "TimingsSelectPredicate";
@@ -98,6 +99,7 @@ namespace SimpleDB.Internal
 
 		private readonly IVersionedReadWriteFactory _readWriteFactory = new VersionedReadWriteFactory();
 		private readonly string _tableName;
+		private readonly bool _tableCreated;
 		private readonly FileStream _fileStream;
 		private ushort _internalDataVersion;
 		private ushort _internalWriteVersion;
@@ -106,12 +108,13 @@ namespace SimpleDB.Internal
 		private int _dataLength = 0;
 		private byte _compactPercent = 0;
 		private int _pageCount;
-		private long _primarySequence = -1;
-		private long _SecondarySequence = -1;
+		private long _primarySequence = DefaultSequenceId;
+		private long _SecondarySequence = DefaultSequenceId;
 		private readonly object _lockObject = new object();
 		private readonly TableAttribute _tableAttributes;
 		private readonly Dictionary<string, ForeignKeyRelation> _foreignKeys;
-		private readonly ISimpleDBManager _initializer;
+		private readonly ISimpleDBManager _simleDBManager;
+		private bool _hasInitialized;
 		private readonly IForeignKeyManager _foreignKeyManager;
 		private readonly BatchUpdateDictionary<string, IIndexManager> _indexes;
 		private readonly Dictionary<TriggerType, List<ITableTriggers<T>>> _triggersMap;
@@ -138,44 +141,29 @@ namespace SimpleDB.Internal
 
 		#region Constructors / Destructors
 
-		public SimpleDBOperations(ISimpleDBManager readerWriterInitializer,
-			IForeignKeyManager foreignKeyManager, IPluginClassesService pluginClassesService)
+		public SimpleDBOperations(ISimpleDBManager readerWriterInitializer, IForeignKeyManager foreignKeyManager)
 		{
-			_initializer = readerWriterInitializer ?? throw new ArgumentNullException(nameof(readerWriterInitializer));
+			_simleDBManager = readerWriterInitializer ?? throw new ArgumentNullException(nameof(readerWriterInitializer));
 			_foreignKeyManager = foreignKeyManager ?? throw new ArgumentNullException(nameof(foreignKeyManager));
-
-			if (pluginClassesService == null)
-				throw new ArgumentNullException(nameof(pluginClassesService));
 
 			_tableAttributes = GetTableAttributes();
 
 			if (_tableAttributes == null)
 				throw new InvalidOperationException($"TableAttribute is missing from class {typeof(T).FullName}");
 
-			ITableDefaults<T> tableDefaults = pluginClassesService.GetPluginClasses<ITableDefaults<T>>()
-				.FirstOrDefault();
-
-			if (tableDefaults != null)
-			{
-				_primarySequence = tableDefaults.PrimarySequence;
-				_SecondarySequence = tableDefaults.SecondarySequence;
-			}
-
 			_isMemoryCaching = _tableAttributes.CachingStrategy == CachingStrategy.Memory ||
 				_tableAttributes.CachingStrategy == CachingStrategy.SlidingMemory ||
 				_tableAttributes.WriteStrategy == WriteStrategy.Lazy;
 
 			_triggersMap = new Dictionary<TriggerType, List<ITableTriggers<T>>>();
-			List<ITableTriggers<T>> triggers = pluginClassesService.GetPluginClasses<ITableTriggers<T>>();
 
 			foreach (TriggerType triggerType in Enum.GetValues(typeof(TriggerType)))
-				_triggersMap.Add(triggerType, triggers.Where(t => t.TriggerTypes.HasFlag(triggerType)).ToList());
+				_triggersMap.Add(triggerType, new());
 
 			_foreignKeys = GetForeignKeysForTable();
 			_indexes = BuildIndexListForTable();
 
-			bool tableCreated;
-			(tableCreated, _tableName) = ValidateTableName(_initializer.Path, _tableAttributes.Domain, _tableAttributes.TableName, _tableAttributes.PageSize);
+			(_tableCreated, _tableName) = ValidateTableName(_simleDBManager.Path, _tableAttributes.Domain, _tableAttributes.TableName, _tableAttributes.PageSize);
 			_fileStream = File.Open(_tableName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
 
 			try
@@ -191,23 +179,9 @@ namespace SimpleDB.Internal
 				throw;
 			}
 
-			_initializer.RegisterTable(this);
+			_simleDBManager.RegisterTable(this);
 			_foreignKeyManager.RegisterTable(this);
 
-			if (tableCreated && tableDefaults != null && tableDefaults.InitialData != null)
-			{
-				for (ushort i = ++_internalDataVersion; i < ushort.MaxValue; i++)
-				{
-					List<T> initialData = tableDefaults.InitialData(i);
-
-					if (initialData == null)
-						break;
-
-					Insert(initialData);
-
-					_internalDataVersion = InternalUpdateVersion(i);
-				}
-			}
 
 			RebuildAllMissingIndexes();
 		}
@@ -258,6 +232,49 @@ namespace SimpleDB.Internal
 		#endregion Properties
 
 		#region Methods
+
+		public void Initialize(IPluginClassesService pluginClassesService)
+		{
+			if (pluginClassesService == null)
+				throw new ArgumentNullException(nameof(pluginClassesService));
+
+			if (_hasInitialized)
+				return;
+
+			ITableDefaults<T> tableDefaults = pluginClassesService.GetPluginClasses<ITableDefaults<T>>()
+				.FirstOrDefault();
+
+			List<ITableTriggers<T>> triggers = pluginClassesService.GetPluginClasses<ITableTriggers<T>>();
+
+			foreach (TriggerType triggerType in Enum.GetValues(typeof(TriggerType)))
+				_triggersMap[triggerType].AddRange(triggers.Where(t => t.TriggerTypes.HasFlag(triggerType)).ToList());
+
+			if (_tableCreated && tableDefaults != null)
+			{
+				if (_primarySequence == DefaultSequenceId)
+					_primarySequence = tableDefaults.PrimarySequence;
+
+				if (_SecondarySequence == DefaultSequenceId)
+					_SecondarySequence = tableDefaults.SecondarySequence;
+
+				if (tableDefaults.InitialData != null)
+				{
+					for (ushort i = ++_internalDataVersion; i < ushort.MaxValue; i++)
+					{
+						List<T> initialData = tableDefaults.InitialData(i);
+
+						if (initialData == null || initialData.Count == 0)
+							break;
+
+						Insert(initialData);
+
+						_internalDataVersion = InternalUpdateVersion(i);
+					}
+				}
+			}
+
+			_hasInitialized = true;
+		}
 
 		public bool IdExists(long id)
 		{
@@ -318,6 +335,8 @@ namespace SimpleDB.Internal
 
 		public PageSize PageSize => _pageSize;
 
+		public object TableLock => _lockObject;
+
 		#endregion Properties
 
 		public void ClearAllMemory()
@@ -335,10 +354,7 @@ namespace SimpleDB.Internal
 				if (_disposed)
 					throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
-				using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-				{
-					return InternalReadAllRecords().AsReadOnly();
-				}
+				return InternalReadAllRecords().AsReadOnly();
 			}
 		}
 
@@ -363,10 +379,7 @@ namespace SimpleDB.Internal
 				if (predicate == null)
 					throw new ArgumentNullException(nameof(predicate));
 
-				using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-				{
-					return InternalReadAllRecords().Where(predicate).ToList().AsReadOnly();
-				}
+				return InternalReadAllRecords().Where(predicate).ToList().AsReadOnly();
 			}
 		}
 
@@ -497,7 +510,13 @@ namespace SimpleDB.Internal
 			using (StopWatchTimer timer = StopWatchTimer.Initialise(_ReadWriteTimes[TimingsForceWrite]))
 			{
 				if (_tableAttributes != null && _tableAttributes.WriteStrategy != WriteStrategy.Forced)
-					InternalSaveRecordsToDisk(InternalReadAllRecords(), true);
+				{
+					using (TimedLock timedLock = TimedLock.Lock(_lockObject, TimeSpan.FromMilliseconds(30)))
+					{
+
+						InternalSaveRecordsToDisk(InternalReadAllRecords(), true);
+					}
+				}
 			}
 		}
 
@@ -606,18 +625,22 @@ namespace SimpleDB.Internal
 				return _allRecords;
 			}
 
-			IDataReader dataReader = _readWriteFactory.GetReader(_internalWriteVersion);
-
-			List<T> Result = dataReader.ReadRecords<T>(_fileStream, ref _pageCount, ref _recordCount, ref _dataLength);
-
-			Result.ForEach(r => { r.Immutable = true; r.Loaded = true; });
-
-			if (_isMemoryCaching)
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
 			{
-				_allRecords = Result;
-			}
 
-			return Result;
+				IDataReader dataReader = _readWriteFactory.GetReader(_internalWriteVersion);
+
+				List<T> Result = dataReader.ReadRecords<T>(_fileStream, ref _pageCount, ref _recordCount, ref _dataLength);
+
+				Result.ForEach(r => { r.Immutable = true; r.Loaded = true; });
+
+				if (_isMemoryCaching)
+				{
+					_allRecords = Result;
+				}
+
+				return Result;
+			}
 		}
 
 		private void InternalUpdateRecords(List<T> records)
@@ -703,10 +726,10 @@ namespace SimpleDB.Internal
 
 		private void InternalDeleteRecords(List<T> records)
 		{
-			VerifyIndexNotInUseAsForeignKey(records);
-
 			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
 			{
+				ValidateForeignKeysPriorToDelete(records);
+
 				_indexes.BeginUpdate();
 				try
 				{
@@ -851,7 +874,7 @@ namespace SimpleDB.Internal
 			}
 		}
 
-		private void VerifyIndexNotInUseAsForeignKey(List<T> records)
+		private void ValidateForeignKeysPriorToDelete(List<T> records)
 		{
 			foreach (KeyValuePair<string, IIndexManager> index in _indexes)
 			{
@@ -862,10 +885,15 @@ namespace SimpleDB.Internal
 				{
 					object keyValue = record.GetType().GetProperty(index.Key).GetValue(record, null);
 
-					if (Int64.TryParse(keyValue.ToString(), out long value) && 
-						_foreignKeyManager.ValueInUse(TableName, index.Key, value, out string table, out string propertyName))
+					if (Int64.TryParse(keyValue.ToString(), out long value))
 					{
-						throw new ForeignKeyException($"Foreign key value {keyValue} from table {TableName} is being used in Table: {table}; Property: {propertyName}");
+						ForeignKeyUsage foreignKeyUsage = _foreignKeyManager.ValueInUse(TableName, index.Key, value, out string table, out string propertyName);
+
+						if (foreignKeyUsage == ForeignKeyUsage.Referenced && 
+							(foreignKeyUsage != ForeignKeyUsage.AllowDefault && foreignKeyUsage != ForeignKeyUsage.CascadeDelete))
+						{
+							throw new ForeignKeyException($"Foreign key value {keyValue} from table {TableName} is being used in Table: {table}; Property: {propertyName}");
+						}
 					}
 				}
 			}
@@ -883,7 +911,7 @@ namespace SimpleDB.Internal
 
 					if (!_foreignKeyManager.ValueExists(foreignKeyRelation.Name, keyValue))
 					{
-						if (!(foreignKeyRelation.AllowDefaultValue && keyValue.Equals(0)))
+						if (!(foreignKeyRelation.Attributes == ForeignKeyAttributes.DefaultValue && keyValue.Equals(0)))
 							throw new ForeignKeyException($"Foreign key value {keyValue} does not exist in table {foreignKey.Value}; Table: {TableName}; Property: {foreignKey.Key}");
 					}
 				}
@@ -900,7 +928,7 @@ namespace SimpleDB.Internal
 
 				if (!_foreignKeyManager.ValueExists(foreignKeyRelation.Name, keyValue))
 				{
-					if (!(foreignKeyRelation.AllowDefaultValue && keyValue.Equals(0)))
+					if (!(foreignKeyRelation.Attributes == ForeignKeyAttributes.DefaultValue && keyValue.Equals(0)))
 						throw new ForeignKeyException($"Foreign key value {keyValue} does not exist in table {foreignKey.Value}; Table: {TableName}; Property: {foreignKey.Key}");
 				}
 			}
@@ -917,8 +945,8 @@ namespace SimpleDB.Internal
 
 				if (foreignKey != null && property.PropertyType.Equals(typeof(long)))
 				{
-					_foreignKeyManager.AddRelationShip(TableName, foreignKey.TableName, property.Name, foreignKey.PropertyName);
-					Result.Add(property.Name, new ForeignKeyRelation(foreignKey.TableName, foreignKey.AllowDefaultValue));
+					_foreignKeyManager.AddRelationShip(TableName, foreignKey.TableName, property.Name, foreignKey.PropertyName, foreignKey.Attributes);
+					Result.Add(property.Name, new ForeignKeyRelation(foreignKey.TableName, foreignKey.Attributes));
 				}
 			}
 
@@ -1010,7 +1038,7 @@ namespace SimpleDB.Internal
 
 			if (disposing)
 			{
-				_initializer?.UnregisterTable(this);
+				_simleDBManager?.UnregisterTable(this);
 
 				if (_foreignKeyManager != null)
 					_foreignKeyManager?.UnregisterTable(this);

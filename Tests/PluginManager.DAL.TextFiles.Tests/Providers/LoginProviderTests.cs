@@ -35,6 +35,7 @@ using Middleware;
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
+using PluginManager.Tests.Mocks;
 
 using SimpleDB;
 using SimpleDB.Internal;
@@ -83,10 +84,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
                     
-                    ISimpleDBManager initializer = new SimpleDBManager(directory);
+                    ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
-                    using (SimpleDBOperations<ExternalUsersDataRow> sut = new SimpleDBOperations<ExternalUsersDataRow>(initializer, keyManager, pluginClassesService))
+                    using (SimpleDBOperations<ExternalUsersDataRow> sut = new SimpleDBOperations<ExternalUsersDataRow>(simpleDBManager, keyManager))
                     {
+						simpleDBManager.Initialize(pluginClassesService);
                         Assert.IsNotNull(sut);
 
                         Assert.AreEqual(Int64.MinValue, sut.PrimarySequence);
@@ -113,11 +115,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
-                    ISimpleDBManager initializer = new SimpleDBManager(directory);
+                    ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
-                    using (SimpleDBOperations<ExternalUsersDataRow> externalUserTable = new SimpleDBOperations<ExternalUsersDataRow>(initializer, keyManager, pluginClassesService))
+                    using (SimpleDBOperations<ExternalUsersDataRow> externalUserTable = new SimpleDBOperations<ExternalUsersDataRow>(simpleDBManager, keyManager))
                     {
-                        Assert.IsNotNull(externalUserTable);
+						simpleDBManager.Initialize(pluginClassesService);
+						Assert.IsNotNull(externalUserTable);
 
                         ExternalUsersDataRow externalUser = new ExternalUsersDataRow();
                         externalUser.Email = "test@123.net";
@@ -159,12 +162,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
-                    ISimpleDBManager initializer = new SimpleDBManager(directory);
+                    ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
                     long userId = -1;
-                    using (SimpleDBOperations<UserDataRow> userTable = new SimpleDBOperations<UserDataRow>(initializer, keyManager, pluginClassesService))
+                    using (SimpleDBOperations<UserDataRow> userTable = new SimpleDBOperations<UserDataRow>(simpleDBManager, keyManager))
                     {
-                        Assert.IsNotNull(userTable);
+						simpleDBManager.Initialize(pluginClassesService);
+
+						Assert.IsNotNull(userTable);
 
                         UserDataRow user = new UserDataRow();
                         user.Email = "test@123.net";
@@ -207,12 +212,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() });
 
-                    ISimpleDBManager initializer = new SimpleDBManager(directory);
+                    ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
                     long userId = -1;
-                    using (SimpleDBOperations<UserDataRow> userTable = new SimpleDBOperations<UserDataRow>(initializer, keyManager, pluginClassesService))
+                    using (SimpleDBOperations<UserDataRow> userTable = new SimpleDBOperations<UserDataRow>(simpleDBManager, keyManager))
                     {
-                        Assert.IsNotNull(userTable);
+						simpleDBManager.Initialize(pluginClassesService);
+						Assert.IsNotNull(userTable);
 
                         UserDataRow user = new UserDataRow();
                         user.Email = "test@123.net";
@@ -255,12 +261,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
-                    ISimpleDBManager initializer = new SimpleDBManager(directory);
+                    ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
                     long userId = -1;
-                    using (SimpleDBOperations<UserDataRow> userTable = new SimpleDBOperations<UserDataRow>(initializer, keyManager, pluginClassesService))
+                    using (SimpleDBOperations<UserDataRow> userTable = new SimpleDBOperations<UserDataRow>(simpleDBManager, keyManager))
                     {
-                        Assert.IsNotNull(userTable);
+						simpleDBManager.Initialize(pluginClassesService);
+						Assert.IsNotNull(userTable);
 
                         UserDataRow user = new UserDataRow();
                         user.Email = "test@123.net";
@@ -753,11 +760,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    ISimpleDBOperations<ExternalUsersDataRow> externalUserTable = provider.GetRequiredService(typeof(ISimpleDBOperations<ExternalUsersDataRow>)) as ISimpleDBOperations<ExternalUsersDataRow>;
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					mockPluginClassesService.Provider = provider;
+					pluginInitialisation.AfterConfigure(new MockApplicationBuilder(provider));
+					
+					ISimpleDBOperations<ExternalUsersDataRow> externalUserTable = provider.GetRequiredService(typeof(ISimpleDBOperations<ExternalUsersDataRow>)) as ISimpleDBOperations<ExternalUsersDataRow>;
 
                     Assert.IsNotNull(externalUserTable);
 

@@ -230,7 +230,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 
 		}
 
-		[ForeignKey(Constants.TableNameUsers, true)]
+		[ForeignKey(Constants.TableNameUsers, ForeignKeyAttributes.DefaultValue)]
 		public long UserId
 		{
 			get => _userId;

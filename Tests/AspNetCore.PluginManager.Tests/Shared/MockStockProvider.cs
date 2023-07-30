@@ -23,6 +23,7 @@
  *  02/12/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
@@ -67,5 +68,11 @@ namespace AspNetCore.PluginManager.Tests.Shared
         {
             shoppingCartItemList.ForEach(sc => sc.SetCurrentStockLevel(_stockCount));
         }
-    }
+
+		public bool AddStockToProduct(Product product, uint stockCount, out string error)
+		{
+			error = "Unable to add stock with mock class";
+			return false;
+		}
+	}
 }

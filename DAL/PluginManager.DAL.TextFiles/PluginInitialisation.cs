@@ -30,6 +30,7 @@ using Middleware;
 using Middleware.Accounts;
 using Middleware.DynamicContent;
 using Middleware.Helpdesk;
+using Middleware.Interfaces;
 
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
@@ -144,7 +145,14 @@ namespace PluginManager.DAL.TextFiles
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<UserDataRow>>();
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<UserClaimsDataRow>>();
 
+			_ = app.ApplicationServices.GetService<ISimpleDBOperations<StoreDataRow>>();
+
 			_ = app.ApplicationServices.GetService<IUserSessionService>();
+
+			ISimpleDBManager simpleDBManager = app.ApplicationServices.GetRequiredService<ISimpleDBManager>();
+			IPluginClassesService pluginClassesService = app.ApplicationServices.GetRequiredService<IPluginClassesService>();
+
+			simpleDBManager.Initialize(pluginClassesService);
 		}
 
 		public void Configure(in IApplicationBuilder app)
@@ -221,6 +229,8 @@ namespace PluginManager.DAL.TextFiles
 			services.AddSingleton(typeof(TableRowDefinition), typeof(UserClaimsDataRow));
 			services.AddSingleton(typeof(TableRowDefinition), typeof(UserDataRow));
 
+			services.AddSingleton(typeof(TableRowDefinition), typeof(StoreDataRow));
+
 			// register providers
 			services.AddTransient<IAccountProvider, AccountProvider>();
 			services.AddSingleton<IBlogProvider, BlogProvider>();
@@ -243,6 +253,7 @@ namespace PluginManager.DAL.TextFiles
 			services.AddSingleton<ISessionStatisticsProvider, SessionStatisticsProvider>();
 			services.AddSingleton<IUrlHashProvider, UrlHashProvider>();
 			services.AddSingleton<IUserSessionService, UserSessionService>();
+			services.AddSingleton<IUserApiProvider, UserApiProvider>();
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)

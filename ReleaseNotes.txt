@@ -8,6 +8,8 @@ Multiple bug fixes
 # 207 Remove Newtonsoft.Json
 # 248 Extract data read/write from simple db
 # 254 Better management of settings
+# Breaking change to SimpleDB to initialise after registering all tables
+# 146 Stock Administration
 
 Version 5.0.3
 =============

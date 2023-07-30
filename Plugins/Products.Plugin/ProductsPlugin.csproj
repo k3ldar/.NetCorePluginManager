@@ -66,6 +66,7 @@
     <Content Remove="Views\ProductAdmin\EditProductGroup.cshtml" />
     <Content Remove="Views\ProductAdmin\GroupIndex.cshtml" />
     <Content Remove="Views\ProductAdmin\Index.cshtml" />
+    <Content Remove="Views\ProductAdmin\_ShowAddProductStock.cshtml" />
     <Content Remove="Views\ProductAdmin\_ShowDeleteProduct.cshtml" />
     <Content Remove="Views\ProductAdmin\_ShowDeleteProductGroup.cshtml" />
     <Content Remove="Views\Product\Index.cshtml" />
@@ -93,6 +94,7 @@
     <EmbeddedResource Include="Views\ProductAdmin\EditProductGroup.cshtml" />
     <EmbeddedResource Include="Views\ProductAdmin\GroupIndex.cshtml" />
     <EmbeddedResource Include="Views\ProductAdmin\Index.cshtml" />
+    <EmbeddedResource Include="Views\ProductAdmin\_ShowAddProductStock.cshtml" />
     <EmbeddedResource Include="Views\ProductAdmin\_ShowDeleteProduct.cshtml" />
     <EmbeddedResource Include="Views\ProductAdmin\_ShowDeleteProductGroup.cshtml" />
     <EmbeddedResource Include="Views\Product\Index.cshtml" />
@@ -117,7 +119,7 @@
 
   <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="2.2.0" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="3.8.0" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="$(SharedVer)" />
   </ItemGroup>
 
   <ItemGroup>

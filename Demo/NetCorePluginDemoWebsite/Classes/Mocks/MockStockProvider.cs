@@ -49,11 +49,11 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             _random = new Random(DateTime.Now.Millisecond);
         }
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IStockProvider Methods
+		#region IStockProvider Methods
 
-        public void GetStockAvailability(in Product product)
+		public void GetStockAvailability(in Product product)
         {
             if (product == null)
                 throw new ArgumentNullException(nameof(product));
@@ -85,6 +85,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             shoppingCartItemList.ForEach(p => p.SetCurrentStockLevel(Convert.ToUInt32(_random.Next(1000))));
         }
 
-        #endregion IStockProvider Methods
-    }
+		public bool AddStockToProduct(Product product, uint stockCount, out string error)
+		{
+			error = "Not allowed to add stock in demo project";
+			return false;
+		}
+
+		#endregion IStockProvider Methods
+	}
 }

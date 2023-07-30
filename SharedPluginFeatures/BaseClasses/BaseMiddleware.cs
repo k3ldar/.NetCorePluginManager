@@ -61,7 +61,7 @@ namespace SharedPluginFeatures
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            UriBuilder Result = null;
+            UriBuilder Result;
 
             if (context.Request.Host.Port.HasValue)
             {

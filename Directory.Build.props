@@ -30,9 +30,14 @@
     <FrameWorkAllSupported>net7.0;net6.0;netcoreapp3.1;netstandard2.0</FrameWorkAllSupported>
     <FrameWorkAllNotStandard>net7.0;net6.0;netcoreapp3.1</FrameWorkAllNotStandard>
   </PropertyGroup>
+
+	<PropertyGroup>
+		<SharedVer>3.9.1</SharedVer>
+		<SharedWinVer>1.1.0</SharedWinVer>
+	</PropertyGroup>
   
   <PropertyGroup>
-    <Version>5.1.0</Version>
+    <Version>5.3.0</Version>
     <LangVersion>latest</LangVersion>
     <Authors>Simon Carter (s1cart3r@gmail.com)</Authors>
     <Company>Simon Carter</Company>

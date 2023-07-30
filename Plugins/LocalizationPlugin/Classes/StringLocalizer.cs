@@ -45,19 +45,28 @@ namespace Localization.Plugin
     {
         #region Private Members
 
-        private readonly ILogger _logger;
-        private static readonly ResourceManager _resourceManager = new ResourceManager("Languages.LanguageStrings",
-            typeof(LanguageStrings).Assembly);
-
         private static readonly Timings _timings = new Timings();
+
+        private readonly ILogger _logger;
+		private readonly List<ResourceManager> _resourceManagers = new();
 
         #endregion Private Members
 
         #region Constructors
 
-        public StringLocalizer(ILogger logger)
+        public StringLocalizer(ILogger logger, IPluginClassesService pluginClassesService)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+			if (pluginClassesService == null)
+				throw new ArgumentNullException(nameof(pluginClassesService));
+
+			List<ILanguageFile> languageFiles = pluginClassesService.GetPluginClasses<ILanguageFile>();
+
+			foreach (ILanguageFile languageFile in languageFiles)
+			{
+				_resourceManagers.Add(new ResourceManager(languageFile.Name, languageFile.Assembly));
+			}
         }
 
 
@@ -73,29 +82,22 @@ namespace Localization.Plugin
                 using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
                 {
                     try
-                    {
-                        StringBuilder resourceName = new StringBuilder(name.Length);
+					{
+						string resourceName = RemoveNonAlphaNumericChars(name);
 
-                        // strip out any non alpha numeric characters
-                        foreach (char c in name)
-                        {
-                            if (c >= 65 && c <= 90)
-                                resourceName.Append(c);
-                            else if (c >= 61 && c <= 122)
-                                resourceName.Append(c);
-                            else if (c >= 48 && c <= 57)
-                                resourceName.Append(c);
-                        }
+						foreach (ResourceManager resourceManager in _resourceManagers)
+						{
+							string locString = resourceManager.GetString(resourceName, Thread.CurrentThread.CurrentUICulture);
 
-                        string locString = _resourceManager.GetString(resourceName.ToString(),
-                            Thread.CurrentThread.CurrentUICulture);
+							if (String.IsNullOrEmpty(locString))
+								continue;
 
-                        if (String.IsNullOrEmpty(locString))
-                            return new LocalizedString(name, name);
+							return new LocalizedString(name, locString);
+						}
 
-                        return new LocalizedString(name, locString);
-                    }
-                    catch (Exception error)
+						return new LocalizedString(name, name);
+					}
+					catch (Exception error)
                     {
                         _logger.AddToLog(LogLevel.Error, nameof(StringLocalizer), error, name);
                         return new LocalizedString(name, name);
@@ -104,7 +106,7 @@ namespace Localization.Plugin
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public LocalizedString this[string name, params object[] arguments]
         {
             get
@@ -113,21 +115,19 @@ namespace Localization.Plugin
                 {
                     try
                     {
-                        StringBuilder resourceName = new StringBuilder(name.Length);
+						string resourceName = RemoveNonAlphaNumericChars(name);
 
-                        // strip out any non alpha numeric characters
-                        foreach (char c in name)
-                        {
-                            if (c >= 65 && c <= 90)
-                                resourceName.Append(c);
-                            else if (c >= 61 && c <= 122)
-                                resourceName.Append(c);
-                            else if (c >= 48 && c <= 57)
-                                resourceName.Append(c);
-                        }
+						foreach (ResourceManager resourceManager in _resourceManagers)
+						{
+							string locString = resourceManager.GetString(resourceName, Thread.CurrentThread.CurrentUICulture);
 
-                        string resourceString = _resourceManager.GetString(resourceName.ToString(), Thread.CurrentThread.CurrentUICulture);
-                        return new LocalizedString(name, String.Format(resourceString, arguments));
+							if (String.IsNullOrEmpty(locString))
+								continue;
+
+							return new LocalizedString(name, String.Format(locString, arguments));
+						}
+
+                        return new LocalizedString(name, String.Format(resourceName, arguments));
                     }
                     catch (Exception error)
                     {
@@ -149,6 +149,23 @@ namespace Localization.Plugin
         }
 
         #endregion IStringLocalizer Methods
+
+		private static string RemoveNonAlphaNumericChars(string name)
+		{
+			StringBuilder Result = new StringBuilder(name.Length);
+
+			foreach (char c in name)
+			{
+				if (c >= 65 && c <= 90)
+					Result.Append(c);
+				else if (c >= 61 && c <= 122)
+					Result.Append(c);
+				else if (c >= 48 && c <= 57)
+					Result.Append(c);
+			}
+
+			return Result.ToString();
+		}
 
         #region Internal Properties
 

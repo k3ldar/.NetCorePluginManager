@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Linq;
 using System.Text;
 
 using Microsoft.AspNetCore.Http;
@@ -45,6 +46,7 @@ namespace ApiAuthorization.Plugin.Classes
         private const string MerchantId = "merchantId";
         private const string Nonce = "nonce";
         private const string TimeStamp = "timestamp";
+		private const string PayloadLength = "payloadLength";
 
         private static readonly Timings _timings = new Timings();
 
@@ -91,7 +93,7 @@ namespace ApiAuthorization.Plugin.Classes
 
                 string payload = String.Empty;
 
-                if (httpRequest.ContentLength > 0)
+                if (apiDetails.PayloadLength > 0 && httpRequest.Body.CanSeek && httpRequest.ContentLength > 0)
                 {
                     byte[] requestBytes = new byte[httpRequest.Body.Length];
                     httpRequest.Body.Position = 0;
@@ -161,7 +163,14 @@ namespace ApiAuthorization.Plugin.Classes
             if (String.IsNullOrEmpty(authorization))
                 return null;
 
-            return new ApiUserDetails(apiKey, merchantId, authorization, numericNonce, numericTimestamp);
+			int payloadLength = 0;
+
+			if (request.Headers.Keys.Contains(PayloadLength))
+			{
+				Int32.TryParse(request.Headers[PayloadLength], out payloadLength);
+			}
+
+            return new ApiUserDetails(apiKey, merchantId, authorization, numericNonce, numericTimestamp, payloadLength);
         }
 
         #endregion Private Methods

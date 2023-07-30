@@ -29,7 +29,7 @@ namespace ApiAuthorization.Plugin.Classes
 {
     internal sealed class ApiUserDetails
     {
-        public ApiUserDetails(string apiKey, string merchantId, string authorization, ulong nonce, long epoch)
+        public ApiUserDetails(string apiKey, string merchantId, string authorization, ulong nonce, long epoch, int payloadLength)
         {
             if (String.IsNullOrEmpty(apiKey))
                 throw new ArgumentNullException(nameof(apiKey));
@@ -49,6 +49,7 @@ namespace ApiAuthorization.Plugin.Classes
             MerchantId = merchantId;
             Authorization = authorization;
             Created = DateTime.UtcNow;
+			PayloadLength = payloadLength;
         }
 
         public string ApiKey { get; }
@@ -62,6 +63,8 @@ namespace ApiAuthorization.Plugin.Classes
         public DateTime Created { get; }
 
         public string Authorization { get; }
+
+		public int PayloadLength { get; }
 
         public bool WithinTimeParameters(TimeSpan span)
         {
