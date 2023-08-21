@@ -83,8 +83,8 @@ namespace PluginManager.Tests
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
             }
 
-            Assert.AreEqual(testLogger.Logs[0].LogLevel, LogLevel.PluginLoadSuccess);
-            Assert.AreEqual(testLogger.Logs[1].LogLevel, LogLevel.PluginConfigureError);
+            Assert.AreEqual(LogLevel.PluginLoadSuccess, testLogger.Logs[0].LogLevel);
+            Assert.AreEqual(LogLevel.PluginConfigureError, testLogger.Logs[1].LogLevel);
         }
 
         [TestMethod]

@@ -125,7 +125,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
 			string Result = data.ToString();
 
-            if (Result.EndsWith(","))
+			if (Result.EndsWith(','))
 				Result = Result[..^1];
 
             return Result;
