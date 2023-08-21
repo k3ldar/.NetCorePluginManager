@@ -211,8 +211,8 @@ namespace PluginManager.DAL.TextFiles.Providers
                 DynamicContentTemplate pageItem = CreateTemplateItem(classParts[1].Trim(), classParts[0].Trim(), page.UniqueId, out bool templateClassFound);
                 pageItem.Id = page.Id;
                 pageItem.UniqueId = page.UniqueId;
-                pageItem.ActiveFrom = new DateTime(page.ActiveFromTicks);
-                pageItem.ActiveTo = new DateTime(page.ActiveToTicks);
+                pageItem.ActiveFrom = new DateTime(page.ActiveFromTicks, DateTimeKind.Utc);
+                pageItem.ActiveTo = new DateTime(page.ActiveToTicks, DateTimeKind.Utc);
                 string data = page.Data;
 
                 if (templateClassFound)

@@ -44,8 +44,8 @@ namespace Middleware.Classes.DynamicContent
 		{
 			WidthType = DynamicContentWidthType.Columns;
 			Width = 12;
-			ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0);
-			ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59);
+			ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+			ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
 		}
 
 		#endregion Constructors

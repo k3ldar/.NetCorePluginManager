@@ -178,7 +178,8 @@ namespace GeoIp.Plugin
             }
             else
             {
-                File.WriteAllText(_webNetDownloadDataFile, DateTime.UtcNow.Ticks.ToString());
+				if (Directory.Exists(Path.GetDirectoryName(_webNetDownloadDataFile)))
+					File.WriteAllText(_webNetDownloadDataFile, DateTime.UtcNow.Ticks.ToString());
             }
 
             return true;

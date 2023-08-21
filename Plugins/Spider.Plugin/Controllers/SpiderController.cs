@@ -88,13 +88,13 @@ namespace Spider.Plugin.Controllers
             if (String.IsNullOrEmpty(model.Route))
                 ModelState.AddModelError(nameof(EditRobotsModel.Route), "Invalid Route");
 
-            if (_robots.DeniedRoutes.Any(dr => dr.UserAgent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) && 
+            if (_robots.DeniedRoutes.Exists(dr => dr.UserAgent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) && 
 				dr.Route.Equals(model.Route, StringComparison.InvariantCultureIgnoreCase)))
             {
                 ModelState.AddModelError(String.Empty, "Route already exists");
             }
 
-            if (_robots.CustomRoutes.Any(cr => cr.Agent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) && 
+            if (_robots.CustomRoutes.Exists(cr => cr.Agent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) && 
 				cr.Route.Equals(model.Route, StringComparison.InvariantCultureIgnoreCase)))
             {
                 ModelState.AddModelError(String.Empty, "Custom route already exists");
@@ -103,7 +103,7 @@ namespace Spider.Plugin.Controllers
             if (!ModelState.IsValid)
                 return CreateDefaultPartialView();
 
-            if (!_robots.Agents.Any(a => a.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase)))
+            if (!_robots.Agents.Exists(a => a.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase)))
             {
                 _robots.AgentAdd(model.AgentName);
             }

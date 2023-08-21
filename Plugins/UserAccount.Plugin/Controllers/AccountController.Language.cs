@@ -50,7 +50,12 @@ namespace UserAccount.Plugin.Controllers
             if (_cultureProvider.IsCultureValid(newCulture))
                 _userCultureChanged.CultureChanged(HttpContext, userSession, newCulture);
 
-            return Redirect(returnUrl ?? "/");
+			string redirectPath = returnUrl ?? "/";
+
+			if (Url.IsLocalUrl(redirectPath))
+				return Redirect(redirectPath);
+
+			return RedirectToAction("Index", "Home");
         }
     }
 

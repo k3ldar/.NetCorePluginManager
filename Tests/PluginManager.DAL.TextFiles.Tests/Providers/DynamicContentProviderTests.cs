@@ -118,8 +118,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     {
                         Name = "New Dynamic Content",
                         RouteName = "home",
-                        ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0),
-                        ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59),
+                        ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                        ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc),
                     };
 
                     dynamicContentpage.Content.Add(new HtmlTextTemplate() { UniqueId = "1", HeightType = DynamicContentHeightType.Automatic, Width = 100, WidthType = DynamicContentWidthType.Percentage, Data = "blah" });
@@ -168,8 +168,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     { 
                         Name = "New Dynamic Content",
                         RouteName = "home",
-                        ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0),
-                        ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59),
+                        ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                        ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc),
                     };
 
                     dynamicContentpage.Content.Add(new HtmlTextTemplate() { UniqueId = "1", HeightType = DynamicContentHeightType.Automatic, Width = 100, WidthType = DynamicContentWidthType.Percentage, Data = "blah" });
@@ -218,8 +218,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     {
                         Name = "New Dynamic Content",
                         RouteName = "home",
-                        ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0),
-                        ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59),
+                        ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                        ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc),
                     };
 
                     dynamicContentpage.Content.Add(new HtmlTextTemplate() { UniqueId = "1", HeightType = DynamicContentHeightType.Automatic, Width = 100, WidthType = DynamicContentWidthType.Percentage, Data = "blah" });
@@ -271,8 +271,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     {
                         Name = "New Dynamic Content",
                         RouteName = "home",
-                        ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0),
-                        ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59),
+                        ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                        ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc),
                     };
 
                     dynamicContentpage.Content.Add(new HtmlTextTemplate() { UniqueId = "1", HeightType = DynamicContentHeightType.Automatic, Width = 100, WidthType = DynamicContentWidthType.Percentage, Data = "blah" });
@@ -324,8 +324,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     {
                         Name = "New Dynamic Content",
                         RouteName = "home",
-                        ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0),
-                        ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59),
+                        ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                        ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc),
                     };
 
                     dynamicContentpage.Content.Add(new HtmlTextTemplate() { UniqueId = "1", HeightType = DynamicContentHeightType.Automatic, Width = 100, WidthType = DynamicContentWidthType.Percentage, Data = "blah" });
@@ -446,8 +446,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     {
                         Name = "New Dynamic Content",
                         RouteName = "home",
-                        ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0),
-                        ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59),
+                        ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                        ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc),
                     };
 
                     dynamicContentpage.Content.Add(new HtmlTextTemplate() { UniqueId = "1", HeightType = DynamicContentHeightType.Pixels, Width = 100, WidthType = DynamicContentWidthType.Percentage, Data = "content 1" });
@@ -525,8 +525,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         {
                             Name = $"New Dynamic Content {id}",
                             RouteName = $"home {id}",
-                            ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0),
-                            ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59),
+                            ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                            ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc),
                         };
 
                         dynamicContentpage.Content.Add(new HtmlTextTemplate() { UniqueId = $"{id}1", HeightType = DynamicContentHeightType.Pixels, Width = 100, WidthType = DynamicContentWidthType.Percentage, Data = $"content {id} - 1" });
@@ -609,8 +609,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         {
                             Name = $"New Dynamic Content {id}",
                             RouteName = $"home {id}",
-                            ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0),
-                            ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59),
+                            ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                            ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc),
                         };
 
                         dynamicContentpage.Content.Add(new HtmlTextTemplate() { UniqueId = $"{id}1", HeightType = DynamicContentHeightType.Pixels, Width = 100, WidthType = DynamicContentWidthType.Percentage, Data = $"content {id} - 1" });

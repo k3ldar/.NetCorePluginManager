@@ -109,7 +109,7 @@ namespace Spider.Plugin.Classes
             if (!_agents.ContainsKey(agentName))
                 return false;
 
-            if (_agents[agentName].Any(item => !item.IsCustom))
+            if (_agents[agentName].Exists(item => !item.IsCustom))
                 return false;
 
             return _agents.Remove(agentName);
@@ -167,7 +167,7 @@ namespace Spider.Plugin.Classes
             if (!Agents.Contains(agent))
                 throw new ArgumentException("Agent not registered", nameof(agent));
 
-            if (_customRoutes.Any(r => r.Agent.Equals(agent) && r.Route.Equals(route)))
+            if (_customRoutes.Exists(r => r.Agent.Equals(agent) && r.Route.Equals(route)))
                 return false;
 
             _customRoutes.Add(new RobotRouteData(agent, null, route, true, true));
@@ -186,7 +186,7 @@ namespace Spider.Plugin.Classes
             if (!Agents.Contains(agent))
                 throw new ArgumentException("Agent not registered", nameof(agent));
 
-            if (_customRoutes.Any(r => r.Agent.Equals(agent) && r.Route.Equals(route)))
+            if (_customRoutes.Exists(r => r.Agent.Equals(agent) && r.Route.Equals(route)))
                 return false;
 
             _customRoutes.Add(new RobotRouteData(agent, null, route, false, true));
@@ -257,7 +257,7 @@ namespace Spider.Plugin.Classes
                     _agents.Add(item.Agent, new List<IRobotRouteData>());
                 }
 
-                if (_agents[item.Agent].Any(l => l.IsCustom && l.Route.Equals(item.Route)))
+                if (_agents[item.Agent].Exists(l => l.IsCustom && l.Route.Equals(item.Route)))
                     continue;
 
                 _agents[item.Agent].Add(item);
@@ -342,7 +342,7 @@ namespace Spider.Plugin.Classes
 
             string route = denySpiderAttribute.Route;
 
-            if (!route.EndsWith("/"))
+			if (!route.EndsWith('/'))
                 route += "/";
 
             agentList[denySpiderAttribute.UserAgent].Add(

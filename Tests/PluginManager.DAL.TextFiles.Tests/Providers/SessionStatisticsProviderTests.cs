@@ -105,7 +105,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.IsNotNull(yearlyStats);
 					Assert.AreEqual(0, yearlyStats.RecordCount);
 
-					DateTime newSessionData = new DateTime(2000, 2, 12, 5, 23, 0);
+					DateTime newSessionData = new DateTime(2000, 2, 12, 5, 23, 0, DateTimeKind.Utc);
 					int month = 0;
 
 					for (int k = 0; k < 100; k++)
