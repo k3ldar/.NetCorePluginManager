@@ -50,8 +50,8 @@ namespace AspNetCore.PluginManager.Tests.Shared
     [ExcludeFromCodeCoverage]
     public class GenericBaseClass
     {
-        protected readonly static DateTime DefaultActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0);
-        protected readonly static DateTime DefaultActiveTo = new DateTime(2050, 12, 31, 23, 59, 59);
+        protected readonly static DateTime DefaultActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        protected readonly static DateTime DefaultActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
 
         protected bool MethodHasAttribute<T>(Type classType, string methodName) where T : Attribute
         {

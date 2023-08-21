@@ -126,7 +126,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (String.IsNullOrEmpty(comment))
                 throw new ArgumentNullException(nameof(comment));
 
-            TimeSpan span = DateTime.Now - new DateTime(2022, 1, 1);
+            TimeSpan span = DateTime.Now - new DateTime(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             BlogComment blogComment = new BlogComment(Convert.ToInt32(span.TotalSeconds), parentComment?.Id, DateTime.Now, userId, userName, true, comment);
 
             if (parentComment == null)

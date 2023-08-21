@@ -256,6 +256,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ApiAuthorizationTests
             string hmacAuthorization = HmacGenerator.GenerateHmac("key", "my secret", epochDate, 123, "token", "{some data}");
             MockHttpRequest httpRequest = CreateActionExecutingRequest("key", "token", "123", epochDate.ToString(), hmacAuthorization);
             httpRequest.SetBodyText("{some data}");
+			httpRequest.Headers["payloadLength"] = "11";
             bool executeResult = sut.ValidateApiRequest(httpRequest, String.Empty, out int responseCode);
 
             Assert.IsTrue(executeResult);

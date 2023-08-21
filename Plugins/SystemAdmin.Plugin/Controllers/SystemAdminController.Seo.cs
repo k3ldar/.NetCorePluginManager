@@ -97,7 +97,11 @@ namespace SystemAdmin.Plugin.Controllers
 				model.SeoTags = String.Empty;
 
             _seoProvider.AddKeywords(model.SeoUrl, model.SeoTags.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList());
-            return Redirect(model.SeoUrl);
+
+			if (Url != null && Url.IsLocalUrl(model.SeoUrl))
+				return Redirect(model.SeoUrl);
+
+			return RedirectToAction(nameof(Index));
         }
     }
 }

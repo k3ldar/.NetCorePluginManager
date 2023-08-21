@@ -96,8 +96,8 @@ namespace DynamicContent.Plugin.Internal
 
                 IDynamicContentPage newPage = new DynamicContentPage(Result);
                 newPage.Name = $"Page-{Result}";
-                newPage.ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0);
-                newPage.ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59);
+                newPage.ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                newPage.ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
 
                 _dynamicContent.Add(newPage);
                 Save(newPage);
@@ -311,8 +311,8 @@ namespace DynamicContent.Plugin.Internal
             dynamicContentPage.RouteName = ReadStringData(reader);
             dynamicContentPage.BackgroundColor = ReadStringData(reader);
             dynamicContentPage.BackgroundImage = ReadStringData(reader);
-            dynamicContentPage.ActiveFrom = new DateTime(reader.ReadInt64());
-            dynamicContentPage.ActiveTo = new DateTime(reader.ReadInt64());
+            dynamicContentPage.ActiveFrom = new DateTime(reader.ReadInt64(), DateTimeKind.Utc);
+            dynamicContentPage.ActiveTo = new DateTime(reader.ReadInt64(), DateTimeKind.Utc);
             int itemCount = reader.ReadInt32();
             int item = 0;
 
@@ -327,8 +327,8 @@ namespace DynamicContent.Plugin.Internal
                     throw new InvalidOperationException();
 
                 DynamicContentTemplate instance = CreateTemplateItem(classParts[1].Trim(), classParts[0].Trim(), uniqueId, out bool templateClassFound);
-                instance.ActiveFrom = new DateTime(reader.ReadInt64());
-                instance.ActiveTo = new DateTime(reader.ReadInt64());
+                instance.ActiveFrom = new DateTime(reader.ReadInt64(), DateTimeKind.Utc);
+                instance.ActiveTo = new DateTime(reader.ReadInt64(), DateTimeKind.Utc);
                 string data = ReadStringData(reader);
 
                 if (templateClassFound)
@@ -402,10 +402,17 @@ namespace DynamicContent.Plugin.Internal
 
                 foreach (string page in pages)
                 {
-                    IDynamicContentPage convertedPage = ReadFileContents(page);
+					try
+					{
+						IDynamicContentPage convertedPage = ReadFileContents(page);
 
-                    if (convertedPage != null)
-                        _dynamicContent.Add(convertedPage);
+						if (convertedPage != null)
+							_dynamicContent.Add(convertedPage);
+					}
+					catch
+					{
+						// ignore as couldn't load
+					}
                 }
             }
         }

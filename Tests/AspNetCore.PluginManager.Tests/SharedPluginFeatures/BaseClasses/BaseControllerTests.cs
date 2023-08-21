@@ -50,8 +50,8 @@ namespace AspNetCore.PluginManager.Tests.Controllers
     [ExcludeFromCodeCoverage]
     public class BaseControllerTests : BaseController
     {
-        protected readonly static DateTime DefaultActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0);
-        protected readonly static DateTime DefaultActiveTo = new DateTime(2050, 12, 31, 23, 59, 59);
+        protected readonly static DateTime DefaultActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        protected readonly static DateTime DefaultActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
 
 
         protected static MockPluginManager _testSpiderPlugin = new MockPluginManager();

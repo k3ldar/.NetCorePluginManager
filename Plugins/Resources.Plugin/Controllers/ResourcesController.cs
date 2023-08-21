@@ -599,7 +599,7 @@ namespace Resources.Plugin.Controllers
 
 		private void ValidateResourceYoutube(string value)
 		{
-			Match match = Regex.Match(value, "[a-zA-Z0-9_-]");
+			Match match = Regex.Match(value, "[a-zA-Z0-9_-]", RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(1500));
 
 			if (!match.Success || String.IsNullOrEmpty(value))
 			{

@@ -89,7 +89,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
-                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
+                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
 
                     for (int i = 0; i < 10; i++)
                     {
@@ -151,7 +151,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
-                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
+                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
 
                     for (int i = 0; i < 10; i++)
                     {
@@ -216,7 +216,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
-                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
+                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
 
                     for (int i = 0; i < 10; i++)
                     {
@@ -274,7 +274,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
-                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
+                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
 
                     for (int i = 0; i < 10; i++)
                     {
@@ -332,7 +332,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
-                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
+                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
 
                     for (int i = 0; i < 10; i++)
                     {
@@ -390,7 +390,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
-                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
+                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
 
                     for (int i = 0; i < 10; i++)
                     {
@@ -448,7 +448,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
-                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
+                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
 
                     for (int i = 0; i < 10; i++)
                     {
@@ -509,7 +509,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
-                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
+                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
 
                     for (int i = 0; i < 10; i++)
                     {
