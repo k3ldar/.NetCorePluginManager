@@ -1,7 +1,7 @@
 # .NetCorePluginManager
 .Net Core Plugin Manager, extend web applications, services and normal applications using plugin technology
 
-Copyright (c) 2018 - 2023 Simon Carter.
+Copyright (c) 2018 - 2023 Simon Carter (s1cart3r@gmail.com).
 
 https://sicarterblog.wordpress.com/2018/10/02/asp-net-core-plugin-manager/
 
