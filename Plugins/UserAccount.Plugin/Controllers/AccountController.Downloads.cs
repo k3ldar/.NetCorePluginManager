@@ -50,10 +50,7 @@ namespace UserAccount.Plugin.Controllers
             List<DownloadCategory> categories = _downloadProvider.DownloadCategoriesGet(UserId());
             DownloadCategory activeCategory = categories.FirstOrDefault(d => d.Id == id);
 
-            if (activeCategory == null)
-            {
-                activeCategory = categories[0];
-            }
+            activeCategory ??= categories[0];
 
             List<ViewDownloadViewItem> downloads = new List<ViewDownloadViewItem>();
 
@@ -109,7 +106,24 @@ namespace UserAccount.Plugin.Controllers
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            string path = model.Filename;
+			DownloadItem downloadItem = null;
+
+			foreach (DownloadCategory category in _downloadProvider.DownloadCategoriesGet(UserId()))
+			{
+				foreach (DownloadItem item in category.Downloads)
+				{
+					if (item.Id == model.Id)
+					{
+						downloadItem = item;
+						break;
+					}
+				}
+
+				if (downloadItem != null)
+					break;
+			}
+			
+			string path = downloadItem.Filename;
             string name = Path.GetFileName(path);
             string ext = Path.GetExtension(path) ?? String.Empty;
 
