@@ -97,8 +97,7 @@ namespace LoginPlugin.Controllers
 
             if (loginResult == LoginResult.Success)
             {
-                if (userSession != null)
-                    userSession.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
+                userSession.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
 
                 CookieAdd(_settings.RememberMeCookieName,
                     Encrypt(loginDetails.UserId.ToString(), _settings.EncryptionKey),

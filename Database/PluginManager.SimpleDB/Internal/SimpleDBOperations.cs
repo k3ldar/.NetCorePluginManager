@@ -1041,7 +1041,7 @@ namespace SimpleDB.Internal
 				_simleDBManager?.UnregisterTable(this);
 
 				if (_foreignKeyManager != null)
-					_foreignKeyManager?.UnregisterTable(this);
+					_foreignKeyManager.UnregisterTable(this);
 			}
 
 			ForceWrite();

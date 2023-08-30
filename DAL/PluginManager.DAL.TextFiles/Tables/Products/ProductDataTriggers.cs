@@ -75,7 +75,7 @@ namespace PluginManager.DAL.TextFiles.Tables.Products
 			{
 				List<StockDataRow> stockData = _stockData.Select(sd => sd.ProductId.Equals(r.Id)).ToList();
 
-				if (stockData != null && stockData.Count > 0)
+				if (stockData.Count > 0)
 					_stockData.Delete(stockData);
 			});
 		}
