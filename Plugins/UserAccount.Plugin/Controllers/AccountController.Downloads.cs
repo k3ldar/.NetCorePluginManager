@@ -101,7 +101,7 @@ namespace UserAccount.Plugin.Controllers
         }
 
         [HttpPost]
-        public FileStreamResult DownloadFile(ViewDownloadViewItem model)
+        public IActionResult DownloadFile(ViewDownloadViewItem model)
         {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
@@ -122,7 +122,10 @@ namespace UserAccount.Plugin.Controllers
 				if (downloadItem != null)
 					break;
 			}
-			
+
+			if (downloadItem == null)
+				return RedirectToAction(nameof(Index));
+
 			string path = downloadItem.Filename;
             string name = Path.GetFileName(path);
             string ext = Path.GetExtension(path) ?? String.Empty;
