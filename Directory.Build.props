@@ -1,5 +1,7 @@
 <Project>
   
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
   <PropertyGroup>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
     <NoWarn>1701;1702;8032;8981</NoWarn>
@@ -32,12 +34,12 @@
   </PropertyGroup>
 
 	<PropertyGroup>
-		<SharedVer>3.9.1</SharedVer>
-		<SharedWinVer>1.1.0</SharedWinVer>
+		<SharedVer>3.10.0</SharedVer>
+		<SharedWinVer>1.2.0</SharedWinVer>
 	</PropertyGroup>
   
   <PropertyGroup>
-    <Version>5.3.0</Version>
+    <Version>5.4.0</Version>
     <LangVersion>latest</LangVersion>
     <Authors>Simon Carter (s1cart3r@gmail.com)</Authors>
     <Company>Simon Carter</Company>

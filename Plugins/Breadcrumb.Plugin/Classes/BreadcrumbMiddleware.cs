@@ -143,8 +143,8 @@ namespace Breadcrumb.Plugin
 
                     if (_breadcrumbRoutes.TryGetValue(route, out BreadcrumbRoute value))
                     {
-                        context.Items.Add(Constants.Breadcrumbs,
-                            GetBreadCrumbs(route, value.Breadcrumbs, String.Empty));
+                        context.Items[Constants.Breadcrumbs] =
+							GetBreadCrumbs(route, value.Breadcrumbs, String.Empty);
                         found = true;
                     }
                     else
@@ -153,8 +153,8 @@ namespace Breadcrumb.Plugin
                         {
                             if (route.StartsWith(kvp.Value.PartialRoute) && kvp.Value.HasParameters)
                             {
-                                context.Items.Add(Constants.Breadcrumbs,
-                                    GetBreadCrumbs(route, kvp.Value.Breadcrumbs, Route(context).Substring(kvp.Value.PartialRoute.Length - 1)));
+                                context.Items[Constants.Breadcrumbs] =
+									GetBreadCrumbs(route, kvp.Value.Breadcrumbs, Route(context).Substring(kvp.Value.PartialRoute.Length - 1));
                                 found = true;
                                 break;
                             }
@@ -170,12 +170,13 @@ namespace Breadcrumb.Plugin
                         else
                             homeBreadCrumb = _homeBreadCrumb;
 
-                        context.Items.Add(Constants.Breadcrumbs, new List<BreadcrumbItem>() { homeBreadCrumb });
+                        context.Items[Constants.Breadcrumbs] = new List<BreadcrumbItem>() { homeBreadCrumb };
                     }
                 }
                 catch (Exception err)
                 {
                     _logger.AddToLog(LogLevel.Error, nameof(BreadcrumbMiddleware), err, MethodBase.GetCurrentMethod().Name);
+					throw;
                 }
             }
 
