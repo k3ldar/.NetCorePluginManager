@@ -56,5 +56,9 @@
     <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
     <ProjectReference Include="..\PluginMiddleware\PluginMiddleware.csproj" />
   </ItemGroup>
+  
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CodeSignAssembly)'=='true'">
+    <Exec Command="call &quot;..\..\..\SignLibrary.bat&quot; &quot;$(TargetDir)$(TargetName)$(TargetExt)&quot;" />
+  </Target>
 
 </Project>

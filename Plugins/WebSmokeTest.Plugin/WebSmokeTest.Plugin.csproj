@@ -59,5 +59,9 @@
       <_Parameter1>AspNetCore.PluginManager.Tests</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
+  
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CodeSignAssembly)'=='true'">
+    <Exec Command="call &quot;..\..\..\SignLibrary.bat&quot; &quot;$(TargetDir)$(TargetName)$(TargetExt)&quot;" />
+  </Target>
 
 </Project>

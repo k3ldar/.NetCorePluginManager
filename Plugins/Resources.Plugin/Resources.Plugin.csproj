@@ -126,5 +126,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Views\Resources\ResourceItemSubmitted.cshtml" />
   </ItemGroup>
+  
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CodeSignAssembly)'=='true'">
+    <Exec Command="call &quot;..\..\..\SignLibrary.bat&quot; &quot;$(TargetDir)$(TargetName)$(TargetExt)&quot;" />
+  </Target>
 
 </Project>
