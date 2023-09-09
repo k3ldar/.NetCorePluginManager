@@ -47,7 +47,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"k3ldar_.NetCorePluginManager" /o:"pluginmanager" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"k3ldar_.NetCorePluginManager" /o:"pluginmanager" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml /d:sonar.host.url="https://sonarcloud.io"
           dotnet restore ./AspNetCore.PluginManager.Solution.sln
           dotnet build ./AspNetCore.PluginManager.Solution.sln --configuration Release
           dotnet test --collect "Code Coverage"
