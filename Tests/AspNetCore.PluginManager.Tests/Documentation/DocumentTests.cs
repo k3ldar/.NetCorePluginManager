@@ -47,7 +47,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public sealed class DocumentTests : BaseDocumentTests
+	[DoNotParallelize]
+	public sealed class DocumentTests : BaseDocumentTests
     {
         [TestInitialize]
 		public void Setup()

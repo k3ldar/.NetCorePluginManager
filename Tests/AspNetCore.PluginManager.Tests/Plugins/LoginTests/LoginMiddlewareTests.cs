@@ -47,7 +47,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class LoginMiddlewareTests : BaseMiddlewareTests
+	[DoNotParallelize]
+	public class LoginMiddlewareTests : BaseMiddlewareTests
     {
         private const string TestCategoryName = "Login";
 

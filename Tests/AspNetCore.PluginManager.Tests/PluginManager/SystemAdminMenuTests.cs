@@ -49,7 +49,8 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class SystemAdminMenuTests : GenericBaseClass
+	[DoNotParallelize]
+	public class SystemAdminMenuTests : GenericBaseClass
     {
         private const string TestCategoryName = "AspNetCore Plugin Manager Tests";
         private const string SystemAdminCategoryName = "System Admin Menu";

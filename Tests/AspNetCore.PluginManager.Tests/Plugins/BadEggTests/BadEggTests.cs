@@ -53,7 +53,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.BadEggTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class BadEggTests : BaseMiddlewareTests
+	[DoNotParallelize]
+	public class BadEggTests : BaseMiddlewareTests
     {
         [TestInitialize]
         public void InitialiseBadEggTests()

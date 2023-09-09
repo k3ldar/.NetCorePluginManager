@@ -42,7 +42,8 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class RouteLoadTimeMiddlewareTests : GenericBaseClass
+	[DoNotParallelize]
+	public class RouteLoadTimeMiddlewareTests : GenericBaseClass
     {
         private const string TestCategoryName = "AspNetCore Plugin Manager Tests";
         private const string MiddlewareCategoryName = "Middleware";

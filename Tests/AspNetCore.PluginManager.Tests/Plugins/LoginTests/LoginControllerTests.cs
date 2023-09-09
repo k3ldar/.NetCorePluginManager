@@ -58,7 +58,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class LoginControllerTests : BaseControllerTests
+	[DoNotParallelize]
+	public class LoginControllerTests : BaseControllerTests
     {
         private const string TestCategoryName = "Login Plugin";
 

@@ -43,7 +43,8 @@ namespace PluginManager.Tests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class PluginManagerTests
+	[DoNotParallelize]
+	public class PluginManagerTests
     {
 #if DEBUG
 		private const string Build = "Debug";

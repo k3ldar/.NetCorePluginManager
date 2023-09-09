@@ -57,7 +57,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class ImageManagerControllerTests : BaseControllerTests
+	[DoNotParallelize]
+	public class ImageManagerControllerTests : BaseControllerTests
     {
         private const string TestCategoryName = "Image Manager Tests";
         private const string ExpectedResponseWithNoListener = "{\"GroupName\":\"Group\",\"SubgroupName\":\"test subgrouP\",\"ShowSubgroup\":true,\"AdditionalDataName\":null,\"AdditionalData\":null,\"AdditionalDataMandatory\":false}";

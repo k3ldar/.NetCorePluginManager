@@ -48,7 +48,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class DynamicContentThreadManagerTests : GenericBaseClass
+	[DoNotParallelize]
+	public class DynamicContentThreadManagerTests : GenericBaseClass
     {
         private const string TestCategoryName = "Dynamic Content";
         private string _currentTestPath = null;

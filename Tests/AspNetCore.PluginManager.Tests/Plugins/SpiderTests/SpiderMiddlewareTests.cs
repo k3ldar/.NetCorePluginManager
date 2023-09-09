@@ -53,7 +53,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class SpiderMiddlewareTests : BaseMiddlewareTests
+	[DoNotParallelize]
+	public class SpiderMiddlewareTests : BaseMiddlewareTests
     {
         [TestInitialize]
         public void InitializeTest()

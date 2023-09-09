@@ -58,7 +58,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class WebSmokeTestTests : BaseMiddlewareTests
+	[DoNotParallelize]
+	public class WebSmokeTestTests : BaseMiddlewareTests
     {
         private string EncryptionKey;
 

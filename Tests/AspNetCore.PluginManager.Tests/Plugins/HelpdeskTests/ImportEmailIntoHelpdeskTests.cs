@@ -46,8 +46,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.HelpdeskTests
 {
 	[TestClass]
 	[ExcludeFromCodeCoverage]
+	[DoNotParallelize]
 	public class ImportEmailIntoHelpdeskTests
 	{
+		[TestInitialize]
+		public void InitialiseTests()
+		{
+			Environment.SetEnvironmentVariable("EmailPop3ServerName", "test.server.com");
+			Environment.SetEnvironmentVariable("EmailUserName", "myemail.test.server.com");
+			Environment.SetEnvironmentVariable("EmailUserPassword", "asdfasdfasdf");
+			Environment.SetEnvironmentVariable("EmailPop3Port", "634");
+		}
+
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void Construct_InvalidParameter_HelpdeskProviderNull_Throws_ArgumentNullException()

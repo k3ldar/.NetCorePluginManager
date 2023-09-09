@@ -72,8 +72,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9D6C1367-C141-4577-8E9C-5710C9D5E516}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		appveyor.yml = appveyor.yml
-		azure-pipelines.yml = azure-pipelines.yml
 		Directory.Build.props = Directory.Build.props
 		README.md = README.md
 		ReleaseNotes.txt = ReleaseNotes.txt
@@ -110,6 +108,16 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginManager.DAL.TextFiles.Tests", "Tests\PluginManager.DAL.TextFiles.Tests\PluginManager.DAL.TextFiles.Tests.csproj", "{2CA6425F-5474-43CC-AC87-47A4D49A8ADA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resources.Plugin", "Plugins\Resources.Plugin\Resources.Plugin.csproj", "{33E06D80-EEED-491E-A212-7C5E6688A37D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{0B6CC20A-FE83-4CC7-A836-06CE25C5F24C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{30CA931F-8150-451B-8720-11D53C7C9749}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build.yml = .github\workflows\build.yml
+		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ISSUE_TEMPLATE", "ISSUE_TEMPLATE", "{054AB9E6-B61B-416E-9680-8F470C38D767}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -304,6 +312,9 @@ Global
 		{615AE0C8-2986-49AB-9B84-139E252CCB59} = {8522A683-113C-49D8-BA64-E6677D72A5E9}
 		{59B9833B-8752-4257-AB07-244555F71E96} = {19AFBC9B-7D1B-4405-871F-00763C364C86}
 		{2CA6425F-5474-43CC-AC87-47A4D49A8ADA} = {19AFBC9B-7D1B-4405-871F-00763C364C86}
+		{0B6CC20A-FE83-4CC7-A836-06CE25C5F24C} = {9D6C1367-C141-4577-8E9C-5710C9D5E516}
+		{30CA931F-8150-451B-8720-11D53C7C9749} = {0B6CC20A-FE83-4CC7-A836-06CE25C5F24C}
+		{054AB9E6-B61B-416E-9680-8F470C38D767} = {0B6CC20A-FE83-4CC7-A836-06CE25C5F24C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {144AC182-32DC-41B2-9617-BBB390D27A65}

@@ -42,7 +42,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
 	[TestClass]
     [ExcludeFromCodeCoverage]
-    public class DownloadProviderTests : BaseProviderTests
+	[DoNotParallelize]
+	public class DownloadProviderTests : BaseProviderTests
     {
 		[TestInitialize]
 		public void Setup()

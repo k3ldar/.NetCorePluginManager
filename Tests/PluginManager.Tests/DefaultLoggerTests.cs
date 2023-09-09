@@ -36,7 +36,8 @@ namespace PluginManager.Tests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class DefaultLoggerTests
+	[DoNotParallelize]
+	public class DefaultLoggerTests
     {
         private TestTraceListener _traceListner;
 

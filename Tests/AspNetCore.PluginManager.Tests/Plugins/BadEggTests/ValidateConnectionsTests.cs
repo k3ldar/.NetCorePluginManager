@@ -44,7 +44,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.BadEggTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class ValidateConnectionsTests
+	[DoNotParallelize]
+	public class ValidateConnectionsTests
     {
         private const string TestCategoryName = "BadEgg";
 

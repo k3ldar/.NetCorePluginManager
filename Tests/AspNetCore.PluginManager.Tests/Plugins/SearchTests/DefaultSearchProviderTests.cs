@@ -50,7 +50,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class DefaultSearchProviderTests : MockBasePlugin
+	[DoNotParallelize]
+	public class DefaultSearchProviderTests : MockBasePlugin
     {
         [TestInitialize]
         public void InitializeSearchTests()

@@ -50,7 +50,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public sealed class SpiderControllerTests : BaseControllerTests
+	[DoNotParallelize]
+	public sealed class SpiderControllerTests : BaseControllerTests
     {
         [TestInitialize]
         public void InitializeSpiderControllerTests()

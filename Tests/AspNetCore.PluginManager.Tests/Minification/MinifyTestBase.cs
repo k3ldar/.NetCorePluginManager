@@ -33,13 +33,14 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests
 {
-    public class MinifyTestBase
+    [ExcludeFromCodeCoverage]
+	[DoNotParallelize]
+	public class MinifyTestBase
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1051:Do not declare visible instance fields", Justification = "It's just a test man, innit!")]
         protected IMinificationEngine _minifyFileContents;
 
         [TestInitialize]
-        [ExcludeFromCodeCoverage]
         public void InitialiseTest()
         {
             _minifyFileContents = new MinificationEngine();

@@ -46,7 +46,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class DefaultImageProviderTests : GenericBaseClass
+	[DoNotParallelize]
+	public class DefaultImageProviderTests : GenericBaseClass
     {
         private const string ImageManagerTestsCategory = "Image Manager Tests";
         private const string DemoWebsiteImagePath = "..\\..\\..\\..\\..\\..\\.NetCorePluginManager\\Demo\\NetCorePluginDemoWebsite\\wwwroot\\images";

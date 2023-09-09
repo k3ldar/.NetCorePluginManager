@@ -34,6 +34,10 @@
     <AssemblyOriginatorKeyFile>$(AssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0|AnyCPU'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
 	<ItemGroup>
 		<None Remove="Properties\Images\banksy-no-ball-games.-graffiti-street-fine-art-print-poster.-sizes-a4-a3-a2-a1-001187--4305-p.jpg" />
 		<None Remove="Properties\Images\banksy-pulp-fiction.-banana-graffiti-street-fine-art-print-poster.-sizes-a4-a3-a2-a1-00344--4244-p.jpg" />
