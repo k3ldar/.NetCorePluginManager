@@ -52,6 +52,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
+	[DoNotParallelize]
     public sealed class KeywordSearchTests : MockBasePlugin
     {
         private const int _searchClassCount = 4;

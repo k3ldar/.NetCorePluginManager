@@ -37,7 +37,8 @@ namespace PluginManager.Tests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class PluginHelperServiceTests
+	[DoNotParallelize]
+	public class PluginHelperServiceTests
     {
         #region Private Members
 

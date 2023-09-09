@@ -43,7 +43,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class DynamicContentMenuTests
+	[DoNotParallelize]
+	public class DynamicContentMenuTests
     {
         private const string TestCategoryName = "Memory Cache Plugin";
         private const string SystemAdminCategoryName = "System Admin";

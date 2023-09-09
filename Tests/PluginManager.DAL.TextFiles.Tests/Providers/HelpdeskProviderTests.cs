@@ -37,11 +37,14 @@ using PluginManager.DAL.TextFiles.Tables;
 using SimpleDB;
 using PluginManager.Tests.Mocks;
 using Shared.Classes;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
 	[TestClass]
-    public class HelpdeskProviderTests : BaseProviderTests
+	[ExcludeFromCodeCoverage]
+	[DoNotParallelize]
+	public class HelpdeskProviderTests : BaseProviderTests
     {
 		[TestInitialize]
 		public void Setup()

@@ -46,7 +46,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class DefaultDynamicContentProviderTests : GenericBaseClass
+	[DoNotParallelize]
+	public class DefaultDynamicContentProviderTests : GenericBaseClass
     {
         private const string TestCategoryName = "Dynamic Content";
         private const string HtmlTemplateAssemblyQualifiedName = "DynamicContent.Plugin.Templates.HtmlTextTemplate, DynamicContent.Plugin";

@@ -43,7 +43,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class SystemAdminHelperTests : GenericBaseClass
+	[DoNotParallelize]
+	public class SystemAdminHelperTests : GenericBaseClass
     {
         private const string TestsCategory = "SystemAdmin Tests";
 

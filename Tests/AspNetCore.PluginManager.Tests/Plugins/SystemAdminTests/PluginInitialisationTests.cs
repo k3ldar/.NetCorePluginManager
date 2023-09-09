@@ -50,7 +50,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class PluginInitialisationTests
+	[DoNotParallelize]
+	public class PluginInitialisationTests
     {
         private const string TestsCategoryName = "System Admin";
 

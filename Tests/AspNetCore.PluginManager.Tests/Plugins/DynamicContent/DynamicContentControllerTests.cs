@@ -62,8 +62,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-
-    public class DynamicContentControllerTests : BaseControllerTests
+	[DoNotParallelize]
+	public class DynamicContentControllerTests : BaseControllerTests
     {
         #region Private Members
 

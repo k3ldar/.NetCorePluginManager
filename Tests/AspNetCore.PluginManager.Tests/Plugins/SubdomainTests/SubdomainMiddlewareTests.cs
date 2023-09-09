@@ -52,7 +52,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class SubdomainMiddlewareTests : BaseMiddlewareTests
+	[DoNotParallelize]
+	public class SubdomainMiddlewareTests : BaseMiddlewareTests
     {
         #region Constants
 

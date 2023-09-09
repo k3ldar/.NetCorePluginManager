@@ -51,6 +51,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
 	[TestClass]
 	[ExcludeFromCodeCoverage]
+	[DoNotParallelize]
 	public class ResourceProviderTests : BaseProviderTests
 	{
 		[TestInitialize]

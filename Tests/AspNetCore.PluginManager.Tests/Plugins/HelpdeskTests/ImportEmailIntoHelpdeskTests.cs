@@ -46,6 +46,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.HelpdeskTests
 {
 	[TestClass]
 	[ExcludeFromCodeCoverage]
+	[DoNotParallelize]
 	public class ImportEmailIntoHelpdeskTests
 	{
 		[TestInitialize]
