@@ -166,6 +166,15 @@ namespace HelpdeskPlugin.Classes
 				string password = Environment.GetEnvironmentVariable("EmailUserPassword");
 				string port = Environment.GetEnvironmentVariable("EmailPop3Port");
 
+				if (String.IsNullOrEmpty(pop3Server) || String.IsNullOrEmpty(userName) || String.IsNullOrEmpty(password) || String.IsNullOrEmpty(port))
+				{
+					_logger.AddToLog(PluginManager.LogLevel.Error, "Environment variables not setup for email");
+					pop3Server = String.Empty;
+					userName = String.Empty;
+					password = String.Empty;
+					port = String.Empty;
+				}
+
 				using IPop3Client popClient = _pop3ClientFactory.Create();
 
 				popClient.Initialize(pop3Server, userName, password, ushort.Parse(port));
