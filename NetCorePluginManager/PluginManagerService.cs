@@ -29,6 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 using Microsoft.AspNetCore.Builder;
@@ -127,32 +128,36 @@ namespace AspNetCore.PluginManager
                     _preinitialisedPlugins = null;
                 }
 
-                // are any plugins specifically mentioned in the config, load them
-                // first so we have some control on the load order
+				// are any plugins specifically mentioned in the config, load them
+				// first so we have some control on the load order
+				string pluginSearchPath = _pluginSettings.PluginSearchPath;
 
-                if (_pluginSettings.PluginFiles != null)
+				if (String.IsNullOrEmpty(pluginSearchPath) || !Directory.Exists(pluginSearchPath))
+					pluginSearchPath = AddTrailingBackSlash(_rootPath);
+
+				string[] files = Array.Empty<string>();
+
+				if (!String.IsNullOrEmpty(pluginSearchPath) && Directory.Exists(pluginSearchPath))
+					files = Directory.GetFiles(pluginSearchPath, "*.*", SearchOption.TopDirectoryOnly);
+
+
+
+				if (_pluginSettings.PluginFiles != null && files.Length > 0)
                 {
                     foreach (string file in _pluginSettings.PluginFiles)
                     {
                         string pluginFile = file;
 
-                        if (String.IsNullOrEmpty(pluginFile) || !File.Exists(pluginFile))
+						if (String.IsNullOrEmpty(pluginFile))
+							continue;
+						
+						if (!File.Exists(pluginFile) && !FindPlugin(ref pluginFile, files, GetPluginSetting(pluginFile)))
                         {
-                            if (!String.IsNullOrEmpty(pluginFile) && !FindPlugin(ref pluginFile, GetPluginSetting(pluginFile)))
-                            {
-                                if (!String.IsNullOrEmpty(pluginFile))
-                                {
-                                    _logger.AddToLog(LogLevel.PluginLoadFailed, $"Could not find plugin: {pluginFile}");
-                                }
-
-                                continue;
-                            }
+                            _logger.AddToLog(LogLevel.PluginLoadFailed, $"Could not find plugin: {pluginFile}");
+                            continue;
                         }
-                        //#if NET_CORE_3_0
-                        //                        _logger.AddToLog(LogLevel.PluginConfigureError, $"Unable to load {pluginFile} dynamically, use UsePlugin() method instead.");
-                        //#else
+
                         _pluginManagerInstance.PluginLoad(pluginFile, _pluginSettings.CreateLocalCopy);
-                        //#endif
                     }
                 }
 
@@ -311,33 +316,24 @@ namespace AspNetCore.PluginManager
 
         #region Private Static Methods
 
-        private static bool FindPlugin(ref string pluginFile, in PluginSetting pluginSetting)
+        private static bool FindPlugin(ref string pluginFile, in string[] files, in PluginSetting pluginSetting)
         {
-            string pluginSearchPath = _pluginSettings.PluginSearchPath;
+            if (String.IsNullOrEmpty(pluginSetting.Version))
+                pluginSetting.Version = LatestVersion;
 
-            if (String.IsNullOrEmpty(pluginSearchPath) || !Directory.Exists(pluginSearchPath))
-                pluginSearchPath = AddTrailingBackSlash(_rootPath);
+			string file = pluginFile;
+            string[] searchFiles = files.Where(f => f.EndsWith(Path.GetFileName(file))).ToArray();
 
-            if (!String.IsNullOrEmpty(pluginSearchPath) && Directory.Exists(pluginSearchPath))
+            if (searchFiles.Length == 0)
+                return false;
+
+            if (searchFiles.Length == 1)
             {
-                if (String.IsNullOrEmpty(pluginSetting.Version))
-                    pluginSetting.Version = LatestVersion;
-
-                string[] searchFiles = Directory.GetFiles(pluginSearchPath, Path.GetFileName(pluginFile), SearchOption.AllDirectories);
-
-                if (searchFiles.Length == 0)
-                    return false;
-
-                if (searchFiles.Length == 1)
-                {
-                    pluginFile = searchFiles[0];
-                    return true;
-                }
-
-                return GetSpecificVersion(searchFiles, pluginSetting.Version, ref pluginFile);
+                pluginFile = searchFiles[0];
+                return true;
             }
 
-            return false;
+            return GetSpecificVersion(searchFiles, pluginSetting.Version, ref pluginFile);
         }
 
         private static bool GetSpecificVersion(string[] searchFiles, in string version, ref string pluginFile)
