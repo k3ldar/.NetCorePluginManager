@@ -1011,6 +1011,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 		[TestCategory(TestCategoryName)]
 		public void CreateResourceItem_YouTubeUserCanNotManageResources_CreateResourceItem_RedirectsToThankYou()
 		{
+			// may be flaky as relies on call to youtube
 			MockHttpContext requestContext = new MockHttpContext();
 			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
 
@@ -1045,6 +1046,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 		[TestCategory(TestCategoryName)]
 		public void CreateResourceItem_YouTubeUserCanManageResources_CreateResourceItem_RedirectsToManageResourceItems()
 		{
+			// may be flaky as relies on call to youtube
 			MockHttpContext requestContext = new MockHttpContext();
 			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
 

@@ -4909,12 +4909,6 @@
             Path for error logs
             </summary>
         </member>
-        <member name="M:Shared.EventLog.ArchiveOldLogFiles(System.Int32)">
-            <summary>
-            Archives old log files, older than days
-            </summary>
-            <param name="days">Age of file in days</param>
-        </member>
         <member name="P:Shared.EventLog.MaximumFileSize">
             <summary>
             Maximum size of log/error file

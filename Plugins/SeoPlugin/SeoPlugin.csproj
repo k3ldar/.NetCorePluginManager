@@ -42,7 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ApplicationSettings" Version="2.2.0" />
+    <PackageReference Include="ApplicationSettings" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup>
