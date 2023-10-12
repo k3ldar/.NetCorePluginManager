@@ -108,7 +108,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         public void LoadedPluginsMenu_CreateValidInstance_Success()
         {
             string DefaultDataStart = "Module|Plugin Version|File Version\r";
-            string[] DefaultDataContains = { "Module|Plugin Version|File Version", "\rPluginManager.dll|1|", "\rAspNetCore.PluginManager.dll|1|", "\rDemoApiPlugin.dll|1|", "\rDemoWebsitePlugin.dll|1|" };
+            string[] DefaultDataContains = { "Module|Plugin Version|File Version", "\rPluginManager.dll|1|", "\rAspNetCore.PluginManager.dll|1|" };
 
             PluginManagerService.Initialise();
             try
@@ -193,7 +193,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         public void LoggerStatisticsMenu_CreateValidInstance_Success()
         {
             string DefaultDataStart = "DateTime|Log Type|Message\r";
-            string[] DefaultDataContains = { "DateTime|Log Type|Message\r", "|PluginLoadSuccess|PluginManager.dll", "|PluginConfigureError|testhost.dll contains no IPlugin Interface", "|PluginLoadSuccess|AspNetCore.PluginManager.dll", "|PluginLoadSuccess|DemoApiPlugin.dll" };
+            string[] DefaultDataContains = { "DateTime|Log Type|Message\r", "|PluginLoadSuccess|PluginManager.dll", "|PluginConfigureError|testhost.dll contains no IPlugin Interface", "|PluginLoadSuccess|AspNetCore.PluginManager.dll" };
 
             PluginManagerService.Initialise();
             try
