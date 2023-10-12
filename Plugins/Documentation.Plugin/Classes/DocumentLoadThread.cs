@@ -47,7 +47,7 @@ namespace DocumentationPlugin.Classes
         #region Constructors
 
         public DocumentLoadThread(IDocumentationService documentationService)
-            : base(null, new TimeSpan(0, 5, 0))
+            : base(null, new TimeSpan(0, 5, 0), null, 10000, 200, false, true)
         {
             HangTimeout = 0;
             _documentationService = documentationService ?? throw new ArgumentNullException(nameof(documentationService));

@@ -28,7 +28,7 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-	[Table(Constants.DomainSessions, Constants.TableNameSessionStatsDaily, CompressionType.Brotli, CachingStrategy.SlidingMemory, WriteStrategy.Lazy)]
+	[Table(Constants.DomainSessions, Constants.TableNameSessionStatsDaily, CompressionType.Brotli, CachingStrategy.SlidingMemory, WriteStrategy.Lazy, SlidingMemoryTimeoutMilliseconds = 300)]
 	internal class SessionStatsDailyDataRow : SessionStatsBaseData
 	{
 		private long _dateTicks;

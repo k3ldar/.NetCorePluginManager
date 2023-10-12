@@ -64,7 +64,7 @@ namespace SimpleDB.Internal
         {
             using (TimedLock timedLock = TimedLock.Lock(_lock))
             {
-                return _keys.Contains((T)value);
+                return _keys.BinarySearch((T)value) > -1;
             }
         }
 
@@ -92,7 +92,8 @@ namespace SimpleDB.Internal
         {
             using (TimedLock timedLock = TimedLock.Lock(_lock))
             {
-                if (_keys.Contains((T)value))
+
+                if (Contains((T)value))
                     return;
 
                 switch (IndexType)

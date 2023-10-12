@@ -912,6 +912,13 @@
             </summary>
             <returns>IAuthenticationService</returns>
         </member>
+        <member name="M:SharedPluginFeatures.BaseController.IsUriLocalToHost(System.String)">
+            <summary>
+            Determines whether the value passed is a uri to the local
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
         <member name="M:SharedPluginFeatures.BaseController.GetSerializerOptions">
             <summary>
             Returns a generic serializer options isntance

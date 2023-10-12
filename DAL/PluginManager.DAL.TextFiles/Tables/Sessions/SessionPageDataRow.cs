@@ -28,7 +28,7 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-	[Table(Constants.DomainSessions, Constants.TableNameSessionPages)]
+	[Table(Constants.DomainSessions, Constants.TableNameSessionPages, CompressionType.None, CachingStrategy.SlidingMemory, WriteStrategy.Lazy, SlidingMemoryTimeoutMilliseconds = 300)]
 	internal class SessionPageDataRow : TableRowDefinition
 	{
 		private long _sessionId;
