@@ -28,7 +28,7 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-	[Table(Constants.DomainSessions, Constants.TableNameSessionStatsYearly, CompressionType.Brotli, CachingStrategy.SlidingMemory, WriteStrategy.Lazy)]
+	[Table(Constants.DomainSessions, Constants.TableNameSessionStatsYearly, CompressionType.Brotli, CachingStrategy.SlidingMemory, WriteStrategy.Lazy, SlidingMemoryTimeoutMilliseconds = 300)]
 	internal class SessionStatsYearlyDataRow : SessionStatsBaseData
 	{
 		private int _year;

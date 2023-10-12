@@ -1015,15 +1015,16 @@ namespace PluginManager
                     if (!CanExtractResource(resourceFileName))
                         continue;
 
-                    if (File.Exists(resourceFileName) && !pluginSetting.ReplaceExistingResources)
+					bool fileExists = File.Exists(resourceFileName);
+
+					if (fileExists && !pluginSetting.ReplaceExistingResources)
                         continue;
 
                     string directory = Path.GetDirectoryName(resourceFileName);
 
-                    if (!Directory.Exists(directory))
-                        Directory.CreateDirectory(directory);
+                    Directory.CreateDirectory(directory);
 
-                    if (File.Exists(resourceFileName))
+                    if (fileExists)
                         File.Delete(resourceFileName);
 
                     using (Stream fileStream = File.OpenWrite(resourceFileName))

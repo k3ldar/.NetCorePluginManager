@@ -28,7 +28,7 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-	[Table(Constants.DomainSessions, Constants.TableNameInitialReferrals)]
+	[Table(Constants.DomainSessions, Constants.TableNameInitialReferrals, CompressionType.None, CachingStrategy.SlidingMemory, WriteStrategy.Lazy, SlidingMemoryTimeoutMilliseconds = 30000)]
 	internal class InitialReferralsDataRow : TableRowDefinition
 	{
 		private string _hash;

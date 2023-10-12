@@ -28,7 +28,7 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-	[Table(Constants.DomainSessions, Constants.TableNameSession, CompressionType.Brotli)]
+	[Table(Constants.DomainSessions, Constants.TableNameSession, CompressionType.Brotli, CachingStrategy.SlidingMemory, WriteStrategy.Lazy, SlidingMemoryTimeoutMilliseconds = 300)]
 	internal class SessionDataRow : TableRowDefinition
 	{
 		private string _sessionId;

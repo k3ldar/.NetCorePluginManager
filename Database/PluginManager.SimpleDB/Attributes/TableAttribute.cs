@@ -85,7 +85,7 @@ namespace SimpleDB
             Domain = domain;
             TableName = tableName;
             Compression = compression;
-            CachingStrategy = writeStrategy == WriteStrategy.Lazy ? CachingStrategy.Memory : cachingStrategy;
+            CachingStrategy = writeStrategy == WriteStrategy.Lazy ? cachingStrategy : writeStrategy == WriteStrategy.Lazy ? CachingStrategy.Memory : cachingStrategy;
             WriteStrategy = writeStrategy;
 		}
 
