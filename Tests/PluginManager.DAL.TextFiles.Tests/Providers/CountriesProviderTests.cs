@@ -321,7 +321,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     List<Country> allCountries = sut.GetAllCountries();
 
-                    Assert.IsFalse(allCountries.Where(c => c.Code.Equals("XX")).Any());
+                    Assert.IsFalse(allCountries.Exists(c => c.Code.Equals("XX")));
                 }
             }
             finally
@@ -337,7 +337,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -354,7 +353,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsFalse(unknown.Visible);
                     Assert.AreEqual(1, unknown.Id);
 
-                    Assert.AreEqual(250, countryTable.Select().Where(c => c.Visible).Count());
+                    Assert.AreEqual(250, countryTable.Select().Count(c => c.Visible));
                 }
             }
             finally

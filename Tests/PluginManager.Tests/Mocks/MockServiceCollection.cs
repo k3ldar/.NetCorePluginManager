@@ -82,11 +82,11 @@ namespace PluginManager.Tests.Mocks
 
         public bool HasServiceRegistered<T>(ServiceLifetime serviceLifetime)
         {
-            bool Result = _serviceDescriptors.Where(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && sd.ServiceType.Equals(typeof(T))).Any();
+            bool Result = _serviceDescriptors.Exists(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && sd.ServiceType.Equals(typeof(T)));
 
             if (!Result)
             {
-                Result = _serviceDescriptors.Where(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && GetNameWithoutGenericArity(sd.ServiceType).Equals(GetNameWithoutGenericArity(typeof(T)))).Any();
+                Result = _serviceDescriptors.Exists(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && GetNameWithoutGenericArity(sd.ServiceType).Equals(GetNameWithoutGenericArity(typeof(T))));
             }
 
             return Result;
@@ -94,11 +94,11 @@ namespace PluginManager.Tests.Mocks
 
 		public bool HasServiceRegistered(ServiceLifetime serviceLifetime, Type serviceType)
 		{
-			bool Result = _serviceDescriptors.Where(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && sd.ServiceType.Equals(serviceType)).Any();
+			bool Result = _serviceDescriptors.Exists(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && sd.ServiceType.Equals(serviceType));
 
 			if (!Result)
 			{
-				Result = _serviceDescriptors.Where(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && GetNameWithoutGenericArity(sd.ServiceType).Equals(GetNameWithoutGenericArity(serviceType))).Any();
+				Result = _serviceDescriptors.Exists(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && GetNameWithoutGenericArity(sd.ServiceType).Equals(GetNameWithoutGenericArity(serviceType)));
 			}
 
 			return Result;

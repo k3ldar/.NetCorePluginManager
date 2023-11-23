@@ -144,12 +144,8 @@ namespace Middleware.ShoppingCart
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "<Pending>")]
         public void Update(int productId, int count)
         {
-            ShoppingCartItem existingItem = Items.FirstOrDefault(e => e.Id == productId);
-
-            if (existingItem == null)
-                throw new ArgumentException("invalid product id", nameof(productId));
-
-            existingItem.ResetCount(count);
+            ShoppingCartItem existingItem = Items.FirstOrDefault(e => e.Id == productId) ?? throw new ArgumentException("invalid product id", nameof(productId));
+			existingItem.ResetCount(count);
 
             Reset();
         }

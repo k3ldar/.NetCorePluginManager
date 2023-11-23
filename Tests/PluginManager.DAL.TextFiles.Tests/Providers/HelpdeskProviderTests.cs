@@ -66,7 +66,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -107,7 +106,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -149,7 +147,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -191,7 +188,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -752,7 +748,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(ticket);
                     Assert.AreEqual("Jane Doe", ticket.LastReplier);
 
-                    bool result = sut.TicketRespond(ticket, "John Doe", "a response");
+                    _ = sut.TicketRespond(ticket, "John Doe", "a response");
 
                     Assert.AreEqual(2, ticket.Messages.Count);
                     Assert.AreEqual("John Doe", ticket.LastReplier);
