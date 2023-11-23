@@ -450,6 +450,9 @@ namespace SimpleDB.Tests
 					sut.Insert(testData);
 				}
 
+				FileInfo fi = new FileInfo(Path.Combine(directory, "MockTable.dat"));
+				Assert.AreEqual(1475404, fi.Length);
+
 				using (SimpleDBOperations<MockRow> deleteSut = new SimpleDBOperations<MockRow>(simpleDBManager, keyManager))
 				{
 					Assert.AreEqual(15168, deleteSut.RecordCount);
@@ -462,6 +465,9 @@ namespace SimpleDB.Tests
 						deleteSut.Select(15000)
 					});
 				}
+
+				fi = new FileInfo(Path.Combine(directory, "MockTable.dat"));
+				Assert.AreEqual(1475112, fi.Length);
 
 				using (SimpleDBOperations<MockRow> readSut = new SimpleDBOperations<MockRow>(simpleDBManager, keyManager))
 				{
