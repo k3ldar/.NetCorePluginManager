@@ -74,7 +74,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -136,7 +135,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -201,7 +199,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -259,7 +256,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -317,7 +313,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -375,7 +370,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -433,7 +427,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -493,7 +486,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -508,8 +500,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
-
-                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
 
                     for (int i = 0; i < 10; i++)
                     {
@@ -556,7 +546,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -608,7 +597,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -641,12 +629,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                             }
                         });
                     }
-
-                    List<string> tags = new List<string>()
-                    {
-                        "new",
-                        "blog"
-                    };
 
                     IBlogProvider sut = provider.GetRequiredService<IBlogProvider>();
                     Assert.IsNotNull(sut);
@@ -682,7 +664,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -741,7 +722,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())

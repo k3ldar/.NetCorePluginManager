@@ -91,17 +91,11 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
 
-            SettingsDataRow settingsDataRow = _settingsData.Select().FirstOrDefault(sd => sd.Name.Equals(name));
-
-            if (settingsDataRow == null)
-            {
-                settingsDataRow = new SettingsDataRow()
+            SettingsDataRow settingsDataRow = _settingsData.Select().FirstOrDefault(sd => sd.Name.Equals(name)) ?? new SettingsDataRow()
                 {
                     Name = name,
                 };
-            }
-
-            settingsDataRow.Value = value.ToString();
+			settingsDataRow.Value = value.ToString();
 
             _settingsData.InsertOrUpdate(settingsDataRow);
         }

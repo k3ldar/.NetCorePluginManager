@@ -68,12 +68,8 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
-            SimpleDBSettings settings = settingsProvider.GetSettings<SimpleDBSettings>(nameof(SimpleDBSettings));
-
-            if (settings == null)
-                throw new InvalidOperationException();
-
-            _encryptionKey = settings.EnycryptionKey;
+            SimpleDBSettings settings = settingsProvider.GetSettings<SimpleDBSettings>(nameof(SimpleDBSettings)) ?? throw new InvalidOperationException();
+			_encryptionKey = settings.EnycryptionKey;
             _users = users ?? throw new ArgumentNullException(nameof(users));
             _addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
             _orders = orders ?? throw new ArgumentNullException(nameof(orders));
@@ -99,12 +95,8 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (String.IsNullOrEmpty(newPassword))
                 throw new ArgumentNullException(nameof(newPassword));
 
-            UserDataRow user = _users.Select(userId);
-
-            if (user == null)
-                throw new ArgumentException("user not found", nameof(userId));
-
-            user.Password = Shared.Utilities.Encrypt(newPassword, _encryptionKey);
+            UserDataRow user = _users.Select(userId) ?? throw new ArgumentException("user not found", nameof(userId));
+			user.Password = Shared.Utilities.Encrypt(newPassword, _encryptionKey);
             _users.Update(user);
             return true;
         }

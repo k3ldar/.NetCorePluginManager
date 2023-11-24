@@ -91,7 +91,6 @@ namespace SharedPluginFeatures
 
 		#region Static Methods
 
-
 		private static string ValidateUserPathInput(string path)
 		{
 			if (path.Contains(Constants.InvalidPathPreviousDirectory))

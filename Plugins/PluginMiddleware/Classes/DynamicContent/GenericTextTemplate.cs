@@ -87,7 +87,7 @@ namespace Middleware.Classes.DynamicContent
 
 			set
 			{
-
+				// required from interface but not used
 			}
 		}
 
@@ -100,7 +100,7 @@ namespace Middleware.Classes.DynamicContent
 
 			set
 			{
-
+				// required from interface but not used
 			}
 		}
 

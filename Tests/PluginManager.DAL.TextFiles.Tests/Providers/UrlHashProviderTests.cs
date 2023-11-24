@@ -54,7 +54,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			{
 				ThreadManager.Initialise();
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 				MockGeoIpProvider geoIp = new MockGeoIpProvider();
 				services.AddSingleton<IGeoIpProvider>(geoIp);

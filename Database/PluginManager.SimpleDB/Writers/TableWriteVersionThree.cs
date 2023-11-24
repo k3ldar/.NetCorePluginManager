@@ -76,6 +76,8 @@ namespace SimpleDB.Writers
 				writer.Write(data.Length);
 				writer.Write(data, 0, data.Length);
 			}
+
+			writer.BaseStream.SetLength(writer.BaseStream.Position);
 		}
 	}
 }
