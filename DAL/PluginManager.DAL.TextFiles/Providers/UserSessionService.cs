@@ -189,9 +189,9 @@ namespace PluginManager.DAL.TextFiles.Providers
 				userSession.UserName = user.FullName;
 			}
 
+			userSession.SaveStatus = SaveStatus.Saved;
 			_sessionData.Insert(sessionDataRow);
 			userSession.InternalSessionID = sessionDataRow.Id;
-			userSession.SaveStatus = SaveStatus.Saved;
 		}
 
 		/// <summary>
@@ -236,7 +236,8 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			userSession.SaveStatus = SaveStatus.Saved;
 
-			SessionDataRow currentSessionData = _sessionData.Select(userSession.InternalSessionID);
+			string sessionId = userSession.SessionID;
+			SessionDataRow currentSessionData = _sessionData.Select(userSession.InternalSessionID) ?? _sessionData.Select().FirstOrDefault(s => s.SessionId.Equals(sessionId));
 
 			if (currentSessionData == null)
 			{

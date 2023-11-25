@@ -34,12 +34,12 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <SharedVer>3.10.2</SharedVer>
-    <SharedWinVer>1.2.1</SharedWinVer>
+    <SharedVer>3.12.0</SharedVer>
+    <SharedWinVer>1.4.0</SharedWinVer>
   </PropertyGroup>
   
   <PropertyGroup>
-    <Version>5.5.1</Version>
+    <Version>5.5.2</Version>
     <LangVersion>latest</LangVersion>
     <Authors>Simon Carter (s1cart3r@gmail.com)</Authors>
     <Company>Simon Carter</Company>

@@ -343,6 +343,9 @@ namespace SimpleDB.Internal
 		{
 			using (TimedLock timedLock = TimedLock.Lock(_lockObject, TimeSpan.FromMilliseconds(30)))
 			{
+				if (_allRecords != null)
+					InternalSaveRecordsToDisk(_allRecords, true);
+
 				_allRecords = null;
 			}
 		}
@@ -1082,7 +1085,9 @@ namespace SimpleDB.Internal
 			_recordCount = reader.ReadInt32();
 			_ = reader.ReadInt32();
 			_dataLength = reader.ReadInt32();
-			_pageCount = reader.ReadInt32();
+
+			if (_internalWriteVersion > 0 && _internalWriteVersion < 3)
+				_pageCount = reader.ReadInt32();
 		}
 
 		private (bool, string) ValidateTableName(string path, string domain, string name, PageSize pageSize)
