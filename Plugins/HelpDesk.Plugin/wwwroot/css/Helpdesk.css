@@ -159,7 +159,6 @@
     color: white;
 }
 
-/* Style the tab */
 .helpdeskTab {
     overflow: hidden;
     border: 1px solid #ccc;
@@ -227,7 +226,6 @@
         height: auto;
         display: block;
         list-style: none;
-        /*padding-inline-start: 10px;*/
     }
 
         .helpdeskGroupList ul li {

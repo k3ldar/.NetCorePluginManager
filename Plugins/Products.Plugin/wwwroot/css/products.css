@@ -348,9 +348,6 @@ h4 {
                 color: #333;
             }
 
-        /*.leftColumn ul.collapsible {
-        }*/
-
             .leftColumn ul.collapsible li {
                 background: none;
                 padding: 3px 0;
@@ -411,7 +408,6 @@ h4 {
 
         .mainContent .pagination ul li {
             display: inline;
-            /*margin: 0 5px;*/
         }
 
             .mainContent .pagination ul li a {
@@ -538,18 +534,6 @@ h4 {
         height: 600px;
     }
 }
-
-/*.fa {
-    display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-}
-
-.fa-star:before {
-    content: "\f005"
-}*/
 
 .search-buy {
     overflow: visible;
