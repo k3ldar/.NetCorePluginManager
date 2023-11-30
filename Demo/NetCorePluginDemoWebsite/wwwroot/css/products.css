@@ -304,7 +304,6 @@ font-weight: bold;
 .leftColumn ul li a:hover {
 color: #333;
 }
-
 .leftColumn ul.collapsible li {
 background: none;
 padding: 3px 0;
@@ -354,7 +353,6 @@ margin: 0;
 }
 .mainContent .pagination ul li {
 display: inline;
-
 }
 .mainContent .pagination ul li a {
 background: #eaeaea;
@@ -460,7 +458,6 @@ width: 800px;
 height: 600px;
 }
 }
-
 .search-buy {
 overflow: visible;
 float:right;

@@ -128,7 +128,6 @@ text-align: left;
 background-color: #707B7C;
 color: white;
 }
-
 .helpdeskTab {
 overflow: hidden;
 border: 1px solid #ccc;
@@ -186,7 +185,6 @@ padding: 5px 15px 0 0;
 height: auto;
 display: block;
 list-style: none;
-
 }
 .helpdeskGroupList ul li {
 width: 300px;
