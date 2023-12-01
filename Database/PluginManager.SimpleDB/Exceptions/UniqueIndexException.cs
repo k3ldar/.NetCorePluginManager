@@ -44,10 +44,5 @@ namespace SimpleDB
             : base(message, innerException)
         {
         }
-
-        protected UniqueIndexException(SerializationInfo info, StreamingContext context) 
-            : base(info, context)
-        {
-        }
     }
 }

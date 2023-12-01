@@ -54,7 +54,6 @@ namespace SimpleDB.Internal
 	/// int         Record Count							37
 	/// int         Length of data before compression		41
 	/// int         Length of data stored on disk			45
-	/// int			PageCount								49
 	/// Data		version specific						53
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
@@ -1085,9 +1084,6 @@ namespace SimpleDB.Internal
 			_recordCount = reader.ReadInt32();
 			_ = reader.ReadInt32();
 			_dataLength = reader.ReadInt32();
-
-			if (_internalWriteVersion > 0 && _internalWriteVersion < 3)
-				_pageCount = reader.ReadInt32();
 		}
 
 		private (bool, string) ValidateTableName(string path, string domain, string name, PageSize pageSize)

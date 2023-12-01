@@ -27,7 +27,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
-using SimpleDB.Internal;
 
 using SharedPluginFeatures;
 

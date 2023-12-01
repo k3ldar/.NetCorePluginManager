@@ -42,20 +42,20 @@ Password: password
 It only uses mock data providers and will reset periodically
 
 ## Current Version
-Version 5.0.0
+Version 5.6.0
 
 
 # ASPNetCore.PluginManager
 Extend any website with plugin technology.
 
-PM> Install-Package AspNetCore.PluginManager -Version 5.0.0
+PM> Install-Package AspNetCore.PluginManager -Version 5.6.0
 
 https://www.nuget.org/packages/AspNetCore.PluginManager/
 
 See https://github.com/k3ldar/.NetCorePluginManager/wiki/Plugin-Manager-Setup-and-Configuration for setup and configuration.
 
 # Build Prerequisites
-In order to build the latest version both Visual Studio 2019 and Net Core 3.1, net 6.0 or net7.0.
+In order to build the latest version both Visual Studio 2019 and net 6.0, net7.0 or net8.0.
 
 # Current Plugins
 There are a number of pre-built plugins which can be used in most application types, they include:
