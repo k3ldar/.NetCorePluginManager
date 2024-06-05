@@ -240,7 +240,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 throw new ArgumentNullException(nameof(message));
 
             ticket.Messages.Add(new HelpdeskTicketMessage(DateTime.Now, name, message));
-            ticket.Status = GetTicketStatus().FirstOrDefault(s => s.Id == 2);
+            ticket.Status = GetTicketStatus().Find(s => s.Id == 2);
 
             return true;
         }

@@ -28,7 +28,7 @@ using SimpleDB;
 namespace PluginManager.DAL.TextFiles.Tables
 {
     [Table(Constants.DomainHelpdesk, Constants.TableNameFAQ, WriteStrategy.Lazy)]
-    internal class FAQDataRow : TableRowDefinition
+    internal class FaqDataRow : TableRowDefinition
     {
         private string _name;
         private long _parent;

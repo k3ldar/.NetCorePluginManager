@@ -130,7 +130,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             else
             {
                 newId = blogItem.Id;
-                _blogEntries.Remove(_blogEntries.FirstOrDefault(be => be.Id == newId));
+                _blogEntries.Remove(_blogEntries.Find(be => be.Id == newId));
                 _blogEntries.Add(blogItem);
                 return blogItem;
             }

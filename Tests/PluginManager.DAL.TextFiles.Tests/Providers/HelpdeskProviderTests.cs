@@ -781,7 +781,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ISimpleDBOperations<FAQDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FAQDataRow>>();
+                    ISimpleDBOperations<FaqDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FaqDataRow>>();
                     Assert.AreEqual(0, faqData.RecordCount);
 
                     MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
@@ -822,32 +822,32 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
-                    ISimpleDBOperations<FAQDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FAQDataRow>>();
+                    ISimpleDBOperations<FaqDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FaqDataRow>>();
                     Assert.AreEqual(0, faqData.RecordCount);
 
-                    ISimpleDBOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FAQItemDataRow>>();
+                    ISimpleDBOperations<FaqItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FaqItemDataRow>>();
                     Assert.AreEqual(0, faqItemData.RecordCount);
 
-                    faqData.Insert(new List<FAQDataRow>()
+                    faqData.Insert(new List<FaqDataRow>()
                     {
-                        new FAQDataRow() { Name = "group 1", Description = "Group 1 description" },
-                        new FAQDataRow() { Name = "group 2", Description = "Group 2 description" },
-                        new FAQDataRow() { Name = "group 2a", Description = "Group 2a description", Parent = 2 }
+                        new FaqDataRow() { Name = "group 1", Description = "Group 1 description" },
+                        new FaqDataRow() { Name = "group 2", Description = "Group 2 description" },
+                        new FaqDataRow() { Name = "group 2a", Description = "Group 2a description", Parent = 2 }
                     });
 
                     int itemNumber = 0;
-                    faqItemData.Insert(new List<FAQItemDataRow>()
+                    faqItemData.Insert(new List<FaqItemDataRow>()
                     {
-                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
                     });
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -893,32 +893,32 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
-                    ISimpleDBOperations<FAQDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FAQDataRow>>();
+                    ISimpleDBOperations<FaqDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FaqDataRow>>();
                     Assert.AreEqual(0, faqData.RecordCount);
 
-                    ISimpleDBOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FAQItemDataRow>>();
+                    ISimpleDBOperations<FaqItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FaqItemDataRow>>();
                     Assert.AreEqual(0, faqItemData.RecordCount);
 
-                    faqData.Insert(new List<FAQDataRow>()
+                    faqData.Insert(new List<FaqDataRow>()
                     {
-                        new FAQDataRow() { Name = "group 1", Description = "Group 1 description" },
-                        new FAQDataRow() { Name = "group 2", Description = "Group 2 description" },
-                        new FAQDataRow() { Name = "group 2a", Description = "Group 2a description", Parent = 2 }
+                        new FaqDataRow() { Name = "group 1", Description = "Group 1 description" },
+                        new FaqDataRow() { Name = "group 2", Description = "Group 2 description" },
+                        new FaqDataRow() { Name = "group 2a", Description = "Group 2a description", Parent = 2 }
                     });
 
                     int itemNumber = 0;
-                    faqItemData.Insert(new List<FAQItemDataRow>()
+                    faqItemData.Insert(new List<FaqItemDataRow>()
                     {
-                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
                     });
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -957,32 +957,32 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
-                    ISimpleDBOperations<FAQDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FAQDataRow>>();
+                    ISimpleDBOperations<FaqDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FaqDataRow>>();
                     Assert.AreEqual(0, faqData.RecordCount);
 
-                    ISimpleDBOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FAQItemDataRow>>();
+                    ISimpleDBOperations<FaqItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FaqItemDataRow>>();
                     Assert.AreEqual(0, faqItemData.RecordCount);
 
-                    faqData.Insert(new List<FAQDataRow>()
+                    faqData.Insert(new List<FaqDataRow>()
                     {
-                        new FAQDataRow() { Name = "group 1", Description = "Group 1 description" },
-                        new FAQDataRow() { Name = "group 2", Description = "Group 2 description" },
-                        new FAQDataRow() { Name = "group 2a", Description = "Group 2a description", Parent = 2 }
+                        new FaqDataRow() { Name = "group 1", Description = "Group 1 description" },
+                        new FaqDataRow() { Name = "group 2", Description = "Group 2 description" },
+                        new FaqDataRow() { Name = "group 2a", Description = "Group 2a description", Parent = 2 }
                     });
 
                     int itemNumber = 0;
-                    faqItemData.Insert(new List<FAQItemDataRow>()
+                    faqItemData.Insert(new List<FaqItemDataRow>()
                     {
-                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
                     });
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -1022,23 +1022,23 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
-                    ISimpleDBOperations<FAQDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FAQDataRow>>();
+                    ISimpleDBOperations<FaqDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FaqDataRow>>();
                     Assert.AreEqual(0, faqData.RecordCount);
 
-                    ISimpleDBOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FAQItemDataRow>>();
+                    ISimpleDBOperations<FaqItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FaqItemDataRow>>();
                     Assert.AreEqual(0, faqItemData.RecordCount);
 
-                    faqData.Insert(new List<FAQDataRow>()
+                    faqData.Insert(new List<FaqDataRow>()
                     {
-                        new FAQDataRow() { Name = "group 1", Description = "Group 1 description" },
+                        new FaqDataRow() { Name = "group 1", Description = "Group 1 description" },
                     });
 
                     int itemNumber = 0;
-                    faqItemData.Insert(new List<FAQItemDataRow>()
+                    faqItemData.Insert(new List<FaqItemDataRow>()
                     {
-                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
                     });
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -1060,7 +1060,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         sut.KnowledgebaseView(group.Items[0]);
                         Assert.AreEqual(i + 1, group.Items[0].ViewCount);
 
-                        FAQItemDataRow faqItemDataRow = faqItemData.Select(group.Items[0].Id);
+                        FaqItemDataRow faqItemDataRow = faqItemData.Select(group.Items[0].Id);
                         Assert.AreEqual(i + 1, faqItemDataRow.ViewCount);
                     }
                 }
@@ -1086,10 +1086,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
-                    ISimpleDBOperations<FAQDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FAQDataRow>>();
+                    ISimpleDBOperations<FaqDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FaqDataRow>>();
                     Assert.AreEqual(0, faqData.RecordCount);
 
-                    ISimpleDBOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FAQItemDataRow>>();
+                    ISimpleDBOperations<FaqItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FaqItemDataRow>>();
                     Assert.AreEqual(0, faqItemData.RecordCount);
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -1126,23 +1126,23 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
-                    ISimpleDBOperations<FAQDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FAQDataRow>>();
+                    ISimpleDBOperations<FaqDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FaqDataRow>>();
                     Assert.AreEqual(0, faqData.RecordCount);
 
-                    ISimpleDBOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FAQItemDataRow>>();
+                    ISimpleDBOperations<FaqItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FaqItemDataRow>>();
                     Assert.AreEqual(0, faqItemData.RecordCount);
 
-                    faqData.Insert(new List<FAQDataRow>()
+                    faqData.Insert(new List<FaqDataRow>()
                     {
-                        new FAQDataRow() { Name = "group 1", Description = "Group 1 description" },
+                        new FaqDataRow() { Name = "group 1", Description = "Group 1 description" },
                     });
 
                     int itemNumber = 0;
-                    faqItemData.Insert(new List<FAQItemDataRow>()
+                    faqItemData.Insert(new List<FaqItemDataRow>()
                     {
-                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
                     });
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));

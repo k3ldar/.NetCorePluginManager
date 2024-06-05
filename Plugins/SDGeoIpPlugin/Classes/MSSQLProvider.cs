@@ -35,7 +35,7 @@ using SharedPluginFeatures;
 
 namespace SieraDeltaGeoIp.Plugin
 {
-    internal class MSSQLProvider : ThreadManager, IGeoIpProvider
+    internal class MsSqlProvider : ThreadManager, IGeoIpProvider
     {
         #region Properties
 
@@ -45,7 +45,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         #region Constructors
 
-        public MSSQLProvider(GeoIpPluginSettings settings, List<IpCity> ipRangeData)
+        public MsSqlProvider(GeoIpPluginSettings settings, List<IpCity> ipRangeData)
             : base(ipRangeData, new TimeSpan(24, 0, 0))
         {
             base.ContinueIfGlobalException = true;

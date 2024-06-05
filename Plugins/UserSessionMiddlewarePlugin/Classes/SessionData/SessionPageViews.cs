@@ -85,7 +85,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SessionData
                 return;
 
             string hash = _urlHashProvider.GetUrlHash(url);
-            SessionPageView currentSession = PageViews.FirstOrDefault(pv => pv.Hash == hash && pv.Year == timeStamp.Year && pv.Month == timeStamp.Month);
+            SessionPageView currentSession = PageViews.Find(pv => pv.Hash == hash && pv.Year == timeStamp.Year && pv.Month == timeStamp.Month);
 
             if (currentSession == null)
             {

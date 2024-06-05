@@ -424,7 +424,7 @@ namespace DocumentationPlugin.Classes
                 }
             }
 
-            Document memberDoc = _documents.FirstOrDefault(d => d.DocumentType == Shared.DocumentType.Class && d.FullMemberName.EndsWith(text));
+            Document memberDoc = _documents.Find(d => d.DocumentType == Shared.DocumentType.Class && d.FullMemberName.EndsWith(text));
 
             if (memberDoc != null)
             {
@@ -618,7 +618,7 @@ namespace DocumentationPlugin.Classes
         private string ProcessLinkedTag(in Document document, in BaseDocument linkDocument, in StringBuilder builder,
             string cRefValue, in string countName, in bool createHyperlinks)
         {
-            Document xRefDoc = _documents.FirstOrDefault(d => d.FullMemberName == cRefValue);
+            Document xRefDoc = _documents.Find(d => d.FullMemberName == cRefValue);
 
             if (xRefDoc != null && !String.IsNullOrEmpty(xRefDoc.ClassName))
             {

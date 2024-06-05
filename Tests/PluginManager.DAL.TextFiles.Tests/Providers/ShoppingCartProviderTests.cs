@@ -437,7 +437,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             }
         }
 
-        [Ignore]
+        [Ignore("ignore for now")]
         [TestMethod]
         public void ConvertToOrder_OrderLicensesCreatedSuccessfully_ReturnsTrue()
         {

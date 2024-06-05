@@ -58,7 +58,7 @@ namespace UserAccount.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.ViewOrder), nameof(AccountController), nameof(Orders))]
         public ActionResult OrderView(int id)
         {
-            Order order = _accountProvider.OrdersGet(UserId()).FirstOrDefault(o => o.Id == id);
+            Order order = _accountProvider.OrdersGet(UserId()).Find(o => o.Id == id);
 
             if (order == null)
                 return RedirectToAction(nameof(Index));

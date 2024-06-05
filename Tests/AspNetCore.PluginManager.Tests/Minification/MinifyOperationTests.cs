@@ -95,7 +95,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         [TestMethod]
         public void RemoveCSSSingleLineComment()
         {
-            MinifyOperation operation = new RemoveCSSComments();
+            MinifyOperation operation = new RemoveCssComments();
 
             string data = "a /*test comment*/z";
 
@@ -109,7 +109,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         [TestMethod]
         public void RemoveCSSMultiLineComment()
         {
-            MinifyOperation operation = new RemoveCSSComments();
+            MinifyOperation operation = new RemoveCssComments();
 
             string data = "a /*\r\n\r\ntest comment\n\r\n*/z";
 

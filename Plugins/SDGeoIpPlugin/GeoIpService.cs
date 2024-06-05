@@ -80,7 +80,7 @@ namespace SieraDeltaGeoIp.Plugin
             {
                 Enums.GeoIpProvider.Firebird => new FirebirdDataProvider(_geoIpSettings, _tempIpCity),
                 Enums.GeoIpProvider.MySql => new MySqlProvider(_geoIpSettings, _tempIpCity),
-                Enums.GeoIpProvider.MSSql => new MSSQLProvider(_geoIpSettings, _tempIpCity),
+                Enums.GeoIpProvider.MSSql => new MsSqlProvider(_geoIpSettings, _tempIpCity),
                 _ => throw new InvalidOperationException(),
             };
 

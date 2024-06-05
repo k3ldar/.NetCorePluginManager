@@ -389,7 +389,7 @@ namespace UserSessionMiddleware.Plugin.Classes
                 {
                     foreach (SessionUserAgent item in year.UserAgents)
                     {
-                        SessionUserAgent returnAgent = Result.FirstOrDefault(r => r.UserAgent.Equals(item.UserAgent) && r.IsBot == item.IsBot);
+                        SessionUserAgent returnAgent = Result.Find(r => r.UserAgent.Equals(item.UserAgent) && r.IsBot == item.IsBot);
 
                         if (returnAgent == null)
                         {
@@ -516,14 +516,12 @@ namespace UserSessionMiddleware.Plugin.Classes
                 foreach (UserSession session in readySessions)
                 {
                     // update the country data if not already set
-                    if (session.CountryCode.Equals("zz", StringComparison.InvariantCultureIgnoreCase))
+                    if (session.CountryCode.Equals("zz", StringComparison.InvariantCultureIgnoreCase) && 
+						_geoIpProvider.GetIpAddressDetails(session.IPAddress, out string countryCode,
+							out string regionName, out string cityName, out decimal lat, out decimal lon,
+							out long _, out long _, out long _))
                     {
-                        if (_geoIpProvider.GetIpAddressDetails(session.IPAddress, out string countryCode,
-                            out string regionName, out string cityName, out decimal lat, out decimal lon,
-                            out long _, out long _, out long _))
-                        {
-                            session.UpdateIPDetails(0, lat, lon, regionName, cityName, countryCode);
-                        }
+                        session.UpdateIPDetails(0, lat, lon, regionName, cityName, countryCode);
                     }
 
                     foreach (PageViewData pageView in session.Pages)
@@ -581,7 +579,7 @@ namespace UserSessionMiddleware.Plugin.Classes
 
                 List<SessionHourly> hourlySessionData = session.IsBot ? _hourlySessionDataBot : _hourlySessionDataHuman;
 
-                SessionHourly hourly = hourlySessionData.FirstOrDefault(h => h.Date.Date.Equals(currentDate.Date) && h.Hour == hour && h.Quarter == quarter);
+                SessionHourly hourly = hourlySessionData.Find(h => h.Date.Date.Equals(currentDate.Date) && h.Hour == hour && h.Quarter == quarter);
 
                 if (hourly == null)
                 {
@@ -609,7 +607,7 @@ namespace UserSessionMiddleware.Plugin.Classes
                 DateTime sessionDate = session.Created;
                 List<SessionDaily> hourlySessionData = session.IsBot ? _dailySessionDataBot : _dailySessionDataHuman;
 
-                SessionDaily daily = hourlySessionData.FirstOrDefault(h => h.Date.Date.Equals(sessionDate.Date));
+                SessionDaily daily = hourlySessionData.Find(h => h.Date.Date.Equals(sessionDate.Date));
 
                 if (daily == null)
                 {
@@ -641,7 +639,7 @@ namespace UserSessionMiddleware.Plugin.Classes
 #endif
 
                 List<SessionWeekly> weeklySessionData = session.IsBot ? _weeklySessionDataBot : _weeklySessionDataHuman;
-                SessionWeekly weekly = weeklySessionData.FirstOrDefault(w => w.Week.Equals(week) && w.Year == sessionDate.Year);
+                SessionWeekly weekly = weeklySessionData.Find(w => w.Week.Equals(week) && w.Year == sessionDate.Year);
 
                 if (weekly == null)
                 {
@@ -668,7 +666,7 @@ namespace UserSessionMiddleware.Plugin.Classes
                 DateTime sessionDate = session.Created;
 
                 List<SessionMonthly> monthlySessionData = session.IsBot ? _monthlySessionDataBot : _monthlySessionDataHuman;
-                SessionMonthly monthly = monthlySessionData.FirstOrDefault(w => w.Month.Equals(sessionDate.Month) && w.Year == sessionDate.Year);
+                SessionMonthly monthly = monthlySessionData.Find(w => w.Month.Equals(sessionDate.Month) && w.Year == sessionDate.Year);
 
                 if (monthly == null)
                 {
@@ -696,7 +694,7 @@ namespace UserSessionMiddleware.Plugin.Classes
                 List<SessionYearly> yearlySessionData = session.IsBot ? _yearlySessionDataBot : _yearlySessionDataHuman;
 
                 SessionYearly yearly = yearlySessionData
-                    .FirstOrDefault(y => y.Year.Equals(sessionDate.Year));
+                    .Find(y => y.Year.Equals(sessionDate.Year));
 
                 if (yearly == null)
                 {
@@ -784,7 +782,7 @@ namespace UserSessionMiddleware.Plugin.Classes
             baseSessionData.CountryData[session.CountryCode]++;
 
             SessionUserAgent returnAgent = baseSessionData.UserAgents
-                .FirstOrDefault(r => r.UserAgent.Equals(session.UserAgent) && r.IsBot == session.IsBot);
+                .Find(r => r.UserAgent.Equals(session.UserAgent) && r.IsBot == session.IsBot);
 
             if (returnAgent == null)
             {

@@ -94,7 +94,7 @@ namespace DownloadPlugin.Controllers
             if (_categories.Count == 0)
                 return RedirectToAction(nameof(Index));
 
-            DownloadCategory category = _categories.FirstOrDefault(c => c.Id == id);
+            DownloadCategory category = _categories.Find(c => c.Id == id);
 
             if (category == null)
                 return RedirectToAction(nameof(Index));
@@ -171,7 +171,7 @@ namespace DownloadPlugin.Controllers
                     break;
             }
 
-            Response.Headers.Add("content-disposition", "attachment; filename=" + name);
+            Response.Headers["content-disposition"] = "attachment; filename=" + name;
 
             Response.ContentType = type;
             string file = $"{_hostingEnvironment.ContentRootPath}{download.Filename}";

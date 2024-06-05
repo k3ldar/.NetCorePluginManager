@@ -265,7 +265,7 @@ namespace ProductPlugin.Classes
                 {
                     if (item.Value.ToString().Equals(ProductGroup))
                     {
-                        ProductGroup productGroup = _productProvider.ProductGroupsGet().FirstOrDefault(p => p.Description == item.Key);
+                        ProductGroup productGroup = _productProvider.ProductGroupsGet().Find(p => p.Description == item.Key);
 
                         if (productGroup != null)
                             Result.Add(productGroup.Id);

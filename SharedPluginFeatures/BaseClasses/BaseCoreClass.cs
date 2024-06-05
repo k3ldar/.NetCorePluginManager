@@ -34,6 +34,8 @@ namespace SharedPluginFeatures
 {
     public class BaseCoreClass
     {
+		#region Private Members
+
 		private const string AtoZUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		private const string AtoZLower = "abcdefghijklmnopqrstuvwxyz";
 		private const string Numbers = "01234567890";
@@ -48,7 +50,18 @@ namespace SharedPluginFeatures
 		private const string Name = AtoZUpper + AtoZLower + Numbers + Space;
 		private const string FileOrPath = AtoZLower + AtoZUpper + Numbers + Space + Dash + FSlash;
 
-        #region Protected Methods
+		#endregion Private Members
+
+		#region Constructors
+
+		protected BaseCoreClass()
+		{
+
+		}
+
+		#endregion Constructors
+
+		#region Protected Methods
 
 		public static string ValidateUserInput(string userInput, ValidationType validationType)
 		{

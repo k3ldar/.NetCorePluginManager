@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
-    <NoWarn>1701;1702;8032;8981</NoWarn>
+    <NoWarn>1701;1702;8032;8981;S125</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>Shared.Key.pfx</AssemblyOriginatorKeyFile>
@@ -42,7 +42,7 @@
     <LangVersion>latest</LangVersion>
     <Authors>Simon Carter (s1cart3r@gmail.com)</Authors>
     <Company>Simon Carter</Company>
-    <Copyright>Copyright (c) 2018 - 2023.  Simon Carter.  All rights reserved.</Copyright>
+    <Copyright>Copyright (c) 2018 - 2024.  Simon Carter.  All rights reserved.</Copyright>
     <Description>Plugin Manager</Description>
   </PropertyGroup>
 

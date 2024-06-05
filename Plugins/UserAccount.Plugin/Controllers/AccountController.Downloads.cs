@@ -48,7 +48,7 @@ namespace UserAccount.Plugin.Controllers
         public IActionResult Downloads(int id)
         {
             List<DownloadCategory> categories = _downloadProvider.DownloadCategoriesGet(UserId());
-            DownloadCategory activeCategory = categories.FirstOrDefault(d => d.Id == id);
+            DownloadCategory activeCategory = categories.Find(d => d.Id == id);
 
             activeCategory ??= categories[0];
 
@@ -130,7 +130,7 @@ namespace UserAccount.Plugin.Controllers
             string name = Path.GetFileName(path);
             string ext = Path.GetExtension(path) ?? String.Empty;
 
-            Response.Headers.Add("content-disposition", $"attachment; filename={name}");
+            Response.Headers["content-disposition"] = $"attachment; filename={name}";
             return File(new FileStream(path, FileMode.Open), GetContentType(ext));
         }
 

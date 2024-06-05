@@ -367,7 +367,7 @@ namespace SimpleDB.Internal
 				if (_disposed)
 					throw new ObjectDisposedException(nameof(SimpleDBOperations<T>));
 
-				return InternalReadAllRecords().FirstOrDefault(r => r.Id.Equals(id));
+				return InternalReadAllRecords().Find(r => r.Id.Equals(id));
 			}
 		}
 
@@ -911,11 +911,8 @@ namespace SimpleDB.Internal
 					long keyValue = Convert.ToInt64(record.GetType().GetProperty(foreignKey.Key).GetValue(record, null));
 					ForeignKeyRelation foreignKeyRelation = foreignKey.Value;
 
-					if (!_foreignKeyManager.ValueExists(foreignKeyRelation.Name, keyValue))
-					{
-						if (!(foreignKeyRelation.Attributes == ForeignKeyAttributes.DefaultValue && keyValue.Equals(0)))
+					if (!_foreignKeyManager.ValueExists(foreignKeyRelation.Name, keyValue) && !(foreignKeyRelation.Attributes == ForeignKeyAttributes.DefaultValue && keyValue.Equals(0)))
 							throw new ForeignKeyException($"Foreign key value {keyValue} does not exist in table {foreignKey.Value}; Table: {TableName}; Property: {foreignKey.Key}");
-					}
 				}
 			}
 		}
@@ -928,11 +925,8 @@ namespace SimpleDB.Internal
 				long keyValue = Convert.ToInt64(record.GetType().GetProperty(foreignKey.Key).GetValue(record, null));
 				ForeignKeyRelation foreignKeyRelation = foreignKey.Value;
 
-				if (!_foreignKeyManager.ValueExists(foreignKeyRelation.Name, keyValue))
-				{
-					if (!(foreignKeyRelation.Attributes == ForeignKeyAttributes.DefaultValue && keyValue.Equals(0)))
+				if (!_foreignKeyManager.ValueExists(foreignKeyRelation.Name, keyValue) && !(foreignKeyRelation.Attributes == ForeignKeyAttributes.DefaultValue && keyValue.Equals(0)))
 						throw new ForeignKeyException($"Foreign key value {keyValue} does not exist in table {foreignKey.Value}; Table: {TableName}; Property: {foreignKey.Key}");
-				}
 			}
 		}
 

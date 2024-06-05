@@ -232,7 +232,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 					foreach (SessionUserAgent item in year.UserAgents)
 					{
 						SessionUserAgent returnAgent = Result
-							.FirstOrDefault(r => r.UserAgent.Equals(item.UserAgent) && r.IsBot == item.IsBot);
+							.Find(r => r.UserAgent.Equals(item.UserAgent) && r.IsBot == item.IsBot);
 
 						if (returnAgent == null)
 						{

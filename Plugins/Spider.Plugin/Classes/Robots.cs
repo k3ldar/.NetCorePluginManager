@@ -205,7 +205,7 @@ namespace Spider.Plugin.Classes
             if (!Agents.Contains(agent))
                 throw new ArgumentException("Agent not registered", nameof(agent));
 
-            RobotRouteData customRoute = _customRoutes.FirstOrDefault(r => r.Agent.Equals(agent) && r.Route.Equals(route));
+            RobotRouteData customRoute = _customRoutes.Find(r => r.Agent.Equals(agent) && r.Route.Equals(route));
 
             if (customRoute == null)
                 return false;

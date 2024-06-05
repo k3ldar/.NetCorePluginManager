@@ -27,7 +27,7 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal class FAQDataRowDefaults : ITableDefaults<FAQDataRow>
+    internal class FaqDataRowDefaults : ITableDefaults<FaqDataRow>
     {
         public long PrimarySequence => 0;
 
@@ -35,7 +35,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 
         public ushort Version => 1;
 
-        public List<FAQDataRow> InitialData(ushort version)
+        public List<FaqDataRow> InitialData(ushort version)
         {
             return null;
         }

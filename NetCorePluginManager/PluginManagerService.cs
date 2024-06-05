@@ -379,7 +379,7 @@ namespace AspNetCore.PluginManager
 
         private static string AddTrailingBackSlash(in string path)
         {
-            if (path.EndsWith("\\"))
+            if (path.EndsWith('\\'))
                 return path;
 
             return $"{path}\\";

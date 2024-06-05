@@ -49,8 +49,8 @@ namespace PluginManager.DAL.TextFiles.Providers
         private static readonly CacheManager _memoryCache = new CacheManager("Helpdesk", new TimeSpan(0, 30, 0), true, true);
 
         private readonly ISimpleDBOperations<FeedbackDataRow> _feedbackDataRow;
-        private readonly ISimpleDBOperations<FAQDataRow> _faqDataRow;
-        private readonly ISimpleDBOperations<FAQItemDataRow> _faqItemDataRow;
+        private readonly ISimpleDBOperations<FaqDataRow> _faqDataRow;
+        private readonly ISimpleDBOperations<FaqItemDataRow> _faqItemDataRow;
         private readonly ISimpleDBOperations<TicketDataRow> _tickets;
         private readonly ISimpleDBOperations<TicketMessageDataRow> _ticketMessages;
         private readonly ISimpleDBOperations<TicketStatusDataRow> _ticketStatus;
@@ -63,8 +63,8 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public HelpdeskProvider(
             ISimpleDBOperations<FeedbackDataRow> feedbackDataRow, 
-            ISimpleDBOperations<FAQDataRow> faqDataRow,
-            ISimpleDBOperations<FAQItemDataRow> faqItemDataRow,
+            ISimpleDBOperations<FaqDataRow> faqDataRow,
+            ISimpleDBOperations<FaqItemDataRow> faqItemDataRow,
             ISimpleDBOperations<TicketDataRow> tickets,
             ISimpleDBOperations<TicketMessageDataRow> ticketMessages,
             ISimpleDBOperations<TicketStatusDataRow> ticketStatus,
@@ -253,9 +253,9 @@ namespace PluginManager.DAL.TextFiles.Providers
             });
 
             ticket = new HelpdeskTicket(ticketDataRow.Id,
-                GetTicketPriorities().FirstOrDefault(p => p.Id == idPriority),
-                GetTicketDepartments().FirstOrDefault(d => d.Id == idDepartment),
-                GetTicketStatus().FirstOrDefault(s => s.Id == idStatus),
+                GetTicketPriorities().Find(p => p.Id == idPriority),
+                GetTicketDepartments().Find(d => d.Id == idDepartment),
+                GetTicketStatus().Find(s => s.Id == idStatus),
                 ticketDataRow.Key,
                 subject,
                 DateTime.Now,
@@ -317,7 +317,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             ticket.Messages.Add(new HelpdeskTicketMessage(DateTime.Now, name, message));
 
             int statusId = name.Equals(ticket.CreatedBy, StringComparison.InvariantCultureIgnoreCase) ? StatusOpen : StatusOnHold;
-            ticket.Status = GetTicketStatus().FirstOrDefault(s => s.Id == statusId);
+            ticket.Status = GetTicketStatus().Find(s => s.Id == statusId);
             ticket.LastReplier = name;
 
             TicketDataRow ticketDataRow = _tickets.Select(ticket.Id);
@@ -367,7 +367,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             if (cacheItem == null)
             {
-                FAQDataRow faqDataRow = _faqDataRow.Select(id);
+                FaqDataRow faqDataRow = _faqDataRow.Select(id);
 
                 if (faqDataRow == null)
                     return null;
@@ -385,7 +385,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         public bool GetKnowledgebaseItem(in long userId, in long id,
             out KnowledgeBaseItem knowledgebaseItem, out KnowledgeBaseGroup parentGroup)
         {
-            FAQItemDataRow item = _faqItemDataRow.Select(id);
+            FaqItemDataRow item = _faqItemDataRow.Select(id);
 
             if (item != null)
             {
@@ -405,7 +405,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (item == null)
                 throw new ArgumentNullException(nameof(item));
 
-            FAQItemDataRow faqItemDataRow = _faqItemDataRow.Select(item.Id);
+            FaqItemDataRow faqItemDataRow = _faqItemDataRow.Select(item.Id);
 
             if (faqItemDataRow == null)
                 return;
@@ -419,11 +419,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         #region Private Methods
 
-        private List<KnowledgeBaseGroup> ConvertFaqDataListToKbGroupList(IEnumerable<FAQDataRow> faqDataRow, KnowledgeBaseGroup parent)
+        private List<KnowledgeBaseGroup> ConvertFaqDataListToKbGroupList(IEnumerable<FaqDataRow> faqDataRow, KnowledgeBaseGroup parent)
         {
             List<KnowledgeBaseGroup> Result = new List<KnowledgeBaseGroup>();
 
-            foreach (FAQDataRow item in faqDataRow)
+            foreach (FaqDataRow item in faqDataRow)
             {
                 Result.Add(ConvertFaqDataRowToKbGroup(item, parent));
             }
@@ -432,7 +432,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private KnowledgeBaseGroup ConvertFaqDataRowToKbGroup(FAQDataRow faqDataRow, KnowledgeBaseGroup parent)
+        private KnowledgeBaseGroup ConvertFaqDataRowToKbGroup(FaqDataRow faqDataRow, KnowledgeBaseGroup parent)
         {
             if (faqDataRow == null)
                 return null;
@@ -441,11 +441,11 @@ namespace PluginManager.DAL.TextFiles.Providers
             return new KnowledgeBaseGroup(faqDataRow.Id, faqDataRow.Name, faqDataRow.Description, faqDataRow.Order, faqDataRow.ViewCount, parent, childItems);
         }
 
-        private List<KnowledgeBaseItem> ConvertFaqItemDataToFaqItemList(FAQDataRow faqDataItem)
+        private List<KnowledgeBaseItem> ConvertFaqItemDataToFaqItemList(FaqDataRow faqDataItem)
         {
             List<KnowledgeBaseItem> Result = new List<KnowledgeBaseItem>();
 
-            foreach (FAQItemDataRow item in _faqItemDataRow.Select().Where(i => i.ParentId.Equals(faqDataItem.Id)))
+            foreach (FaqItemDataRow item in _faqItemDataRow.Select().Where(i => i.ParentId.Equals(faqDataItem.Id)))
             {
                 Result.Add(new KnowledgeBaseItem(item.Id, item.Description, item.ViewCount, item.Content));
             }

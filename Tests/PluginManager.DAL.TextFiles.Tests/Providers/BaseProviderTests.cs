@@ -51,7 +51,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
     {
         protected const string TestPathSettings = "{\"SimpleDBSettings\":{\"Path\":\"$$\"}}";
 
-        protected static IProductProvider GetTestProductProvider(ServiceProvider provider, bool addProducts = true)
+		protected BaseProviderTests()
+		{
+
+		}
+
+		protected static IProductProvider GetTestProductProvider(ServiceProvider provider, bool addProducts = true)
         {
             IProductProvider Result = provider.GetService<IProductProvider>();
             Assert.IsNotNull(Result);
@@ -112,7 +117,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					new VoucherDataRowTriggers(),
 					new ExternalUsersDataRowDefaults(),
 					new CountryDataRowDefaults(),
-					new FAQDataRowDefaults(),
+					new FaqDataRowDefaults(),
 					new InvoiceDataRowTriggers(),
 					new InvoiceItemDataRowTriggers(),
 					new TicketDepartmentsDataRowDefaults(),

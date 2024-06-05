@@ -128,7 +128,7 @@ namespace BadEgg.Plugin
             if (context.Request.Headers.ContainsKey(Constants.BadEggValidationIgnoreHeaderName) &&
                 context.Request.Headers[Constants.BadEggValidationIgnoreHeaderName].Equals(_badEggSettings.IgnoreValidationHeaderCode))
             {
-                context.Response.Headers.Add(Constants.BadEggValidationIgnoreHeaderName, Boolean.TrueString);
+                context.Response.Headers[Constants.BadEggValidationIgnoreHeaderName] = Boolean.TrueString;
                 await _next(context);
                 return;
             }

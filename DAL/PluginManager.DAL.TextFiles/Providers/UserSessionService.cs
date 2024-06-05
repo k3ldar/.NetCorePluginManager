@@ -462,14 +462,12 @@ namespace PluginManager.DAL.TextFiles.Providers
 		private void UpdateGeoIpDataForSession(UserSession session)
 		{
 			// update the country data if not already set
-			if (_geoIpProvider != null && (session.CountryCode == null || session.CountryCode.Equals("zz", StringComparison.InvariantCultureIgnoreCase)))
-			{
-				if (_geoIpProvider.GetIpAddressDetails(session.IPAddress, out string countryCode,
+			if (_geoIpProvider != null && (session.CountryCode == null || session.CountryCode.Equals("zz", StringComparison.InvariantCultureIgnoreCase)) &&
+				_geoIpProvider.GetIpAddressDetails(session.IPAddress, out string countryCode,
 					out string regionName, out string cityName, out decimal lat, out decimal lon,
 					out long _, out long _, out long _))
-				{
-					session.UpdateIPDetails(0, lat, lon, regionName, cityName, countryCode);
-				}
+			{
+				session.UpdateIPDetails(0, lat, lon, regionName, cityName, countryCode);
 			}
 		}
 

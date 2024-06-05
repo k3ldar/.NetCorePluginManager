@@ -157,12 +157,14 @@ namespace PluginManager.Tests
             Assert.IsNotNull(logger);
         }
 
+		[ExcludeFromCodeCoverage]
         private class TestClassWithConstructorParams
         {
             private readonly ILogger _logger;
 
-            public TestClassWithConstructorParams(ILogger logger)
-            {
+			[SuppressMessage("Major Code Smell", "S1144:Unused private types or members should be removed", Justification = "Required as part of the test class")]
+			public TestClassWithConstructorParams(ILogger logger)
+			{
                 _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             }
 

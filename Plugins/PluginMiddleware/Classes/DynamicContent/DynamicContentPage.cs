@@ -129,7 +129,7 @@ namespace Middleware.DynamicContent
 
             if (Content.Count > 0 && !String.IsNullOrEmpty(beforeControlId))
             {
-                DynamicContentTemplate nextPage = Content.FirstOrDefault(c => c.UniqueId.Equals(beforeControlId));
+                DynamicContentTemplate nextPage = Content.Find(c => c.UniqueId.Equals(beforeControlId));
 
                 if (nextPage != null)
                 {
@@ -166,7 +166,7 @@ namespace Middleware.DynamicContent
                 nextIndex++;
                 Result = String.Format(ControlName, nextIndex);
             }
-            while (Content.Any(c => c.UniqueId.Equals(Result)));
+            while (Content.Exists(c => c.UniqueId.Equals(Result)));
 
             return Result;
         }

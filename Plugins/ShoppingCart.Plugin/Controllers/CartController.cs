@@ -141,7 +141,7 @@ namespace ShoppingCartPlugin.Controllers
 
             ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
 
-            ShoppingCartItem item = cartDetails.Items.FirstOrDefault(i => i.Id == model.ProductId);
+            ShoppingCartItem item = cartDetails.Items.Find(i => i.Id == model.ProductId);
 
             if (item != null)
             {
@@ -157,11 +157,8 @@ namespace ShoppingCartPlugin.Controllers
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            if (!String.IsNullOrEmpty(model.Voucher))
-            {
-                if (_shoppingCartProvider.ValidateVoucher(GetCartSummary(), model.Voucher, GetUserSession().UserID))
+            if (!String.IsNullOrEmpty(model.Voucher) && _shoppingCartProvider.ValidateVoucher(GetCartSummary(), model.Voucher, GetUserSession().UserID))
                     return RedirectToAction(nameof(Index));
-            }
 
             TempData["VoucherError"] = Languages.LanguageStrings.VoucherInvalid;
 
@@ -214,7 +211,7 @@ namespace ShoppingCartPlugin.Controllers
         {
             // get the selected provider
             IPaymentProvider provider = _pluginClassesService.GetPluginClasses<IPaymentProvider>()
-				.FirstOrDefault(p => p.UniqueId().CompareTo(model.SelectedProviderId) == 0);
+				.Find(p => p.UniqueId().CompareTo(model.SelectedProviderId) == 0);
 
             if (provider == null)
                 throw new InvalidOperationException(Middleware.Constants.PaymentProviderNotFound);

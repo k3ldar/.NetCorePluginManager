@@ -102,7 +102,7 @@ namespace CacheControl.Plugin
                         {
                             if (routeLowered.StartsWith(keyValuePair.Key))
                             {
-                                context.Response.Headers.Add("Cache-Control", $"max-age={keyValuePair.Value.CacheValue}");
+                                context.Response.Headers["Cache-Control"] = $"max-age={keyValuePair.Value.CacheValue}";
                                 return;
                             }
                         }

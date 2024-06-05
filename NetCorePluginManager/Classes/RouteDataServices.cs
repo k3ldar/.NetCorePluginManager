@@ -81,7 +81,7 @@ namespace AspNetCore.PluginManager
                 while (template.IndexOf('{') > -1)
                     template = template.Substring(0, template.Length - 1);
 
-                if (template.EndsWith("/"))
+                if (template.EndsWith('/'))
                     template = template.Substring(0, template.Length - 1);
 
                 return template;

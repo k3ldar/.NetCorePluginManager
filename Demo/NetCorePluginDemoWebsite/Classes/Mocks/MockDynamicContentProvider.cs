@@ -152,7 +152,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
                 return GetPage10();
             }
 
-            return _dynamicContent.FirstOrDefault(dc => dc.Id.Equals(id));
+            return _dynamicContent.Find(dc => dc.Id.Equals(id));
         }
 
         public List<DynamicContentTemplate> Templates()
@@ -167,12 +167,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
         public bool PageNameExists(long id, string pageName)
         {
-            return GetCustomPages().Any(p => p.Id != id && p.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase));
+            return GetCustomPages().Exists(p => p.Id != id && p.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public bool RouteNameExists(long id, string routeName)
         {
-            return GetCustomPages().Any(p => p.Id != id && p.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
+            return GetCustomPages().Exists(p => p.Id != id && p.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public bool Save(IDynamicContentPage dynamicContentPage)

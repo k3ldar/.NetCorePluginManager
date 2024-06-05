@@ -271,7 +271,7 @@ namespace ProductPlugin.Classes
             {
                 i++;
                 Result = $"{subgroupName}_{i}";
-                isFree = files.FirstOrDefault(f => f.Name.StartsWith(Result)) == null;
+                isFree = files.Find(f => f.Name.StartsWith(Result)) == null;
             } while (!isFree);
 
             return Result;

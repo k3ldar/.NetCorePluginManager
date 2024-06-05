@@ -122,7 +122,7 @@ namespace DynamicContent.Plugin.Internal
         {
             using (TimedLock tl = TimedLock.Lock(_lockObject))
             {
-                return _dynamicContent.FirstOrDefault(dc => dc.Id.Equals(id));
+                return _dynamicContent.Find(dc => dc.Id.Equals(id));
             }
         }
 
@@ -151,7 +151,7 @@ namespace DynamicContent.Plugin.Internal
 
             using (TimedLock tl = TimedLock.Lock(_lockObject))
             {
-                return _dynamicContent.Any(dc => !dc.Id.Equals(id) && dc.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase));
+                return _dynamicContent.Exists(dc => !dc.Id.Equals(id) && dc.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase));
             }
         }
 
@@ -162,7 +162,7 @@ namespace DynamicContent.Plugin.Internal
 
             using (TimedLock tl = TimedLock.Lock(_lockObject))
             {
-                return _dynamicContent.Any(dc => !dc.Id.Equals(id) && dc.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
+                return _dynamicContent.Exists(dc => !dc.Id.Equals(id) && dc.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
             }
         }
 

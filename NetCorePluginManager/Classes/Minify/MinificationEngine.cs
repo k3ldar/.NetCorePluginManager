@@ -50,7 +50,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
             _operations.Add(new RemoveBlankLines());
             _operations.Add(new RemoveCarriageReturn());
             _operations.Add(new TrimLine());
-            _operations.Add(new RemoveCSSComments());
+            _operations.Add(new RemoveCssComments());
             _operations.Add(new RemoveHtmlComments());
             _operations.Add(new RemoveRazorComments());
             _operations.Add(new RemoveDoubleSpaces());

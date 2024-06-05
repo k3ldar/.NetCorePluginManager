@@ -114,7 +114,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			if (_resources == null)
 				GetAllResources();
 
-			return _resources.FirstOrDefault(r => r.Id.Equals(categoryId));
+			return _resources.Find(r => r.Id.Equals(categoryId));
 		}
 
 		public List<ResourceCategory> RetrieveAllCategories()
@@ -131,12 +131,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			if (_resources == null)
 				GetAllResources();
 
-			return _items.FirstOrDefault(i => i.Id.Equals(id));
+			return _items.Find(i => i.Id.Equals(id));
 		}
 
 		public ResourceItem IncrementResourceItemResponse(long id, long userId, bool like)
 		{
-			ResourceItem item = _items.FirstOrDefault(i => i.Id.Equals(id));
+			ResourceItem item = _items.Find(i => i.Id.Equals(id));
 
 			if (item == null)
 				return null;
@@ -151,7 +151,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
 		public void IncrementViewCount(long resourceId)
 		{
-			ResourceItem item = _items.FirstOrDefault(i => i.Id.Equals(resourceId));
+			ResourceItem item = _items.Find(i => i.Id.Equals(resourceId));
 
 			if (item == null)
 				return;
@@ -196,7 +196,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			if (tags == null)
 				throw new ArgumentNullException(nameof(tags));
 
-			ResourceCategory resourceCategory = _resources.FirstOrDefault(x => x.Id == categoryId);
+			ResourceCategory resourceCategory = _resources.Find(x => x.Id == categoryId);
 
 			if (resourceCategory == null)
 				throw new InvalidOperationException();
@@ -222,7 +222,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			if (resourceItem == null) throw
 				new ArgumentNullException(nameof(resourceItem));
 
-			_items.Remove(_items.FirstOrDefault(i => i.Id.Equals(resourceItem.Id)));
+			_items.Remove(_items.Find(i => i.Id.Equals(resourceItem.Id)));
 			_items.Add(resourceItem);
 
 			return resourceItem;
@@ -257,7 +257,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 		{
 			if (_bookmarks.ContainsKey(userId))
 			{
-				return _items.Where(r => _bookmarks[userId].Any(bm => bm.Equals(r.Id))).ToList();
+				return _items.Where(r => _bookmarks[userId].Exists(bm => bm.Equals(r.Id))).ToList();
 			}
 
 			return new List<ResourceItem>();

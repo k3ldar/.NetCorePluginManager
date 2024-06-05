@@ -53,7 +53,7 @@ namespace ShoppingCartPlugin.Controllers
                 // all worked, create an invoice etc
                 int orderID = Utilities.StrToInt(keys["trans_id"], -1);
 
-                Order order = _accountProvider.OrdersGet(GetUserSession().UserID).FirstOrDefault(o => o.Id == orderID);
+                Order order = _accountProvider.OrdersGet(GetUserSession().UserID).Find(o => o.Id == orderID);
 
                 _accountProvider.OrderPaid(order, Middleware.PaymentStatus.PaidCard,
                     String.Format("{0} : {1} : {2}", keys["ip"], keys["cv2avs"], keys["message"]));
