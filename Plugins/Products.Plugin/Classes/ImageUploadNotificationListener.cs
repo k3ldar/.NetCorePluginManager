@@ -73,7 +73,7 @@ namespace ProductPlugin.Classes
 
             if (eventId.Equals(Constants.NotificationEventImageUploaded))
             {
-                List<string> errors = new List<string>();
+                List<string> errors = new();
                 Result = ProcessImageUpload(param1 as CachedImageUpload, (string)param2, errors);
                 result = Result ? errors : null;
             }
@@ -121,7 +121,7 @@ namespace ProductPlugin.Classes
 
             ProductPluginSettings settings = _settingsProvider.GetSettings<ProductPluginSettings>("Products");
 
-            List<Size> newSizes = new List<Size>();
+            List<Size> newSizes = new();
 
             if (settings.ResizeImages)
             {
@@ -176,7 +176,7 @@ namespace ProductPlugin.Classes
 
                         foreach (Size newSize in additionalSizes)
                         {
-                            using (MemoryStream ms = new MemoryStream(imgBytes))
+                            using (MemoryStream ms = new(imgBytes))
                             {
                                 Image ImageToResize = Image.FromStream(ms);
                                 byte[] resizedImageBytes = ImageToPngByteArray(ResizeImageToFixedSize(ImageToResize, newSize, backfillColor));
@@ -201,7 +201,7 @@ namespace ProductPlugin.Classes
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static byte[] ImageToByteArray(Image image)
         {
-            using (MemoryStream ms = new MemoryStream())
+            using (MemoryStream ms = new())
             {
                 image.Save(ms, image.RawFormat);
                 return ms.ToArray();
@@ -211,7 +211,7 @@ namespace ProductPlugin.Classes
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static byte[] ImageToPngByteArray(Image image)
         {
-            using (MemoryStream ms = new MemoryStream())
+            using (MemoryStream ms = new())
             {
                 image.Save(ms, ImageFormat.Png);
                 return ms.ToArray();
@@ -246,7 +246,7 @@ namespace ProductPlugin.Classes
             int destWidth = (int)(sourceWidth * nPercent);
             int destHeight = (int)(sourceHeight * nPercent);
 
-            Bitmap bmPhoto = new Bitmap(size.Width, size.Height, PixelFormat.Format24bppRgb);
+            Bitmap bmPhoto = new(size.Width, size.Height, PixelFormat.Format24bppRgb);
             bmPhoto.SetResolution(imgPhoto.HorizontalResolution, imgPhoto.VerticalResolution);
 
             Graphics grPhoto = Graphics.FromImage(bmPhoto);

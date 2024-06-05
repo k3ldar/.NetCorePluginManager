@@ -66,7 +66,7 @@ namespace SystemAdmin.Plugin
 		public void Initialise(ILogger logger)
 		{
 			// ensure load time is set
-			SystemUptimeMenu uptimeMenu = new SystemUptimeMenu();
+			SystemUptimeMenu uptimeMenu = new();
 			GC.KeepAlive(uptimeMenu.Data());
 		}
 

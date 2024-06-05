@@ -98,12 +98,12 @@ namespace SystemAdmin.Plugin.Classes.MenuItems
 			{
 				_lastRun = DateTime.Now;
 
-				StringBuilder Result = new StringBuilder("Operation|Total Requests|Fastest|Slowest|Average|Trimmed Avg ms|Total ms\r");
+				StringBuilder Result = new("Operation|Total Requests|Fastest|Slowest|Average|Trimmed Avg ms|Total ms\r");
 				bool isFirst = true;
 
 				foreach (KeyValuePair<string, Dictionary<string, Timings>> item in _databaseTimings.GetDatabaseTimings())
 				{
-					StringBuilder tableData = new StringBuilder(2048);
+					StringBuilder tableData = new(2048);
 
 					if (isFirst)
 					{

@@ -194,7 +194,7 @@ namespace AspNetCore.PluginManager
             if (logger == null || minifyEngine == null || notificationService == null)
                 return;
 
-            object files = new object();
+            object files = new();
 
             if (notificationService.RaiseEvent(Constants.NotificationEventMinifyFiles, null, null, ref files))
             {
@@ -207,7 +207,7 @@ namespace AspNetCore.PluginManager
                 }
             }
 
-            MinificationThread minificationThread = new MinificationThread(_extractedFiles, logger, minifyEngine);
+            MinificationThread minificationThread = new(_extractedFiles, logger, minifyEngine);
             ThreadManager.ThreadStart(minificationThread, Constants.MinificationThread, System.Threading.ThreadPriority.Normal);
         }
 

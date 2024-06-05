@@ -86,7 +86,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void Construct_ValidInstance_DefaultParams_success()
         {
-            TableAttribute sut = new TableAttribute("table");
+            TableAttribute sut = new("table");
             Assert.IsNotNull(sut);
             Assert.AreEqual(CompressionType.None, sut.Compression);
             Assert.AreEqual("table", sut.TableName);
@@ -95,7 +95,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void Construct_ValidInstance_WithCompression_success()
         {
-            TableAttribute sut = new TableAttribute("table", CompressionType.Brotli);
+            TableAttribute sut = new("table", CompressionType.Brotli);
             Assert.IsNotNull(sut);
             Assert.AreEqual(CompressionType.Brotli, sut.Compression);
             Assert.AreEqual(CachingStrategy.None, sut.CachingStrategy);
@@ -105,7 +105,7 @@ namespace SimpleDB.Tests
         [TestMethod]
         public void Construct_ValidInstance_WithMemoryCachingStrategy_success()
         {
-            TableAttribute sut = new TableAttribute("table", CompressionType.Brotli, CachingStrategy.Memory);
+            TableAttribute sut = new("table", CompressionType.Brotli, CachingStrategy.Memory);
             Assert.IsNotNull(sut);
             Assert.AreEqual(CompressionType.Brotli, sut.Compression);
             Assert.AreEqual(CachingStrategy.Memory, sut.CachingStrategy);
@@ -116,7 +116,7 @@ namespace SimpleDB.Tests
 		[ExpectedException(typeof(InvalidOperationException))]
 		public void SlidingMemoryTimeout_Set_CachingStrategyNotSlidingMemory_Throws_InvalidOperationException()
 		{
-			TableAttribute sut = new TableAttribute("table", CompressionType.Brotli, CachingStrategy.None);
+			TableAttribute sut = new("table", CompressionType.Brotli, CachingStrategy.None);
 			sut.SlidingMemoryTimeoutMilliseconds = 0;
 		}
 
@@ -124,7 +124,7 @@ namespace SimpleDB.Tests
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
 		public void SlidingMemoryTimeout_Set_ValueLessThanZero_Throws_ArgumentOutOfRangeException()
 		{
-			TableAttribute sut = new TableAttribute("table", CompressionType.Brotli, CachingStrategy.SlidingMemory);
+			TableAttribute sut = new("table", CompressionType.Brotli, CachingStrategy.SlidingMemory);
 			sut.SlidingMemoryTimeoutMilliseconds = -1;
 		}
 
@@ -132,14 +132,14 @@ namespace SimpleDB.Tests
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
 		public void SlidingMemoryTimeout_Set_ValueLessToZero_Throws_ArgumentOutOfRangeException()
 		{
-			TableAttribute sut = new TableAttribute("table", CompressionType.Brotli, CachingStrategy.SlidingMemory);
+			TableAttribute sut = new("table", CompressionType.Brotli, CachingStrategy.SlidingMemory);
 			sut.SlidingMemoryTimeoutMilliseconds = 0;
 		}
 
 		[TestMethod]
 		public void SlidingMemoryTimeout_Set_Success()
 		{
-			TableAttribute sut = new TableAttribute("table", CompressionType.Brotli, CachingStrategy.SlidingMemory);
+			TableAttribute sut = new("table", CompressionType.Brotli, CachingStrategy.SlidingMemory);
 			sut.SlidingMemoryTimeoutMilliseconds = 60000;
 
 			Assert.AreEqual(sut.SlidingMemoryTimeout, TimeSpan.FromMinutes(1));

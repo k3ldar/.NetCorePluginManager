@@ -52,9 +52,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         {
             return new List<Country>()
             {
-                new Country("USA", "US", true),
-                new Country("England", "GB", true),
-                new Country("Unknown", "UK", false),
+                new("USA", "US", true),
+                new("England", "GB", true),
+                new("Unknown", "UK", false),
             };
         }
 
@@ -62,8 +62,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         {
             return new List<Country>()
             {
-                new Country("USA", "US", true),
-                new Country("England", "GB", true),
+                new("USA", "US", true),
+                new("England", "GB", true),
             };
         }
     }

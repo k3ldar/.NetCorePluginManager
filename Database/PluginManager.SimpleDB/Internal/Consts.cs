@@ -31,7 +31,7 @@ namespace SimpleDB.Internal
 {
 	internal static class Consts
 	{
-		public static readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions()
+		public static readonly JsonSerializerOptions JsonSerializerOptions = new()
 		{
 			AllowTrailingCommas = false,
 			IncludeFields = true,

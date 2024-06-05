@@ -62,7 +62,7 @@ namespace PluginManager.Tests
             if (isDebugPos > -1)
                 path = path.Substring(0, isDebugPos);
 
-            PluginSetting testData = new PluginSetting("test.plugin")
+            PluginSetting testData = new("test.plugin")
             {
                 Disabled = true,
                 Version = "1.2.3",
@@ -70,14 +70,14 @@ namespace PluginManager.Tests
                 ReplaceExistingResources = true
             };
 
-            PluginSettings pluginSettings = new PluginSettings();
+            PluginSettings pluginSettings = new();
             pluginSettings.Plugins.Add(testData);
 
             string filename = Path.Combine(path, "appsettings.json");
             File.WriteAllText(filename, "{\"TestConfiguration\": " + JsonSerializer.Serialize(pluginSettings) + "}");
             try
             {
-                LoadSettingsService sut = new LoadSettingsService();
+                LoadSettingsService sut = new();
 
                 PluginSettings settings = sut.LoadSettings<PluginSettings>("TestConfiguration");
 
@@ -96,7 +96,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void LoadSettings_UserDefinedFileName_Success()
         {
-            PluginSetting testData = new PluginSetting("test.plugin")
+            PluginSetting testData = new("test.plugin")
             {
                 Disabled = true,
                 Version = "1.2.3",
@@ -104,14 +104,14 @@ namespace PluginManager.Tests
                 ReplaceExistingResources = true
             };
 
-            PluginSettings pluginSettings = new PluginSettings();
+            PluginSettings pluginSettings = new();
             pluginSettings.Plugins.Add(testData);
 
             string filename = Path.GetTempFileName();
             File.WriteAllText(filename, "{\"CustomConfiguration\": " + JsonSerializer.Serialize(pluginSettings) + "}");
             try
             {
-                LoadSettingsService sut = new LoadSettingsService();
+                LoadSettingsService sut = new();
 
                 PluginSettings settings = sut.LoadSettings<PluginSettings>(filename, "CustomConfiguration");
 

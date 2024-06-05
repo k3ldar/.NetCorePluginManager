@@ -75,12 +75,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<ResourceCategoryDataRow> resources = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
@@ -112,12 +112,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<ResourceCategoryDataRow> resources = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
@@ -157,12 +157,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<ResourceCategoryDataRow> resources = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
@@ -203,12 +203,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<ResourceCategoryDataRow> resources = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
@@ -247,12 +247,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<ResourceCategoryDataRow> resourceCategories = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
@@ -263,7 +263,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 					for (int i = 0; i < 5; i++)
 					{
-						ResourceCategoryDataRow newCategory = new ResourceCategoryDataRow()
+						ResourceCategoryDataRow newCategory = new()
 						{
 							Name = $"Resource {i}",
 							Description = $"test resource {i}",
@@ -314,12 +314,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<ResourceCategoryDataRow> resourceCategories = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
@@ -334,7 +334,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 					for (int i = 0; i < 5; i++)
 					{
-						ResourceCategoryDataRow newCategory = new ResourceCategoryDataRow()
+						ResourceCategoryDataRow newCategory = new()
 						{
 							Name = $"Resource {i}",
 							Description = $"test resource {i}",
@@ -382,12 +382,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -411,7 +411,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 					for (int i = 0; i < 5; i++)
 					{
-						ResourceCategoryDataRow newCategory = new ResourceCategoryDataRow()
+						ResourceCategoryDataRow newCategory = new()
 						{
 							Name = $"Resource {i}",
 							Description = $"test resource {i}",
@@ -467,12 +467,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -496,7 +496,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 					for (int i = 0; i < 5; i++)
 					{
-						ResourceCategoryDataRow newCategory = new ResourceCategoryDataRow()
+						ResourceCategoryDataRow newCategory = new()
 						{
 							Name = $"Resource {i}",
 							Description = $"test resource {i}",
@@ -577,12 +577,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -616,12 +616,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
@@ -644,12 +644,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
@@ -672,12 +672,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
@@ -700,12 +700,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<ResourceCategoryDataRow> resourceCategories = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
@@ -736,12 +736,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -787,12 +787,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -839,12 +839,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
@@ -867,12 +867,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
@@ -895,12 +895,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<ResourceCategoryDataRow> resourceCategories = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
@@ -932,12 +932,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -968,7 +968,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					ResourceCategory updateCategory = new ResourceCategory(0, 0, "new name", "desc", "black", "white", "image", "custom", true);
+					ResourceCategory updateCategory = new(0, 0, "new name", "desc", "black", "white", "image", "custom", true);
 					ResourceCategory result = sut.UpdateResourceCategory(1, updateCategory);
 
 					Assert.IsNotNull(result);
@@ -998,12 +998,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<ResourceCategoryDataRow> resources = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
@@ -1043,12 +1043,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<ResourceCategoryDataRow> resources = provider.GetRequiredService<ISimpleDBOperations<ResourceCategoryDataRow>>();
@@ -1097,12 +1097,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -1150,12 +1150,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -1203,12 +1203,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -1256,12 +1256,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -1309,12 +1309,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -1362,12 +1362,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<ResourceItemDataRow> resourceItemsTable = provider.GetRequiredService<ISimpleDBOperations<ResourceItemDataRow>>();
@@ -1429,12 +1429,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<ResourceItemDataRow> resourceItemsTable = provider.GetRequiredService<ISimpleDBOperations<ResourceItemDataRow>>();
@@ -1479,12 +1479,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<ResourceItemDataRow> resourceItemsTable = provider.GetRequiredService<ISimpleDBOperations<ResourceItemDataRow>>();
@@ -1537,12 +1537,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<ResourceItemDataRow> resourceItemsTable = provider.GetRequiredService<ISimpleDBOperations<ResourceItemDataRow>>();
@@ -1599,12 +1599,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<ResourceItemDataRow> resourceItemsTable = provider.GetRequiredService<ISimpleDBOperations<ResourceItemDataRow>>();
@@ -1673,12 +1673,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -1702,7 +1702,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 					for (int i = 0; i < 5; i++)
 					{
-						ResourceCategoryDataRow newCategory = new ResourceCategoryDataRow()
+						ResourceCategoryDataRow newCategory = new()
 						{
 							Name = $"Resource {i}",
 							Description = $"test resource {i}",
@@ -1751,12 +1751,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
@@ -1779,12 +1779,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
@@ -1807,12 +1807,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -1863,12 +1863,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -1918,12 +1918,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -1962,7 +1962,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					ResourceItem updateItem = new ResourceItem(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
+					ResourceItem updateItem = new(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
 					ResourceItem result = sut.UpdateResourceItem(2, updateItem);
 
 					Assert.IsNotNull(result);
@@ -1991,19 +1991,19 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					ResourceItem resourceItem = new ResourceItem(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
+					ResourceItem resourceItem = new(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
 					BookmarkActionResult result = sut.ToggleResourceBookmark(2, resourceItem);
 
 					Assert.AreEqual(BookmarkActionResult.Unknown, result);
@@ -2023,12 +2023,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 
@@ -2051,12 +2051,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -2079,7 +2079,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					ResourceItem resourceItem = new ResourceItem(-100, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
+					ResourceItem resourceItem = new(-100, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
 					BookmarkActionResult result = sut.ToggleResourceBookmark(1, resourceItem);
 
 					Assert.AreEqual(BookmarkActionResult.Unknown, result);
@@ -2098,12 +2098,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -2147,7 +2147,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.AreEqual(0, resourceBookmarks.RecordCount);
 
 
-					ResourceItem resourceItem = new ResourceItem(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
+					ResourceItem resourceItem = new(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
 					BookmarkActionResult result = sut.ToggleResourceBookmark(1, resourceItem);
 
 					Assert.AreEqual(BookmarkActionResult.Added, result);
@@ -2168,12 +2168,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -2227,7 +2227,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.AreEqual(1, resourceBookmarks.RecordCount);
 
 
-					ResourceItem resourceItem = new ResourceItem(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
+					ResourceItem resourceItem = new(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
 					BookmarkActionResult result = sut.ToggleResourceBookmark(1, resourceItem);
 
 					Assert.AreEqual(BookmarkActionResult.Removed, result);
@@ -2248,12 +2248,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -2312,7 +2312,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.AreEqual(30, resourceBookmarks.RecordCount);
 
 
-					ResourceItem resourceItem = new ResourceItem(35, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
+					ResourceItem resourceItem = new(35, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
 					BookmarkActionResult result = sut.ToggleResourceBookmark(1, resourceItem);
 
 					Assert.AreEqual(BookmarkActionResult.QuotaExceeded, result);
@@ -2333,12 +2333,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -2381,12 +2381,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
@@ -2429,12 +2429,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();

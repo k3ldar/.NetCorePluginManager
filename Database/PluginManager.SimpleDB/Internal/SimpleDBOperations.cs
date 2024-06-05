@@ -109,7 +109,7 @@ namespace SimpleDB.Internal
 		private int _pageCount;
 		private long _primarySequence = DefaultSequenceId;
 		private long _SecondarySequence = DefaultSequenceId;
-		private readonly object _lockObject = new object();
+		private readonly object _lockObject = new();
 		private readonly TableAttribute _tableAttributes;
 		private readonly Dictionary<string, ForeignKeyRelation> _foreignKeys;
 		private readonly ISimpleDBManager _simleDBManager;
@@ -555,7 +555,7 @@ namespace SimpleDB.Internal
 
 			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
 			{
-				using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
+				using BinaryWriter writer = new(_fileStream, Encoding.UTF8, true);
 				writer.Seek(Consts.PrimarySequenceStart, SeekOrigin.Begin);
 				writer.Write(primarySequence);
 				writer.Write(secondarySequence);
@@ -589,7 +589,7 @@ namespace SimpleDB.Internal
 			{
 				_primarySequence += increment;
 
-				using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
+				using BinaryWriter writer = new(_fileStream, Encoding.UTF8, true);
 				writer.Seek(Consts.PrimarySequenceStart, SeekOrigin.Begin);
 				writer.Write(_primarySequence);
 
@@ -607,7 +607,7 @@ namespace SimpleDB.Internal
 			{
 				_SecondarySequence += increment;
 
-				using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
+				using BinaryWriter writer = new(_fileStream, Encoding.UTF8, true);
 				writer.Seek(Consts.SecondarySequenceStart, SeekOrigin.Begin);
 				writer.Write(_SecondarySequence);
 
@@ -702,7 +702,7 @@ namespace SimpleDB.Internal
 
 				if (_internalWriteVersion < dataWriter.Version)
 				{
-					using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
+					using BinaryWriter writer = new(_fileStream, Encoding.UTF8, true);
 					_fileStream.Seek(Consts.WriteVersionStart, SeekOrigin.Begin);
 					writer.Write(dataWriter.Version);
 					_internalWriteVersion = dataWriter.Version;
@@ -932,7 +932,7 @@ namespace SimpleDB.Internal
 
 		private Dictionary<string, ForeignKeyRelation> GetForeignKeysForTable()
 		{
-			Dictionary<string, ForeignKeyRelation> Result = new Dictionary<string, ForeignKeyRelation>();
+			Dictionary<string, ForeignKeyRelation> Result = new();
 
 			foreach (PropertyInfo property in typeof(T).GetProperties())
 			{
@@ -957,7 +957,7 @@ namespace SimpleDB.Internal
 
 		private static BatchUpdateDictionary<string, IIndexManager> BuildIndexListForTable()
 		{
-			BatchUpdateDictionary<string, IIndexManager> Result = new BatchUpdateDictionary<string, IIndexManager>();
+			BatchUpdateDictionary<string, IIndexManager> Result = new();
 			foreach (PropertyInfo property in typeof(T).GetProperties())
 			{
 				UniqueIndexAttribute uniqueIndex = (UniqueIndexAttribute)property.GetCustomAttributes(true)
@@ -1016,7 +1016,7 @@ namespace SimpleDB.Internal
 			}
 			else
 			{
-				StringBuilder sb = new StringBuilder();
+				StringBuilder sb = new();
 
 				foreach (string propertyName in indexManager.PropertyNames)
 				{
@@ -1054,7 +1054,7 @@ namespace SimpleDB.Internal
 
 		private void ValidateTableContents()
 		{
-			using BinaryReader reader = new BinaryReader(_fileStream, Encoding.UTF8, true);
+			using BinaryReader reader = new(_fileStream, Encoding.UTF8, true);
 			_fileStream.Seek(0, SeekOrigin.Begin);
 
 			_internalDataVersion = reader.ReadUInt16();
@@ -1112,7 +1112,7 @@ namespace SimpleDB.Internal
 		{
 			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
 			{
-				using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
+				using BinaryWriter writer = new(_fileStream, Encoding.UTF8, true);
 				writer.Seek(Consts.DataVersionStart, SeekOrigin.Begin);
 				writer.Write(version);
 				_fileStream.Flush(true);
@@ -1124,7 +1124,7 @@ namespace SimpleDB.Internal
 		private void CreateTableHeaderRecords(string fileName, PageSize pageSize)
 		{
 			using FileStream stream = File.Open(fileName, FileMode.OpenOrCreate);
-			using BinaryWriter writer = new BinaryWriter(stream, Encoding.UTF8, false);
+			using BinaryWriter writer = new(stream, Encoding.UTF8, false);
 			writer.Seek(0, SeekOrigin.Begin);
 
 			writer.Write(FileVersion);

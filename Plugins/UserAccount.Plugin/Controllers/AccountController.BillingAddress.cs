@@ -50,7 +50,7 @@ namespace UserAccount.Plugin.Controllers
             if (billingAddress == null)
                 throw new InvalidOperationException(nameof(billingAddress));
 
-            BillingAddressViewModel model = new BillingAddressViewModel(GetModelData());
+            BillingAddressViewModel model = new(GetModelData());
             PrepareBillingAddressModel(ref model, billingAddress);
 
             return View(model);
@@ -66,7 +66,7 @@ namespace UserAccount.Plugin.Controllers
 
             if (ModelState.IsValid)
             {
-                Address billingAddress = new Address(model.AddressId, model.BusinessName, model.AddressLine1,
+                Address billingAddress = new(model.AddressId, model.BusinessName, model.AddressLine1,
                     model.AddressLine2, model.AddressLine3, model.City, model.County, model.Postcode, model.Country);
 
                 if (_accountProvider.SetBillingAddress(UserId(), billingAddress))

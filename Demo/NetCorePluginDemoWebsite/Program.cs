@@ -69,8 +69,8 @@ namespace AspNetCore.PluginManager.DemoWebsite
             PluginManagerService.UsePlugin(typeof(GeoIp.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(ImageManager.Plugin.PluginInitialisation));
 
-            PluginManagerConfiguration configuration = new PluginManagerConfiguration
-            {
+            PluginManagerConfiguration configuration = new()
+			{
                 ServiceConfigurator = new ServiceConfigurator()
             };
 

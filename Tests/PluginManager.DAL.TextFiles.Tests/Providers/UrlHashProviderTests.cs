@@ -55,7 +55,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 				ThreadManager.Initialise();
 				Directory.CreateDirectory(directory);
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
-				MockGeoIpProvider geoIp = new MockGeoIpProvider();
+				MockGeoIpProvider geoIp = new();
 				services.AddSingleton<IGeoIpProvider>(geoIp);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -81,14 +81,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			{
 				ThreadManager.Initialise();
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
-				MockGeoIpProvider geoIp = new MockGeoIpProvider();
+				MockGeoIpProvider geoIp = new();
 				services.AddSingleton<IGeoIpProvider>(geoIp);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					UrlHashProvider sut = provider.GetRequiredService<IUrlHashProvider>() as UrlHashProvider;

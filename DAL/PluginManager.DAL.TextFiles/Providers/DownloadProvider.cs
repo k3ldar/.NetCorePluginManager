@@ -68,7 +68,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             if (cacheItem == null)
             {
-                List<DownloadCategory> result = new List<DownloadCategory>();
+                List<DownloadCategory> result = new();
 
                 long user = userId;
 
@@ -76,7 +76,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
                 foreach (DownloadCategoryDataRow category in categories)
                 {
-                    List<DownloadItem> downloads = new List<DownloadItem>();
+                    List<DownloadItem> downloads = new();
 
                     IEnumerable<DownloadItemsDataRow> items = _downloadItemData.Select().Where(di => di.CategoryId.Equals(category.Id) && (di.UserId.Equals(0) || di.UserId.Equals(user)));
 
@@ -103,13 +103,13 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             if (cacheItem == null)
             {
-                List<DownloadCategory> result = new List<DownloadCategory>();
+                List<DownloadCategory> result = new();
 
                 IEnumerable<DownloadCategoryDataRow> categories = _downloadCategoryData.Select().Where(dc => dc.UserId.Equals(0));
 
                 foreach (DownloadCategoryDataRow category in categories)
                 {
-                    List<DownloadItem> downloads = new List<DownloadItem>();
+                    List<DownloadItem> downloads = new();
 
                     IEnumerable<DownloadItemsDataRow> items = _downloadItemData.Select().Where(di => di.CategoryId.Equals(category.Id) && di.UserId.Equals(0));
 

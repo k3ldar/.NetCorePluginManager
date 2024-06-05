@@ -58,8 +58,8 @@ namespace UserSessionMiddleware.Plugin.Classes
 	{
         #region Private Members
 
-        private static readonly object _lockObject = new object();
-        private static readonly Stack<UserSession> _closedSessions = new Stack<UserSession>();
+        private static readonly object _lockObject = new();
+        private static readonly Stack<UserSession> _closedSessions = new();
 
 #pragma warning disable IDE0044
 		private static SessionPageViews _sessionPageViews;
@@ -76,7 +76,7 @@ namespace UserSessionMiddleware.Plugin.Classes
         private static List<SessionWeekly> _weeklySessionDataBot;
         private static List<SessionMonthly> _monthlySessionDataBot;
         private static List<SessionYearly> _yearlySessionDataBot;
-        internal readonly static Timings _timingsDefaultSession = new Timings();
+        internal readonly static Timings _timingsDefaultSession = new();
         private readonly IGeoIpProvider _geoIpProvider;
         private readonly ILogger _logger;
         private readonly string _pageViewFile;
@@ -421,7 +421,7 @@ namespace UserSessionMiddleware.Plugin.Classes
 
             // Create a new Stringbuilder to collect the bytes
             // and create a string.
-            StringBuilder sBuilder = new StringBuilder();
+            StringBuilder sBuilder = new();
 
             // Loop through each byte of the hashed data
             // and format each one as a hexadecimal string.
@@ -500,7 +500,7 @@ namespace UserSessionMiddleware.Plugin.Classes
 
         private void ProcessClosedSessions()
         {
-            List<UserSession> readySessions = new List<UserSession>();
+            List<UserSession> readySessions = new();
 
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {

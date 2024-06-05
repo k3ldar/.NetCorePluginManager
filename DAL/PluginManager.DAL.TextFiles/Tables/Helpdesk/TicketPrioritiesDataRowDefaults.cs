@@ -41,9 +41,9 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return new List<TicketPrioritiesDataRow>()
                 {
-                    new TicketPrioritiesDataRow() { Description = "Low" },
-                    new TicketPrioritiesDataRow() { Description = "Medium" },
-                    new TicketPrioritiesDataRow() { Description = "High" }
+                    new() { Description = "Low" },
+                    new() { Description = "Medium" },
+                    new() { Description = "High" }
                 };
             }
 

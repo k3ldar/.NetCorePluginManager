@@ -42,7 +42,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void FindAllILoggerClassTypes()
         {
-            using (MockPluginManager pluginManager = new MockPluginManager())
+            using (MockPluginManager pluginManager = new())
             {
                 IPluginClassesService pluginServices = pluginManager as IPluginClassesService;
 
@@ -59,7 +59,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void FindTestLoggerClassTypeInstances()
         {
-            using (MockPluginManager pluginManager = new MockPluginManager())
+            using (MockPluginManager pluginManager = new())
             {
                 pluginManager.PluginLoad(Assembly.GetExecutingAssembly(), String.Empty, false);
                 IPluginClassesService pluginServices = pluginManager as IPluginClassesService;
@@ -77,7 +77,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void FindTestLoggerClassTypeInstancesAddLogAndVerify()
         {
-            using (MockPluginManager pluginManager = new MockPluginManager())
+            using (MockPluginManager pluginManager = new())
             {
                 pluginManager.PluginLoad(Assembly.GetExecutingAssembly(), String.Empty, false);
                 IPluginClassesService pluginServices = pluginManager as IPluginClassesService;

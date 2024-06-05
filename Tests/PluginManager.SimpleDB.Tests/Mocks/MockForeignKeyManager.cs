@@ -31,7 +31,7 @@ namespace SimpleDB.Tests.Mocks
 	[ExcludeFromCodeCoverage]
 	internal class MockForeignKeyManager : IForeignKeyManager
 	{
-		public List<string> RegisteredTables = new List<string>();
+		public List<string> RegisteredTables = new();
 
 		public void AddRelationShip(string table, string targetTable, string propertyName, string targetPropertyName, ForeignKeyAttributes foreignKeyAttributes)
 		{

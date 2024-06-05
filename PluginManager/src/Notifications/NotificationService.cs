@@ -40,8 +40,8 @@ namespace PluginManager.Internal
         #region Private Members
 
         private const int MaxQueueItems = 300;
-        private static readonly object _lockObject = new object();
-        private static readonly object _queueLock = new object();
+        private static readonly object _lockObject = new();
+        private static readonly object _queueLock = new();
         private readonly Dictionary<string, List<INotificationListener>> _eventListener;
         private readonly Queue<NotificationQueueItem> _messageQueue;
 
@@ -187,7 +187,7 @@ namespace PluginManager.Internal
 
         protected override bool Run(object parameters)
         {
-            List<NotificationQueueItem> queue = new List<NotificationQueueItem>();
+            List<NotificationQueueItem> queue = new();
 
             using (TimedLock timedLock = TimedLock.Lock(_queueLock))
             {

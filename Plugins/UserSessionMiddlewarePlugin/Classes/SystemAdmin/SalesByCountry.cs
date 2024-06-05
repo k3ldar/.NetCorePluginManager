@@ -66,9 +66,9 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
         public override string Data()
         {
-            StringBuilder Result = new StringBuilder("Country|Total Sales|Value\r");
+            StringBuilder Result = new("Country|Total Sales|Value\r");
             List<UserSession> sessions = UserSessionManager.Clone;
-            List<SessionStatistics> statistics = new List<SessionStatistics>();
+            List<SessionStatistics> statistics = new();
 
 
             foreach (UserSession session in sessions)

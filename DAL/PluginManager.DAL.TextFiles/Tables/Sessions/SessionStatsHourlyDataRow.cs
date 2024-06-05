@@ -68,7 +68,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 
 		public DateTime Date
 		{
-			get => new DateTime(_dateTicks, DateTimeKind.Utc);
+			get => new(_dateTicks, DateTimeKind.Utc);
 		}
 
 		[UniqueIndex("HourlySessionData")]

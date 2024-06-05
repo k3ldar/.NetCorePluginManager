@@ -82,7 +82,7 @@ namespace SieraDeltaGeoIp.Plugin.Classes
         /// <returns>string</returns>
         public override string Data()
         {
-            TimeSpan loadTime = new TimeSpan();
+            TimeSpan loadTime = new();
             uint recordsLoaded = 0;
             object result = null;
 

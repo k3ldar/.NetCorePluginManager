@@ -88,7 +88,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
             if (contents == null)
                 throw new ArgumentNullException(nameof(contents));
 
-            List<IMinifyResult> Result = new List<IMinifyResult>();
+            List<IMinifyResult> Result = new();
 
             switch (fileType)
             {
@@ -127,7 +127,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
             const string preStart = "<pre>";
             const string preEnd = "</pre>";
 
-            List<PreserveBlock> Result = new List<PreserveBlock>();
+            List<PreserveBlock> Result = new();
 
             int startPos = isRazor ? 0 : data.IndexOf(preStart, StringComparison.OrdinalIgnoreCase);
 

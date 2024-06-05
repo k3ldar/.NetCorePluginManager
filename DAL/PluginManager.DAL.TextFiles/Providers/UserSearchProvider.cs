@@ -43,7 +43,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<SearchUser> GetUsers(in int pageNumber, in int pageSize, string searchField, string searchOrder)
         {
-            List<SearchUser> Result = new List<SearchUser>();
+            List<SearchUser> Result = new();
 
             List<UserDataRow> users = _users.Select().Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 

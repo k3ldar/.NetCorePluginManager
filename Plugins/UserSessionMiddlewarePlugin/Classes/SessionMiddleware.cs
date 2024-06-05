@@ -59,7 +59,7 @@ namespace UserSessionMiddleware.Plugin
         private readonly string _staticFileExtension = Constants.StaticFileExtensions;
         private readonly List<RouteData> _routeData;
         private readonly string _defaultCulture;
-        internal readonly static Timings _timings = new Timings();
+        internal readonly static Timings _timings = new();
 
         #endregion Private Members
 
@@ -127,7 +127,7 @@ namespace UserSessionMiddleware.Plugin
             using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
             {
                 string cookieSessionID;
-                CookieOptions options = new CookieOptions()
+                CookieOptions options = new()
                 {
                     HttpOnly = false,
                     SameSite = SameSiteMode.Lax,
@@ -221,7 +221,7 @@ namespace UserSessionMiddleware.Plugin
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            UriBuilder uriBuilder = new UriBuilder(context.Request.Scheme, context.Request.Host.Host)
+            UriBuilder uriBuilder = new(context.Request.Scheme, context.Request.Host.Host)
             {
                 Path = context.Request.Path.ToString(),
                 Query = context.Request.QueryString.ToString()

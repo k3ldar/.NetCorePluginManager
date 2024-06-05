@@ -63,7 +63,7 @@ namespace DownloadPlugin.Classes
         /// <returns>List&lt;ISitemapItem&gt;</returns>
         public List<SitemapItem> Items()
         {
-            List<SitemapItem> Result = new List<SitemapItem>();
+            List<SitemapItem> Result = new();
 
             foreach (DownloadCategory download in _downloadProvider.DownloadCategoriesGet())
             {

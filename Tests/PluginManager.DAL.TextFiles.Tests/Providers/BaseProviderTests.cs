@@ -87,7 +87,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 				ThreadManager.Initialise();
 
 			pluginInitialisation = new PluginInitialisation();
-			ServiceCollection services = new ServiceCollection();
+			ServiceCollection services = new();
 
 			services.AddSingleton<IMemoryCache, MockMemoryCache>();
 			services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
@@ -99,7 +99,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 			ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
 
-			List<object> classServices = new List<object>()
+			List<object> classServices = new()
 				{
 					new TicketDepartmentsDataRowDefaults(),
 					new TicketStatusDataRowDefaults(),

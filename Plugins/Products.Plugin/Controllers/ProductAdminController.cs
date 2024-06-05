@@ -340,7 +340,7 @@ namespace ProductPlugin.Controllers
 
         private EditProductGroupModel CreateNewProductGroupModel()
         {
-            EditProductGroupModel result = new EditProductGroupModel(GetModelData());
+            EditProductGroupModel result = new(GetModelData());
 
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductGroups, "/ProductAdmin/GroupIndex/", false));
@@ -351,7 +351,7 @@ namespace ProductPlugin.Controllers
 
         private EditProductGroupModel CreateEditProductGroupModel(EditProductGroupModel productGroupModel)
         {
-            EditProductGroupModel result = new EditProductGroupModel(GetModelData(), productGroupModel.Id, productGroupModel.Description,
+            EditProductGroupModel result = new(GetModelData(), productGroupModel.Id, productGroupModel.Description,
                 productGroupModel.ShowOnWebsite, productGroupModel.SortOrder, productGroupModel.TagLine, productGroupModel.Url);
             
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
@@ -363,7 +363,7 @@ namespace ProductPlugin.Controllers
 
         private EditProductGroupModel CreateEditProductGroupModel(ProductGroup productGroup)
         {
-            EditProductGroupModel result = new EditProductGroupModel(GetModelData(), productGroup.Id, productGroup.Description,
+            EditProductGroupModel result = new(GetModelData(), productGroup.Id, productGroup.Description,
                 productGroup.ShowOnWebsite, productGroup.SortOrder, productGroup.TagLine, productGroup.Url);
 
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
@@ -375,7 +375,7 @@ namespace ProductPlugin.Controllers
 
         private ProductGroupListModel CreateProductGroupListModel()
         {
-            ProductGroupListModel result = new ProductGroupListModel(GetModelData());
+            ProductGroupListModel result = new(GetModelData());
 
             List<ProductGroup> groups = _productProvider.ProductGroupsGet();
 
@@ -404,7 +404,7 @@ namespace ProductPlugin.Controllers
         {
             List<ProductGroup> allProductGroups = _productProvider.ProductGroupsGet();
 
-            EditProductModel result = new EditProductModel(GetModelData())
+            EditProductModel result = new(GetModelData())
             {
                 ProductGroupId = allProductGroups[0].Id
             };
@@ -421,11 +421,11 @@ namespace ProductPlugin.Controllers
 
         private EditProductModel CreateEditProductModel(Product product, int pageNumber)
         {
-            List<LookupListItem> productGroups = new List<LookupListItem>();
+            List<LookupListItem> productGroups = new();
 
             _productProvider.ProductGroupsGet().ForEach(pg => productGroups.Add(new LookupListItem(pg.Id, pg.Description)));
 
-            EditProductModel result = new EditProductModel(GetModelData(), productGroups, product.Id, product.ProductGroupId,
+            EditProductModel result = new(GetModelData(), productGroups, product.Id, product.ProductGroupId,
                 product.Name, product.Description, product.Features, product.VideoLink, product.NewProduct,
                 product.BestSeller, product.RetailPrice, product.Sku, product.IsDownload, product.AllowBackorder,
                 product.IsVisible, pageNumber);
@@ -445,11 +445,11 @@ namespace ProductPlugin.Controllers
 
         private EditProductModel CreateEditProductModel(EditProductModel model)
         {
-            List<LookupListItem> productGroups = new List<LookupListItem>();
+            List<LookupListItem> productGroups = new();
 
             _productProvider.ProductGroupsGet().ForEach(pg => productGroups.Add(new LookupListItem(pg.Id, pg.Description)));
 
-            EditProductModel result = new EditProductModel(GetModelData(), productGroups, model.Id, model.ProductGroupId,
+            EditProductModel result = new(GetModelData(), productGroups, model.Id, model.ProductGroupId,
                 model.Name, model.Description, model.Features, model.VideoLink, model.NewProduct,
                 model.BestSeller, model.RetailPrice, model.Sku, model.IsDownload, model.AllowBackorder,
 				model.IsVisible, model.PageNumber);

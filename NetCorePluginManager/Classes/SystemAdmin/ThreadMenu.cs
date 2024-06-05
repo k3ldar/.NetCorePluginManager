@@ -68,7 +68,7 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
         /// <returns>string</returns>
         public override string Data()
         {
-            StringBuilder Result = new StringBuilder("Name|Process Usage|System Usage|Thread Id|Cancelled|Unresponsive|Marked For Removal\r");
+            StringBuilder Result = new("Name|Process Usage|System Usage|Thread Id|Cancelled|Unresponsive|Marked For Removal\r");
 
             Result.AppendFormat("Process||{0}%||||\r", ThreadManager.CpuUsage.ToString("F"));
 

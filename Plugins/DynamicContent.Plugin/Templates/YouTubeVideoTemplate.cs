@@ -143,7 +143,7 @@ namespace DynamicContent.Plugin.Templates
 
         private string GenerateContent(bool isEditing)
         {
-            StringBuilder Result = new StringBuilder(1024);
+            StringBuilder Result = new(1024);
 
             HtmlStart(Result, isEditing);
 

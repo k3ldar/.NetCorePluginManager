@@ -182,7 +182,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private LoginResult LoginExternalUser(ITokenUserDetails tokenUserDetails, ref UserLoginDetails loginDetails)
         {
-            ExternalUsersDataRow externalUser = new ExternalUsersDataRow()
+            ExternalUsersDataRow externalUser = new()
             {
                 Email = tokenUserDetails.Email,
                 UserName = tokenUserDetails.Name ?? tokenUserDetails.Email,

@@ -40,7 +40,7 @@ namespace SimpleDB.Internal
     internal sealed class IndexManager<T> : IIndexManager
     {
         private readonly List<T> _keys;
-        private readonly object _lock = new object();
+        private readonly object _lock = new();
         private bool _sortRequired = false;
         private readonly List<string> _propertyNames;
 

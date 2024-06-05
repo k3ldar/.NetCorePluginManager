@@ -47,8 +47,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         {
             return new List<LicenceType>()
                 {
-                    new LicenceType(1, "Product 1"),
-                    new LicenceType(2, "Product 2")
+                    new(1, "Product 1"),
+                    new(2, "Product 2")
                 };
         }
 
@@ -58,9 +58,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             {
                 _licences = new List<Licence>()
                 {
-                    new Licence(1, 1, LicenceTypesGet()[0], DateTime.Now.AddMonths(-9), DateTime.Now.AddMonths(3),
+                    new(1, 1, LicenceTypesGet()[0], DateTime.Now.AddMonths(-9), DateTime.Now.AddMonths(3),
                         true, false, 0, 1, "65.45.76.124", String.Empty),
-                    new Licence(2, 1, LicenceTypesGet()[1], DateTime.Now.AddMonths(-9), DateTime.Now.AddMonths(3),
+                    new(2, 1, LicenceTypesGet()[1], DateTime.Now.AddMonths(-9), DateTime.Now.AddMonths(3),
                         true, false, 0, 1, "124.76.45.65", "Encrypted String value")
                 };
             }

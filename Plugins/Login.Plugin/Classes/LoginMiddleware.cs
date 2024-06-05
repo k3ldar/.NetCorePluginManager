@@ -52,9 +52,9 @@ namespace LoginPlugin
         private readonly ILoginProvider _loginProvider;
         private readonly LoginControllerSettings _loginControllerSettings;
         private readonly IClaimsProvider _claimsProvider;
-        internal readonly static Timings _loginTimings = new Timings();
-        internal readonly static Timings _autoLoginCookieTimings = new Timings();
-        internal readonly static Timings _autoLoginBasicAuthLogin = new Timings();
+        internal readonly static Timings _loginTimings = new();
+        internal readonly static Timings _autoLoginCookieTimings = new();
+        internal readonly static Timings _autoLoginBasicAuthLogin = new();
 
         #endregion Private Members
 
@@ -161,7 +161,7 @@ namespace LoginPlugin
                     return false;
                 }
 
-                UserLoginDetails loginDetails = new UserLoginDetails();
+                UserLoginDetails loginDetails = new();
 
                 LoginResult loginResult = _loginProvider.Login(ValidateUserInput(authParts[0], ValidationType.Name), ValidateUserInput(authParts[1], ValidationType.Password),
                     GetIpAddress(context), 1, ref loginDetails);
@@ -194,7 +194,7 @@ namespace LoginPlugin
 
                 if (Int64.TryParse(cookieValue, out long userId))
                 {
-                    UserLoginDetails loginDetails = new UserLoginDetails(userId, true);
+                    UserLoginDetails loginDetails = new(userId, true);
 
                     LoginResult loginResult = _loginProvider.Login(String.Empty, String.Empty,
                         GetIpAddress(context), 1, ref loginDetails);

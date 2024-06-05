@@ -63,13 +63,13 @@ namespace Blog.Plugin.Classes
         /// <returns>List&lt;ISitemapItem&gt;</returns>
         public List<SitemapItem> Items()
         {
-            List<SitemapItem> Result = new List<SitemapItem>();
+            List<SitemapItem> Result = new();
 
             List<BlogItem> blogs = _blogProvider.GetRecentPosts(1000, true);
 
             foreach (BlogItem blogItem in blogs)
             {
-                Uri blogUrl = new Uri($"Blog/{HtmlHelper.RouteFriendlyName(blogItem.Username)}/{blogItem.Id}/" +
+                Uri blogUrl = new($"Blog/{HtmlHelper.RouteFriendlyName(blogItem.Username)}/{blogItem.Id}/" +
                     $"{blogItem.LastModified.ToString("dd-MM-yyyy")}/{HtmlHelper.RouteFriendlyName(blogItem.Title)}",
                     UriKind.RelativeOrAbsolute);
 

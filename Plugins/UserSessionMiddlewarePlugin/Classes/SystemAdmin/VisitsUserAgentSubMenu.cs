@@ -80,7 +80,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
         /// <returns>string</returns>
         public override string Data()
         {
-            StringBuilder Result = new StringBuilder("Count|Bot|Agent");
+            StringBuilder Result = new("Count|Bot|Agent");
             List<SessionUserAgent> userAgents = _sessionStatisticsProvider.GetUserAgents();
 
             foreach (SessionUserAgent item in userAgents)

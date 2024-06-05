@@ -61,7 +61,7 @@ namespace Resources.Plugin.Models
 		{
 			get
 			{
-				List<NameIdModel> Result = new List<NameIdModel>();
+				List<NameIdModel> Result = new();
 
 				foreach (ResourceType resourceType in Enum.GetValues(typeof(ResourceType)))
 				{

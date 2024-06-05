@@ -174,7 +174,7 @@ namespace Spider.Plugin.Controllers
 
         private EditRobotsModel CreateRobotsModel()
         {
-            List<CustomAgentModel> customAgents = new List<CustomAgentModel>();
+            List<CustomAgentModel> customAgents = new();
 
             foreach (DeniedRoute deniedRoute in _robots.DeniedRoutes)
             {

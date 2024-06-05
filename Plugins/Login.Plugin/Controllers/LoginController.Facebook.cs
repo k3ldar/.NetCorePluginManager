@@ -76,7 +76,7 @@ namespace LoginPlugin.Controllers
 
         public IActionResult FacebookCallback(string code)
         {
-            NVPCodec parameters = new NVPCodec();
+            NVPCodec parameters = new();
             parameters.Add(OAuthCode, code);
             parameters.Add(OAuthClientId, _settings.FacebookClientId);
             parameters.Add(OAuthClientSecret, _settings.FacebookSecret);
@@ -148,7 +148,7 @@ namespace LoginPlugin.Controllers
                 }
 
                 FacebookRemoveUser fbUser = JsonSerializer.Deserialize<FacebookRemoveUser>(json, GetSerializerOptions());
-                TokenUserDetails tokenUserDetails = new TokenUserDetails(fbUser);
+                TokenUserDetails tokenUserDetails = new(fbUser);
                 _loginProvider.RemoveExternalUser(tokenUserDetails);
                 string confirmationUrl = String.Format(FacebookUserConfirmationUri, HttpContext.Request.Scheme, HttpContext.Request.Host, fbUser.UserId);
 
@@ -161,7 +161,7 @@ namespace LoginPlugin.Controllers
 
         public IActionResult FacebookUser(string id)
         {
-            TokenUserDetails tokenUserDetails = new TokenUserDetails()
+            TokenUserDetails tokenUserDetails = new()
             {
                 Id = id,
                 Provider = Facebook,
@@ -201,7 +201,7 @@ namespace LoginPlugin.Controllers
 
         private TokenUserDetails GetFacebookUserDetails(TokenResponse facebookPlusAccessToken)
         {
-            using (HttpClient httpClient = new HttpClient())
+            using (HttpClient httpClient = new())
             {
                 string userIdUrl = FacebookGraphMeUri +
                     OAuthParamAccessToken + facebookPlusAccessToken.access_token;

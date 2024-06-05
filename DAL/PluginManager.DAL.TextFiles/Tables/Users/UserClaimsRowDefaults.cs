@@ -74,7 +74,7 @@ namespace PluginManager.DAL.TextFiles.Tables.Users
 
 				return new List<UserClaimsDataRow>()
 				{
-					new UserClaimsDataRow()
+					new()
 					{
 						UserId = 1,
 						Claims = claims,

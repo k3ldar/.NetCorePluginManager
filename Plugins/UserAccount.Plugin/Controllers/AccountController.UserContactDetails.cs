@@ -46,7 +46,7 @@ namespace UserAccount.Plugin.Controllers
             if (_accountProvider.GetUserAccountDetails(UserId(), out string firstName, out string lastName, out string email,
                 out bool emailConfirmed, out string telephone, out bool telephoneConfirmed))
             {
-                UserContactDetailsViewModel model = new UserContactDetailsViewModel(GetModelData(),
+                UserContactDetailsViewModel model = new(GetModelData(),
                     firstName, lastName, email, emailConfirmed, telephone, telephoneConfirmed,
                     _accountProvider.GetAddressOptions(AddressOption.Billing).HasFlag(AddressOptions.TelephoneShow));
 

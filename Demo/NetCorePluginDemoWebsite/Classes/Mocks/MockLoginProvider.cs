@@ -34,7 +34,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
     [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
     public class MockLoginProvider : ILoginProvider
     {
-        private readonly Dictionary<long, string> _externalUsers = new Dictionary<long, string>();
+        private readonly Dictionary<long, string> _externalUsers = new();
 
         public LoginResult Login(in string username, in string password, in string ipAddress,
             in byte attempts, ref UserLoginDetails loginDetails)

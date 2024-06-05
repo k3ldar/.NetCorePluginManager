@@ -74,7 +74,7 @@ namespace SharedPluginFeatures
 					return ValidateUserPathInput(userInput);
 
 				case ValidationType.Email:
-					EmailAddressAttribute emailAddressAttribute = new EmailAddressAttribute();
+					EmailAddressAttribute emailAddressAttribute = new();
 					if (emailAddressAttribute.IsValid(userInput))
 						return userInput;
 
@@ -117,7 +117,7 @@ namespace SharedPluginFeatures
 
 		private static string RemoveInvalidCharacters(string input, string validChars)
 		{
-			StringBuilder stringBuilder = new StringBuilder(input.Length);
+			StringBuilder stringBuilder = new(input.Length);
 
 			foreach (char c in input)
 			{

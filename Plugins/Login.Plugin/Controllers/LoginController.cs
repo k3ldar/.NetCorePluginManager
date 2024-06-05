@@ -82,7 +82,7 @@ namespace LoginPlugin.Controllers
         private readonly IClaimsProvider _claimsProvider;
         private readonly IMemoryCache _memoryCache;
 
-        private static readonly CacheManager _loginCache = new CacheManager("Login Cache", new TimeSpan(0, 30, 0));
+        private static readonly CacheManager _loginCache = new("Login Cache", new TimeSpan(0, 30, 0));
 
         #endregion Private Members
 
@@ -119,7 +119,7 @@ namespace LoginPlugin.Controllers
                     return LocalRedirect(returnUrl);
             }
 
-            LoginViewModel model = new LoginViewModel(GetModelData(),
+            LoginViewModel model = new(GetModelData(),
                 String.IsNullOrEmpty(returnUrl) ? _settings.LoginSuccessUrl : returnUrl,
                 _settings.ShowRememberMe, _settings.IsGoogleLoginEnabled(),
                 _settings.IsFacebookLoginEnabled());
@@ -158,7 +158,7 @@ namespace LoginPlugin.Controllers
             if (!model.ShowCaptchaImage)
                 model.CaptchaText = null;
 
-            UserLoginDetails loginDetails = new UserLoginDetails();
+            UserLoginDetails loginDetails = new();
 
             model.Breadcrumbs = GetBreadcrumbs();
             model.CartSummary = GetCartSummary();
@@ -224,7 +224,7 @@ namespace LoginPlugin.Controllers
             if (String.IsNullOrEmpty(username))
                 return RedirectToAction(nameof(Index));
 
-            AccountLockedViewModel model = new AccountLockedViewModel(GetModelData(), username);
+            AccountLockedViewModel model = new(GetModelData(), username);
 
             return View(model);
         }
@@ -253,7 +253,7 @@ namespace LoginPlugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.ForgotPassword))]
         public IActionResult ForgotPassword()
         {
-            ForgotPasswordViewModel model = new ForgotPasswordViewModel(GetModelData());
+            ForgotPasswordViewModel model = new(GetModelData());
 
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
             loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
@@ -331,11 +331,11 @@ namespace LoginPlugin.Controllers
             if (loginCacheItem == null)
                 return StatusCode(Constants.HtmlResponseBadRequest);
 
-            CaptchaImage ci = new CaptchaImage(loginCacheItem.CaptchaText, 240, 60, "Century Schoolbook");
+            CaptchaImage ci = new(loginCacheItem.CaptchaText, 240, 60, "Century Schoolbook");
             try
             {
                 // Write the image to the response stream in JPEG format.
-                using (MemoryStream ms = new MemoryStream())
+                using (MemoryStream ms = new())
                 {
                     ci.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
 
@@ -384,7 +384,7 @@ namespace LoginPlugin.Controllers
 				try
 				{
 					string loginId = Decrypt(CookieValue(_settings.RememberMeCookieName, ""), _settings.EncryptionKey);
-					UserLoginDetails loginDetails = new UserLoginDetails(Convert.ToInt64(loginId), true);
+					UserLoginDetails loginDetails = new(Convert.ToInt64(loginId), true);
 					bool loggedIn = _loginProvider.Login(String.Empty, String.Empty, GetIpAddress(), 0, ref loginDetails) == LoginResult.Remembered;
 
 					if (loggedIn)

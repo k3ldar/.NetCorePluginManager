@@ -69,7 +69,7 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
         public override string Data()
         {
             Dictionary<string, Timings> routeTimings = RouteLoadTimeMiddleware.ClonePageTimings();
-            StringBuilder Result = new StringBuilder("Route ms|Total Requests|Fastest ms|Slowest ms|Average ms|Trimmed Avg ms|Total ms");
+            StringBuilder Result = new("Route ms|Total Requests|Fastest ms|Slowest ms|Average ms|Trimmed Avg ms|Total ms");
 
             foreach (KeyValuePair<string, Timings> route in routeTimings)
             {

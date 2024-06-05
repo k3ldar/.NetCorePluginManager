@@ -45,7 +45,7 @@ namespace UserAccount.Plugin.Controllers
             UserSession userSession = GetUserSession();
 
             userSession.Culture = culture;
-            CultureInfo newCulture = new CultureInfo(culture);
+            CultureInfo newCulture = new(culture);
 
             if (_cultureProvider.IsCultureValid(newCulture))
                 _userCultureChanged.CultureChanged(HttpContext, userSession, newCulture);

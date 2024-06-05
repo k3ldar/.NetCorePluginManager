@@ -41,9 +41,9 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return new List<TicketDepartmentsDataRow>()
                 {
-                    new TicketDepartmentsDataRow() { Description = "Sales" },
-                    new TicketDepartmentsDataRow() { Description = "Support" },
-                    new TicketDepartmentsDataRow() { Description = "Returns" }
+                    new() { Description = "Sales" },
+                    new() { Description = "Support" },
+                    new() { Description = "Returns" }
                 };
             }
 

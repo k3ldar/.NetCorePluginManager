@@ -49,15 +49,15 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         {
             _blogEntries = new List<BlogItem>()
             {
-                new BlogItem(1, 123, "My First Blog Entry", "This is about my first blog entry", "Making blogs is easy", "Test User", true,
+                new(1, 123, "My First Blog Entry", "This is about my first blog entry", "Making blogs is easy", "Test User", true,
                     DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-9),
                     new List<string>() { "Blogs", "First", "Test" },
                     new List<BlogComment>()
                     {
-                        new BlogComment(1, null, DateTime.Now.AddDays(-8), 2, "A User", true, "This is the first comment"),
-                        new BlogComment(2, null, DateTime.Now.AddDays(-7), 2, "Another User", true, "This is the second comment")
+                        new(1, null, DateTime.Now.AddDays(-8), 2, "A User", true, "This is the first comment"),
+                        new(2, null, DateTime.Now.AddDays(-7), 2, "Another User", true, "This is the second comment")
                     }),
-                new BlogItem(2, 123, "Test", "Lorem Ipsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor " +
+                new(2, 123, "Test", "Lorem Ipsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor " +
                     "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut " +
                     "aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat " +
                     "nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -66,7 +66,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                     new List<string>() { "Lorem", "Ipsum" },
                     new List<BlogComment>()
                     {
-                        new BlogComment(3, null, DateTime.Now.AddDays(-7), 2, "A User", true, "honi soit qui mal y pense")
+                        new(3, null, DateTime.Now.AddDays(-7), 2, "A User", true, "honi soit qui mal y pense")
                     })
         };
         }
@@ -121,7 +121,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             if (blogItem.Id == 0)
             {
                 newId = _blogEntries.Count + 1;
-                BlogItem newblog = new BlogItem(newId, blogItem.UserId, blogItem.Title, blogItem.Excerpt,
+                BlogItem newblog = new(newId, blogItem.UserId, blogItem.Title, blogItem.Excerpt,
                     blogItem.BlogText, blogItem.Username, blogItem.Published, DateTime.Now,
                     DateTime.Now, DateTime.Now, blogItem.Tags, blogItem.Comments);
                 _blogEntries.Add(newblog);
@@ -145,7 +145,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             if (String.IsNullOrEmpty(comment))
                 throw new ArgumentNullException(nameof(comment));
 
-            BlogComment blogComment = new BlogComment(++_blogCommentId, null,
+            BlogComment blogComment = new(++_blogCommentId, null,
                 DateTime.Now, userId, userName, true, comment);
             blogItem.Comments.Add(blogComment);
         }

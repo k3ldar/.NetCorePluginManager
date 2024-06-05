@@ -58,10 +58,10 @@ namespace WebSmokeTest.Plugin
     {
         #region Private Members
 
-        private static readonly CacheManager _testCache = new CacheManager("Web Smoke Test Cache", new TimeSpan(0, 10, 0), true);
+        private static readonly CacheManager _testCache = new("Web Smoke Test Cache", new TimeSpan(0, 10, 0), true);
         private readonly string _savedData = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.tmp");
         private readonly RequestDelegate _next;
-        internal readonly static Timings _timings = new Timings();
+        internal readonly static Timings _timings = new();
         private Boolean _disposedValue;
         private readonly ILogger _logger;
         private readonly WebSmokeTestSettings _settings;
@@ -275,7 +275,7 @@ namespace WebSmokeTest.Plugin
 
         private void LoadSmokeTestData(in IPluginTypesService pluginTypesService)
         {
-            List<WebSmokeTestItem> allSmokeTests = new List<WebSmokeTestItem>();
+            List<WebSmokeTestItem> allSmokeTests = new();
             List<Type> testAttributes = pluginTypesService.GetPluginTypesWithAttribute<SmokeTestAttribute>();
             int testCount = 0;
 

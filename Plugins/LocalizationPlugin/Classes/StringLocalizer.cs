@@ -30,8 +30,6 @@ using System.Resources;
 using System.Text;
 using System.Threading;
 
-using Languages;
-
 using Microsoft.Extensions.Localization;
 
 using PluginManager;
@@ -41,22 +39,22 @@ using SharedPluginFeatures;
 
 namespace Localization.Plugin
 {
-    internal sealed class StringLocalizer : IStringLocalizer
-    {
-        #region Private Members
+	internal sealed class StringLocalizer : IStringLocalizer
+	{
+		#region Private Members
 
-        private static readonly Timings _timings = new Timings();
+		private static readonly Timings _timings = new();
 
-        private readonly ILogger _logger;
+		private readonly ILogger _logger;
 		private readonly List<ResourceManager> _resourceManagers = new();
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public StringLocalizer(ILogger logger, IPluginClassesService pluginClassesService)
-        {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+		public StringLocalizer(ILogger logger, IPluginClassesService pluginClassesService)
+		{
+			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			if (pluginClassesService == null)
 				throw new ArgumentNullException(nameof(pluginClassesService));
@@ -67,21 +65,21 @@ namespace Localization.Plugin
 			{
 				_resourceManagers.Add(new ResourceManager(languageFile.Name, languageFile.Assembly));
 			}
-        }
+		}
 
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IStringLocalizer Methods
+		#region IStringLocalizer Methods
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
-        public LocalizedString this[string name]
-        {
-            get
-            {
-                using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
-                {
-                    try
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
+		public LocalizedString this[string name]
+		{
+			get
+			{
+				using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
+				{
+					try
 					{
 						string resourceName = RemoveNonAlphaNumericChars(name);
 
@@ -98,23 +96,23 @@ namespace Localization.Plugin
 						return new LocalizedString(name, name);
 					}
 					catch (Exception error)
-                    {
-                        _logger.AddToLog(LogLevel.Error, nameof(StringLocalizer), error, name);
-                        return new LocalizedString(name, name);
-                    }
-                }
-            }
-        }
+					{
+						_logger.AddToLog(LogLevel.Error, nameof(StringLocalizer), error, name);
+						return new LocalizedString(name, name);
+					}
+				}
+			}
+		}
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
-        public LocalizedString this[string name, params object[] arguments]
-        {
-            get
-            {
-                using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
-                {
-                    try
-                    {
+		public LocalizedString this[string name, params object[] arguments]
+		{
+			get
+			{
+				using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
+				{
+					try
+					{
 						string resourceName = RemoveNonAlphaNumericChars(name);
 
 						foreach (ResourceManager resourceManager in _resourceManagers)
@@ -127,32 +125,28 @@ namespace Localization.Plugin
 							return new LocalizedString(name, String.Format(locString, arguments));
 						}
 
-                        return new LocalizedString(name, String.Format(resourceName, arguments));
-                    }
-                    catch (Exception error)
-                    {
-                        _logger.AddToLog(LogLevel.Error, nameof(StringLocalizer), error, name);
-                        return new LocalizedString(name, String.Format(name, arguments));
-                    }
-                }
-            }
-        }
+						return new LocalizedString(name, String.Format(resourceName, arguments));
+					}
+					catch (Exception error)
+					{
+						_logger.AddToLog(LogLevel.Error, nameof(StringLocalizer), error, name);
+						return new LocalizedString(name, String.Format(name, arguments));
+					}
+				}
+			}
+		}
 
-        public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
-        {
-            throw new InvalidOperationException();
-        }
+		public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
+		{
+			// required from interface, not used in this context
+			throw new InvalidOperationException();
+		}
 
-        public IStringLocalizer WithCulture(CultureInfo culture)
-        {
-            throw new InvalidOperationException();
-        }
-
-        #endregion IStringLocalizer Methods
+		#endregion IStringLocalizer Methods
 
 		private static string RemoveNonAlphaNumericChars(string name)
 		{
-			StringBuilder Result = new StringBuilder(name.Length);
+			StringBuilder Result = new(name.Length);
 
 			foreach (char c in name)
 			{
@@ -167,16 +161,16 @@ namespace Localization.Plugin
 			return Result.ToString();
 		}
 
-        #region Internal Properties
+		#region Internal Properties
 
-        internal static Timings LocalizationTimings
-        {
-            get
-            {
-                return _timings.Clone();
-            }
-        }
+		internal static Timings LocalizationTimings
+		{
+			get
+			{
+				return _timings.Clone();
+			}
+		}
 
-        #endregion Internal Properties
-    }
+		#endregion Internal Properties
+	}
 }

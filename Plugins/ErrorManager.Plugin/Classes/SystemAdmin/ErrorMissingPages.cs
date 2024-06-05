@@ -61,7 +61,7 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
         /// <returns>string</returns>
         public override string Data()
         {
-            StringBuilder Result = new StringBuilder("Page|Count");
+            StringBuilder Result = new("Page|Count");
 
             Dictionary<string, uint> missingPages = ErrorManagerMiddleware.GetMissingPages();
 

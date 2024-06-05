@@ -39,9 +39,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         {
             return new List<SearchUser>()
             {
-                new SearchUser(1, "Joe Bloggs", "joe@blogs.com"),
-                new SearchUser(2, "Jane Doe", "jane@doe.com"),
-                new SearchUser(3, "John Doe", "john@doe.com"),
+                new(1, "Joe Bloggs", "joe@blogs.com"),
+                new(2, "Jane Doe", "jane@doe.com"),
+                new(3, "John Doe", "john@doe.com"),
             };
 
         }

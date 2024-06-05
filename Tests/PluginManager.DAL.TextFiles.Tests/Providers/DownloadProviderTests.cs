@@ -58,12 +58,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     DownloadProvider sut = (DownloadProvider)provider.GetService<IDownloadProvider>();
@@ -74,9 +74,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
                     {
-                        new DownloadCategoryDataRow() { Name = "Cat 1" },
-                        new DownloadCategoryDataRow() { Name = "Cat 2" },
-                        new DownloadCategoryDataRow() { Name = "Cat 3" },
+                        new() { Name = "Cat 1" },
+                        new() { Name = "Cat 2" },
+                        new() { Name = "Cat 3" },
                     });
 
                     ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
@@ -84,13 +84,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     downloadItemsTable.Insert(new List<DownloadItemsDataRow>()
                     {
-                        new DownloadItemsDataRow() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
-                        new DownloadItemsDataRow() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
-                        new DownloadItemsDataRow() { Name = "DL3", UserId = 0, CategoryId = 1, Description = "dl3", Filename = "dl3.txt" },
-                        new DownloadItemsDataRow() { Name = "DL4", UserId = 0, CategoryId = 1, Description = "dl4", Filename = "dl4.txt" },
-                        new DownloadItemsDataRow() { Name = "DL5", UserId = 0, CategoryId = 1, Description = "dl5", Filename = "dl5.txt" },
-                        new DownloadItemsDataRow() { Name = "DL6", UserId = 0, CategoryId = 2, Description = "dl6", Filename = "dl6.txt" },
-                        new DownloadItemsDataRow() { Name = "DL7", UserId = 1, CategoryId = 2, Description = "dl7", Filename = "dl7.txt" },
+                        new() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
+                        new() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
+                        new() { Name = "DL3", UserId = 0, CategoryId = 1, Description = "dl3", Filename = "dl3.txt" },
+                        new() { Name = "DL4", UserId = 0, CategoryId = 1, Description = "dl4", Filename = "dl4.txt" },
+                        new() { Name = "DL5", UserId = 0, CategoryId = 1, Description = "dl5", Filename = "dl5.txt" },
+                        new() { Name = "DL6", UserId = 0, CategoryId = 2, Description = "dl6", Filename = "dl6.txt" },
+                        new() { Name = "DL7", UserId = 1, CategoryId = 2, Description = "dl7", Filename = "dl7.txt" },
                     });
 
                     List<DownloadCategory> result = sut.DownloadCategoriesGet(0);
@@ -119,12 +119,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     DownloadProvider sut = (DownloadProvider)provider.GetService<IDownloadProvider>();
@@ -135,9 +135,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
                     {
-                        new DownloadCategoryDataRow() { Name = "Cat 1" },
-                        new DownloadCategoryDataRow() { Name = "Cat 2" },
-                        new DownloadCategoryDataRow() { Name = "Cat 3" },
+                        new() { Name = "Cat 1" },
+                        new() { Name = "Cat 2" },
+                        new() { Name = "Cat 3" },
                     });
 
                     ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
@@ -145,13 +145,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     downloadItemsTable.Insert(new List<DownloadItemsDataRow>()
                     {
-                        new DownloadItemsDataRow() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
-                        new DownloadItemsDataRow() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
-                        new DownloadItemsDataRow() { Name = "DL3", UserId = 0, CategoryId = 1, Description = "dl3", Filename = "dl3.txt" },
-                        new DownloadItemsDataRow() { Name = "DL4", UserId = 0, CategoryId = 1, Description = "dl4", Filename = "dl4.txt" },
-                        new DownloadItemsDataRow() { Name = "DL5", UserId = 0, CategoryId = 1, Description = "dl5", Filename = "dl5.txt" },
-                        new DownloadItemsDataRow() { Name = "DL6", UserId = 0, CategoryId = 2, Description = "dl6", Filename = "dl6.txt" },
-                        new DownloadItemsDataRow() { Name = "DL7", UserId = 1, CategoryId = 2, Description = "dl7", Filename = "dl7.txt" },
+                        new() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
+                        new() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
+                        new() { Name = "DL3", UserId = 0, CategoryId = 1, Description = "dl3", Filename = "dl3.txt" },
+                        new() { Name = "DL4", UserId = 0, CategoryId = 1, Description = "dl4", Filename = "dl4.txt" },
+                        new() { Name = "DL5", UserId = 0, CategoryId = 1, Description = "dl5", Filename = "dl5.txt" },
+                        new() { Name = "DL6", UserId = 0, CategoryId = 2, Description = "dl6", Filename = "dl6.txt" },
+                        new() { Name = "DL7", UserId = 1, CategoryId = 2, Description = "dl7", Filename = "dl7.txt" },
                     });
 
                     List<DownloadCategory> result = sut.DownloadCategoriesGet(1);
@@ -180,12 +180,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     DownloadProvider sut = (DownloadProvider)provider.GetService<IDownloadProvider>();
@@ -196,9 +196,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
                     {
-                        new DownloadCategoryDataRow() { Name = "Cat 1" },
-                        new DownloadCategoryDataRow() { Name = "Cat 2" },
-                        new DownloadCategoryDataRow() { Name = "Cat 3" },
+                        new() { Name = "Cat 1" },
+                        new() { Name = "Cat 2" },
+                        new() { Name = "Cat 3" },
                     });
 
                     ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
@@ -206,13 +206,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     downloadItemsTable.Insert(new List<DownloadItemsDataRow>()
                     {
-                        new DownloadItemsDataRow() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
-                        new DownloadItemsDataRow() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
-                        new DownloadItemsDataRow() { Name = "DL3", UserId = 0, CategoryId = 1, Description = "dl3", Filename = "dl3.txt" },
-                        new DownloadItemsDataRow() { Name = "DL4", UserId = 0, CategoryId = 1, Description = "dl4", Filename = "dl4.txt" },
-                        new DownloadItemsDataRow() { Name = "DL5", UserId = 0, CategoryId = 1, Description = "dl5", Filename = "dl5.txt" },
-                        new DownloadItemsDataRow() { Name = "DL6", UserId = 0, CategoryId = 2, Description = "dl6", Filename = "dl6.txt" },
-                        new DownloadItemsDataRow() { Name = "DL7", UserId = 1, CategoryId = 2, Description = "dl7", Filename = "dl7.txt" },
+                        new() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
+                        new() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
+                        new() { Name = "DL3", UserId = 0, CategoryId = 1, Description = "dl3", Filename = "dl3.txt" },
+                        new() { Name = "DL4", UserId = 0, CategoryId = 1, Description = "dl4", Filename = "dl4.txt" },
+                        new() { Name = "DL5", UserId = 0, CategoryId = 1, Description = "dl5", Filename = "dl5.txt" },
+                        new() { Name = "DL6", UserId = 0, CategoryId = 2, Description = "dl6", Filename = "dl6.txt" },
+                        new() { Name = "DL7", UserId = 1, CategoryId = 2, Description = "dl7", Filename = "dl7.txt" },
                     });
 
                     List<DownloadCategory> result = sut.DownloadCategoriesGet();
@@ -241,12 +241,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     DownloadProvider sut = (DownloadProvider)provider.GetService<IDownloadProvider>();
@@ -269,12 +269,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     DownloadProvider sut = (DownloadProvider)provider.GetService<IDownloadProvider>();
@@ -285,7 +285,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
                     {
-                        new DownloadCategoryDataRow() { Name = "Cat 1" },
+                        new() { Name = "Cat 1" },
                     });
 
                     ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
@@ -293,8 +293,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     downloadItemsTable.Insert(new List<DownloadItemsDataRow>()
                     {
-                        new DownloadItemsDataRow() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
-                        new DownloadItemsDataRow() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
+                        new() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
+                        new() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
                     });
 
                     DownloadItem result = sut.GetDownloadItem(1);
@@ -315,12 +315,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     DownloadProvider sut = (DownloadProvider)provider.GetService<IDownloadProvider>();
@@ -331,7 +331,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
                     {
-                        new DownloadCategoryDataRow() { Name = "Cat 1" },
+                        new() { Name = "Cat 1" },
                     });
 
                     ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
@@ -339,8 +339,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     downloadItemsTable.Insert(new List<DownloadItemsDataRow>()
                     {
-                        new DownloadItemsDataRow() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
-                        new DownloadItemsDataRow() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
+                        new() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
+                        new() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
                     });
 
                     DownloadItem result = sut.GetDownloadItem(1, 1);
@@ -361,12 +361,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     DownloadProvider sut = (DownloadProvider)provider.GetService<IDownloadProvider>();
@@ -377,7 +377,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
                     {
-                        new DownloadCategoryDataRow() { Name = "Cat 1" },
+                        new() { Name = "Cat 1" },
                     });
 
                     ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
@@ -385,8 +385,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     downloadItemsTable.Insert(new List<DownloadItemsDataRow>()
                     {
-                        new DownloadItemsDataRow() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
-                        new DownloadItemsDataRow() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
+                        new() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
+                        new() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
                     });
 
                     DownloadItem result = sut.GetDownloadItem(1);
@@ -415,12 +415,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     DownloadProvider sut = (DownloadProvider)provider.GetService<IDownloadProvider>();
@@ -431,7 +431,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
                     {
-                        new DownloadCategoryDataRow() { Name = "Cat 1" },
+                        new() { Name = "Cat 1" },
                     });
 
                     ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
@@ -439,8 +439,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     downloadItemsTable.Insert(new List<DownloadItemsDataRow>()
                     {
-                        new DownloadItemsDataRow() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
-                        new DownloadItemsDataRow() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
+                        new() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
+                        new() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
                     });
 
                     DownloadItem result = sut.GetDownloadItem(1, 1);

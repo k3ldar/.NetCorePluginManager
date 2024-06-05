@@ -47,7 +47,7 @@ namespace UserAccount.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.MyLicences), nameof(AccountController), nameof(Index))]
         public IActionResult Licences()
         {
-            List<ViewLicenceViewModel> licences = new List<ViewLicenceViewModel>();
+            List<ViewLicenceViewModel> licences = new();
 
             foreach (Licence licence in _licenceProvider.LicencesGet(UserId()))
             {
@@ -57,7 +57,7 @@ namespace UserAccount.Plugin.Controllers
                     licence.IsTrial, licence.ExpireDate, licence.UpdateCount, licence.EncryptedLicence));
             }
 
-            LicenceViewModel model = new LicenceViewModel(GetModelData(), licences, GrowlGet());
+            LicenceViewModel model = new(GetModelData(), licences, GrowlGet());
 
             model.Breadcrumbs = GetBreadcrumbs();
             model.CartSummary = GetCartSummary();

@@ -140,13 +140,13 @@ namespace DynamicContent.Plugin.Templates
 
         private string GenerateContent(bool isEditing)
         {
-            StringBuilder Result = new StringBuilder(512);
+            StringBuilder Result = new(512);
 
             HtmlStart(Result, isEditing);
 
             Result.AppendFormat("<div{0}>", RetrieveCssClassAndStyle("form-group"));
 
-            FormTemplateEditorModel formModel = new FormTemplateEditorModel(Data);
+            FormTemplateEditorModel formModel = new(Data);
 
             if (!String.IsNullOrEmpty(formModel.LabelText))
             {

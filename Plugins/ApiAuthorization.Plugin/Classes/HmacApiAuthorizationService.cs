@@ -48,7 +48,7 @@ namespace ApiAuthorization.Plugin.Classes
         private const string TimeStamp = "timestamp";
 		private const string PayloadLength = "payloadLength";
 
-        private static readonly Timings _timings = new Timings();
+        private static readonly Timings _timings = new();
 
         private readonly IUserApiQueryProvider _apiQueryProvider;
         private readonly TimeSpan _maximumRequestAge;

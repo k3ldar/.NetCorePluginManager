@@ -62,7 +62,7 @@ namespace SieraDeltaGeoIp.Plugin
             List<IpCity> rangeData = (List<IpCity>)parameters;
             rangeData.Clear();
 
-            MySqlConnection db = new MySqlConnection(_settings.DatabaseConnectionString);
+            MySqlConnection db = new(_settings.DatabaseConnectionString);
             try
             {
                 db.Open();
@@ -91,7 +91,7 @@ namespace SieraDeltaGeoIp.Plugin
                 MySqlTransaction tran = db.BeginTransaction();
                 try
                 {
-                    MySqlCommand cmd = new MySqlCommand(SQL, db, tran);
+                    MySqlCommand cmd = new(SQL, db, tran);
                     try
                     {
                         MySqlDataReader rdr = cmd.ExecuteReader();
@@ -149,7 +149,7 @@ namespace SieraDeltaGeoIp.Plugin
             ipFrom = 0;
             ipTo = 0;
 
-            MySqlConnection db = new MySqlConnection(_settings.DatabaseConnectionString);
+            MySqlConnection db = new(_settings.DatabaseConnectionString);
             try
             {
                 db.Open();
@@ -164,7 +164,7 @@ namespace SieraDeltaGeoIp.Plugin
                 MySqlTransaction tran = db.BeginTransaction();
                 try
                 {
-                    MySqlCommand cmd = new MySqlCommand(SQL, db, tran);
+                    MySqlCommand cmd = new(SQL, db, tran);
                     try
                     {
                         MySqlDataReader rdr = cmd.ExecuteReader();

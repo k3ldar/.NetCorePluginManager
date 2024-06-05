@@ -115,7 +115,7 @@ namespace ShoppingCartPlugin.Classes.Paypoint
 
         public string GetURL()
         {
-            StringBuilder parameters = new StringBuilder();
+            StringBuilder parameters = new();
 
             for (int i = 0; i < PostItems.Count; i++)
             {
@@ -132,7 +132,7 @@ namespace ShoppingCartPlugin.Classes.Paypoint
         /// <returns>a string containing the result of the post.</returns>
         public string Post(string url)
         {
-            StringBuilder parameters = new StringBuilder();
+            StringBuilder parameters = new();
 
             for (int i = 0; i < PostItems.Count; i++)
             {
@@ -187,7 +187,7 @@ namespace ShoppingCartPlugin.Classes.Paypoint
 
             if (PostType == PostType.Post)
             {
-                Uri uri = new Uri(url);
+                Uri uri = new(url);
                 request = (HttpWebRequest)WebRequest.Create(uri);
                 request.Method = "POST";
                 request.Timeout = Timeout;
@@ -195,14 +195,14 @@ namespace ShoppingCartPlugin.Classes.Paypoint
                 request.ContentLength = postData.Length;
                 using (Stream writeStream = request.GetRequestStream())
                 {
-                    UTF8Encoding encoding = new UTF8Encoding();
+                    UTF8Encoding encoding = new();
                     byte[] bytes = encoding.GetBytes(postData);
                     writeStream.Write(bytes, 0, bytes.Length);
                 }
             }
             else
             {
-                Uri uri = new Uri(url + "?" + postData);
+                Uri uri = new(url + "?" + postData);
                 request = (HttpWebRequest)WebRequest.Create(uri);
                 request.Method = "GET";
             }
@@ -213,7 +213,7 @@ namespace ShoppingCartPlugin.Classes.Paypoint
             {
                 using (Stream responseStream = response.GetResponseStream())
                 {
-                    using (StreamReader readStream = new StreamReader(responseStream, Encoding.UTF8))
+                    using (StreamReader readStream = new(responseStream, Encoding.UTF8))
                     {
                         result = readStream.ReadToEnd();
                     }

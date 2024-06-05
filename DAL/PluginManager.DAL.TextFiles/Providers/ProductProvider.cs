@@ -75,7 +75,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         {
             IReadOnlyList<ProductGroupDataRow> allGroups = _productGroupsData.Select();
 
-            List<ProductGroup> Result = new List<ProductGroup>();
+            List<ProductGroup> Result = new();
 
             foreach (ProductGroupDataRow group in allGroups)
             {
@@ -161,7 +161,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             List<ProductDataRow> allProducts = _productData.Select().OrderBy(p => p.Name).ToList();
 
-            List<Product> Result = new List<Product>();
+            List<Product> Result = new();
 
             (int start, int end, bool isEmpty) = GetPageStartAndEnd(page, pageSize, allProducts.Count);
 
@@ -187,7 +187,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             int prodGroup = productGroup.Id;
             List<ProductDataRow> allProducts = _productData.Select().Where(p => p.ProductGroupId.Equals(prodGroup)).OrderBy(p => p.Name).ToList();
 
-            List<Product> Result = new List<Product>();
+            List<Product> Result = new();
 
             (int start, int end, bool isEmpty) = GetPageStartAndEnd(page, pageSize, allProducts.Count);
 

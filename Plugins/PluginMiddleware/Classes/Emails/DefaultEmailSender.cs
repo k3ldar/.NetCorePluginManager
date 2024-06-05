@@ -48,8 +48,8 @@ namespace Middleware.Classes
         private readonly int _port;
         private readonly bool _ssl;
         private readonly string _userName;
-        private readonly object _emailQueueLock = new object();
-        private readonly Queue<EmailToSend> _emailsToSend = new Queue<EmailToSend>();
+        private readonly object _emailQueueLock = new();
+        private readonly Queue<EmailToSend> _emailsToSend = new();
 
         #endregion Private Members
 
@@ -167,7 +167,7 @@ namespace Middleware.Classes
                 return true;
             }
 
-            List<EmailToSend> emailToSends = new List<EmailToSend>();
+            List<EmailToSend> emailToSends = new();
 
             using (TimedLock timedLock = TimedLock.Lock(_emailQueueLock))
             {
@@ -184,7 +184,7 @@ namespace Middleware.Classes
                 }
             }
 
-            Email email = new Shared.Communication.Email(_userName, _host, _userName, _password, _port, _ssl);
+            Email email = new(_userName, _host, _userName, _password, _port, _ssl);
             emailToSends.ForEach((Action<EmailToSend>)(e =>
             {
                 if (email.SendEmail(_userName, e.RecipientName, e.RecipientEmail, e.Message, e.Subject, e.IsHtml, e.Attachments))

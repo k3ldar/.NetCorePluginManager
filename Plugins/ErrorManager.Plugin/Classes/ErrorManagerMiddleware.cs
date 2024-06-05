@@ -54,11 +54,11 @@ namespace ErrorManager.Plugin
 
         private readonly ErrorThreadManager _errorThreadManager;
 
-        private static readonly object _lockObject = new object();
-        private static readonly Dictionary<string, uint> _missingPageCount = new Dictionary<string, uint>();
-        private static readonly CacheManager _errorCacheManager = new CacheManager("Error Manager", new TimeSpan(1, 0, 0), true, false);
-        private static readonly Timings _timingsExceptions = new Timings();
-        private static readonly Timings _timingsMissingPages = new Timings();
+        private static readonly object _lockObject = new();
+        private static readonly Dictionary<string, uint> _missingPageCount = new();
+        private static readonly CacheManager _errorCacheManager = new("Error Manager", new TimeSpan(1, 0, 0), true, false);
+        private static readonly Timings _timingsExceptions = new();
+        private static readonly Timings _timingsMissingPages = new();
 
         #endregion Private Members
 
@@ -150,7 +150,7 @@ namespace ErrorManager.Plugin
         {
             using (TimedLock lck = TimedLock.Lock(_lockObject))
             {
-                Dictionary<string, uint> Result = new Dictionary<string, uint>();
+                Dictionary<string, uint> Result = new();
 
                 foreach (KeyValuePair<string, uint> item in _missingPageCount)
                     Result.Add(item.Key, item.Value);
@@ -163,7 +163,7 @@ namespace ErrorManager.Plugin
         {
             List<CacheItem> cacheItems = _errorCacheManager.Items;
 
-            List<ErrorInformation> Result = new List<ErrorInformation>();
+            List<ErrorInformation> Result = new();
 
             foreach (CacheItem item in cacheItems)
                 Result.Add((ErrorInformation)item.Value);

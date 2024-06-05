@@ -42,9 +42,9 @@ namespace ErrorManager.Plugin
         #region Static Members
 
         private readonly IErrorManager _errorManager;
-        private static readonly object _lockObject = new object();
-        private static readonly List<ErrorInformation> _errorList = new List<ErrorInformation>();
-        private static readonly List<ErrorInformation> _processList = new List<ErrorInformation>();
+        private static readonly object _lockObject = new();
+        private static readonly List<ErrorInformation> _errorList = new();
+        private static readonly List<ErrorInformation> _processList = new();
 
         #endregion Static Members
 

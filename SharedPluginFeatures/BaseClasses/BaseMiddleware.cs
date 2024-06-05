@@ -98,8 +98,8 @@ namespace SharedPluginFeatures
             }
             else
             {
-                UriBuilder builder = new UriBuilder(context.Request.Host.Value);
-                Uri uri = new Uri(builder.ToString());
+                UriBuilder builder = new(context.Request.Host.Value);
+                Uri uri = new(builder.ToString());
                 return uri.GetComponents(UriComponents.AbsoluteUri & ~UriComponents.Port, UriFormat.UriEscaped);
             }
         }
@@ -400,7 +400,7 @@ namespace SharedPluginFeatures
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
 
-            CookieOptions options = new CookieOptions()
+            CookieOptions options = new()
             {
                 HttpOnly = false,
                 SameSite = SameSiteMode.Strict,

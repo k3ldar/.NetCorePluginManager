@@ -26,7 +26,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			else
 				merchantId = currUserData.MerchantId;
 
-			UserApiDataRow newApi = new UserApiDataRow()
+			UserApiDataRow newApi = new()
 			{
 				UserId = userId,
 				MerchantId = merchantId,

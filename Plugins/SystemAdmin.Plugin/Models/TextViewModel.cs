@@ -45,7 +45,7 @@ namespace SystemAdmin.Plugin.Models
 
             Title = subMenu.Name();
 
-            StringBuilder newData = new StringBuilder();
+            StringBuilder newData = new();
 
             string data = subMenu.Data();
 

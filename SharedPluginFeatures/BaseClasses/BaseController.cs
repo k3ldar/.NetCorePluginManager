@@ -169,7 +169,7 @@ namespace SharedPluginFeatures
 		/// <returns>List&lt;BreadcrumbItem&gt;</returns>
 		protected List<BreadcrumbItem> GetBreadcrumbs()
 		{
-			List<BreadcrumbItem> Result = new List<BreadcrumbItem>();
+			List<BreadcrumbItem> Result = new();
 
 			if (HttpContext.Items.TryGetValue(Constants.Breadcrumbs, out object value))
 			{
@@ -294,7 +294,7 @@ namespace SharedPluginFeatures
 		/// 1 means it will be a session cookie and will expire when the user session ends.</param>
 		protected void CookieAdd(in string name, in string value, in int days, bool isEssential = false)
 		{
-			CookieOptions options = new CookieOptions()
+			CookieOptions options = new()
 			{
 				HttpOnly = false,
 				IsEssential = isEssential,
@@ -399,7 +399,7 @@ namespace SharedPluginFeatures
 		protected string BuildPagination(in int itemCount, in int itemsPerPage, in int currentPage,
 			in string page, in string parameters, in string previous, in string next)
 		{
-			StringBuilder Result = new StringBuilder(Constants.PaginationStart, 2048);
+			StringBuilder Result = new(Constants.PaginationStart, 2048);
 			int pageCount = CheckMinMax(RoundUp(itemCount, itemsPerPage), 1, int.MaxValue);
 
 			string paginationParameters = parameters;

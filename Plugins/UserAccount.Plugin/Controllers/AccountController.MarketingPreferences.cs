@@ -44,7 +44,7 @@ namespace UserAccount.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.MarketingPreferences), nameof(AccountController), nameof(Index))]
         public IActionResult MarketingPreferences()
         {
-            MarketingPreferencesViewModel model = new MarketingPreferencesViewModel(GetModelData());
+            MarketingPreferencesViewModel model = new(GetModelData());
             PrepareMarketingModel(ref model, _accountProvider.GetMarketingPreferences(UserId()));
 
             return View(model);
@@ -55,7 +55,7 @@ namespace UserAccount.Plugin.Controllers
         {
             if (ModelState.IsValid)
             {
-                Marketing marketing = new Marketing(model.EmailOffers, model.TelephoneOffers,
+                Marketing marketing = new(model.EmailOffers, model.TelephoneOffers,
                     model.SMSOffers, model.PostalOffers);
 
                 if (_accountProvider.SetMarketingPreferences(UserId(), marketing))

@@ -41,7 +41,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void Construct_EmptyConstructor_CreatesDefaultItems_Success()
         {
-            PluginManagerConfiguration sut = new PluginManagerConfiguration();
+            PluginManagerConfiguration sut = new();
 
             Assert.IsNotNull(sut);
             Assert.IsNotNull(sut.Logger);
@@ -51,8 +51,8 @@ namespace PluginManager.Tests
         [TestMethod]
         public void Construct_CustomLogger_CreatesDefaultItems_Success()
         {
-            MockLogger testLogger = new MockLogger();
-            PluginManagerConfiguration sut = new PluginManagerConfiguration(testLogger);
+            MockLogger testLogger = new();
+            PluginManagerConfiguration sut = new(testLogger);
 
             Assert.IsNotNull(sut);
             Assert.IsNotNull(sut.Logger);
@@ -64,9 +64,9 @@ namespace PluginManager.Tests
         [TestMethod]
         public void Construct_CustomLoadSettings_CreatesDefaultItems_Success()
         {
-            LoadSettingsService loadSettingsService = new LoadSettingsService();
+            LoadSettingsService loadSettingsService = new();
 
-            PluginManagerConfiguration sut = new PluginManagerConfiguration(loadSettingsService);
+            PluginManagerConfiguration sut = new(loadSettingsService);
 
             Assert.IsNotNull(sut);
             Assert.IsNotNull(sut.Logger);
@@ -79,7 +79,7 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamLogger_Null_Throws_ArgumentNullException()
         {
-            LoadSettingsService loadSettingsService = new LoadSettingsService();
+            LoadSettingsService loadSettingsService = new();
 
             new PluginManagerConfiguration(null, loadSettingsService);
         }
@@ -101,11 +101,11 @@ namespace PluginManager.Tests
         [TestMethod]
         public void PathAndFileName_ContainDefaultSettings()
         {
-            MockLogger testLogger = new MockLogger();
-            LoadSettingsService loadSettingsService = new LoadSettingsService();
-            MockServiceConfigurator serviceConfigurator = new MockServiceConfigurator();
+            MockLogger testLogger = new();
+            LoadSettingsService loadSettingsService = new();
+            MockServiceConfigurator serviceConfigurator = new();
 
-            PluginManagerConfiguration sut = new PluginManagerConfiguration(testLogger, loadSettingsService, serviceConfigurator);
+            PluginManagerConfiguration sut = new(testLogger, loadSettingsService, serviceConfigurator);
 
             Assert.IsNotNull(sut);
             Assert.IsNotNull(sut.Logger);
@@ -128,8 +128,8 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ReplaceLogger_InvalidLogger_NullThrows()
         {
-            MockLogger testLogger = new MockLogger();
-            PluginManagerConfiguration sut = new PluginManagerConfiguration(testLogger);
+            MockLogger testLogger = new();
+            PluginManagerConfiguration sut = new(testLogger);
 
             Assert.IsNotNull(sut);
             Assert.IsNotNull(sut.Logger);
@@ -142,15 +142,15 @@ namespace PluginManager.Tests
         [TestMethod]
         public void ReplaceLogger_CreatesDefaultItems_Success()
         {
-            MockLogger testLogger = new MockLogger();
-            PluginManagerConfiguration sut = new PluginManagerConfiguration(testLogger);
+            MockLogger testLogger = new();
+            PluginManagerConfiguration sut = new(testLogger);
 
             Assert.IsNotNull(sut);
             Assert.IsNotNull(sut.Logger);
             Assert.IsNotNull(sut.LoadSettingsService);
             Assert.AreEqual(testLogger, sut.Logger);
 
-            MockLogger replaceMentLogger = new MockLogger();
+            MockLogger replaceMentLogger = new();
             sut.ReplaceLogger(replaceMentLogger);
 
             Assert.AreEqual(replaceMentLogger, sut.Logger);

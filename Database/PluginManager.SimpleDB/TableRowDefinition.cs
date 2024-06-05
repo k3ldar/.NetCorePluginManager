@@ -62,7 +62,7 @@ namespace SimpleDB
         }
 
         [JsonIgnore]
-        public DateTime Created => new DateTime(_created, DateTimeKind.Utc);
+        public DateTime Created => new(_created, DateTimeKind.Utc);
 
         public long CreatedTicks
         {
@@ -81,7 +81,7 @@ namespace SimpleDB
         }
 
         [JsonIgnore]
-        public DateTime Updated => new DateTime(_updated, DateTimeKind.Utc);
+        public DateTime Updated => new(_updated, DateTimeKind.Utc);
 
         public long UpdatedTicks
         {

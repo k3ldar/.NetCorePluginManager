@@ -99,7 +99,7 @@ namespace DynamicContent.Plugin.Templates
         {
             get
             {
-                StringBuilder Result = new StringBuilder(256);
+                StringBuilder Result = new(256);
 
                 Result.AppendFormat("<hr{0} />", RetrieveCssClassAndStyle());
 
@@ -147,7 +147,7 @@ namespace DynamicContent.Plugin.Templates
 
         private string GenerateContent(bool isEditing)
         {
-            StringBuilder Result = new StringBuilder(256);
+            StringBuilder Result = new(256);
 
             HtmlStart(Result, isEditing);
 

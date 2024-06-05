@@ -106,7 +106,7 @@ namespace ImageManager.Plugin.Models
 
             Dictionary<string, List<string>> allGroups = _imageProvider.Groups();
 
-            List<string> groups = new List<string>();
+            List<string> groups = new();
 
             foreach (KeyValuePair<string, List<string>> item in allGroups)
             {
@@ -131,7 +131,7 @@ namespace ImageManager.Plugin.Models
             else
                 files = _imageProvider.Images(ActiveGroup, ActiveSubgroup);
 
-            List<string> fileNames = new List<string>();
+            List<string> fileNames = new();
             files.ForEach(f => fileNames.Add(f.Name));
 
             Images = fileNames.ToArray();
@@ -139,8 +139,8 @@ namespace ImageManager.Plugin.Models
 
         private void CreateGroupListNoExistingData()
         {
-            List<string> groups = new List<string>();
-            List<string> subgroups = new List<string>();
+            List<string> groups = new();
+            List<string> subgroups = new();
             bool firstGroup = true;
 
             foreach (KeyValuePair<string, List<string>> item in _imageProvider.Groups())

@@ -51,7 +51,7 @@ namespace UserAccount.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.CreateAccount), nameof(AccountController), nameof(Index))]
         public IActionResult CreateAccount(string returnUrl)
         {
-            CreateAccountViewModel model = new CreateAccountViewModel(GetModelData(), returnUrl);
+            CreateAccountViewModel model = new(GetModelData(), returnUrl);
             PrepareCreateAccountModel(ref model);
 
             return View(model);

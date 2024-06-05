@@ -217,12 +217,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -232,8 +232,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     feedbackData.Insert(new List<FeedbackDataRow> 
                     { 
-                        new FeedbackDataRow() { UserName = "a user", ShowOnWebsite = false, Message = "a message" },
-                        new FeedbackDataRow() { UserName = "other user", ShowOnWebsite = false, Message = "another message" }
+                        new() { UserName = "a user", ShowOnWebsite = false, Message = "a message" },
+                        new() { UserName = "other user", ShowOnWebsite = false, Message = "another message" }
                     });
 
                     IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
@@ -259,12 +259,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -274,9 +274,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     feedbackData.Insert(new List<FeedbackDataRow>
                     {
-                        new FeedbackDataRow() { UserName = "a user", ShowOnWebsite = true, Message = "a message" },
-                        new FeedbackDataRow() { UserName = "other user", ShowOnWebsite = false, Message = "another message" },
-                        new FeedbackDataRow() { UserName = "user b", ShowOnWebsite = true, Message = "a message from user b" },
+                        new() { UserName = "a user", ShowOnWebsite = true, Message = "a message" },
+                        new() { UserName = "other user", ShowOnWebsite = false, Message = "another message" },
+                        new() { UserName = "user b", ShowOnWebsite = true, Message = "a message from user b" },
                     });
 
                     Assert.AreEqual(3, feedbackData.RecordCount);
@@ -303,12 +303,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -318,9 +318,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     feedbackData.Insert(new List<FeedbackDataRow>
                     {
-                        new FeedbackDataRow() { UserName = "a user", ShowOnWebsite = true, Message = "a message" },
-                        new FeedbackDataRow() { UserName = "other user", ShowOnWebsite = false, Message = "another message" },
-                        new FeedbackDataRow() { UserName = "user b", ShowOnWebsite = true, Message = "a message from user b" },
+                        new() { UserName = "a user", ShowOnWebsite = true, Message = "a message" },
+                        new() { UserName = "other user", ShowOnWebsite = false, Message = "another message" },
+                        new() { UserName = "user b", ShowOnWebsite = true, Message = "a message from user b" },
                     });
 
                     Assert.AreEqual(3, feedbackData.RecordCount);
@@ -347,12 +347,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -393,12 +393,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -425,12 +425,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -457,12 +457,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -489,12 +489,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -521,7 +521,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -529,7 +529,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<TicketDataRow> tickeData = provider.GetRequiredService<ISimpleDBOperations<TicketDataRow>>();
                     ISimpleDBOperations<TicketMessageDataRow> ticketMessageData = provider.GetRequiredService<ISimpleDBOperations<TicketMessageDataRow>>();
 
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -568,12 +568,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -599,7 +599,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -607,7 +607,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<TicketDataRow> tickeData = provider.GetRequiredService<ISimpleDBOperations<TicketDataRow>>();
                     ISimpleDBOperations<TicketMessageDataRow> ticketMessageData = provider.GetRequiredService<ISimpleDBOperations<TicketMessageDataRow>>();
 
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -640,7 +640,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -648,7 +648,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<TicketDataRow> tickeData = provider.GetRequiredService<ISimpleDBOperations<TicketDataRow>>();
                     ISimpleDBOperations<TicketMessageDataRow> ticketMessageData = provider.GetRequiredService<ISimpleDBOperations<TicketMessageDataRow>>();
 
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -677,7 +677,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -685,7 +685,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<TicketDataRow> tickeData = provider.GetRequiredService<ISimpleDBOperations<TicketDataRow>>();
                     ISimpleDBOperations<TicketMessageDataRow> ticketMessageData = provider.GetRequiredService<ISimpleDBOperations<TicketMessageDataRow>>();
 
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -718,7 +718,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -728,7 +728,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual(0, ticketData.RecordCount);
                     Assert.AreEqual(0, ticketMessageData.RecordCount);
 
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -776,7 +776,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -784,7 +784,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<FaqDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FaqDataRow>>();
                     Assert.AreEqual(0, faqData.RecordCount);
 
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -814,12 +814,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     ISimpleDBOperations<FaqDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FaqDataRow>>();
@@ -830,24 +830,24 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     faqData.Insert(new List<FaqDataRow>()
                     {
-                        new FaqDataRow() { Name = "group 1", Description = "Group 1 description" },
-                        new FaqDataRow() { Name = "group 2", Description = "Group 2 description" },
-                        new FaqDataRow() { Name = "group 2a", Description = "Group 2a description", Parent = 2 }
+                        new() { Name = "group 1", Description = "Group 1 description" },
+                        new() { Name = "group 2", Description = "Group 2 description" },
+                        new() { Name = "group 2a", Description = "Group 2a description", Parent = 2 }
                     });
 
                     int itemNumber = 0;
                     faqItemData.Insert(new List<FaqItemDataRow>()
                     {
-                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
                     });
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -885,12 +885,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     ISimpleDBOperations<FaqDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FaqDataRow>>();
@@ -901,24 +901,24 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     faqData.Insert(new List<FaqDataRow>()
                     {
-                        new FaqDataRow() { Name = "group 1", Description = "Group 1 description" },
-                        new FaqDataRow() { Name = "group 2", Description = "Group 2 description" },
-                        new FaqDataRow() { Name = "group 2a", Description = "Group 2a description", Parent = 2 }
+                        new() { Name = "group 1", Description = "Group 1 description" },
+                        new() { Name = "group 2", Description = "Group 2 description" },
+                        new() { Name = "group 2a", Description = "Group 2a description", Parent = 2 }
                     });
 
                     int itemNumber = 0;
                     faqItemData.Insert(new List<FaqItemDataRow>()
                     {
-                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
                     });
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -949,12 +949,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     ISimpleDBOperations<FaqDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FaqDataRow>>();
@@ -965,24 +965,24 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     faqData.Insert(new List<FaqDataRow>()
                     {
-                        new FaqDataRow() { Name = "group 1", Description = "Group 1 description" },
-                        new FaqDataRow() { Name = "group 2", Description = "Group 2 description" },
-                        new FaqDataRow() { Name = "group 2a", Description = "Group 2a description", Parent = 2 }
+                        new() { Name = "group 1", Description = "Group 1 description" },
+                        new() { Name = "group 2", Description = "Group 2 description" },
+                        new() { Name = "group 2a", Description = "Group 2a description", Parent = 2 }
                     });
 
                     int itemNumber = 0;
                     faqItemData.Insert(new List<FaqItemDataRow>()
                     {
-                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
                     });
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -1014,12 +1014,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     ISimpleDBOperations<FaqDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FaqDataRow>>();
@@ -1030,15 +1030,15 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     faqData.Insert(new List<FaqDataRow>()
                     {
-                        new FaqDataRow() { Name = "group 1", Description = "Group 1 description" },
+                        new() { Name = "group 1", Description = "Group 1 description" },
                     });
 
                     int itemNumber = 0;
                     faqItemData.Insert(new List<FaqItemDataRow>()
                     {
-                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
                     });
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
@@ -1078,12 +1078,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     ISimpleDBOperations<FaqDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FaqDataRow>>();
@@ -1118,12 +1118,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     ISimpleDBOperations<FaqDataRow> faqData = provider.GetRequiredService<ISimpleDBOperations<FaqDataRow>>();
@@ -1134,15 +1134,15 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     faqData.Insert(new List<FaqDataRow>()
                     {
-                        new FaqDataRow() { Name = "group 1", Description = "Group 1 description" },
+                        new() { Name = "group 1", Description = "Group 1 description" },
                     });
 
                     int itemNumber = 0;
                     faqItemData.Insert(new List<FaqItemDataRow>()
                     {
-                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-                        new FaqItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
                     });
 
                     mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));

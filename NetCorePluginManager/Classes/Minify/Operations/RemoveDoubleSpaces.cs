@@ -34,7 +34,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
     {
         public override IMinifyResult Process(in MinificationFileType fileType, ref string data, in List<PreserveBlock> preserveBlocks)
         {
-            MinifyResult Result = new MinifyResult(nameof(RemoveCarriageReturn), data.Length);
+            MinifyResult Result = new(nameof(RemoveCarriageReturn), data.Length);
 
             using (StopWatchTimer.Initialise(_timings))
             {
@@ -58,7 +58,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
 
         private string RemoveCarriageReturns(string data, in List<PreserveBlock> preserveBlocks)
         {
-            StringBuilder Result = new StringBuilder(data.Length);
+            StringBuilder Result = new(data.Length);
 
             for (int i = 0; i < data.Length; i++)
             {

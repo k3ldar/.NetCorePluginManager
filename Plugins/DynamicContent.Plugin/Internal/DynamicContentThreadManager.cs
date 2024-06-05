@@ -45,9 +45,9 @@ namespace DynamicContent.Plugin.Internal
     {
         #region Private Members
 
-        private readonly Timings _updateContentTimings = new Timings();
+        private readonly Timings _updateContentTimings = new();
         private readonly IDynamicContentProvider _dynamicContentProvider;
-        private readonly object _lockObject = new object();
+        private readonly object _lockObject = new();
 
         #endregion Private Members
 
@@ -157,7 +157,7 @@ namespace DynamicContent.Plugin.Internal
 
                 if (dynamicContentPage.ActiveFrom <= processTime && dynamicContentPage.ActiveTo >= processTime)
                 {
-                    CacheItem cacheItem = new CacheItem(dynamicContentPage.RouteName.ToLower(), dynamicContentPage);
+                    CacheItem cacheItem = new(dynamicContentPage.RouteName.ToLower(), dynamicContentPage);
                     PluginInitialisation.DynamicContentCache.Add(dynamicContentPage.RouteName.ToLower(), cacheItem, true);
                 }
             }

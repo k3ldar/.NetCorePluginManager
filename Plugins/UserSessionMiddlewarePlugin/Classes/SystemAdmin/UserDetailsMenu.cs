@@ -64,7 +64,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
         public override string Data()
         {
-            StringBuilder Result = new StringBuilder();
+            StringBuilder Result = new();
 
             foreach (UserSession session in UserSessionManager.Clone)
             {

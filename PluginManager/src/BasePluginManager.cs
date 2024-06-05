@@ -352,7 +352,7 @@ namespace PluginManager
                             ExtractResources(assembly, pluginSetting);
                         }
 
-                        PluginModule pluginModule = new PluginModule(assembly, assemblyName, pluginService);
+                        PluginModule pluginModule = new(assembly, assemblyName, pluginService);
 
 						IPluginVersion version = pluginService as IPluginVersion;
 						
@@ -485,7 +485,7 @@ namespace PluginManager
 			// if no plugin has registered a setting provider, add the default appsettings json provider
 			IApplicationOverride appOverride = services.GetServiceInstance<IApplicationOverride>();
 			ISettingError settingsError = services.GetServiceInstance<ISettingError>();
-			DefaultSettingProvider settingProvider = new DefaultSettingProvider(RootPath, appOverride, settingsError);
+			DefaultSettingProvider settingProvider = new(RootPath, appOverride, settingsError);
 			services.TryAddSingleton<ISettingsProvider>(settingProvider);
 
 			PostConfigurePluginServices(services);
@@ -547,7 +547,7 @@ namespace PluginManager
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Mustn't allow a single plugin load failure to prevent others loading")]
         public List<Type> PluginGetTypesWithAttribute<T>()
         {
-            List<Type> Result = new List<Type>();
+            List<Type> Result = new();
 
             foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
             {
@@ -609,7 +609,7 @@ namespace PluginManager
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public List<Type> PluginGetClassTypes<T>()
         {
-            List<Type> Result = new List<Type>();
+            List<Type> Result = new();
 
             foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
             {
@@ -648,7 +648,7 @@ namespace PluginManager
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public List<T> PluginGetClasses<T>()
         {
-            List<T> Result = new List<T>();
+            List<T> Result = new();
 			string name = typeof(T).FullName;
 
             foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
@@ -820,7 +820,7 @@ namespace PluginManager
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
 
-            List<object> Result = new List<object>();
+            List<object> Result = new();
 
             if (_serviceCollection != null)
             {
@@ -926,9 +926,9 @@ namespace PluginManager
                 return pluginCopy;
             }
 
-            FileVersionComparison versionComparison = new FileVersionComparison();
-            FileInfo pluginFileInfo = new FileInfo(pluginFile);
-            FileInfo pluginCopyInfo = new FileInfo(pluginCopy);
+            FileVersionComparison versionComparison = new();
+            FileInfo pluginFileInfo = new(pluginFile);
+            FileInfo pluginCopyInfo = new(pluginCopy);
 
             if (versionComparison.Equals(pluginFileInfo, pluginCopyInfo))
             {

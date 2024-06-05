@@ -90,7 +90,7 @@ namespace SystemAdmin.Plugin.Classes.MenuItems
 						.Where(t => t.UniqueId != UniqueId).ToList();
 				}
 
-				StringBuilder Result = new StringBuilder("Name|Total Requests|Fastest|Slowest|Average|Trimmed Avg ms|Total ms", 2048);
+				StringBuilder Result = new("Name|Total Requests|Fastest|Slowest|Average|Trimmed Avg ms|Total ms", 2048);
 
 				foreach (SystemAdminSubMenu item in _timingItems)
 				{

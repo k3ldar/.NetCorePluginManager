@@ -199,7 +199,7 @@ namespace HelpdeskPlugin.Controllers
 
         private ViewTicketViewModel GetTicketViewModel(HelpdeskTicket ticket)
         {
-            List<ViewTicketResponseViewModel> messages = new List<ViewTicketResponseViewModel>();
+            List<ViewTicketResponseViewModel> messages = new();
 
             foreach (HelpdeskTicketMessage item in ticket.Messages)
                 messages.Add(new ViewTicketResponseViewModel(item.DateCreated, item.UserName, FormatTextForDisplay(item.Message)));
@@ -229,7 +229,7 @@ namespace HelpdeskPlugin.Controllers
 
             UserSession userSession = GetUserSession();
 
-            SubmitTicketViewModel Result = new SubmitTicketViewModel(GetModelData(),
+            SubmitTicketViewModel Result = new(GetModelData(),
                 _helpdeskProvider.GetTicketDepartments(),
                 _helpdeskProvider.GetTicketPriorities(),
                 String.IsNullOrEmpty(userName) ? userSession.UserName : userName,

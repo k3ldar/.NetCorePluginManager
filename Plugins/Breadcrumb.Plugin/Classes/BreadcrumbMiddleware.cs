@@ -52,11 +52,11 @@ namespace Breadcrumb.Plugin
     {
         #region Private Members
 
-        private static readonly Dictionary<string, BreadcrumbRoute> _breadcrumbRoutes = new Dictionary<string, BreadcrumbRoute>();
-        private static readonly CacheManager _breadcrumbCache = new CacheManager("Breadcrumb Cache", new TimeSpan(0, 20, 0), true);
+        private static readonly Dictionary<string, BreadcrumbRoute> _breadcrumbRoutes = new();
+        private static readonly CacheManager _breadcrumbCache = new("Breadcrumb Cache", new TimeSpan(0, 20, 0), true);
         private readonly RequestDelegate _next;
         private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
-        internal readonly static Timings _timings = new Timings();
+        internal readonly static Timings _timings = new();
         private readonly IStringLocalizer _stringLocalizer;
         private readonly BreadcrumbItem _homeBreadCrumb;
         private readonly ILogger _logger;
@@ -208,7 +208,7 @@ namespace Breadcrumb.Plugin
 
             if (cacheItem == null)
             {
-                List<BreadcrumbItem> Result = new List<BreadcrumbItem>();
+                List<BreadcrumbItem> Result = new();
 
                 for (int i = 0; i < breadcrumbs.Count; i++)
                 {
@@ -242,7 +242,7 @@ namespace Breadcrumb.Plugin
             in IPluginTypesService pluginTypesService,
             in BreadcrumbSettings settings)
         {
-            Dictionary<string, BreadcrumbAttribute> allBreadcrumbs = new Dictionary<string, BreadcrumbAttribute>();
+            Dictionary<string, BreadcrumbAttribute> allBreadcrumbs = new();
             List<Type> breadcrumbAttributes = pluginTypesService.GetPluginTypesWithAttribute<BreadcrumbAttribute>();
 
             // Cycle through all methods which have the breadcrumb attribute
@@ -281,7 +281,7 @@ namespace Breadcrumb.Plugin
                 // now we have all the routes with parents, build up a heirarchy for each route
                 foreach (KeyValuePair<string, BreadcrumbAttribute> keyValuePair in allBreadcrumbs)
                 {
-                    BreadcrumbRoute route = new BreadcrumbRoute(keyValuePair.Key, keyValuePair.Value.HasParams);
+                    BreadcrumbRoute route = new(keyValuePair.Key, keyValuePair.Value.HasParams);
                     route.Breadcrumbs.Add(new BreadcrumbItem(keyValuePair.Value.Name, keyValuePair.Key, keyValuePair.Value.HasParams));
 
                     BreadcrumbAttribute breadcrumbItem = keyValuePair.Value;
@@ -352,7 +352,7 @@ namespace Breadcrumb.Plugin
         private static void AddDefaultRoute(in string routeDescription, in List<BreadcrumbItem> breadcrumbs,
             in bool hasParameters)
         {
-            BreadcrumbRoute defaultRoute = new BreadcrumbRoute(routeDescription, hasParameters);
+            BreadcrumbRoute defaultRoute = new(routeDescription, hasParameters);
 
             foreach (BreadcrumbItem item in breadcrumbs)
             {

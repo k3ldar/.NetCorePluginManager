@@ -35,7 +35,7 @@ namespace SharedPluginFeatures
     /// </summary>
     public static class HmacGenerator
     {
-        private readonly static Random _random = new Random((int)(EpochDateTime() / TimeSpan.TicksPerSecond));
+        private readonly static Random _random = new((int)(EpochDateTime() / TimeSpan.TicksPerSecond));
 
         private const int MininumNonceValue = 1;
         private const int MinimumEpochTicks = 0;
@@ -78,7 +78,7 @@ namespace SharedPluginFeatures
 
             string hmacData = $"{apiKey}{nonce}{epochTicks}{token}{payload}";
 
-            using (HMACSHA256 hmac = new HMACSHA256(Encoding.UTF8.GetBytes(apiSecret)))
+            using (HMACSHA256 hmac = new(Encoding.UTF8.GetBytes(apiSecret)))
             {
                 byte[] encBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(hmacData));
                 string encString = ByteArrayToHexString(encBytes);
@@ -107,7 +107,7 @@ namespace SharedPluginFeatures
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static string ByteArrayToHexString(byte[] ba)
         {
-            StringBuilder hex = new StringBuilder(ba.Length * 2);
+            StringBuilder hex = new(ba.Length * 2);
 
             foreach (byte b in ba)
                 hex.AppendFormat("{0:x2}", b);

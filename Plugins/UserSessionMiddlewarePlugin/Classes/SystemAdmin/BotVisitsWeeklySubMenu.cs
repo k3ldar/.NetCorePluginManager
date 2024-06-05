@@ -87,7 +87,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
         /// <returns>string</returns>
         public override string Data()
         {
-            ChartModel Result = new ChartModel();
+            ChartModel Result = new();
 
             Result.ChartTitle = "Weekly Bot Visitor Statistics";
 
@@ -106,7 +106,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
             foreach (SessionWeekly week in sessionData)
             {
-                List<Decimal> datavalues = new List<decimal>();
+                List<Decimal> datavalues = new();
                 Result.DataValues[week.Week.ToString(Thread.CurrentThread.CurrentUICulture)] = datavalues;
 
                 datavalues.Add(week.BotVisits);

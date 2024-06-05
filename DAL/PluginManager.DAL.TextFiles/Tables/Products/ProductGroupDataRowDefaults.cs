@@ -41,7 +41,7 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return new List<ProductGroupDataRow>()
                 {
-                    new ProductGroupDataRow() { Description = "Default Product Group", ShowOnWebsite = true },
+                    new() { Description = "Default Product Group", ShowOnWebsite = true },
                 };
             }
 

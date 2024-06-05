@@ -71,7 +71,7 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
         {
             Dictionary<string, IPluginModule> plugins = PluginManagerService.GetPluginManager().PluginsGetLoaded();
 
-            StringBuilder Result = new StringBuilder("Module|Plugin Version|File Version");
+            StringBuilder Result = new("Module|Plugin Version|File Version");
 
             foreach (KeyValuePair<string, IPluginModule> keyValuePair in plugins)
             {

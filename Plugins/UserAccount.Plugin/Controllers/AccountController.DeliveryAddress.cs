@@ -55,7 +55,7 @@ namespace UserAccount.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.DeliveryAddressAdd), nameof(AccountController), nameof(DeliveryAddress))]
         public IActionResult DeliveryAddressAdd(string returnUrl)
         {
-            EditDeliveryAddressViewModel model = new EditDeliveryAddressViewModel(returnUrl);
+            EditDeliveryAddressViewModel model = new(returnUrl);
             PrepareDeliveryAddressModel(ref model, null);
 
             return View(model);
@@ -100,7 +100,7 @@ namespace UserAccount.Plugin.Controllers
             if (address == null)
                 return new RedirectResult("/Account/DeliveryAddress", false);
 
-            EditDeliveryAddressViewModel model = new EditDeliveryAddressViewModel(GetModelData());
+            EditDeliveryAddressViewModel model = new(GetModelData());
             PrepareDeliveryAddressModel(ref model, address);
 
             return View(model);

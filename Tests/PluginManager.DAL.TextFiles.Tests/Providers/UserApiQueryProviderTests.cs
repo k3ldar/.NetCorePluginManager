@@ -68,7 +68,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -99,7 +99,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -130,7 +130,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -166,7 +166,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -197,7 +197,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -212,13 +212,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     bool created = accountProvider.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
 
-                    using (SimpleDBOperations<UserApiDataRow> apiTable = new SimpleDBOperations<UserApiDataRow>(simpleDBManager, provider.GetService<IForeignKeyManager>()))
+                    using (SimpleDBOperations<UserApiDataRow> apiTable = new(simpleDBManager, provider.GetService<IForeignKeyManager>()))
                     {
 						simpleDBManager.Initialize(pluginClassesService);
 
 						Assert.IsNotNull(apiTable);
 
-                        UserApiDataRow userApiDataRow = new UserApiDataRow()
+                        UserApiDataRow userApiDataRow = new()
                         {
                             MerchantId = "TestMerch",
                             ApiKey = "testKey",

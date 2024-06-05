@@ -52,10 +52,10 @@ namespace SimpleDB.Tests
 		{
 			ServiceDescriptor[] serviceDescriptors = new ServiceDescriptor[]
 			{
-				new ServiceDescriptor(typeof(ISettingsProvider), new MockSettingsProvider()),
+				new(typeof(ISettingsProvider), new MockSettingsProvider()),
 			};
 
-			MockServiceCollection mockServiceCollection = new MockServiceCollection(serviceDescriptors);
+			MockServiceCollection mockServiceCollection = new(serviceDescriptors);
 
 			MockServiceCollection Result = SimpleDBHelper.AddSimpleDB(mockServiceCollection) as MockServiceCollection;
 			Assert.AreEqual(4, Result.ServicesRegistered);
@@ -73,10 +73,10 @@ namespace SimpleDB.Tests
 
 			ServiceDescriptor[] serviceDescriptors = new ServiceDescriptor[]
 			{
-				new ServiceDescriptor(typeof(ISettingsProvider), new MockSettingsProvider()),
+				new(typeof(ISettingsProvider), new MockSettingsProvider()),
 			};
 
-			MockServiceCollection mockServiceCollection = new MockServiceCollection(serviceDescriptors);
+			MockServiceCollection mockServiceCollection = new(serviceDescriptors);
 
 			MockServiceCollection Result = SimpleDBHelper.AddSimpleDB(mockServiceCollection, directory, "EncKey") as MockServiceCollection;
 			Assert.AreEqual(3, Result.ServicesRegistered);
@@ -95,10 +95,10 @@ namespace SimpleDB.Tests
 				Directory.CreateDirectory(directory);
 				ServiceDescriptor[] serviceDescriptors = new ServiceDescriptor[]
 				{
-					new ServiceDescriptor(typeof(ISettingsProvider), new MockSettingsProvider()),
+					new(typeof(ISettingsProvider), new MockSettingsProvider()),
 				};
 
-				MockServiceCollection mockServiceCollection = new MockServiceCollection(serviceDescriptors);
+				MockServiceCollection mockServiceCollection = new(serviceDescriptors);
 
 				MockServiceCollection Result = SimpleDBHelper.AddSimpleDB(mockServiceCollection, directory, "EncKey") as MockServiceCollection;
 				Assert.AreEqual(4, Result.ServicesRegistered);

@@ -81,7 +81,7 @@ namespace GeoIp.Plugin
             ipFrom = 0;
             ipTo = 0;
 
-            HttpClient client = new HttpClient();
+            HttpClient client = new();
             try
             {
                 byte[] response = client.GetByteArrayAsync($"https://api.ipstack.com/{ipAddress}?access_key={ApiKey}").Result;

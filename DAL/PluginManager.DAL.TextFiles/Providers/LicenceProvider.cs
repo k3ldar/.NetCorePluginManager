@@ -60,7 +60,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<LicenceType> LicenceTypesGet()
         {
-            List<LicenceType> Result = new List<LicenceType>();
+            List<LicenceType> Result = new();
             IReadOnlyList<LicenseTypeDataRow> licenseTypes = _licenseTypes.Select();
 
             foreach (LicenseTypeDataRow row in licenseTypes)
@@ -73,7 +73,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<Licence> LicencesGet(in Int64 userId)
         {
-            List<Licence> Result = new List<Licence>();
+            List<Licence> Result = new();
 
             UserDataRow user =  _users.Select(userId);
 
@@ -140,7 +140,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (_licenses.Select().Any(l => l.UserId.Equals(user.Id) && l.LicenseType.Equals(licenseTypeId) && l.IsTrial))
                 return LicenceCreate.Existing;
 
-            LicenseDataRow licenseDataRow = new LicenseDataRow()
+            LicenseDataRow licenseDataRow = new()
             {
                 InvoiceId = 0,
                 UserId = userId,

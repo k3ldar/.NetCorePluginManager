@@ -36,8 +36,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 	{
 		private long _nextId = 1;
 		private List<ResourceCategory> _resources;
-		private readonly List<ResourceItem> _items = new List<ResourceItem>();
-		private readonly Dictionary<long, List<long>> _bookmarks = new Dictionary<long, List<long>>();
+		private readonly List<ResourceItem> _items = new();
+		private readonly Dictionary<long, List<long>> _bookmarks = new();
 
 		public List<ResourceCategory> GetAllResources()
 		{
@@ -45,22 +45,22 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			{
 				_resources = new List<ResourceCategory>()
 				{
-					new ResourceCategory(_nextId++, 0, "Resource 1", "Resource desc 1", "black", "rgba(0,0,0,.03)", "/Images/Download/download.jpg", "resource-1", true),
-					new ResourceCategory(_nextId++, 0, "Resource 2", "Resource desc 2", "white", "red", null, "resource-2", true),
-					new ResourceCategory(_nextId++, 0, "Resource 3", "Resource desc 2", "white", "black", null, "resource-3", true),
-					new ResourceCategory(_nextId++, 0, "Resource 4", "Resource desc 2", "black", "grey", null, "resource-4", true),
-					new ResourceCategory(_nextId++, 0, "Resource 5", "Resource desc 2", "white", "blue", null, "resource-5", true),
-					new ResourceCategory(_nextId++, 0, "Resource 6 (Hidden)", "The hidden resource", "white", "blue", null, "resource-5", false),
-					new ResourceCategory(_nextId++, 2, "Resource 2 Child 1", "Resource desc 2 (1)", "black", "white", null, "resource-2-child-1", true),
-					new ResourceCategory(_nextId++, 2, "Resource 2 Child 2", "Resource desc 2 (2)", "black", "white", null, "resource-2-child-2", true),
-					new ResourceCategory(_nextId++, 2, "Resource 2 Child 3", "Resource desc 2 (3)", "black", "white", null, "resource-2-child-3", true),
+					new(_nextId++, 0, "Resource 1", "Resource desc 1", "black", "rgba(0,0,0,.03)", "/Images/Download/download.jpg", "resource-1", true),
+					new(_nextId++, 0, "Resource 2", "Resource desc 2", "white", "red", null, "resource-2", true),
+					new(_nextId++, 0, "Resource 3", "Resource desc 2", "white", "black", null, "resource-3", true),
+					new(_nextId++, 0, "Resource 4", "Resource desc 2", "black", "grey", null, "resource-4", true),
+					new(_nextId++, 0, "Resource 5", "Resource desc 2", "white", "blue", null, "resource-5", true),
+					new(_nextId++, 0, "Resource 6 (Hidden)", "The hidden resource", "white", "blue", null, "resource-5", false),
+					new(_nextId++, 2, "Resource 2 Child 1", "Resource desc 2 (1)", "black", "white", null, "resource-2-child-1", true),
+					new(_nextId++, 2, "Resource 2 Child 2", "Resource desc 2 (2)", "black", "white", null, "resource-2-child-2", true),
+					new(_nextId++, 2, "Resource 2 Child 3", "Resource desc 2 (3)", "black", "white", null, "resource-2-child-3", true),
 				};
 
 				foreach (ResourceCategory category in _resources)
 				{
 					for (int i = 0; i < 10; i++)
 					{
-						ResourceItem item = new ResourceItem()
+						ResourceItem item = new()
 						{
 							Id = (category.Id * 100) + i,
 							CategoryId = category.Id,
@@ -164,7 +164,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			if (string.IsNullOrEmpty(name))
 				throw new ArgumentNullException(nameof(name));
 
-			ResourceCategory newResourceCategory = new ResourceCategory(_nextId++, parent, name, description, null, null, null, name, isVisible);
+			ResourceCategory newResourceCategory = new(_nextId++, parent, name, description, null, null, null, name, isVisible);
 			_resources.Add(newResourceCategory);
 
 			return newResourceCategory;
@@ -201,7 +201,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			if (resourceCategory == null)
 				throw new InvalidOperationException();
 
-			ResourceItem Result = new ResourceItem(_nextId++, categoryId, resourceType, userId, 
+			ResourceItem Result = new(_nextId++, categoryId, resourceType, userId, 
 				userName, name, description, value, 0, 0, 0, false, tags);
 			resourceCategory.ResourceItems.Add(Result);
 			_items.Add(Result);

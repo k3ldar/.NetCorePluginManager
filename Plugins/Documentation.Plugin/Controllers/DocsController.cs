@@ -82,7 +82,7 @@ namespace DocumentationPlugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.Documentation))]
         public IActionResult Index()
         {
-            IndexViewModel model = new IndexViewModel(GetModelData(),
+            IndexViewModel model = new(GetModelData(),
                 _documentationService.GetCustomData("Header", Languages.LanguageStrings.APIReference),
                 _documentationService.GetCustomData("Description", Languages.LanguageStrings.InThisDocument));
 
@@ -118,7 +118,7 @@ namespace DocumentationPlugin.Controllers
             if (model.Breadcrumbs.Count > 0)
             {
                 BreadcrumbItem lastItem = model.Breadcrumbs[model.Breadcrumbs.Count - 1];
-                BreadcrumbItem breadcrumb = new BreadcrumbItem(selected.Title, lastItem.Route, lastItem.HasParameters);
+                BreadcrumbItem breadcrumb = new(selected.Title, lastItem.Route, lastItem.HasParameters);
                 model.Breadcrumbs.Remove(lastItem);
                 model.Breadcrumbs.Add(breadcrumb);
             }
@@ -140,7 +140,7 @@ namespace DocumentationPlugin.Controllers
             if (model.Breadcrumbs.Count > 0)
             {
                 BreadcrumbItem lastItem = model.Breadcrumbs[model.Breadcrumbs.Count - 1];
-                BreadcrumbItem breadcrumb = new BreadcrumbItem(selected.Title, lastItem.Route, lastItem.HasParameters);
+                BreadcrumbItem breadcrumb = new(selected.Title, lastItem.Route, lastItem.HasParameters);
                 model.Breadcrumbs.Remove(lastItem);
                 model.Breadcrumbs.Add(breadcrumb);
             }
@@ -190,7 +190,7 @@ namespace DocumentationPlugin.Controllers
                 data.ReferenceData = GetAllReferences(selected, data, documents);
             }
 
-            DocumentViewTypeViewModel model = new DocumentViewTypeViewModel(GetModelData(),
+            DocumentViewTypeViewModel model = new(GetModelData(),
                 selected.Title, data.ReferenceData);
 
             model.Assembly = HtmlHelper.RouteFriendlyName(selected.AssemblyName);
@@ -387,7 +387,7 @@ namespace DocumentationPlugin.Controllers
                 data.ReferenceData = GetAllReferences(selected, data, documents);
             }
 
-            DocumentViewModel model = new DocumentViewModel(GetModelData(),
+            DocumentViewModel model = new(GetModelData(),
                 selected.Title, selected.ShortDescription, selected.LongDescription, data.ReferenceData);
 
             if (selected.DocumentType != DocumentType.Custom && selected.DocumentType != DocumentType.Document)
@@ -443,7 +443,7 @@ namespace DocumentationPlugin.Controllers
 
         private static string GetAllReferences(Document document, DocumentData data, List<Document> documents)
         {
-            StringBuilder allReferences = new StringBuilder("<ul>", 2048);
+            StringBuilder allReferences = new("<ul>", 2048);
 
             foreach (Document doc in documents)
             {

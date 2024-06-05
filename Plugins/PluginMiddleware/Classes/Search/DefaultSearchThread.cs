@@ -41,9 +41,9 @@ namespace Middleware.Search
 
         private readonly List<ISearchKeywordProvider> _searchKeywordProviders;
         private readonly KeywordSearchOptions _keywordSearchOptions;
-        private static readonly CacheManager _searchCache = new CacheManager("Search Cache", new TimeSpan(0, 20, 0), true, true);
-        private static readonly object _lockObject = new object();
-        private static readonly Timings _searchTimings = new Timings();
+        private static readonly CacheManager _searchCache = new("Search Cache", new TimeSpan(0, 20, 0), true, true);
+        private static readonly object _lockObject = new();
+        private static readonly Timings _searchTimings = new();
 
         #endregion Private Members
 
@@ -101,7 +101,7 @@ namespace Middleware.Search
         public static List<SearchResponseItem> KeywordSearch(in List<ISearchKeywordProvider> searchProviders,
             in KeywordSearchOptions keywordSearchOptions)
         {
-            using (StopWatchTimer timer = new StopWatchTimer(_searchTimings))
+            using (StopWatchTimer timer = new(_searchTimings))
             {
                 if (keywordSearchOptions == null)
                 {
@@ -114,7 +114,7 @@ namespace Middleware.Search
                 {
                     if (cacheItem == null && !ThreadManager.Exists(keywordSearchOptions.SearchName))
                     {
-                        DefaultSearchThread searchThread = new DefaultSearchThread(searchProviders, keywordSearchOptions);
+                        DefaultSearchThread searchThread = new(searchProviders, keywordSearchOptions);
                         ThreadStart(searchThread, keywordSearchOptions.SearchName, System.Threading.ThreadPriority.BelowNormal);
                     }
                 }
@@ -152,7 +152,7 @@ namespace Middleware.Search
         public static List<SearchResponseItem> KeywordSearch(in ISearchKeywordProvider searchProvider,
             in KeywordSearchOptions keywordSearchOptions)
         {
-            using (StopWatchTimer timer = new StopWatchTimer(_searchTimings))
+            using (StopWatchTimer timer = new(_searchTimings))
             {
                 if (keywordSearchOptions == null)
                 {
@@ -165,12 +165,12 @@ namespace Middleware.Search
                 {
                     if (cacheItem == null && !ThreadManager.Exists(keywordSearchOptions.SearchName))
                     {
-                        List<ISearchKeywordProvider> searchProviders = new List<ISearchKeywordProvider>()
+                        List<ISearchKeywordProvider> searchProviders = new()
                         {
                             { searchProvider }
                         };
 
-                        DefaultSearchThread searchThread = new DefaultSearchThread(searchProviders, keywordSearchOptions);
+                        DefaultSearchThread searchThread = new(searchProviders, keywordSearchOptions);
                         ThreadStart(searchThread, keywordSearchOptions.SearchName, System.Threading.ThreadPriority.BelowNormal);
                     }
                 }
@@ -229,7 +229,7 @@ namespace Middleware.Search
         /// <returns>bool</returns>
         protected override Boolean Run(object parameters)
         {
-            List<SearchResponseItem> Results = new List<SearchResponseItem>();
+            List<SearchResponseItem> Results = new();
 
             foreach (ISearchKeywordProvider keywordProvider in _searchKeywordProviders)
             {
@@ -250,7 +250,7 @@ namespace Middleware.Search
                 }
             }
 
-            CacheItem cacheItem = new CacheItem(Name, Results);
+            CacheItem cacheItem = new(Name, Results);
             _searchCache.Add(Name, cacheItem, true);
 
             return false;

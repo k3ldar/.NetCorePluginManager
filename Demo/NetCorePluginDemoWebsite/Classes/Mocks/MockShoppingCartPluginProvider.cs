@@ -47,7 +47,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
     {
         #region Private Members
 
-        private static readonly CacheManager _cartCacheManager = new CacheManager("Shopping Carts", new TimeSpan(0, 20, 0), true);
+        private static readonly CacheManager _cartCacheManager = new("Shopping Carts", new TimeSpan(0, 20, 0), true);
         private static bool _cartHookedUp;
         private static long _basketId = 0;
         private readonly IProductProvider _productProvider;
@@ -146,7 +146,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
             if (cacheItem == null)
             {
-                List<ShoppingCartItem> items = new List<ShoppingCartItem>();
+                List<ShoppingCartItem> items = new();
 
                 Product product = _productProvider.GetProducts(1, 10000).FirstOrDefault(p => p.RetailPrice > 0);
 
@@ -158,7 +158,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 				items.Add(new ShoppingCartItem(product.Id, 1, product.Id, product.RetailPrice, product.Name,
 					product.Description.Substring(0, Shared.Utilities.CheckMinMax(product.Description.Length, 0, 49)),
 					product.Sku, product.Images, product.IsDownload, product.AllowBackorder, String.Empty, DiscountType.None, 0));
-				ShoppingCartDetail cartDetail = new ShoppingCartDetail(shoppingCartId, 1,
+				ShoppingCartDetail cartDetail = new(shoppingCartId, 1,
 					product.RetailPrice, 20, 0, 10, System.Threading.Thread.CurrentThread.CurrentUICulture,
 					"Test Coupon", items, requiresShipping, "GBP");
 
@@ -193,7 +193,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 			}
 
             DeliveryAddress shippingAddress = _accountProvider.GetDeliveryAddress(userId, cartDetail.DeliveryAddressId);
-            List<OrderItem> items = new List<OrderItem>();
+            List<OrderItem> items = new();
 
             foreach (ShoppingCartItem item in cartDetail.Items)
             {
@@ -246,7 +246,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             if (!Int64.TryParse(e.Name.AsSpan(5), out long cartId))
                 cartId = ++_basketId;
 
-            ShoppingCartDetail cartDetail = new ShoppingCartDetail(cartId,
+            ShoppingCartDetail cartDetail = new(cartId,
                 0, 0, 20, 0, 0, System.Threading.Thread.CurrentThread.CurrentCulture,
                 String.Empty, new List<ShoppingCartItem>(), false, "GBP");
 

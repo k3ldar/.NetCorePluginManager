@@ -41,7 +41,7 @@ namespace Middleware
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static string RemoveInvalidTagChars(string tag)
 		{
-			StringBuilder stringBuilder = new StringBuilder(tag.Length);
+			StringBuilder stringBuilder = new(tag.Length);
 
 			for (int i = 0; i < tag.Length; i++)
 			{

@@ -157,7 +157,7 @@ namespace SystemAdmin.Plugin
 
 			if (settings.Count > 0)
 			{
-				SystemAdminMainMenu settingsParent = new SystemAdminMainMenu(Languages.LanguageStrings.Settings, ++uniqueId);
+				SystemAdminMainMenu settingsParent = new(Languages.LanguageStrings.Settings, ++uniqueId);
 				menuItems.Add(settingsParent);
 
 				_memoryCache.GetCache().Add(String.Format(SystemAdminMainMenu, settingsParent.UniqueId),
@@ -165,7 +165,7 @@ namespace SystemAdmin.Plugin
 
 				foreach (IPluginSettings pluginSettings in settings)
 				{
-					SettingsMenuItem settingsMenuItem = new SettingsMenuItem(pluginSettings);
+					SettingsMenuItem settingsMenuItem = new(pluginSettings);
 					settingsMenuItem.UniqueId = ++uniqueId;
 					settingsParent.ChildMenuItems.Add(settingsMenuItem);
 

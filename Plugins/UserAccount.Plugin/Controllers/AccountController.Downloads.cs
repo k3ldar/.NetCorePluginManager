@@ -52,7 +52,7 @@ namespace UserAccount.Plugin.Controllers
 
             activeCategory ??= categories[0];
 
-            List<ViewDownloadViewItem> downloads = new List<ViewDownloadViewItem>();
+            List<ViewDownloadViewItem> downloads = new();
 
             foreach (DownloadItem item in activeCategory.Downloads)
             {
@@ -61,7 +61,7 @@ namespace UserAccount.Plugin.Controllers
                     item.Version, item.Filename, item.Icon, item.Size));
             }
 
-            DownloadViewModel model = new DownloadViewModel(GetModelData(),
+            DownloadViewModel model = new(GetModelData(),
                 categories, activeCategory.Name, downloads);
 
             model.Breadcrumbs = GetBreadcrumbs();
@@ -93,7 +93,7 @@ namespace UserAccount.Plugin.Controllers
             if (downloadItem == null)
                 return RedirectToAction(nameof(Index));
 
-            ViewDownloadViewItem model = new ViewDownloadViewItem(GetModelData(),
+            ViewDownloadViewItem model = new(GetModelData(),
                 downloadItem.Id, downloadItem.Name, downloadItem.Description, downloadItem.Version,
                 downloadItem.Filename, downloadItem.Icon, downloadItem.Size);
 

@@ -77,8 +77,8 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
         /// <returns>string</returns>
         public override string Data()
         {
-            StringBuilder Result = new StringBuilder("Module|FileVersion", 2048);
-            Dictionary<string, string> files = new Dictionary<string, string>();
+            StringBuilder Result = new("Module|FileVersion", 2048);
+            Dictionary<string, string> files = new();
 
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {

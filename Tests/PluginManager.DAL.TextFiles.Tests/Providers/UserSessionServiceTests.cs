@@ -55,9 +55,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			{
 				ThreadManager.Initialise();
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
-				MockGeoIpProvider geoIp = new MockGeoIpProvider();
+				MockGeoIpProvider geoIp = new();
 				services.AddSingleton<IGeoIpProvider>(geoIp);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -83,14 +83,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			{
 				ThreadManager.Initialise();
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
-				MockGeoIpProvider geoIp = new MockGeoIpProvider();
+				MockGeoIpProvider geoIp = new();
 				services.AddSingleton<IGeoIpProvider>(geoIp);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					UserSessionService sut = provider.GetRequiredService<IUserSessionService>() as UserSessionService;
@@ -100,7 +100,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.IsNotNull(sessionData);
 					Assert.AreEqual(0, sessionData.RecordCount);
 
-					UserSession userSession = new UserSession(-1, DateTime.Now, "SN123", "The agent", "referrer site", "10.2.3.1", 
+					UserSession userSession = new(-1, DateTime.Now, "SN123", "The agent", "referrer site", "10.2.3.1", 
 						"the host", true, true, false, ReferalType.Google, false, false, "Samsung", "Galax S7", 0, 1, 1, "GBP", 0);
 					sut.Created(userSession);
 
@@ -123,14 +123,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			{
 				ThreadManager.Initialise();
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
-				MockGeoIpProvider geoIp = new MockGeoIpProvider();
+				MockGeoIpProvider geoIp = new();
 				services.AddSingleton<IGeoIpProvider>(geoIp);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					UserSessionService sut = provider.GetRequiredService<IUserSessionService>() as UserSessionService;
@@ -161,14 +161,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			{
 				ThreadManager.Initialise();
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
-				MockGeoIpProvider geoIp = new MockGeoIpProvider();
+				MockGeoIpProvider geoIp = new();
 				services.AddSingleton<IGeoIpProvider>(geoIp);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					UserSessionService sut = provider.GetRequiredService<IUserSessionService>() as UserSessionService;
@@ -201,14 +201,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			{
 				ThreadManager.Initialise();
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
-				MockGeoIpProvider geoIp = new MockGeoIpProvider();
+				MockGeoIpProvider geoIp = new();
 				services.AddSingleton<IGeoIpProvider>(geoIp);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					UserSessionService sut = provider.GetRequiredService<IUserSessionService>() as UserSessionService;
@@ -240,14 +240,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			{
 				ThreadManager.Initialise();
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
-				MockGeoIpProvider geoIp = new MockGeoIpProvider();
+				MockGeoIpProvider geoIp = new();
 				services.AddSingleton<IGeoIpProvider>(geoIp);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					UserSessionService sut = provider.GetRequiredService<IUserSessionService>() as UserSessionService;
@@ -257,7 +257,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.IsNotNull(sessionData);
 					Assert.AreEqual(0, sessionData.RecordCount);
 
-					UserSession userSession = new UserSession(-1, DateTime.Now, "SN123", "The agent", "referrer site", "10.2.3.1",
+					UserSession userSession = new(-1, DateTime.Now, "SN123", "The agent", "referrer site", "10.2.3.1",
 						"the host", true, true, false, ReferalType.Google, false, false, "Samsung", "Galax S7", 0, 1, 1, "GBP", 0);
 					sut.Created(userSession);
 
@@ -285,14 +285,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			{
 				ThreadManager.Initialise();
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
-				MockGeoIpProvider geoIp = new MockGeoIpProvider();
+				MockGeoIpProvider geoIp = new();
 				services.AddSingleton<IGeoIpProvider>(geoIp);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					UserSessionService sut = provider.GetRequiredService<IUserSessionService>() as UserSessionService;
@@ -320,14 +320,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			{
 				ThreadManager.Initialise();
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
-				MockGeoIpProvider geoIp = new MockGeoIpProvider();
+				MockGeoIpProvider geoIp = new();
 				services.AddSingleton<IGeoIpProvider>(geoIp);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					UserSessionService sut = provider.GetRequiredService<IUserSessionService>() as UserSessionService;
@@ -337,7 +337,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.IsNotNull(sessionData);
 					Assert.AreEqual(0, sessionData.RecordCount);
 
-					UserSession userSession = new UserSession(-1, DateTime.Now, "SN123", "The agent", "referrer site", "10.2.3.1",
+					UserSession userSession = new(-1, DateTime.Now, "SN123", "The agent", "referrer site", "10.2.3.1",
 						"the host", true, true, false, ReferalType.Google, false, false, "Samsung", "Galax S7", 0, 1, 1, "GBP", 0);
 					Assert.AreEqual(0, userSession.Pages.Count);
 
@@ -369,14 +369,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			{
 				ThreadManager.Initialise();
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
-				MockGeoIpProvider geoIp = new MockGeoIpProvider();
+				MockGeoIpProvider geoIp = new();
 				services.AddSingleton<IGeoIpProvider>(geoIp);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					UserSessionService sut = provider.GetRequiredService<IUserSessionService>() as UserSessionService;
@@ -398,7 +398,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.IsNotNull(yearlyStats);
 					Assert.AreEqual(0, yearlyStats.RecordCount);
 
-					UserSession userSession = new UserSession(-1, DateTime.Now, "SN123", "The agent", "referrer site", "10.2.3.1",
+					UserSession userSession = new(-1, DateTime.Now, "SN123", "The agent", "referrer site", "10.2.3.1",
 						"the host", true, true, false, ReferalType.Google, false, false, "Samsung", "Galaxy S7", 0, 1, 1, "GBP", 0);
 					Assert.AreEqual(0, userSession.Pages.Count);
 

@@ -118,7 +118,7 @@ namespace SearchPlugin.Controllers
         [Route("Search/Advanced/{providerName}/")]
         public IActionResult AdvancedSearch(string providerName)
         {
-            SearchViewModel model = new SearchViewModel();
+            SearchViewModel model = new();
 
             if (!String.IsNullOrWhiteSpace(providerName) &&
                 _searchProvider.AdvancedSearch().ContainsKey(providerName))
@@ -136,7 +136,7 @@ namespace SearchPlugin.Controllers
         [Route("Search/Advanced/{providerName}/{searchId}/Page/{page}/")]
         public IActionResult AdvancedSearch(string providerName, string searchId, int page)
         {
-            SearchViewModel model = new SearchViewModel();
+            SearchViewModel model = new();
 
             if (!String.IsNullOrWhiteSpace(providerName) &&
                 _searchProvider.AdvancedSearch().ContainsKey(providerName))
@@ -184,7 +184,7 @@ namespace SearchPlugin.Controllers
                 return new StatusCodeResult(Constants.HtmlResponseBadRequest);
             }
 
-            KeywordSearchOptions searchOptions = new KeywordSearchOptions(IsUserLoggedIn(), searchModel.keywords, true);
+            KeywordSearchOptions searchOptions = new(IsUserLoggedIn(), searchModel.keywords, true);
 
             List<SearchResponseItem> searchResults = _searchProvider.KeywordSearch(searchOptions);
 
@@ -220,7 +220,7 @@ namespace SearchPlugin.Controllers
                 ModelState.AddModelError(nameof(model.SearchText), Languages.LanguageStrings.SearchInvalid);
             }
 
-            SearchViewModel Result = new SearchViewModel(GetModelData(), _searchProvider.AdvancedSearch())
+            SearchViewModel Result = new(GetModelData(), _searchProvider.AdvancedSearch())
             {
                 SearchResults = new List<SearchResponseItem>(),
                 SearchText = model.SearchText ?? String.Empty,
@@ -237,7 +237,7 @@ namespace SearchPlugin.Controllers
             }
             else if (validate && ModelState.IsValid)
             {
-                KeywordSearchOptions searchOptions = new KeywordSearchOptions(IsUserLoggedIn(), model.SearchText, false);
+                KeywordSearchOptions searchOptions = new(IsUserLoggedIn(), model.SearchText, false);
 
                 results = _searchProvider.KeywordSearch(searchOptions);
             }

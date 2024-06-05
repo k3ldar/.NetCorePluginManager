@@ -47,7 +47,7 @@ namespace Localization.Plugin
         #region Private Members
 
         private readonly RequestDelegate _next;
-        private static readonly Timings _timings = new Timings();
+        private static readonly Timings _timings = new();
         private readonly CacheManager _cultureCache;
 
         #endregion Private Members

@@ -61,7 +61,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void Construct_ValidInstance_Success()
         {
-            BlogProvider sut = new BlogProvider(new MockTextTableOperations<BlogDataRow>(), 
+            BlogProvider sut = new(new MockTextTableOperations<BlogDataRow>(), 
 				new MockTextTableOperations<BlogCommentDataRow>());
 
             Assert.IsNotNull(sut);
@@ -88,7 +88,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
-                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
+                    DateTime firstDate = new(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
 
                     for (int i = 0; i < 10; i++)
                     {
@@ -149,7 +149,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
-                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
+                    DateTime firstDate = new(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
 
                     for (int i = 0; i < 10; i++)
                     {
@@ -213,7 +213,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
-                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
+                    DateTime firstDate = new(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
 
                     for (int i = 0; i < 10; i++)
                     {
@@ -270,7 +270,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
-                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
+                    DateTime firstDate = new(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
 
                     for (int i = 0; i < 10; i++)
                     {
@@ -327,7 +327,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
-                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
+                    DateTime firstDate = new(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
 
                     for (int i = 0; i < 10; i++)
                     {
@@ -384,7 +384,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
-                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
+                    DateTime firstDate = new(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
 
                     for (int i = 0; i < 10; i++)
                     {
@@ -441,7 +441,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
-                    DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
+                    DateTime firstDate = new(2022, 06, 07, 18, 11, 12, DateTimeKind.Utc);
 
                     for (int i = 0; i < 10; i++)
                     {
@@ -559,13 +559,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
-                    List<string> tags = new List<string>()
+                    List<string> tags = new()
                     {
                         "new",
                         "blog"
                     };
 
-                    BlogItem newBlog = new BlogItem(-1, 1, "My Blog", "My blog...", "Just a blog", "Blog writer", false, DateTime.Now, DateTime.Now, DateTime.Now.AddDays(-10), tags, new List<BlogComment>());
+                    BlogItem newBlog = new(-1, 1, "My Blog", "My blog...", "Just a blog", "Blog writer", false, DateTime.Now, DateTime.Now, DateTime.Now.AddDays(-10), tags, new List<BlogComment>());
                     IBlogProvider sut = provider.GetRequiredService<IBlogProvider>();
                     Assert.IsNotNull(sut);
 
@@ -679,13 +679,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
-                    List<string> tags = new List<string>()
+                    List<string> tags = new()
                     {
                         "new",
                         "blog"
                     };
 
-                    BlogItem newBlog = new BlogItem(-1, 2, "My Blog", "My blog...", "Just a blog", "Blog writer", false, DateTime.Now, DateTime.Now, DateTime.Now.AddDays(-10), tags, new List<BlogComment>());
+                    BlogItem newBlog = new(-1, 2, "My Blog", "My blog...", "Just a blog", "Blog writer", false, DateTime.Now, DateTime.Now, DateTime.Now.AddDays(-10), tags, new List<BlogComment>());
                     IBlogProvider sut = provider.GetRequiredService<IBlogProvider>();
                     Assert.IsNotNull(sut);
 
@@ -737,13 +737,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
-                    List<string> tags = new List<string>()
+                    List<string> tags = new()
                     {
                         "new",
                         "blog"
                     };
 
-                    BlogItem newBlog = new BlogItem(-1, 2, "My Blog", "My blog...", "Just a blog", "Blog writer", false, DateTime.Now, DateTime.Now, DateTime.Now.AddDays(-10), tags, new List<BlogComment>());
+                    BlogItem newBlog = new(-1, 2, "My Blog", "My blog...", "Just a blog", "Blog writer", false, DateTime.Now, DateTime.Now, DateTime.Now.AddDays(-10), tags, new List<BlogComment>());
                     IBlogProvider sut = provider.GetRequiredService<IBlogProvider>();
                     Assert.IsNotNull(sut);
 

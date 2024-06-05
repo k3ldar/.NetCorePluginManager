@@ -76,10 +76,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<ClaimsIdentity> GetUserClaims(in long userId)
 		{
-			List<ClaimsIdentity> Result = new List<ClaimsIdentity>();
+			List<ClaimsIdentity> Result = new();
 
 			UserDataRow user = _users.Select(userId);
-			List<Claim> userClaims = new List<Claim>();
+			List<Claim> userClaims = new();
 
 
 			if (user == null)
@@ -115,7 +115,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		private void GetUserClaims(UserDataRow user, List<ClaimsIdentity> Result)
 		{
-			List<Claim> webClaims = new List<Claim>();
+			List<Claim> webClaims = new();
 
 			UserClaimsDataRow claims = _userClaims.Select().FirstOrDefault(uc => uc.UserId.Equals(user.Id));
 
@@ -157,7 +157,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<string> GetAllClaims()
         {
-            List<string> Result = new List<string>();
+            List<string> Result = new();
 
             foreach (IClaimsService claimsService in _pluginClassesService.GetPluginClasses<IClaimsService>())
             {
@@ -173,7 +173,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<string> GetClaimsForUser(in long id)
         {
-            List<string> Result = new List<string>();
+            List<string> Result = new();
 
             UserDataRow user = _users.Select(id);
 

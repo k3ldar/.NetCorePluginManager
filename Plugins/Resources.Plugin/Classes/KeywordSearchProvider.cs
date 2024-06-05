@@ -58,7 +58,7 @@ namespace Resources.Plugin.Classes
 			if (searchOptions == null)
 				throw new ArgumentNullException(nameof(searchOptions));
 
-			List<SearchResponseItem> Result = new List<SearchResponseItem>();
+			List<SearchResponseItem> Result = new();
 
 			if (searchOptions.ExactMatch || searchOptions.QuickSearch)
 			{
@@ -256,7 +256,7 @@ namespace Resources.Plugin.Classes
 
 		private static void AddSearchResult(in List<SearchResponseItem> results, in ResourceItem resource, in string searchType, in int offset)
 		{
-			SearchResponseItem searchItem = new SearchResponseItem(searchType, resource.Name, offset,
+			SearchResponseItem searchItem = new(searchType, resource.Name, offset,
 				$"/{Controllers.ResourcesController.Name}/View/{resource.Id}/", resource.Name, null);
 
 			searchItem.Properties.Add(nameof(resource.Id), resource.Id);
@@ -266,7 +266,7 @@ namespace Resources.Plugin.Classes
 
 		private static void AddSearchResult(in List<SearchResponseItem> results, in ResourceCategory resource, in string searchType, in int offset)
 		{
-			SearchResponseItem searchItem = new SearchResponseItem(searchType, resource.Name, offset,
+			SearchResponseItem searchItem = new(searchType, resource.Name, offset,
 				$"/{Controllers.ResourcesController.Name}/Category/{resource.Id}/{resource.Name}/", resource.Name, null);
 
 			searchItem.Properties.Add(nameof(resource.Id), resource.Id);

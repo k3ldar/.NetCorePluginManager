@@ -51,42 +51,42 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         {
             _tickets = new List<HelpdeskTicket>()
             {
-                new HelpdeskTicket(1,
+                new(1,
                     GetTicketPriorities().FirstOrDefault(p => p.Id == 1),
                     GetTicketDepartments().FirstOrDefault(d => d.Id == 2),
                     GetTicketStatus().FirstOrDefault(s => s.Id == 3),
                     "ABC-123456", "Test 1", DateTime.Now, DateTime.Now, "Joe Bloggs",
                     "joe@bloggs.com", "Joe Bloggs", new List<HelpdeskTicketMessage>()
                     {
-                        new HelpdeskTicketMessage(DateTime.Now, "Joe Bloggs", "Hello\r\nLine 2"),
+                        new(DateTime.Now, "Joe Bloggs", "Hello\r\nLine 2"),
                     }),
-                new HelpdeskTicket(2,
+                new(2,
                     GetTicketPriorities().FirstOrDefault(p => p.Id == 1),
                     GetTicketDepartments().FirstOrDefault(d => d.Id == 2),
                     GetTicketStatus().FirstOrDefault(s => s.Id == 3),
                     "DEF-987654", "Test 2", DateTime.Now, DateTime.Now, "Jane Doe",
                     "jane@doe.com", "Service Representative 1", new List<HelpdeskTicketMessage>()
                     {
-                        new HelpdeskTicketMessage(DateTime.Now, "Jane Doe", "Hello\r\nLine 2"),
-                        new HelpdeskTicketMessage(DateTime.Now, "Service Rep 1", "Hello\r\n\r\nTo you too!")
+                        new(DateTime.Now, "Jane Doe", "Hello\r\nLine 2"),
+                        new(DateTime.Now, "Service Rep 1", "Hello\r\n\r\nTo you too!")
                     }),
             };
 
             _faq = new List<KnowledgeBaseGroup>()
             {
-                new KnowledgeBaseGroup(0, "Plugin Interfaces", "Frequently asked questions about plugin interfaces", 0, 0, null,
+                new(0, "Plugin Interfaces", "Frequently asked questions about plugin interfaces", 0, 0, null,
                     new List<KnowledgeBaseItem>()
                     {
-                        new KnowledgeBaseItem(0, "IPlugin", 0, "Primary interface used to register an assembly with plugin manager"),
-                        new KnowledgeBaseItem(1, "IPluginTypesService", 0, "Retrieves all classes with the specified attribute"),
-                        new KnowledgeBaseItem(2, "IPluginHelperService", 0, "Plugin services and stuff"),
-                        new KnowledgeBaseItem(3, "IPluginVersion", 0, "Retrieves version from assembly"),
+                        new(0, "IPlugin", 0, "Primary interface used to register an assembly with plugin manager"),
+                        new(1, "IPluginTypesService", 0, "Retrieves all classes with the specified attribute"),
+                        new(2, "IPluginHelperService", 0, "Plugin services and stuff"),
+                        new(3, "IPluginVersion", 0, "Retrieves version from assembly"),
                     }),
-                new KnowledgeBaseGroup(1, "Shared Interfaces", "Frequently asked questions about shared interfaces", 0, 0, null,
+                new(1, "Shared Interfaces", "Frequently asked questions about shared interfaces", 0, 0, null,
                    new List<KnowledgeBaseItem>()
                    {
-                            new KnowledgeBaseItem(4, "IMemoryCache", 0, "Provides two caches with variable expire times."),
-                            new KnowledgeBaseItem(5, "ISettingsProvider", 0, "Allows plugins to easily load setting data."),
+                            new(4, "IMemoryCache", 0, "Provides two caches with variable expire times."),
+                            new(5, "ISettingsProvider", 0, "Allows plugins to easily load setting data."),
                    }),
             };
 
@@ -98,15 +98,15 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             _faq.Add(new KnowledgeBaseGroup(4, "Supported Geo Ip Services", "details on supported Geo Ip Services", 0, 0, _faq[2],
                 new List<KnowledgeBaseItem>()
                 {
-                    new KnowledgeBaseItem(6, "SieraDelta Geo Ip", 0, "Details about Geo Ip Service"),
-                    new KnowledgeBaseItem(7, "Net77", 0, "Net 77 Geo Ip"),
-                    new KnowledgeBaseItem(8, "IpStack", 0, "Ip Stack Geo Ip Servies"),
+                    new(6, "SieraDelta Geo Ip", 0, "Details about Geo Ip Service"),
+                    new(7, "Net77", 0, "Net 77 Geo Ip"),
+                    new(8, "IpStack", 0, "Ip Stack Geo Ip Servies"),
                 }));
 
             _faq.Add(new KnowledgeBaseGroup(5, "Geo Ip Sub Sub Group", "Another Sub Group", 0, 0, _faq[2],
                 new List<KnowledgeBaseItem>()
                 {
-                    new KnowledgeBaseItem(6, "SieraDelta Geo Ip", 0, "Details about Geo Ip Service")
+                    new(6, "SieraDelta Geo Ip", 0, "Details about Geo Ip Service")
                 }));
         }
 
@@ -121,8 +121,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             {
                 _feedback = new List<Feedback>()
                 {
-                    new Feedback(1, "Joe Bloggs", "Asp Net core is awesome", true),
-                    new Feedback(2, "Jane Doe", "AspNetCore.PluginManager is extremely flexible", true),
+                    new(1, "Joe Bloggs", "Asp Net core is awesome", true),
+                    new(2, "Jane Doe", "AspNetCore.PluginManager is extremely flexible", true),
                 };
             }
 
@@ -146,9 +146,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         {
             return new List<LookupListItem>()
             {
-                new LookupListItem(1, "Sales"),
-                new LookupListItem(2, "Support"),
-                new LookupListItem(3, "Returns"),
+                new(1, "Sales"),
+                new(2, "Support"),
+                new(3, "Returns"),
             };
         }
 
@@ -156,9 +156,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         {
             return new List<LookupListItem>()
             {
-                new LookupListItem(1, "Low"),
-                new LookupListItem(2, "Medium"),
-                new LookupListItem(3, "High"),
+                new(1, "Low"),
+                new(2, "Medium"),
+                new(3, "High"),
             };
         }
 
@@ -166,9 +166,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         {
             return new List<LookupListItem>()
             {
-                new LookupListItem(1, "Closed"),
-                new LookupListItem(2, "Open"),
-                new LookupListItem(3, "On Hold"),
+                new(1, "Closed"),
+                new(2, "Open"),
+                new(3, "On Hold"),
             };
         }
 
@@ -198,7 +198,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 				email, userName,
 				new List<HelpdeskTicketMessage>()
 				{
-					new HelpdeskTicketMessage(DateTime.Now, userName, message)
+					new(DateTime.Now, userName, message)
 				});
 
 			_tickets.Add(ticket);

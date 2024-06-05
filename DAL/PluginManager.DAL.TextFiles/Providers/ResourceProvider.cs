@@ -165,7 +165,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (userDataRow == null && userId > 0)
 				throw new ArgumentNullException(nameof(userId));
 
-			ResourceCategoryDataRow newCategoryRow = new ResourceCategoryDataRow()
+			ResourceCategoryDataRow newCategoryRow = new()
 			{ 
 				ParentCategoryId = parent,
 				Name = name,
@@ -229,7 +229,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			UserDataRow user = _users.Select(userId);
 
-			ResourceItemDataRow resourceItem = new ResourceItemDataRow()
+			ResourceItemDataRow resourceItem = new()
 			{
 				Approved = approved,
 				CategoryId = categoryId,
@@ -250,7 +250,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		public List<ResourceItem> RetrieveAllResourceItems()
 		{
-			List<ResourceItem> resources = new List<ResourceItem>();
+			List<ResourceItem> resources = new();
 
 			foreach (ResourceItemDataRow resourceItemDataRow in _resourceItems.Select())
 			{
@@ -358,7 +358,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (resourceItemList == null)
 				return null;
 
-			List<ResourceItem> result = new List<ResourceItem>();
+			List<ResourceItem> result = new();
 
 			foreach (ResourceItemDataRow resourceItemDataRow in resourceItemList)
 			{
@@ -409,7 +409,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (resourceRow == null)
 				return null;
 
-			List<ResourceItem> resources = new List<ResourceItem>();
+			List<ResourceItem> resources = new();
 
 			foreach (ResourceItemDataRow resourceItemDataRow in _resourceItems.Select(ri => ri.CategoryId.Equals(resourceRow.Id)))
 			{
@@ -435,7 +435,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		private static List<ResourceCategory> ConvertResourceDataRowsToResourceList(IReadOnlyList<ResourceCategoryDataRow> resources)
 		{
-			List<ResourceCategory> result = new List<ResourceCategory>();
+			List<ResourceCategory> result = new();
 
 			foreach (ResourceCategoryDataRow row in resources)
 			{

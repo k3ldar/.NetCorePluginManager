@@ -44,8 +44,8 @@ namespace SystemAdmin.Plugin.Controllers
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            BootgridResponseData<SearchUser> Result = new BootgridResponseData<SearchUser>
-            {
+            BootgridResponseData<SearchUser> Result = new()
+			{
                 rows = _userSearch.GetUsers(model.current, model.rowCount, model.searchPhrase, ""),
                 current = model.current,
                 rowCount = model.rowCount

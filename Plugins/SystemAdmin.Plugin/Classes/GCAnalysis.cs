@@ -40,11 +40,11 @@ namespace SystemAdmin.Plugin.Classes
     {
         #region Private Members
 
-        private static readonly object _lockObject = new object();
+        private static readonly object _lockObject = new();
         private const int MaximumStatistics = 20;
         private const int WaitForGCTimeout = 500;
-        private readonly Timings _timings = new Timings();
-        private static readonly Queue<GCSnapshot> _gcStatistics = new Queue<GCSnapshot>(MaximumStatistics);
+        private readonly Timings _timings = new();
+        private static readonly Queue<GCSnapshot> _gcStatistics = new(MaximumStatistics);
 
         #endregion Private Members
 
@@ -71,7 +71,7 @@ namespace SystemAdmin.Plugin.Classes
 
             if (status == GCNotificationStatus.Succeeded)
             {
-                Stopwatch stopwatch = new Stopwatch();
+                Stopwatch stopwatch = new();
                 stopwatch.Start();
                 using (StopWatchTimer stopWatchTimer = StopWatchTimer.Initialise(_timings))
                 {

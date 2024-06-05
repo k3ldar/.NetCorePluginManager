@@ -38,7 +38,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void Compare_NullComparisonObjects_Returns_Zero()
         {
-            FileVersionComparison sut = new FileVersionComparison();
+            FileVersionComparison sut = new();
 
             int result = sut.Compare(null, null);
 
@@ -48,7 +48,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void Equals_NullComparisonObjects_Returns_Zero()
         {
-            FileVersionComparison sut = new FileVersionComparison();
+            FileVersionComparison sut = new();
 
             bool result = sut.Equals(null, null);
 
@@ -58,9 +58,9 @@ namespace PluginManager.Tests
         [TestMethod]
         public void Newer_ValidComparison_Returns_True()
         {
-            FileVersionComparison sut = new FileVersionComparison();
+            FileVersionComparison sut = new();
 
-            FileInfo fileInfo = new FileInfo(Assembly.GetExecutingAssembly().Location);
+            FileInfo fileInfo = new(Assembly.GetExecutingAssembly().Location);
             bool result = sut.Equals(fileInfo, fileInfo);
 
             Assert.IsTrue(result);
@@ -69,7 +69,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void Newer_NullComparisonObjects_Returns_True()
         {
-            FileVersionComparison sut = new FileVersionComparison();
+            FileVersionComparison sut = new();
 
             bool result = sut.Newer(null, null);
 
@@ -79,9 +79,9 @@ namespace PluginManager.Tests
         [TestMethod]
         public void Newer_ValidComparison_Returns_False()
         {
-            FileVersionComparison sut = new FileVersionComparison();
+            FileVersionComparison sut = new();
 
-            FileInfo fileInfo = new FileInfo(Assembly.GetExecutingAssembly().Location);
+            FileInfo fileInfo = new(Assembly.GetExecutingAssembly().Location);
             bool result = sut.Newer(fileInfo, fileInfo);
 
             Assert.IsFalse(result);

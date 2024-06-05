@@ -57,7 +57,7 @@ namespace DynamicContent.Plugin.Internal
         private readonly string _rootContentPath;
         private readonly List<IDynamicContentPage> _dynamicContent;
         private readonly IPluginClassesService _pluginClassesService;
-        private readonly object _lockObject = new object();
+        private readonly object _lockObject = new();
         private List<DynamicContentTemplate> _templates;
 
         #endregion Private Members
@@ -108,7 +108,7 @@ namespace DynamicContent.Plugin.Internal
 
         public List<LookupListItem> GetCustomPageList()
         {
-            List<LookupListItem> Result = new List<LookupListItem>();
+            List<LookupListItem> Result = new();
 
             using (TimedLock tl = TimedLock.Lock(_lockObject))
             {
@@ -205,8 +205,8 @@ namespace DynamicContent.Plugin.Internal
 
         public static byte[] ConvertFromDynamicContent(IDynamicContentPage dynamicContentPage)
         {
-            using (MemoryStream memoryStream = new MemoryStream())
-            using (BinaryWriter writer = new BinaryWriter(memoryStream))
+            using (MemoryStream memoryStream = new())
+            using (BinaryWriter writer = new(memoryStream))
             {
                 writer.Write(Header);
                 writer.Write(ReservedSpace1);
@@ -247,8 +247,8 @@ namespace DynamicContent.Plugin.Internal
             if (content.Length < MinimumByteSize)
                 throw new ArgumentException(nameof(content));
 
-            using (MemoryStream memoryStream = new MemoryStream(content))
-            using (BinaryReader reader = new BinaryReader(memoryStream))
+            using (MemoryStream memoryStream = new(content))
+            using (BinaryReader reader = new(memoryStream))
             {
                 memoryStream.Position = 0;
 
@@ -263,7 +263,7 @@ namespace DynamicContent.Plugin.Internal
                     switch (version)
                     {
                         case FileVersion1:
-                            DynamicContentPage Result = new DynamicContentPage();
+                            DynamicContentPage Result = new();
 
                             LoadDynamicContentVersion1(reader, Result);
                             return Result;

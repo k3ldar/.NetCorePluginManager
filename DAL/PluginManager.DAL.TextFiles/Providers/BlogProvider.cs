@@ -127,7 +127,7 @@ namespace PluginManager.DAL.TextFiles.Providers
                 throw new ArgumentNullException(nameof(comment));
 
             TimeSpan span = DateTime.Now - new DateTime(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            BlogComment blogComment = new BlogComment(Convert.ToInt32(span.TotalSeconds), parentComment?.Id, DateTime.Now, userId, userName, true, comment);
+            BlogComment blogComment = new(Convert.ToInt32(span.TotalSeconds), parentComment?.Id, DateTime.Now, userId, userName, true, comment);
 
             if (parentComment == null)
                 blogItem.Comments.Add(blogComment);
@@ -139,7 +139,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (tableBlog == null)
                 throw new InvalidOperationException("Blog not found");
 
-            BlogCommentDataRow blogCommentDataRow = new BlogCommentDataRow()
+            BlogCommentDataRow blogCommentDataRow = new()
             {
                 BlogId = blogItem.Id,
                 ParentComment = parentComment?.Id,
@@ -172,7 +172,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private List<BlogItem> ConvertTableBlogToBlogItem(List<BlogDataRow> tableBlogs)
         {
-            List<BlogItem> Result = new List<BlogItem>();
+            List<BlogItem> Result = new();
 
             tableBlogs.ForEach(blog => Result.Add(ConvertTableBlogToBlogItem(blog)));
 
@@ -184,7 +184,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (blog == null)
                 return null;
 
-            BlogItem Result = new BlogItem(Convert.ToInt32(blog.Id), blog.UserId, blog.Title, blog.Excerpt, blog.BlogText, blog.Username, blog.Published,
+            BlogItem Result = new(Convert.ToInt32(blog.Id), blog.UserId, blog.Title, blog.Excerpt, blog.BlogText, blog.Username, blog.Published,
                     blog.PublishDateTime, blog.Created, blog.Updated, blog.Tags, new List<BlogComment>());
 
             List<BlogCommentDataRow> comments = _blogComments.Select().Where(bc => bc.BlogId.Equals(blog.Id)).ToList();

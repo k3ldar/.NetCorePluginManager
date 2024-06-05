@@ -47,7 +47,7 @@ namespace DocumentationPlugin.Classes
     {
         #region Private Members
 
-        private static readonly object _lockObject = new object();
+        private static readonly object _lockObject = new();
         private readonly IMemoryCache _memoryCache;
         private readonly string _fileNameFile;
         private readonly string _xmlFilePath;
@@ -103,8 +103,8 @@ namespace DocumentationPlugin.Classes
 
                 if (cache == null)
                 {
-                    DocumentBuilder builder = new DocumentBuilder();
-                    List<Document> documents = new List<Document>();
+                    DocumentBuilder builder = new();
+                    List<Document> documents = new();
 
                     foreach (string file in GetDocumentationFileNames())
                     {
@@ -317,7 +317,7 @@ namespace DocumentationPlugin.Classes
 
         private static void BuildReferences(Document document, in List<Document> documents)
         {
-            DocumentData data = new DocumentData();
+            DocumentData data = new();
 
             //extract all html H references (H1, H2 etc) from long description for all documents, 
             // to be used as "in this document"
@@ -434,7 +434,7 @@ namespace DocumentationPlugin.Classes
 
         private static void BuildAllReferences(in List<Document> documents)
         {
-            StringBuilder allReferences = new StringBuilder("<ul>", 2048);
+            StringBuilder allReferences = new("<ul>", 2048);
 
             foreach (Document selected in documents)
             {
@@ -465,7 +465,7 @@ namespace DocumentationPlugin.Classes
 
         private List<string> GetDocumentationFileNames()
         {
-            List<string> Result = new List<string>();
+            List<string> Result = new();
 
             if (File.Exists(_fileNameFile))
             {

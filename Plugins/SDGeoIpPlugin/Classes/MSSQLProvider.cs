@@ -62,7 +62,7 @@ namespace SieraDeltaGeoIp.Plugin
             List<IpCity> rangeData = (List<IpCity>)parameters;
             rangeData.Clear();
 
-            SqlConnection db = new SqlConnection(_settings.DatabaseConnectionString);
+            SqlConnection db = new(_settings.DatabaseConnectionString);
             try
             {
                 db.Open();
@@ -90,7 +90,7 @@ namespace SieraDeltaGeoIp.Plugin
                 SqlTransaction tran = db.BeginTransaction();
                 try
                 {
-                    SqlCommand cmd = new SqlCommand(SQL, db, tran);
+                    SqlCommand cmd = new(SQL, db, tran);
                     try
                     {
                         SqlDataReader rdr = cmd.ExecuteReader();
@@ -148,7 +148,7 @@ namespace SieraDeltaGeoIp.Plugin
             ipFrom = 0;
             ipTo = 0;
 
-            SqlConnection db = new SqlConnection(_settings.DatabaseConnectionString);
+            SqlConnection db = new(_settings.DatabaseConnectionString);
             try
             {
                 db.Open();
@@ -158,7 +158,7 @@ namespace SieraDeltaGeoIp.Plugin
                 SqlTransaction tran = db.BeginTransaction();
                 try
                 {
-                    SqlCommand cmd = new SqlCommand(SQL, db, tran);
+                    SqlCommand cmd = new(SQL, db, tran);
                     try
                     {
                         SqlDataReader rdr = cmd.ExecuteReader();

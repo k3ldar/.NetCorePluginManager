@@ -87,7 +87,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
         /// <returns>string</returns>
         public override string Data()
         {
-            ChartModel Result = new ChartModel();
+            ChartModel Result = new();
 
             Result.ChartTitle = "Monthly Bot Visitor Statistics";
 
@@ -106,7 +106,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
             foreach (SessionMonthly month in sessionData)
             {
-                List<Decimal> datavalues = new List<decimal>();
+                List<Decimal> datavalues = new();
                 Result.DataValues[month.Month.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat)] = datavalues;
 
                 datavalues.Add(month.BotVisits);

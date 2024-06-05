@@ -43,8 +43,8 @@ namespace AspNetCore.PluginManager.Middleware
         #region Private Members
 
         private readonly RequestDelegate _next;
-        private readonly static object _lockObject = new object();
-        private readonly static Dictionary<string, Timings> _pageTimings = new Dictionary<string, Timings>();
+        private readonly static object _lockObject = new();
+        private readonly static Dictionary<string, Timings> _pageTimings = new();
 
         #endregion Private Members
 
@@ -87,7 +87,7 @@ namespace AspNetCore.PluginManager.Middleware
         {
             using (TimedLock tl = TimedLock.Lock(_lockObject))
             {
-                Dictionary<string, Timings> Result = new Dictionary<string, Timings>();
+                Dictionary<string, Timings> Result = new();
 
                 foreach (KeyValuePair<string, Timings> entry in _pageTimings)
                 {

@@ -48,7 +48,7 @@ namespace HelpdeskPlugin.Classes
 	/// </summary>
 	public sealed class ImportEmailIntoHelpdeskThread : ThreadManager
 	{
-		private readonly object _lock = new object();
+		private readonly object _lock = new();
 		private readonly IHelpdeskProvider _helpdeskProvider;
 		private readonly IPop3ClientFactory _pop3ClientFactory;
 		private readonly ILogger _logger;

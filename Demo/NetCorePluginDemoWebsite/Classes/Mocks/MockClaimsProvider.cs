@@ -70,16 +70,16 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public List<ClaimsIdentity> GetUserClaims(in long userId)
         {
-            List<ClaimsIdentity> Result = new List<ClaimsIdentity>();
+            List<ClaimsIdentity> Result = new();
 
-            List<Claim> userClaims = new List<Claim>();
+            List<Claim> userClaims = new();
             userClaims.Add(new Claim("sub", userId.ToString()));
             userClaims.Add(new Claim(Constants.ClaimNameUsername, "Administrator"));
             userClaims.Add(new Claim(Constants.ClaimNameUserEmail, "admin@nowhere.com"));
             userClaims.Add(new Claim(Constants.ClaimNameUserId, userId.ToString()));
             Result.Add(new ClaimsIdentity(userClaims, Constants.ClaimIdentityUser));
 
-            List<Claim> webClaims = new List<Claim>();
+            List<Claim> webClaims = new();
             webClaims.Add(new Claim(Constants.ClaimNameCreateBlog, "true"));
             webClaims.Add(new Claim(Constants.ClaimNameAdministrator, "true"));
             webClaims.Add(new Claim(Constants.ClaimNameStaff, "true"));
@@ -114,7 +114,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public List<string> GetAllClaims()
         {
-            List<string> Result = new List<string>();
+            List<string> Result = new();
 
             foreach (IClaimsService claimsService in _pluginClassesService.GetPluginClasses<IClaimsService>())
             {
