@@ -106,7 +106,6 @@
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="8.0.6" />
-    <PackageReference Include="Microsoft.Net.Http.Headers" Version="8.0.6" />
   </ItemGroup>
 
   <ItemGroup>

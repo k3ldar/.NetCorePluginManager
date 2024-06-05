@@ -115,7 +115,7 @@ namespace UserSessionMiddleware.Plugin.Classes
         /// <param name="settingsProvider">ISettingsProvider instance</param>
         /// <param name="geoIpProvider">IGeoIpProvider instance</param>
         /// <param name="logger">ILogger instance</param>
-        public DefaultUserSessionService(IHostingEnvironment hostingEnvironment,
+        public DefaultUserSessionService(IWebHostEnvironment hostingEnvironment,
             ISettingsProvider settingsProvider,
             IGeoIpProvider geoIpProvider,
             ILogger logger)
