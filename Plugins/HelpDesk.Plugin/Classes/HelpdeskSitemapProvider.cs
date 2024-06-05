@@ -64,7 +64,7 @@ namespace HelpdeskPlugin.Classes
         /// <returns>List&lt;ISitemapItem&gt;</returns>
         public List<SitemapItem> Items()
         {
-            List<SitemapItem> Result = new List<SitemapItem>();
+            List<SitemapItem> Result = new();
 
             Result.Add(new SitemapItem(
                 new Uri($"{HelpdeskController.Name}/{nameof(HelpdeskController.Feedback)}", UriKind.RelativeOrAbsolute),
@@ -82,7 +82,7 @@ namespace HelpdeskPlugin.Classes
 
         private void AddFaqItem(in List<SitemapItem> result, KnowledgeBaseGroup faqGroup)
         {
-            Uri faqUrl = new Uri($"{HelpdeskController.Name}/{nameof(HelpdeskController.FaQ)}/{faqGroup.Id}/{BaseModel.RouteFriendlyName(faqGroup.Name)}/",
+            Uri faqUrl = new($"{HelpdeskController.Name}/{nameof(HelpdeskController.FaQ)}/{faqGroup.Id}/{BaseModel.RouteFriendlyName(faqGroup.Name)}/",
                 UriKind.RelativeOrAbsolute);
 
             result.Add(new SitemapItem(faqUrl, SitemapChangeFrequency.Daily));

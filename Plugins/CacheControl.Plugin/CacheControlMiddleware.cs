@@ -52,8 +52,8 @@ namespace CacheControl.Plugin
         private readonly Dictionary<string, CacheControlRoute> _routePaths;
         private readonly HashSet<string> _ignoredRoutes;
         private bool _disabled;
-        private readonly object _lockObject = new object();
-        internal readonly static Timings _timings = new Timings();
+        private readonly object _lockObject = new();
+        internal readonly static Timings _timings = new();
 
         #endregion Private Members
 
@@ -102,7 +102,7 @@ namespace CacheControl.Plugin
                         {
                             if (routeLowered.StartsWith(keyValuePair.Key))
                             {
-                                context.Response.Headers.Add("Cache-Control", $"max-age={keyValuePair.Value.CacheValue}");
+                                context.Response.Headers["Cache-Control"] = $"max-age={keyValuePair.Value.CacheValue}";
                                 return;
                             }
                         }

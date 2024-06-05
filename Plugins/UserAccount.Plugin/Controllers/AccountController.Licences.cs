@@ -47,7 +47,7 @@ namespace UserAccount.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.MyLicences), nameof(AccountController), nameof(Index))]
         public IActionResult Licences()
         {
-            List<ViewLicenceViewModel> licences = new List<ViewLicenceViewModel>();
+            List<ViewLicenceViewModel> licences = new();
 
             foreach (Licence licence in _licenceProvider.LicencesGet(UserId()))
             {
@@ -57,7 +57,7 @@ namespace UserAccount.Plugin.Controllers
                     licence.IsTrial, licence.ExpireDate, licence.UpdateCount, licence.EncryptedLicence));
             }
 
-            LicenceViewModel model = new LicenceViewModel(GetModelData(), licences, GrowlGet());
+            LicenceViewModel model = new(GetModelData(), licences, GrowlGet());
 
             model.Breadcrumbs = GetBreadcrumbs();
             model.CartSummary = GetCartSummary();
@@ -70,7 +70,7 @@ namespace UserAccount.Plugin.Controllers
         public IActionResult LicenceView(int id)
         {
             ViewLicenceViewModel model = null;
-            Licence licence = _licenceProvider.LicencesGet(UserId()).FirstOrDefault(l => l.Id == id);
+            Licence licence = _licenceProvider.LicencesGet(UserId()).Find(l => l.Id == id);
 
             if (licence != null)
             {
@@ -103,7 +103,7 @@ namespace UserAccount.Plugin.Controllers
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            LicenceType licenceType = _licenceProvider.LicenceTypesGet().FirstOrDefault(l => l.Id == model.LicenceType);
+            LicenceType licenceType = _licenceProvider.LicenceTypesGet().Find(l => l.Id == model.LicenceType);
 
             if (licenceType == null)
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.LicenceTypeInvalid);
@@ -138,7 +138,7 @@ namespace UserAccount.Plugin.Controllers
         [HttpPost]
         public IActionResult LicenceUpdateDomain(ViewLicenceViewModel model)
         {
-            Licence licence = _licenceProvider.LicencesGet(UserId()).FirstOrDefault(l => l.Id == model.Id);
+            Licence licence = _licenceProvider.LicencesGet(UserId()).Find(l => l.Id == model.Id);
 
             if (!Shared.Utilities.ValidateIPAddress(model.Domain))
             {
@@ -158,7 +158,7 @@ namespace UserAccount.Plugin.Controllers
 
         public IActionResult LicenceSendEmail(int id)
         {
-            Licence licence = _licenceProvider.LicencesGet(UserId()).FirstOrDefault(l => l.Id == id);
+            Licence licence = _licenceProvider.LicencesGet(UserId()).Find(l => l.Id == id);
 
             if (licence != null && _licenceProvider.LicenceSendEmail(UserId(), id))
             {

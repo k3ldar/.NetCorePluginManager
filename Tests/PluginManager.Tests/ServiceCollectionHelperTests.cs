@@ -54,7 +54,7 @@ namespace PluginManager.Tests
         [TestCategory(TestCategoryDescription)]
         public void GetServiceInstance_TypeNotRegistered_ReturnsNull()
         {
-            MockServiceCollection msc = new MockServiceCollection();
+            MockServiceCollection msc = new();
             ILogger logger = ServiceCollectionHelper.GetServiceInstance<ILogger>(msc);
 
             Assert.IsNull(logger);
@@ -64,9 +64,9 @@ namespace PluginManager.Tests
         [TestCategory(TestCategoryDescription)]
         public void GetServiceInstance_Singleton_ImplementationInstance_ReturnsInstance_Success()
         {
-            MockLogger testLogger = new MockLogger();
+            MockLogger testLogger = new();
 
-            MockServiceCollection msc = new MockServiceCollection();
+            MockServiceCollection msc = new();
             msc.AddSingleton<ILogger>(testLogger);
 
             ILogger logger = ServiceCollectionHelper.GetServiceInstance<ILogger>(msc);
@@ -79,7 +79,7 @@ namespace PluginManager.Tests
         [TestCategory(TestCategoryDescription)]
         public void GetServiceInstance_Singleton_ImplementationType_ReturnsInstance_Success()
         {
-            MockServiceCollection msc = new MockServiceCollection();
+            MockServiceCollection msc = new();
             msc.AddSingleton<ILogger, MockLogger>();
             Assert.IsNull(msc[0].ImplementationInstance);
             Assert.IsNull(msc[0].ImplementationFactory);
@@ -97,9 +97,9 @@ namespace PluginManager.Tests
         [TestCategory(TestCategoryDescription)]
         public void GetServiceInstance_Singleton_ImplementationFactory_ReturnsInstance_Success()
         {
-            MockLogger testLogger = new MockLogger();
+            MockLogger testLogger = new();
 
-            MockServiceCollection msc = new MockServiceCollection();
+            MockServiceCollection msc = new();
             msc.AddSingleton<ILogger>(factory => testLogger);
 
             Assert.IsNotNull(msc[0].ImplementationFactory);
@@ -119,9 +119,9 @@ namespace PluginManager.Tests
         [TestCategory(TestCategoryDescription)]
         public void GetServiceInstance_Transient_ImplementationFactory_ReturnsInstance_Success()
         {
-            MockLogger testLogger = new MockLogger();
+            MockLogger testLogger = new();
 
-            MockServiceCollection msc = new MockServiceCollection();
+            MockServiceCollection msc = new();
             msc.AddTransient<ILogger>(factory => testLogger);
 
             Assert.IsNotNull(msc[0].ImplementationFactory);
@@ -141,7 +141,7 @@ namespace PluginManager.Tests
         [TestCategory(TestCategoryDescription)]
         public void GetServiceInstance_Transient_ImplementationType_ReturnsInstance_Success()
         {
-            MockServiceCollection msc = new MockServiceCollection();
+            MockServiceCollection msc = new();
             msc.AddTransient<ILogger, MockLogger>();
 
             Assert.IsNull(msc[0].ImplementationFactory);
@@ -157,12 +157,14 @@ namespace PluginManager.Tests
             Assert.IsNotNull(logger);
         }
 
+		[ExcludeFromCodeCoverage]
         private class TestClassWithConstructorParams
         {
             private readonly ILogger _logger;
 
-            public TestClassWithConstructorParams(ILogger logger)
-            {
+			[SuppressMessage("Major Code Smell", "S1144:Unused private types or members should be removed", Justification = "Required as part of the test class")]
+			public TestClassWithConstructorParams(ILogger logger)
+			{
                 _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             }
 
@@ -215,7 +217,7 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(MissingMethodException))]
         public void GetServiceInstance_ConstructInstanceWithMissingConstructorClassesRegistered_Throws_MissingMethodException()
         {
-            MockServiceCollection msc = new MockServiceCollection();
+            MockServiceCollection msc = new();
             msc.AddTransient<TestClassWithConstructorParams>();
 
             Assert.IsNull(msc[0].ImplementationFactory);
@@ -229,9 +231,9 @@ namespace PluginManager.Tests
         [TestCategory(TestCategoryDescription)]
         public void GetServiceInstance_ConstructInstanceWithConstructorClassesRegistered_Success()
         {
-            MockLogger testLogger = new MockLogger();
+            MockLogger testLogger = new();
 
-            MockServiceCollection msc = new MockServiceCollection();
+            MockServiceCollection msc = new();
             msc.AddTransient<TestClassWithConstructorParams>();
             msc.AddTransient<ILogger>(factory => testLogger);
 
@@ -253,9 +255,9 @@ namespace PluginManager.Tests
         [TestCategory(TestCategoryDescription)]
         public void GetServiceInstance_ConstructInstanceWithMultipleConstructor_NotAllClassesRegistered_Success()
         {
-            MockLogger testLogger = new MockLogger();
+            MockLogger testLogger = new();
 
-            MockServiceCollection msc = new MockServiceCollection();
+            MockServiceCollection msc = new();
             msc.AddTransient<TestClassWithMultipleConstructors>();
             msc.AddTransient<ILogger>(factory => testLogger);
 

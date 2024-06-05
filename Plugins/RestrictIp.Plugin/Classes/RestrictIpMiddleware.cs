@@ -65,7 +65,7 @@ namespace RestrictIp.Plugin
         private readonly HashSet<string> _localIpAddresses;
         private readonly bool _disabled;
         private readonly ILogger _logger;
-        internal readonly static Timings _timings = new Timings();
+        internal readonly static Timings _timings = new();
 
         #endregion Private Members
 

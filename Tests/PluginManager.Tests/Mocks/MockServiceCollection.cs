@@ -131,7 +131,7 @@ namespace PluginManager.Tests.Mocks
             {
                 ConfigureNamedOptions<AuthorizationOptions> configureNamedOptions = (ConfigureNamedOptions<AuthorizationOptions>)configureOption.ImplementationInstance;
 
-                AuthorizationOptions authorizationOptions = new AuthorizationOptions();
+                AuthorizationOptions authorizationOptions = new();
                 configureNamedOptions.Action.Invoke(authorizationOptions);
 
                 AuthorizationPolicy authorizationPolicy = authorizationOptions.GetPolicy(policyName);
@@ -165,7 +165,7 @@ namespace PluginManager.Tests.Mocks
             {
                 ConfigureNamedOptions<MvcOptions> configureNamedOptions = (ConfigureNamedOptions<MvcOptions>)configureOption.ImplementationInstance;
 
-                MvcOptions authorizationOptions = new MvcOptions();
+                MvcOptions authorizationOptions = new();
                 configureNamedOptions.Action.Invoke(authorizationOptions);
 
                 return authorizationOptions.EnableEndpointRouting;

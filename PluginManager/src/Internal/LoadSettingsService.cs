@@ -42,7 +42,7 @@ namespace PluginManager.Internal
     {
         public T LoadSettings<T>(in string jsonFile, in string name)
         {
-            ConfigurationBuilder builder = new ConfigurationBuilder();
+            ConfigurationBuilder builder = new();
             IConfigurationBuilder configBuilder = builder.SetBasePath(Path.GetDirectoryName(jsonFile));
             configBuilder.AddJsonFile(jsonFile);
             IConfigurationRoot config = builder.Build();

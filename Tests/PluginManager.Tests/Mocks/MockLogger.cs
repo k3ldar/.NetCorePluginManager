@@ -38,11 +38,11 @@ namespace PluginManager.Tests.Mocks
     {
         #region Private Methods
 
-        private readonly object _lockObject = new object();
+        private readonly object _lockObject = new();
         private string _data;
         private LogLevel _logLevel;
         private Exception _exception;
-        private readonly List<string> _messages = new List<string>();
+        private readonly List<string> _messages = new();
         private readonly List<MockLoggerItem> _errors;
         private readonly List<MockLoggerItem> _logs;
 

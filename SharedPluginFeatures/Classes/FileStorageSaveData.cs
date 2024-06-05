@@ -42,7 +42,7 @@ namespace SharedPluginFeatures
     {
         #region Private Members
 
-        private readonly object _lockObject = new object();
+        private readonly object _lockObject = new();
         private readonly ILogger _logger;
         private readonly string _rootPath;
 

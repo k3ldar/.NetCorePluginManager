@@ -62,8 +62,8 @@ namespace ProductPlugin.Controllers
         private const string ProductNotFound = "Invalid product";
         private const string ProductGroupNotFound = "Invalid product group";
 		private const string ProductQuantityMustBeAtLeastOne = "Product quantity must be at least one";
-
-        private readonly IProductProvider _productProvider;
+		private const string SystemAdminBreadcrumbRoute = "/SystemAdmin/Index";
+		private readonly IProductProvider _productProvider;
 		private readonly IStockProvider _stockProvider;
 		private readonly ProductPluginSettings _settings;
         private readonly IMemoryCache _memoryCache;
@@ -103,7 +103,7 @@ namespace ProductPlugin.Controllers
         public IActionResult Index(int? page)
         {
             ProductPageListModel model = GetPageList(page.GetValueOrDefault(1));
-            model.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            model.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, SystemAdminBreadcrumbRoute, false));
             model.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, "/ProductAdmin/Index", false));
 
             if (page.HasValue)
@@ -340,9 +340,9 @@ namespace ProductPlugin.Controllers
 
         private EditProductGroupModel CreateNewProductGroupModel()
         {
-            EditProductGroupModel result = new EditProductGroupModel(GetModelData());
+            EditProductGroupModel result = new(GetModelData());
 
-            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, SystemAdminBreadcrumbRoute, false));
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductGroups, "/ProductAdmin/GroupIndex/", false));
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppMenuNewProductGroup, $"/ProductAdmin/EditProductGroup/-1", false));
 
@@ -351,10 +351,10 @@ namespace ProductPlugin.Controllers
 
         private EditProductGroupModel CreateEditProductGroupModel(EditProductGroupModel productGroupModel)
         {
-            EditProductGroupModel result = new EditProductGroupModel(GetModelData(), productGroupModel.Id, productGroupModel.Description,
+            EditProductGroupModel result = new(GetModelData(), productGroupModel.Id, productGroupModel.Description,
                 productGroupModel.ShowOnWebsite, productGroupModel.SortOrder, productGroupModel.TagLine, productGroupModel.Url);
             
-            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, SystemAdminBreadcrumbRoute, false));
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductGroups, "/ProductAdmin/GroupIndex/", false));
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppMenuEditProductGroup, $"/ProductAdmin/EditProductGroup/{productGroupModel.Id}", false));
 
@@ -363,10 +363,10 @@ namespace ProductPlugin.Controllers
 
         private EditProductGroupModel CreateEditProductGroupModel(ProductGroup productGroup)
         {
-            EditProductGroupModel result = new EditProductGroupModel(GetModelData(), productGroup.Id, productGroup.Description,
+            EditProductGroupModel result = new(GetModelData(), productGroup.Id, productGroup.Description,
                 productGroup.ShowOnWebsite, productGroup.SortOrder, productGroup.TagLine, productGroup.Url);
 
-            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, SystemAdminBreadcrumbRoute, false));
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductGroups, "/ProductAdmin/GroupIndex/", false));
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppMenuEditProductGroup, $"/ProductAdmin/EditProductGroup/{productGroup.Id}", false));
 
@@ -375,13 +375,13 @@ namespace ProductPlugin.Controllers
 
         private ProductGroupListModel CreateProductGroupListModel()
         {
-            ProductGroupListModel result = new ProductGroupListModel(GetModelData());
+            ProductGroupListModel result = new(GetModelData());
 
             List<ProductGroup> groups = _productProvider.ProductGroupsGet();
 
             groups.ForEach(g => result.Groups.Add(new LookupListItem(g.Id, g.Description)));
 
-            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, SystemAdminBreadcrumbRoute, false));
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductGroups, $"/ProductAdmin/{nameof(GroupIndex)}", false));
 
             return result;
@@ -404,14 +404,14 @@ namespace ProductPlugin.Controllers
         {
             List<ProductGroup> allProductGroups = _productProvider.ProductGroupsGet();
 
-            EditProductModel result = new EditProductModel(GetModelData())
+            EditProductModel result = new(GetModelData())
             {
                 ProductGroupId = allProductGroups[0].Id
             };
 
             allProductGroups.ForEach(pg => result.ProductGroups.Add(new LookupListItem(pg.Id, pg.Description)));
 
-            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, SystemAdminBreadcrumbRoute, false));
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, "/ProductAdmin/Index/", false));
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppMenuNewProduct, $"/ProductAdmin/EditProduct/-1", false));
 
@@ -421,16 +421,16 @@ namespace ProductPlugin.Controllers
 
         private EditProductModel CreateEditProductModel(Product product, int pageNumber)
         {
-            List<LookupListItem> productGroups = new List<LookupListItem>();
+            List<LookupListItem> productGroups = new();
 
             _productProvider.ProductGroupsGet().ForEach(pg => productGroups.Add(new LookupListItem(pg.Id, pg.Description)));
 
-            EditProductModel result = new EditProductModel(GetModelData(), productGroups, product.Id, product.ProductGroupId,
+            EditProductModel result = new(GetModelData(), productGroups, product.Id, product.ProductGroupId,
                 product.Name, product.Description, product.Features, product.VideoLink, product.NewProduct,
                 product.BestSeller, product.RetailPrice, product.Sku, product.IsDownload, product.AllowBackorder,
                 product.IsVisible, pageNumber);
 
-            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, SystemAdminBreadcrumbRoute, false));
 
             if (pageNumber > 1)
                 result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, $"/ProductAdmin/Page/{pageNumber}/", false));
@@ -445,16 +445,16 @@ namespace ProductPlugin.Controllers
 
         private EditProductModel CreateEditProductModel(EditProductModel model)
         {
-            List<LookupListItem> productGroups = new List<LookupListItem>();
+            List<LookupListItem> productGroups = new();
 
             _productProvider.ProductGroupsGet().ForEach(pg => productGroups.Add(new LookupListItem(pg.Id, pg.Description)));
 
-            EditProductModel result = new EditProductModel(GetModelData(), productGroups, model.Id, model.ProductGroupId,
+            EditProductModel result = new(GetModelData(), productGroups, model.Id, model.ProductGroupId,
                 model.Name, model.Description, model.Features, model.VideoLink, model.NewProduct,
                 model.BestSeller, model.RetailPrice, model.Sku, model.IsDownload, model.AllowBackorder,
 				model.IsVisible, model.PageNumber);
 
-            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, SystemAdminBreadcrumbRoute, false));
 
             if (model.PageNumber > 1)
                 result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, $"/ProductAdmin/Page/{model.PageNumber}/", false));

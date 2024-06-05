@@ -39,8 +39,8 @@ using SharedPluginFeatures.DynamicContent;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 {
-    [ExcludeFromCodeCoverage]
-    public class MockDynamicContentProvider : IDynamicContentProvider
+	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
+	public class MockDynamicContentProvider : IDynamicContentProvider
     {
         #region Private Members
 
@@ -97,7 +97,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
         public List<LookupListItem> GetCustomPageList()
         {
-            List<LookupListItem> Result = new List<LookupListItem>();
+            List<LookupListItem> Result = new();
 
             if (UseDefaultContent)
             {
@@ -115,7 +115,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
         public List<IDynamicContentPage> GetCustomPages()
         {
-            List<IDynamicContentPage> Result = new List<IDynamicContentPage>();
+            List<IDynamicContentPage> Result = new();
 
             if (UseDefaultContent)
             {
@@ -152,7 +152,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
                 return GetPage10();
             }
 
-            return _dynamicContent.FirstOrDefault(dc => dc.Id.Equals(id));
+            return _dynamicContent.Find(dc => dc.Id.Equals(id));
         }
 
         public List<DynamicContentTemplate> Templates()
@@ -167,12 +167,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
         public bool PageNameExists(long id, string pageName)
         {
-            return GetCustomPages().Any(p => p.Id != id && p.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase));
+            return GetCustomPages().Exists(p => p.Id != id && p.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public bool RouteNameExists(long id, string routeName)
         {
-            return GetCustomPages().Any(p => p.Id != id && p.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
+            return GetCustomPages().Exists(p => p.Id != id && p.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public bool Save(IDynamicContentPage dynamicContentPage)
@@ -202,7 +202,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
                     RouteName = "page-1"
                 };
 
-                HtmlTextTemplate htmlLayout1 = new HtmlTextTemplate()
+                HtmlTextTemplate htmlLayout1 = new()
                 {
                     UniqueId = "1",
                     SortOrder = 0,
@@ -229,7 +229,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
                     RouteName = "page-2",
                 };
 
-                HtmlTextTemplate htmlLayout1 = new HtmlTextTemplate()
+                HtmlTextTemplate htmlLayout1 = new()
                 {
                     UniqueId = "control-1",
                     SortOrder = 0,
@@ -241,7 +241,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
                 _dynamicContentPage2.Content.Add(htmlLayout1);
 
-                HtmlTextTemplate htmlLayout2 = new HtmlTextTemplate()
+                HtmlTextTemplate htmlLayout2 = new()
                 {
                     UniqueId = "control-2",
                     SortOrder = 2,
@@ -268,7 +268,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
                     RouteName = "page-3",
                 };
 
-                HtmlTextTemplate htmlLayout1 = new HtmlTextTemplate()
+                HtmlTextTemplate htmlLayout1 = new()
                 {
                     UniqueId = "control-1",
                     SortOrder = 0,
@@ -280,7 +280,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
                 _dynamicContentPage3.Content.Add(htmlLayout1);
 
-                SpacerTemplate spacerTemplate1 = new SpacerTemplate()
+                SpacerTemplate spacerTemplate1 = new()
                 {
                     SortOrder = 1,
                     Width = 8
@@ -288,7 +288,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
                 _dynamicContentPage3.Content.Add(spacerTemplate1);
 
-                HtmlTextTemplate htmlLayout2 = new HtmlTextTemplate()
+                HtmlTextTemplate htmlLayout2 = new()
                 {
                     UniqueId = "control-2",
                     SortOrder = 2,
@@ -315,7 +315,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
                     RouteName = "page-10",
                 };
 
-                HtmlTextTemplate htmlLayout1 = new HtmlTextTemplate()
+                HtmlTextTemplate htmlLayout1 = new()
                 {
                     UniqueId = "control-1",
                     SortOrder = 0,
@@ -327,7 +327,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
                 _dynamicContentPage10.Content.Add(htmlLayout1);
 
-                HtmlTextTemplate htmlLayout2 = new HtmlTextTemplate()
+                HtmlTextTemplate htmlLayout2 = new()
                 {
                     UniqueId = "control-2",
                     SortOrder = 2,
@@ -339,7 +339,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
                 _dynamicContentPage10.Content.Add(htmlLayout2);
 
-                HtmlTextTemplate htmlLayout3 = new HtmlTextTemplate()
+                HtmlTextTemplate htmlLayout3 = new()
                 {
                     UniqueId = "control-3",
                     SortOrder = 9,
@@ -351,7 +351,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
                 _dynamicContentPage10.Content.Add(htmlLayout3);
 
-                HtmlTextTemplate htmlLayout4 = new HtmlTextTemplate()
+                HtmlTextTemplate htmlLayout4 = new()
                 {
                     UniqueId = "control-4",
                     SortOrder = 8,
@@ -363,7 +363,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
                 _dynamicContentPage10.Content.Add(htmlLayout4);
 
-                HtmlTextTemplate htmlLayout5 = new HtmlTextTemplate()
+                HtmlTextTemplate htmlLayout5 = new()
                 {
                     UniqueId = "control-5",
                     SortOrder = 7,
@@ -375,7 +375,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
                 _dynamicContentPage10.Content.Add(htmlLayout5);
 
-                HtmlTextTemplate htmlLayout6 = new HtmlTextTemplate()
+                HtmlTextTemplate htmlLayout6 = new()
                 {
                     UniqueId = "control-6",
                     SortOrder = 6,
@@ -387,7 +387,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
                 _dynamicContentPage10.Content.Add(htmlLayout6);
 
-                HtmlTextTemplate htmlLayout7 = new HtmlTextTemplate()
+                HtmlTextTemplate htmlLayout7 = new()
                 {
                     UniqueId = "control-7",
                     SortOrder = 5,
@@ -399,7 +399,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
                 _dynamicContentPage10.Content.Add(htmlLayout7);
 
-                HtmlTextTemplate htmlLayout8 = new HtmlTextTemplate()
+                HtmlTextTemplate htmlLayout8 = new()
                 {
                     UniqueId = "control-8",
                     SortOrder = 4,
@@ -411,7 +411,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
                 _dynamicContentPage10.Content.Add(htmlLayout8);
 
-                HtmlTextTemplate htmlLayout9 = new HtmlTextTemplate()
+                HtmlTextTemplate htmlLayout9 = new()
                 {
                     UniqueId = "control-9",
                     SortOrder = 3,
@@ -423,7 +423,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
                 _dynamicContentPage10.Content.Add(htmlLayout9);
 
-                HtmlTextTemplate htmlLayout10 = new HtmlTextTemplate()
+                HtmlTextTemplate htmlLayout10 = new()
                 {
                     UniqueId = "control-10",
                     SortOrder = 20,

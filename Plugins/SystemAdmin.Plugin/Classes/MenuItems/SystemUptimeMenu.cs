@@ -62,7 +62,7 @@ namespace SystemAdmin.Plugin.Classes.MenuItems
             TimeSpan span = DateTime.UtcNow - _loadTime;
 
 
-            StringBuilder Result = new StringBuilder("Status|Value\rLoad Time|", 2048);
+            StringBuilder Result = new("Status|Value\rLoad Time|", 2048);
             Result.Append(_loadTime.ToString("R"));
             Result.Append('\r');
 

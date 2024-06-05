@@ -53,7 +53,7 @@ namespace HelpdeskPlugin.Controllers
             if (!_settings.ShowFeedback)
                 return RedirectToAction(nameof(Index), Name);
 
-            List<FeedbackItemViewModel> feedback = new List<FeedbackItemViewModel>();
+            List<FeedbackItemViewModel> feedback = new();
 
             foreach (Feedback item in _helpdeskProvider.GetFeedback(true))
             {

@@ -53,7 +53,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -78,7 +78,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -110,7 +110,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -125,9 +125,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual(0, licenseTypeTable.RecordCount);
                     licenseTypeTable.Insert(new List<LicenseTypeDataRow>()
                     {
-                        new LicenseTypeDataRow() { Description = "License Type 1" },
-                        new LicenseTypeDataRow() { Description = "License Type 2" },
-                        new LicenseTypeDataRow() { Description = "License Type 3" }
+                        new() { Description = "License Type 1" },
+                        new() { Description = "License Type 2" },
+                        new() { Description = "License Type 3" }
                     });
 
                     List<LicenceType> result = sut.LicenceTypesGet();
@@ -148,7 +148,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -177,7 +177,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -192,7 +192,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     accountProvider.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
 
-                    DeliveryAddress deliveryAddress = new DeliveryAddress(-1, "", "Street 1", "", "", "city", "county", "postcode", "GB", 5.99m);
+                    DeliveryAddress deliveryAddress = new(-1, "", "Street 1", "", "", "city", "county", "postcode", "GB", 5.99m);
                     accountProvider.AddDeliveryAddress(userId, deliveryAddress);
 
                     ISimpleDBOperations<OrderDataRow> orderData = provider.GetService<ISimpleDBOperations<OrderDataRow>>();
@@ -203,14 +203,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     orderData.Insert(new List<OrderDataRow>()
                     {
-                        new OrderDataRow() { Culture = "en-GB", DeliveryAddress = deliveryAddress.Id, Postage = 4.99m, ProcessStatus = (int)ProcessStatus.OrderReceived, UserId = userId },
+                        new() { Culture = "en-GB", DeliveryAddress = deliveryAddress.Id, Postage = 4.99m, ProcessStatus = (int)ProcessStatus.OrderReceived, UserId = userId },
                     });
 
                     orderItemsData.Insert(new List<OrderItemDataRow>()
                     {
-                        new OrderItemDataRow() { Description = "Order 1a", Discount = 0, OrderId = 0, Price = 8.56m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 20m },
-                        new OrderItemDataRow() { Description = "Order 1b", Discount = 0, OrderId = 0, Price = 8.99m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
-                        new OrderItemDataRow() { Description = "Order 1c", Discount = 0, OrderId = 0, Price = 4.26m, Quantity = 2, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
+                        new() { Description = "Order 1a", Discount = 0, OrderId = 0, Price = 8.56m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 20m },
+                        new() { Description = "Order 1b", Discount = 0, OrderId = 0, Price = 8.99m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
+                        new() { Description = "Order 1c", Discount = 0, OrderId = 0, Price = 4.26m, Quantity = 2, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
                     });
 
                     ISimpleDBOperations<LicenseTypeDataRow> licenseType = provider.GetService<ISimpleDBOperations<LicenseTypeDataRow>>();
@@ -218,8 +218,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     licenseType.Insert(new List<LicenseTypeDataRow>()
                     {
-                        new LicenseTypeDataRow() { Description = "license type 1"},
-                        new LicenseTypeDataRow() { Description = "license type 2"},
+                        new() { Description = "license type 1"},
+                        new() { Description = "license type 2"},
                     });
 
                     ISimpleDBOperations<LicenseDataRow> licenseTable = (ISimpleDBOperations<LicenseDataRow>)provider.GetService(typeof(ISimpleDBOperations<LicenseDataRow>));
@@ -229,9 +229,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     licenseTable.Insert(new List<LicenseDataRow>()
                     {
-                        new LicenseDataRow() { UserId = userId, LicenseType = 1, StartDateTicks = DateTime.Now.AddDays(-1).Ticks,
+                        new() { UserId = userId, LicenseType = 1, StartDateTicks = DateTime.Now.AddDays(-1).Ticks,
                             DomainName = "", ExpireDateTicks = DateTime.Now.AddDays(1).Ticks, InvoiceId = 0, IsValid = true, EncryptedLicense = "blah" },
-                        new LicenseDataRow() { UserId = userId, LicenseType = 0, StartDateTicks = DateTime.Now.AddDays(-1).Ticks,
+                        new() { UserId = userId, LicenseType = 0, StartDateTicks = DateTime.Now.AddDays(-1).Ticks,
                             DomainName = "", ExpireDateTicks = DateTime.Now.AddDays(1).Ticks, InvoiceId = 0, IsValid = true, EncryptedLicense = "blah" },
                     });
 
@@ -254,7 +254,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -280,7 +280,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -306,7 +306,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -332,7 +332,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -347,7 +347,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     accountProvider.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
 
-                    DeliveryAddress deliveryAddress = new DeliveryAddress(-1, "", "Street 1", "", "", "city", "county", "postcode", "GB", 5.99m);
+                    DeliveryAddress deliveryAddress = new(-1, "", "Street 1", "", "", "city", "county", "postcode", "GB", 5.99m);
                     accountProvider.AddDeliveryAddress(userId, deliveryAddress);
 
                     ISimpleDBOperations<OrderDataRow> orderData = provider.GetService<ISimpleDBOperations<OrderDataRow>>();
@@ -358,14 +358,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     orderData.Insert(new List<OrderDataRow>()
                     {
-                        new OrderDataRow() { Culture = "en-GB", DeliveryAddress = deliveryAddress.Id, Postage = 4.99m, ProcessStatus = (int)ProcessStatus.OrderReceived, UserId = userId },
+                        new() { Culture = "en-GB", DeliveryAddress = deliveryAddress.Id, Postage = 4.99m, ProcessStatus = (int)ProcessStatus.OrderReceived, UserId = userId },
                     });
 
                     orderItemsData.Insert(new List<OrderItemDataRow>()
                     {
-                        new OrderItemDataRow() { Description = "Order 1a", Discount = 0, OrderId = 0, Price = 8.56m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 20m },
-                        new OrderItemDataRow() { Description = "Order 1b", Discount = 0, OrderId = 0, Price = 8.99m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
-                        new OrderItemDataRow() { Description = "Order 1c", Discount = 0, OrderId = 0, Price = 4.26m, Quantity = 2, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
+                        new() { Description = "Order 1a", Discount = 0, OrderId = 0, Price = 8.56m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 20m },
+                        new() { Description = "Order 1b", Discount = 0, OrderId = 0, Price = 8.99m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
+                        new() { Description = "Order 1c", Discount = 0, OrderId = 0, Price = 4.26m, Quantity = 2, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
                     });
 
                     accountProvider.OrderPaid(accountProvider.OrdersGet(userId)[0], PaymentStatus.PaidCash, "Paid by cash");
@@ -375,8 +375,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     licenseType.Insert(new List<LicenseTypeDataRow>()
                     {
-                        new LicenseTypeDataRow() { Description = "license type 1"},
-                        new LicenseTypeDataRow() { Description = "license type 2"},
+                        new() { Description = "license type 1"},
+                        new() { Description = "license type 2"},
                     });
 
                     ISimpleDBOperations<LicenseDataRow> licenseTable = (ISimpleDBOperations<LicenseDataRow>)provider.GetService(typeof(ISimpleDBOperations<LicenseDataRow>));
@@ -384,9 +384,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     licenseTable.Insert(new List<LicenseDataRow>()
                     {
-                        new LicenseDataRow() { UserId = userId, LicenseType = 1, StartDateTicks = DateTime.Now.AddDays(-1).Ticks,
+                        new() { UserId = userId, LicenseType = 1, StartDateTicks = DateTime.Now.AddDays(-1).Ticks,
                             DomainName = "", ExpireDateTicks = DateTime.Now.AddDays(1).Ticks, InvoiceId = 0, IsValid = true, EncryptedLicense = "blah" },
-                        new LicenseDataRow() { UserId = userId, LicenseType = 0, StartDateTicks = DateTime.Now.AddDays(-1).Ticks,
+                        new() { UserId = userId, LicenseType = 0, StartDateTicks = DateTime.Now.AddDays(-1).Ticks,
                             DomainName = "", ExpireDateTicks = DateTime.Now.AddDays(1).Ticks, InvoiceId = 0, IsValid = true, EncryptedLicense = "blah" },
                     });
 
@@ -421,7 +421,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -447,7 +447,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -474,7 +474,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -494,8 +494,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     licenseType.Insert(new List<LicenseTypeDataRow>()
                     {
-                        new LicenseTypeDataRow() { Description = "license type 1"},
-                        new LicenseTypeDataRow() { Description = "license type 2"},
+                        new() { Description = "license type 1"},
+                        new() { Description = "license type 2"},
                     });
 
                     ISimpleDBOperations<LicenseDataRow> licenseTable = (ISimpleDBOperations<LicenseDataRow>)provider.GetService(typeof(ISimpleDBOperations<LicenseDataRow>));
@@ -503,9 +503,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     licenseTable.Insert(new List<LicenseDataRow>()
                     {
-                        new LicenseDataRow() { UserId = userId, LicenseType = 1, StartDateTicks = DateTime.Now.AddDays(-1).Ticks,
+                        new() { UserId = userId, LicenseType = 1, StartDateTicks = DateTime.Now.AddDays(-1).Ticks,
                             DomainName = "", ExpireDateTicks = DateTime.Now.AddDays(1).Ticks, InvoiceId = 0, IsValid = false, IsTrial = true, EncryptedLicense = "blah" },
-                        new LicenseDataRow() { UserId = userId, LicenseType = 0, StartDateTicks = DateTime.Now.AddDays(-1).Ticks,
+                        new() { UserId = userId, LicenseType = 0, StartDateTicks = DateTime.Now.AddDays(-1).Ticks,
                             DomainName = "", ExpireDateTicks = DateTime.Now.AddDays(1).Ticks, InvoiceId = 0, IsValid = true, IsTrial = true, EncryptedLicense = "blah" },
                     });
 
@@ -529,7 +529,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -549,8 +549,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     licenseType.Insert(new List<LicenseTypeDataRow>()
                     {
-                        new LicenseTypeDataRow() { Description = "license type 1"},
-                        new LicenseTypeDataRow() { Description = "license type 2"},
+                        new() { Description = "license type 1"},
+                        new() { Description = "license type 2"},
                     });
 
                     ISimpleDBOperations<LicenseDataRow> licenseTable = (ISimpleDBOperations<LicenseDataRow>)provider.GetService(typeof(ISimpleDBOperations<LicenseDataRow>));

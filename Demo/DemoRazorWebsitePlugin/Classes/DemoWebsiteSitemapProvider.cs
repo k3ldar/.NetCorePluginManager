@@ -43,7 +43,7 @@ namespace DemoWebsitePlugin.Classes
         /// <returns>List&lt;ISitemapItem&gt;</returns>
         public List<SitemapItem> Items()
         {
-            List<SitemapItem> Result = new List<SitemapItem>();
+            List<SitemapItem> Result = new();
 
             Result.Add(new SitemapItem(
                 new Uri($"{ServicesController.Name}/{nameof(ServicesController.Middleware)}", UriKind.RelativeOrAbsolute),

@@ -185,7 +185,7 @@ namespace SharedPluginFeatures
         /// <returns>string</returns>
         public string BreadcrumbData(in bool lastItemLinked)
         {
-            StringBuilder Result = new StringBuilder("<ul>", 4000);
+            StringBuilder Result = new("<ul>", 4000);
 
             for (int i = 0; i < _breadcrumbs.Count; i++)
             {

@@ -184,9 +184,9 @@ namespace PluginManager.DAL.TextFiles.Tables
             }
         }
 
-        public DateTime ValidFrom => new DateTime(ValidFromTicks, DateTimeKind.Utc);
+        public DateTime ValidFrom => new(ValidFromTicks, DateTimeKind.Utc);
 
-        public DateTime ValidTo => new DateTime(ValidToTicks, DateTimeKind.Utc);
+        public DateTime ValidTo => new(ValidToTicks, DateTimeKind.Utc);
 
         #endregion Properties
 

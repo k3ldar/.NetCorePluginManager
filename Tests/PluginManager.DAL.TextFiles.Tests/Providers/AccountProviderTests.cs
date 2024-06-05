@@ -64,7 +64,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -88,7 +88,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -140,7 +140,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -180,7 +180,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -229,7 +229,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -267,7 +267,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -318,7 +318,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -366,7 +366,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -384,7 +384,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsTrue(created);
 
-                    Address address = new Address(-1, "business", "add 1", "add 2", "add 3", "city", "county", "postcode", "NL");
+                    Address address = new(-1, "business", "add 1", "add 2", "add 3", "city", "county", "postcode", "NL");
                     bool setBillingAddress = sut.SetBillingAddress(userId, address);
 
                     AddressDataRow addressRow = addressTable.Select(1);
@@ -450,7 +450,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -482,7 +482,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
 				Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 				Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -505,20 +505,20 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     bool created = sut.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
                     Assert.IsTrue(created);
 
-                    DeliveryAddress deliveryAddress = new DeliveryAddress(-1, "", "Street 1", "", "", "city", "county", "postcode", "GB", 5.99m);
+                    DeliveryAddress deliveryAddress = new(-1, "", "Street 1", "", "", "city", "county", "postcode", "GB", 5.99m);
                     sut.AddDeliveryAddress(userId, deliveryAddress);
 
                     orderData.Insert(new List<OrderDataRow>()
                     {
-                        new OrderDataRow() { Culture = "en-GB", DeliveryAddress = deliveryAddress.Id, Postage = 4.99m, ProcessStatus = (int)ProcessStatus.PaymentPending, UserId = userId },
-                        new OrderDataRow() { Culture = "en-US", DeliveryAddress = deliveryAddress.Id, Postage = 3.99m, ProcessStatus = (int)ProcessStatus.PaymentPending, UserId = userId }
+                        new() { Culture = "en-GB", DeliveryAddress = deliveryAddress.Id, Postage = 4.99m, ProcessStatus = (int)ProcessStatus.PaymentPending, UserId = userId },
+                        new() { Culture = "en-US", DeliveryAddress = deliveryAddress.Id, Postage = 3.99m, ProcessStatus = (int)ProcessStatus.PaymentPending, UserId = userId }
                     });
 
                     orderItemsData.Insert(new List<OrderItemDataRow>()
                     {
-                        new OrderItemDataRow() { Description = "Order 1", Discount = 0, OrderId = 0, Price = 8.56m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 20m },
-                        new OrderItemDataRow() { Description = "Order 2a", Discount = 0, OrderId = 1, Price = 8.99m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
-                        new OrderItemDataRow() { Description = "Order 2b", Discount = 0, OrderId = 1, Price = 4.26m, Quantity = 2, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
+                        new() { Description = "Order 1", Discount = 0, OrderId = 0, Price = 8.56m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 20m },
+                        new() { Description = "Order 2a", Discount = 0, OrderId = 1, Price = 8.99m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
+                        new() { Description = "Order 2b", Discount = 0, OrderId = 1, Price = 4.26m, Quantity = 2, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
                     });
                     
 
@@ -589,7 +589,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -612,20 +612,20 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     bool created = sut.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
                     Assert.IsTrue(created);
 
-                    DeliveryAddress deliveryAddress = new DeliveryAddress(-1, "", "Street 1", "", "", "city", "county", "postcode", "GB", 5.99m);
+                    DeliveryAddress deliveryAddress = new(-1, "", "Street 1", "", "", "city", "county", "postcode", "GB", 5.99m);
                     sut.AddDeliveryAddress(userId, deliveryAddress);
 
                     orderData.Insert(new List<OrderDataRow>()
                     {
-                        new OrderDataRow() { Culture = "en-GB", DeliveryAddress = deliveryAddress.Id, Postage = 4.99m, ProcessStatus = (int)ProcessStatus.PaymentPending, UserId = userId },
-                        new OrderDataRow() { Culture = "en-US", DeliveryAddress = deliveryAddress.Id, Postage = 3.99m, ProcessStatus = (int)ProcessStatus.PaymentPending, UserId = userId }
+                        new() { Culture = "en-GB", DeliveryAddress = deliveryAddress.Id, Postage = 4.99m, ProcessStatus = (int)ProcessStatus.PaymentPending, UserId = userId },
+                        new() { Culture = "en-US", DeliveryAddress = deliveryAddress.Id, Postage = 3.99m, ProcessStatus = (int)ProcessStatus.PaymentPending, UserId = userId }
                     });
 
                     orderItemsData.Insert(new List<OrderItemDataRow>()
                     {
-                        new OrderItemDataRow() { Description = "Order 1", Discount = 0, OrderId = 0, Price = 8.56m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 20m },
-                        new OrderItemDataRow() { Description = "Order 2a", Discount = 0, OrderId = 1, Price = 8.99m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
-                        new OrderItemDataRow() { Description = "Order 2b", Discount = 0, OrderId = 1, Price = 4.26m, Quantity = 2, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
+                        new() { Description = "Order 1", Discount = 0, OrderId = 0, Price = 8.56m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 20m },
+                        new() { Description = "Order 2a", Discount = 0, OrderId = 1, Price = 8.99m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
+                        new() { Description = "Order 2b", Discount = 0, OrderId = 1, Price = 4.26m, Quantity = 2, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
                     });
 
 
@@ -651,7 +651,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -677,7 +677,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -685,8 +685,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
 
                     Assert.IsNotNull(sut);
-                    DeliveryAddress delAddress = new DeliveryAddress(-1, "", "", "", "", "", "", "", "", 0);
-                    Order invalidOrder = new Order(-1, DateTime.Now, 1.22m, new System.Globalization.CultureInfo("en-GB"), ProcessStatus.Cancelled, delAddress, new List<OrderItem>());
+                    DeliveryAddress delAddress = new(-1, "", "", "", "", "", "", "", "", 0);
+                    Order invalidOrder = new(-1, DateTime.Now, 1.22m, new System.Globalization.CultureInfo("en-GB"), ProcessStatus.Cancelled, delAddress, new List<OrderItem>());
 
                     sut.OrderPaid(invalidOrder, PaymentStatus.PaidCard, "order not found");
                 }
@@ -705,7 +705,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -725,20 +725,20 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     bool created = sut.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
                     Assert.IsTrue(created);
 
-                    DeliveryAddress deliveryAddress = new DeliveryAddress(-1, "", "Street 1", "", "", "city", "county", "postcode", "GB", 5.99m);
+                    DeliveryAddress deliveryAddress = new(-1, "", "Street 1", "", "", "city", "county", "postcode", "GB", 5.99m);
                     sut.AddDeliveryAddress(userId, deliveryAddress);
 
                     orderData.Insert(new List<OrderDataRow>()
                     {
-                        new OrderDataRow() { Culture = "en-GB", DeliveryAddress = deliveryAddress.Id, Postage = 4.99m, ProcessStatus = (int)ProcessStatus.PaymentPending, UserId = userId },
-                        new OrderDataRow() { Culture = "en-US", DeliveryAddress = deliveryAddress.Id, Postage = 3.99m, ProcessStatus = (int)ProcessStatus.PaymentPending, UserId = userId }
+                        new() { Culture = "en-GB", DeliveryAddress = deliveryAddress.Id, Postage = 4.99m, ProcessStatus = (int)ProcessStatus.PaymentPending, UserId = userId },
+                        new() { Culture = "en-US", DeliveryAddress = deliveryAddress.Id, Postage = 3.99m, ProcessStatus = (int)ProcessStatus.PaymentPending, UserId = userId }
                     });
 
                     orderItemsData.Insert(new List<OrderItemDataRow>()
                     {
-                        new OrderItemDataRow() { Description = "Order 1", Discount = 0, OrderId = 0, Price = 8.56m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 20m },
-                        new OrderItemDataRow() { Description = "Order 2a", Discount = 0, OrderId = 1, Price = 8.99m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
-                        new OrderItemDataRow() { Description = "Order 2b", Discount = 0, OrderId = 1, Price = 4.26m, Quantity = 2, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
+                        new() { Description = "Order 1", Discount = 0, OrderId = 0, Price = 8.56m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 20m },
+                        new() { Description = "Order 2a", Discount = 0, OrderId = 1, Price = 8.99m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
+                        new() { Description = "Order 2b", Discount = 0, OrderId = 1, Price = 4.26m, Quantity = 2, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
                     });
 
                     sut.OrderPaid(sut.OrdersGet(userId)[0], PaymentStatus.Unpaid, "not been paid");
@@ -758,7 +758,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
 				Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -788,19 +788,19 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     bool created = sut.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
                     Assert.IsTrue(created);
 
-                    DeliveryAddress deliveryAddress = new DeliveryAddress(-1, "", "Street 1", "", "", "city", "county", "postcode", "GB", 5.99m);
+                    DeliveryAddress deliveryAddress = new(-1, "", "Street 1", "", "", "city", "county", "postcode", "GB", 5.99m);
                     sut.AddDeliveryAddress(userId, deliveryAddress);
 
                     orderData.Insert(new List<OrderDataRow>()
                     {
-                        new OrderDataRow() { Culture = "en-GB", DeliveryAddress = deliveryAddress.Id, Postage = 4.99m, ProcessStatus = (int)ProcessStatus.OrderReceived, UserId = userId },
+                        new() { Culture = "en-GB", DeliveryAddress = deliveryAddress.Id, Postage = 4.99m, ProcessStatus = (int)ProcessStatus.OrderReceived, UserId = userId },
                     });
 
                     orderItemsData.Insert(new List<OrderItemDataRow>()
                     {
-                        new OrderItemDataRow() { Description = "Order 1a", Discount = 0, OrderId = 0, Price = 8.56m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 20m },
-                        new OrderItemDataRow() { Description = "Order 1b", Discount = 0, OrderId = 0, Price = 8.99m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
-                        new OrderItemDataRow() { Description = "Order 1c", Discount = 0, OrderId = 0, Price = 4.26m, Quantity = 2, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
+                        new() { Description = "Order 1a", Discount = 0, OrderId = 0, Price = 8.56m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 20m },
+                        new() { Description = "Order 1b", Discount = 0, OrderId = 0, Price = 8.99m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
+                        new() { Description = "Order 1c", Discount = 0, OrderId = 0, Price = 4.26m, Quantity = 2, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
                     });
 
 
@@ -878,7 +878,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -906,7 +906,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -924,7 +924,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsTrue(created);
 
-                    DeliveryAddress address = new DeliveryAddress(-1, "business", "add 1", "add 2", "add 3", "city", "county", "postcode", "NL", 2.99m);
+                    DeliveryAddress address = new(-1, "business", "add 1", "add 2", "add 3", "city", "county", "postcode", "NL", 2.99m);
                     bool addBillingAddress = sut.AddDeliveryAddress(userId, address);
                     Assert.IsTrue(addBillingAddress);
 
@@ -1006,7 +1006,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -1044,7 +1044,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -1072,7 +1072,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())

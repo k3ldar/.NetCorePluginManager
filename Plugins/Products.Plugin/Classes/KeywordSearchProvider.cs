@@ -88,7 +88,7 @@ namespace ProductPlugin.Classes
             if (searchOptions == null)
                 throw new ArgumentNullException(nameof(searchOptions));
 
-            List<SearchResponseItem> Results = new List<SearchResponseItem>();
+            List<SearchResponseItem> Results = new();
 
             List<Product> products = _productProvider.GetProducts(1, SharedPluginFeatures.Constants.MaximumProducts);
 
@@ -110,7 +110,7 @@ namespace ProductPlugin.Classes
         /// <returns>Dictionary&lt;string, AdvancedSearchOptions&gt;</returns>
         public Dictionary<string, AdvancedSearchOptions> AdvancedSearch()
         {
-            AdvancedSearchOptions searchOptions = new AdvancedSearchOptions(
+            AdvancedSearchOptions searchOptions = new(
                 nameof(ProductController.AdvancedSearch),
                 ProductController.Name,
                 "/Product/Search/",
@@ -130,7 +130,7 @@ namespace ProductPlugin.Classes
         /// <returns>List&lt;string&gt;</returns>
         public List<string> SearchResponseTypes(in Boolean quickSearch)
         {
-            List<string> Result = new List<string>()
+            List<string> Result = new()
             {
                 "ProductName"
             };
@@ -188,7 +188,7 @@ namespace ProductPlugin.Classes
 
         private static void AddSearchResult(in List<SearchResponseItem> results, in Product product, in string searchType, in int offset)
         {
-            SearchResponseItem searchItem = new SearchResponseItem(searchType, product.Name, offset,
+            SearchResponseItem searchItem = new(searchType, product.Name, offset,
                 $"/Product/{product.Id}/{HtmlHelper.RouteFriendlyName(product.Name)}/",
                 product.Name, ProductSearchResultViewName);
 
@@ -257,7 +257,7 @@ namespace ProductPlugin.Classes
 
         private List<int> GetProductGroupsFromOptions(in KeywordSearchOptions searchOptions)
         {
-            List<int> Result = new List<int>();
+            List<int> Result = new();
 
             if (!searchOptions.QuickSearch)
             {
@@ -265,7 +265,7 @@ namespace ProductPlugin.Classes
                 {
                     if (item.Value.ToString().Equals(ProductGroup))
                     {
-                        ProductGroup productGroup = _productProvider.ProductGroupsGet().FirstOrDefault(p => p.Description == item.Key);
+                        ProductGroup productGroup = _productProvider.ProductGroupsGet().Find(p => p.Description == item.Key);
 
                         if (productGroup != null)
                             Result.Add(productGroup.Id);

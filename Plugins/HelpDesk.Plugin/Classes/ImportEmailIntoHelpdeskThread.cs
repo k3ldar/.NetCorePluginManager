@@ -48,7 +48,7 @@ namespace HelpdeskPlugin.Classes
 	/// </summary>
 	public sealed class ImportEmailIntoHelpdeskThread : ThreadManager
 	{
-		private readonly object _lock = new object();
+		private readonly object _lock = new();
 		private readonly IHelpdeskProvider _helpdeskProvider;
 		private readonly IPop3ClientFactory _pop3ClientFactory;
 		private readonly ILogger _logger;
@@ -90,8 +90,8 @@ namespace HelpdeskPlugin.Classes
 			_userSearch = userSearch ?? throw new ArgumentNullException(nameof(userSearch));
 			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-			_priorityId = _helpdeskProvider.GetTicketPriorities().FirstOrDefault(s => s.Description.Equals("medium", StringComparison.InvariantCultureIgnoreCase))?.Id ?? 0;
-			_departmentId = _helpdeskProvider.GetTicketDepartments().FirstOrDefault(s => s.Description.Equals("support", StringComparison.InvariantCultureIgnoreCase))?.Id ?? 0;
+			_priorityId = _helpdeskProvider.GetTicketPriorities().Find(s => s.Description.Equals("medium", StringComparison.InvariantCultureIgnoreCase))?.Id ?? 0;
+			_departmentId = _helpdeskProvider.GetTicketDepartments().Find(s => s.Description.Equals("support", StringComparison.InvariantCultureIgnoreCase))?.Id ?? 0;
 
 			HelpdeskSettings settings = settingsProvider.GetSettings<HelpdeskSettings>(nameof(HelpdeskSettings));
 			_registeredEmailsOnly = !settings.AnyUserEmailCanSubmitTickets;
@@ -136,7 +136,7 @@ namespace HelpdeskPlugin.Classes
 				if (existingTicket == null)
 				{
 					Middleware.Users.SearchUser user = _userSearch.GetUsers(1, int.MaxValue, String.Empty, String.Empty)
-						.FirstOrDefault(u => u.Email.Equals(fromEmail, StringComparison.InvariantCultureIgnoreCase));
+						.Find(u => u.Email.Equals(fromEmail, StringComparison.InvariantCultureIgnoreCase));
 
 					if (user == null && _registeredEmailsOnly)
 					{

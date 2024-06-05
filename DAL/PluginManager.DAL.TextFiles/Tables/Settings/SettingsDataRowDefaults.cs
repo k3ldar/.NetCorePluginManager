@@ -44,47 +44,47 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
 				return new List<SettingsDataRow>
 					{
-						new SettingsDataRow()
+						new()
 						{
 							Name = "ShoppingCartEncryption",
 							Value = Shared.Utilities.GetRandomWord(EncryptionKeyLength, AcceptableEncryptionChars)
 						},
-						new SettingsDataRow()
+						new()
 						{
 							Name = "DefaultTaxRate",
 							Value = "20"
 						},
-						new SettingsDataRow()
+						new()
 						{
 							Name = "DefaultCurrency",
 							Value = "GBP"
 						},
-						new SettingsDataRow()
+						new()
 						{
 							Name = "SessionMaxHours",
 							Value = "96"
 						},
-						new SettingsDataRow()
+						new()
 						{
 							Name = "SessionMaxDays",
 							Value = "60"
 						},
-						new SettingsDataRow()
+						new()
 						{
 							Name = "SessionMaxWeeks",
 							Value = "52"
 						},
-						new SettingsDataRow()
+						new()
 						{
 							Name = "SessionMaxMonths",
 							Value = "180"
 						},
-						new SettingsDataRow()
+						new()
 						{
 							Name = "SessionMaxYears",
 							Value = "10"
 						},
-						new SettingsDataRow()
+						new()
 						{
 							Name = "AddressOptions",
 							Value = "0"

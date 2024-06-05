@@ -47,8 +47,8 @@ namespace PluginManager.DAL.TextFiles.Providers
 		#region Private Members
 
 		private const string ThreadName = "Text Based User Session Service";
-		private static readonly object _lockObject = new object();
-		private static readonly Stack<UserSession> _closedSessions = new Stack<UserSession>();
+		private static readonly object _lockObject = new();
+		private static readonly Stack<UserSession> _closedSessions = new();
 
 		private readonly ISimpleDBOperations<UserDataRow> _users;
 		private readonly ISimpleDBOperations<SessionDataRow> _sessionData;
@@ -60,7 +60,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 		private readonly ISimpleDBOperations<SessionStatsMonthlyDataRow> _sessionDataMonthly;
 		private readonly ISimpleDBOperations<SessionStatsYearlyDataRow> _sessionDataYearly;
 		private readonly IUrlHashProvider _urlHashProvider;
-		internal readonly static Timings _timingsSaveSessions = new Timings();
+		internal readonly static Timings _timingsSaveSessions = new();
 		internal readonly static Timings _timingsUpdateAllSessions = new();
 		private readonly IGeoIpProvider _geoIpProvider;
 		private bool _InitialProcessing = true;
@@ -162,7 +162,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (userSession == null)
 				return;
 
-			SessionDataRow sessionDataRow = new SessionDataRow()
+			SessionDataRow sessionDataRow = new()
 			{
 				Bounced = false,
 				CountryCode = userSession.CountryCode,
@@ -316,7 +316,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		private void ProcessClosedSessions()
 		{
-			List<UserSession> sessionsToSave = new List<UserSession>();
+			List<UserSession> sessionsToSave = new();
 
 			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
 			{
@@ -345,7 +345,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			{
 				using (StopWatchTimer timer = StopWatchTimer.Initialise(_timingsUpdateAllSessions))
 				{
-					UserSession sessionData = new UserSession(session.Id, session.Created, session.SessionId, session.UserAgent,
+					UserSession sessionData = new(session.Id, session.Created, session.SessionId, session.UserAgent,
 					session.InitialReferrer, session.IpAddress, session.HostName, session.IsMobile, session.IsBrowserMobile,
 					session.MobileRedirect, (ReferalType)session.ReferralType, session.Bounced, session.IsBot, session.MobileManufacturer,
 					session.MobileModel, session.UserId, 0, 0, session.SaleCurrency, session.SaleAmount)
@@ -427,11 +427,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 					if (session.Pages.Count > 0)
 					{
-						List<SessionPageDataRow> pages = new List<SessionPageDataRow>();
+						List<SessionPageDataRow> pages = new();
 
 						foreach (PageViewData page in session.Pages)
 						{
-							SessionPageDataRow pageData = new SessionPageDataRow()
+							SessionPageDataRow pageData = new()
 							{
 								IsPostBack = page.IsPostBack,
 								Referrer = page.Referrer,
@@ -462,14 +462,12 @@ namespace PluginManager.DAL.TextFiles.Providers
 		private void UpdateGeoIpDataForSession(UserSession session)
 		{
 			// update the country data if not already set
-			if (_geoIpProvider != null && (session.CountryCode == null || session.CountryCode.Equals("zz", StringComparison.InvariantCultureIgnoreCase)))
-			{
-				if (_geoIpProvider.GetIpAddressDetails(session.IPAddress, out string countryCode,
+			if (_geoIpProvider != null && (session.CountryCode == null || session.CountryCode.Equals("zz", StringComparison.InvariantCultureIgnoreCase)) &&
+				_geoIpProvider.GetIpAddressDetails(session.IPAddress, out string countryCode,
 					out string regionName, out string cityName, out decimal lat, out decimal lon,
 					out long _, out long _, out long _))
-				{
-					session.UpdateIPDetails(0, lat, lon, regionName, cityName, countryCode);
-				}
+			{
+				session.UpdateIPDetails(0, lat, lon, regionName, cityName, countryCode);
 			}
 		}
 

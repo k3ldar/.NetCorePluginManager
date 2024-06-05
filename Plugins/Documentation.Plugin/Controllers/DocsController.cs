@@ -82,7 +82,7 @@ namespace DocumentationPlugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.Documentation))]
         public IActionResult Index()
         {
-            IndexViewModel model = new IndexViewModel(GetModelData(),
+            IndexViewModel model = new(GetModelData(),
                 _documentationService.GetCustomData("Header", Languages.LanguageStrings.APIReference),
                 _documentationService.GetCustomData("Description", Languages.LanguageStrings.InThisDocument));
 
@@ -118,7 +118,7 @@ namespace DocumentationPlugin.Controllers
             if (model.Breadcrumbs.Count > 0)
             {
                 BreadcrumbItem lastItem = model.Breadcrumbs[model.Breadcrumbs.Count - 1];
-                BreadcrumbItem breadcrumb = new BreadcrumbItem(selected.Title, lastItem.Route, lastItem.HasParameters);
+                BreadcrumbItem breadcrumb = new(selected.Title, lastItem.Route, lastItem.HasParameters);
                 model.Breadcrumbs.Remove(lastItem);
                 model.Breadcrumbs.Add(breadcrumb);
             }
@@ -140,7 +140,7 @@ namespace DocumentationPlugin.Controllers
             if (model.Breadcrumbs.Count > 0)
             {
                 BreadcrumbItem lastItem = model.Breadcrumbs[model.Breadcrumbs.Count - 1];
-                BreadcrumbItem breadcrumb = new BreadcrumbItem(selected.Title, lastItem.Route, lastItem.HasParameters);
+                BreadcrumbItem breadcrumb = new(selected.Title, lastItem.Route, lastItem.HasParameters);
                 model.Breadcrumbs.Remove(lastItem);
                 model.Breadcrumbs.Add(breadcrumb);
             }
@@ -172,7 +172,7 @@ namespace DocumentationPlugin.Controllers
         {
             selected = _documentationService.GetDocuments()
                 .Where(d => d.DocumentType == DocumentType.Class)
-                .ToList().FirstOrDefault(c => HtmlHelper.RouteFriendlyName(c.ClassName) == className);
+                .ToList().Find(c => HtmlHelper.RouteFriendlyName(c.ClassName) == className);
 
             if (selected == null)
                 return null;
@@ -190,7 +190,7 @@ namespace DocumentationPlugin.Controllers
                 data.ReferenceData = GetAllReferences(selected, data, documents);
             }
 
-            DocumentViewTypeViewModel model = new DocumentViewTypeViewModel(GetModelData(),
+            DocumentViewTypeViewModel model = new(GetModelData(),
                 selected.Title, data.ReferenceData);
 
             model.Assembly = HtmlHelper.RouteFriendlyName(selected.AssemblyName);
@@ -230,7 +230,7 @@ namespace DocumentationPlugin.Controllers
 
         private static DocumentViewTypeViewModel BuildConstructorViewModel(DocumentViewTypeViewModel model, Document selected, string name)
         {
-            DocumentMethod constructor = selected.Constructors.FirstOrDefault(f => HtmlHelper.RouteFriendlyName(f.MethodName) == name);
+            DocumentMethod constructor = selected.Constructors.Find(f => HtmlHelper.RouteFriendlyName(f.MethodName) == name);
 
             if (constructor == null)
                 return null;
@@ -260,7 +260,7 @@ namespace DocumentationPlugin.Controllers
 
         private static DocumentViewTypeViewModel BuildMethodViewModel(DocumentViewTypeViewModel model, Document selected, string name)
         {
-            DocumentMethod method = selected.Methods.FirstOrDefault(f => HtmlHelper.RouteFriendlyName(f.MethodName) == name);
+            DocumentMethod method = selected.Methods.Find(f => HtmlHelper.RouteFriendlyName(f.MethodName) == name);
 
             if (method == null)
                 return null;
@@ -290,7 +290,7 @@ namespace DocumentationPlugin.Controllers
 
         private static DocumentViewTypeViewModel BuildPropertyViewModel(DocumentViewTypeViewModel model, Document selected, string name)
         {
-            DocumentProperty property = selected.Properties.FirstOrDefault(f => HtmlHelper.RouteFriendlyName(f.PropertyName) == name);
+            DocumentProperty property = selected.Properties.Find(f => HtmlHelper.RouteFriendlyName(f.PropertyName) == name);
 
             if (property == null)
                 return null;
@@ -318,7 +318,7 @@ namespace DocumentationPlugin.Controllers
 
         private static DocumentViewTypeViewModel BuildFieldViewModel(DocumentViewTypeViewModel model, Document selected, string name)
         {
-            DocumentField field = selected.Fields.FirstOrDefault(f => HtmlHelper.RouteFriendlyName(f.FieldName) == name);
+            DocumentField field = selected.Fields.Find(f => HtmlHelper.RouteFriendlyName(f.FieldName) == name);
 
             if (field == null)
                 return null;
@@ -365,12 +365,12 @@ namespace DocumentationPlugin.Controllers
 
             if (String.IsNullOrEmpty(className))
             {
-                selected = documents.FirstOrDefault(d => HtmlHelper.RouteFriendlyName(d.Title) == documentName);
+                selected = documents.Find(d => HtmlHelper.RouteFriendlyName(d.Title) == documentName);
             }
             else
             {
                 selected = _documentationService.GetDocuments()
-                    .FirstOrDefault(d => HtmlHelper.RouteFriendlyName(d.AssemblyName).Equals(documentName, StringComparison.InvariantCultureIgnoreCase) &&
+                    .Find(d => HtmlHelper.RouteFriendlyName(d.AssemblyName).Equals(documentName, StringComparison.InvariantCultureIgnoreCase) &&
                                 (
                                     HtmlHelper.RouteFriendlyName(d.Title).Equals(className, StringComparison.InvariantCultureIgnoreCase) ||
                                     HtmlHelper.RouteFriendlyName(d.ClassName).Equals(className, StringComparison.InvariantCultureIgnoreCase)
@@ -387,7 +387,7 @@ namespace DocumentationPlugin.Controllers
                 data.ReferenceData = GetAllReferences(selected, data, documents);
             }
 
-            DocumentViewModel model = new DocumentViewModel(GetModelData(),
+            DocumentViewModel model = new(GetModelData(),
                 selected.Title, selected.ShortDescription, selected.LongDescription, data.ReferenceData);
 
             if (selected.DocumentType != DocumentType.Custom && selected.DocumentType != DocumentType.Document)
@@ -443,7 +443,7 @@ namespace DocumentationPlugin.Controllers
 
         private static string GetAllReferences(Document document, DocumentData data, List<Document> documents)
         {
-            StringBuilder allReferences = new StringBuilder("<ul>", 2048);
+            StringBuilder allReferences = new("<ul>", 2048);
 
             foreach (Document doc in documents)
             {

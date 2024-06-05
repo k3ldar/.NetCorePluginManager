@@ -50,7 +50,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (code.Length > 3)
                 throw new ArgumentOutOfRangeException(nameof(code));
 
-            CountryDataRow tableCountries = new CountryDataRow()
+            CountryDataRow tableCountries = new()
             {
                 Name = name,
                 Code = code,
@@ -105,7 +105,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private static List<Country> ConvertTableCountriesToCountries(IReadOnlyList<CountryDataRow> tableCountries)
         {
-            List<Country> Result = new List<Country>();
+            List<Country> Result = new();
 
             foreach (CountryDataRow tableCountry in tableCountries)
             {

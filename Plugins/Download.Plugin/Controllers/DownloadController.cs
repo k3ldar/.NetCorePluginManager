@@ -54,7 +54,7 @@ namespace DownloadPlugin.Controllers
 
         public const string Name = "Download";
 
-        private static readonly CacheManager _downloadCache = new CacheManager("Downloads", new TimeSpan(0, 60, 0));
+        private static readonly CacheManager _downloadCache = new("Downloads", new TimeSpan(0, 60, 0));
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IDownloadProvider _downloadProvider;
         private readonly List<DownloadCategory> _categories;
@@ -94,12 +94,12 @@ namespace DownloadPlugin.Controllers
             if (_categories.Count == 0)
                 return RedirectToAction(nameof(Index));
 
-            DownloadCategory category = _categories.FirstOrDefault(c => c.Id == id);
+            DownloadCategory category = _categories.Find(c => c.Id == id);
 
             if (category == null)
                 return RedirectToAction(nameof(Index));
 
-            List<DownloadableItem> downloads = new List<DownloadableItem>();
+            List<DownloadableItem> downloads = new();
 
             foreach (DownloadItem item in category.Downloads)
             {
@@ -113,14 +113,14 @@ namespace DownloadPlugin.Controllers
                 }
             }
 
-            List<CategoriesModel> categories = new List<CategoriesModel>();
+            List<CategoriesModel> categories = new();
 
             foreach (DownloadCategory item in _categories)
             {
                 categories.Add(new CategoriesModel(item.Id, item.Name));
             }
 
-            DownloadModel model = new DownloadModel(GetModelData(), category.Name, downloads, categories);
+            DownloadModel model = new(GetModelData(), category.Name, downloads, categories);
             model.Breadcrumbs.Add(new BreadcrumbItem(nameof(Languages.LanguageStrings.Download), "/Download/", false));
             model.Breadcrumbs.Add(new BreadcrumbItem(category.Name, $"/Download/{category.Id}/Category/{model.RouteText(category.Name)}", true));
 
@@ -171,7 +171,7 @@ namespace DownloadPlugin.Controllers
                     break;
             }
 
-            Response.Headers.Add("content-disposition", "attachment; filename=" + name);
+            Response.Headers["content-disposition"] = "attachment; filename=" + name;
 
             Response.ContentType = type;
             string file = $"{_hostingEnvironment.ContentRootPath}{download.Filename}";
@@ -204,7 +204,7 @@ namespace DownloadPlugin.Controllers
                 if (!System.IO.File.Exists(file))
                     return false;
 
-                FileInfo fileInfo = new FileInfo(file);
+                FileInfo fileInfo = new(file);
                 fileInformation.Size = Shared.Utilities.FileSize(fileInfo.Length, 2);
 
                 System.Diagnostics.FileVersionInfo versionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(file);

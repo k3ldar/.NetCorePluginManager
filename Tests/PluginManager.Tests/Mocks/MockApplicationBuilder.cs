@@ -42,7 +42,7 @@ namespace PluginManager.Tests.Mocks
     {
         #region Private Members
 
-        private readonly List<Func<RequestDelegate, RequestDelegate>> _middleware = new List<Func<RequestDelegate, RequestDelegate>>();
+        private readonly List<Func<RequestDelegate, RequestDelegate>> _middleware = new();
         private IServiceProvider _serviceProvider;
 
         #endregion Private Members
@@ -129,7 +129,7 @@ namespace PluginManager.Tests.Mocks
         public MvcOptions GetMvcOptions()
         {
             Microsoft.Extensions.Options.ConfigureNamedOptions<MvcOptions> config = (Microsoft.Extensions.Options.ConfigureNamedOptions<MvcOptions>)ApplicationServices.GetService<Microsoft.Extensions.Options.IConfigureOptions<MvcOptions>>();
-            MvcOptions mvcOptions = new MvcOptions();
+            MvcOptions mvcOptions = new();
             config.Action.Invoke(mvcOptions);
 
             return mvcOptions;

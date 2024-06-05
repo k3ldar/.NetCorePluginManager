@@ -87,7 +87,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
         /// <returns>string</returns>
         public override string Data()
         {
-            ChartModel Result = new ChartModel();
+            ChartModel Result = new();
 
             Result.ChartTitle = "Daily Visitor Statistics";
 
@@ -106,7 +106,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
             foreach (SessionDaily day in sessionData)
             {
-                List<Decimal> datavalues = new List<decimal>();
+                List<Decimal> datavalues = new();
                 Result.DataValues[day.Date.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern)] = datavalues;
 
                 datavalues.Add(day.HumanVisits);

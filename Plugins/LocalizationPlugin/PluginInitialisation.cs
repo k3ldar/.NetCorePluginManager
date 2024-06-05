@@ -55,7 +55,7 @@ namespace Localization.Plugin
     {
         #region Internal Static Properties / Members
 
-        internal readonly static CacheManager CultureCacheManager = new CacheManager("Available Cultures", new TimeSpan(24, 0, 0), true, true);
+        internal readonly static CacheManager CultureCacheManager = new("Available Cultures", new TimeSpan(24, 0, 0), true, true);
 
         internal static string[] InstalledCultures { get; private set; }
 
@@ -82,7 +82,7 @@ namespace Localization.Plugin
 
             InstalledCultures = LanguageWrapper.GetInstalledLanguages(environment.ContentRootPath);
 
-            List<CultureInfo> cultures = new List<CultureInfo>();
+            List<CultureInfo> cultures = new();
 
             for (int i = 0; i < InstalledCultures.Length; i++)
                 cultures.Add(new CultureInfo(InstalledCultures[i]));

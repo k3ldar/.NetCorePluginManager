@@ -63,12 +63,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
@@ -96,12 +96,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
@@ -115,7 +115,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(pageItemsTable);
                     Assert.AreEqual(0, pageItemsTable.RecordCount);
 
-                    DynamicContentPage dynamicContentpage = new DynamicContentPage(-10)
+                    DynamicContentPage dynamicContentpage = new(-10)
                     {
                         Name = "New Dynamic Content",
                         RouteName = "home",
@@ -146,12 +146,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
@@ -165,7 +165,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(pageItemsTable);
                     Assert.AreEqual(0, pageItemsTable.RecordCount);
 
-                    DynamicContentPage dynamicContentpage = new DynamicContentPage(sut.CreateCustomPage())
+                    DynamicContentPage dynamicContentpage = new(sut.CreateCustomPage())
                     { 
                         Name = "New Dynamic Content",
                         RouteName = "home",
@@ -196,12 +196,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
@@ -215,7 +215,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(pageItemsTable);
                     Assert.AreEqual(0, pageItemsTable.RecordCount);
 
-                    DynamicContentPage dynamicContentpage = new DynamicContentPage(sut.CreateCustomPage())
+                    DynamicContentPage dynamicContentpage = new(sut.CreateCustomPage())
                     {
                         Name = "New Dynamic Content",
                         RouteName = "home",
@@ -249,12 +249,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
@@ -268,7 +268,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(pageItemsTable);
                     Assert.AreEqual(0, pageItemsTable.RecordCount);
 
-                    DynamicContentPage dynamicContentpage = new DynamicContentPage(sut.CreateCustomPage())
+                    DynamicContentPage dynamicContentpage = new(sut.CreateCustomPage())
                     {
                         Name = "New Dynamic Content",
                         RouteName = "home",
@@ -302,12 +302,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
@@ -321,7 +321,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(pageItemsTable);
                     Assert.AreEqual(0, pageItemsTable.RecordCount);
 
-                    DynamicContentPage dynamicContentpage = new DynamicContentPage(sut.CreateCustomPage())
+                    DynamicContentPage dynamicContentpage = new(sut.CreateCustomPage())
                     {
                         Name = "New Dynamic Content",
                         RouteName = "home",
@@ -355,12 +355,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
@@ -385,12 +385,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
@@ -422,12 +422,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
@@ -443,7 +443,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     _ = sut.CreateCustomPage();
 
-                    DynamicContentPage dynamicContentpage = new DynamicContentPage(sut.CreateCustomPage())
+                    DynamicContentPage dynamicContentpage = new(sut.CreateCustomPage())
                     {
                         Name = "New Dynamic Content",
                         RouteName = "home",
@@ -500,12 +500,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
@@ -522,7 +522,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     for (int i = 0; i < 10; i++)
                     {
                         long id = sut.CreateCustomPage();
-                        DynamicContentPage dynamicContentpage = new DynamicContentPage(id)
+                        DynamicContentPage dynamicContentpage = new(id)
                         {
                             Name = $"New Dynamic Content {id}",
                             RouteName = $"home {id}",
@@ -584,12 +584,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    MockApplicationBuilder mockApplicationBuilder = new(provider);
                     initialisation.AfterConfigure(mockApplicationBuilder);
 
                     DynamicContentProvider sut = (DynamicContentProvider)provider.GetService<IDynamicContentProvider>();
@@ -606,7 +606,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     for (int i = 0; i < 10; i++)
                     {
                         long id = sut.CreateCustomPage();
-                        DynamicContentPage dynamicContentpage = new DynamicContentPage(id)
+                        DynamicContentPage dynamicContentpage = new(id)
                         {
                             Name = $"New Dynamic Content {id}",
                             RouteName = $"home {id}",

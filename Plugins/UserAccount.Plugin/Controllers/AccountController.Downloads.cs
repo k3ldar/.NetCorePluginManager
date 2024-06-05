@@ -48,11 +48,11 @@ namespace UserAccount.Plugin.Controllers
         public IActionResult Downloads(int id)
         {
             List<DownloadCategory> categories = _downloadProvider.DownloadCategoriesGet(UserId());
-            DownloadCategory activeCategory = categories.FirstOrDefault(d => d.Id == id);
+            DownloadCategory activeCategory = categories.Find(d => d.Id == id);
 
             activeCategory ??= categories[0];
 
-            List<ViewDownloadViewItem> downloads = new List<ViewDownloadViewItem>();
+            List<ViewDownloadViewItem> downloads = new();
 
             foreach (DownloadItem item in activeCategory.Downloads)
             {
@@ -61,7 +61,7 @@ namespace UserAccount.Plugin.Controllers
                     item.Version, item.Filename, item.Icon, item.Size));
             }
 
-            DownloadViewModel model = new DownloadViewModel(GetModelData(),
+            DownloadViewModel model = new(GetModelData(),
                 categories, activeCategory.Name, downloads);
 
             model.Breadcrumbs = GetBreadcrumbs();
@@ -93,7 +93,7 @@ namespace UserAccount.Plugin.Controllers
             if (downloadItem == null)
                 return RedirectToAction(nameof(Index));
 
-            ViewDownloadViewItem model = new ViewDownloadViewItem(GetModelData(),
+            ViewDownloadViewItem model = new(GetModelData(),
                 downloadItem.Id, downloadItem.Name, downloadItem.Description, downloadItem.Version,
                 downloadItem.Filename, downloadItem.Icon, downloadItem.Size);
 
@@ -130,7 +130,7 @@ namespace UserAccount.Plugin.Controllers
             string name = Path.GetFileName(path);
             string ext = Path.GetExtension(path) ?? String.Empty;
 
-            Response.Headers.Add("content-disposition", $"attachment; filename={name}");
+            Response.Headers["content-disposition"] = $"attachment; filename={name}";
             return File(new FileStream(path, FileMode.Open), GetContentType(ext));
         }
 

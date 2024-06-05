@@ -52,7 +52,7 @@ namespace PluginManager.Tests
         public void Construct_ValidLoggerQueueItem_Success()
         {
             DateTime createDate = DateTime.Now;
-            LoggerQueueItem sut = new LoggerQueueItem(LogLevel.Error, "some data");
+            LoggerQueueItem sut = new(LogLevel.Error, "some data");
 
             Assert.IsTrue(sut.Date.Ticks >= createDate.Ticks);
             Assert.AreEqual(LogLevel.Error, sut.Level);

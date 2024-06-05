@@ -41,9 +41,9 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void AddTwoIServiceConfiguration_ThrowsInvalidOperationException()
         {
-            using (MockPluginManager pluginManager = new MockPluginManager())
+            using (MockPluginManager pluginManager = new())
             {
-                MockServiceConfigurator serviceConfigurator = new MockServiceConfigurator();
+                MockServiceConfigurator serviceConfigurator = new();
 
                 pluginManager.RegisterServiceConfigurator(serviceConfigurator);
 
@@ -63,7 +63,7 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddNullServiceConfiguration_ThrowsArgumentNullException()
         {
-            using (MockPluginManager pluginManager = new MockPluginManager())
+            using (MockPluginManager pluginManager = new())
             {
                 pluginManager.RegisterServiceConfigurator(null);
             }
@@ -73,9 +73,9 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void ServiceConfigurationIsCalled_AfterServicesHaveBeenConfigured_ThrowsInvalidOperationException()
         {
-            using (MockPluginManager pluginManager = new MockPluginManager())
+            using (MockPluginManager pluginManager = new())
             {
-                MockServiceConfigurator serviceConfigurator = new MockServiceConfigurator();
+                MockServiceConfigurator serviceConfigurator = new();
 
                 pluginManager.RegisterServiceConfigurator(serviceConfigurator);
 

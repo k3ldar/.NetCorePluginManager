@@ -80,7 +80,7 @@ namespace Spider.Plugin.Classes
         {
             get
             {
-                List<string> Result = new List<string>();
+                List<string> Result = new();
 
                 foreach (KeyValuePair<String, List<IRobotRouteData>> kvp in _agents)
                     Result.Add(kvp.Key);
@@ -127,7 +127,7 @@ namespace Spider.Plugin.Classes
         {
             get
             {
-                List<IRobotRouteData> Result = new List<IRobotRouteData>();
+                List<IRobotRouteData> Result = new();
                 _customRoutes.ForEach(cr => Result.Add(cr));
 
                 return Result;
@@ -140,7 +140,7 @@ namespace Spider.Plugin.Classes
 
         public List<string> GetRoutes(string agent)
         {
-            List<string> Result = new List<string>();
+            List<string> Result = new();
 
             foreach (IRobotRouteData agentData in _agents[agent])
             {
@@ -205,7 +205,7 @@ namespace Spider.Plugin.Classes
             if (!Agents.Contains(agent))
                 throw new ArgumentException("Agent not registered", nameof(agent));
 
-            RobotRouteData customRoute = _customRoutes.FirstOrDefault(r => r.Agent.Equals(agent) && r.Route.Equals(route));
+            RobotRouteData customRoute = _customRoutes.Find(r => r.Agent.Equals(agent) && r.Route.Equals(route));
 
             if (customRoute == null)
                 return false;
@@ -294,7 +294,7 @@ namespace Spider.Plugin.Classes
             IRouteDataService routeDataService,
             List<Type> spiderAttributes)
         {
-            Dictionary<string, List<IRobotRouteData>> Result = new Dictionary<string, List<IRobotRouteData>>();
+            Dictionary<string, List<IRobotRouteData>> Result = new();
 
             // Cycle through all classes and methods which have the spider attribute
             foreach (Type type in spiderAttributes)

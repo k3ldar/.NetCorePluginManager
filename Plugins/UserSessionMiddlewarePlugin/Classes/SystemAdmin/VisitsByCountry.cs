@@ -66,15 +66,15 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
         public override string Data()
         {
-            StringBuilder Result = new StringBuilder("Country|Total Visitors|Is Bot\r");
+            StringBuilder Result = new("Country|Total Visitors|Is Bot\r");
             List<UserSession> sessions = UserSessionManager.Clone;
-            List<SessionStatistics> statistics = new List<SessionStatistics>();
+            List<SessionStatistics> statistics = new();
 
 
             foreach (UserSession session in sessions)
             {
                 string countryCode = String.IsNullOrEmpty(session.CountryCode) ? "ZZ" : session.CountryCode;
-                SessionStatistics stats = statistics.FirstOrDefault(s => s.IsBot == session.IsBot && s.CountryCode.Equals(countryCode));
+                SessionStatistics stats = statistics.Find(s => s.IsBot == session.IsBot && s.CountryCode.Equals(countryCode));
 
                 if (stats == null)
                 {

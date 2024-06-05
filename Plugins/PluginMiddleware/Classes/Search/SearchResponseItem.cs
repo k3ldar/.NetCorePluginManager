@@ -174,7 +174,7 @@ namespace Middleware.Search
             if (_highlighted || Offset == -1)
                 return;
 
-            StringBuilder Result = new StringBuilder(Response, Response.Length + 20);
+            StringBuilder Result = new(Response, Response.Length + 20);
 
             Result.Insert(keywordLength + Offset, "</strong>");
             Result.Insert(Offset, "<strong>");

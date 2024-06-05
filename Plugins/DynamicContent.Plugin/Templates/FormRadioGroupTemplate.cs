@@ -140,7 +140,7 @@ namespace DynamicContent.Plugin.Templates
 
         private string GenerateContent(bool isEditing)
         {
-            StringBuilder Result = new StringBuilder(512);
+            StringBuilder Result = new(512);
 
             HtmlStart(Result, isEditing);
 
@@ -151,7 +151,7 @@ namespace DynamicContent.Plugin.Templates
 
             Result.Append('>');
 
-            FormTemplateEditorModel formModel = new FormTemplateEditorModel(Data, true);
+            FormTemplateEditorModel formModel = new(Data, true);
             string lblStyle = String.IsNullOrEmpty(formModel.LabelStyle) ? "" : $" style=\"{formModel.LabelStyle}\"";
 
             string disabled = isEditing ? " disabled" : "";

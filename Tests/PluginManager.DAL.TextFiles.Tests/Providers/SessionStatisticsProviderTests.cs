@@ -60,14 +60,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			{
 				ThreadManager.Initialise();
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
-				MockGeoIpProvider geoIp = new MockGeoIpProvider();
+				MockGeoIpProvider geoIp = new();
 				services.AddSingleton<IGeoIpProvider>(geoIp);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+					MockApplicationBuilder mockApplicationBuilder = new(provider);
 					initialisation.AfterConfigure(mockApplicationBuilder);
 
 					UserSessionService userSessionService = provider.GetRequiredService<IUserSessionService>() as UserSessionService;
@@ -105,12 +105,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.IsNotNull(yearlyStats);
 					Assert.AreEqual(0, yearlyStats.RecordCount);
 
-					DateTime newSessionData = new DateTime(2000, 2, 12, 5, 23, 0, DateTimeKind.Utc);
+					DateTime newSessionData = new(2000, 2, 12, 5, 23, 0, DateTimeKind.Utc);
 					int month = 0;
 
 					for (int k = 0; k < 100; k++)
 					{
-						UserSession userSession = new UserSession(-1, newSessionData.AddMonths(month).AddMinutes(k * 10), $"SN123P1{k}", $"The agent {month}", $"referrer site {month}", $"10.2.3.{k}",
+						UserSession userSession = new(-1, newSessionData.AddMonths(month).AddMinutes(k * 10), $"SN123P1{k}", $"The agent {month}", $"referrer site {month}", $"10.2.3.{k}",
 							"the host", true, true, false, ReferalType.Google, false, false, "Samsung", "Galaxy S7", 0, 1, 1, "GBP", 0);
 
 						for (int j = 0; j < 100; j++)

@@ -56,7 +56,7 @@ namespace AspNetCore.PluginManager
         private static ILogger _logger;
         private static NetCorePluginSettings _pluginSettings;
         private static string _rootPath;
-        private static List<Type> _preinitialisedPlugins = new List<Type>();
+        private static List<Type> _preinitialisedPlugins = new();
         private static PluginManagerConfiguration _configuration;
 
         #endregion Private Members
@@ -339,7 +339,7 @@ namespace AspNetCore.PluginManager
         private static bool GetSpecificVersion(string[] searchFiles, in string version, ref string pluginFile)
         {
             // get list of all version info
-            List<FileInfo> fileVersions = new List<FileInfo>();
+            List<FileInfo> fileVersions = new();
 
             foreach (string file in searchFiles)
                 fileVersions.Add(new FileInfo(file));
@@ -379,7 +379,7 @@ namespace AspNetCore.PluginManager
 
         private static string AddTrailingBackSlash(in string path)
         {
-            if (path.EndsWith("\\"))
+            if (path.EndsWith('\\'))
                 return path;
 
             return $"{path}\\";

@@ -184,8 +184,8 @@ namespace PluginManager.DAL.TextFiles.Tables
             }
         }
 
-        public DateTime StartDate => new DateTime(_startDateTicks, DateTimeKind.Utc);
+        public DateTime StartDate => new(_startDateTicks, DateTimeKind.Utc);
 
-        public DateTime ExpireDate => new DateTime(_expireDateTicks, DateTimeKind.Utc);
+        public DateTime ExpireDate => new(_expireDateTicks, DateTimeKind.Utc);
     }
 }

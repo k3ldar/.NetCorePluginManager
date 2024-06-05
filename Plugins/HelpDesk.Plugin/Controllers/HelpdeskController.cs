@@ -57,7 +57,7 @@ namespace HelpdeskPlugin.Controllers
 
         #region Private Members
 
-        private static readonly CacheManager _helpdeskCache = new CacheManager("Helpdesk Cache", new TimeSpan(0, 30, 0));
+        private static readonly CacheManager _helpdeskCache = new("Helpdesk Cache", new TimeSpan(0, 30, 0));
         private readonly IHelpdeskProvider _helpdeskProvider;
         private readonly HelpdeskSettings _settings;
 
@@ -82,7 +82,7 @@ namespace HelpdeskPlugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.Helpdesk))]
         public IActionResult Index()
         {
-            IndexViewModel model = new IndexViewModel(GetModelData(),
+            IndexViewModel model = new(GetModelData(),
                 _settings.ShowTickets, _settings.ShowFaq, _settings.ShowFeedback, GrowlGet());
 
             return View(model);
@@ -97,11 +97,11 @@ namespace HelpdeskPlugin.Controllers
             if (loginCacheItem == null)
                 return StatusCode(Constants.HtmlResponseBadRequest);
 
-            CaptchaImage ci = new CaptchaImage(loginCacheItem.CaptchaText, 240, 60, "Century Schoolbook");
+            CaptchaImage ci = new(loginCacheItem.CaptchaText, 240, 60, "Century Schoolbook");
             try
             {
                 // Write the image to the response stream in JPEG format.
-                using (MemoryStream ms = new MemoryStream())
+                using (MemoryStream ms = new())
                 {
                     ci.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
 

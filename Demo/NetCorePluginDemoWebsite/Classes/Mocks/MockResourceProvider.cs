@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using Middleware;
@@ -32,12 +33,13 @@ using Middleware.Resources;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 {
+	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
 	public class MockResourceProvider : IResourceProvider
 	{
 		private long _nextId = 1;
 		private List<ResourceCategory> _resources;
-		private readonly List<ResourceItem> _items = new List<ResourceItem>();
-		private readonly Dictionary<long, List<long>> _bookmarks = new Dictionary<long, List<long>>();
+		private readonly List<ResourceItem> _items = new();
+		private readonly Dictionary<long, List<long>> _bookmarks = new();
 
 		public List<ResourceCategory> GetAllResources()
 		{
@@ -45,22 +47,22 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			{
 				_resources = new List<ResourceCategory>()
 				{
-					new ResourceCategory(_nextId++, 0, "Resource 1", "Resource desc 1", "black", "rgba(0,0,0,.03)", "/Images/Download/download.jpg", "resource-1", true),
-					new ResourceCategory(_nextId++, 0, "Resource 2", "Resource desc 2", "white", "red", null, "resource-2", true),
-					new ResourceCategory(_nextId++, 0, "Resource 3", "Resource desc 2", "white", "black", null, "resource-3", true),
-					new ResourceCategory(_nextId++, 0, "Resource 4", "Resource desc 2", "black", "grey", null, "resource-4", true),
-					new ResourceCategory(_nextId++, 0, "Resource 5", "Resource desc 2", "white", "blue", null, "resource-5", true),
-					new ResourceCategory(_nextId++, 0, "Resource 6 (Hidden)", "The hidden resource", "white", "blue", null, "resource-5", false),
-					new ResourceCategory(_nextId++, 2, "Resource 2 Child 1", "Resource desc 2 (1)", "black", "white", null, "resource-2-child-1", true),
-					new ResourceCategory(_nextId++, 2, "Resource 2 Child 2", "Resource desc 2 (2)", "black", "white", null, "resource-2-child-2", true),
-					new ResourceCategory(_nextId++, 2, "Resource 2 Child 3", "Resource desc 2 (3)", "black", "white", null, "resource-2-child-3", true),
+					new(_nextId++, 0, "Resource 1", "Resource desc 1", "black", "rgba(0,0,0,.03)", "/Images/Download/download.jpg", "resource-1", true),
+					new(_nextId++, 0, "Resource 2", "Resource desc 2", "white", "red", null, "resource-2", true),
+					new(_nextId++, 0, "Resource 3", "Resource desc 2", "white", "black", null, "resource-3", true),
+					new(_nextId++, 0, "Resource 4", "Resource desc 2", "black", "grey", null, "resource-4", true),
+					new(_nextId++, 0, "Resource 5", "Resource desc 2", "white", "blue", null, "resource-5", true),
+					new(_nextId++, 0, "Resource 6 (Hidden)", "The hidden resource", "white", "blue", null, "resource-5", false),
+					new(_nextId++, 2, "Resource 2 Child 1", "Resource desc 2 (1)", "black", "white", null, "resource-2-child-1", true),
+					new(_nextId++, 2, "Resource 2 Child 2", "Resource desc 2 (2)", "black", "white", null, "resource-2-child-2", true),
+					new(_nextId++, 2, "Resource 2 Child 3", "Resource desc 2 (3)", "black", "white", null, "resource-2-child-3", true),
 				};
 
 				foreach (ResourceCategory category in _resources)
 				{
 					for (int i = 0; i < 10; i++)
 					{
-						ResourceItem item = new ResourceItem()
+						ResourceItem item = new()
 						{
 							Id = (category.Id * 100) + i,
 							CategoryId = category.Id,
@@ -114,7 +116,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			if (_resources == null)
 				GetAllResources();
 
-			return _resources.FirstOrDefault(r => r.Id.Equals(categoryId));
+			return _resources.Find(r => r.Id.Equals(categoryId));
 		}
 
 		public List<ResourceCategory> RetrieveAllCategories()
@@ -131,12 +133,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			if (_resources == null)
 				GetAllResources();
 
-			return _items.FirstOrDefault(i => i.Id.Equals(id));
+			return _items.Find(i => i.Id.Equals(id));
 		}
 
 		public ResourceItem IncrementResourceItemResponse(long id, long userId, bool like)
 		{
-			ResourceItem item = _items.FirstOrDefault(i => i.Id.Equals(id));
+			ResourceItem item = _items.Find(i => i.Id.Equals(id));
 
 			if (item == null)
 				return null;
@@ -151,7 +153,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
 		public void IncrementViewCount(long resourceId)
 		{
-			ResourceItem item = _items.FirstOrDefault(i => i.Id.Equals(resourceId));
+			ResourceItem item = _items.Find(i => i.Id.Equals(resourceId));
 
 			if (item == null)
 				return;
@@ -164,7 +166,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			if (string.IsNullOrEmpty(name))
 				throw new ArgumentNullException(nameof(name));
 
-			ResourceCategory newResourceCategory = new ResourceCategory(_nextId++, parent, name, description, null, null, null, name, isVisible);
+			ResourceCategory newResourceCategory = new(_nextId++, parent, name, description, null, null, null, name, isVisible);
 			_resources.Add(newResourceCategory);
 
 			return newResourceCategory;
@@ -196,12 +198,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			if (tags == null)
 				throw new ArgumentNullException(nameof(tags));
 
-			ResourceCategory resourceCategory = _resources.FirstOrDefault(x => x.Id == categoryId);
+			ResourceCategory resourceCategory = _resources.Find(x => x.Id == categoryId);
 
 			if (resourceCategory == null)
 				throw new InvalidOperationException();
 
-			ResourceItem Result = new ResourceItem(_nextId++, categoryId, resourceType, userId, 
+			ResourceItem Result = new(_nextId++, categoryId, resourceType, userId, 
 				userName, name, description, value, 0, 0, 0, false, tags);
 			resourceCategory.ResourceItems.Add(Result);
 			_items.Add(Result);
@@ -222,7 +224,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			if (resourceItem == null) throw
 				new ArgumentNullException(nameof(resourceItem));
 
-			_items.Remove(_items.FirstOrDefault(i => i.Id.Equals(resourceItem.Id)));
+			_items.Remove(_items.Find(i => i.Id.Equals(resourceItem.Id)));
 			_items.Add(resourceItem);
 
 			return resourceItem;
@@ -257,7 +259,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 		{
 			if (_bookmarks.ContainsKey(userId))
 			{
-				return _items.Where(r => _bookmarks[userId].Any(bm => bm.Equals(r.Id))).ToList();
+				return _items.Where(r => _bookmarks[userId].Exists(bm => bm.Equals(r.Id))).ToList();
 			}
 
 			return new List<ResourceItem>();

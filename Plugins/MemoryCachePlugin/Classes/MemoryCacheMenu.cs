@@ -68,7 +68,7 @@ namespace MemoryCache.Plugin.Classes
         /// <returns>string</returns>
         public override string Data()
         {
-            StringBuilder Result = new StringBuilder("Name|Age|Item Count\r");
+            StringBuilder Result = new("Name|Age|Item Count\r");
 
             for (int i = 0; i < CacheManager.GetCount(); i++)
             {

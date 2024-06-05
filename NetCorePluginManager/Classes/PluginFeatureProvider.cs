@@ -27,9 +27,10 @@
 
 #pragma warning disable CS0618
 
+#if NET_CORE_2_2 || NET_CORE_2_1 || NET_CORE_2_0 || NET461
+
 namespace AspNetCore.PluginManager
 {
-#if NET_CORE_2_2 || NET_CORE_2_1 || NET_CORE_2_0 || NET461
 
     internal class PluginFeatureProvider : IApplicationFeatureProvider<MetadataReferenceFeature>
     {
@@ -105,7 +106,7 @@ namespace AspNetCore.PluginManager
             }
         }
     }
-#endif
 }
+#endif
 
 #pragma warning restore CS0618

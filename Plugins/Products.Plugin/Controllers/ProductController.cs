@@ -114,7 +114,7 @@ namespace ProductPlugin.Controllers
             ProductGroup group = null;
 
             if (id.HasValue)
-                group = _productProvider.ProductGroupsGet().FirstOrDefault(pg => pg.Id == id.Value);
+                group = _productProvider.ProductGroupsGet().Find(pg => pg.Id == id.Value);
 
             if (group == null)
                 group = _productProvider.ProductGroupsGet().FirstOrDefault();

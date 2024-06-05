@@ -100,8 +100,8 @@ namespace PluginManager.DAL.TextFiles
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<TicketMessageDataRow>>();
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<TicketPrioritiesDataRow>>();
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<TicketStatusDataRow>>();
-			_ = app.ApplicationServices.GetService<ISimpleDBOperations<FAQDataRow>>();
-			_ = app.ApplicationServices.GetService<ISimpleDBOperations<FAQItemDataRow>>();
+			_ = app.ApplicationServices.GetService<ISimpleDBOperations<FaqDataRow>>();
+			_ = app.ApplicationServices.GetService<ISimpleDBOperations<FaqItemDataRow>>();
 
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<InvoiceDataRow>>();
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<InvoiceItemDataRow>>();
@@ -184,8 +184,8 @@ namespace PluginManager.DAL.TextFiles
 			services.AddSingleton(typeof(TableRowDefinition), typeof(TicketMessageDataRow));
 			services.AddSingleton(typeof(TableRowDefinition), typeof(TicketPrioritiesDataRow));
 			services.AddSingleton(typeof(TableRowDefinition), typeof(TicketStatusDataRow));
-			services.AddSingleton(typeof(TableRowDefinition), typeof(FAQDataRow));
-			services.AddSingleton(typeof(TableRowDefinition), typeof(FAQItemDataRow));
+			services.AddSingleton(typeof(TableRowDefinition), typeof(FaqDataRow));
+			services.AddSingleton(typeof(TableRowDefinition), typeof(FaqItemDataRow));
 
 			services.AddSingleton(typeof(TableRowDefinition), typeof(InvoiceDataRow));
 			services.AddSingleton(typeof(TableRowDefinition), typeof(InvoiceItemDataRow));

@@ -49,7 +49,7 @@ namespace SystemAdmin.Plugin.Controllers
                 return new StatusCodeResult(Constants.HtmlResponseBadRequest);
 
             string seoRoute = System.Net.WebUtility.UrlDecode(routeName);
-            SeoDataModel model = new SeoDataModel(seoRoute);
+            SeoDataModel model = new(seoRoute);
 
             if (_seoProvider.GetSeoDataForRoute(seoRoute, out string title, out string metaDescription,
                 out string author, out List<string> keywords))

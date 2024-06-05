@@ -53,7 +53,7 @@ namespace ShoppingCartPlugin
         private readonly RequestDelegate _next;
         private readonly IShoppingCartService _shoppingCartService;
         private readonly CartSettings _cartSettings;
-        internal readonly static Timings _timings = new Timings();
+        internal readonly static Timings _timings = new();
 
         #endregion Private Members
 

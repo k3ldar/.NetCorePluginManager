@@ -83,7 +83,7 @@ namespace SearchPlugin.Classes.Search
         /// <returns>List&lt;string&gt;</returns>
         public List<string> SearchResponseTypes(in Boolean quickSearch)
         {
-            List<string> Result = new List<string>();
+            List<string> Result = new();
 
             foreach (ISearchKeywordProvider provider in _searchProviders)
             {
@@ -105,7 +105,7 @@ namespace SearchPlugin.Classes.Search
         /// <returns>Dictionary&lt;string, AdvancedSearchOptions&gt;</returns>
         public Dictionary<string, AdvancedSearchOptions> AdvancedSearch()
         {
-            Dictionary<string, AdvancedSearchOptions> Result = new Dictionary<string, AdvancedSearchOptions>();
+            Dictionary<string, AdvancedSearchOptions> Result = new();
 
             foreach (ISearchKeywordProvider provider in _searchProviders)
             {

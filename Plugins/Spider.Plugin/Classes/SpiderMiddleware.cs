@@ -61,8 +61,8 @@ namespace Spider.Plugin
         private readonly ILogger _logger;
         private readonly IRobots _robots;
 
-        internal readonly static Timings _timings = new Timings();
-        internal readonly static Timings _botTrapTimings = new Timings();
+        internal readonly static Timings _timings = new();
+        internal readonly static Timings _botTrapTimings = new();
 
         #endregion Private Members
 
@@ -152,9 +152,9 @@ namespace Spider.Plugin
                     context.Response.StatusCode = Constants.HtmlResponseSuccess;
 
                     // append sitemaps if there are any
-                    object notificationResult = new object();
+                    object notificationResult = new();
 
-                    StringBuilder stringBuilder = new StringBuilder(LoadSpiderData());
+                    StringBuilder stringBuilder = new(LoadSpiderData());
 
                     if (_notificationService.RaiseEvent(Constants.NotificationSitemapNames, context, null, ref notificationResult))
                     {
@@ -223,7 +223,7 @@ namespace Spider.Plugin
 
         private string LoadSpiderData()
         {
-            StringBuilder spiderTextFile = new StringBuilder();
+            StringBuilder spiderTextFile = new();
 
             if (_robots.Agents.Count == 0)
             {

@@ -71,7 +71,7 @@ namespace SharedPluginFeatures
         private string _familyName;
 
         // For generating random numbers.
-        private readonly Random _random = new Random(DateTime.Now.Millisecond);
+        private readonly Random _random = new(DateTime.Now.Millisecond);
 
         #endregion Private Members
 
@@ -167,7 +167,7 @@ namespace SharedPluginFeatures
             // If the named font is not installed, default to a system font.
             try
             {
-                using (Font font = new Font(familyName, 12F))
+                using (Font font = new(familyName, 12F))
                 {
                     _familyName = familyName;
                 }
@@ -181,16 +181,16 @@ namespace SharedPluginFeatures
         private void GenerateImage()
         {
             // Create a new 32-bit bitmap image.
-            Bitmap bitmap = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
+            Bitmap bitmap = new(Width, Height, PixelFormat.Format32bppArgb);
 
             // Create a graphics object for drawing.
             using (Graphics g = Graphics.FromImage(bitmap))
             {
                 g.SmoothingMode = SmoothingMode.AntiAlias;
-                Rectangle rect = new Rectangle(0, 0, Width, Height);
+                Rectangle rect = new(0, 0, Width, Height);
 
                 // Fill in the background.
-                HatchBrush hatchBrush = new HatchBrush(HatchStyle.SmallConfetti, Color.LightGray, Color.White);
+                HatchBrush hatchBrush = new(HatchStyle.SmallConfetti, Color.LightGray, Color.White);
                 try
                 {
                     g.FillRectangle(hatchBrush, rect);
@@ -214,31 +214,31 @@ namespace SharedPluginFeatures
                         } while (size.Width > rect.Width);
 
                         // Set up the text format.
-                        using (StringFormat format = new StringFormat())
+                        using (StringFormat format = new())
                         {
                             format.Alignment = StringAlignment.Center;
                             format.LineAlignment = StringAlignment.Center;
                             // Create a path using the text and warp it randomly.
-                            using (GraphicsPath path = new GraphicsPath())
+                            using (GraphicsPath path = new())
                             {
                                 path.AddString(Text, font.FontFamily, (int)font.Style, font.Size, rect, format);
                                 float v = 4F;
                                 PointF[] points =
                                 {
-                                    new PointF(_random.Next(rect.Width) / v, _random.Next(rect.Height) / v),
-                                    new PointF(rect.Width - (_random.Next(rect.Width) / v), _random.Next(rect.Height) / v),
-                                    new PointF(_random.Next(rect.Width) / v, rect.Height - (_random.Next(rect.Height) / v)),
-                                    new PointF(rect.Width - (_random.Next(rect.Width) / v), rect.Height - (_random.Next(rect.Height) / v))
+                                    new(_random.Next(rect.Width) / v, _random.Next(rect.Height) / v),
+                                    new(rect.Width - (_random.Next(rect.Width) / v), _random.Next(rect.Height) / v),
+                                    new(_random.Next(rect.Width) / v, rect.Height - (_random.Next(rect.Height) / v)),
+                                    new(rect.Width - (_random.Next(rect.Width) / v), rect.Height - (_random.Next(rect.Height) / v))
                                 };
 
-                                using (Matrix matrix = new Matrix())
+                                using (Matrix matrix = new())
                                 {
                                     matrix.Translate(0F, 0F);
                                     path.Warp(points, rect, matrix, WarpMode.Perspective, 0F);
                                 }
 
                                 // Draw the text.
-                                using (HatchBrush hatchBrushText = new HatchBrush(HatchStyle.LargeConfetti, Color.LightGray, Color.DarkGray))
+                                using (HatchBrush hatchBrushText = new(HatchStyle.LargeConfetti, Color.LightGray, Color.DarkGray))
                                 {
                                     g.FillPath(hatchBrushText, path);
                                 }

@@ -67,14 +67,14 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public long CreateCustomPage()
         {
-            ContentPageDataRow newPage = new ContentPageDataRow();
+            ContentPageDataRow newPage = new();
             _pageData.Insert(newPage);
             return newPage.Id;
         }
 
         public List<LookupListItem> GetCustomPageList()
         {
-            List<LookupListItem> Result = new List<LookupListItem>();
+            List<LookupListItem> Result = new();
 
             IReadOnlyList<ContentPageDataRow> pages = _pageData.Select();
 
@@ -88,7 +88,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<IDynamicContentPage> GetCustomPages()
         {
-            List<IDynamicContentPage> Result = new List<IDynamicContentPage>();
+            List<IDynamicContentPage> Result = new();
 
             IReadOnlyList<ContentPageDataRow> pages = _pageData.Select();
 
@@ -141,7 +141,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             foreach (DynamicContentTemplate item in dynamicContentPage.Content)
             {
-                ContentPageItemDataRow contentPageItem = new ContentPageItemDataRow()
+                ContentPageItemDataRow contentPageItem = new()
                 {
                     UniqueId = item.UniqueId,
                     AssemblyQualifiedName = item.AssemblyQualifiedName,
@@ -188,7 +188,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private IDynamicContentPage InternalGetCustomPage(ContentPageDataRow pageData)
         { 
-            DynamicContentPage Result = new DynamicContentPage()
+            DynamicContentPage Result = new()
             {
                 Id = pageData.Id,
                 ActiveFrom = new DateTime(pageData.ActiveFromTicks, DateTimeKind.Utc),

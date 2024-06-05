@@ -66,9 +66,9 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
         public override string Data()
         {
-            StringBuilder Result = new StringBuilder("Country|Total Sales|Value\r");
+            StringBuilder Result = new("Country|Total Sales|Value\r");
             List<UserSession> sessions = UserSessionManager.Clone;
-            List<SessionStatistics> statistics = new List<SessionStatistics>();
+            List<SessionStatistics> statistics = new();
 
 
             foreach (UserSession session in sessions)
@@ -77,7 +77,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                     continue;
 
                 string countryCode = String.IsNullOrEmpty(session.CountryCode) ? "ZZ" : session.CountryCode;
-                SessionStatistics stats = statistics.FirstOrDefault(s => s.IsBot == session.IsBot && s.CountryCode.Equals(countryCode));
+                SessionStatistics stats = statistics.Find(s => s.IsBot == session.IsBot && s.CountryCode.Equals(countryCode));
 
                 if (stats == null)
                 {

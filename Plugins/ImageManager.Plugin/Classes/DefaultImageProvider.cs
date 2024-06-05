@@ -52,7 +52,7 @@ namespace ImageManager.Plugin.Classes
 
         private const string TempPathName = "Temp";
         private readonly string _rootPath;
-        private static readonly CacheManager _imageProviderCache = new CacheManager(nameof(DefaultImageProvider), new TimeSpan(12, 0, 0), false, true);
+        private static readonly CacheManager _imageProviderCache = new(nameof(DefaultImageProvider), new TimeSpan(12, 0, 0), false, true);
 
         #endregion Private Members
 
@@ -96,11 +96,11 @@ namespace ImageManager.Plugin.Classes
 
             if (groupsCache == null)
             {
-                Dictionary<string, List<string>> Result = new Dictionary<string, List<string>>();
+                Dictionary<string, List<string>> Result = new();
 
                 foreach (string group in Directory.GetDirectories(_rootPath, Constants.Asterix.ToString(), SearchOption.TopDirectoryOnly))
                 {
-                    List<string> subGroups = new List<string>();
+                    List<string> subGroups = new();
 
                     foreach (string subGroup in Directory.GetDirectories(group, Constants.Asterix.ToString(), SearchOption.TopDirectoryOnly))
                     {
@@ -138,13 +138,13 @@ namespace ImageManager.Plugin.Classes
 
             if (imageCache == null)
             {
-                List<ImageFile> Result = new List<ImageFile>();
+                List<ImageFile> Result = new();
 
                 foreach (string file in Directory.GetFiles(groupPath, "*", SearchOption.TopDirectoryOnly))
                 {
                     string uriFile = file.Substring(_rootPath.Length + 1).Replace("\\", "/");
 
-                    Uri uri = new Uri($"/images/{uriFile}", UriKind.RelativeOrAbsolute);
+                    Uri uri = new($"/images/{uriFile}", UriKind.RelativeOrAbsolute);
                     Result.Add(new ImageFile(uri, file));
                 }
 
@@ -180,13 +180,13 @@ namespace ImageManager.Plugin.Classes
 
             if (imageCache == null)
             {
-                List<ImageFile> Result = new List<ImageFile>();
+                List<ImageFile> Result = new();
 
                 foreach (string file in Directory.GetFiles(groupPath, "*", SearchOption.TopDirectoryOnly))
                 {
                     string uriFile = file.Substring(_rootPath.Length + 1).Replace("\\", "/");
 
-                    Uri uri = new Uri($"/images/{uriFile}", UriKind.RelativeOrAbsolute);
+                    Uri uri = new($"/images/{uriFile}", UriKind.RelativeOrAbsolute);
                     Result.Add(new ImageFile(uri, file));
                 }
 

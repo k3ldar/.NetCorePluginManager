@@ -50,8 +50,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         {
             return new List<ProductGroup>()
             {
-                new ProductGroup(1, "Main Products", true, 1, "Checkout our main products", String.Empty),
-                new ProductGroup(2, "Other Products", true, 2, "Checkout our other products", String.Empty)
+                new(1, "Main Products", true, 1, "Checkout our main products", String.Empty),
+                new(2, "Other Products", true, 2, "Checkout our other products", String.Empty)
             };
         }
 
@@ -80,26 +80,26 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
             List<Product> products = new List<Product>()
             {
-                new Product(1, 1, "Product A & - &", "This is product a", "1 year guarantee", "", new string[] { "ProdA_1" }, 0, "ProdA", false, false, true),
-                new Product(2, 1, "Product B", "This is product b", "1 year guarantee", "", new string[] { "ProdB_1" }, 0, "ProdB", true, false, true),
-                new Product(3, 1, "Product C", "This is product c", "1 year guarantee", "E7Voso411Vs", new string[] { "ProdC_1" }, 1.99m, "ProdC", true, true, false, true, true),
-                new Product(4, 2, "Product D", "This is product d", "1 year guarantee", "", new string[] { "ProdD_1" }, 22.99m, "ProdD", false, true, true, true, true),
-                new Product(5, 2, "Product E", "This is product e", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdE_1" }, 0, "ProdE", false, false, true),
+                new(1, 1, "Product A & - &", "This is product a", "1 year guarantee", "", new string[] { "ProdA_1" }, 0, "ProdA", false, false, true),
+                new(2, 1, "Product B", "This is product b", "1 year guarantee", "", new string[] { "ProdB_1" }, 0, "ProdB", true, false, true),
+                new(3, 1, "Product C", "This is product c", "1 year guarantee", "E7Voso411Vs", new string[] { "ProdC_1" }, 1.99m, "ProdC", true, true, false, true, true),
+                new(4, 2, "Product D", "This is product d", "1 year guarantee", "", new string[] { "ProdD_1" }, 22.99m, "ProdD", false, true, true, true, true),
+                new(5, 2, "Product E", "This is product e", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdE_1" }, 0, "ProdE", false, false, true),
 
 
-                new Product(6, 2, "Product F", "This is product f", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdF_1" }, 0, "ProdF", false, false, true, true, true),
-                new Product(7, 2, "Product G", "This is product g", "1 year guarantee", "", new string[] { "ProdG_1" }, 15.95m, "ProdG", false, false, true, false, true),
-                new Product(8, 2, "Product H", "This is product h", "1 year guarantee", "", new string[] { "ProdH_1" }, 1.99m, "ProdH", false, false, false, true, true),
-                new Product(9, 2, "Product I", "This is product i", "1 year guarantee", "", new string[] { "ProdI_1" }, 0, "ProdI", false, false, false, true, true),
+                new(6, 2, "Product F", "This is product f", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdF_1" }, 0, "ProdF", false, false, true, true, true),
+                new(7, 2, "Product G", "This is product g", "1 year guarantee", "", new string[] { "ProdG_1" }, 15.95m, "ProdG", false, false, true, false, true),
+                new(8, 2, "Product H", "This is product h", "1 year guarantee", "", new string[] { "ProdH_1" }, 1.99m, "ProdH", false, false, false, true, true),
+                new(9, 2, "Product I", "This is product i", "1 year guarantee", "", new string[] { "ProdI_1" }, 0, "ProdI", false, false, false, true, true),
 
-				new Product(10, 1, "Product Hidden", "This is product Hidden", "1 year guarantee", "", new string[] { "ProdI_1" }, 0, "ProdI", false, false, false, true, false)
+				new(10, 1, "Product Hidden", "This is product Hidden", "1 year guarantee", "", new string[] { "ProdI_1" }, 0, "ProdI", false, false, false, true, false)
 			}
 			.Where(p => p.IsVisible)
 			.ToList();
 
             products[0].SetCurrentStockLevel(5);
 
-            List<Product> Result = new List<Product>();
+            List<Product> Result = new();
 
             int start = (page * pageSize) - pageSize;
             int end = (start + pageSize);

@@ -44,7 +44,7 @@ namespace PluginManager.DAL.TextFiles.Tests
         [TestCategory(GeneralTestsCategory)]
         public void ExtendsIPluginAndIInitialiseEvents()
         {
-            PluginInitialisation sut = new PluginInitialisation();
+            PluginInitialisation sut = new();
 
             Assert.IsInstanceOfType(sut, typeof(IPlugin));
             Assert.IsInstanceOfType(sut, typeof(IInitialiseEvents));
@@ -54,7 +54,7 @@ namespace PluginManager.DAL.TextFiles.Tests
         [TestCategory(GeneralTestsCategory)]
         public void GetVersion_ReturnsCurrentVersion_Success()
         {
-            PluginInitialisation sut = new PluginInitialisation();
+            PluginInitialisation sut = new();
 
             Assert.AreEqual((ushort)1, sut.GetVersion());
         }
@@ -63,8 +63,8 @@ namespace PluginManager.DAL.TextFiles.Tests
         [TestCategory(GeneralTestsCategory)]
         public void Initialize_DoesNotAddItemsToLogger()
         {
-            PluginInitialisation sut = new PluginInitialisation();
-            MockLogger testLogger = new MockLogger();
+            PluginInitialisation sut = new();
+            MockLogger testLogger = new();
             sut.Initialise(testLogger);
 
             Assert.AreEqual(0, testLogger.Logs.Count);
@@ -74,8 +74,8 @@ namespace PluginManager.DAL.TextFiles.Tests
         [TestCategory(GeneralTestsCategory)]
         public void Configure_DoesNotConfigurePipeline_Success()
         {
-            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation();
+            MockApplicationBuilder testApplicationBuilder = new();
+            PluginInitialisation sut = new();
 
             sut.Configure(testApplicationBuilder);
 
@@ -86,8 +86,8 @@ namespace PluginManager.DAL.TextFiles.Tests
         [TestCategory(GeneralTestsCategory)]
         public void BeforeConfigure_DoesNotRegisterApplicationServices()
         {
-            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation();
+            MockApplicationBuilder testApplicationBuilder = new();
+            PluginInitialisation sut = new();
 
             sut.BeforeConfigure(testApplicationBuilder);
 
@@ -98,8 +98,8 @@ namespace PluginManager.DAL.TextFiles.Tests
         [TestCategory(GeneralTestsCategory)]
         public void Configure_DoesNotRegisterApplicationServices()
         {
-            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation();
+            MockApplicationBuilder testApplicationBuilder = new();
+            PluginInitialisation sut = new();
 
             sut.Configure(testApplicationBuilder);
 
@@ -110,7 +110,7 @@ namespace PluginManager.DAL.TextFiles.Tests
         [TestCategory(GeneralTestsCategory)]
         public void Finalise_DoesNotThrowException()
         {
-            PluginInitialisation sut = new PluginInitialisation();
+            PluginInitialisation sut = new();
 			Assert.IsNotNull(sut);
 
 			sut.Finalise();
@@ -122,8 +122,8 @@ namespace PluginManager.DAL.TextFiles.Tests
         {
             const int RegisteredService = 70;
 
-            PluginInitialisation sut = new PluginInitialisation();
-            MockServiceCollection mockServiceCollection = new MockServiceCollection();
+            PluginInitialisation sut = new();
+            MockServiceCollection mockServiceCollection = new();
 
             sut.BeforeConfigureServices(mockServiceCollection);
 
@@ -134,8 +134,8 @@ namespace PluginManager.DAL.TextFiles.Tests
         [TestCategory(GeneralTestsCategory)]
         public void ConfigureServices_DoesNotThrowException()
         {
-            PluginInitialisation sut = new PluginInitialisation();
-            MockServiceCollection mockServiceCollection = new MockServiceCollection();
+            PluginInitialisation sut = new();
+            MockServiceCollection mockServiceCollection = new();
 
             sut.ConfigureServices(mockServiceCollection);
 
@@ -146,8 +146,8 @@ namespace PluginManager.DAL.TextFiles.Tests
         [TestCategory(GeneralTestsCategory)]
         public void AfterConfigureServices_DoesNotThrowException_Success()
         {
-            PluginInitialisation sut = new PluginInitialisation();
-            MockServiceCollection mockServiceCollection = new MockServiceCollection();
+            PluginInitialisation sut = new();
+            MockServiceCollection mockServiceCollection = new();
 
             sut.AfterConfigureServices(mockServiceCollection);
 

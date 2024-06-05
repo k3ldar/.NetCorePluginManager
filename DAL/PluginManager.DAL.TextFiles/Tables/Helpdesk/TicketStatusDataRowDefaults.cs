@@ -41,9 +41,9 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return new List<TicketStatusDataRow>()
                 {
-                    new TicketStatusDataRow() { Description = "Closed" },
-                    new TicketStatusDataRow() { Description = "Open" },
-                    new TicketStatusDataRow() { Description = "On Hold" }
+                    new() { Description = "Closed" },
+                    new() { Description = "Open" },
+                    new() { Description = "On Hold" }
                 };
             }
 

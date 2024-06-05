@@ -82,7 +82,7 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
 
 			if (order.Total > 0.00m)
 			{
-				PaypointHelper vc = new PaypointHelper(order.Id.ToString(), order.Total,
+				PaypointHelper vc = new(order.Id.ToString(), order.Total,
 					_paymentProviderSettings.Currencies.Split(';')[0],
 					_paymentProviderSettings.MerchantId, _paymentProviderSettings.RemotePassword,
 					$"{request.Scheme}://{request.Host.Value}/Cart/Paypoint/");

@@ -114,7 +114,7 @@ namespace SystemAdmin.Plugin.Controllers
 			string json = System.IO.File.ReadAllText(_pluginManagerConfiguration.ConfigurationFile);
 
 			var jsonData = JsonSerializer.Deserialize<Dictionary<string, object>>(json);
-			JsonSerializerOptions options = new JsonSerializerOptions()
+			JsonSerializerOptions options = new()
 			{
 				WriteIndented = true,
 				IgnoreReadOnlyProperties = true,
@@ -248,7 +248,7 @@ namespace SystemAdmin.Plugin.Controllers
 
 			string jsonFile = _pluginManagerConfiguration.ConfigurationFile;
 
-			ConfigurationBuilder builder = new ConfigurationBuilder();
+			ConfigurationBuilder builder = new();
 			IConfigurationBuilder configBuilder = builder.SetBasePath(Path.GetDirectoryName(jsonFile));
 			configBuilder.AddJsonFile(jsonFile);
 			IConfigurationRoot config = builder.Build();

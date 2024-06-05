@@ -52,7 +52,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -79,7 +79,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -91,7 +91,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
                     Assert.IsNotNull(sut);
 
-                    List<string> newClaims = new List<string>()
+                    List<string> newClaims = new()
                     {
                         "Administrator",
                         "Staff",
@@ -117,7 +117,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -158,7 +158,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -174,7 +174,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
                     Assert.IsNotNull(sut);
 
-                    List<string> newClaims = new List<string>()
+                    List<string> newClaims = new()
                     { 
                         "Administrator",
                         "Staff",
@@ -220,7 +220,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -236,7 +236,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
                     Assert.IsNotNull(sut);
 
-                    List<string> newClaims = new List<string>()
+                    List<string> newClaims = new()
                     {
                         "Administrator",
                         "Staff",
@@ -270,7 +270,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			string directory = TestHelper.GetTestPath();
 			try
 			{
-				List<Claim> claims = new List<Claim>()
+				List<Claim> claims = new()
 				{
 					new Claim("AddClaim1", "true"),
 					new Claim("AddClaim2", "123"),
@@ -278,7 +278,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 				Directory.CreateDirectory(directory);
 				MockApplicationClaims mockApplicationClaims = new(claims);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 				mockPluginClassesService.Items.Add(mockApplicationClaims);
 
@@ -295,7 +295,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
 					Assert.IsNotNull(sut);
 
-					List<string> newClaims = new List<string>()
+					List<string> newClaims = new()
 					{
 						"Administrator",
 						"Staff",
@@ -342,14 +342,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			string directory = TestHelper.GetTestPath();
 			try
 			{
-				List<Claim> applicationClaims = new List<Claim>()
+				List<Claim> applicationClaims = new()
 				{
 					new Claim("claim 1", "yes"),
 					new Claim("claim 2", "true"),
 				};
 
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new PluginInitialisation();
+				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 				mockPluginClassesService.Items.Add(new MockApplicationClaims(applicationClaims));
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -362,7 +362,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 					Assert.IsNotNull(externalUserTable);
 
-					ExternalUsersDataRow newUser = new ExternalUsersDataRow()
+					ExternalUsersDataRow newUser = new()
 					{
 						Email = "email@here.com",
 						UserName = "Test",

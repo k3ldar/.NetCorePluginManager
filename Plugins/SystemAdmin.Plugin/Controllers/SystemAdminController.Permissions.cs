@@ -52,7 +52,7 @@ namespace SystemAdmin.Plugin.Controllers
         [Authorize(Policy = Constants.PolicyNameManagePermissions)]
         public IActionResult GetUserPermissions(long id)
         {
-            UserPermissionsViewModel model = new UserPermissionsViewModel(id,
+            UserPermissionsViewModel model = new(id,
                 _claimsProvider.GetClaimsForUser(id), _claimsProvider.GetAllClaims());
 
             return PartialView("_UserPermissions", model);

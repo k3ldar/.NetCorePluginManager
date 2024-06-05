@@ -57,7 +57,7 @@ namespace Middleware.Images
 
             Name = Path.GetFileName(fileName);
             FileExtension = Path.GetExtension(fileName);
-            FileInfo fileInfo = new FileInfo(fileName);
+            FileInfo fileInfo = new(fileName);
             Size = fileInfo.Length;
             CreateDate = fileInfo.CreationTime;
             ModifiedDate = fileInfo.LastWriteTime;

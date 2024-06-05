@@ -82,7 +82,7 @@ namespace ShoppingCartPlugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.ShoppingCart))]
         public IActionResult Index()
         {
-            List<BasketItemModel> basketItems = new List<BasketItemModel>();
+            List<BasketItemModel> basketItems = new();
             ShoppingCartSummary cartSummary = GetCartSummary();
             BasketModel model;
 
@@ -141,7 +141,7 @@ namespace ShoppingCartPlugin.Controllers
 
             ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
 
-            ShoppingCartItem item = cartDetails.Items.FirstOrDefault(i => i.Id == model.ProductId);
+            ShoppingCartItem item = cartDetails.Items.Find(i => i.Id == model.ProductId);
 
             if (item != null)
             {
@@ -157,11 +157,8 @@ namespace ShoppingCartPlugin.Controllers
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            if (!String.IsNullOrEmpty(model.Voucher))
-            {
-                if (_shoppingCartProvider.ValidateVoucher(GetCartSummary(), model.Voucher, GetUserSession().UserID))
+            if (!String.IsNullOrEmpty(model.Voucher) && _shoppingCartProvider.ValidateVoucher(GetCartSummary(), model.Voucher, GetUserSession().UserID))
                     return RedirectToAction(nameof(Index));
-            }
 
             TempData["VoucherError"] = Languages.LanguageStrings.VoucherInvalid;
 
@@ -178,7 +175,7 @@ namespace ShoppingCartPlugin.Controllers
             if (!cartDetails.RequiresShipping)
                 return RedirectToAction(nameof(Checkout));
 
-            ShippingModel model = new ShippingModel(GetModelData());
+            ShippingModel model = new(GetModelData());
             PrepareShippingAddressModel(in model, _accountProvider.GetDeliveryAddresses(GetUserSession().UserID));
 
             return View(model);
@@ -188,7 +185,7 @@ namespace ShoppingCartPlugin.Controllers
         [Breadcrumb(nameof(Checkout), nameof(CartController), nameof(Shipping))]
         public IActionResult Checkout(int? shippingId)
         {
-            CheckoutModel model = new CheckoutModel(GetModelData());
+            CheckoutModel model = new(GetModelData());
             ShoppingCartDetail cartDetail = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
 
             if (cartDetail.RequiresShipping && (!shippingId.HasValue || shippingId.Value < 1))
@@ -214,7 +211,7 @@ namespace ShoppingCartPlugin.Controllers
         {
             // get the selected provider
             IPaymentProvider provider = _pluginClassesService.GetPluginClasses<IPaymentProvider>()
-				.FirstOrDefault(p => p.UniqueId().CompareTo(model.SelectedProviderId) == 0);
+				.Find(p => p.UniqueId().CompareTo(model.SelectedProviderId) == 0);
 
             if (provider == null)
                 throw new InvalidOperationException(Middleware.Constants.PaymentProviderNotFound);
@@ -250,7 +247,7 @@ namespace ShoppingCartPlugin.Controllers
                 System.Threading.Thread.CurrentThread.CurrentUICulture,
                 SharedPluginFeatures.Constants.CurrencyCodeDefault));
 
-            PaymentSuccessModel model = new PaymentSuccessModel(modelData, (int)session.Tag);
+            PaymentSuccessModel model = new(modelData, (int)session.Tag);
 
             // clear basket data
             session.Tag = null;

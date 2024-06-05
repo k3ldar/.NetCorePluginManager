@@ -65,7 +65,7 @@ namespace SieraDeltaGeoIp.Plugin
             List<IpCity> rangeData = (List<IpCity>)parameters;
             rangeData.Clear();
 
-            FbConnection db = new FbConnection(_settings.DatabaseConnectionString);
+            FbConnection db = new(_settings.DatabaseConnectionString);
 			try
 			{
 				db.Open();
@@ -93,7 +93,7 @@ namespace SieraDeltaGeoIp.Plugin
 				FbTransaction tran = db.BeginTransaction();
 				try
 				{
-					FbCommand cmd = new FbCommand(SQL, db, tran);
+					FbCommand cmd = new(SQL, db, tran);
 					try
 					{
 						FbDataReader rdr = cmd.ExecuteReader();
@@ -149,7 +149,7 @@ namespace SieraDeltaGeoIp.Plugin
             ipFrom = 0;
             ipTo = 0;
 
-            FbConnection db = new FbConnection(_settings.DatabaseConnectionString);
+            FbConnection db = new(_settings.DatabaseConnectionString);
             try
             {
                 db.Open();
@@ -160,7 +160,7 @@ namespace SieraDeltaGeoIp.Plugin
                 FbTransaction tran = db.BeginTransaction();
                 try
                 {
-                    FbCommand cmd = new FbCommand(SQL, db, tran);
+                    FbCommand cmd = new(SQL, db, tran);
                     try
                     {
                         FbDataReader rdr = cmd.ExecuteReader();

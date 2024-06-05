@@ -60,7 +60,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
 
         public override IMinifyResult Process(in MinificationFileType fileType, ref string data, in List<PreserveBlock> preserveBlocks)
         {
-            MinifyResult Result = new MinifyResult(GetType().Name, data.Length);
+            MinifyResult Result = new(GetType().Name, data.Length);
 
             using (StopWatchTimer.Initialise(_timings))
             {
@@ -82,7 +82,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
 
         private string RemoveCommentsFromFile(string data, in List<PreserveBlock> preserveBlocks)
         {
-            StringBuilder Result = new StringBuilder(data.Length);
+            StringBuilder Result = new(data.Length);
 
             int startPos = data.IndexOf(_commentStart, StringComparison.Ordinal);
 

@@ -96,7 +96,7 @@ namespace ErrorManager.Plugin.Controllers
             if (settings.RandomQuotes)
             {
                 // grab a random quote
-                Random rnd = new Random(Convert.ToInt32(DateTime.Now.ToString("Hmsffff")));
+                Random rnd = new(Convert.ToInt32(DateTime.Now.ToString("Hmsffff")));
                 int quote = rnd.Next(settings.Count());
                 model = new Error404Model(GetModelData(),
                     Languages.LanguageStrings.PageNotFound, settings.GetQuote(quote), GetImageFile(quote));

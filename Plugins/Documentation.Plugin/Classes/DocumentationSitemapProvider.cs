@@ -64,7 +64,7 @@ namespace DocumentationPlugin.Classes
         /// <returns>List&lt;ISitemapItem&gt;</returns>
         public List<SitemapItem> Items()
         {
-            List<SitemapItem> Result = new List<SitemapItem>();
+            List<SitemapItem> Result = new();
 
             List<Document> documents = _documentationService.GetDocuments()
                 .Where(d => d.DocumentType == DocumentType.Assembly || d.DocumentType == DocumentType.Custom)
@@ -73,7 +73,7 @@ namespace DocumentationPlugin.Classes
 
             foreach (Document document in documents)
             {
-                Uri blogUrl = new Uri($"docs/Document/{HtmlHelper.RouteFriendlyName(document.Title)}/",
+                Uri blogUrl = new($"docs/Document/{HtmlHelper.RouteFriendlyName(document.Title)}/",
                     UriKind.RelativeOrAbsolute);
 
                 Result.Add(new SitemapItem(blogUrl, SitemapChangeFrequency.Daily));

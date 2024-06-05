@@ -58,14 +58,14 @@ namespace SimpleDB.Tests
 			try
 			{
 				Directory.CreateDirectory(directory);
-				SimpleDBManager simpleDbManager = new SimpleDBManager(directory);
+				SimpleDBManager simpleDbManager = new(directory);
 				DatabaseTimings sut = new(simpleDbManager);
 				Assert.AreEqual(1u, simpleDbManager.MinimumVersion);
 				Assert.AreEqual(directory, simpleDbManager.Path);
-				MockForeignKeyManager foreignKeyManager = new MockForeignKeyManager();
+				MockForeignKeyManager foreignKeyManager = new();
 				Assert.AreEqual(0, foreignKeyManager.RegisteredTables.Count);
 
-				using (SimpleDBOperations<MockRowSlidingMemory> mockTable = new SimpleDBOperations<MockRowSlidingMemory>(simpleDbManager, foreignKeyManager))
+				using (SimpleDBOperations<MockRowSlidingMemory> mockTable = new(simpleDbManager, foreignKeyManager))
 				{
 					simpleDbManager.Initialize(new MockPluginClassesService());
 					Assert.AreEqual(1, foreignKeyManager.RegisteredTables.Count);

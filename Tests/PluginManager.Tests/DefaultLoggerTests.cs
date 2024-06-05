@@ -58,7 +58,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void AddToLog_SingleData_Success()
         {
-            DefaultLogger sut = new DefaultLogger();
+            DefaultLogger sut = new();
 			Assert.IsNotNull(sut);
 
 			sut.AddToLog(LogLevel.Information, "single line of information");
@@ -71,7 +71,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void AddToLog_SingleDataWithModuleName_Success()
         {
-            DefaultLogger sut = new DefaultLogger();
+            DefaultLogger sut = new();
 			Assert.IsNotNull(sut);
 
 			sut.AddToLog(LogLevel.Information, "mymodule", "next line of information");
@@ -84,7 +84,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void AddToLog_Exception_Success()
         {
-            DefaultLogger sut = new DefaultLogger();
+            DefaultLogger sut = new();
 			Assert.IsNotNull(sut);
 
 			sut.AddToLog(LogLevel.Warning, new Exception("Exception with no module name"));
@@ -97,7 +97,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void AddToLog_ExceptionWithData_Success()
         {
-            DefaultLogger sut = new DefaultLogger();
+            DefaultLogger sut = new();
 			Assert.IsNotNull(sut);
 
 			sut.AddToLog(LogLevel.Warning, new Exception("Exception with no data"), "a bit of data");
@@ -110,7 +110,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void AddToLog_ExceptionDataWithModuleName_Success()
         {
-            DefaultLogger sut = new DefaultLogger();
+            DefaultLogger sut = new();
 			Assert.IsNotNull(sut);
 
 			sut.AddToLog(LogLevel.Error, "modulename", new Exception("Exception with module name"), "some extra data");

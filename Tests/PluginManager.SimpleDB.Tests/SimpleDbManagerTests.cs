@@ -96,7 +96,7 @@ namespace SimpleDB.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                SimpleDBManager sut = new SimpleDBManager(directory);
+                SimpleDBManager sut = new(directory);
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
             }
@@ -114,7 +114,7 @@ namespace SimpleDB.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                SimpleDBManager sut = new SimpleDBManager(directory);
+                SimpleDBManager sut = new(directory);
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
 
@@ -134,11 +134,11 @@ namespace SimpleDB.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                SimpleDBManager sut = new SimpleDBManager(directory);
+                SimpleDBManager sut = new(directory);
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
 
-                using (SimpleDBOperations<MockRow> mockTable = new SimpleDBOperations<MockRow>(sut, new ForeignKeyManager()))
+                using (SimpleDBOperations<MockRow> mockTable = new(sut, new ForeignKeyManager()))
                     sut.RegisterTable(mockTable);
             }
             finally
@@ -154,11 +154,11 @@ namespace SimpleDB.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                SimpleDBManager sut = new SimpleDBManager(directory);
+                SimpleDBManager sut = new(directory);
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
 
-                using (SimpleDBOperations<MockRow> mockTable = new SimpleDBOperations<MockRow>(sut, new ForeignKeyManager()))
+                using (SimpleDBOperations<MockRow> mockTable = new(sut, new ForeignKeyManager()))
                 {
                     IReadOnlyDictionary<string, ISimpleDBTable> tables = sut.Tables;
                     Assert.AreEqual(1, tables.Count);
@@ -178,13 +178,13 @@ namespace SimpleDB.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                SimpleDBManager sut = new SimpleDBManager(directory);
+                SimpleDBManager sut = new(directory);
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
-                MockForeignKeyManager foreignKeyManager = new MockForeignKeyManager();
+                MockForeignKeyManager foreignKeyManager = new();
                 Assert.AreEqual(0, foreignKeyManager.RegisteredTables.Count);
 
-                using (SimpleDBOperations<MockRow> mockTable = new SimpleDBOperations<MockRow>(sut, foreignKeyManager))
+                using (SimpleDBOperations<MockRow> mockTable = new(sut, foreignKeyManager))
                 {
 					sut.Initialize(new MockPluginClassesService());
 					Assert.AreEqual(1, foreignKeyManager.RegisteredTables.Count);
@@ -212,14 +212,14 @@ namespace SimpleDB.Tests
 			{
 				Directory.CreateDirectory(directory);
 				bool sutMemoryCleared = false;
-				SimpleDBManager sut = new SimpleDBManager(directory);
+				SimpleDBManager sut = new(directory);
 				sut.OnMemoryCleared += (sender) => sutMemoryCleared = true;
 				Assert.AreEqual(1u, sut.MinimumVersion);
 				Assert.AreEqual(directory, sut.Path);
-				MockForeignKeyManager foreignKeyManager = new MockForeignKeyManager();
+				MockForeignKeyManager foreignKeyManager = new();
 				Assert.AreEqual(0, foreignKeyManager.RegisteredTables.Count);
 
-				using (SimpleDBOperations<MockRowSlidingMemory> mockTable = new SimpleDBOperations<MockRowSlidingMemory>(sut, foreignKeyManager))
+				using (SimpleDBOperations<MockRowSlidingMemory> mockTable = new(sut, foreignKeyManager))
 				{
 					sut.Initialize(new MockPluginClassesService());
 					Assert.AreEqual(1, foreignKeyManager.RegisteredTables.Count);

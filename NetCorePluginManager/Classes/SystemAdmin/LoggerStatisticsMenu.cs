@@ -50,8 +50,8 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
 
         private const int MaxQueueLength = 100;
         private static ILogger _logger;
-        private static readonly object _lockObject = new object();
-        private static readonly Queue _queue = new Queue(MaxQueueLength);
+        private static readonly object _lockObject = new();
+        private static readonly Queue _queue = new(MaxQueueLength);
 
         #endregion Private Static Members
 
@@ -97,7 +97,7 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
         /// <returns>string</returns>
         public override string Data()
         {
-            StringBuilder Result = new StringBuilder("DateTime|Log Type|Message", MaxQueueLength * 100);
+            StringBuilder Result = new("DateTime|Log Type|Message", MaxQueueLength * 100);
             object[] queueItems;
 
             using (TimedLock.Lock(_lockObject))
@@ -162,7 +162,7 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
 
             using (TimedLock.Lock(_lockObject))
             {
-                LoggerQueueItem loggerQueueItem = new LoggerQueueItem(logLevel, data);
+                LoggerQueueItem loggerQueueItem = new(logLevel, data);
 
                 if (_queue.Count == MaxQueueLength)
                     _queue.Dequeue();
@@ -196,7 +196,7 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
 
             using (TimedLock.Lock(_lockObject))
             {
-                LoggerQueueItem loggerQueueItem = new LoggerQueueItem(logLevel, message);
+                LoggerQueueItem loggerQueueItem = new(logLevel, message);
 
                 if (_queue.Count == MaxQueueLength)
                     _queue.Dequeue();

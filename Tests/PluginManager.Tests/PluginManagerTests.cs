@@ -78,8 +78,8 @@ namespace PluginManager.Tests
         [TestMethod]
         public void CreatePluginManagerAddNoPlugins()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
             }
@@ -92,7 +92,7 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamConfiguration_Null_Throws_ArgumentNullException()
         {
-            PluginSettings pluginSettings = new PluginSettings();
+            PluginSettings pluginSettings = new();
             new MockPluginManager(null, pluginSettings);
         }
 
@@ -100,21 +100,21 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamPluginSettings_Null_Throws_ArgumentNullException()
         {
-            PluginManagerConfiguration pluginManagerConfiguration = new PluginManagerConfiguration();
+            PluginManagerConfiguration pluginManagerConfiguration = new();
             new MockPluginManager(pluginManagerConfiguration, null);
         }
 
         [TestMethod]
         public void Construct_CustomServiceConfigurator_SuccesfullyRegistersWithPlugin()
         {
-            PluginManagerConfiguration pluginManagerConfiguration = new PluginManagerConfiguration()
+            PluginManagerConfiguration pluginManagerConfiguration = new()
             {
                 ServiceConfigurator = new MockServiceConfigurator()
             };
 
-            PluginSettings pluginSettings = new PluginSettings();
+            PluginSettings pluginSettings = new();
 
-            MockPluginManager sut = new MockPluginManager(pluginManagerConfiguration, pluginSettings);
+            MockPluginManager sut = new(pluginManagerConfiguration, pluginSettings);
 
             Assert.AreEqual(pluginManagerConfiguration.ServiceConfigurator, sut.GetServiceConfigurator());
         }
@@ -124,11 +124,11 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void SetServiceConfigurator_ServiceConfiguratorNull_Throws_ArgumentNullException()
         {
-            PluginManagerConfiguration pluginManagerConfiguration = new PluginManagerConfiguration();
+            PluginManagerConfiguration pluginManagerConfiguration = new();
 
-            PluginSettings pluginSettings = new PluginSettings();
+            PluginSettings pluginSettings = new();
 
-            MockPluginManager sut = new MockPluginManager(pluginManagerConfiguration, pluginSettings);
+            MockPluginManager sut = new(pluginManagerConfiguration, pluginSettings);
 
             sut.TestSetServiceConfigurator(null);
         }
@@ -136,14 +136,14 @@ namespace PluginManager.Tests
         [TestMethod]
         public void SetServiceConfigurator_ServiceConfiguratorAlreadyRegisterd_Throws_InvalidOperationException()
         {
-            PluginManagerConfiguration pluginManagerConfiguration = new PluginManagerConfiguration()
+            PluginManagerConfiguration pluginManagerConfiguration = new()
             {
                 ServiceConfigurator = new MockServiceConfigurator()
             };
 
-            PluginSettings pluginSettings = new PluginSettings();
+            PluginSettings pluginSettings = new();
 
-            MockPluginManager sut = new MockPluginManager(pluginManagerConfiguration, pluginSettings);
+            MockPluginManager sut = new(pluginManagerConfiguration, pluginSettings);
 
             try
             {
@@ -162,11 +162,11 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ConfigurServices_InvalidParamServices_Null_Throws_ArgumentNullException()
         {
-            PluginManagerConfiguration pluginManagerConfiguration = new PluginManagerConfiguration();
+            PluginManagerConfiguration pluginManagerConfiguration = new();
 
-            PluginSettings pluginSettings = new PluginSettings();
+            PluginSettings pluginSettings = new();
 
-            MockPluginManager sut = new MockPluginManager(pluginManagerConfiguration, pluginSettings);
+            MockPluginManager sut = new(pluginManagerConfiguration, pluginSettings);
 
             sut.ConfigureServices(null);
         }
@@ -175,11 +175,11 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddAssembly_InvalidParamAssembly_Null_Throws_ArgumentNullException()
         {
-            PluginManagerConfiguration pluginManagerConfiguration = new PluginManagerConfiguration();
+            PluginManagerConfiguration pluginManagerConfiguration = new();
 
-            PluginSettings pluginSettings = new PluginSettings();
+            PluginSettings pluginSettings = new();
 
-            MockPluginManager sut = new MockPluginManager(pluginManagerConfiguration, pluginSettings);
+            MockPluginManager sut = new(pluginManagerConfiguration, pluginSettings);
 
             sut.AddAssembly(null);
         }
@@ -188,17 +188,17 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void LoadAssembly_InvalidParamAssemblyName_Null_Throws_ArgumentNullException()
         {
-            MockLogger testLogger = new MockLogger();
-            PluginManagerConfiguration pluginManagerConfiguration = new PluginManagerConfiguration(testLogger);
+            MockLogger testLogger = new();
+            PluginManagerConfiguration pluginManagerConfiguration = new(testLogger);
 
 
-            PluginSettings pluginSettings = new PluginSettings()
+            PluginSettings pluginSettings = new()
             {
                 PluginFiles = new List<string>()
             };
 
 
-            MockPluginManager sut = new MockPluginManager(pluginManagerConfiguration, pluginSettings);
+            MockPluginManager sut = new(pluginManagerConfiguration, pluginSettings);
 
             sut.PluginLoad(null, false);
         }
@@ -206,11 +206,11 @@ namespace PluginManager.Tests
         [TestMethod]
         public void SetServiceConfigurator_ServiceConfiguratorAlreadyRegisterdServices_Throws_InvalidOperationException()
         {
-            PluginManagerConfiguration pluginManagerConfiguration = new PluginManagerConfiguration();
+            PluginManagerConfiguration pluginManagerConfiguration = new();
 
-            PluginSettings pluginSettings = new PluginSettings();
+            PluginSettings pluginSettings = new();
 
-            MockPluginManager sut = new MockPluginManager(pluginManagerConfiguration, pluginSettings);
+            MockPluginManager sut = new(pluginManagerConfiguration, pluginSettings);
 
             sut.TestSetServiceConfigurator(new MockServiceConfigurator());
             sut.ConfigureServices(new MockServiceCollection());
@@ -232,8 +232,8 @@ namespace PluginManager.Tests
         [TestMethod]
         public void CreatePluginManagerAddSinglePluginGetSettingRangeAttributeClasses()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
@@ -255,8 +255,8 @@ namespace PluginManager.Tests
         [TestMethod]
         public void CreatePluginManagerAddSinglePlugin()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
@@ -274,8 +274,8 @@ namespace PluginManager.Tests
         [TestMethod]
         public void PluginLoaded_PluginNotFound_Returns_False()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 bool pluginLoaded = pluginManager.PluginLoaded("no.such.library.dll", out int _, out string _);
 
@@ -286,8 +286,8 @@ namespace PluginManager.Tests
         [TestMethod]
 		public void CreatePluginAddSinglePluginConfigureCustomServices()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
@@ -308,8 +308,8 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreatePluginManagerCallGetParameterInstances_ThrowsArgumentNullException()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 pluginManager.GetParameterInstances(null);
             }
@@ -318,8 +318,8 @@ namespace PluginManager.Tests
         [TestMethod]
 		public void CreatePluginAddSinglePluginConfigureCustomServicesCreateInstanceOf()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
@@ -343,8 +343,8 @@ namespace PluginManager.Tests
         [TestMethod]
 		public void CreatePluginAddSinglePluginConfigureCustomServicesGetPluginClass()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
@@ -369,8 +369,8 @@ namespace PluginManager.Tests
         [TestMethod]
 		public void CreatePluginAddSinglePluginensureItIsLoaded()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
@@ -393,8 +393,8 @@ namespace PluginManager.Tests
         [TestMethod]
         public void AddAssembly_PluginAlreadyLoaded_Returns_DynamicLoadResultAlreadyLoaded()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
@@ -415,8 +415,8 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void PluginLoad_InvalidParamAssembly_Throws_ArgumentNullException()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
@@ -427,8 +427,8 @@ namespace PluginManager.Tests
         [TestMethod]
         public void PluginLoad_AssemblyAlreadyLoaded_ReturnsWithoutError()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager sut = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager sut = new(testLogger))
             {
                 Assert.AreEqual(1, sut.PluginsGetLoaded().Count);
 
@@ -441,14 +441,14 @@ namespace PluginManager.Tests
         [TestMethod]
         public void PluginLoad_PluginManagerDisabled_LogsMessageAndReturns()
         {
-            MockLogger testLogger = new MockLogger();
-            PluginManagerConfiguration pluginManagerConfiguration = new PluginManagerConfiguration(testLogger);
-            PluginSettings pluginSettings = new PluginSettings()
+            MockLogger testLogger = new();
+            PluginManagerConfiguration pluginManagerConfiguration = new(testLogger);
+            PluginSettings pluginSettings = new()
             {
                 Disabled = true
             };
 
-            using (MockPluginManager sut = new MockPluginManager(pluginManagerConfiguration, pluginSettings))
+            using (MockPluginManager sut = new(pluginManagerConfiguration, pluginSettings))
             {
                 Assert.AreEqual(0, sut.PluginsGetLoaded().Count);
 
@@ -465,21 +465,21 @@ namespace PluginManager.Tests
         [TestMethod]
         public void PluginLoad_PluginIsDisabled_LogsMessageAndReturns()
         {
-            MockLogger testLogger = new MockLogger();
-            PluginManagerConfiguration pluginManagerConfiguration = new PluginManagerConfiguration(testLogger);
-            PluginSettings pluginSettings = new PluginSettings()
+            MockLogger testLogger = new();
+            PluginManagerConfiguration pluginManagerConfiguration = new(testLogger);
+            PluginSettings pluginSettings = new()
             {
                 Disabled = false
             };
 
-            PluginSetting badEggSetting = new PluginSetting("Badegg.Plugin.dll")
+            PluginSetting badEggSetting = new("Badegg.Plugin.dll")
             {
                 Disabled = true
             };
 
             pluginSettings.Plugins.Add(badEggSetting);
 
-            using (MockPluginManager sut = new MockPluginManager(pluginManagerConfiguration, pluginSettings))
+            using (MockPluginManager sut = new(pluginManagerConfiguration, pluginSettings))
             {
                 Assert.AreEqual(1, sut.PluginsGetLoaded().Count);
 
@@ -497,8 +497,8 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void PluginLoad_InvalidPluginName_Null_DoNotCopyLocal_Throws_ArgumentNullException()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager sut = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager sut = new(testLogger))
             {
                 Assert.AreEqual(1, sut.PluginsGetLoaded().Count);
 
@@ -512,8 +512,8 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void PluginLoad_InvalidPluginName_EmptyString_DoNotCopyLocal_Throws_ArgumentNullException()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager sut = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager sut = new(testLogger))
             {
                 Assert.AreEqual(1, sut.PluginsGetLoaded().Count);
 
@@ -526,18 +526,18 @@ namespace PluginManager.Tests
         [TestMethod]
         public void PluginLoad_PluginSettingDisabled_DoesNoLoad()
         {
-            MockLogger testLogger = new MockLogger();
-            PluginManagerConfiguration pluginManagerConfiguration = new PluginManagerConfiguration(testLogger);
-            PluginSettings pluginSettings = new PluginSettings();
+            MockLogger testLogger = new();
+            PluginManagerConfiguration pluginManagerConfiguration = new(testLogger);
+            PluginSettings pluginSettings = new();
 
-            PluginSetting badEggSetting = new PluginSetting("BadEgg.Plugin.dll")
+            PluginSetting badEggSetting = new("BadEgg.Plugin.dll")
             {
                 Disabled = true
             };
 
             pluginSettings.Plugins.Add(badEggSetting);
 
-            using (MockPluginManager pluginManager = new MockPluginManager(pluginManagerConfiguration, pluginSettings))
+            using (MockPluginManager pluginManager = new(pluginManagerConfiguration, pluginSettings))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
@@ -551,9 +551,9 @@ namespace PluginManager.Tests
         [TestMethod]
         public void PluginLoad_PluginSettingNotFound_PluginLoads()
         {
-            MockLogger testLogger = new MockLogger();
+            MockLogger testLogger = new();
 
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
@@ -567,14 +567,14 @@ namespace PluginManager.Tests
         [TestMethod]
         public void PluginLoad_PluginSettingNotFound_GetLocalCopyOfPluginToLoad_PluginLoads()
         {
-            MockLogger testLogger = new MockLogger();
-            PluginManagerConfiguration pluginManagerConfiguration = new PluginManagerConfiguration(testLogger);
-            PluginSettings pluginSettings = new PluginSettings()
+            MockLogger testLogger = new();
+            PluginManagerConfiguration pluginManagerConfiguration = new(testLogger);
+            PluginSettings pluginSettings = new()
             {
                 LocalCopyPath = Path.Combine(Path.GetTempPath(), "plugintest", DateTime.UtcNow.Ticks.ToString())
             };
 
-            using (MockPluginManager pluginManager = new MockPluginManager(pluginManagerConfiguration, pluginSettings))
+            using (MockPluginManager pluginManager = new(pluginManagerConfiguration, pluginSettings))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
@@ -591,9 +591,9 @@ namespace PluginManager.Tests
         [TestMethod]
         public void PluginLoad_PluginSettingNotFound_GetLocalCopyOfPluginToLoad_PluginAlreadyExists_PluginLoads()
         {
-            MockLogger testLogger = new MockLogger();
-            PluginManagerConfiguration pluginManagerConfiguration = new PluginManagerConfiguration(testLogger);
-            PluginSettings pluginSettings = new PluginSettings()
+            MockLogger testLogger = new();
+            PluginManagerConfiguration pluginManagerConfiguration = new(testLogger);
+            PluginSettings pluginSettings = new()
             {
                 LocalCopyPath = Path.Combine(Path.GetTempPath(), "plugintest", DateTime.UtcNow.Ticks.ToString())
             };
@@ -603,7 +603,7 @@ namespace PluginManager.Tests
 
             File.Copy(BadEggPluginFilePath, Path.Combine(pluginSettings.LocalCopyPath, "BadEgg.Plugin.dll"));
 
-            using (MockPluginManager pluginManager = new MockPluginManager(pluginManagerConfiguration, pluginSettings))
+            using (MockPluginManager pluginManager = new(pluginManagerConfiguration, pluginSettings))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
@@ -617,8 +617,8 @@ namespace PluginManager.Tests
         [TestMethod]
         public void PluginLoad_InvalidPluginName_DoesNotExist_DoNotCopyLocal_LogsError()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager sut = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager sut = new(testLogger))
             {
                 Assert.AreEqual(1, sut.PluginsGetLoaded().Count);
 
@@ -633,22 +633,22 @@ namespace PluginManager.Tests
         [TestMethod]
         public void PluginLoad_RetrieveAllResources_Success()
         {
-            MockLogger testLogger = new MockLogger();
-            PluginManagerConfiguration pluginManagerConfiguration = new PluginManagerConfiguration(testLogger)
+            MockLogger testLogger = new();
+            PluginManagerConfiguration pluginManagerConfiguration = new(testLogger)
             {
                 CurrentPath = Path.Combine(Path.GetTempPath(), "plugintest", DateTime.UtcNow.Ticks.ToString())
             };
 
-            PluginSettings pluginSettings = new PluginSettings();
+            PluginSettings pluginSettings = new();
 
-            PluginSetting companySetting = new PluginSetting("Company.Plugin.dll")
+            PluginSetting companySetting = new("Company.Plugin.dll")
             {
                 Disabled = false,
             };
 
             pluginSettings.Plugins.Add(companySetting);
 
-            using (MockPluginManager pluginManager = new MockPluginManager(pluginManagerConfiguration, pluginSettings))
+            using (MockPluginManager pluginManager = new(pluginManagerConfiguration, pluginSettings))
             {
                 pluginManager.TestCanExtractResources = true;
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
@@ -666,8 +666,8 @@ namespace PluginManager.Tests
         [TestMethod]
         public void PluginLoad_RetrieveAllResources_DoesNotReplaceExisting_Success()
         {
-            MockLogger testLogger = new MockLogger();
-            PluginManagerConfiguration pluginManagerConfiguration = new PluginManagerConfiguration(testLogger)
+            MockLogger testLogger = new();
+            PluginManagerConfiguration pluginManagerConfiguration = new(testLogger)
             {
                 CurrentPath = Path.Combine(Path.GetTempPath(), "plugintest", DateTime.UtcNow.Ticks.ToString())
             };
@@ -679,9 +679,9 @@ namespace PluginManager.Tests
 
             File.WriteAllText(viewNotToBeReplaced, "Do not replace");
 
-            PluginSettings pluginSettings = new PluginSettings();
+            PluginSettings pluginSettings = new();
 
-            PluginSetting companySetting = new PluginSetting("Company.Plugin.dll")
+            PluginSetting companySetting = new("Company.Plugin.dll")
             {
                 Disabled = false,
                 ReplaceExistingResources = false
@@ -689,7 +689,7 @@ namespace PluginManager.Tests
 
             pluginSettings.Plugins.Add(companySetting);
 
-            using (MockPluginManager pluginManager = new MockPluginManager(pluginManagerConfiguration, pluginSettings))
+            using (MockPluginManager pluginManager = new(pluginManagerConfiguration, pluginSettings))
             {
                 pluginManager.TestCanExtractResources = true;
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
@@ -707,8 +707,8 @@ namespace PluginManager.Tests
         [TestMethod]
         public void PluginLoad_RetrieveAllResources_ReplaceExisting_Success()
         {
-            MockLogger testLogger = new MockLogger();
-            PluginManagerConfiguration pluginManagerConfiguration = new PluginManagerConfiguration(testLogger)
+            MockLogger testLogger = new();
+            PluginManagerConfiguration pluginManagerConfiguration = new(testLogger)
             {
                 CurrentPath = Path.Combine(Path.GetTempPath(), "plugintest", DateTime.UtcNow.Ticks.ToString())
             };
@@ -720,9 +720,9 @@ namespace PluginManager.Tests
 
             File.WriteAllText(viewNotToBeReplaced, "Do not replace");
 
-            PluginSettings pluginSettings = new PluginSettings();
+            PluginSettings pluginSettings = new();
 
-            PluginSetting companySetting = new PluginSetting("Company.Plugin.dll")
+            PluginSetting companySetting = new("Company.Plugin.dll")
             {
                 Disabled = false,
                 ReplaceExistingResources = true
@@ -730,7 +730,7 @@ namespace PluginManager.Tests
 
             pluginSettings.Plugins.Add(companySetting);
 
-            using (MockPluginManager pluginManager = new MockPluginManager(pluginManagerConfiguration, pluginSettings))
+            using (MockPluginManager pluginManager = new(pluginManagerConfiguration, pluginSettings))
             {
                 pluginManager.TestCanExtractResources = true;
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
@@ -748,8 +748,8 @@ namespace PluginManager.Tests
         [TestMethod]
         public void PluginLoad_RetrieveAllResources_PluginManagerPreventsExtraction_Success()
         {
-            MockLogger testLogger = new MockLogger();
-            PluginManagerConfiguration pluginManagerConfiguration = new PluginManagerConfiguration(testLogger)
+            MockLogger testLogger = new();
+            PluginManagerConfiguration pluginManagerConfiguration = new(testLogger)
             {
                 CurrentPath = Path.Combine(Path.GetTempPath(), "plugintest", DateTime.UtcNow.Ticks.ToString())
             };
@@ -761,9 +761,9 @@ namespace PluginManager.Tests
 
             File.WriteAllText(viewNotToBeReplaced, "Do not replace");
 
-            PluginSettings pluginSettings = new PluginSettings();
+            PluginSettings pluginSettings = new();
 
-            PluginSetting companySetting = new PluginSetting("Company.Plugin.dll")
+            PluginSetting companySetting = new("Company.Plugin.dll")
             {
                 Disabled = false,
                 ReplaceExistingResources = true
@@ -771,7 +771,7 @@ namespace PluginManager.Tests
 
             pluginSettings.Plugins.Add(companySetting);
 
-            using (MockPluginManager pluginManager = new MockPluginManager(pluginManagerConfiguration, pluginSettings))
+            using (MockPluginManager pluginManager = new(pluginManagerConfiguration, pluginSettings))
             {
                 pluginManager.TestCanExtractResources = false;
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
@@ -789,8 +789,8 @@ namespace PluginManager.Tests
         [TestMethod]
 		public void PluginGetClassTypes_CreatePluginLoadSelf_FindClassDescendingFromClass()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
@@ -805,8 +805,8 @@ namespace PluginManager.Tests
         [TestMethod]
 		public void PluginGetClassTypes_CreatePluginLoadSelfFindInterfaceDescendents()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
@@ -821,8 +821,8 @@ namespace PluginManager.Tests
         [TestMethod]
 		public void PluginGetClasses_CreatePluginEnsureINotificationServiceRegistered()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
@@ -837,8 +837,8 @@ namespace PluginManager.Tests
         [TestMethod]
 		public void CreatePluginEnsureIPluginClassesServiceRegistered()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
@@ -853,8 +853,8 @@ namespace PluginManager.Tests
         [TestMethod]
 		public void CreatePluginEnsureIPluginHelperServiceRegistered()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
@@ -869,8 +869,8 @@ namespace PluginManager.Tests
         [TestMethod]
 		public void CreatePluginEnsureIPluginTypesServiceRegistered()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
@@ -885,8 +885,8 @@ namespace PluginManager.Tests
         [TestMethod]
 		public void CreatePluginEnsureILoggerRegistered()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
@@ -901,8 +901,8 @@ namespace PluginManager.Tests
         [TestMethod]
 		public void CreatePluginEnsureISettingsProviderRegistered()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 Assert.AreEqual(1, pluginManager.PluginsGetLoaded().Count);
 
@@ -917,8 +917,8 @@ namespace PluginManager.Tests
         [TestMethod]
         public void CreatePluginValidateRootPath()
         {
-            MockLogger testLogger = new MockLogger();
-            using (MockPluginManager pluginManager = new MockPluginManager(testLogger))
+            MockLogger testLogger = new();
+            using (MockPluginManager pluginManager = new(testLogger))
             {
                 string root = pluginManager.Path();
 
@@ -934,8 +934,8 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddPluginModule_InvalidParamAssemblyName_Null_Throws_ArgumentNullException()
         {
-            MockLogger testLogger = new MockLogger();
-            MockPluginManager sut = new MockPluginManager(testLogger);
+            MockLogger testLogger = new();
+            MockPluginManager sut = new(testLogger);
             sut.TestAddPluginModule(null, new TestPluginModule());
         }
 
@@ -943,8 +943,8 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddPluginModule_InvalidParamAssemblyName_EmptyString_Throws_ArgumentNullException()
         {
-            MockLogger testLogger = new MockLogger();
-            MockPluginManager sut = new MockPluginManager(testLogger);
+            MockLogger testLogger = new();
+            MockPluginManager sut = new(testLogger);
             sut.TestAddPluginModule("", new TestPluginModule());
         }
 
@@ -952,16 +952,16 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddPluginModule_InvalidParamPluginModule_Null_Throws_ArgumentNullException()
         {
-            MockLogger testLogger = new MockLogger();
-            MockPluginManager sut = new MockPluginManager(testLogger);
+            MockLogger testLogger = new();
+            MockPluginManager sut = new(testLogger);
             sut.TestAddPluginModule("test", null);
         }
 
         [TestMethod]
         public void AddPluginModule_SuccessfullyAdds_CannotAddTwice()
         {
-            MockLogger testLogger = new MockLogger();
-            MockPluginManager sut = new MockPluginManager(testLogger);
+            MockLogger testLogger = new();
+            MockPluginManager sut = new(testLogger);
             IPluginModule testPluginModule = new TestPluginModule();
 
             bool added = sut.TestAddPluginModule("test", testPluginModule);
@@ -974,13 +974,13 @@ namespace PluginManager.Tests
         [TestMethod]
         public void Dispose_Disposing_FinalisesPlugins_Success()
         {
-            MockLogger testLogger = new MockLogger();
-            MockPluginManager sut = new MockPluginManager(testLogger);
+            MockLogger testLogger = new();
+            MockPluginManager sut = new(testLogger);
             sut.PluginLoad(typeof(TestDisposePlugin).Assembly.Location, false);
 
-            TestDisposePlugin testDisposePlugin = new TestDisposePlugin();
+            TestDisposePlugin testDisposePlugin = new();
 
-            TestPluginModule testPluginModule = new TestPluginModule()
+            TestPluginModule testPluginModule = new()
             {
                 Plugin = testDisposePlugin
             };
@@ -997,13 +997,13 @@ namespace PluginManager.Tests
         [TestMethod]
         public void Dispose_Disposing_FinalisesPlugins_ThrowsExceptionAndLogsError()
         {
-            MockLogger testLogger = new MockLogger();
-            MockPluginManager sut = new MockPluginManager(testLogger);
+            MockLogger testLogger = new();
+            MockPluginManager sut = new(testLogger);
             sut.PluginLoad(typeof(TestDisposePlugin).Assembly.Location, false);
 
-            TestDisposeExceptionPlugin testDisposePlugin = new TestDisposeExceptionPlugin();
+            TestDisposeExceptionPlugin testDisposePlugin = new();
 
-            TestPluginModule testPluginModule = new TestPluginModule()
+            TestPluginModule testPluginModule = new()
             {
                 Plugin = testDisposePlugin
             };
@@ -1020,13 +1020,13 @@ namespace PluginManager.Tests
         [TestMethod]
         public void PluginLoad_CreatesInstanceOfPlugin_ThrowsExceptionAndLogsError()
         {
-            MockLogger testLogger = new MockLogger();
-            MockPluginManager sut = new MockPluginManager(testLogger);
+            MockLogger testLogger = new();
+            MockPluginManager sut = new(testLogger);
             sut.PluginLoad(typeof(TestDisposePlugin).Assembly.Location, false);
 
-            TestDisposeExceptionPlugin testDisposePlugin = new TestDisposeExceptionPlugin();
+            TestDisposeExceptionPlugin testDisposePlugin = new();
 
-            TestPluginModule testPluginModule = new TestPluginModule()
+            TestPluginModule testPluginModule = new()
             {
                 Plugin = testDisposePlugin
             };

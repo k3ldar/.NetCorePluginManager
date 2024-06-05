@@ -81,7 +81,7 @@ namespace Breadcrumb.Plugin
             if (BreadcrumbMiddleware.Routes.ContainsKey(route.ToLower()))
                 return;
 
-            BreadcrumbRoute newRoute = new BreadcrumbRoute(route, hasParameters);
+            BreadcrumbRoute newRoute = new(route, hasParameters);
 
             if (!String.IsNullOrEmpty(parentRoute) &&
                 BreadcrumbMiddleware.Routes.TryGetValue(parentRoute.ToLower(), out BreadcrumbRoute breadcrumbRoute))

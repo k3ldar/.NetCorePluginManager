@@ -41,6 +41,9 @@ namespace Resources.Plugin.Classes
 {
 	public class KeywordSearchProvider : BaseSearchProvider, ISearchKeywordProvider
 	{
+		private const string SearchType = "ResourceDescription";
+		private const string ResourceName = "ResourceName";
+		private const string ResourceTag = "ResourceTag";
 		private readonly IResourceProvider _provider;
 
 		public KeywordSearchProvider(IResourceProvider resourceProvider)
@@ -58,7 +61,7 @@ namespace Resources.Plugin.Classes
 			if (searchOptions == null)
 				throw new ArgumentNullException(nameof(searchOptions));
 
-			List<SearchResponseItem> Result = new List<SearchResponseItem>();
+			List<SearchResponseItem> Result = new();
 
 			if (searchOptions.ExactMatch || searchOptions.QuickSearch)
 			{
@@ -108,7 +111,7 @@ namespace Resources.Plugin.Classes
 
 				if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
 				{
-					AddSearchResult(results, resource, "ResourceName", offset);
+					AddSearchResult(results, resource, ResourceName, offset);
 					continue;
 				}
 
@@ -116,7 +119,7 @@ namespace Resources.Plugin.Classes
 				{
 					if (tag.IndexOf(searchOptions.SearchTerm, StringComparison.InvariantCultureIgnoreCase) > -1)
 					{
-						AddSearchResult(results, resource, "ResourceTag", -1);
+						AddSearchResult(results, resource, ResourceTag, -1);
 						break;
 					}
 				}
@@ -127,7 +130,7 @@ namespace Resources.Plugin.Classes
 
 					if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
 					{
-						AddSearchResult(results, resource, "ResourceDescription", offset);
+						AddSearchResult(results, resource, SearchType, offset);
 					}
 				}
 			}
@@ -147,7 +150,7 @@ namespace Resources.Plugin.Classes
 
 				if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
 				{
-					AddSearchResult(results, resource, "ResourceName", offset);
+					AddSearchResult(results, resource, ResourceName, offset);
 					continue;
 				}
 
@@ -157,7 +160,7 @@ namespace Resources.Plugin.Classes
 
 					if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
 					{
-						AddSearchResult(results, resource, "ResourceDescription", offset);
+						AddSearchResult(results, resource, SearchType, offset);
 					}
 				}
 			}
@@ -187,7 +190,7 @@ namespace Resources.Plugin.Classes
 
 					if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
 					{
-						AddSearchResult(results, resource, "ResourceName", offset);
+						AddSearchResult(results, resource, ResourceName, offset);
 						continue;
 					}
 
@@ -195,7 +198,7 @@ namespace Resources.Plugin.Classes
 					{
 						if (tag.IndexOf(word, StringComparison.InvariantCultureIgnoreCase) > -1)
 						{
-							AddSearchResult(results, resource, "ResourceTag", -1);
+							AddSearchResult(results, resource, ResourceTag, -1);
 							break;
 						}
 					}
@@ -206,7 +209,7 @@ namespace Resources.Plugin.Classes
 
 						if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
 						{
-							AddSearchResult(results, resource, "ResourceDescription", offset);
+							AddSearchResult(results, resource, SearchType, offset);
 						}
 					}
 				}
@@ -237,7 +240,7 @@ namespace Resources.Plugin.Classes
 
 					if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
 					{
-						AddSearchResult(results, resource, "ResourceName", offset);
+						AddSearchResult(results, resource, ResourceName, offset);
 						continue;
 					}
 
@@ -247,7 +250,7 @@ namespace Resources.Plugin.Classes
 
 						if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
 						{
-							AddSearchResult(results, resource, "ResourceDescription", offset);
+							AddSearchResult(results, resource, SearchType, offset);
 						}
 					}
 				}
@@ -256,7 +259,7 @@ namespace Resources.Plugin.Classes
 
 		private static void AddSearchResult(in List<SearchResponseItem> results, in ResourceItem resource, in string searchType, in int offset)
 		{
-			SearchResponseItem searchItem = new SearchResponseItem(searchType, resource.Name, offset,
+			SearchResponseItem searchItem = new(searchType, resource.Name, offset,
 				$"/{Controllers.ResourcesController.Name}/View/{resource.Id}/", resource.Name, null);
 
 			searchItem.Properties.Add(nameof(resource.Id), resource.Id);
@@ -266,7 +269,7 @@ namespace Resources.Plugin.Classes
 
 		private static void AddSearchResult(in List<SearchResponseItem> results, in ResourceCategory resource, in string searchType, in int offset)
 		{
-			SearchResponseItem searchItem = new SearchResponseItem(searchType, resource.Name, offset,
+			SearchResponseItem searchItem = new(searchType, resource.Name, offset,
 				$"/{Controllers.ResourcesController.Name}/Category/{resource.Id}/{resource.Name}/", resource.Name, null);
 
 			searchItem.Properties.Add(nameof(resource.Id), resource.Id);

@@ -333,7 +333,7 @@ namespace SharedPluginFeatures.DynamicContent
         /// <returns>string</returns>
         protected string RetrieveCssClassAndStyle(string existingClassNames)
         {
-            StringBuilder Result = new StringBuilder(1024);
+            StringBuilder Result = new(1024);
 
             if (!String.IsNullOrEmpty(CssClassName))
             {

@@ -44,7 +44,7 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Initialise_InvalidParam_Null_Throws_ArgumentNullException()
         {
-            ThreadManagerInitialisation sut = new ThreadManagerInitialisation();
+            ThreadManagerInitialisation sut = new();
             sut.Initialise(null);
         }
 
@@ -52,9 +52,9 @@ namespace PluginManager.Tests
         public void ThreadStarts_RaisesThreadStartMessage_Success()
         {
             ThreadManager.Initialise();
-            MockLogger testLogger = new MockLogger();
+            MockLogger testLogger = new();
 
-            ThreadManagerInitialisation sut = new ThreadManagerInitialisation();
+            ThreadManagerInitialisation sut = new();
             sut.Initialise(testLogger);
             try
             {
@@ -77,9 +77,9 @@ namespace PluginManager.Tests
         {
             const string PartialErrorMessage = "ThreadManager Operation is not valid due to the current state of the object. Thread exception raised: Test that stops,";
             ThreadManager.Initialise();
-            MockLogger testLogger = new MockLogger();
+            MockLogger testLogger = new();
 
-            ThreadManagerInitialisation sut = new ThreadManagerInitialisation();
+            ThreadManagerInitialisation sut = new();
             sut.Initialise(testLogger);
             try
             {

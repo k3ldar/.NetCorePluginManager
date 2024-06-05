@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
-    <NoWarn>1701;1702;8032;8981</NoWarn>
+    <NoWarn>1701;1702;8032;8981;S125</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>Shared.Key.pfx</AssemblyOriginatorKeyFile>
@@ -23,14 +23,13 @@
     <PackageTags>Plugin Manager</PackageTags>
     <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-    <PackageReleaseNotes>Supports net 6.0, net7.0 and net8.0</PackageReleaseNotes>
+    <PackageReleaseNotes>Supports net 6.0 and net8.0</PackageReleaseNotes>
     <PackageTags>asp net core plugin manager system admin internal statistics</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup>
     <FrameWorkLatestVersion>net8.0</FrameWorkLatestVersion>
-    <FrameWorkAllSupported>net8.0;net7.0;net6.0;netstandard2.0</FrameWorkAllSupported>
-    <FrameWorkAllNotStandard>net8.0;net7.0;net6.0;</FrameWorkAllNotStandard>
+    <FrameWorkAllSupported>net8.0;net6.0;</FrameWorkAllSupported>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -43,7 +42,7 @@
     <LangVersion>latest</LangVersion>
     <Authors>Simon Carter (s1cart3r@gmail.com)</Authors>
     <Company>Simon Carter</Company>
-    <Copyright>Copyright (c) 2018 - 2023.  Simon Carter.  All rights reserved.</Copyright>
+    <Copyright>Copyright (c) 2018 - 2024.  Simon Carter.  All rights reserved.</Copyright>
     <Description>Plugin Manager</Description>
   </PropertyGroup>
 
@@ -62,20 +61,6 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net8.0'">
     <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_6_0;NET_6_X;ISO_WEEK;ATTR_OS;NET_5_ABOVE;NET_6_ABOVE;NET_7_ABOVE;NET_8_ABOVE;NET_8_0;NET_8_X</DefineConstants>
-    <CheckForOverflowUnderflow>$(CheckForOverflowUnderflow)</CheckForOverflowUnderflow>
-    <DebugType>$(DebugType)</DebugType>
-    <DebugSymbols>$(DebugSymbols)</DebugSymbols>
-  </PropertyGroup>
-	
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net7.0'">
-    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_6_0;NET_6_X;ISO_WEEK;ATTR_OS;NET_5_ABOVE;NET_6_ABOVE;NET_7_ABOVE;NET_7_0;NET_7_X</DefineConstants>
-    <CheckForOverflowUnderflow>$(CheckForOverflowUnderflow)</CheckForOverflowUnderflow>
-    <DebugType>$(DebugType)</DebugType>
-    <DebugSymbols>$(DebugSymbols)</DebugSymbols>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net7.0'">
-    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_6_0;NET_6_X;ISO_WEEK;ATTR_OS;NET_5_ABOVE;NET_6_ABOVE;NET_7_ABOVE;NET_7_0;NET_7_X</DefineConstants>
     <CheckForOverflowUnderflow>$(CheckForOverflowUnderflow)</CheckForOverflowUnderflow>
     <DebugType>$(DebugType)</DebugType>
     <DebugSymbols>$(DebugSymbols)</DebugSymbols>

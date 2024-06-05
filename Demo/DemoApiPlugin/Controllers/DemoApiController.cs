@@ -34,7 +34,7 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
-#pragma warning disable IDE0060, IDE0079
+#pragma warning disable IDE0060, IDE0079, S3400
 
 namespace DemoApiPlugin.Controllers
 {
@@ -155,7 +155,7 @@ namespace DemoApiPlugin.Controllers
             ulong nonce = (ulong)DateTime.UtcNow.Ticks;
             long timestamp = HmacGenerator.EpochDateTime();
 
-            using (HttpClient client = new HttpClient())
+            using (HttpClient client = new())
             {
                 string auth = HmacGenerator.GenerateHmac(apiKey, secret, timestamp, nonce, merchantId, String.Empty);
 
@@ -175,4 +175,4 @@ namespace DemoApiPlugin.Controllers
     }
 }
 
-#pragma warning restore IDE0060, IDE0079
+#pragma warning restore IDE0060, IDE0079, S3400

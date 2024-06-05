@@ -41,7 +41,7 @@ namespace PluginManager
     /// </summary>
     public static class ServiceCollectionHelper
     {
-        private static readonly object _lockObject = new object();
+        private static readonly object _lockObject = new();
 
         /// <summary>
         /// Retrieves an instance of a class from within an IServiceCollection
@@ -82,7 +82,7 @@ namespace PluginManager
 
                 if (sd.Lifetime == ServiceLifetime.Singleton)
                 {
-                    ServiceDescriptor replacementServiceDescriptor = new ServiceDescriptor(sd.ServiceType, Result);
+                    ServiceDescriptor replacementServiceDescriptor = new(sd.ServiceType, Result);
 
                     serviceCollection.Remove(sd);
                     serviceCollection.Add(replacementServiceDescriptor);
@@ -107,7 +107,7 @@ namespace PluginManager
 
         internal static object[] GetInstancesConstructorParameters(IServiceCollection serviceCollection, Type type)
         {
-            List<object> Result = new List<object>();
+            List<object> Result = new();
 
             //grab a list of all constructors in the class, start with the one with most parameters
             List<ConstructorInfo> constructors = type.GetConstructors()

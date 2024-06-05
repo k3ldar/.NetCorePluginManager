@@ -35,7 +35,7 @@ using SharedPluginFeatures;
 
 namespace SieraDeltaGeoIp.Plugin
 {
-    internal class MSSQLProvider : ThreadManager, IGeoIpProvider
+    internal class MsSqlProvider : ThreadManager, IGeoIpProvider
     {
         #region Properties
 
@@ -45,7 +45,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         #region Constructors
 
-        public MSSQLProvider(GeoIpPluginSettings settings, List<IpCity> ipRangeData)
+        public MsSqlProvider(GeoIpPluginSettings settings, List<IpCity> ipRangeData)
             : base(ipRangeData, new TimeSpan(24, 0, 0))
         {
             base.ContinueIfGlobalException = true;
@@ -62,7 +62,7 @@ namespace SieraDeltaGeoIp.Plugin
             List<IpCity> rangeData = (List<IpCity>)parameters;
             rangeData.Clear();
 
-            SqlConnection db = new SqlConnection(_settings.DatabaseConnectionString);
+            SqlConnection db = new(_settings.DatabaseConnectionString);
             try
             {
                 db.Open();
@@ -90,7 +90,7 @@ namespace SieraDeltaGeoIp.Plugin
                 SqlTransaction tran = db.BeginTransaction();
                 try
                 {
-                    SqlCommand cmd = new SqlCommand(SQL, db, tran);
+                    SqlCommand cmd = new(SQL, db, tran);
                     try
                     {
                         SqlDataReader rdr = cmd.ExecuteReader();
@@ -148,7 +148,7 @@ namespace SieraDeltaGeoIp.Plugin
             ipFrom = 0;
             ipTo = 0;
 
-            SqlConnection db = new SqlConnection(_settings.DatabaseConnectionString);
+            SqlConnection db = new(_settings.DatabaseConnectionString);
             try
             {
                 db.Open();
@@ -158,7 +158,7 @@ namespace SieraDeltaGeoIp.Plugin
                 SqlTransaction tran = db.BeginTransaction();
                 try
                 {
-                    SqlCommand cmd = new SqlCommand(SQL, db, tran);
+                    SqlCommand cmd = new(SQL, db, tran);
                     try
                     {
                         SqlDataReader rdr = cmd.ExecuteReader();

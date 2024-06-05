@@ -208,7 +208,7 @@ namespace ImageManager.Plugin.Controllers
             if (String.IsNullOrEmpty(model.GroupName))
                 return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidGroupName);
 
-            CachedImageUpload cachedImageUpload = new CachedImageUpload(model.GroupName, model.SubgroupName);
+            CachedImageUpload cachedImageUpload = new(model.GroupName, model.SubgroupName);
 
             foreach (IFormFile formFile in model.Files)
             {
@@ -320,7 +320,7 @@ namespace ImageManager.Plugin.Controllers
             else
                 images = _imageProvider.Images(groupName, subgroupName);
 
-            List<string> imageNames = new List<string>();
+            List<string> imageNames = new();
 
             images.ForEach(i => imageNames.Add(i.Name));
 
@@ -415,7 +415,7 @@ namespace ImageManager.Plugin.Controllers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static string ReplaceLastDash(string s)
         {
-            StringBuilder Result = new StringBuilder(s);
+            StringBuilder Result = new(s);
 
             for (int i = s.Length - 1; i >= 0; i--)
             {
@@ -444,7 +444,7 @@ namespace ImageManager.Plugin.Controllers
             else
                 images = _imageProvider.Images(groupName, subgroupName);
 
-            Dictionary<string, List<string>> groups = new Dictionary<string, List<string>>();
+            Dictionary<string, List<string>> groups = new();
 
             foreach (KeyValuePair<string, List<string>> item in _imageProvider.Groups())
             {
@@ -464,14 +464,14 @@ namespace ImageManager.Plugin.Controllers
             if (!String.IsNullOrEmpty(imageName))
             {
                 if (String.IsNullOrEmpty(subgroupName))
-                    image = _imageProvider.Images(groupName).FirstOrDefault(i => i.Name.Equals(imageName));
+                    image = _imageProvider.Images(groupName).Find(i => i.Name.Equals(imageName));
                 else
-                    image = _imageProvider.Images(groupName, subgroupName).FirstOrDefault(i => i.Name.Equals(imageName));
+                    image = _imageProvider.Images(groupName, subgroupName).Find(i => i.Name.Equals(imageName));
             }
 
             bool canManageImages = ControllerContext.HttpContext.User.HasClaim(Constants.ClaimNameManageImages, "true");
 
-            ProcessImagesViewModel Result = new ProcessImagesViewModel(GetModelData(),
+            ProcessImagesViewModel Result = new(GetModelData(),
                 canManageImages,
                 groupName,
                 subgroupName ?? String.Empty,
@@ -509,7 +509,7 @@ namespace ImageManager.Plugin.Controllers
 
         private void ProcessImageOptions(ProcessImagesViewModel processImagesViewModel)
         {
-            ImageProcessOptionsViewModel processOptionsViewModel = new ImageProcessOptionsViewModel()
+            ImageProcessOptionsViewModel processOptionsViewModel = new()
             {
                 GroupName = processImagesViewModel.SelectedGroupName,
                 SubgroupName = processImagesViewModel.SelectedSubgroupName

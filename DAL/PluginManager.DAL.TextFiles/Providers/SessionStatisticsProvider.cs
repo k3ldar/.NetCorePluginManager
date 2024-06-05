@@ -36,7 +36,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 {
 	internal class SessionStatisticsProvider : ISessionStatisticsProvider
 	{
-		private readonly object _lockObject = new object();
+		private readonly object _lockObject = new();
 		private readonly ISimpleDBOperations<SessionStatsHourlyDataRow> _sessionDataHourly;
 		private readonly ISimpleDBOperations<SessionStatsDailyDataRow> _sessionDataDaily;
 		private readonly ISimpleDBOperations<SessionStatsWeeklyDataRow> _sessionDataWeekly;
@@ -145,7 +145,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			where T : SessionBaseData 
 			where D : SessionStatsBaseData
 		{
-			List<T> Result = new List<T>();
+			List<T> Result = new();
 
 			foreach (SessionStatsBaseData data in baseData)
 			{
@@ -232,7 +232,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 					foreach (SessionUserAgent item in year.UserAgents)
 					{
 						SessionUserAgent returnAgent = Result
-							.FirstOrDefault(r => r.UserAgent.Equals(item.UserAgent) && r.IsBot == item.IsBot);
+							.Find(r => r.UserAgent.Equals(item.UserAgent) && r.IsBot == item.IsBot);
 
 						if (returnAgent == null)
 						{

@@ -179,7 +179,7 @@ namespace Blog.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.Search), Name, nameof(Index), HasParams = true)]
         public IActionResult Search()
         {
-            BlogSearchViewModel model = new BlogSearchViewModel(GetModelData());
+            BlogSearchViewModel model = new(GetModelData());
 
             return View(model);
         }
@@ -275,7 +275,7 @@ namespace Blog.Plugin.Controllers
 
         private BlogPostViewModel GetEditBlogPostViewModel(in BlogItem blogItem)
         {
-            BlogPostViewModel Result = new BlogPostViewModel(GetModelData(), blogItem.Id, blogItem.Title,
+            BlogPostViewModel Result = new(GetModelData(), blogItem.Id, blogItem.Title,
                 blogItem.Excerpt, blogItem.BlogText, blogItem.Username, blogItem.Published,
                 blogItem.PublishDateTime, blogItem.LastModified, blogItem.Tags);
 
@@ -285,7 +285,7 @@ namespace Blog.Plugin.Controllers
         private BlogPostViewModel GetBlogPostViewModel(in BlogItem blogItem)
         {
             UserSession user = GetUserSession();
-            BlogPostViewModel Result = new BlogPostViewModel(GetModelData(), blogItem.Id,
+            BlogPostViewModel Result = new(GetModelData(), blogItem.Id,
                 blogItem.Title, blogItem.Excerpt, blogItem.BlogText, blogItem.Username,
                 blogItem.Published, blogItem.PublishDateTime, blogItem.LastModified,
                 blogItem.UserId == user.UserID, blogItem.Tags, IsUserLoggedIn(),
@@ -307,12 +307,12 @@ namespace Blog.Plugin.Controllers
 
         private BlogPostsViewModel GetBlogPostViewModel(List<BlogItem> entries)
         {
-            List<BlogPostViewModel> blogPosts = new List<BlogPostViewModel>();
+            List<BlogPostViewModel> blogPosts = new();
             UserSession user = GetUserSession();
 
             foreach (BlogItem entry in entries)
             {
-                BlogPostViewModel post = new BlogPostViewModel(entry.Id, entry.Title, entry.Excerpt,
+                BlogPostViewModel post = new(entry.Id, entry.Title, entry.Excerpt,
                     entry.BlogText, entry.Username, entry.Published, entry.PublishDateTime,
                     entry.LastModified, user.UserID == entry.UserId, entry.Tags,
                     new List<BlogCommentViewModel>(), IsUserLoggedIn(),
@@ -331,11 +331,11 @@ namespace Blog.Plugin.Controllers
 
         private MyBlogsViewModel GetMyBlogsViewModel(List<BlogItem> entries)
         {
-            List<BlogPostViewModel> blogPosts = new List<BlogPostViewModel>();
+            List<BlogPostViewModel> blogPosts = new();
 
             foreach (BlogItem entry in entries)
             {
-                BlogPostViewModel post = new BlogPostViewModel(entry.Id, entry.Title, entry.Excerpt,
+                BlogPostViewModel post = new(entry.Id, entry.Title, entry.Excerpt,
                     entry.BlogText, entry.Username, entry.Published, entry.PublishDateTime,
                     entry.LastModified, true, entry.Tags,
                     new List<BlogCommentViewModel>(), IsUserLoggedIn(),

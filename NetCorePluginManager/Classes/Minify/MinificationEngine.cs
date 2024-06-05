@@ -50,7 +50,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
             _operations.Add(new RemoveBlankLines());
             _operations.Add(new RemoveCarriageReturn());
             _operations.Add(new TrimLine());
-            _operations.Add(new RemoveCSSComments());
+            _operations.Add(new RemoveCssComments());
             _operations.Add(new RemoveHtmlComments());
             _operations.Add(new RemoveRazorComments());
             _operations.Add(new RemoveDoubleSpaces());
@@ -88,7 +88,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
             if (contents == null)
                 throw new ArgumentNullException(nameof(contents));
 
-            List<IMinifyResult> Result = new List<IMinifyResult>();
+            List<IMinifyResult> Result = new();
 
             switch (fileType)
             {
@@ -127,7 +127,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
             const string preStart = "<pre>";
             const string preEnd = "</pre>";
 
-            List<PreserveBlock> Result = new List<PreserveBlock>();
+            List<PreserveBlock> Result = new();
 
             int startPos = isRazor ? 0 : data.IndexOf(preStart, StringComparison.OrdinalIgnoreCase);
 

@@ -59,7 +59,7 @@ namespace SharedPluginFeatures
             if (string.IsNullOrEmpty(name))
                 return name;
 
-            StringBuilder Result = new StringBuilder(name.Length);
+            StringBuilder Result = new(name.Length);
             char lastChar = '\0';
 
             foreach (char c in name)

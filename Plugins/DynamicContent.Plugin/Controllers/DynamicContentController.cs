@@ -102,9 +102,9 @@ namespace DynamicContent.Plugin.Controllers
         {
             return new List<LookupListItem>()
             {
-                new LookupListItem(1, DynamicContentHeightType.Automatic.ToString()),
-                new LookupListItem(3, DynamicContentHeightType.Percentage.ToString()),
-                new LookupListItem(4, DynamicContentHeightType.Pixels.ToString()),
+                new(1, DynamicContentHeightType.Automatic.ToString()),
+                new(3, DynamicContentHeightType.Percentage.ToString()),
+                new(4, DynamicContentHeightType.Pixels.ToString()),
             };
         }
 
@@ -112,9 +112,9 @@ namespace DynamicContent.Plugin.Controllers
         {
             return new List<LookupListItem>()
             {
-                new LookupListItem(1, DynamicContentWidthType.Columns.ToString()),
-                new LookupListItem(2, DynamicContentWidthType.Percentage.ToString()),
-                new LookupListItem(3, DynamicContentWidthType.Pixels.ToString()),
+                new(1, DynamicContentWidthType.Columns.ToString()),
+                new(2, DynamicContentWidthType.Percentage.ToString()),
+                new(3, DynamicContentWidthType.Pixels.ToString()),
             };
         }
 
@@ -297,7 +297,7 @@ namespace DynamicContent.Plugin.Controllers
             if (dynamicContentPage == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidDynamicPage);
 
-            if (dynamicContentPage.Content.FirstOrDefault(ctl => ctl.UniqueId.Equals(model.ControlId)) == null)
+            if (dynamicContentPage.Content.Find(ctl => ctl.UniqueId.Equals(model.ControlId)) == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidControl);
 
             RepositionControls(dynamicContentPage, model.Controls);
@@ -331,7 +331,7 @@ namespace DynamicContent.Plugin.Controllers
             if (dynamicContentPage == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidDynamicPage);
 
-            DynamicContentTemplate control = dynamicContentPage.Content.FirstOrDefault(ctl => ctl.UniqueId.Equals(controlId));
+            DynamicContentTemplate control = dynamicContentPage.Content.Find(ctl => ctl.UniqueId.Equals(controlId));
 
             if (control == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
@@ -363,7 +363,7 @@ namespace DynamicContent.Plugin.Controllers
             if (dynamicContentPage == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
 
-            DynamicContentTemplate control = dynamicContentPage.Content.FirstOrDefault(ctl => ctl.UniqueId.Equals(model.UniqueId));
+            DynamicContentTemplate control = dynamicContentPage.Content.Find(ctl => ctl.UniqueId.Equals(model.UniqueId));
 
             if (control == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidControlId);
@@ -428,7 +428,7 @@ namespace DynamicContent.Plugin.Controllers
             if (dynamicContentPage == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
 
-            DynamicContentTemplate control = dynamicContentPage.Content.FirstOrDefault(ctl => ctl.UniqueId.Equals(controlId));
+            DynamicContentTemplate control = dynamicContentPage.Content.Find(ctl => ctl.UniqueId.Equals(controlId));
 
             if (control == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidControl);
@@ -460,7 +460,7 @@ namespace DynamicContent.Plugin.Controllers
             if (dynamicContentPage == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
 
-            DynamicContentTemplate control = dynamicContentPage.Content.FirstOrDefault(ctl => ctl.UniqueId.Equals(model.ControlId));
+            DynamicContentTemplate control = dynamicContentPage.Content.Find(ctl => ctl.UniqueId.Equals(model.ControlId));
 
             if (control == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidControl);
@@ -475,7 +475,7 @@ namespace DynamicContent.Plugin.Controllers
         [AjaxOnly]
         public IActionResult GetTemplates()
         {
-            TemplatesModel model = new TemplatesModel();
+            TemplatesModel model = new();
 
             foreach (DynamicContentTemplate template in _dynamicContentProvider.Templates().OrderBy(t => t.TemplateSortOrder))
             {
@@ -512,7 +512,7 @@ namespace DynamicContent.Plugin.Controllers
             if (dynamicContentPage == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
 
-            DynamicContentTemplate template = _dynamicContentProvider.Templates().FirstOrDefault(t => t.UniqueId.Equals(model.TemplateId));
+            DynamicContentTemplate template = _dynamicContentProvider.Templates().Find(t => t.UniqueId.Equals(model.TemplateId));
 
             if (template == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidTemplateNotFound);
@@ -612,7 +612,7 @@ namespace DynamicContent.Plugin.Controllers
         {
             IDynamicContentPage dynamicContentPage = cacheItem.Value as IDynamicContentPage;
 
-            StringBuilder content = new StringBuilder(4096);
+            StringBuilder content = new(4096);
             foreach (DynamicContentTemplate template in dynamicContentPage.Content.OrderBy(pc => pc.SortOrder))
             {
                 content.AppendFormat(EditControlRow,
@@ -637,7 +637,7 @@ namespace DynamicContent.Plugin.Controllers
 
         private EditPageModel GetEditPageModel(string cacheId, IDynamicContentPage dynamicContentPage)
         {
-            EditPageModel Result = new EditPageModel(GetModelData(), cacheId, dynamicContentPage.Id, dynamicContentPage.Name,
+            EditPageModel Result = new(GetModelData(), cacheId, dynamicContentPage.Id, dynamicContentPage.Name,
                 dynamicContentPage.RouteName, dynamicContentPage.ActiveFrom, dynamicContentPage.ActiveTo, dynamicContentPage.Content,
                 dynamicContentPage.BackgroundColor, dynamicContentPage.BackgroundImage);
 
@@ -652,8 +652,8 @@ namespace DynamicContent.Plugin.Controllers
         {
             IEnumerable<DynamicContentTemplate> templates = dynamicContentPage.Content.OrderBy(pc => pc.SortOrder);
 
-            StringBuilder content = new StringBuilder(4096);
-            List<string> inputControlIds = new List<string>();
+            StringBuilder content = new(4096);
+            List<string> inputControlIds = new();
 
             foreach (DynamicContentTemplate template in templates)
             {
@@ -688,7 +688,7 @@ namespace DynamicContent.Plugin.Controllers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool GetInputId(DynamicContentTemplate template, out string value)
         {
-            FormTemplateEditorModel formModel = new FormTemplateEditorModel(template.Data);
+            FormTemplateEditorModel formModel = new(template.Data);
 
             value = formModel.ControlName;
 

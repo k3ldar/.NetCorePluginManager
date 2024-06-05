@@ -83,15 +83,15 @@ namespace PluginManager.Tests
             Assert.IsNotNull(service);
 
             service.RegisterListener(new InvalidEventsListenerNullEvents());
-            object result = new object();
+            object result = new();
             service.RaiseEvent("Test2345", null, null, ref result);
         }
 
         [TestMethod]
         public void RaiseEvent_TwoListeners_FirstListenerRespondsTrue_SecondListenerNotProcessed_Success()
         {
-            ValidEventsListener validListnerProcessingEvent = new ValidEventsListener();
-            ValidEvents2 validListenerNotProcessingEvent = new ValidEvents2();
+            ValidEventsListener validListnerProcessingEvent = new();
+            ValidEvents2 validListenerNotProcessingEvent = new();
             INotificationService service = new NotificationService() as INotificationService;
 
             Assert.IsNotNull(service);
@@ -99,7 +99,7 @@ namespace PluginManager.Tests
             service.RegisterListener(validListnerProcessingEvent);
             service.RegisterListener(validListenerNotProcessingEvent);
 
-            object result = new object();
+            object result = new();
             bool eventProcessed = service.RaiseEvent("Test1", null, null, ref result);
 
             Assert.IsTrue(eventProcessed);
@@ -129,8 +129,8 @@ namespace PluginManager.Tests
         [TestMethod]
         public void RaiseEvent_MultipleListeners_FirstListenerDoesNotProcessEvent_SecondListenerDoes_Success()
         {
-            ValidEventsListener listenerNotProcessing = new ValidEventsListener();
-            ValidEvents2 listenerProcessing = new ValidEvents2();
+            ValidEventsListener listenerNotProcessing = new();
+            ValidEvents2 listenerProcessing = new();
             INotificationService service = new NotificationService() as INotificationService;
 
             Assert.IsNotNull(service);
@@ -138,7 +138,7 @@ namespace PluginManager.Tests
             service.RegisterListener(listenerNotProcessing);
             service.RegisterListener(listenerProcessing);
 
-            object result = new object();
+            object result = new();
             service.RaiseEvent("Test2", null, null, ref result);
 
             Assert.IsTrue(listenerNotProcessing.EventCount == 1);
@@ -151,7 +151,7 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void NotificationService_RegisterListener_ArgumentNullException_InvalidParam_Null_Throws_ArgumentNullException()
         {
-            NotificationService sut = new NotificationService();
+            NotificationService sut = new();
             sut.RegisterListener(null);
         }
 
@@ -159,15 +159,15 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void NotificationService_UnregisterListener_ArgumentNullException_InvalidParam_Null_Throws_ArgumentNullException()
         {
-            NotificationService sut = new NotificationService();
+            NotificationService sut = new();
             sut.UnregisterListener(null);
         }
 
         [TestMethod]
         public void NotificationService_RaiseEvent_EventNotRegistered_Returns_False()
         {
-            NotificationService sut = new NotificationService();
-            object result = new object();
+            NotificationService sut = new();
+            object result = new();
             bool raiseResult = sut.RaiseEvent("unknownevent", null, null, ref result);
 
             Assert.IsFalse(raiseResult);
@@ -177,7 +177,7 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void NotificationService_RegisterListener_ContainsNullEventName_Throws_InvalidOperationException()
         {
-            NotificationService sut = new NotificationService();
+            NotificationService sut = new();
             sut.RegisterListener(new InvalidEventsListenerNullEventName());
         }
 
@@ -185,7 +185,7 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void NotificationService_UnregisterListener_ContainsNoEventNames_Throws_InvalidOperationException()
         {
-            NotificationService sut = new NotificationService();
+            NotificationService sut = new();
             sut.UnregisterListener(new InvalidEventsListenerNoEvents());
         }
 
@@ -193,15 +193,15 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void NotificationService_UnregisterListener_ContainsInvalidEventNames_Null_Throws_InvalidOperationException()
         {
-            NotificationService sut = new NotificationService();
+            NotificationService sut = new();
             sut.UnregisterListener(new InvalidEventsListenerNullEvents());
         }
 
         [TestMethod]
         public void NotificationService_UnregisterListener_Valid_Returns_True()
         {
-            NotificationService sut = new NotificationService();
-            ValidEventsListener listener = new ValidEventsListener();
+            NotificationService sut = new();
+            ValidEventsListener listener = new();
             bool registerResult = sut.RegisterListener(listener);
 
             Assert.IsTrue(registerResult);
@@ -215,16 +215,16 @@ namespace PluginManager.Tests
 		public void NotificationService_Run_NotifiesAllInterestedListeners_Success()
         {
             ThreadManager.Initialise();
-            MockLogger testLogger = new MockLogger();
+            MockLogger testLogger = new();
 
-            ThreadManagerInitialisation tmi = new ThreadManagerInitialisation();
+            ThreadManagerInitialisation tmi = new();
             tmi.Initialise(testLogger);
             try
             {
-                NotificationService sut = new NotificationService();
-                ValidEventsListener listener1 = new ValidEventsListener();
-                ValidEventsListener listener2 = new ValidEventsListener();
-                ValidEventsNotUsed listener3 = new ValidEventsNotUsed();
+                NotificationService sut = new();
+                ValidEventsListener listener1 = new();
+                ValidEventsListener listener2 = new();
+                ValidEventsNotUsed listener3 = new();
 
                 Assert.IsTrue(sut.RegisterListener(listener1));
                 Assert.IsTrue(sut.RegisterListener(listener2));
@@ -298,13 +298,13 @@ namespace PluginManager.Tests
 		public void NotificationService_Run_NotifiesAllInterestedListeners_ExceedsQueueSize_Success()
         {
             ThreadManager.Initialise();
-            MockLogger testLogger = new MockLogger();
-            ThreadManagerInitialisation tmi = new ThreadManagerInitialisation();
+            MockLogger testLogger = new();
+            ThreadManagerInitialisation tmi = new();
             tmi.Initialise(testLogger);
             try
             {
-                NotificationService sut = new NotificationService();
-                ValidEventsListener listener1 = new ValidEventsListener();
+                NotificationService sut = new();
+                ValidEventsListener listener1 = new();
 
                 Assert.IsTrue(sut.RegisterListener(listener1));
 
@@ -350,13 +350,13 @@ namespace PluginManager.Tests
 		public void NotificationService_Run_NotifiesAllInterestedListeners_NoneFoundSuccess()
         {
             ThreadManager.Initialise();
-            MockLogger testLogger = new MockLogger();
-            ThreadManagerInitialisation tmi = new ThreadManagerInitialisation();
+            MockLogger testLogger = new();
+            ThreadManagerInitialisation tmi = new();
             tmi.Initialise(testLogger);
             try
             {
-                NotificationService sut = new NotificationService();
-                ValidEventsNotUsed listener3 = new ValidEventsNotUsed();
+                NotificationService sut = new();
+                ValidEventsNotUsed listener3 = new();
 
                 Assert.IsTrue(sut.RegisterListener(listener3));
 
@@ -408,7 +408,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void NotificationQueueItem_ContainsValidData_Success()
         {
-            NotificationQueueItem sut = new NotificationQueueItem("test", new MockLogger(), 123);
+            NotificationQueueItem sut = new("test", new MockLogger(), 123);
 
             Assert.AreEqual("test", sut.EventId);
             Assert.IsNotNull(sut.Param1);
@@ -455,8 +455,8 @@ namespace PluginManager.Tests
 
         public List<string> GetEvents()
         {
-            List<string> Result = new List<string>
-            {
+            List<string> Result = new()
+			{
                 null
             };
 
@@ -505,8 +505,8 @@ namespace PluginManager.Tests
     [ExcludeFromCodeCoverage]
     public class ValidEventsListener : INotificationListener
     {
-        public List<object> param1Values = new List<object>();
-        public List<object> param2Values = new List<object>();
+        public List<object> param1Values = new();
+        public List<object> param2Values = new();
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         public bool EventRaised(in string eventId, in object param1, in object param2, ref object result)

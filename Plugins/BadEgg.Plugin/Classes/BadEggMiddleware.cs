@@ -61,7 +61,7 @@ namespace BadEgg.Plugin
         private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
         private readonly BadEggSettings _badEggSettings;
         private readonly INotificationService _notificationService;
-        internal readonly static Timings _timings = new Timings();
+        internal readonly static Timings _timings = new();
 
         #endregion Private Members
 
@@ -128,7 +128,7 @@ namespace BadEgg.Plugin
             if (context.Request.Headers.ContainsKey(Constants.BadEggValidationIgnoreHeaderName) &&
                 context.Request.Headers[Constants.BadEggValidationIgnoreHeaderName].Equals(_badEggSettings.IgnoreValidationHeaderCode))
             {
-                context.Response.Headers.Add(Constants.BadEggValidationIgnoreHeaderName, Boolean.TrueString);
+                context.Response.Headers[Constants.BadEggValidationIgnoreHeaderName] = Boolean.TrueString;
                 await _next(context);
                 return;
             }

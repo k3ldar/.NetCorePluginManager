@@ -136,7 +136,7 @@ namespace Spider.Plugin.Controllers
                 ModelState.AddModelError(nameof(model.Route), "Invalid route");
 
             DeniedRoute deniedRoute = _robots.DeniedRoutes
-				.FirstOrDefault(cr => cr.UserAgent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) && 
+				.Find(cr => cr.UserAgent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) && 
 				cr.Route.Equals(model.Route, StringComparison.InvariantCultureIgnoreCase));
 
             if (deniedRoute != null)
@@ -145,7 +145,7 @@ namespace Spider.Plugin.Controllers
             if (!ModelState.IsValid)
                 return CreateDefaultPartialView();
 
-            IRobotRouteData customRoute = _robots.CustomRoutes.FirstOrDefault(cr =>
+            IRobotRouteData customRoute = _robots.CustomRoutes.Find(cr =>
                 cr.Agent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) &&
                 cr.Route.Equals(model.Route, StringComparison.InvariantCultureIgnoreCase) &&
                 cr.IsCustom);
@@ -174,7 +174,7 @@ namespace Spider.Plugin.Controllers
 
         private EditRobotsModel CreateRobotsModel()
         {
-            List<CustomAgentModel> customAgents = new List<CustomAgentModel>();
+            List<CustomAgentModel> customAgents = new();
 
             foreach (DeniedRoute deniedRoute in _robots.DeniedRoutes)
             {

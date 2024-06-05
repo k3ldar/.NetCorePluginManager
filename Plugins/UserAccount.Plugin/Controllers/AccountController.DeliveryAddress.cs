@@ -40,9 +40,11 @@ namespace UserAccount.Plugin.Controllers
 
     public partial class AccountController
     {
-        #region Public Controller Methods
+		private const string UrlDeliveryAddress = "/Account/DeliveryAddress";
 
-        [HttpGet]
+		#region Public Controller Methods
+
+		[HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.MyDeliveryAddresses), nameof(AccountController), nameof(Index))]
         public IActionResult DeliveryAddress()
         {
@@ -55,7 +57,7 @@ namespace UserAccount.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.DeliveryAddressAdd), nameof(AccountController), nameof(DeliveryAddress))]
         public IActionResult DeliveryAddressAdd(string returnUrl)
         {
-            EditDeliveryAddressViewModel model = new EditDeliveryAddressViewModel(returnUrl);
+            EditDeliveryAddressViewModel model = new(returnUrl);
             PrepareDeliveryAddressModel(ref model, null);
 
             return View(model);
@@ -77,10 +79,10 @@ namespace UserAccount.Plugin.Controllers
                 {
                     GrowlAdd(Languages.LanguageStrings.DeliveryAddressCreated);
 
-                    if (!String.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+                    if (!String.IsNullOrEmpty(model.ReturnUrl) && UrlDeliveryAddress.IsLocalUrl(model.ReturnUrl))
                         return new RedirectResult(model.ReturnUrl, false);
 
-                    return new RedirectResult("/Account/DeliveryAddress", false);
+                    return new RedirectResult(UrlDeliveryAddress, false);
                 }
 
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FailedToUpdateDeliveryAddress);
@@ -98,9 +100,9 @@ namespace UserAccount.Plugin.Controllers
             DeliveryAddress address = _accountProvider.GetDeliveryAddress(UserId(), id);
 
             if (address == null)
-                return new RedirectResult("/Account/DeliveryAddress", false);
+                return new RedirectResult(UrlDeliveryAddress, false);
 
-            EditDeliveryAddressViewModel model = new EditDeliveryAddressViewModel(GetModelData());
+            EditDeliveryAddressViewModel model = new(GetModelData());
             PrepareDeliveryAddressModel(ref model, address);
 
             return View(model);
@@ -113,7 +115,7 @@ namespace UserAccount.Plugin.Controllers
                 throw new ArgumentNullException(nameof(model));
 
             if (_accountProvider.GetDeliveryAddress(UserId(), model.AddressId) == null)
-                return new RedirectResult("/Account/DeliveryAddress");
+                return new RedirectResult(UrlDeliveryAddress);
 
             ValidateDeliveryAddressModel(model);
 
@@ -124,7 +126,7 @@ namespace UserAccount.Plugin.Controllers
                     model.County, model.Postcode, model.Country, model.PostageCost)))
                 {
                     GrowlAdd(Languages.LanguageStrings.DeliveryAddressUpdated);
-                    return new RedirectResult("/Account/DeliveryAddress", false);
+                    return new RedirectResult(UrlDeliveryAddress, false);
                 }
 
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FailedToUpdateDeliveryAddress);
@@ -147,7 +149,7 @@ namespace UserAccount.Plugin.Controllers
                 DeliveryAddress address = _accountProvider.GetDeliveryAddress(UserId(), addressId);
 
                 if (address == null)
-                    return new RedirectResult("/Account/DeliveryAddress", false);
+                    return new RedirectResult(UrlDeliveryAddress, false);
 
                 _accountProvider.DeleteDeliveryAddress(UserId(), address);
 

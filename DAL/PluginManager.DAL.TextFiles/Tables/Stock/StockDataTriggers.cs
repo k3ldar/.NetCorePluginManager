@@ -50,7 +50,7 @@ namespace PluginManager.DAL.TextFiles.Tables.Stock
 
 		public void BeforeDelete(List<StockDataRow> records)
 		{
-			if (records.Any(r => r.StockAvailability > 0))
+			if (records.Exists(r => r.StockAvailability > 0))
 				throw new InvalidDataRowException(nameof(StockDataRow), nameof(StockDataRow.StockAvailability), "Unable to delete a product when stock is available.");
 		}
 

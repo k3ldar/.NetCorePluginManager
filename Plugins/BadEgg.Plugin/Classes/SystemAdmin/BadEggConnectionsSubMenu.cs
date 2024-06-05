@@ -61,7 +61,7 @@ namespace BadEgg.Plugin.Classes.SystemAdmin
         /// <returns>string</returns>
         public override string Data()
         {
-            StringBuilder Result = new StringBuilder("IP Address|Requests|Total Time|Created|Last Entry|Hits Per Minute|Results");
+            StringBuilder Result = new("IP Address|Requests|Total Time|Created|Last Entry|Hits Per Minute|Results");
 
             string memStatus = WebDefender.ValidateConnections.GetMemoryStatus();
 

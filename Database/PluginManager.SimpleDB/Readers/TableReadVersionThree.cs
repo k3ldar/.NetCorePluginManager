@@ -37,7 +37,7 @@ namespace SimpleDB.Readers
 
 		public List<T> ReadRecords<T>(FileStream fileStream, ref int pageCount, ref int recordCount, ref int dataLength)
 		{
-			using BinaryReader reader = new BinaryReader(fileStream, Encoding.UTF8, true);
+			using BinaryReader reader = new(fileStream, Encoding.UTF8, true);
 			fileStream.Seek(Consts.StartOfRecordCount, SeekOrigin.Begin);
 			CompressionType compressionType = (CompressionType)reader.ReadByte();
 			pageCount = -1;

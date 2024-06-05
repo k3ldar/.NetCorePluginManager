@@ -55,7 +55,7 @@ namespace ProductPlugin.Controllers
     {
         #region Private Static Members
 
-        private static readonly object _lockObject = new object();
+        private static readonly object _lockObject = new();
 
         #endregion Private Static Members
 
@@ -87,9 +87,9 @@ namespace ProductPlugin.Controllers
 
             GetSearchId(model);
 
-            KeywordSearchProvider searchProvider = new KeywordSearchProvider(_productProvider);
+            KeywordSearchProvider searchProvider = new(_productProvider);
 
-            KeywordSearchOptions options = new KeywordSearchOptions(model.SearchText ?? String.Empty)
+            KeywordSearchOptions options = new(model.SearchText ?? String.Empty)
             {
                 MaximumSearchResults = Constants.MaximumProducts
             };
@@ -104,14 +104,14 @@ namespace ProductPlugin.Controllers
                     options.Properties.Add(item.Name, KeywordSearchProvider.ProductGroup);
             }
 
-            List<ProductPriceInfo> prices = new List<ProductPriceInfo>();
+            List<ProductPriceInfo> prices = new();
             List<ProductPriceInfo> priceGroups = GetPriceGroups();
 
             foreach (CheckedViewItemModel item in model.Prices)
             {
                 if (item.Selected)
                 {
-                    ProductPriceInfo priceGroup = priceGroups.FirstOrDefault(pg => pg.Text.Equals(item.Name));
+                    ProductPriceInfo priceGroup = priceGroups.Find(pg => pg.Text.Equals(item.Name));
 
                     if (priceGroup != null)
                         prices.Add(priceGroup);
@@ -152,7 +152,7 @@ namespace ProductPlugin.Controllers
 
                 if (cacheItem == null)
                 {
-                    List<string> productGroups = new List<string>();
+                    List<string> productGroups = new();
 
                     foreach (ProductGroup item in _productProvider.ProductGroupsGet())
                         productGroups.Add(item.Description);
@@ -182,7 +182,7 @@ namespace ProductPlugin.Controllers
                 {
                     int videoCount = _productProvider.GetProducts(1, Constants.MaximumProducts)
                         .Count(p => !String.IsNullOrEmpty(p.VideoLink));
-                    List<string> productGroups = new List<string>();
+                    List<string> productGroups = new();
 
                     foreach (ProductGroup item in _productProvider.ProductGroupsGet())
                         productGroups.Add(item.Description);
@@ -211,7 +211,7 @@ namespace ProductPlugin.Controllers
 
                 if (cacheItem == null)
                 {
-                    List<ProductPriceInfo> priceGroups = new List<ProductPriceInfo>();
+                    List<ProductPriceInfo> priceGroups = new();
 
                     string[] prices = _settings.PriceGroups.Split(';', StringSplitOptions.RemoveEmptyEntries);
                     decimal lastValue = -1;
@@ -284,7 +284,7 @@ namespace ProductPlugin.Controllers
                 }
             }
 
-            ProductSearchViewModel Result = new ProductSearchViewModel();
+            ProductSearchViewModel Result = new();
 
             foreach (string group in GetProductGroups())
             {
@@ -312,7 +312,7 @@ namespace ProductPlugin.Controllers
                 byte[] hashBytes = md5.ComputeHash(inputBytes);
 
                 // Convert the byte array to hexadecimal string
-                StringBuilder sb = new StringBuilder();
+                StringBuilder sb = new();
                 for (int i = 0; i < hashBytes.Length; i++)
                 {
                     sb.Append(hashBytes[i].ToString("X2"));

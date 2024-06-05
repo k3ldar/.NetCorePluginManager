@@ -64,14 +64,14 @@ namespace AspNetCore.PluginManager.Classes.Minify
         protected override Boolean Run(Object parameters)
         {
             int totalBytesSaved = 0;
-            Timings minifyTimings = new Timings();
+            Timings minifyTimings = new();
             List<string> files = (List<string>)parameters;
 
             using (StopWatchTimer.Initialise(minifyTimings))
             {
                 foreach (string file in files)
                 {
-                    Timings fileTimings = new Timings();
+                    Timings fileTimings = new();
                     using (StopWatchTimer.Initialise(fileTimings))
                     {
                         try

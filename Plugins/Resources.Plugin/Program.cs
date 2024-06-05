@@ -64,7 +64,7 @@ namespace Resources.Plugin
 			//PluginManagerService.UsePlugin(typeof(GeoIp.Plugin.PluginInitialisation));
 			//PluginManagerService.UsePlugin(typeof(ImageManager.Plugin.PluginInitialisation));
 
-			PluginManagerConfiguration configuration = new PluginManagerConfiguration();
+			PluginManagerConfiguration configuration = new();
 
 			// Initialise the plugin manager service
 			PluginManagerService.Initialise(configuration);

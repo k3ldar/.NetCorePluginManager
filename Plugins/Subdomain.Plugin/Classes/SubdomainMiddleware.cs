@@ -70,7 +70,7 @@ namespace Subdomain.Plugin
         private readonly bool _processStaticFiles;
         private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
         private readonly ILogger _logger;
-        internal readonly static Timings _timings = new Timings();
+        internal readonly static Timings _timings = new();
 
         #endregion Private Members
 
@@ -132,7 +132,7 @@ namespace Subdomain.Plugin
 
         public IReadOnlyList<string> RoutesWithoutSubdomain => _routesWithoutSubdomains.AsReadOnly();
 
-        public ReadOnlyDictionary<string, SubdomainSetting> RoutesWithSubdomain => new ReadOnlyDictionary<string, SubdomainSetting>(_subdomainMappings);
+        public ReadOnlyDictionary<string, SubdomainSetting> RoutesWithSubdomain => new(_subdomainMappings);
 
         #endregion Properties
 
@@ -246,7 +246,7 @@ namespace Subdomain.Plugin
             in IPluginClassesService pluginClassesService, in SubdomainSettings settings)
         {
             List<Type> classesWithSubdomainAttribute = pluginTypesService.GetPluginTypesWithAttribute<SubdomainAttribute>();
-            List<Type> classesWithValidSubdomain = new List<Type>();
+            List<Type> classesWithValidSubdomain = new();
 
             // Cycle through all classes which have the subdomain attribute
             foreach (Type classType in classesWithSubdomainAttribute)

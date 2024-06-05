@@ -44,7 +44,7 @@ namespace SimpleDB.Writers
 			int dataLength = data.Length;
 			bool isCompressed = false;
 
-			using BinaryWriter writer = new BinaryWriter(fileStream, Encoding.UTF8, true);
+			using BinaryWriter writer = new(fileStream, Encoding.UTF8, true);
 			writer.Seek(Consts.StartOfRecordCount, SeekOrigin.Begin);
 
 			if (compressionType == CompressionType.Brotli)

@@ -92,7 +92,7 @@ namespace GeoIp.Plugin
             // if available, load Webnet77 data
             if (File.Exists(_webNet77DataFile))
             {
-                using (StreamReader stream = new StreamReader(_webNet77DataFile))
+                using (StreamReader stream = new(_webNet77DataFile))
                 {
                     while (!stream.EndOfStream)
                     {
@@ -143,7 +143,7 @@ namespace GeoIp.Plugin
             try
             {
 #pragma warning disable SYSLIB0014 // Type or member is obsolete
-                using (WebClient client = new WebClient())
+                using (WebClient client = new())
                 {
                     client.DownloadFile(_webnet77CsvUrl, downloadFile);
                 }

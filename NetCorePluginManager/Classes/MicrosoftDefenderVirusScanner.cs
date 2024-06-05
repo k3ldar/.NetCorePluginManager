@@ -44,7 +44,7 @@ namespace AspNetCore.PluginManager.Internal
         private const string DefenderPath = "Microsoft\\Windows Defender\\Platform";
         private const string DefenderExe = "MpCmdRun.exe";
         private string _defenderProcess = null;
-        private static readonly Timings _timingsVirusScan = new Timings();
+        private static readonly Timings _timingsVirusScan = new();
 
         private readonly ILogger _logger;
 
@@ -123,7 +123,7 @@ namespace AspNetCore.PluginManager.Internal
         {
             using (TimedLock timedLock = TimedLock.Lock(_timingsVirusScan))
             using (StopWatchTimer scanTimer = StopWatchTimer.Initialise(_timingsVirusScan))
-            using (Process process = new Process())
+            using (Process process = new())
             {
                 process.StartInfo.FileName = _defenderProcess;
                 process.StartInfo.Arguments = $"-Scan -ScanType 3 -File \"{pathOrFile}\"";
@@ -168,7 +168,7 @@ namespace AspNetCore.PluginManager.Internal
 
             foreach (string directory in directories)
             {
-                DirectoryInfo di = new DirectoryInfo(directory);
+                DirectoryInfo di = new(directory);
 
                 if (di.CreationTime > newest && File.Exists(Path.Combine(directory, DefenderExe)))
                 {

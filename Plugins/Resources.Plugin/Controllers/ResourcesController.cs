@@ -213,7 +213,7 @@ namespace Resources.Plugin.Controllers
 
 			if (!ModelState.IsValid)
 			{
-				ResourceCategoryModel resourceCategoryModel = new ResourceCategoryModel(model.Id, model.Name, model.Description, model.ForeColor,
+				ResourceCategoryModel resourceCategoryModel = new(model.Id, model.Name, model.Description, model.ForeColor,
 					model.BackColor, model.Image, model.RouteName, model.IsVisible, model.ParentId);
 				return View(resourceCategoryModel);
 			}
@@ -349,7 +349,7 @@ namespace Resources.Plugin.Controllers
 			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, ResourcesBreadcrumb, false));
 			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.CreateCategory, $"/Resources/CreateCategory/{model.ParentId}/", false));
 
-			CreateResourceItemModel resultModel = new CreateResourceItemModel(baseModelData, model.ParentId)
+			CreateResourceItemModel resultModel = new(baseModelData, model.ParentId)
 			{
 				Name = model.Name,
 				Description = model.Description,
@@ -379,14 +379,14 @@ namespace Resources.Plugin.Controllers
 			if (resourceItem == null)
 				return RedirectToAction(nameof(ManageResourceItems));
 
-			List<NameIdModel> allCategories = new List<NameIdModel>();
+			List<NameIdModel> allCategories = new();
 
 			_resourceProvider.RetrieveAllCategories().ForEach(c =>
 			{
 				allCategories.Add(new NameIdModel(c.Id, c.Name));
 			});
 
-			ResourceEditResourceItemModel model = new ResourceEditResourceItemModel(GetModelData(), resourceItem.Id,
+			ResourceEditResourceItemModel model = new(GetModelData(), resourceItem.Id,
 				resourceItem.CategoryId, resourceItem.ResourceType, resourceItem.UserId, resourceItem.UserName,
 				resourceItem.Name, resourceItem.Description, resourceItem.Value, resourceItem.Approved,
 				String.Join(SharedPluginFeatures.Constants.NewLineChar, resourceItem.Tags), allCategories);
@@ -405,14 +405,14 @@ namespace Resources.Plugin.Controllers
 
 			if (!ModelState.IsValid)
 			{
-				List<NameIdModel> allCategories = new List<NameIdModel>();
+				List<NameIdModel> allCategories = new();
 
 				_resourceProvider.RetrieveAllCategories().ForEach(c =>
 				{
 					allCategories.Add(new NameIdModel(c.Id, c.Name));
 				});
 
-				ResourceEditResourceItemModel resourceCategoryModel = new ResourceEditResourceItemModel(GetModelData(), model.Id,
+				ResourceEditResourceItemModel resourceCategoryModel = new(GetModelData(), model.Id,
 					model.CategoryId, model.ResourceType, model.UserId, model.UserName, model.Name, model.Description,
 					model.Value, model.Approved, model.Tags, allCategories);
 
@@ -479,7 +479,7 @@ namespace Resources.Plugin.Controllers
 
 			List<ResourceItem> resourceBookmarks = _resourceProvider.RetrieveUserBookmarks(UserId());
 
-			List<NameIdModel> nameIdModels = new List<NameIdModel>();
+			List<NameIdModel> nameIdModels = new();
 
 			resourceBookmarks.ForEach(rb => nameIdModels.Add(new NameIdModel(rb.Id, rb.Name)));
 
@@ -576,7 +576,7 @@ namespace Resources.Plugin.Controllers
 		{
 			try
 			{
-				Uri uri = new Uri(value, UriKind.Absolute);
+				Uri uri = new(value, UriKind.Absolute);
 				if (!uri.IsAbsoluteUri)
 				{
 					ModelState.AddModelError(String.Empty, LanguageStrings.InvalidUriNotAbsolute);
@@ -641,7 +641,7 @@ namespace Resources.Plugin.Controllers
 		{
 			try
 			{
-				Uri uri = new Uri(value, UriKind.Absolute);
+				Uri uri = new(value, UriKind.Absolute);
 				if (!uri.IsAbsoluteUri)
 				{
 					ModelState.AddModelError(String.Empty, LanguageStrings.InvalidImageNotAbsolute);
@@ -691,7 +691,7 @@ namespace Resources.Plugin.Controllers
 
 		private static HttpClient CreateHttpClient(string baseAddress)
 		{
-			HttpClient httpClient = new HttpClient
+			HttpClient httpClient = new()
 			{
 				BaseAddress = new Uri(baseAddress)
 			};
@@ -703,7 +703,7 @@ namespace Resources.Plugin.Controllers
 
 		private ManageCategoryModel CreateManageCategoryModel()
 		{
-			List<ResourceCategoryModel> resources = new List<ResourceCategoryModel>();
+			List<ResourceCategoryModel> resources = new();
 
 			foreach (ResourceCategory row in _resourceProvider.RetrieveAllCategories())
 			{
@@ -716,7 +716,7 @@ namespace Resources.Plugin.Controllers
 
 		private ManageResourceItemModel CreateManageResourceItemModel()
 		{
-			List<ResourceItemModel> resources = new List<ResourceItemModel>();
+			List<ResourceItemModel> resources = new();
 
 			foreach (ResourceItem row in _resourceProvider.RetrieveAllResourceItems())
 			{
@@ -733,7 +733,7 @@ namespace Resources.Plugin.Controllers
 			if (resourceCategory == null)
 				return null;
 
-			List<ResourceItemModel> resources = new List<ResourceItemModel>();
+			List<ResourceItemModel> resources = new();
 
 			foreach (ResourceItem resourceItem in resourceCategory.ResourceItems)
 			{
@@ -744,7 +744,7 @@ namespace Resources.Plugin.Controllers
 					resourceItem.Dislikes, resourceItem.ViewCount, resourceItem.Approved));
 			}
 
-			List<NameIdModel> allCategories = new List<NameIdModel>()
+			List<NameIdModel> allCategories = new()
 			{
 				new NameIdModel(0, LanguageStrings.NoParent)
 			};
@@ -755,7 +755,7 @@ namespace Resources.Plugin.Controllers
 					allCategories.Add(new NameIdModel(c.Id, c.Name));
 			});
 
-			ResourceEditCategoryModel Result = new ResourceEditCategoryModel(GetModelData(), resourceCategory.Id, resourceCategory.Name,
+			ResourceEditCategoryModel Result = new(GetModelData(), resourceCategory.Id, resourceCategory.Name,
 				resourceCategory.Description, resourceCategory.ForeColor, resourceCategory.BackColor,
 				resourceCategory.Image, resourceCategory.RouteName, resourceCategory.IsVisible, resourceCategory.ParentId,
 				allCategories);
@@ -771,7 +771,7 @@ namespace Resources.Plugin.Controllers
 			if (resourceCategory == null)
 				return null;
 
-			List<ResourceItemModel> resources = new List<ResourceItemModel>();
+			List<ResourceItemModel> resources = new();
 
 			foreach (ResourceItem resourceItem in resourceCategory.ResourceItems.OrderBy(rc => rc.Name))
 			{
@@ -782,14 +782,14 @@ namespace Resources.Plugin.Controllers
 					resourceItem.Dislikes, resourceItem.ViewCount, resourceItem.Approved));
 			}
 
-			List<ResourceCategoryModel> modelSubCategories = new List<ResourceCategoryModel>();
+			List<ResourceCategoryModel> modelSubCategories = new();
 
 			List<ResourceCategory> subCategories = _resourceProvider.GetAllResources(resourceCategory.Id);
 
 			foreach (ResourceCategory subCategory in subCategories)
 				modelSubCategories.Add(CreateResourceCategoryViewModel(subCategory));
 
-			ResourceCategoryModel Result = new ResourceCategoryModel(GetModelData(), resourceCategory.Id, resourceCategory.Name,
+			ResourceCategoryModel Result = new(GetModelData(), resourceCategory.Id, resourceCategory.Name,
 				resourceCategory.Description, resourceCategory.ForeColor, resourceCategory.BackColor,
 				resourceCategory.Image, resourceCategory.RouteName, resourceCategory.IsVisible, resourceCategory.ParentId,
 				modelSubCategories, resources);
@@ -805,7 +805,7 @@ namespace Resources.Plugin.Controllers
 
 		private ResourcesModel CreateResourcesModel(List<ResourceCategory> resourceList)
 		{
-			List<ResourceCategoryModel> resources = new List<ResourceCategoryModel>();
+			List<ResourceCategoryModel> resources = new();
 
 			foreach (ResourceCategory row in resourceList)
 			{
@@ -820,7 +820,7 @@ namespace Resources.Plugin.Controllers
 		{
 			ResourceCategory resourceCategory = _resourceProvider.GetResourceCategory(resourceItem.CategoryId);
 
-			ResourceViewItemModel Result = new ResourceViewItemModel(GetModelData(), resourceItem.Id, resourceItem.CategoryId,
+			ResourceViewItemModel Result = new(GetModelData(), resourceItem.Id, resourceItem.CategoryId,
 				resourceItem.ResourceType, resourceItem.UserId,
 				resourceItem.UserName, resourceCategory.Name,
 				resourceItem.Description, resourceItem.Value, resourceItem.Likes,

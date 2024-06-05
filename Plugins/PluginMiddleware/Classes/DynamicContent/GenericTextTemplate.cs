@@ -145,7 +145,7 @@ namespace Middleware.Classes.DynamicContent
 
 		private string GenerateContent(bool isEditing)
 		{
-			StringBuilder Result = new StringBuilder(2048);
+			StringBuilder Result = new(2048);
 
 			HtmlStart(Result, isEditing);
 

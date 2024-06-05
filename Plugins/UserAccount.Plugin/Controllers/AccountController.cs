@@ -62,7 +62,7 @@ namespace UserAccount.Plugin.Controllers
 		private readonly ICultureProvider _cultureProvider;
 		private readonly bool _blogLoaded;
 
-		private static readonly CacheManager _createAccountCache = new CacheManager("Create Account Cache", new TimeSpan(0, 30, 0));
+		private static readonly CacheManager _createAccountCache = new("Create Account Cache", new TimeSpan(0, 30, 0));
 
 		#endregion Private Members
 
@@ -116,7 +116,7 @@ namespace UserAccount.Plugin.Controllers
 		public IActionResult Index()
 		{
 			string growl = GrowlGet();
-			AccountViewModel model = new AccountViewModel(GetModelData(),
+			AccountViewModel model = new(GetModelData(),
 				_accountSettings,
 				growl ?? String.Empty);
 			model.Settings.ShowBlog = _blogLoaded && _accountSettings.ShowBlog;
@@ -136,11 +136,11 @@ namespace UserAccount.Plugin.Controllers
 			if (createAccountCacheItem == null)
 				return StatusCode(SharedPluginFeatures.Constants.HtmlResponseBadRequest);
 
-			CaptchaImage ci = new CaptchaImage(createAccountCacheItem.CaptchaText, 240, 60, "Century Schoolbook");
+			CaptchaImage ci = new(createAccountCacheItem.CaptchaText, 240, 60, "Century Schoolbook");
 			try
 			{
 				// Write the image to the response stream in JPEG format.
-				using (MemoryStream ms = new MemoryStream())
+				using (MemoryStream ms = new())
 				{
 					ci.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
 

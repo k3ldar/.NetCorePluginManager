@@ -38,9 +38,9 @@ namespace SimpleDB
 
 
 		private uint _minimumVersion = DefaultMinimumVersion;
-		private readonly Dictionary<string, ISimpleDBTable> _tables = new Dictionary<string, ISimpleDBTable>();
-		private readonly Dictionary<ISimpleDBTable, DateTime> _tableLastAction = new Dictionary<ISimpleDBTable, DateTime>();
-		private readonly object _lock = new object();
+		private readonly Dictionary<string, ISimpleDBTable> _tables = new();
+		private readonly Dictionary<ISimpleDBTable, DateTime> _tableLastAction = new();
+		private readonly object _lock = new();
 
 		#region Constructors
 

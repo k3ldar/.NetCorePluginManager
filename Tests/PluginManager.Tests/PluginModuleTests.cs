@@ -69,7 +69,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void Version_Set_RemembersSetting_Success()
         {
-            PluginModule sut = new PluginModule(Assembly.GetExecutingAssembly(), "TestAssembly", new MockIPlugin());
+            PluginModule sut = new(Assembly.GetExecutingAssembly(), "TestAssembly", new MockIPlugin());
             sut.Version = 123;
 
             Assert.AreEqual(123, sut.Version);
@@ -79,7 +79,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void Module_Set_RemembersSetting_Success()
         {
-            PluginModule sut = new PluginModule(Assembly.GetExecutingAssembly(), "TestAssembly", new MockIPlugin());
+            PluginModule sut = new(Assembly.GetExecutingAssembly(), "TestAssembly", new MockIPlugin());
 
             Assert.AreEqual("TestAssembly", sut.Module);
         }
@@ -87,7 +87,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void Assembly_Set_RemembersSetting_Success()
         {
-            PluginModule sut = new PluginModule(Assembly.GetExecutingAssembly(), "TestAssembly", new MockIPlugin());
+            PluginModule sut = new(Assembly.GetExecutingAssembly(), "TestAssembly", new MockIPlugin());
 
             Assert.AreEqual(Assembly.GetExecutingAssembly(), sut.Assembly);
         }
@@ -95,8 +95,8 @@ namespace PluginManager.Tests
         [TestMethod]
         public void Plugin_Set_RemembersSetting_Success()
         {
-            MockIPlugin mockIPlugin = new MockIPlugin();
-            PluginModule sut = new PluginModule(Assembly.GetExecutingAssembly(), "TestAssembly", mockIPlugin);
+            MockIPlugin mockIPlugin = new();
+            PluginModule sut = new(Assembly.GetExecutingAssembly(), "TestAssembly", mockIPlugin);
 
             Assert.AreEqual(mockIPlugin, sut.Plugin);
         }
@@ -104,8 +104,8 @@ namespace PluginManager.Tests
         [TestMethod]
         public void FileVersion_Set_RemembersSetting_Success()
         {
-            MockIPlugin mockIPlugin = new MockIPlugin();
-            PluginModule sut = new PluginModule(Assembly.GetExecutingAssembly(), "TestAssembly", mockIPlugin)
+            MockIPlugin mockIPlugin = new();
+            PluginModule sut = new(Assembly.GetExecutingAssembly(), "TestAssembly", mockIPlugin)
             {
                 FileVersion = "1.2.3.4"
             };

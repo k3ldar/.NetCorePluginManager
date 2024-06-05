@@ -71,7 +71,7 @@ namespace LoginPlugin.Controllers
 
         public IActionResult GoogleCallback(string code, string scope, string authuser, string prompt)
         {
-            NVPCodec parameters = new NVPCodec();
+            NVPCodec parameters = new();
             parameters.Add(OAuthCode, code);
             parameters.Add(OAuthClientId, _settings.GoogleClientId);
             parameters.Add(OAuthClientSecret, _settings.GoogleSecret);
@@ -119,7 +119,7 @@ namespace LoginPlugin.Controllers
 
         private static TokenUserDetails GetGoogleUserDetails(TokenResponse googlePlusAccessToken)
         {
-            using (HttpClient httpClient = new HttpClient())
+            using (HttpClient httpClient = new())
             {
                 string profileUrl = String.Format(GoogleTokenUrl, googlePlusAccessToken.access_token);
 

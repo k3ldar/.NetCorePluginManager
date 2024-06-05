@@ -94,30 +94,30 @@ namespace BadEgg.Plugin.WebDefender
         /// <summary>
         /// Address list lock object for unique access
         /// </summary>
-        private static readonly object _lockObject = new object();
+        private static readonly object _lockObject = new();
 
         private static readonly Dictionary<string, IpConnectionInfo> _connectionInformation = new();
 
         private readonly HashSet<IpConnectionInfo> _connectionsAdd;
 
-        private readonly object _eventLockObject = new object();
+        private readonly object _eventLockObject = new();
 
         internal readonly uint InternalMaximumConnectionsPerSecond;
 
         private ulong _iteration = 0;
 
-        internal static readonly Dictionary<string, bool> InternalIpAddressList = new Dictionary<string, bool>();
+        internal static readonly Dictionary<string, bool> InternalIpAddressList = new();
 
-        internal static readonly object InternalIpAddressLock = new object();
+        internal static readonly object InternalIpAddressLock = new();
 
         /// <summary>
         /// Period of inactivity in which a connection times out
         /// </summary>
         public TimeSpan ConnectionTimeout { get; }
 
-        private readonly HashSet<ConnectionReportEventArgs> _reports = new HashSet<ConnectionReportEventArgs>();
+        private readonly HashSet<ConnectionReportEventArgs> _reports = new();
 
-        private readonly object _reportsLock = new object();
+        private readonly object _reportsLock = new();
 
         #endregion Private Members / Constants
 
@@ -191,7 +191,7 @@ namespace BadEgg.Plugin.WebDefender
             // every 10th iteration, remove expired connections
             if (++_iteration % RemoveExpiredConnectionInterval == 0)
             {
-                HashSet<IpConnectionInfo> removedConnections = new HashSet<IpConnectionInfo>();
+                HashSet<IpConnectionInfo> removedConnections = new();
 
                 //remove expired connections
                 using (TimedLock lck = TimedLock.Lock(_lockObject))
@@ -224,7 +224,7 @@ namespace BadEgg.Plugin.WebDefender
 
             // add/remove events done using seperate list so as not to slow down processing
             // when connections add/remove
-            HashSet<IpConnectionInfo> _eventList = new HashSet<IpConnectionInfo>();
+            HashSet<IpConnectionInfo> _eventList = new();
 
             using (TimedLock lck = TimedLock.Lock(_eventLockObject))
             {
@@ -399,7 +399,7 @@ namespace BadEgg.Plugin.WebDefender
             {
                 if (!_connectionInformation.ContainsKey(ipAddress))
                 {
-                    IpConnectionInfo newConnection = new IpConnectionInfo(ipAddress);
+                    IpConnectionInfo newConnection = new(ipAddress);
                     _connectionInformation.Add(ipAddress, newConnection);
 
                     using (TimedLock elck = TimedLock.Lock(_eventLockObject))
@@ -429,7 +429,7 @@ namespace BadEgg.Plugin.WebDefender
 
         internal static string GetMemoryStatus()
         {
-            StringBuilder Result = new StringBuilder();
+            StringBuilder Result = new();
 
             using (TimedLock lck = TimedLock.Lock(_lockObject))
             {
@@ -482,7 +482,7 @@ namespace BadEgg.Plugin.WebDefender
         /// <returns>True if the IP Address should be black listed and added to banned list, otherwise false</returns>
         private bool RaiseOnBanIPAddress(in string ipAddress, in double hits, in ulong requests, in TimeSpan span)
         {
-            RequestBanEventArgs args = new RequestBanEventArgs(ipAddress, hits, requests, span);
+            RequestBanEventArgs args = new(ipAddress, hits, requests, span);
 
             OnBanIPAddress?.Invoke(null, args);
 
@@ -602,7 +602,7 @@ namespace BadEgg.Plugin.WebDefender
 
         private void ValidateAndBanIPAddresses()
         {
-            HashSet<IpConnectionInfo> banRequests = new HashSet<IpConnectionInfo>();
+            HashSet<IpConnectionInfo> banRequests = new();
 
             using (TimedLock lck = TimedLock.Lock(_lockObject))
             {

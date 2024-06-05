@@ -59,7 +59,7 @@ namespace DocumentationPlugin.Classes
 
         protected override bool Run(object parameters)
         {
-            DocumentPostProcess documentPostProcess = new DocumentPostProcess(
+            DocumentPostProcess documentPostProcess = new(
                 _documentationService.GetDocuments());
 
             PostProcessResults results = documentPostProcess.Process();

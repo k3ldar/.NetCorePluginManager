@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>$(FrameWorkAllNotStandard)</TargetFrameworks>
+    <TargetFrameworks>$(FrameWorkAllSupported)</TargetFrameworks>
     <AssemblyName>Middleware</AssemblyName>
     <RootNamespace>Middleware</RootNamespace>
     <PackageIconUrl></PackageIconUrl>
@@ -38,9 +38,9 @@
   <PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
     <DocumentationFile>$(XmlDocsPath)\Middleware.xml</DocumentationFile>
   </PropertyGroup>
-
+	
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>

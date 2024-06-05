@@ -53,7 +53,7 @@ namespace SystemAdmin.Plugin.Classes.MenuItems
 
         public override String Data()
         {
-            StringBuilder Result = new StringBuilder("Date/Time|Duration|Memory Reclaimed\r");
+            StringBuilder Result = new("Date/Time|Duration|Memory Reclaimed\r");
 
             List<GCSnapshot> snapshots = GCAnalysis.RetrieveGCData();
 

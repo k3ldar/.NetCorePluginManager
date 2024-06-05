@@ -66,7 +66,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void Construct_ValidInstance_Success()
         {
-            LoginProvider sut = new LoginProvider(new MockTextTableOperations<UserDataRow>(), new MockTextTableOperations<ExternalUsersDataRow>(), new MockSettingsProvider("{ \"SimpleDBSettings\":{ \"Path\": \"c:\\temp\"} }"));
+            LoginProvider sut = new(new MockTextTableOperations<UserDataRow>(), new MockTextTableOperations<ExternalUsersDataRow>(), new MockSettingsProvider("{ \"SimpleDBSettings\":{ \"Path\": \"c:\\temp\"} }"));
             Assert.IsNotNull(sut);
         }
 
@@ -77,7 +77,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -86,7 +86,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     
                     ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
-                    using (SimpleDBOperations<ExternalUsersDataRow> sut = new SimpleDBOperations<ExternalUsersDataRow>(simpleDBManager, keyManager))
+                    using (SimpleDBOperations<ExternalUsersDataRow> sut = new(simpleDBManager, keyManager))
                     {
 						simpleDBManager.Initialize(pluginClassesService);
                         Assert.IsNotNull(sut);
@@ -108,7 +108,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -117,12 +117,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
-                    using (SimpleDBOperations<ExternalUsersDataRow> externalUserTable = new SimpleDBOperations<ExternalUsersDataRow>(simpleDBManager, keyManager))
+                    using (SimpleDBOperations<ExternalUsersDataRow> externalUserTable = new(simpleDBManager, keyManager))
                     {
 						simpleDBManager.Initialize(pluginClassesService);
 						Assert.IsNotNull(externalUserTable);
 
-                        ExternalUsersDataRow externalUser = new ExternalUsersDataRow();
+                        ExternalUsersDataRow externalUser = new();
                         externalUser.Email = "test@123.net";
                         externalUser.UserName = "test user";
                         externalUser.Provider = "test provider";
@@ -135,7 +135,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
                     Assert.IsNotNull(sut);
 
-                    UserLoginDetails loginDetails = new UserLoginDetails(Int64.MinValue + 1);
+                    UserLoginDetails loginDetails = new(Int64.MinValue + 1);
                     LoginResult result = sut.Login("username", "password", "10.10.10.1", 0, ref loginDetails);
                     Assert.AreEqual(LoginResult.Remembered, result);
                     Assert.AreEqual("test@123.net", loginDetails.Email);
@@ -155,7 +155,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -165,13 +165,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
                     long userId = -1;
-                    using (SimpleDBOperations<UserDataRow> userTable = new SimpleDBOperations<UserDataRow>(simpleDBManager, keyManager))
+                    using (SimpleDBOperations<UserDataRow> userTable = new(simpleDBManager, keyManager))
                     {
 						simpleDBManager.Initialize(pluginClassesService);
 
 						Assert.IsNotNull(userTable);
 
-                        UserDataRow user = new UserDataRow();
+                        UserDataRow user = new();
                         user.Email = "test@123.net";
                         user.FirstName = "test";
                         user.Surname = "User";
@@ -184,7 +184,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
                     Assert.IsNotNull(sut);
 
-                    UserLoginDetails loginDetails = new UserLoginDetails(userId, true);
+                    UserLoginDetails loginDetails = new(userId, true);
                     LoginResult result = sut.Login(String.Empty, String.Empty, "10.10.10.1", 0, ref loginDetails);
                     Assert.AreEqual(LoginResult.Remembered, result);
                     Assert.AreEqual("test@123.net", loginDetails.Email);
@@ -205,7 +205,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -215,12 +215,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
                     long userId = -1;
-                    using (SimpleDBOperations<UserDataRow> userTable = new SimpleDBOperations<UserDataRow>(simpleDBManager, keyManager))
+                    using (SimpleDBOperations<UserDataRow> userTable = new(simpleDBManager, keyManager))
                     {
 						simpleDBManager.Initialize(pluginClassesService);
 						Assert.IsNotNull(userTable);
 
-                        UserDataRow user = new UserDataRow();
+                        UserDataRow user = new();
                         user.Email = "test@123.net";
                         user.FirstName = "test";
                         user.Surname = "User";
@@ -233,7 +233,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
                     Assert.IsNotNull(sut);
 
-                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    UserLoginDetails loginDetails = new();
                     LoginResult result = sut.Login("TeSt@123.NEt", "password", "10.10.10.1", 0, ref loginDetails);
                     Assert.AreEqual(LoginResult.Success, result);
                     Assert.AreEqual("test@123.net", loginDetails.Email);
@@ -254,7 +254,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -264,12 +264,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
                     long userId = -1;
-                    using (SimpleDBOperations<UserDataRow> userTable = new SimpleDBOperations<UserDataRow>(simpleDBManager, keyManager))
+                    using (SimpleDBOperations<UserDataRow> userTable = new(simpleDBManager, keyManager))
                     {
 						simpleDBManager.Initialize(pluginClassesService);
 						Assert.IsNotNull(userTable);
 
-                        UserDataRow user = new UserDataRow();
+                        UserDataRow user = new();
                         user.Email = "test@123.net";
                         user.FirstName = "test";
                         user.Surname = "User";
@@ -282,7 +282,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
                     Assert.IsNotNull(sut);
 
-                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    UserLoginDetails loginDetails = new();
                     LoginResult result = sut.Login("TeSt@123.NEt", "password", "10.10.10.1", 0, ref loginDetails);
                     Assert.AreEqual(LoginResult.PasswordChangeRequired, result);
                     Assert.AreEqual("test@123.net", loginDetails.Email);
@@ -303,7 +303,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -312,7 +312,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsNotNull(userTable);
 
-                    UserDataRow user = new UserDataRow();
+                    UserDataRow user = new();
                     user.Email = "test@123.net";
                     user.FirstName = "test";
                     user.Surname = "User";
@@ -325,7 +325,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
                     Assert.IsNotNull(sut);
 
-                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    UserLoginDetails loginDetails = new();
                     LoginResult result = sut.Login("TeSt@123.NEt", "password123", "10.10.10.1", 5, ref loginDetails);
                     Assert.AreEqual(LoginResult.AccountLocked, result);
 
@@ -350,7 +350,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -362,7 +362,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsNotNull(userTable);
 
-                    UserDataRow user = new UserDataRow();
+                    UserDataRow user = new();
                     user.Email = "test@123.net";
                     user.FirstName = "test";
                     user.Surname = "User";
@@ -376,7 +376,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
                     Assert.IsNotNull(sut);
 
-                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    UserLoginDetails loginDetails = new();
                     bool result = sut.UnlockAccount(null, "unlock code");
                     Assert.IsFalse(result);
 
@@ -399,7 +399,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -411,7 +411,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsNotNull(userTable);
 
-                    UserDataRow user = new UserDataRow();
+                    UserDataRow user = new();
                     user.Email = "test@123.net";
                     user.FirstName = "test";
                     user.Surname = "User";
@@ -425,7 +425,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
                     Assert.IsNotNull(sut);
 
-                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    UserLoginDetails loginDetails = new();
                     bool result = sut.UnlockAccount("test@123.net", null);
                     Assert.IsFalse(result);
 
@@ -447,7 +447,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -456,7 +456,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsNotNull(userTable);
 
-                    UserDataRow user = new UserDataRow();
+                    UserDataRow user = new();
                     user.Email = "test@123.net";
                     user.FirstName = "test";
                     user.Surname = "User";
@@ -470,7 +470,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
                     Assert.IsNotNull(sut);
 
-                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    UserLoginDetails loginDetails = new();
                     bool result = sut.UnlockAccount("TeSt@123.NEt", "unlock code");
                     Assert.IsFalse(result);
 
@@ -492,7 +492,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -501,7 +501,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsNotNull(userTable);
 
-                    UserDataRow user = new UserDataRow();
+                    UserDataRow user = new();
                     user.Email = "test@123.net";
                     user.FirstName = "test";
                     user.Surname = "User";
@@ -514,7 +514,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
                     Assert.IsNotNull(sut);
 
-                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    UserLoginDetails loginDetails = new();
                     bool result = sut.UnlockAccount("TeSt@123.NEt", "unlock code");
                     Assert.IsFalse(result);
 
@@ -536,7 +536,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -545,7 +545,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsNotNull(userTable);
 
-                    UserDataRow user = new UserDataRow();
+                    UserDataRow user = new();
                     user.Email = "test@123.net";
                     user.FirstName = "test";
                     user.Surname = "User";
@@ -559,7 +559,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
                     Assert.IsNotNull(sut);
 
-                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    UserLoginDetails loginDetails = new();
                     bool result = sut.UnlockAccount("TeSt@123.NEt", "unlock code");
                     Assert.IsTrue(result);
 
@@ -582,7 +582,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -591,7 +591,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsNotNull(userTable);
 
-                    UserDataRow user = new UserDataRow();
+                    UserDataRow user = new();
                     user.Email = "test@123.net";
                     user.FirstName = "test";
                     user.Surname = "User";
@@ -605,7 +605,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
                     Assert.IsNotNull(sut);
 
-                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    UserLoginDetails loginDetails = new();
                     bool result = sut.UnlockAccount(null, "unlock code");
                     Assert.IsFalse(result);
 
@@ -628,7 +628,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -637,7 +637,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsNotNull(userTable);
 
-                    UserDataRow user = new UserDataRow();
+                    UserDataRow user = new();
                     user.Email = "test@123.net";
                     user.FirstName = "test";
                     user.Surname = "User";
@@ -651,7 +651,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
                     Assert.IsNotNull(sut);
 
-                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    UserLoginDetails loginDetails = new();
                     sut.Login(null, ref loginDetails);
                 }
             }
@@ -669,7 +669,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -681,7 +681,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsNotNull(userTable);
 
-                    UserDataRow user = new UserDataRow();
+                    UserDataRow user = new();
                     user.Email = "test@123.net";
                     user.FirstName = "test";
                     user.Surname = "User";
@@ -695,7 +695,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
                     Assert.IsNotNull(sut);
 
-                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    UserLoginDetails loginDetails = new();
 
                     sut.Login(new MockTokenUserDetails(null, "provider"), ref loginDetails);
                 }
@@ -714,7 +714,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -726,7 +726,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsNotNull(userTable);
 
-                    UserDataRow user = new UserDataRow();
+                    UserDataRow user = new();
                     user.Email = "test@123.net";
                     user.FirstName = "test";
                     user.Surname = "User";
@@ -740,7 +740,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
                     Assert.IsNotNull(sut);
 
-                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    UserLoginDetails loginDetails = new();
                     loginDetails.Email = "test@123.net";
 
                     sut.Login(new MockTokenUserDetails("test@123.net", null), ref loginDetails);
@@ -759,7 +759,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -808,7 +808,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -845,7 +845,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -856,7 +856,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsFalse(externalUserTable.Select().Any());
 
-                    ExternalUsersDataRow user = new ExternalUsersDataRow()
+                    ExternalUsersDataRow user = new()
                     {
                         Email = "test@321.net",
                         Provider = "Provider",
@@ -894,7 +894,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -918,7 +918,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -929,7 +929,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsFalse(externalUserTable.Select().Any());
 
-                    ExternalUsersDataRow user = new ExternalUsersDataRow()
+                    ExternalUsersDataRow user = new()
                     {
                         Email = "test@321.net",
                         Provider = "Provider",
@@ -962,7 +962,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             try
             {
                 Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
+                PluginInitialisation initialisation = new();
                 ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -973,7 +973,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsFalse(externalUserTable.Select().Any());
 
-                    ExternalUsersDataRow user = new ExternalUsersDataRow()
+                    ExternalUsersDataRow user = new()
                     {
                         Email = "test@321.net",
                         Provider = "Provider",

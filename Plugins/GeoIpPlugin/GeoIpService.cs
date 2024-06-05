@@ -43,10 +43,10 @@ namespace GeoIp.Plugin
         private readonly CacheManager _geoIpCache;
         private readonly GeoIpPluginSettings _geoIpSettings;
         private IpCity[] _geoIpCityData;
-        private List<IpCity> _tempIpCity = new List<IpCity>();
-        internal readonly static Timings _timingsIpCache = new Timings();
-        internal readonly static Timings _timingsIpMemory = new Timings();
-        internal readonly static Timings _timingsIpProvider = new Timings();
+        private List<IpCity> _tempIpCity = new();
+        internal readonly static Timings _timingsIpCache = new();
+        internal readonly static Timings _timingsIpMemory = new();
+        internal readonly static Timings _timingsIpProvider = new();
 
         #endregion Private Members
 
@@ -64,7 +64,7 @@ namespace GeoIp.Plugin
             if (_geoIpSettings.AutoDownloadWebnet77Data ||
                 File.Exists(Path.Combine(_geoIpSettings.Webnet77CSVDataPath, Constants.Webnet77CsvDataFileName)))
             {
-                LoadWebNet77Data loadWebNet77DataThread = new LoadWebNet77Data(logger,
+                LoadWebNet77Data loadWebNet77DataThread = new(logger,
                     _geoIpSettings.Webnet77CSVDataPath,
                     _tempIpCity,
                     _geoIpSettings.AutoDownloadWebnet77Data,

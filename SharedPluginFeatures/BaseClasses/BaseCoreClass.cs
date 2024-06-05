@@ -34,6 +34,8 @@ namespace SharedPluginFeatures
 {
     public class BaseCoreClass
     {
+		#region Private Members
+
 		private const string AtoZUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		private const string AtoZLower = "abcdefghijklmnopqrstuvwxyz";
 		private const string Numbers = "01234567890";
@@ -48,7 +50,18 @@ namespace SharedPluginFeatures
 		private const string Name = AtoZUpper + AtoZLower + Numbers + Space;
 		private const string FileOrPath = AtoZLower + AtoZUpper + Numbers + Space + Dash + FSlash;
 
-        #region Protected Methods
+		#endregion Private Members
+
+		#region Constructors
+
+		protected BaseCoreClass()
+		{
+
+		}
+
+		#endregion Constructors
+
+		#region Protected Methods
 
 		public static string ValidateUserInput(string userInput, ValidationType validationType)
 		{
@@ -61,7 +74,7 @@ namespace SharedPluginFeatures
 					return ValidateUserPathInput(userInput);
 
 				case ValidationType.Email:
-					EmailAddressAttribute emailAddressAttribute = new EmailAddressAttribute();
+					EmailAddressAttribute emailAddressAttribute = new();
 					if (emailAddressAttribute.IsValid(userInput))
 						return userInput;
 
@@ -104,7 +117,7 @@ namespace SharedPluginFeatures
 
 		private static string RemoveInvalidCharacters(string input, string validChars)
 		{
-			StringBuilder stringBuilder = new StringBuilder(input.Length);
+			StringBuilder stringBuilder = new(input.Length);
 
 			foreach (char c in input)
 			{

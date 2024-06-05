@@ -81,7 +81,7 @@ namespace SystemAdmin.Plugin.Classes.MenuItems
             if (!settings.ShowAppSettingsJson)
                 return "Viewing appsettings.json has been disabled";
 
-            using (StreamReader rdr = new StreamReader("appsettings.json"))
+            using (StreamReader rdr = new("appsettings.json"))
             {
                 return rdr.ReadToEnd();
             }

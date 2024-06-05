@@ -47,10 +47,10 @@ namespace SieraDeltaGeoIp.Plugin
         private readonly INotificationService _notificationService;
         private readonly ILogger _logger;
         private IpCity[] _geoIpCityData;
-        private List<IpCity> _tempIpCity = new List<IpCity>();
-        internal readonly static Timings _timingsIpCache = new Timings();
-        internal readonly static Timings _timingsIpMemory = new Timings();
-        internal readonly static Timings _timingsIpDatabase = new Timings();
+        private List<IpCity> _tempIpCity = new();
+        internal readonly static Timings _timingsIpCache = new();
+        internal readonly static Timings _timingsIpMemory = new();
+        internal readonly static Timings _timingsIpDatabase = new();
 
         #endregion Private Members
 
@@ -68,7 +68,7 @@ namespace SieraDeltaGeoIp.Plugin
             if (_geoIpSettings.DatabaseConnectionString.IndexOfAny(Path.GetInvalidPathChars()) == -1 &&
                 File.Exists(_geoIpSettings.DatabaseConnectionString))
             {
-                using (StreamReader rdr = new StreamReader(_geoIpSettings.DatabaseConnectionString))
+                using (StreamReader rdr = new(_geoIpSettings.DatabaseConnectionString))
                 {
                     _geoIpSettings.DatabaseConnectionString = rdr.ReadToEnd();
                 }
@@ -80,7 +80,7 @@ namespace SieraDeltaGeoIp.Plugin
             {
                 Enums.GeoIpProvider.Firebird => new FirebirdDataProvider(_geoIpSettings, _tempIpCity),
                 Enums.GeoIpProvider.MySql => new MySqlProvider(_geoIpSettings, _tempIpCity),
-                Enums.GeoIpProvider.MSSql => new MSSQLProvider(_geoIpSettings, _tempIpCity),
+                Enums.GeoIpProvider.MSSql => new MsSqlProvider(_geoIpSettings, _tempIpCity),
                 _ => throw new InvalidOperationException(),
             };
 

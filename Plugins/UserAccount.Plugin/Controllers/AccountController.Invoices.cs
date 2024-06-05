@@ -45,7 +45,7 @@ namespace UserAccount.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.MyInvoices), nameof(AccountController), nameof(Index))]
         public ActionResult Invoices()
         {
-            InvoicesViewModel model = new InvoicesViewModel(GetModelData(),
+            InvoicesViewModel model = new(GetModelData(),
                 _accountProvider.InvoicesGet(UserId()));
 
             model.Breadcrumbs = GetBreadcrumbs();
@@ -58,12 +58,12 @@ namespace UserAccount.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.Invoice), nameof(AccountController), nameof(Invoices))]
         public ActionResult InvoiceView(int id)
         {
-            Invoice invoice = _accountProvider.InvoicesGet(UserId()).FirstOrDefault(o => o.Id == id);
+            Invoice invoice = _accountProvider.InvoicesGet(UserId()).Find(o => o.Id == id);
 
             if (invoice == null)
                 return RedirectToAction(nameof(Index));
 
-            InvoiceViewModel model = new InvoiceViewModel(GetModelData(), invoice);
+            InvoiceViewModel model = new(GetModelData(), invoice);
 
             model.Breadcrumbs = GetBreadcrumbs();
             model.CartSummary = GetCartSummary();

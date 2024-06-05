@@ -10,7 +10,7 @@
             instances have been registered
             </summary>
         </member>
-        <member name="M:UserSessionMiddleware.Plugin.Classes.DefaultUserSessionService.#ctor(Microsoft.AspNetCore.Hosting.IHostingEnvironment,PluginManager.Abstractions.ISettingsProvider,SharedPluginFeatures.IGeoIpProvider,PluginManager.Abstractions.ILogger)">
+        <member name="M:UserSessionMiddleware.Plugin.Classes.DefaultUserSessionService.#ctor(Microsoft.AspNetCore.Hosting.IWebHostEnvironment,PluginManager.Abstractions.ISettingsProvider,SharedPluginFeatures.IGeoIpProvider,PluginManager.Abstractions.ILogger)">
             <summary>
             Default constructor
             </summary>

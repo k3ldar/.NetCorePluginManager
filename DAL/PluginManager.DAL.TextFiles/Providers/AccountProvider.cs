@@ -200,8 +200,8 @@ namespace PluginManager.DAL.TextFiles.Providers
             in string addressLine3, in string city, in string county, in string postcode, in string countryCode,
             out long userId)
         {
-            UserDataRow newUser = new UserDataRow
-            {
+            UserDataRow newUser = new()
+			{
                 Email = email,
                 FirstName = firstName,
                 Surname = surname,
@@ -394,7 +394,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<DeliveryAddress> GetDeliveryAddresses(in long userId)
         {
-            List<DeliveryAddress> Result = new List<DeliveryAddress>();
+            List<DeliveryAddress> Result = new();
             UserDataRow user = _users.Select(userId);
 
             if (user == null)
@@ -415,7 +415,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (user == null)
                 return false;
 
-            AddressDataRow newAddress = new AddressDataRow()
+            AddressDataRow newAddress = new()
             {
                 AddressLine1 = deliveryAddress.AddressLine1,
                 AddressLine2 = deliveryAddress.AddressLine2,
@@ -510,7 +510,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<Order> OrdersGet(in Int64 userId)
         {
-            List<Order> Result = new List<Order>();
+            List<Order> Result = new();
 
             UserDataRow user = _users.Select(userId);
 
@@ -521,7 +521,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             userOrders.ForEach(o =>
             {
-                List<OrderItem> orderItems = new List<OrderItem>();
+                List<OrderItem> orderItems = new();
 
                 List<OrderItemDataRow> userOrderItems = _ordersItems.Select().Where(oi => oi.OrderId.Equals(o.Id)).ToList();
 
@@ -551,7 +551,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             long userId = orderDataRow.UserId;
 
-            InvoiceDataRow newInvoice = new InvoiceDataRow()
+            InvoiceDataRow newInvoice = new()
             {
                 UserId = userId,
                 DeliveryAddress = orderDataRow.DeliveryAddress,
@@ -564,7 +564,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             _invoices.Insert(newInvoice);
 
-            List<InvoiceItemDataRow> invoiceItems = new List<InvoiceItemDataRow>();
+            List<InvoiceItemDataRow> invoiceItems = new();
             List<OrderItemDataRow> orderItems = _ordersItems.Select().Where(oi => oi.OrderId.Equals(orderDataRow.Id)).ToList();
 
             orderItems.ForEach(oi =>
@@ -592,7 +592,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<Invoice> InvoicesGet(in Int64 userId)
         {
-            List<Invoice> Result = new List<Invoice>();
+            List<Invoice> Result = new();
             UserDataRow user = _users.Select(userId);
 
             if (user == null)
@@ -602,7 +602,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             userInvoices.ForEach(i =>
             {
-                List<InvoiceItem> invoiceItems = new List<InvoiceItem>();
+                List<InvoiceItem> invoiceItems = new();
 
                 List<InvoiceItemDataRow> userOrderItems = _invoiceItems.Select().Where(ii => ii.InvoiceId.Equals(i.Id)).ToList();
 
@@ -629,7 +629,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private static int GenerateRandomNumber()
         {
-            Random random = new Random(Convert.ToInt32(DateTime.Now.ToString("Hmsffff")));
+            Random random = new(Convert.ToInt32(DateTime.Now.ToString("Hmsffff")));
             return random.Next(100000, 999999);
         }
 

@@ -58,8 +58,8 @@ namespace UserSessionMiddleware.Plugin.Classes
 	{
         #region Private Members
 
-        private static readonly object _lockObject = new object();
-        private static readonly Stack<UserSession> _closedSessions = new Stack<UserSession>();
+        private static readonly object _lockObject = new();
+        private static readonly Stack<UserSession> _closedSessions = new();
 
 #pragma warning disable IDE0044
 		private static SessionPageViews _sessionPageViews;
@@ -76,7 +76,7 @@ namespace UserSessionMiddleware.Plugin.Classes
         private static List<SessionWeekly> _weeklySessionDataBot;
         private static List<SessionMonthly> _monthlySessionDataBot;
         private static List<SessionYearly> _yearlySessionDataBot;
-        internal readonly static Timings _timingsDefaultSession = new Timings();
+        internal readonly static Timings _timingsDefaultSession = new();
         private readonly IGeoIpProvider _geoIpProvider;
         private readonly ILogger _logger;
         private readonly string _pageViewFile;
@@ -115,7 +115,7 @@ namespace UserSessionMiddleware.Plugin.Classes
         /// <param name="settingsProvider">ISettingsProvider instance</param>
         /// <param name="geoIpProvider">IGeoIpProvider instance</param>
         /// <param name="logger">ILogger instance</param>
-        public DefaultUserSessionService(IHostingEnvironment hostingEnvironment,
+        public DefaultUserSessionService(IWebHostEnvironment hostingEnvironment,
             ISettingsProvider settingsProvider,
             IGeoIpProvider geoIpProvider,
             ILogger logger)
@@ -144,18 +144,19 @@ namespace UserSessionMiddleware.Plugin.Classes
 
             string rootPath = Path.Combine(settings.SessionRootPath, "UserSession");
 
-            _pageViewFile = GetFile(Path.Combine(rootPath, "Sessions"), "PageViews.dat");
-            _referrerFile = GetFile(Path.Combine(rootPath, "Sessions"), "InitialReferrer.dat");
-            _sessionHourlyFileHuman = GetFile(Path.Combine(rootPath, "Sessions"), "HourlyHuman.dat");
-            _sessionDailyFileHuman = GetFile(Path.Combine(rootPath, "Sessions"), "DailyHuman.dat");
-            _sessionWeeklyFileHuman = GetFile(Path.Combine(rootPath, "Sessions"), "WeeklyHuman.dat");
-            _sessionMonthlyFileHuman = GetFile(Path.Combine(rootPath, "Sessions"), "MonthlyHuman.dat");
-            _sessionYearlyFileHuman = GetFile(Path.Combine(rootPath, "Sessions"), "YearlyHuman.dat");
-            _sessionHourlyFileBot = GetFile(Path.Combine(rootPath, "Sessions"), "HourlyBot.dat");
-            _sessionDailyFileBot = GetFile(Path.Combine(rootPath, "Sessions"), "DailyBot.dat");
-            _sessionWeeklyFileBot = GetFile(Path.Combine(rootPath, "Sessions"), "WeeklyBot.dat");
-            _sessionMonthlyFileBot = GetFile(Path.Combine(rootPath, "Sessions"), "MonthlyBot.dat");
-            _sessionYearlyFileBot = GetFile(Path.Combine(rootPath, "Sessions"), "YearlyBot.dat");
+			const string Sessions = "Sessions";
+			_pageViewFile = GetFile(Path.Combine(rootPath, Sessions), "PageViews.dat");
+			_referrerFile = GetFile(Path.Combine(rootPath, Sessions), "InitialReferrer.dat");
+			_sessionHourlyFileHuman = GetFile(Path.Combine(rootPath, Sessions), "HourlyHuman.dat");
+			_sessionDailyFileHuman = GetFile(Path.Combine(rootPath, Sessions), "DailyHuman.dat");
+			_sessionWeeklyFileHuman = GetFile(Path.Combine(rootPath, Sessions), "WeeklyHuman.dat");
+			_sessionMonthlyFileHuman = GetFile(Path.Combine(rootPath, Sessions), "MonthlyHuman.dat");
+			_sessionYearlyFileHuman = GetFile(Path.Combine(rootPath, Sessions), "YearlyHuman.dat");
+			_sessionHourlyFileBot = GetFile(Path.Combine(rootPath, Sessions), "HourlyBot.dat");
+			_sessionDailyFileBot = GetFile(Path.Combine(rootPath, Sessions), "DailyBot.dat");
+			_sessionWeeklyFileBot = GetFile(Path.Combine(rootPath, Sessions), "WeeklyBot.dat");
+			_sessionMonthlyFileBot = GetFile(Path.Combine(rootPath, Sessions), "MonthlyBot.dat");
+			_sessionYearlyFileBot = GetFile(Path.Combine(rootPath, Sessions), "YearlyBot.dat");
 
             _maxHours = settings.MaxHourlyData;
             _maxDays = settings.MaxDailyData;
@@ -389,7 +390,7 @@ namespace UserSessionMiddleware.Plugin.Classes
                 {
                     foreach (SessionUserAgent item in year.UserAgents)
                     {
-                        SessionUserAgent returnAgent = Result.FirstOrDefault(r => r.UserAgent.Equals(item.UserAgent) && r.IsBot == item.IsBot);
+                        SessionUserAgent returnAgent = Result.Find(r => r.UserAgent.Equals(item.UserAgent) && r.IsBot == item.IsBot);
 
                         if (returnAgent == null)
                         {
@@ -421,7 +422,7 @@ namespace UserSessionMiddleware.Plugin.Classes
 
             // Create a new Stringbuilder to collect the bytes
             // and create a string.
-            StringBuilder sBuilder = new StringBuilder();
+            StringBuilder sBuilder = new();
 
             // Loop through each byte of the hashed data
             // and format each one as a hexadecimal string.
@@ -447,7 +448,7 @@ namespace UserSessionMiddleware.Plugin.Classes
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Allow for logging exceptions if problems arise")]
         private void LoadSessionData<T>(string filename, ref T sessionData) where T : new()
         {
-            if (sessionData == null)
+            if (EqualityComparer<T>.Default.Equals(sessionData, default))
             {
                 try
                 {
@@ -500,7 +501,7 @@ namespace UserSessionMiddleware.Plugin.Classes
 
         private void ProcessClosedSessions()
         {
-            List<UserSession> readySessions = new List<UserSession>();
+            List<UserSession> readySessions = new();
 
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
@@ -516,14 +517,12 @@ namespace UserSessionMiddleware.Plugin.Classes
                 foreach (UserSession session in readySessions)
                 {
                     // update the country data if not already set
-                    if (session.CountryCode.Equals("zz", StringComparison.InvariantCultureIgnoreCase))
+                    if (session.CountryCode.Equals("zz", StringComparison.InvariantCultureIgnoreCase) && 
+						_geoIpProvider.GetIpAddressDetails(session.IPAddress, out string countryCode,
+							out string regionName, out string cityName, out decimal lat, out decimal lon,
+							out long _, out long _, out long _))
                     {
-                        if (_geoIpProvider.GetIpAddressDetails(session.IPAddress, out string countryCode,
-                            out string regionName, out string cityName, out decimal lat, out decimal lon,
-                            out long _, out long _, out long _))
-                        {
-                            session.UpdateIPDetails(0, lat, lon, regionName, cityName, countryCode);
-                        }
+                        session.UpdateIPDetails(0, lat, lon, regionName, cityName, countryCode);
                     }
 
                     foreach (PageViewData pageView in session.Pages)
@@ -581,7 +580,7 @@ namespace UserSessionMiddleware.Plugin.Classes
 
                 List<SessionHourly> hourlySessionData = session.IsBot ? _hourlySessionDataBot : _hourlySessionDataHuman;
 
-                SessionHourly hourly = hourlySessionData.FirstOrDefault(h => h.Date.Date.Equals(currentDate.Date) && h.Hour == hour && h.Quarter == quarter);
+                SessionHourly hourly = hourlySessionData.Find(h => h.Date.Date.Equals(currentDate.Date) && h.Hour == hour && h.Quarter == quarter);
 
                 if (hourly == null)
                 {
@@ -609,7 +608,7 @@ namespace UserSessionMiddleware.Plugin.Classes
                 DateTime sessionDate = session.Created;
                 List<SessionDaily> hourlySessionData = session.IsBot ? _dailySessionDataBot : _dailySessionDataHuman;
 
-                SessionDaily daily = hourlySessionData.FirstOrDefault(h => h.Date.Date.Equals(sessionDate.Date));
+                SessionDaily daily = hourlySessionData.Find(h => h.Date.Date.Equals(sessionDate.Date));
 
                 if (daily == null)
                 {
@@ -641,7 +640,7 @@ namespace UserSessionMiddleware.Plugin.Classes
 #endif
 
                 List<SessionWeekly> weeklySessionData = session.IsBot ? _weeklySessionDataBot : _weeklySessionDataHuman;
-                SessionWeekly weekly = weeklySessionData.FirstOrDefault(w => w.Week.Equals(week) && w.Year == sessionDate.Year);
+                SessionWeekly weekly = weeklySessionData.Find(w => w.Week.Equals(week) && w.Year == sessionDate.Year);
 
                 if (weekly == null)
                 {
@@ -668,7 +667,7 @@ namespace UserSessionMiddleware.Plugin.Classes
                 DateTime sessionDate = session.Created;
 
                 List<SessionMonthly> monthlySessionData = session.IsBot ? _monthlySessionDataBot : _monthlySessionDataHuman;
-                SessionMonthly monthly = monthlySessionData.FirstOrDefault(w => w.Month.Equals(sessionDate.Month) && w.Year == sessionDate.Year);
+                SessionMonthly monthly = monthlySessionData.Find(w => w.Month.Equals(sessionDate.Month) && w.Year == sessionDate.Year);
 
                 if (monthly == null)
                 {
@@ -696,7 +695,7 @@ namespace UserSessionMiddleware.Plugin.Classes
                 List<SessionYearly> yearlySessionData = session.IsBot ? _yearlySessionDataBot : _yearlySessionDataHuman;
 
                 SessionYearly yearly = yearlySessionData
-                    .FirstOrDefault(y => y.Year.Equals(sessionDate.Year));
+                    .Find(y => y.Year.Equals(sessionDate.Year));
 
                 if (yearly == null)
                 {
@@ -784,7 +783,7 @@ namespace UserSessionMiddleware.Plugin.Classes
             baseSessionData.CountryData[session.CountryCode]++;
 
             SessionUserAgent returnAgent = baseSessionData.UserAgents
-                .FirstOrDefault(r => r.UserAgent.Equals(session.UserAgent) && r.IsBot == session.IsBot);
+                .Find(r => r.UserAgent.Equals(session.UserAgent) && r.IsBot == session.IsBot);
 
             if (returnAgent == null)
             {

@@ -55,7 +55,7 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return new List<UserDataRow>()
                 {
-                    new UserDataRow()
+                    new()
                     {
                         Email = "admin",
                         FirstName = "admin",

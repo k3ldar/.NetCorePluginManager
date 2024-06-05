@@ -26,9 +26,9 @@
 
 namespace AspNetCore.PluginManager.Classes.Minify
 {
-    internal sealed class RemoveCSSComments : RemoveComments
+    internal sealed class RemoveCssComments : RemoveComments
     {
-        public RemoveCSSComments()
+        public RemoveCssComments()
             : base("/*", "*/")
         {
 

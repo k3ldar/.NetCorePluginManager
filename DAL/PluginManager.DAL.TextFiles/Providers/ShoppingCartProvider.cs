@@ -46,7 +46,7 @@ namespace PluginManager.DAL.TextFiles.Providers
     {
         #region Private Members
 
-        private static readonly CacheManager _cartCacheManager = new CacheManager("Shopping Carts", new TimeSpan(0, 20, 0), true);
+        private static readonly CacheManager _cartCacheManager = new("Shopping Carts", new TimeSpan(0, 20, 0), true);
         private bool _cartHookedUp;
         private readonly IAccountProvider _accountProvider;
         private readonly string _encryptionKey;
@@ -199,7 +199,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             {
                 _ = CreateNewShoppingCart(shoppingCartId);
 
-                ShoppingCartDetail cartDetail = new ShoppingCartDetail(shoppingCartId, 0,
+                ShoppingCartDetail cartDetail = new(shoppingCartId, 0,
                     0, _defaultTaxRate, 0, 0, Thread.CurrentThread.CurrentUICulture,
                     "", new List<ShoppingCartItem>(), false, _defaultCurrency);
                 cacheItem = new CacheItem(basketCache, cartDetail);
@@ -282,9 +282,9 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             cartDetail.SetDeliveryAddress(shippingAddress);
 
-            List<OrderItem> items = new List<OrderItem>();
+            List<OrderItem> items = new();
 
-            OrderDataRow orderData = new OrderDataRow()
+            OrderDataRow orderData = new()
             {
                 UserId = userId,
                 Culture = cartSummary.Culture.Name,
@@ -366,7 +366,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private ShoppingCartDataRow CreateNewShoppingCart(long id)
         {
-            ShoppingCartDataRow cartDataRow = new ShoppingCartDataRow()
+            ShoppingCartDataRow cartDataRow = new()
             {
                 Id = id,
                 Culture = Thread.CurrentThread.CurrentUICulture.Name,
@@ -415,7 +415,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private static List<ShoppingCartItem> ConvertShoppingCartItemsDataRowToShoppingCartItems(List<ShoppingCartItemDataRow> shoppingCartItems)
         {
-            List<ShoppingCartItem> Result = new List<ShoppingCartItem>();
+            List<ShoppingCartItem> Result = new();
 
             if (shoppingCartItems == null)
                 return Result;

@@ -64,10 +64,10 @@ namespace Sitemap.Plugin
         private readonly RequestDelegate _next;
         private readonly IMemoryCache _memoryCache;
         private readonly IPluginClassesService _pluginClassesService;
-        private readonly object _lockObject = new object();
+        private readonly object _lockObject = new();
         private readonly string mainSitemap = $"{Constants.ForwardSlashChar}{Constants.BaseSitemap}";
         private readonly ILogger _logger;
-        internal readonly static Timings _timings = new Timings();
+        internal readonly static Timings _timings = new();
 
 
         #endregion Private Members
@@ -179,13 +179,13 @@ namespace Sitemap.Plugin
 
         private Dictionary<string, string> GetSitemaps(string hostDomain)
         {
-            Dictionary<string, string> Result = new Dictionary<string, string>();
+            Dictionary<string, string> Result = new();
             Result.Add(mainSitemap, null);
-            StringBuilder rootFile = new StringBuilder(IndexStart);
+            StringBuilder rootFile = new(IndexStart);
 
             List<ISitemapProvider> providers = _pluginClassesService.GetPluginClasses<ISitemapProvider>();
             ushort indexCount = 0;
-            StringBuilder sitemapItem = new StringBuilder();
+            StringBuilder sitemapItem = new();
 
             foreach (ISitemapProvider provider in providers)
             {

@@ -51,7 +51,7 @@ namespace UserAccount.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.CreateAccount), nameof(AccountController), nameof(Index))]
         public IActionResult CreateAccount(string returnUrl)
         {
-            CreateAccountViewModel model = new CreateAccountViewModel(GetModelData(), returnUrl);
+            CreateAccountViewModel model = new(GetModelData(), returnUrl);
             PrepareCreateAccountModel(ref model);
 
             return View(model);
@@ -66,23 +66,21 @@ namespace UserAccount.Plugin.Controllers
 
             ValidateCreateAccountModel(ref model);
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && 
+				_accountProvider.CreateAccount(model.Email, model.FirstName, model.Surname,
+                model.Password, model.Telephone, model.BusinessName, model.AddressLine1,
+                model.AddressLine2, model.AddressLine3, model.City, model.County,
+                model.Postcode, model.Country, out Int64 userId))
             {
-                if (_accountProvider.CreateAccount(model.Email, model.FirstName, model.Surname,
-                    model.Password, model.Telephone, model.BusinessName, model.AddressLine1,
-                    model.AddressLine2, model.AddressLine3, model.City, model.County,
-                    model.Postcode, model.Country, out Int64 userId))
-                {
-                    UserSession session = GetUserSession();
+                UserSession session = GetUserSession();
 
-                    if (session != null)
-                        session.Login(userId, $"{ValidateUserInput(model.FirstName, ValidationType.Name)} {ValidateUserInput(model.Surname, ValidationType.Name)}", ValidateUserInput(model.Email, ValidationType.Email));
+                if (session != null)
+                    session.Login(userId, $"{ValidateUserInput(model.FirstName, ValidationType.Name)} {ValidateUserInput(model.Surname, ValidationType.Name)}", ValidateUserInput(model.Email, ValidationType.Email));
 
-                    if (String.IsNullOrEmpty(model.ReturnUrl))
-                        return Redirect("/Account/");
-                    else
-                        return Redirect(model.ReturnUrl);
-                }
+                if (String.IsNullOrEmpty(model.ReturnUrl))
+                    return Redirect("/Account/");
+                else
+                    return Redirect(model.ReturnUrl);
             }
 
             PrepareCreateAccountModel(ref model);

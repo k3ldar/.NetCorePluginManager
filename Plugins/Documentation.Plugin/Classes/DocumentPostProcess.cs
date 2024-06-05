@@ -186,7 +186,7 @@ namespace DocumentationPlugin.Classes
 
             if (data != null && data.Contains.Count > 0)
             {
-                Dictionary<string, string> contains = new Dictionary<string, string>();
+                Dictionary<string, string> contains = new();
 
                 foreach (KeyValuePair<String, String> item in data.Contains)
                 {
@@ -239,9 +239,9 @@ namespace DocumentationPlugin.Classes
             if (String.IsNullOrEmpty(text))
                 return text;
 
-            StringBuilder Result = new StringBuilder(text.Length);
+            StringBuilder Result = new(text.Length);
 
-            StringBuilder searchWord = new StringBuilder(text.Length);
+            StringBuilder searchWord = new(text.Length);
             bool ignoreWord = false;
 
             for (int i = 0; i < text.Length; i++)
@@ -358,7 +358,7 @@ namespace DocumentationPlugin.Classes
                 linkDocument = document;
             }
 
-            StringBuilder builder = new StringBuilder(text.Length + 2048);
+            StringBuilder builder = new(text.Length + 2048);
             StringBuilder currentTag = null;
 
             bool inTag = false;
@@ -424,7 +424,7 @@ namespace DocumentationPlugin.Classes
                 }
             }
 
-            Document memberDoc = _documents.FirstOrDefault(d => d.DocumentType == Shared.DocumentType.Class && d.FullMemberName.EndsWith(text));
+            Document memberDoc = _documents.Find(d => d.DocumentType == Shared.DocumentType.Class && d.FullMemberName.EndsWith(text));
 
             if (memberDoc != null)
             {
@@ -547,7 +547,7 @@ namespace DocumentationPlugin.Classes
 
             if (containsCRef)
             {
-                StringBuilder cRefBuilder = new StringBuilder(builder.Length);
+                StringBuilder cRefBuilder = new(builder.Length);
 
                 for (int i = firstSpace + 7; i < builder.Length; i++)
                 {
@@ -618,7 +618,7 @@ namespace DocumentationPlugin.Classes
         private string ProcessLinkedTag(in Document document, in BaseDocument linkDocument, in StringBuilder builder,
             string cRefValue, in string countName, in bool createHyperlinks)
         {
-            Document xRefDoc = _documents.FirstOrDefault(d => d.FullMemberName == cRefValue);
+            Document xRefDoc = _documents.Find(d => d.FullMemberName == cRefValue);
 
             if (xRefDoc != null && !String.IsNullOrEmpty(xRefDoc.ClassName))
             {
