@@ -39,7 +39,7 @@
     <AssemblyOriginatorKeyFile>$(AssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)'=='net7.0'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='net8.0'">
     <DocumentationFile>$(XmlDocsPath)\DocumentationPlugin.xml</DocumentationFile>
   </PropertyGroup>
 
