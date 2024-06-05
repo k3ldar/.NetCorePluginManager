@@ -448,7 +448,7 @@ namespace UserSessionMiddleware.Plugin.Classes
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Allow for logging exceptions if problems arise")]
         private void LoadSessionData<T>(string filename, ref T sessionData) where T : new()
         {
-            if (sessionData == null)
+            if (EqualityComparer<T>.Default.Equals(sessionData, default))
             {
                 try
                 {
