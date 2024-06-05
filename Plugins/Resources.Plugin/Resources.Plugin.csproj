@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFrameworks>$(FrameWorkAllNotStandard)</TargetFrameworks>
+    <TargetFrameworks>$(FrameWorkAllSupported)</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
     <IsPackable>true</IsPackable>

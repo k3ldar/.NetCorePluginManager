@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>$(FrameWorkAllNotStandard)</TargetFrameworks>
+    <TargetFrameworks>$(FrameWorkAllSupported)</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Description>SimpleDB - Storage simplified, use your own classes to describe data which is then written and retrieved from storage.  Includes foriegn keys, unique indexes, before and after triggers for create, update and delete methods</Description>
     <PackageReadmeFile>SimpleDB.md</PackageReadmeFile>

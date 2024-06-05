@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFrameworks>$(FrameWorkAllNotStandard)</TargetFrameworks>
+    <TargetFrameworks>$(FrameWorkAllSupported)</TargetFrameworks>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <RazorCompileOnPublish>true</RazorCompileOnPublish>
     <MvcBuildViews>true</MvcBuildViews>

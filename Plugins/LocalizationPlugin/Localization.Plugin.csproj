@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>$(FrameWorkAllNotStandard)</TargetFrameworks>
+    <TargetFrameworks>$(FrameWorkAllSupported)</TargetFrameworks>
     <RootNamespace>Localization.Plugin</RootNamespace>
     <AssemblyName>Localization.Plugin</AssemblyName>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

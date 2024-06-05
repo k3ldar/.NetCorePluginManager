@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>$(FrameWorkAllNotStandard)</TargetFrameworks>
+    <TargetFrameworks>$(FrameWorkAllSupported)</TargetFrameworks>
     <RootNamespace>SieraDeltaGeoIp.Plugin</RootNamespace>
     <AssemblyName>SieraDeltaGeoIp.Plugin</AssemblyName>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -50,7 +50,7 @@
     <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="9.1.1" />
     <PackageReference Include="MySql.Data" Version="8.1.0" />
     <PackageReference Include="SC.Shared.Library.Core" Version="$(SharedVer)" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
 
   <ItemGroup>
