@@ -52,7 +52,7 @@ namespace UserAccount.Plugin.Controllers
 
 			string redirectPath = returnUrl ?? "/";
 
-			if (Url.IsLocalUrl(redirectPath))
+			if (UrlDeliveryAddress.IsLocalUrl(redirectPath))
 				return Redirect(redirectPath);
 
 			return RedirectToAction("Index", "Home");

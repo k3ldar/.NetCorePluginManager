@@ -39,8 +39,8 @@ using SharedPluginFeatures.DynamicContent;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 {
-    [ExcludeFromCodeCoverage]
-    public class MockDynamicContentProvider : IDynamicContentProvider
+	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
+	public class MockDynamicContentProvider : IDynamicContentProvider
     {
         #region Private Members
 

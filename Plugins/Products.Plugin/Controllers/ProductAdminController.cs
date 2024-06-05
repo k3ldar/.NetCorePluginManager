@@ -62,8 +62,8 @@ namespace ProductPlugin.Controllers
         private const string ProductNotFound = "Invalid product";
         private const string ProductGroupNotFound = "Invalid product group";
 		private const string ProductQuantityMustBeAtLeastOne = "Product quantity must be at least one";
-
-        private readonly IProductProvider _productProvider;
+		private const string SystemAdminBreadcrumbRoute = "/SystemAdmin/Index";
+		private readonly IProductProvider _productProvider;
 		private readonly IStockProvider _stockProvider;
 		private readonly ProductPluginSettings _settings;
         private readonly IMemoryCache _memoryCache;
@@ -103,7 +103,7 @@ namespace ProductPlugin.Controllers
         public IActionResult Index(int? page)
         {
             ProductPageListModel model = GetPageList(page.GetValueOrDefault(1));
-            model.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            model.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, SystemAdminBreadcrumbRoute, false));
             model.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, "/ProductAdmin/Index", false));
 
             if (page.HasValue)
@@ -342,7 +342,7 @@ namespace ProductPlugin.Controllers
         {
             EditProductGroupModel result = new(GetModelData());
 
-            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, SystemAdminBreadcrumbRoute, false));
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductGroups, "/ProductAdmin/GroupIndex/", false));
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppMenuNewProductGroup, $"/ProductAdmin/EditProductGroup/-1", false));
 
@@ -354,7 +354,7 @@ namespace ProductPlugin.Controllers
             EditProductGroupModel result = new(GetModelData(), productGroupModel.Id, productGroupModel.Description,
                 productGroupModel.ShowOnWebsite, productGroupModel.SortOrder, productGroupModel.TagLine, productGroupModel.Url);
             
-            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, SystemAdminBreadcrumbRoute, false));
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductGroups, "/ProductAdmin/GroupIndex/", false));
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppMenuEditProductGroup, $"/ProductAdmin/EditProductGroup/{productGroupModel.Id}", false));
 
@@ -366,7 +366,7 @@ namespace ProductPlugin.Controllers
             EditProductGroupModel result = new(GetModelData(), productGroup.Id, productGroup.Description,
                 productGroup.ShowOnWebsite, productGroup.SortOrder, productGroup.TagLine, productGroup.Url);
 
-            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, SystemAdminBreadcrumbRoute, false));
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductGroups, "/ProductAdmin/GroupIndex/", false));
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppMenuEditProductGroup, $"/ProductAdmin/EditProductGroup/{productGroup.Id}", false));
 
@@ -381,7 +381,7 @@ namespace ProductPlugin.Controllers
 
             groups.ForEach(g => result.Groups.Add(new LookupListItem(g.Id, g.Description)));
 
-            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, SystemAdminBreadcrumbRoute, false));
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductGroups, $"/ProductAdmin/{nameof(GroupIndex)}", false));
 
             return result;
@@ -411,7 +411,7 @@ namespace ProductPlugin.Controllers
 
             allProductGroups.ForEach(pg => result.ProductGroups.Add(new LookupListItem(pg.Id, pg.Description)));
 
-            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, SystemAdminBreadcrumbRoute, false));
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, "/ProductAdmin/Index/", false));
             result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppMenuNewProduct, $"/ProductAdmin/EditProduct/-1", false));
 
@@ -430,7 +430,7 @@ namespace ProductPlugin.Controllers
                 product.BestSeller, product.RetailPrice, product.Sku, product.IsDownload, product.AllowBackorder,
                 product.IsVisible, pageNumber);
 
-            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, SystemAdminBreadcrumbRoute, false));
 
             if (pageNumber > 1)
                 result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, $"/ProductAdmin/Page/{pageNumber}/", false));
@@ -454,7 +454,7 @@ namespace ProductPlugin.Controllers
                 model.BestSeller, model.RetailPrice, model.Sku, model.IsDownload, model.AllowBackorder,
 				model.IsVisible, model.PageNumber);
 
-            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, SystemAdminBreadcrumbRoute, false));
 
             if (model.PageNumber > 1)
                 result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, $"/ProductAdmin/Page/{model.PageNumber}/", false));

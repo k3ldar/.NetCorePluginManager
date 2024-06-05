@@ -144,18 +144,19 @@ namespace UserSessionMiddleware.Plugin.Classes
 
             string rootPath = Path.Combine(settings.SessionRootPath, "UserSession");
 
-            _pageViewFile = GetFile(Path.Combine(rootPath, "Sessions"), "PageViews.dat");
-            _referrerFile = GetFile(Path.Combine(rootPath, "Sessions"), "InitialReferrer.dat");
-            _sessionHourlyFileHuman = GetFile(Path.Combine(rootPath, "Sessions"), "HourlyHuman.dat");
-            _sessionDailyFileHuman = GetFile(Path.Combine(rootPath, "Sessions"), "DailyHuman.dat");
-            _sessionWeeklyFileHuman = GetFile(Path.Combine(rootPath, "Sessions"), "WeeklyHuman.dat");
-            _sessionMonthlyFileHuman = GetFile(Path.Combine(rootPath, "Sessions"), "MonthlyHuman.dat");
-            _sessionYearlyFileHuman = GetFile(Path.Combine(rootPath, "Sessions"), "YearlyHuman.dat");
-            _sessionHourlyFileBot = GetFile(Path.Combine(rootPath, "Sessions"), "HourlyBot.dat");
-            _sessionDailyFileBot = GetFile(Path.Combine(rootPath, "Sessions"), "DailyBot.dat");
-            _sessionWeeklyFileBot = GetFile(Path.Combine(rootPath, "Sessions"), "WeeklyBot.dat");
-            _sessionMonthlyFileBot = GetFile(Path.Combine(rootPath, "Sessions"), "MonthlyBot.dat");
-            _sessionYearlyFileBot = GetFile(Path.Combine(rootPath, "Sessions"), "YearlyBot.dat");
+			const string Sessions = "Sessions";
+			_pageViewFile = GetFile(Path.Combine(rootPath, Sessions), "PageViews.dat");
+			_referrerFile = GetFile(Path.Combine(rootPath, Sessions), "InitialReferrer.dat");
+			_sessionHourlyFileHuman = GetFile(Path.Combine(rootPath, Sessions), "HourlyHuman.dat");
+			_sessionDailyFileHuman = GetFile(Path.Combine(rootPath, Sessions), "DailyHuman.dat");
+			_sessionWeeklyFileHuman = GetFile(Path.Combine(rootPath, Sessions), "WeeklyHuman.dat");
+			_sessionMonthlyFileHuman = GetFile(Path.Combine(rootPath, Sessions), "MonthlyHuman.dat");
+			_sessionYearlyFileHuman = GetFile(Path.Combine(rootPath, Sessions), "YearlyHuman.dat");
+			_sessionHourlyFileBot = GetFile(Path.Combine(rootPath, Sessions), "HourlyBot.dat");
+			_sessionDailyFileBot = GetFile(Path.Combine(rootPath, Sessions), "DailyBot.dat");
+			_sessionWeeklyFileBot = GetFile(Path.Combine(rootPath, Sessions), "WeeklyBot.dat");
+			_sessionMonthlyFileBot = GetFile(Path.Combine(rootPath, Sessions), "MonthlyBot.dat");
+			_sessionYearlyFileBot = GetFile(Path.Combine(rootPath, Sessions), "YearlyBot.dat");
 
             _maxHours = settings.MaxHourlyData;
             _maxDays = settings.MaxDailyData;

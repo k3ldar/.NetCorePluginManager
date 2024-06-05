@@ -24,12 +24,14 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 using Middleware;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 {
-    public class MockUserApiQueryProvider : IUserApiQueryProvider
+	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
+	public class MockUserApiQueryProvider : IUserApiQueryProvider
     {
         private const string MockMerchantId = "mer-9djn5r49fdljnfkjed89dfljhsaf9";
         private const string MockApiKey = "GH9asdflnler08dsfowlaenfrlasdkfnpo8u";

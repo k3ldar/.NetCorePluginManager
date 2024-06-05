@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using Middleware;
@@ -32,6 +33,7 @@ using Middleware.Resources;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 {
+	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
 	public class MockResourceProvider : IResourceProvider
 	{
 		private long _nextId = 1;
