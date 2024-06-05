@@ -48,6 +48,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		private const string ThreadName = "Text Based User Session Service";
 		private static readonly object _lockObject = new();
+		private static readonly object _sesionDataLock = new();
 		private static readonly Stack<UserSession> _closedSessions = new();
 
 		private readonly ISimpleDBOperations<UserDataRow> _users;
@@ -190,7 +191,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 			}
 
 			userSession.SaveStatus = SaveStatus.Saved;
-			_sessionData.Insert(sessionDataRow);
+
+			using (TimedLock sessionLock = TimedLock.Lock(_sesionDataLock))
+				_sessionData.Insert(sessionDataRow);
+
 			userSession.InternalSessionID = sessionDataRow.Id;
 		}
 
@@ -205,7 +209,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 				return;
 
 			string session = userSessionId;
-			SessionDataRow sessionData = _sessionData.Select().FirstOrDefault(s => s.SessionId.Equals(session));
+			SessionDataRow sessionData = null;
+
+			using (TimedLock sessionLock = TimedLock.Lock(_sesionDataLock)) 
+				sessionData =  _sessionData.Select().FirstOrDefault(s => s.SessionId.Equals(session));
 
 			if (sessionData == null)
 				return;
@@ -237,12 +244,17 @@ namespace PluginManager.DAL.TextFiles.Providers
 			userSession.SaveStatus = SaveStatus.Saved;
 
 			string sessionId = userSession.SessionID;
-			SessionDataRow currentSessionData = _sessionData.Select(userSession.InternalSessionID) ?? _sessionData.Select().FirstOrDefault(s => s.SessionId.Equals(sessionId));
+			SessionDataRow currentSessionData = null;
+
+			using (TimedLock sessionLock = TimedLock.Lock(_sesionDataLock)) 
+				currentSessionData = _sessionData.Select(userSession.InternalSessionID) ?? _sessionData.Select().FirstOrDefault(s => s.SessionId.Equals(sessionId));
 
 			if (currentSessionData == null)
 			{
 				Created(userSession);
-				currentSessionData = _sessionData.Select(userSession.InternalSessionID);
+
+				using (TimedLock sessionLock = TimedLock.Lock(_sesionDataLock))
+					currentSessionData = _sessionData.Select(userSession.InternalSessionID);
 			}
 
 			currentSessionData.Bounced = userSession.Bounced;
@@ -263,7 +275,9 @@ namespace PluginManager.DAL.TextFiles.Providers
 			currentSessionData.UserAgent = userSession.UserAgent;
 			currentSessionData.UserId = userSession.UserID < 0 ? 0 : userSession.UserID;
 
-			_sessionData.Update(currentSessionData);
+			using (TimedLock sessionLock = TimedLock.Lock(_sesionDataLock))
+				_sessionData.Update(currentSessionData);
+
 			SavePage(userSession);
 			userSession.SaveStatus = SaveStatus.Saved;
 		}
@@ -341,38 +355,41 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			IReadOnlyList<SessionPageDataRow> sessionPages = _sessionPageData.Select();
 
-			foreach (SessionDataRow session in _sessionData.Select())
+			using (TimedLock sessionLock = TimedLock.Lock(_sesionDataLock))
 			{
-				using (StopWatchTimer timer = StopWatchTimer.Initialise(_timingsUpdateAllSessions))
+				foreach (SessionDataRow session in _sessionData.Select())
 				{
-					UserSession sessionData = new(session.Id, session.Created, session.SessionId, session.UserAgent,
-					session.InitialReferrer, session.IpAddress, session.HostName, session.IsMobile, session.IsBrowserMobile,
-					session.MobileRedirect, (ReferalType)session.ReferralType, session.Bounced, session.IsBot, session.MobileManufacturer,
-					session.MobileModel, session.UserId, 0, 0, session.SaleCurrency, session.SaleAmount)
+					using (StopWatchTimer timer = StopWatchTimer.Initialise(_timingsUpdateAllSessions))
 					{
-						SaveStatus = SaveStatus.Saved,
-					};
-
-					UpdateGeoIpDataForSession(sessionData);
-
-
-					SessionPageDataRow firstPage = sessionPages.FirstOrDefault(spd => spd.SessionId.Equals(session.Id));
-
-					if (firstPage != null)
-					{
-						sessionData.Pages.Add(new PageViewData(firstPage.Url, firstPage.Referrer, firstPage.IsPostBack)
+						UserSession sessionData = new(session.Id, session.Created, session.SessionId, session.UserAgent,
+						session.InitialReferrer, session.IpAddress, session.HostName, session.IsMobile, session.IsBrowserMobile,
+						session.MobileRedirect, (ReferalType)session.ReferralType, session.Bounced, session.IsBot, session.MobileManufacturer,
+						session.MobileModel, session.UserId, 0, 0, session.SaleCurrency, session.SaleAmount)
 						{
 							SaveStatus = SaveStatus.Saved,
-						});
+						};
 
-						UpdateInitialReferrer(sessionData);
+						UpdateGeoIpDataForSession(sessionData);
+
+
+						SessionPageDataRow firstPage = sessionPages.FirstOrDefault(spd => spd.SessionId.Equals(session.Id));
+
+						if (firstPage != null)
+						{
+							sessionData.Pages.Add(new PageViewData(firstPage.Url, firstPage.Referrer, firstPage.IsPostBack)
+							{
+								SaveStatus = SaveStatus.Saved,
+							});
+
+							UpdateInitialReferrer(sessionData);
+						}
+
+						UpdateHourlySessionData(sessionData);
+						UpdateDailySessionData(sessionData);
+						UpdateWeeklySessionData(sessionData);
+						UpdateMonthlySessionData(sessionData);
+						UpdateYearlySessionData(sessionData);
 					}
-
-					UpdateHourlySessionData(sessionData);
-					UpdateDailySessionData(sessionData);
-					UpdateWeeklySessionData(sessionData);
-					UpdateMonthlySessionData(sessionData);
-					UpdateYearlySessionData(sessionData);
 				}
 			}
 
@@ -394,11 +411,12 @@ namespace PluginManager.DAL.TextFiles.Providers
 				{
 					UpdateGeoIpDataForSession(session);
 
-					SessionDataRow sessionData = _sessionData.Select(session.InternalSessionID);
+					SessionDataRow sessionData = null;
 
-					if (sessionData == null)
-					{
-						sessionData = new SessionDataRow()
+					using (TimedLock sessionLock = TimedLock.Lock(_sesionDataLock)) 
+						sessionData = _sessionData.Select(session.InternalSessionID);
+
+					sessionData ??= new SessionDataRow()
 						{
 							CountryCode = session.CountryCode,
 							HostName = session.HostName,
@@ -413,7 +431,6 @@ namespace PluginManager.DAL.TextFiles.Providers
 							SessionId = session.SessionID,
 							UserAgent = session.UserAgent,
 						};
-					}
 
 					sessionData.UserId = session.UserID;
 					sessionData.IsBot = session.IsBot;
@@ -421,7 +438,8 @@ namespace PluginManager.DAL.TextFiles.Providers
 					sessionData.SaleAmount = session.CurrentSale;
 					sessionData.SaleCurrency = session.CurrentSaleCurrency;
 
-					_sessionData.InsertOrUpdate(sessionData);
+					using (TimedLock sessionLock = TimedLock.Lock(_sesionDataLock))
+						_sessionData.InsertOrUpdate(sessionData);
 
 					session.SaveStatus = SaveStatus.Saved;
 
@@ -478,14 +496,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 				string pageHash = _urlHashProvider.GetUrlHash(session.Pages[0].URL);
 				InitialReferralsDataRow referrer = _initialRefererData.Select().FirstOrDefault(rd => rd.Hash.Equals(pageHash));
 
-				if (referrer == null)
-				{
-					referrer = new InitialReferralsDataRow()
+				referrer ??= new InitialReferralsDataRow()
 					{
 						Hash = pageHash,
 						Url = session.Pages[0].URL,
 					};
-				}
 
 				referrer.Usage++;
 
@@ -504,19 +519,19 @@ namespace PluginManager.DAL.TextFiles.Providers
 				int hour = currentDate.Hour;
 				int quarter = Math.Abs(currentDate.Minute / 15) + 1;
 
-				SessionStatsHourlyDataRow hourly = _sessionDataHourly.Select()
+				SessionStatsHourlyDataRow hourly = null;
+
+				using (TimedLock sessionLock = TimedLock.Lock(_sesionDataLock)) 
+					hourly = _sessionDataHourly.Select()
 					.FirstOrDefault(h => h.IsBot.Equals(session.IsBot) && h.Date.Date.Equals(currentDate.Date) && h.Hour == hour && h.Quarter == quarter);
 
-				if (hourly == null)
-				{
-					hourly = new SessionStatsHourlyDataRow()
+				hourly ??= new SessionStatsHourlyDataRow()
 					{
 						IsBot = session.IsBot,
 						DateTicks = currentDate.Date.Ticks,
 						Hour = hour,
 						Quarter = quarter,
 					};
-				}
 
 				UserSessionService.UpdateSessionData(session, hourly);
 				_sessionDataHourly.InsertOrUpdate(hourly);
@@ -535,14 +550,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 				SessionStatsDailyDataRow daily = _sessionDataDaily.Select()
 					.FirstOrDefault(d => d.IsBot.Equals(session.IsBot) && d.Date.Date.Equals(sessionDate.Date));
 
-				if (daily == null)
-				{
-					daily = new SessionStatsDailyDataRow()
+				daily ??= new SessionStatsDailyDataRow()
 					{
 						IsBot = session.IsBot,
 						DateTicks = sessionDate.Date.Ticks,
 					};
-				}
 
 				UserSessionService.UpdateSessionData(session, daily);
 				_sessionDataDaily.InsertOrUpdate(daily);
@@ -567,15 +579,12 @@ namespace PluginManager.DAL.TextFiles.Providers
 				SessionStatsWeeklyDataRow weekly = _sessionDataWeekly.Select()
 					.FirstOrDefault(w => w.IsBot.Equals(session.IsBot) && w.Week.Equals(week) && w.Year == sessionDate.Year);
 
-				if (weekly == null)
-				{
-					weekly = new SessionStatsWeeklyDataRow()
+				weekly ??= new SessionStatsWeeklyDataRow()
 					{
 						IsBot = session.IsBot,
 						Year = sessionDate.Year,
 						Week = week,
 					};
-				}
 
 				UserSessionService.UpdateSessionData(session, weekly);
 				_sessionDataWeekly.InsertOrUpdate(weekly);
@@ -594,15 +603,12 @@ namespace PluginManager.DAL.TextFiles.Providers
 				SessionStatsMonthlyDataRow monthly = _sessionDataMonthly.Select()
 					.FirstOrDefault(m => m.IsBot.Equals(session.IsBot) && m.Month.Equals(sessionDate.Month) && m.Year == sessionDate.Year);
 
-				if (monthly == null)
-				{
-					monthly = new SessionStatsMonthlyDataRow()
+				monthly ??= new SessionStatsMonthlyDataRow()
 					{
 						IsBot = session.IsBot,
 						Month = sessionDate.Month,
 						Year = sessionDate.Year,
 					};
-				}
 
 				UserSessionService.UpdateSessionData(session, monthly);
 				_sessionDataMonthly.InsertOrUpdate(monthly);
@@ -621,14 +627,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 				SessionStatsYearlyDataRow yearly = _sessionDataYearly.Select()
 					.FirstOrDefault(y => y.IsBot.Equals(session.IsBot) && y.Year.Equals(sessionDate.Year));
 
-				if (yearly == null)
-				{
-					yearly = new SessionStatsYearlyDataRow()
+				yearly ??= new SessionStatsYearlyDataRow()
 					{
 						IsBot = session.IsBot,
 						Year = sessionDate.Year,
 					};
-				}
 
 				UserSessionService.UpdateSessionData(session, yearly);
 				_sessionDataYearly.InsertOrUpdate(yearly);

@@ -38,7 +38,7 @@
   </PropertyGroup>
   
   <PropertyGroup>
-    <Version>5.6.0</Version>
+    <Version>5.6.1</Version>
     <LangVersion>latest</LangVersion>
     <Authors>Simon Carter (s1cart3r@gmail.com)</Authors>
     <Company>Simon Carter</Company>

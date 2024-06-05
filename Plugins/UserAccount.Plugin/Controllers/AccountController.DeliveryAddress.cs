@@ -79,7 +79,7 @@ namespace UserAccount.Plugin.Controllers
                 {
                     GrowlAdd(Languages.LanguageStrings.DeliveryAddressCreated);
 
-                    if (!String.IsNullOrEmpty(model.ReturnUrl) && UrlDeliveryAddress.IsLocalUrl(model.ReturnUrl))
+                    if (!String.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                         return new RedirectResult(model.ReturnUrl, false);
 
                     return new RedirectResult(UrlDeliveryAddress, false);
