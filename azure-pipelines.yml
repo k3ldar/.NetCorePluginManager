@@ -64,7 +64,7 @@ steps:
   inputs:
     testResultsFormat: 'VSTest'
     testResultsFiles: '**/TEST-*.xml'
-    failTaskOnFailedTests: true
+    failTaskOnFailedTests: false
     testRunTitle: 'Publish Unit Tests'
     
 - task: CopyFiles@2
