@@ -55,9 +55,6 @@ namespace UserSessionMiddleware.Plugin
 
         internal static ILogger GetLogger { get; private set; }
 
-        internal static string[] ValidCultures { get; private set; }
-
-
         #endregion Internal Static Properties
 
         #region IPlugin Methods
@@ -77,7 +74,8 @@ namespace UserSessionMiddleware.Plugin
         /// </summary>
         public void Finalise()
         {
-            ThreadManager.Finalise();
+			if (ThreadManager.IsInitialized)
+				ThreadManager.Finalise();
         }
 
         /// <summary>

@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using System.Text.Json.Serialization;
 
 using Middleware;
 using Middleware.Accounts.Invoices;
@@ -77,11 +78,12 @@ namespace UserAccount.Plugin.Models
             }
         }
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public long InvoiceId { get; private set; }
+		[JsonRequired]
+		public long InvoiceId { get; private set; }
 
         public CultureInfo Culture { get; private set; }
 

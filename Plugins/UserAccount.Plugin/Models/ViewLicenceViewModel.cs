@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Text.Json.Serialization;
 
 using SharedPluginFeatures;
 
@@ -57,11 +58,12 @@ namespace UserAccount.Plugin.Models
             Licence = licence ?? throw new ArgumentNullException(nameof(licence));
         }
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public long Id { get; set; }
+		[JsonRequired]
+		public long Id { get; set; }
 
         public string Domain { get; set; }
 

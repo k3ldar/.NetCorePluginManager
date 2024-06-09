@@ -40,7 +40,7 @@ using Shared.Communication;
 
 using static Shared.Utilities;
 
-#pragma warning disable CS1591
+#pragma warning disable CS1591, S1075
 
 namespace LoginPlugin.Controllers
 {
@@ -231,4 +231,4 @@ namespace LoginPlugin.Controllers
     }
 }
 
-#pragma warning restore CS1591
+#pragma warning restore CS1591, S1075

@@ -532,11 +532,6 @@ namespace PluginManager.Tests
             }
         }
 
-        public List<string> GetEvents()
-        {
-            return new List<string>() { "Test1", "Test2" };
-        }
-
         public void EventRaised(in string eventId, in object param1, in object param2)
         {
             switch (eventId)
@@ -558,6 +553,11 @@ namespace PluginManager.Tests
                 default:
                     throw new InvalidOperationException("Invalid Event Name");
             }
+        }
+
+        public List<string> GetEvents()
+        {
+            return new List<string>() { "Test1", "Test2" };
         }
 
         public int EventCount { get; private set; }
@@ -588,14 +588,14 @@ namespace PluginManager.Tests
             }
         }
 
-        public List<string> GetEvents()
-        {
-            return new List<string>() { "Dependency", "Frustration" };
-        }
-
         public void EventRaised(in string eventId, in object param1, in object param2)
         {
             throw new NotImplementedException();
+        }
+
+        public List<string> GetEvents()
+        {
+            return new List<string>() { "Dependency", "Frustration" };
         }
 
         public int EventCount { get; private set; }

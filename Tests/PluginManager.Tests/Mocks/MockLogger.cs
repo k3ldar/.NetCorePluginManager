@@ -39,8 +39,6 @@ namespace PluginManager.Tests.Mocks
         #region Private Methods
 
         private readonly object _lockObject = new();
-        private string _data;
-        private LogLevel _logLevel;
         private Exception _exception;
         private readonly List<string> _messages = new();
         private readonly List<MockLoggerItem> _errors;
@@ -140,37 +138,35 @@ namespace PluginManager.Tests.Mocks
             {
                 _messages.Add($"{logLevel} {exception.Message} {data}");
 
-                _logLevel = logLevel;
                 _exception = exception;
-                _data = data;
                 AddToLog(logLevel, String.Empty, exception, data);
             }
         }
 
-        public void AddToLog(in LogLevel logLevel, in string module, in string data)
+        public void AddToLog(in LogLevel logLevel, in string moduleName, in string data)
         {
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
-                _messages.Add($"{logLevel} {module} {data}");
-                _logs.Add(new MockLoggerItem(logLevel, module, data));
+                _messages.Add($"{logLevel} {moduleName} {data}");
+                _logs.Add(new MockLoggerItem(logLevel, moduleName, data));
             }
         }
 
-        public void AddToLog(in LogLevel logLevel, in string module, in Exception exception)
+        public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception)
         {
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
-                _messages.Add($"{logLevel} {module} {exception.Message}");
-                AddToLog(logLevel, module, exception, String.Empty);
+                _messages.Add($"{logLevel} {moduleName} {exception.Message}");
+                AddToLog(logLevel, moduleName, exception, String.Empty);
             }
         }
 
-        public void AddToLog(in LogLevel logLevel, in string module, in Exception exception, string data)
+        public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception, string data)
         {
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
-                _messages.Add($"{logLevel} {module} {exception.Message} {data}");
-                _errors.Add(new MockLoggerItem(logLevel, module, exception, data));
+                _messages.Add($"{logLevel} {moduleName} {exception.Message} {data}");
+                _errors.Add(new MockLoggerItem(logLevel, moduleName, exception, data));
             }
         }
 

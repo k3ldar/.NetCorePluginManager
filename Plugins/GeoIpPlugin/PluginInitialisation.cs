@@ -55,7 +55,8 @@ namespace GeoIp.Plugin
 
         public void Finalise()
         {
-            ThreadManager.Finalise();
+			if (ThreadManager.IsInitialized)
+				ThreadManager.Finalise();
         }
 
         public void ConfigureServices(IServiceCollection services)

@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using System.Text.Json.Serialization;
 
 using Middleware;
 using Middleware.Accounts.Orders;
@@ -77,11 +78,12 @@ namespace UserAccount.Plugin.Models
             }
         }
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public long OrderId { get; private set; }
+		[JsonRequired]
+		public long OrderId { get; private set; }
 
         public CultureInfo Culture { get; private set; }
 
