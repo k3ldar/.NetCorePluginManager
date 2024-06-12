@@ -95,7 +95,22 @@ namespace SimpleDB.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public void InsertOrUpdate(T record)
+		public void Insert(T records, InsertOptions insertOptions)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Insert(List<T> records, InsertOptions insertOptions)
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool IndexExists(string name, object value)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void InsertOrUpdate(T record)
         {
             throw new NotImplementedException();
         }
@@ -132,7 +147,12 @@ namespace SimpleDB.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public void Truncate()
+		public IReadOnlyList<T> Select(Func<T, bool> predicate)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Truncate()
         {
             throw new NotImplementedException();
         }
@@ -147,32 +167,12 @@ namespace SimpleDB.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public void Insert(List<T> records, InsertOptions insertOptions)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Insert(T records, InsertOptions insertOptions)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IndexExists(string name, object value)
-        {
-            throw new NotImplementedException();
-        }
-
         public void ForceWrite()
         {
             throw new NotImplementedException();
         }
 
 		public void ClearAllMemory()
-		{
-			throw new NotImplementedException();
-		}
-
-		public IReadOnlyList<T> Select(Func<T, bool> predicate)
 		{
 			throw new NotImplementedException();
 		}

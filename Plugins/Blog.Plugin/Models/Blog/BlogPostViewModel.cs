@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 using SharedPluginFeatures;
 
@@ -181,14 +182,15 @@ namespace Blog.Plugin.Models
             Tags = String.Join(' ', tags);
         }
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Unique id representing the blog entry.
-        /// </summary>
-        /// <value>int</value>
+		/// <summary>
+		/// Unique id representing the blog entry.
+		/// </summary>
+		/// <value>int</value>
+		[JsonRequired]
         public int Id { get; set; }
 
         /// <summary>
@@ -196,7 +198,7 @@ namespace Blog.Plugin.Models
         /// </summary>
         /// <value>string</value>
         [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterBlogTitle))]
-        public string Title { get; set; }
+		public string Title { get; set; }
 
         /// <summary>
         /// Brief description describing the blog entry.

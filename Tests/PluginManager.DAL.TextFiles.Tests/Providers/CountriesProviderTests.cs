@@ -217,11 +217,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(sut);
                     sut.CountryCreate("Unknown", "XX", false);
 
-                    Assert.IsNull(sut.GetVisibleCountries().FirstOrDefault(c => c.Code.Equals("XX")));
+                    Assert.IsNull(sut.GetVisibleCountries().Find(c => c.Code.Equals("XX")));
 
                     bool updated = sut.CountryUpdate(new Country("we do not know", "XX", true));
                     Assert.IsTrue(updated);
-                    Country country = sut.GetVisibleCountries().FirstOrDefault(c => c.Code.Equals("XX"));
+                    Country country = sut.GetVisibleCountries().Find(c => c.Code.Equals("XX"));
 
                     Assert.IsNotNull(country);
                     Assert.AreEqual("we do not know", country.Name);

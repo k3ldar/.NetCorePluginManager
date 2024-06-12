@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 using SharedPluginFeatures;
 
@@ -52,11 +53,12 @@ namespace UserAccount.Plugin.Models
 
         }
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public long AddressId { get; set; }
+		[JsonRequired]
+		public long AddressId { get; set; }
 
         public bool ShowName { get; set; }
 

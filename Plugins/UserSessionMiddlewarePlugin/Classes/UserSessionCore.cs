@@ -146,7 +146,7 @@ namespace UserSessionMiddleware.Plugin
             IsMobileDevice = CheckIfMobileDevice(UserAgent);
             IsBrowserMobile = false;// Request.Browser.IsMobileDevice;
 
-            MobileRedirect = IsMobileDevice | IsBrowserMobile;
+            MobileRedirect = IsMobileDevice || IsBrowserMobile;
 
             MobileManufacturer = "";// Request.Browser.MobileDeviceManufacturer;
             MobileModel = ""; // Request.Browser.MobileDeviceModel;

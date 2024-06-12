@@ -58,7 +58,8 @@ namespace ImageManager.Plugin
 
 		public void Finalise()
         {
-            ThreadManager.Finalise();
+			if (ThreadManager.IsInitialized)
+				ThreadManager.Finalise();
         }
 
         public ushort GetVersion()

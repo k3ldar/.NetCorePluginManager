@@ -44,9 +44,11 @@ namespace UserAccount.Plugin.Controllers
 
     public partial class AccountController
     {
-        #region Public Action Methods
+		private const string LocalAccountUri = "/Account/";
 
-        [HttpGet]
+		#region Public Action Methods
+
+		[HttpGet]
         [LoggedOut]
         [Breadcrumb(nameof(Languages.LanguageStrings.CreateAccount), nameof(AccountController), nameof(Index))]
         public IActionResult CreateAccount(string returnUrl)
@@ -77,13 +79,20 @@ namespace UserAccount.Plugin.Controllers
                 if (session != null)
                     session.Login(userId, $"{ValidateUserInput(model.FirstName, ValidationType.Name)} {ValidateUserInput(model.Surname, ValidationType.Name)}", ValidateUserInput(model.Email, ValidationType.Email));
 
-                if (String.IsNullOrEmpty(model.ReturnUrl))
-                    return Redirect("/Account/");
-                else
-                    return Redirect(model.ReturnUrl);
-            }
+				if (String.IsNullOrEmpty(model.ReturnUrl))
+				{
+					return Redirect(LocalAccountUri);
+				}
+				else
+				{
+					if (Url.IsLocalUrl(model.ReturnUrl))
+						return Redirect(model.ReturnUrl);
+					else
+						return Redirect(LocalAccountUri);
+				}
+			}
 
-            PrepareCreateAccountModel(ref model);
+			PrepareCreateAccountModel(ref model);
 
             return View(model);
         }

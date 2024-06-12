@@ -187,9 +187,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 			int idDepartment = department;
 
 			ticket = new HelpdeskTicket(_tickets.Count + 1,
-				GetTicketPriorities().FirstOrDefault(p => p.Id == idPriority),
-				GetTicketDepartments().FirstOrDefault(d => d.Id == idDepartment),
-				GetTicketStatus().FirstOrDefault(s => s.Id == idStatus),
+				GetTicketPriorities().Find(p => p.Id == idPriority),
+				GetTicketDepartments().Find(d => d.Id == idDepartment),
+				GetTicketStatus().Find(s => s.Id == idStatus),
 				ticketId,
 				subject,
 				DateTime.Now,
