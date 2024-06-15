@@ -39,6 +39,8 @@ using PluginManager.Tests.Mocks;
 
 using Shared.Classes;
 
+#pragma warning disable S3885
+
 namespace PluginManager.Tests
 {
     [TestClass]
@@ -1166,3 +1168,4 @@ namespace PluginManager.Tests
     }
 
 }
+#pragma warning restore S3885

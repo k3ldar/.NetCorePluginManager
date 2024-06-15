@@ -28,7 +28,7 @@ using System;
 using PluginManager;
 using PluginManager.Abstractions;
 
-#pragma warning disable CS1591
+#pragma warning disable CS1591, S6670
 
 namespace Company.Plugin.Classes
 {
@@ -76,4 +76,4 @@ namespace Company.Plugin.Classes
     }
 }
 
-#pragma warning restore CS1591
+#pragma warning restore CS1591, S6670

@@ -101,7 +101,7 @@ namespace Resources.Plugin.Controllers
 			if (String.IsNullOrEmpty(categoryName))
 				return RedirectToAction(nameof(Index));
 
-			categoryName = ValidateUserInput(categoryName, ValidationType.RouteName);
+			_ = ValidateUserInput(categoryName, ValidationType.RouteName);
 
 			ResourceCategory resourceCategory = _resourceProvider.GetResourceCategory(id);
 

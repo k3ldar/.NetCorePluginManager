@@ -43,7 +43,6 @@ namespace PluginManager.Tests.Mocks
         #region Private Members
 
         private readonly List<Func<RequestDelegate, RequestDelegate>> _middleware = new();
-        private IServiceProvider _serviceProvider;
 
         #endregion Private Members
 
@@ -53,14 +52,14 @@ namespace PluginManager.Tests.Mocks
         {
             UseCalled = false;
             UseCalledCount = 0;
-            _serviceProvider = new MockServiceProvider(new Dictionary<Type, object>());
+			ApplicationServices = new MockServiceProvider(new Dictionary<Type, object>());
         }
 
         public MockApplicationBuilder(IServiceProvider serviceProvider)
         {
             UseCalled = false;
             UseCalledCount = 0;
-            _serviceProvider = serviceProvider;
+			ApplicationServices = serviceProvider;
         }
 
         #endregion Constructors
@@ -73,18 +72,7 @@ namespace PluginManager.Tests.Mocks
 
         #region IApplicationBuilder Methods/Properties
 
-        public IServiceProvider ApplicationServices
-        {
-            get
-            {
-                return _serviceProvider;
-            }
-
-            set
-            {
-                _serviceProvider = value;
-            }
-        }
+        public IServiceProvider ApplicationServices { get; set; }
 
         public IFeatureCollection ServerFeatures => throw new NotImplementedException();
 

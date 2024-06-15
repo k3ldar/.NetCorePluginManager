@@ -45,12 +45,6 @@ namespace PluginManager.Tests
 
         #endregion Private Members
 
-        [TestInitialize]
-        public void PluginServices_TestInitialise()
-        {
-
-        }
-
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void PluginServices_AddAssembly_NullPluginManager_Throws_ArgumentNullException()

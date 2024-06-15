@@ -318,7 +318,7 @@ namespace UserSessionMiddleware.Plugin
         {
             List<Type> loggedOutAttributes = pluginTypesService.GetPluginTypesWithAttribute<LoggedOutAttribute>();
 
-            // Cycle through all classes and methods which have the spider attribute
+            // Cycle through all classes and methods which have the logged out attribute
             foreach (Type type in loggedOutAttributes)
             {
                 // is it a class attribute
