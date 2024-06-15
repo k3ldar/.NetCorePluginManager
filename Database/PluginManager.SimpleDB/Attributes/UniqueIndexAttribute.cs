@@ -26,9 +26,18 @@
 
 namespace SimpleDB
 {
+	/// <summary>
+	/// Attribute indicating the value/property is unique within the table
+	/// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
     public class UniqueIndexAttribute : Attribute
     {
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="name">Name of index</param>
+		/// <param name="indexType">Type of index</param>
+		/// <exception cref="ArgumentNullException"></exception>
         public UniqueIndexAttribute(string name, IndexType indexType = IndexType.Ascending)
             : this (indexType)
         {
@@ -38,13 +47,25 @@ namespace SimpleDB
             Name = name;
         }
 
-        public UniqueIndexAttribute(IndexType indexType = IndexType.Ascending)
+		/// <summary>
+		/// Constructor uses property name as index name
+		/// </summary>
+		/// <param name="indexType">Type of index</param>
+		public UniqueIndexAttribute(IndexType indexType = IndexType.Ascending)
         {
             IndexType = indexType;
         }
 
+		/// <summary>
+		/// Type of index
+		/// </summary>
+		/// <value>IndexType</value>
         public IndexType IndexType { get; }
 
+		/// <summary>
+		/// Name of index
+		/// </summary>
+		/// <value>string</value>
         public string Name { get; }
     }
 }

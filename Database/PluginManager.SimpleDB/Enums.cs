@@ -103,20 +103,44 @@ namespace SimpleDB
     [Flags]
     public enum TriggerType : byte
     {
+		/// <summary>
+		/// No supported triggers
+		/// </summary>
 		None = 0,
 
+		/// <summary>
+		/// Before insert trigger supported
+		/// </summary>
         BeforeInsert = 1,
 
+		/// <summary>
+		/// After insert trigger supported
+		/// </summary>
         AfterInsert = 2,
 
+		/// <summary>
+		/// Before delete trigger supported
+		/// </summary>
         BeforeDelete = 4,
 
+		/// <summary>
+		/// After delete trigger supported
+		/// </summary>
         AfterDelete = 8,
 
+		/// <summary>
+		/// Before update trigger supported
+		/// </summary>
         BeforeUpdate = 16,
 
+		/// <summary>
+		/// Before update comparing old record with new record trigger is supported
+		/// </summary>
         BeforeUpdateCompare = 32,
 
+		/// <summary>
+		/// After update trigger supported
+		/// </summary>
         AfterUpdate = 64,
     }
 

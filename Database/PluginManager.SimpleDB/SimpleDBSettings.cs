@@ -28,11 +28,20 @@ using AppSettings;
 
 namespace SimpleDB
 {
+	/// <summary>
+	/// Settings applied to Simple Db
+	/// </summary>
     public class SimpleDBSettings
     {
-        
+        /// <summary>
+		/// Path where tables are located
+		/// </summary>
+		/// <value>string</value>
         public string Path { get; set; }
 
+		/// <summary>
+		/// Encryption key used to encrypt data in tables
+		/// </summary>
         [SettingString(false, SharedPluginFeatures.Constants.MinimumKeyLength, SharedPluginFeatures.Constants.MaximumKeyLength)]
         [SettingDefault("DSFOIRTEWRasd/flkqw409r sdaedf2134A")]
         public string EnycryptionKey { get; set; }

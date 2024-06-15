@@ -26,15 +26,25 @@
 
 namespace SimpleDB
 {
+	/// <summary>
+	/// Foreign key exception class
+	/// </summary>
 	[Serializable]
     public sealed class ForeignKeyException : Exception
     {
+		/// <summary>
+		/// Constructor
+		/// </summary>
         public ForeignKeyException()
             : base()
         {
 
         }
 
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="message">Exception message</param>
         public ForeignKeyException(string message)
             : base(message)
         {

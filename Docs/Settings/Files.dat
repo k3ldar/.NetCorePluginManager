@@ -39,3 +39,4 @@ ImageManager.Plugin.xml
 DynamicContent.Plugin.xml
 ApiAuthorization.Plugin.xml
 Resources.Plugin.xml
+SimpleDb.xml

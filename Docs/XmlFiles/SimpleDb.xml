@@ -1,0 +1,1197 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SimpleDB</name>
+    </assembly>
+    <members>
+        <member name="T:SimpleDB.ForeignKeyAttribute">
+            <summary>
+            Provides foreign key functionality for SimpleDB
+            </summary>
+        </member>
+        <member name="M:SimpleDB.ForeignKeyAttribute.#ctor(System.String)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="tableName">Name of table the foreign key is linked to</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if tableName is null or empty</exception>
+        </member>
+        <member name="M:SimpleDB.ForeignKeyAttribute.#ctor(System.String,SimpleDB.ForeignKeyAttributes)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="tableName">Name of table the foreign key is linked to</param>
+            <param name="foreignKeyAttributes">Foreign key attributes</param>
+        </member>
+        <member name="P:SimpleDB.ForeignKeyAttribute.TableName">
+            <summary>
+            Name of table the foreign key is linked to
+            </summary>
+        </member>
+        <member name="P:SimpleDB.ForeignKeyAttribute.PropertyName">
+            <summary>
+            Name of property on foreign key table
+            </summary>
+        </member>
+        <member name="P:SimpleDB.ForeignKeyAttribute.Attributes">
+            <summary>
+            Allows the foreign key value to be the default for the type of property the value is linked to
+            </summary>
+        </member>
+        <member name="T:SimpleDB.TableAttribute">
+            <summary>
+            Defines a tables property
+            </summary>
+        </member>
+        <member name="M:SimpleDB.TableAttribute.#ctor(System.String,SimpleDB.CompressionType,SimpleDB.CachingStrategy,SimpleDB.WriteStrategy)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="tableName">Name of table</param>
+            <param name="compression">Type of compression to use for table</param>
+            <param name="cachingStrategy">Caching strategy in use for the table</param>
+            <param name="writeStrategy">Write strategy</param>
+        </member>
+        <member name="M:SimpleDB.TableAttribute.#ctor(System.String,SimpleDB.WriteStrategy)">
+            <summary>
+            
+            </summary>
+            <param name="tableName">Name of table</param>
+            <param name="writeStrategy">Write strategy</param>
+        </member>
+        <member name="M:SimpleDB.TableAttribute.#ctor(System.String,System.String,SimpleDB.WriteStrategy)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="domain"></param>
+            <param name="tableName">Name of table</param>
+            <param name="writeStrategy">Write strategy</param>
+        </member>
+        <member name="M:SimpleDB.TableAttribute.#ctor(System.String,System.String,SimpleDB.CompressionType,SimpleDB.CachingStrategy,SimpleDB.WriteStrategy)">
+            <summary>
+            
+            </summary>
+            <param name="domain">Domain name for table</param>
+            <param name="tableName">Name of table</param>
+            <param name="compression">Type of compression to use for table</param>
+            <param name="cachingStrategy">Caching strategy in use for the table</param>
+            <param name="writeStrategy">Write strategy, default forced write</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="P:SimpleDB.TableAttribute.Domain">
+            <summary>
+            Name of domain where table is located
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SimpleDB.TableAttribute.TableName">
+            <summary>
+            Name of table
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SimpleDB.TableAttribute.Compression">
+            <summary>
+            Type of compression to use, if any
+            </summary>
+            <value>CompressionType</value>
+        </member>
+        <member name="P:SimpleDB.TableAttribute.CachingStrategy">
+            <summary>
+            Caching strategy for table data
+            </summary>
+            <value>CachingStrategy</value>
+        </member>
+        <member name="P:SimpleDB.TableAttribute.WriteStrategy">
+            <summary>
+            Write strategy to use when saving data
+            </summary>
+            <value>WriteStrategy</value>
+        </member>
+        <member name="P:SimpleDB.TableAttribute.PageSize">
+            <summary>
+            Page size, not currently used
+            </summary>
+            <value>PageSize</value>
+        </member>
+        <member name="P:SimpleDB.TableAttribute.SlidingMemoryTimeoutMilliseconds">
+            <summary>
+            Sliding time out in ms, determines when the data is no longer required for data held in memory
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:SimpleDB.TableAttribute.SlidingMemoryTimeout">
+            <summary>
+            Sliding memory timeout
+            </summary>
+            <value>TimeSpan</value>
+        </member>
+        <member name="T:SimpleDB.UniqueIndexAttribute">
+            <summary>
+            Attribute indicating the value/property is unique within the table
+            </summary>
+        </member>
+        <member name="M:SimpleDB.UniqueIndexAttribute.#ctor(System.String,SimpleDB.IndexType)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="name">Name of index</param>
+            <param name="indexType">Type of index</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:SimpleDB.UniqueIndexAttribute.#ctor(SimpleDB.IndexType)">
+            <summary>
+            Constructor uses property name as index name
+            </summary>
+            <param name="indexType">Type of index</param>
+        </member>
+        <member name="P:SimpleDB.UniqueIndexAttribute.IndexType">
+            <summary>
+            Type of index
+            </summary>
+            <value>IndexType</value>
+        </member>
+        <member name="P:SimpleDB.UniqueIndexAttribute.Name">
+            <summary>
+            Name of index
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:SimpleDB.SimpleDbEvent">
+            <summary>
+            Database event delegate
+            </summary>
+            <param name="sender"></param>
+        </member>
+        <member name="T:SimpleDB.CompressionType">
+            <summary>
+            Type of compression to use when reading/writing data from disk
+            </summary>
+        </member>
+        <member name="F:SimpleDB.CompressionType.None">
+            <summary>
+            Data is not compressed
+            </summary>
+        </member>
+        <member name="F:SimpleDB.CompressionType.Brotli">
+            <summary>
+            Data is compressed using Brotli
+            </summary>
+        </member>
+        <member name="T:SimpleDB.WriteStrategy">
+            <summary>
+            Write strategy to use
+            </summary>
+        </member>
+        <member name="F:SimpleDB.WriteStrategy.Forced">
+            <summary>
+            Data is written immediately to disk
+            </summary>
+        </member>
+        <member name="F:SimpleDB.WriteStrategy.Lazy">
+            <summary>
+            Data is written to disk at intervals or when TextTableOperation is disposed
+            
+            In cases of a application/system crash, this could result in lost data
+            </summary>
+        </member>
+        <member name="T:SimpleDB.CachingStrategy">
+            <summary>
+            Cache strategy to use 
+            </summary>
+        </member>
+        <member name="F:SimpleDB.CachingStrategy.None">
+            <summary>
+            Records are read from storage on demand
+            </summary>
+        </member>
+        <member name="F:SimpleDB.CachingStrategy.Memory">
+            <summary>
+            Records are held in memory to speed up retrieval
+            </summary>
+        </member>
+        <member name="F:SimpleDB.CachingStrategy.SlidingMemory">
+            <summary>
+            Data is held in memory for a specified amount of time, when the timeout expires with no use, memory is released
+            </summary>
+        </member>
+        <member name="T:SimpleDB.IndexType">
+            <summary>
+            Type of index
+            </summary>
+        </member>
+        <member name="F:SimpleDB.IndexType.Ascending">
+            <summary>
+            Index is ascending
+            </summary>
+        </member>
+        <member name="F:SimpleDB.IndexType.Descending">
+            <summary>
+            Index is descending
+            </summary>
+        </member>
+        <member name="T:SimpleDB.TriggerType">
+            <summary>
+            Supported trigger types
+            </summary>
+        </member>
+        <member name="F:SimpleDB.TriggerType.None">
+            <summary>
+            No supported triggers
+            </summary>
+        </member>
+        <member name="F:SimpleDB.TriggerType.BeforeInsert">
+            <summary>
+            Before insert trigger supported
+            </summary>
+        </member>
+        <member name="F:SimpleDB.TriggerType.AfterInsert">
+            <summary>
+            After insert trigger supported
+            </summary>
+        </member>
+        <member name="F:SimpleDB.TriggerType.BeforeDelete">
+            <summary>
+            Before delete trigger supported
+            </summary>
+        </member>
+        <member name="F:SimpleDB.TriggerType.AfterDelete">
+            <summary>
+            After delete trigger supported
+            </summary>
+        </member>
+        <member name="F:SimpleDB.TriggerType.BeforeUpdate">
+            <summary>
+            Before update trigger supported
+            </summary>
+        </member>
+        <member name="F:SimpleDB.TriggerType.BeforeUpdateCompare">
+            <summary>
+            Before update comparing old record with new record trigger is supported
+            </summary>
+        </member>
+        <member name="F:SimpleDB.TriggerType.AfterUpdate">
+            <summary>
+            After update trigger supported
+            </summary>
+        </member>
+        <member name="T:SimpleDB.PageSize">
+            <summary>
+            Database page sizes
+            </summary>
+        </member>
+        <member name="F:SimpleDB.PageSize.Size4096">
+            <summary>
+            Page size 4096 bytes long
+            </summary>
+        </member>
+        <member name="F:SimpleDB.PageSize.Size8192">
+            <summary>
+            Page size 8192 bytes long
+            </summary>
+        </member>
+        <member name="F:SimpleDB.PageSize.Size1634">
+            <summary>
+            Page size 16384 bytes long
+            </summary>
+        </member>
+        <member name="T:SimpleDB.ForeignKeyUsage">
+            <summary>
+            Usage for foreign keys
+            </summary>
+        </member>
+        <member name="F:SimpleDB.ForeignKeyUsage.None">
+            <summary>
+            No usage found
+            </summary>
+        </member>
+        <member name="F:SimpleDB.ForeignKeyUsage.Referenced">
+            <summary>
+            Foreign key has a reference
+            </summary>
+        </member>
+        <member name="F:SimpleDB.ForeignKeyUsage.AllowDefault">
+            <summary>
+            Foreign key is allowed default value for type
+            </summary>
+        </member>
+        <member name="F:SimpleDB.ForeignKeyUsage.CascadeDelete">
+            <summary>
+            Cascade delete is supported by foreign key
+            </summary>
+        </member>
+        <member name="T:SimpleDB.ForeignKeyAttributes">
+            <summary>
+            Foreign key attributes
+            </summary>
+        </member>
+        <member name="F:SimpleDB.ForeignKeyAttributes.None">
+            <summary>
+            No special attributes
+            </summary>
+        </member>
+        <member name="F:SimpleDB.ForeignKeyAttributes.DefaultValue">
+            <summary>
+            Value is set to default if foreign key deleted
+            </summary>
+        </member>
+        <member name="F:SimpleDB.ForeignKeyAttributes.CascadeDelete">
+            <summary>
+            Data is deleted if foreign key deleted
+            </summary>
+        </member>
+        <member name="T:SimpleDB.ForeignKeyException">
+            <summary>
+            Foreign key exception class
+            </summary>
+        </member>
+        <member name="M:SimpleDB.ForeignKeyException.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:SimpleDB.ForeignKeyException.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="message">Exception message</param>
+        </member>
+        <member name="T:SimpleDB.InvalidDataRowException">
+            <summary>
+            Invalid data row exception which is raised when data is invalid
+            </summary>
+        </member>
+        <member name="M:SimpleDB.InvalidDataRowException.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="dataRow">Data row name</param>
+            <param name="property">Property/column which violates the rule</param>
+            <param name="message">Exception message</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="P:SimpleDB.InvalidDataRowException.DataRow">
+            <summary>
+            Data row 
+            </summary>
+        </member>
+        <member name="P:SimpleDB.InvalidDataRowException.Property">
+            <summary>
+            Property/column name
+            </summary>
+        </member>
+        <member name="P:SimpleDB.InvalidDataRowException.OriginalMessage">
+            <summary>
+            Original error message
+            </summary>
+        </member>
+        <member name="T:SimpleDB.UniqueIndexException">
+            <summary>
+            Exception raised when a record with a unique index is inserted twice
+            </summary>
+        </member>
+        <member name="M:SimpleDB.UniqueIndexException.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:SimpleDB.UniqueIndexException.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="message">Message description</param>
+        </member>
+        <member name="M:SimpleDB.UniqueIndexException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="message">Message description</param>
+            <param name="innerException">Inner Exception</param>
+        </member>
+        <member name="T:SimpleDB.InsertOptions">
+            <summary>
+            Insert options class containing options to be used when inserting records
+            </summary>
+        </member>
+        <member name="M:SimpleDB.InsertOptions.#ctor">
+            <summary>
+            Constructor, default to assigning primary key
+            </summary>
+        </member>
+        <member name="M:SimpleDB.InsertOptions.#ctor(System.Boolean)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="assignPrimaryKey">Assignes the primary key</param>
+        </member>
+        <member name="P:SimpleDB.InsertOptions.AssignPrimaryKey">
+            <summary>
+            Indicates whether the primary key is assigned or not
+            </summary>
+        </member>
+        <member name="T:SimpleDB.IForeignKeyManager">
+            <summary>
+            Foreign key manager interface
+            </summary>
+        </member>
+        <member name="M:SimpleDB.IForeignKeyManager.AddRelationShip(System.String,System.String,System.String,System.String,SimpleDB.ForeignKeyAttributes)">
+            <summary>
+            Adds a relationship between two tables
+            </summary>
+            <param name="sourceTable">Source table</param>
+            <param name="targetTable">Target table that contains the foreign key</param>
+            <param name="propertyName">Name of propertyy</param>
+            <param name="targetPropertyName">Name of property used as foreign key</param>
+            <param name="foreignKeyAttributes">Foreign key attributes</param>
+        </member>
+        <member name="M:SimpleDB.IForeignKeyManager.RegisterTable(SimpleDB.ISimpleDBTable)">
+            <summary>
+            Registers a table with foreign key manager
+            </summary>
+            <param name="table">Table</param>
+        </member>
+        <member name="M:SimpleDB.IForeignKeyManager.UnregisterTable(SimpleDB.ISimpleDBTable)">
+            <summary>
+            Unregisters a table
+            </summary>
+            <param name="table">Table</param>
+        </member>
+        <member name="M:SimpleDB.IForeignKeyManager.ValueExists(System.String,System.Int64)">
+            <summary>
+            Validates whether a value that is or could be used for a foreign key exists
+            </summary>
+            <param name="tableName">Name of table</param>
+            <param name="id">value</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:SimpleDB.IForeignKeyManager.ValueInUse(System.String,System.String,System.Int64,System.String@,System.String@)">
+            <summary>
+            Determines whether a value is being used or not
+            </summary>
+            <param name="tableName"></param>
+            <param name="propertyName"></param>
+            <param name="value"></param>
+            <param name="table"></param>
+            <param name="property"></param>
+            <returns>bool</returns>
+        </member>
+        <member name="T:SimpleDB.IIndexManager">
+            <summary>
+            Index manager definition
+            </summary>
+        </member>
+        <member name="P:SimpleDB.IIndexManager.PropertyNames">
+            <summary>
+            Names of properties/columns
+            </summary>
+        </member>
+        <member name="P:SimpleDB.IIndexManager.IndexType">
+            <summary>
+            Type of index
+            </summary>
+        </member>
+        <member name="M:SimpleDB.IIndexManager.Contains(System.Object)">
+            <summary>
+            Determines whether the index already exists or not
+            </summary>
+            <param name="value">value to be checked</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:SimpleDB.IIndexManager.Add(System.Object)">
+            <summary>
+            Adds a new index value to the table
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:SimpleDB.IIndexManager.Add(System.Collections.Generic.List{System.Object})">
+            <summary>
+            Adds a list of new data to the table
+            </summary>
+            <param name="items"></param>
+        </member>
+        <member name="M:SimpleDB.IIndexManager.Remove(System.Object)">
+            <summary>
+            Removes an index value from the table
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:SimpleDB.ISimpleDBManager">
+            <summary>
+            Interface for managing SimpleDB initialization and other key areas of operation
+            </summary>
+        </member>
+        <member name="P:SimpleDB.ISimpleDBManager.Path">
+            <summary>
+            Path to database files
+            </summary>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBManager.RegisterTable(SimpleDB.ISimpleDBTable)">
+            <summary>
+            Registers a table with DB Manager
+            </summary>
+            <param name="simpleDBTable"></param>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBManager.UnregisterTable(SimpleDB.ISimpleDBTable)">
+            <summary>
+            Unregisters a table from the DB Manager
+            </summary>
+            <param name="simpleDBTable"></param>
+        </member>
+        <member name="P:SimpleDB.ISimpleDBManager.Tables">
+            <summary>
+            List of all tables tht have been registered
+            </summary>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBManager.Initialize(PluginManager.Abstractions.IPluginClassesService)">
+            <summary>
+            Initializes all tables after they have been loaded
+            </summary>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBManager.ClearMemory">
+            <summary>
+            Clears all memory used by tables that have a strategy to retain data in memory
+            </summary>
+        </member>
+        <member name="E:SimpleDB.ISimpleDBManager.OnMemoryCleared">
+            <summary>
+            Event raised when memory is cleared
+            </summary>
+        </member>
+        <member name="T:SimpleDB.ISimpleDBOperations`1">
+            <summary>
+            Interface describing actions that are available on each table
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBOperations`1.Select">
+            <summary>
+            Selects all rows
+            </summary>
+            <returns>IReadOnlyList&lt;T&gt;</returns>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBOperations`1.Select(System.Int64)">
+            <summary>
+            Selects a single item based on unique id
+            </summary>
+            <param name="id"></param>
+            <returns>T</returns>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBOperations`1.Select(System.Func{`0,System.Boolean})">
+            <summary>
+            Selects a list of items based on the predicate selectFilter
+            </summary>
+            <param name="predicate">Predicate used to select rows</param>
+            <returns>IReadOnlyList&lt;T&gt;</returns>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBOperations`1.Insert(System.Collections.Generic.List{`0})">
+            <summary>
+            Batch inserts multiple new records, new primary key will be assigned
+            </summary>
+            <param name="records">List of records to batch insert</param>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBOperations`1.Insert(System.Collections.Generic.List{`0},SimpleDB.InsertOptions)">
+            <summary>
+            Batch inserts multiple new records with insert options
+            </summary>
+            <param name="records"></param>
+            <param name="insertOptions"></param>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBOperations`1.Insert(`0)">
+            <summary>
+            Inserts a single new record, new primary key will be assigned to each record
+            </summary>
+            <param name="record">Record to insert</param>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBOperations`1.Insert(`0,SimpleDB.InsertOptions)">
+            <summary>
+            Inserts a single new record with insert options
+            </summary>
+            <param name="record"></param>
+            <param name="insertOptions"></param>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBOperations`1.Delete(System.Collections.Generic.List{`0})">
+            <summary>
+            Removes a batch of records
+            </summary>
+            <param name="records"></param>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBOperations`1.Delete(`0)">
+            <summary>
+            Removes a specific record
+            </summary>
+            <param name="record"></param>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBOperations`1.Truncate">
+            <summary>
+            Removes all records after validating foreign keys don't exist etc
+            </summary>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBOperations`1.Update(System.Collections.Generic.List{`0})">
+            <summary>
+            Updates a batch of records
+            </summary>
+            <param name="records"></param>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBOperations`1.Update(`0)">
+            <summary>
+            Updates a specific record
+            </summary>
+            <param name="record"></param>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBOperations`1.InsertOrUpdate(`0)">
+            <summary>
+            Inserts a record if it does not exist already (based on id) or updates an existing record
+            </summary>
+            <param name="record"></param>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBOperations`1.ForceWrite">
+            <summary>
+            Force writes data to disk, only has an effect if WriteStrategy is not Forced
+            </summary>
+        </member>
+        <member name="P:SimpleDB.ISimpleDBOperations`1.DataLength">
+            <summary>
+            Length of the data stored on disk
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:SimpleDB.ISimpleDBOperations`1.RecordCount">
+            <summary>
+            Number of records stored on disk
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:SimpleDB.ISimpleDBOperations`1.PrimarySequence">
+            <summary>
+            Retrieves the current primary sequence
+            </summary>
+            <value>long</value>
+        </member>
+        <member name="P:SimpleDB.ISimpleDBOperations`1.SecondarySequence">
+            <summary>
+            Retrieves the current secondary sequence
+            </summary>
+            <value>long</value>
+        </member>
+        <member name="P:SimpleDB.ISimpleDBOperations`1.CompactPercent">
+            <summary>
+            Indicates the percentage the data is compacted
+            </summary>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBOperations`1.NextSequence">
+            <summary>
+            Retrieves the next unique number in sequence
+            </summary>
+            <returns>long</returns>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBOperations`1.NextSequence(System.Int64)">
+            <summary>
+            Retrieves the next sequence, incremented by increment
+            </summary>
+            <param name="increment">, number to increment by</param>
+            <returns>long</returns>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBOperations`1.NextSecondarySequence(System.Int64)">
+            <summary>
+            Retrieves the next secondary sequence, incremented by increment
+            </summary>
+            <param name="increment">, number to increment by</param>
+            <returns>long</returns>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBOperations`1.ResetSequence(System.Int64,System.Int64)">
+            <summary>
+            Resets the sequence to a specific number
+            </summary>
+            <param name="primarySequence"></param>
+            <param name="secondarySequence"></param>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBOperations`1.IdExists(System.Int64)">
+            <summary>
+            Indicates whether a record exists with a specific id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBOperations`1.IndexExists(System.String,System.Object)">
+            <summary>
+            Indicates whether an index exists with a specific value
+            </summary>
+            <param name="name">Name of index</param>
+            <param name="value">Index value</param>
+            <returns></returns>
+        </member>
+        <member name="P:SimpleDB.ISimpleDBOperations`1.TableLock">
+            <summary>
+            Retrieves a table lock instance to be used for table level locking
+            </summary>
+        </member>
+        <member name="T:SimpleDB.ISimpleDBTable">
+            <summary>
+            add before/after insert/delete/update and add foreign key attributes and unique index attributes which can be validated
+            </summary>
+        </member>
+        <member name="P:SimpleDB.ISimpleDBTable.TableName">
+            <summary>
+            Name of the table
+            </summary>
+        </member>
+        <member name="P:SimpleDB.ISimpleDBTable.CachingStrategy">
+            <summary>
+            Retrieves the caching strategy for the table
+            </summary>
+        </member>
+        <member name="P:SimpleDB.ISimpleDBTable.WriteStrategy">
+            <summary>
+            Retrieves the write strategy for the table
+            </summary>
+        </member>
+        <member name="P:SimpleDB.ISimpleDBTable.SlidingMemoryTimeout">
+            <summary>
+            Determines the sliding memory timeout for the table
+            </summary>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBTable.IdExists(System.Int64)">
+            <summary>
+            Determines whether an index works or not
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBTable.IdIsInUse(System.String,System.Int64)">
+            <summary>
+            Determines whether an ID is in use on a specific property or not
+            </summary>
+            <param name="propertyName"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBTable.Initialize(PluginManager.Abstractions.IPluginClassesService)">
+            <summary>
+            Initializes the table
+            </summary>
+        </member>
+        <member name="M:SimpleDB.ISimpleDBTable.ClearAllMemory">
+            <summary>
+            Instructs the class to clear all cached items
+            </summary>
+        </member>
+        <member name="P:SimpleDB.ISimpleDBTable.GetAllTimings">
+            <summary>
+            Retrieves timings for operations within the table
+            </summary>
+        </member>
+        <member name="E:SimpleDB.ISimpleDBTable.OnAction">
+            <summary>
+            Raises an event when an action is performed
+            </summary>
+        </member>
+        <member name="T:SimpleDB.ITableDefaults`1">
+            <summary>
+            Default table values that can be applied when a table is initially created or when the version changes
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:SimpleDB.ITableDefaults`1.PrimarySequence">
+            <summary>
+            Initial primary sequence provided for the table
+            </summary>
+        </member>
+        <member name="P:SimpleDB.ITableDefaults`1.SecondarySequence">
+            <summary>
+            Secondary sequence
+            </summary>
+        </member>
+        <member name="P:SimpleDB.ITableDefaults`1.Version">
+            <summary>
+            Latest version of data row
+            </summary>
+        </member>
+        <member name="M:SimpleDB.ITableDefaults`1.InitialData(System.UInt16)">
+            <summary>
+            Initial data that will be added when the table is first created and for each upgrade
+            </summary>
+        </member>
+        <member name="T:SimpleDB.ITableTriggers`1">
+            <summary>
+            Definition for class containing triggers for a table
+            </summary>
+            <typeparam name="T">Class table to which the triggers belong</typeparam>
+        </member>
+        <member name="P:SimpleDB.ITableTriggers`1.Position">
+            <summary>
+            Position of triggers when being called
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:SimpleDB.ITableTriggers`1.TriggerTypes">
+            <summary>
+            Supported trigger types
+            </summary>
+            <vvalue>TriggerType</vvalue>
+        </member>
+        <member name="M:SimpleDB.ITableTriggers`1.BeforeInsert(System.Collections.Generic.List{`0})">
+            <summary>
+            Method fired for all rows, before inserting
+            </summary>
+            <param name="records"></param>
+        </member>
+        <member name="M:SimpleDB.ITableTriggers`1.AfterInsert(System.Collections.Generic.List{`0})">
+            <summary>
+            Method fired for all rows, after inserting
+            </summary>
+            <param name="records"></param>
+        </member>
+        <member name="M:SimpleDB.ITableTriggers`1.BeforeDelete(System.Collections.Generic.List{`0})">
+            <summary>
+            Method fired for all rows, before deleting
+            </summary>
+            <param name="records"></param>
+        </member>
+        <member name="M:SimpleDB.ITableTriggers`1.AfterDelete(System.Collections.Generic.List{`0})">
+            <summary>
+            Method fired for all rows after deleting
+            </summary>
+            <param name="records"></param>
+        </member>
+        <member name="M:SimpleDB.ITableTriggers`1.BeforeUpdate(System.Collections.Generic.List{`0})">
+            <summary>
+            Method fired for all rows affected, before updating
+            </summary>
+            <param name="records"></param>
+        </member>
+        <member name="M:SimpleDB.ITableTriggers`1.BeforeUpdate(`0,`0)">
+            <summary>
+            Method fired for each row before updating, with the option of comparing the new row with the old row
+            </summary>
+            <param name="newRecord"></param>
+            <param name="oldRecord"></param>
+        </member>
+        <member name="M:SimpleDB.ITableTriggers`1.AfterUpdate(System.Collections.Generic.List{`0})">
+            <summary>
+            Method fired for all rows affected, after updating
+            </summary>
+            <param name="records"></param>
+        </member>
+        <member name="T:SimpleDB.Internal.IndexManager`1">
+            <summary>
+            This saves all index in memory and is rebuilt every time the file is loaded, this could
+            prove very inneficient with lots of data, if that is the case look at converting the 
+            internals of this class to disk i/o
+            
+            Another potential saving if more than 20 records would be to change to a binary search
+            </summary>
+        </member>
+        <member name="T:SimpleDB.Internal.SimpleDBOperations`1">
+            <summary>
+            Internal structure for file is:
+            
+            ushort      Internal data version					0
+            byte[2]     Header									2
+            long        Primary Sequence						4
+            long        Secondary Sequence						12
+            ushort		File Version							20
+            ushort		Reserved								22
+            int         Reserved for future use					24
+            int         Reserved for future use					28
+            int         Page size								32
+            byte        Compression								36
+            int         Record Count							37
+            int         Length of data before compression		41
+            int         Length of data stored on disk			45
+            Data		version specific						53
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:SimpleDB.ObservableDictionary`2">
+            <summary>
+            Observable dictionary which notifies table of updated/new records
+            </summary>
+            <typeparam name="TKey">Key type</typeparam>
+            <typeparam name="TValue">Value type</typeparam>
+        </member>
+        <member name="P:SimpleDB.ObservableDictionary`2.Item(`0)">
+            <summary>
+            Retrieves the item given the key
+            </summary>
+            <param name="key"></param>
+            <returns>TValue</returns>
+        </member>
+        <member name="M:SimpleDB.ObservableDictionary`2.Add(`0,`1)">
+            <summary>
+            Adds a new record to the dictionary
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:SimpleDB.ObservableDictionary`2.Clear">
+            <summary>
+            Clears the dictionary of all records
+            </summary>
+        </member>
+        <member name="M:SimpleDB.ObservableDictionary`2.Remove(`0)">
+            <summary>
+            Removes an item from the dictionary
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SimpleDB.ObservableDictionary`2.TryAdd(`0,`1)">
+            <summary>
+            Attempts to add a new item to the dictionary
+            </summary>
+            <param name="key">items key</param>
+            <param name="value">item to try add</param>
+            <returns>bool</returns>
+        </member>
+        <member name="E:SimpleDB.ObservableDictionary`2.Changed">
+            <summary>
+            Event raised when an item is changed/deleted from the dictionary
+            </summary>
+        </member>
+        <member name="T:SimpleDB.ObservableList`1">
+            <summary>
+            Observabl list which notifies table of updated/new records
+            </summary>
+            <typeparam name="T">Item type</typeparam>
+        </member>
+        <member name="M:SimpleDB.ObservableList`1.Add(`0)">
+            <summary>
+            Adds a new record to the list
+            </summary>
+            <param name="item"></param>
+        </member>
+        <member name="M:SimpleDB.ObservableList`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Adds a range of new items to the list
+            </summary>
+            <param name="collection"></param>
+        </member>
+        <member name="M:SimpleDB.ObservableList`1.Clear">
+            <summary>
+            Clears all list items
+            </summary>
+        </member>
+        <member name="M:SimpleDB.ObservableList`1.Insert(System.Int32,`0)">
+            <summary>
+            Inserts a new list item at the specified position
+            </summary>
+            <param name="index">Position of item</param>
+            <param name="item">Item to be inserted</param>
+        </member>
+        <member name="M:SimpleDB.ObservableList`1.InsertRange(System.Int32,System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Inserts a range of items at the specified index
+            </summary>
+            <param name="index">Position of item</param>
+            <param name="collection">Collection of items to be inserted</param>
+        </member>
+        <member name="M:SimpleDB.ObservableList`1.Remove(`0)">
+            <summary>
+            Removes the specified item from the list
+            </summary>
+            <param name="item">Item to be removed</param>
+            <returns></returns>
+        </member>
+        <member name="M:SimpleDB.ObservableList`1.RemoveAll(System.Predicate{`0})">
+            <summary>
+            Removes all items matching a predicate
+            </summary>
+            <param name="match">Predicate</param>
+            <returns></returns>
+        </member>
+        <member name="M:SimpleDB.ObservableList`1.RemoveAt(System.Int32)">
+            <summary>
+            Removes a specific item at the given index
+            </summary>
+            <param name="index">Index of item to be removed</param>
+        </member>
+        <member name="M:SimpleDB.ObservableList`1.RemoveRange(System.Int32,System.Int32)">
+            <summary>
+            Removes a range of items from the list
+            </summary>
+            <param name="index">Index of item to be removed</param>
+            <param name="count">Number of items to remove</param>
+        </member>
+        <member name="E:SimpleDB.ObservableList`1.Changed">
+            <summary>
+            Event raised when an item is inserted/removed from the list
+            </summary>
+        </member>
+        <member name="T:SimpleDB.PluginInitialisation">
+            <summary>
+            Plugin initialization class
+            </summary>
+        </member>
+        <member name="M:SimpleDB.PluginInitialisation.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configure services method
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:SimpleDB.PluginInitialisation.Finalise">
+            <summary>
+            Finalise method
+            </summary>
+        </member>
+        <member name="M:SimpleDB.PluginInitialisation.Initialise(PluginManager.Abstractions.ILogger)">
+            <summary>
+            Initialise method
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:SimpleDB.PluginInitialisation.GetVersion">
+            <summary>
+            Retrieve the plugin version
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SimpleDB.PluginInitialisation.BeforeConfigure(Microsoft.AspNetCore.Builder.IApplicationBuilder@)">
+            <summary>
+            Method called before configuration of the app
+            </summary>
+            <param name="app"></param>
+        </member>
+        <member name="M:SimpleDB.PluginInitialisation.AfterConfigure(Microsoft.AspNetCore.Builder.IApplicationBuilder@)">
+            <summary>
+            Method called after the app has been configured
+            </summary>
+            <param name="app"></param>
+        </member>
+        <member name="M:SimpleDB.PluginInitialisation.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder@)">
+            <summary>
+            Method called when the app is being configured
+            </summary>
+            <param name="app"></param>
+        </member>
+        <member name="M:SimpleDB.PluginInitialisation.BeforeConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection@)">
+            <summary>
+            Method called before services are configured
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:SimpleDB.PluginInitialisation.AfterConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection@)">
+            <summary>
+            Method called after services are being configured
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="P:SimpleDB.Readers.TableReadVersionOne.Version">
+            	this part repeats for all pages					53
+            int			page number
+            byte		page type
+            ushort		page version
+            int			Page n Datastart
+            long		Next page start
+        </member>
+        <member name="T:SimpleDB.SimpleDBHelper">
+            <summary>
+            Helper class for registering Simple Db with IoC container
+            </summary>
+        </member>
+        <member name="M:SimpleDB.SimpleDBHelper.AddSimpleDB(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Add required services
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SimpleDB.SimpleDBHelper.AddSimpleDB(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.String)">
+            <summary>
+            Add required services with specific path and encryption key
+            </summary>
+            <param name="services"></param>
+            <param name="path"></param>
+            <param name="encryptionKey"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SimpleDB.SimpleDBSettings">
+            <summary>
+            Settings applied to Simple Db
+            </summary>
+        </member>
+        <member name="P:SimpleDB.SimpleDBSettings.Path">
+            <summary>
+            Path where tables are located
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SimpleDB.SimpleDBSettings.EnycryptionKey">
+            <summary>
+            Encryption key used to encrypt data in tables
+            </summary>
+        </member>
+        <member name="T:SimpleDB.TableRowDefinition">
+            <summary>
+            Base class for all table row types
+            </summary>
+        </member>
+        <member name="M:SimpleDB.TableRowDefinition.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:SimpleDB.TableRowDefinition.Id">
+            <summary>
+            Unique id of the record
+            </summary>
+            <value>long</value>
+        </member>
+        <member name="P:SimpleDB.TableRowDefinition.Created">
+            <summary>
+            Date/time data was created
+            </summary>
+            <value>DateTime</value>
+        </member>
+        <member name="P:SimpleDB.TableRowDefinition.CreatedTicks">
+            <summary>
+            Date/time data was created in ticks
+            </summary>
+            <value>long</value>
+        </member>
+        <member name="P:SimpleDB.TableRowDefinition.Updated">
+            <summary>
+            Date time data was last updated
+            </summary>
+            <value>DateTime</value>
+        </member>
+        <member name="P:SimpleDB.TableRowDefinition.UpdatedTicks">
+            <summary>
+            Ticks for when data was last updated
+            </summary>
+        </member>
+        <member name="P:SimpleDB.TableRowDefinition.ReadOnly">
+            <summary>
+            Indicates the row is readonly and any updates will be ignored
+            </summary>
+        </member>
+        <member name="P:SimpleDB.TableRowDefinition.Immutable">
+            <summary>
+            Indicates whether the row has been marked for delete or not
+            </summary>
+        </member>
+        <member name="P:SimpleDB.TableRowDefinition.Loaded">
+            <summary>
+            Indicates the record has been loaded from storage
+            </summary>
+        </member>
+        <member name="P:SimpleDB.TableRowDefinition.HasChanged">
+            <summary>
+            Indicates the record has been updated 
+            </summary>
+        </member>
+        <member name="M:SimpleDB.TableRowDefinition.Update">
+            <summary>
+            Update called to indicate the data has potentially been updated/changed
+            </summary>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:SimpleDB.TableRowDefinition.ObservableDataChanged(System.Object,System.EventArgs)">
+            <summary>
+            Indicates observable data has changed
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+    </members>
+</doc>

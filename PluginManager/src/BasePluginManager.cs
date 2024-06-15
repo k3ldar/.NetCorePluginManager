@@ -45,6 +45,8 @@ using PluginManager.Internal;
 
 using Shared.Classes;
 
+#pragma warning disable S3885
+
 namespace PluginManager
 {
     /// <summary>
@@ -1114,3 +1116,5 @@ namespace PluginManager
 		#endregion Private Methods
     }
 }
+
+#pragma warning restore S3885

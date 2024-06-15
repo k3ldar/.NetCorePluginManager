@@ -25,6 +25,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 namespace SimpleDB
 {
+	/// <summary>
+	/// Default table values that can be applied when a table is initially created or when the version changes
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public interface ITableDefaults<T>
         where T : TableRowDefinition
     {

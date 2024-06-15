@@ -31,8 +31,16 @@ using SimpleDB.Internal;
 
 namespace SimpleDB
 {
+	/// <summary>
+	/// Helper class for registering Simple Db with IoC container
+	/// </summary>
 	public static class SimpleDBHelper
 	{
+		/// <summary>
+		/// Add required services
+		/// </summary>
+		/// <param name="services"></param>
+		/// <returns></returns>
 		public static IServiceCollection AddSimpleDB(this IServiceCollection services)
 		{
 			services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
@@ -43,6 +51,13 @@ namespace SimpleDB
 			return services;
 		}
 
+		/// <summary>
+		/// Add required services with specific path and encryption key
+		/// </summary>
+		/// <param name="services"></param>
+		/// <param name="path"></param>
+		/// <param name="encryptionKey"></param>
+		/// <returns></returns>
 		public static IServiceCollection AddSimpleDB(this IServiceCollection services, string path, string encryptionKey)
 		{
 			services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();

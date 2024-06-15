@@ -26,12 +26,22 @@
 
 namespace SimpleDB
 {
+	/// <summary>
+	/// Defines a tables property
+	/// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public class TableAttribute : Attribute
     {
 		private const int MinimumSlidingTimeoutMilliseconds = 1;
 		private int _SlidingMemoryTimeoutMilliseconds;
 
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="tableName">Name of table</param>
+		/// <param name="compression">Type of compression to use for table</param>
+		/// <param name="cachingStrategy">Caching strategy in use for the table</param>
+		/// <param name="writeStrategy">Write strategy</param>
 		public TableAttribute(string tableName, 
             CompressionType compression = CompressionType.None,
             CachingStrategy cachingStrategy = CachingStrategy.None, 
@@ -41,7 +51,12 @@ namespace SimpleDB
 
         }
 
-        public TableAttribute(string tableName,
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="tableName">Name of table</param>
+		/// <param name="writeStrategy">Write strategy</param>
+		public TableAttribute(string tableName,
             WriteStrategy writeStrategy)
             : this(String.Empty, tableName, CompressionType.None,
                   writeStrategy == WriteStrategy.Lazy ? CachingStrategy.Memory : CachingStrategy.None, writeStrategy)
@@ -49,7 +64,13 @@ namespace SimpleDB
 
         }
 
-        public TableAttribute(string domain,
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="domain"></param>
+		/// <param name="tableName">Name of table</param>
+		/// <param name="writeStrategy">Write strategy</param>
+		public TableAttribute(string domain,
             string tableName,
             WriteStrategy writeStrategy)
             : this(domain, tableName, CompressionType.None, 
@@ -58,6 +79,16 @@ namespace SimpleDB
 
         }
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="domain">Domain name for table</param>
+		/// <param name="tableName">Name of table</param>
+		/// <param name="compression">Type of compression to use for table</param>
+		/// <param name="cachingStrategy">Caching strategy in use for the table</param>
+		/// <param name="writeStrategy">Write strategy, default forced write</param>
+		/// <exception cref="ArgumentNullException"></exception>
+		/// <exception cref="ArgumentException"></exception>
 		public TableAttribute(string domain, 
             string tableName, 
             CompressionType compression = CompressionType.None, 
@@ -89,18 +120,47 @@ namespace SimpleDB
             WriteStrategy = writeStrategy;
 		}
 
+		/// <summary>
+		/// Name of domain where table is located
+		/// </summary>
+		/// <value>string</value>
         public string Domain { get; }
 
-        public string TableName { get; }
+		/// <summary>
+		/// Name of table
+		/// </summary>
+		/// <value>string</value>
+		public string TableName { get; }
 
-        public CompressionType Compression { get; }
+		/// <summary>
+		/// Type of compression to use, if any
+		/// </summary>
+		/// <value>CompressionType</value>
 
+		public CompressionType Compression { get; }
+
+		/// <summary>
+		/// Caching strategy for table data
+		/// </summary>
+		/// <value>CachingStrategy</value>
         public CachingStrategy CachingStrategy { get; }
 
+		/// <summary>
+		/// Write strategy to use when saving data
+		/// </summary>
+		/// <value>WriteStrategy</value>
         public WriteStrategy WriteStrategy { get; }
 
+		/// <summary>
+		/// Page size, not currently used
+		/// </summary>
+		/// <value>PageSize</value>
 		public PageSize PageSize { get; set; } = PageSize.Size8192;
 
+		/// <summary>
+		/// Sliding time out in ms, determines when the data is no longer required for data held in memory
+		/// </summary>
+		/// <value>int</value>
 		public int SlidingMemoryTimeoutMilliseconds 
 		{ 
 			get
@@ -120,6 +180,10 @@ namespace SimpleDB
 			}
 		}
 
+		/// <summary>
+		/// Sliding memory timeout
+		/// </summary>
+		/// <value>TimeSpan</value>
 		public TimeSpan SlidingMemoryTimeout
 		{
 			get

@@ -27,25 +27,66 @@
 
 namespace SimpleDB
 {
+	/// <summary>
+	/// Definition for class containing triggers for a table
+	/// </summary>
+	/// <typeparam name="T">Class table to which the triggers belong</typeparam>
     public interface ITableTriggers<T>
         where T : TableRowDefinition
     {
+		/// <summary>
+		/// Position of triggers when being called
+		/// </summary>
+		/// <value>int</value>
         int Position { get; }
 
+		/// <summary>
+		/// Supported trigger types
+		/// </summary>
+		/// <vvalue>TriggerType</vvalue>
         TriggerType TriggerTypes { get; }
 
+		/// <summary>
+		/// Method fired for all rows, before inserting
+		/// </summary>
+		/// <param name="records"></param>
         void BeforeInsert(List<T> records);
 
-        void AfterInsert(List<T> records);
+		/// <summary>
+		/// Method fired for all rows, after inserting
+		/// </summary>
+		/// <param name="records"></param>
+		void AfterInsert(List<T> records);
 
-        void BeforeDelete(List<T> records);
+		/// <summary>
+		/// Method fired for all rows, before deleting
+		/// </summary>
+		/// <param name="records"></param>
+		void BeforeDelete(List<T> records);
 
-        void AfterDelete(List<T> records);
+		/// <summary>
+		/// Method fired for all rows after deleting
+		/// </summary>
+		/// <param name="records"></param>
+		void AfterDelete(List<T> records);
 
-        void BeforeUpdate(List<T> records);
+		/// <summary>
+		/// Method fired for all rows affected, before updating
+		/// </summary>
+		/// <param name="records"></param>
+		void BeforeUpdate(List<T> records);
 
-        void BeforeUpdate(T newRecord, T oldRecord);
+		/// <summary>
+		/// Method fired for each row before updating, with the option of comparing the new row with the old row
+		/// </summary>
+		/// <param name="newRecord"></param>
+		/// <param name="oldRecord"></param>
+		void BeforeUpdate(T newRecord, T oldRecord);
 
-        void AfterUpdate(List<T> records);
+		/// <summary>
+		/// Method fired for all rows affected, after updating
+		/// </summary>
+		/// <param name="records"></param>
+		void AfterUpdate(List<T> records);
     }
 }

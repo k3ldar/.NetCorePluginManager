@@ -27,6 +27,10 @@
 
 namespace SimpleDB
 {
+	/// <summary>
+	/// Interface describing actions that are available on each table
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
     public interface ISimpleDBOperations<T> : IDisposable
         where T : TableRowDefinition
     {
@@ -46,7 +50,7 @@ namespace SimpleDB
 		/// <summary>
 		/// Selects a list of items based on the predicate selectFilter
 		/// </summary>
-		/// <param name="selectFilter"></param>
+		/// <param name="predicate">Predicate used to select rows</param>
 		/// <returns>IReadOnlyList&lt;T&gt;</returns>
 		IReadOnlyList<T> Select(Func<T, bool> predicate);
 
@@ -140,6 +144,9 @@ namespace SimpleDB
         /// <value>long</value>
         long SecondarySequence { get; }
 
+		/// <summary>
+		/// Indicates the percentage the data is compacted
+		/// </summary>
         byte CompactPercent { get; }
 
         /// <summary>

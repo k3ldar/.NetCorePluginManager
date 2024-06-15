@@ -26,39 +26,69 @@
 
 namespace SimpleDB
 {
-    public sealed class ObservableList<T> : List<T>
+	/// <summary>
+	/// Observabl list which notifies table of updated/new records
+	/// </summary>
+	/// <typeparam name="T">Item type</typeparam>
+	public sealed class ObservableList<T> : List<T>
     {
+		/// <summary>
+		/// Adds a new record to the list
+		/// </summary>
+		/// <param name="item"></param>
         new public void Add(T item)
         {
             base.Add(item);
             Updated();
         }
 
+		/// <summary>
+		/// Adds a range of new items to the list
+		/// </summary>
+		/// <param name="collection"></param>
         new public void AddRange(IEnumerable<T> collection)
         {
             base.AddRange(collection);
             Updated();
         }
 
+		/// <summary>
+		/// Clears all list items
+		/// </summary>
         new public void Clear()
         {
             base.Clear();
             Updated();
         }
 
+		/// <summary>
+		/// Inserts a new list item at the specified position
+		/// </summary>
+		/// <param name="index">Position of item</param>
+		/// <param name="item">Item to be inserted</param>
         new public void Insert(int index, T item)
         {
             base.Insert(index, item);
             Updated();
         }
 
+		/// <summary>
+		/// Inserts a range of items at the specified index
+		/// </summary>
+		/// <param name="index">Position of item</param>
+		/// <param name="collection">Collection of items to be inserted</param>
         new public void InsertRange(int index, IEnumerable<T> collection)
         {
             base.InsertRange(index, collection);
             Updated();
         }
 
-        new public bool Remove(T item)
+		/// <summary>
+		/// Removes the specified item from the list
+		/// </summary>
+		/// <param name="item">Item to be removed</param>
+		/// <returns></returns>
+		new public bool Remove(T item)
         {
             if (base.Remove(item))
             {
@@ -69,6 +99,11 @@ namespace SimpleDB
             return false;
         }
 
+		/// <summary>
+		/// Removes all items matching a predicate
+		/// </summary>
+		/// <param name="match">Predicate</param>
+		/// <returns></returns>
         new public int RemoveAll(Predicate<T> match)
         {
             int result = base.RemoveAll(match);
@@ -79,12 +114,21 @@ namespace SimpleDB
             return result;
         }
 
-        new public void RemoveAt(int index)
+		/// <summary>
+		/// Removes a specific item at the given index
+		/// </summary>
+		/// <param name="index">Index of item to be removed</param>
+		new public void RemoveAt(int index)
         {
             base.RemoveAt(index);
             Updated();
         }
 
+		/// <summary>
+		/// Removes a range of items from the list
+		/// </summary>
+		/// <param name="index">Index of item to be removed</param>
+		/// <param name="count">Number of items to remove</param>
         new public void RemoveRange(int index, int count)
         {
             base.RemoveRange(index, count);
@@ -96,6 +140,9 @@ namespace SimpleDB
             Changed?.Invoke(this, EventArgs.Empty);
         }
 
+		/// <summary>
+		/// Event raised when an item is inserted/removed from the list
+		/// </summary>
         public event EventHandler Changed;
     }
 }

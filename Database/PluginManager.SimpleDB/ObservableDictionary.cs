@@ -26,9 +26,19 @@
 
 namespace SimpleDB
 {
+	/// <summary>
+	/// Observable dictionary which notifies table of updated/new records
+	/// </summary>
+	/// <typeparam name="TKey">Key type</typeparam>
+	/// <typeparam name="TValue">Value type</typeparam>
 	[Serializable]
 	public sealed class ObservableDictionary<TKey, TValue> : Dictionary<TKey, TValue>
 	{
+		/// <summary>
+		/// Retrieves the item given the key
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns>TValue</returns>
 		new public TValue this[TKey key]
 		{
 			get
@@ -43,18 +53,31 @@ namespace SimpleDB
 			}
 		}
 
+		/// <summary>
+		/// Adds a new record to the dictionary
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="value"></param>
 		new public void Add(TKey key, TValue value)
 		{
 			base.Add(key, value);
 			Updated();
 		}
 
+		/// <summary>
+		/// Clears the dictionary of all records
+		/// </summary>
 		new public void Clear()
 		{
 			base.Clear();
 			Updated();
 		}
 
+		/// <summary>
+		/// Removes an item from the dictionary
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
 		new public bool Remove(TKey key)
 		{
 			bool Result = base.Remove(key);
@@ -65,6 +88,12 @@ namespace SimpleDB
 			return Result;
 		}
 
+		/// <summary>
+		/// Attempts to add a new item to the dictionary
+		/// </summary>
+		/// <param name="key">items key</param>
+		/// <param name="value">item to try add</param>
+		/// <returns>bool</returns>
 		new public bool TryAdd(TKey key, TValue value)
 		{
 			bool Result = base.TryAdd(key, value);
@@ -80,6 +109,9 @@ namespace SimpleDB
 			Changed?.Invoke(this, EventArgs.Empty);
 		}
 
+		/// <summary>
+		/// Event raised when an item is changed/deleted from the dictionary
+		/// </summary>
 		public event EventHandler Changed;
 	}
 }
