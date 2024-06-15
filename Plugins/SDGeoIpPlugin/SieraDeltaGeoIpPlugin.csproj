@@ -30,12 +30,17 @@
     <PackageReleaseNotes>$(PackageReleaseNotes)</PackageReleaseNotes>
     <PackageTags>$(PackageTags) geo ip</PackageTags>
     <RunAnalyzersDuringBuild>$(RunAnalyzersDuringBuild)</RunAnalyzersDuringBuild>
-    <NoWarn>$(NoWarn)</NoWarn>
+    <NoWarn>$(NoWarn);S1133;CS0619</NoWarn>
     <SignAssembly>$(SignAssembly)</SignAssembly>
     <AssemblyOriginatorKeyFile>$(AssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
+	  <PackageReadmeFile>readme.md</PackageReadmeFile>
   </PropertyGroup>
+	
+  <ItemGroup>
+    <None Include="readme.md" Pack="true" PackagePath=""/>
+  </ItemGroup>	
 
-  <PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='$(FrameWorkLatestVersion)'">
     <DocumentationFile>$(XmlDocsPath)\SieraDeltaGeoIp.Plugin.xml</DocumentationFile>
   </PropertyGroup>
 

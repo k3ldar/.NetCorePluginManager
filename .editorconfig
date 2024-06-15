@@ -216,6 +216,9 @@ csharp_style_prefer_local_over_anonymous_function = true:error
 csharp_style_implicit_object_creation_when_type_is_apparent = true:suggestion
 csharp_style_prefer_tuple_swap = true:suggestion
 
+# S1168: Empty arrays and collections should be returned instead of null
+dotnet_diagnostic.S1168.severity = none
+
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 tab_width = 4

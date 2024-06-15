@@ -1,14 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-	<PropertyGroup>
-		<TargetFrameworks>$(FrameWorkAllSupported)</TargetFrameworks>
-		<RazorCompileOnBuild>false</RazorCompileOnBuild>
-		<RazorCompileOnPublish>true</RazorCompileOnPublish>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<AssemblyName>DownloadPlugin</AssemblyName>
-		<RootNamespace>DownloadPlugin</RootNamespace>
-		<IsPackable>true</IsPackable>
-		<PackageIconUrl></PackageIconUrl>
+  <PropertyGroup>
+	<TargetFrameworks>$(FrameWorkAllSupported)</TargetFrameworks>
+	<RazorCompileOnBuild>false</RazorCompileOnBuild>
+	<RazorCompileOnPublish>true</RazorCompileOnPublish>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<AssemblyName>DownloadPlugin</AssemblyName>
+	<RootNamespace>DownloadPlugin</RootNamespace>
+	<IsPackable>true</IsPackable>
+	<PackageIconUrl></PackageIconUrl>
+	<ValidateExecutableReferencesMatchSelfContained>false</ValidateExecutableReferencesMatchSelfContained>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -36,9 +37,14 @@
     <NoWarn>$(NoWarn)</NoWarn>
     <SignAssembly>$(SignAssembly)</SignAssembly>
     <AssemblyOriginatorKeyFile>$(AssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
   </PropertyGroup>
+	
+  <ItemGroup>
+    <None Include="readme.md" Pack="true" PackagePath=""/>
+  </ItemGroup>	
 
-	<PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
+	<PropertyGroup Condition="'$(TargetFramework)'=='$(FrameWorkLatestVersion)'">
 		<DocumentationFile>$(XmlDocsPath)\DownloadPlugin.xml</DocumentationFile>
 	</PropertyGroup>
 
@@ -116,6 +122,13 @@
 	  <Content Update="appsettings.json">
 	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="readme.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CodeSignAssembly)'=='true'">
