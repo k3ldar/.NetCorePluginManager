@@ -29,7 +29,7 @@ using System.Text;
 using SharedPluginFeatures;
 using SharedPluginFeatures.DynamicContent;
 
-#pragma warning disable CS1591
+#pragma warning disable CS1591, S3237
 
 namespace Middleware.Classes.DynamicContent
 {
@@ -160,4 +160,4 @@ namespace Middleware.Classes.DynamicContent
 	}
 }
 
-#pragma warning restore CS1591
+#pragma warning restore CS1591, S3237
