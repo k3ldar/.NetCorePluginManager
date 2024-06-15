@@ -33,13 +33,14 @@ using SharedPluginFeatures;
 
 namespace SieraDeltaGeoIp.Plugin.Classes
 {
-    /// <summary>
-    /// Returns a summary of all preloaded and cached GeoIp records and the load time and can be viewed within 
-    /// SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class GeoIpStatsSubMenu : SystemAdminSubMenu
+	/// <summary>
+	/// Returns a summary of all preloaded and cached GeoIp records and the load time and can be viewed within 
+	/// SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	[Obsolete("This package is no longer supported", true)]
+	public sealed class GeoIpStatsSubMenu : SystemAdminSubMenu
     {
         #region Private Members
 

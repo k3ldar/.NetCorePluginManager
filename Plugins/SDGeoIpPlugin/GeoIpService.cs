@@ -37,7 +37,7 @@ using SharedPluginFeatures;
 namespace SieraDeltaGeoIp.Plugin
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
-    internal class GeoIpService : BaseCoreClass, IGeoIpProvider
+	internal class GeoIpService : BaseCoreClass, IGeoIpProvider
     {
         #region Private Members
 

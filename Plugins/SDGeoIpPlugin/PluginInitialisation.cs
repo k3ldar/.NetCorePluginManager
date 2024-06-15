@@ -23,6 +23,8 @@
  *  11/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -34,10 +36,11 @@ using SharedPluginFeatures;
 
 namespace SieraDeltaGeoIp.Plugin
 {
-    /// <summary>
-    /// Implements IPlugin which allows the SieraDeltaGeoIp.Plugin module to be
-    /// loaded as a plugin module
-    /// </summary>
+	/// <summary>
+	/// Implements IPlugin which allows the SieraDeltaGeoIp.Plugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	[Obsolete("This package is no longer supported", true)]
     public class PluginInitialisation : IPlugin, IInitialiseEvents
     {
         #region Internal Static Properties
