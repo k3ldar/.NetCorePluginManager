@@ -3875,24 +3875,6 @@
             <param name="replacePath"></param>
             <returns>bool.  True if the route has been replaced, otherwise false.</returns>
         </member>
-        <member name="T:SharedPluginFeatures.IGeoIpDataService">
-            <summary>
-            Interface to obtain GeoIp details for a specific Ip Address
-            </summary>
-        </member>
-        <member name="M:SharedPluginFeatures.IGeoIpDataService.GetIPAddressDetails(System.String@,System.String@,System.String@,System.String@,System.Decimal@,System.Decimal@,System.Int64@)">
-            <summary>
-            Obtains the Geo Ip details pertaining to an Ip Address
-            </summary>
-            <param name="ipAddress">Ip Address</param>
-            <param name="countryCode">Country code where the Ip address is located.</param>
-            <param name="region">Region where the Ip address is located.</param>
-            <param name="cityName">Name of the city where the Ip address is located.</param>
-            <param name="latitude">Latitude for the Ip address.</param>
-            <param name="longitude">Longitude for the Ip address.</param>
-            <param name="ipUniqueID">Unique Id for the Ip address.</param>
-            <returns></returns>
-        </member>
         <member name="T:SharedPluginFeatures.IGeoIpProvider">
             <summary>
             Provides a mechanism whereby the host application can obtain GeoIp related data for an Ip Address.
@@ -3914,44 +3896,6 @@
             <param name="ipFrom">out long.  Start of range which the Ip address belongs.</param>
             <param name="ipTo">out long.  End of range which the Ip address belongs.</param>
             <returns></returns>
-        </member>
-        <member name="T:SharedPluginFeatures.IGeoIpStatistics">
-            <summary>
-            This interface is implemented by the GeoIpPlugin module and is available via DI.
-            It is designed to provide information on hown many GeoIp records were loaded and how long it took.
-            
-            This method is deprecated and should not be used by new modules as it will be removed in future versions.
-            </summary>
-        </member>
-        <member name="M:SharedPluginFeatures.IGeoIpStatistics.RecordsLoaded">
-            <summary>
-            Returns the number of records loaded.
-            </summary>
-            <returns>uint</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.IGeoIpStatistics.LoadTime">
-            <summary>
-            Total time to load records.
-            </summary>
-            <returns>TimeSpan</returns>
-        </member>
-        <member name="T:SharedPluginFeatures.IGeoIpStatisticsUpdate">
-            <summary>
-            This interface is implemented internally by the GeoIpPlugin module and is not available 
-            via DI or any other method.  Instead it is used to provide information on hown many GeoIp
-            records were loaded and how long it took.
-            
-            See IGeoIpStatistics for information on retrieving statistics.
-            
-            This method is deprecated and should not be used by new modules as it will be removed in future versions.
-            </summary>
-        </member>
-        <member name="M:SharedPluginFeatures.IGeoIpStatisticsUpdate.Retrieve(System.Int64@,System.UInt32@)">
-            <summary>
-            Indicates that retrieval is finished
-            </summary>
-            <param name="milliseconds">Total number of milliseconds taken to load the data.</param>
-            <param name="recordCount">Total number of records loaded.</param>
         </member>
         <member name="T:SharedPluginFeatures.IImageProcessOptions">
             <summary>
@@ -4277,6 +4221,17 @@
             <summary>
             Name of setting
             </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.IPop3ClientFactory">
+            <summary>
+            Factory class for creating pop 3 clients
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.IPop3ClientFactory.Create">
+            <summary>
+            Create an IPop3Client instance
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:SharedPluginFeatures.IRobotRouteData">
             <summary>

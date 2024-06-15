@@ -170,6 +170,24 @@
             Login controller, allows users to login using a standard interface implemented by ILoginProvider interface.
             </summary>
         </member>
+        <member name="M:LoginPlugin.Controllers.LoginController.GoogleLogin(System.String)">
+            <summary>
+            Google login action
+            </summary>
+            <param name="returnUrl"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LoginPlugin.Controllers.LoginController.GoogleCallback(System.String,System.String,System.String,System.String)">
+            <summary>
+            Google login callback action
+            </summary>
+            <param name="code"></param>
+            <param name="scope"></param>
+            <param name="authuser"></param>
+            <param name="prompt"></param>
+            <returns></returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
         <member name="T:LoginPlugin.PluginInitialisation">
             <summary>
             Implements IPlugin and IPluginVersion which allows the Login.Plugin module to be
