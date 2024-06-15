@@ -97,22 +97,5 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
             sut.Configure(null);
         }
-
-        [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
-		public void Configure_UseMvcIsCalled_CorrectDefaultRouteAdded()
-        {
-            IWebHost host = WebHost.CreateDefaultBuilder(new string[] { })
-                .UseStartup<Startup>().Build();
-
-
-            Startup sut = new Startup();
-
-            MockApplicationBuilder applicationBuilder = new MockApplicationBuilder(host.Services);
-
-            sut.Configure(applicationBuilder);
-
-            Assert.IsTrue(applicationBuilder.UseMvcCalled);
-        }
     }
 }

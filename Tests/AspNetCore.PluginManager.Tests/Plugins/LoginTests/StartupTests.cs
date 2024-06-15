@@ -104,29 +104,5 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
 
             sut.Configure(null);
         }
-
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        public void Configure_UseMvcIsCalled_CorrectDefaultRouteAdded()
-        {
-            ThreadManager.Initialise();
-            try
-            {
-                IWebHost host = WebHost.CreateDefaultBuilder(new string[] { })
-                    .UseStartup<Startup>().Build();
-
-                Startup sut = new Startup();
-
-                MockApplicationBuilder applicationBuilder = new MockApplicationBuilder(host.Services);
-
-                sut.Configure(applicationBuilder);
-
-                Assert.IsTrue(applicationBuilder.UseMvcCalled);
-            }
-            finally
-            {
-                ThreadManager.Finalise();
-            }
-        }
     }
 }

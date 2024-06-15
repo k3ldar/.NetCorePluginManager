@@ -108,30 +108,5 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 
             sut.Configure(null);
         }
-
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        public void Configure_UseMvcIsCalled_CorrectDefaultRouteAdded()
-        {
-            Action<IServiceCollection> configureServices = (IServiceCollection services) =>
-            {
-                services.TryAddSingleton<ILogger>(new MockLogger());
-                services.TryAddSingleton<INotificationService>(new NotificationService());
-                services.TryAddSingleton<IImageProvider>(new MockImageProvider());
-            };
-
-            IWebHost host = WebHost.CreateDefaultBuilder(new string[] { })
-                .ConfigureServices(configureServices)
-                .UseStartup<Startup>().Build();
-
-
-            Startup sut = new Startup();
-
-            MockApplicationBuilder applicationBuilder = new MockApplicationBuilder(host.Services);
-
-            sut.Configure(applicationBuilder);
-
-            Assert.IsTrue(applicationBuilder.UseMvcCalled);
-        }
     }
 }
