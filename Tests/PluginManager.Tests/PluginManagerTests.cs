@@ -48,12 +48,6 @@ namespace PluginManager.Tests
 	[DoNotParallelize]
 	public class PluginManagerTests
 	{
-#if DEBUG
-		private const string Build = "Debug";
-#else
-		private const string Build = "Release";
-#endif
-
 		private const string BadEggPluginFilePath = "BadEgg.Plugin.dll";
 		private const string CompanyPluginFilePath = "Company.Plugin.dll";
 		private const string CompanyPluginPath = "";
