@@ -46,9 +46,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public List<DownloadCategory> DownloadCategoriesGet(in long userId)
 		{
-			if (_userDownloads == null)
-			{
-				_userDownloads = new List<DownloadCategory>()
+			_userDownloads ??= new List<DownloadCategory>()
 				{
 					new(1, "Brochures", new List<DownloadItem>()
 					{
@@ -65,16 +63,13 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 							"1.2", "\\Files\\Install\\fbtaskscheduler_1.2_setup.exe"),
 					})
 				};
-			}
 
 			return _userDownloads;
 		}
 
 		public List<DownloadCategory> DownloadCategoriesGet()
 		{
-			if (_publicDownloads == null)
-			{
-				_publicDownloads = new List<DownloadCategory>()
+			_publicDownloads ??= new List<DownloadCategory>()
 				{
 					new(3, "Brochures", new List<DownloadItem>()
 					{
@@ -91,7 +86,6 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 							"1.2", "\\Files\\Install\\fbtaskscheduler_1.2_setup.exe"),
 					})
 				};
-			}
 
 			return _publicDownloads;
 		}

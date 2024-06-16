@@ -117,14 +117,11 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
 		public List<Feedback> GetFeedback(in bool publiclyVisible)
 		{
-			if (_feedback == null)
-			{
-				_feedback = new List<Feedback>()
+			_feedback ??= new List<Feedback>()
 				{
 					new(1, "Joe Bloggs", "Asp Net core is awesome", true),
 					new(2, "Jane Doe", "AspNetCore.PluginManager is extremely flexible", true),
 				};
-			}
 
 			return _feedback;
 		}

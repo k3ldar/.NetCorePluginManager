@@ -93,8 +93,7 @@ namespace SystemAdmin.Plugin.Controllers
 
 			_seoProvider.RemoveKeywords(model.SeoUrl, keywords);
 
-			if (model.SeoTags == null)
-				model.SeoTags = String.Empty;
+			model.SeoTags ??= String.Empty;
 
 			_seoProvider.AddKeywords(model.SeoUrl, model.SeoTags.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList());
 

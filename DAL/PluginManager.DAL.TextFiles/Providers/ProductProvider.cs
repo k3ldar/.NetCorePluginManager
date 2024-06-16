@@ -120,8 +120,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			{
 				ProductGroupDataRow productGroupDataRow = _productGroupsData.Select(id);
 
-				if (productGroupDataRow == null)
-					productGroupDataRow = new ProductGroupDataRow();
+				productGroupDataRow ??= new ProductGroupDataRow();
 
 				productGroupDataRow.Description = description;
 				productGroupDataRow.ShowOnWebsite = showOnWebsite;
@@ -215,8 +214,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			{
 				ProductDataRow productDataRow = _productData.Select(id);
 
-				if (productDataRow == null)
-					productDataRow = new ProductDataRow();
+				productDataRow ??= new ProductDataRow();
 
 				productDataRow.ProductGroupId = productGroupId;
 				productDataRow.Name = name;

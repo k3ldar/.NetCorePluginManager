@@ -226,10 +226,7 @@ namespace ShoppingCartPlugin.Classes.Paypoint
 
 		private static void EncodeAndAddItem(ref StringBuilder baseRequest, string key, string dataItem)
 		{
-			if (baseRequest == null)
-			{
-				baseRequest = new StringBuilder();
-			}
+			baseRequest ??= new StringBuilder();
 
 			if (baseRequest.Length != 0)
 			{

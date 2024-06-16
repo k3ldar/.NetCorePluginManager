@@ -382,10 +382,7 @@ namespace DocumentationPlugin.Controllers
 
 			DocumentData data = (DocumentData)selected.Tag;
 
-			if (data.ReferenceData == null)
-			{
-				data.ReferenceData = GetAllReferences(selected, data, documents);
-			}
+			data.ReferenceData ??= GetAllReferences(selected, data, documents);
 
 			DocumentViewModel model = new(GetModelData(),
 				selected.Title, selected.ShortDescription, selected.LongDescription, data.ReferenceData);

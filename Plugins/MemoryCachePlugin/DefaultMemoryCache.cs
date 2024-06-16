@@ -59,20 +59,16 @@ namespace MemoryCache.Plugin
 			MemoryClassPluginSettings settings = settingsProvider.GetSettings<MemoryClassPluginSettings>(Constants.MemoryCacheSettings);
 
 			// create the caches
-			if (_cache == null)
-				_cache = new CacheManager(Constants.CacheNameDefault,
+			_cache ??= new CacheManager(Constants.CacheNameDefault,
 					new TimeSpan(0, settings.DefaultCacheDuration, 0));
 
-			if (_cacheShort == null)
-				_cacheShort = new CacheManager(Constants.CacheNameShort,
+			_cacheShort ??= new CacheManager(Constants.CacheNameShort,
 					new TimeSpan(0, settings.ShortCacheDuration, 0));
 
-			if (_extendingCache == null)
-				_extendingCache = new CacheManager(Constants.CacheNameExtending,
+			_extendingCache ??= new CacheManager(Constants.CacheNameExtending,
 					new TimeSpan(0, settings.DefaultCacheDuration, 0), true);
 
-			if (_permanentCache == null)
-				_permanentCache = new CacheManager(Constants.CacheNamePermanent,
+			_permanentCache ??= new CacheManager(Constants.CacheNamePermanent,
 					new TimeSpan(5000, 0, 0, 0), true);
 		}
 
@@ -108,20 +104,16 @@ namespace MemoryCache.Plugin
 			MemoryClassPluginSettings settings = settingsProvider.GetSettings<MemoryClassPluginSettings>(Constants.MemoryCacheSettings);
 
 			// create the caches
-			if (_cache == null)
-				_cache = new CacheManager(Constants.CacheNameDefault,
+			_cache ??= new CacheManager(Constants.CacheNameDefault,
 					new TimeSpan(0, settings.DefaultCacheDuration, 0));
 
-			if (_cacheShort == null)
-				_cacheShort = new CacheManager(Constants.CacheNameShort,
+			_cacheShort ??= new CacheManager(Constants.CacheNameShort,
 					new TimeSpan(0, settings.ShortCacheDuration, 0));
 
-			if (_extendingCache == null)
-				_extendingCache = new CacheManager(Constants.CacheNameExtending,
+			_extendingCache ??= new CacheManager(Constants.CacheNameExtending,
 					new TimeSpan(0, settings.DefaultCacheDuration, 0), true);
 
-			if (_permanentCache == null)
-				_permanentCache = new CacheManager(Constants.CacheNamePermanent,
+			_permanentCache ??= new CacheManager(Constants.CacheNamePermanent,
 					new TimeSpan(5000, 0, 0, 0), true);
 		}
 

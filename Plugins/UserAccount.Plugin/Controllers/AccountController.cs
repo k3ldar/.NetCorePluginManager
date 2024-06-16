@@ -96,11 +96,9 @@ namespace UserAccount.Plugin.Controllers
 			if (countryProvider == null)
 				throw new ArgumentNullException(nameof(countryProvider));
 
-			if (Countries == null)
-				Countries = countryProvider.GetVisibleCountries();
+			Countries ??= countryProvider.GetVisibleCountries();
 
-			if (LicenceTypes == null)
-				LicenceTypes = _licenceProvider.LicenceTypesGet();
+			LicenceTypes ??= _licenceProvider.LicenceTypesGet();
 
 			_accountSettings = settingsProvider.GetSettings<AccountSettings>("UserAccount");
 

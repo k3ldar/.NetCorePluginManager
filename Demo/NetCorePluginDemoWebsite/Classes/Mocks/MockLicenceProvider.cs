@@ -54,16 +54,13 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public List<Licence> LicencesGet(in long userId)
 		{
-			if (_licences == null)
-			{
-				_licences = new List<Licence>()
+			_licences ??= new List<Licence>()
 				{
 					new(1, 1, LicenceTypesGet()[0], DateTime.Now.AddMonths(-9), DateTime.Now.AddMonths(3),
 						true, false, 0, 1, "65.45.76.124", String.Empty),
 					new(2, 1, LicenceTypesGet()[1], DateTime.Now.AddMonths(-9), DateTime.Now.AddMonths(3),
 						true, false, 0, 1, "124.76.45.65", "Encrypted String value")
 				};
-			}
 
 			return _licences;
 		}

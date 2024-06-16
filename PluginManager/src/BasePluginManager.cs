@@ -171,10 +171,7 @@ namespace PluginManager
 
 			set
 			{
-				if (_serviceProvider == null)
-				{
-					_serviceProvider = value;
-				}
+				_serviceProvider ??= value;
 			}
 		}
 

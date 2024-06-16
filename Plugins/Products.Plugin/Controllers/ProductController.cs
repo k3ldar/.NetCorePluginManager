@@ -116,8 +116,7 @@ namespace ProductPlugin.Controllers
 			if (id.HasValue)
 				group = _productProvider.ProductGroupsGet().Find(pg => pg.Id == id.Value);
 
-			if (group == null)
-				group = _productProvider.ProductGroupsGet().FirstOrDefault();
+			group ??= _productProvider.ProductGroupsGet().FirstOrDefault();
 
 			if (group == null)
 				return RedirectToAction(nameof(Index));

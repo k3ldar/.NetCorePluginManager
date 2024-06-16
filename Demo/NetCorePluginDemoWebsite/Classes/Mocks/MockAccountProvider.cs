@@ -194,8 +194,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public List<DeliveryAddress> GetDeliveryAddresses(in long userId)
 		{
-			if (_deliveryAddresses == null)
-				_deliveryAddresses = new List<DeliveryAddress>()
+			_deliveryAddresses ??= new List<DeliveryAddress>()
 					{
 						new(1, String.Empty, "1 Mike St", String.Empty, String.Empty, "London", String.Empty, "L1 1AA", "GB", 5.99m),
 						new(2, String.Empty, "29 5th Avenue", String.Empty, String.Empty, "New York", String.Empty, "49210", "US", 5.99m),
@@ -245,8 +244,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public Marketing GetMarketingPreferences(in Int64 userId)
 		{
-			if (_marketing == null)
-				_marketing = new Marketing(true, true, false, false);
+			_marketing ??= new Marketing(true, true, false, false);
 
 			return _marketing;
 		}
@@ -263,9 +261,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public List<Order> OrdersGet(in Int64 userId)
 		{
-			if (_orders == null)
-			{
-				_orders = new List<Order>()
+			_orders ??= new List<Order>()
 				{
 					new(1, DateTime.Now.AddDays(-10), 4.99m, new CultureInfo("en-US"), ProcessStatus.Dispatched,
 						GetDeliveryAddresses(userId)[0], new List<OrderItem>()
@@ -284,7 +280,6 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 							new(7, "Cereal bowl", 5.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.PercentageTotal, 10)
 						})
 				};
-			}
 
 			return _orders;
 		}
@@ -315,9 +310,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public List<Invoice> InvoicesGet(in Int64 userId)
 		{
-			if (_invoices == null)
-			{
-				_invoices = new List<Invoice>()
+			_invoices ??= new List<Invoice>()
 				{
 					new(123, DateTime.Now.AddDays(-10), 4.99m, new CultureInfo("en-US"), ProcessStatus.Dispatched,
 						PaymentStatus.PaidMixed, GetDeliveryAddresses(userId)[0], new List<InvoiceItem>()
@@ -334,7 +327,6 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 							new(7, "Cereal bowl", 5.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.PercentageTotal, 10)
 						})
 				};
-			}
 
 			return _invoices;
 		}

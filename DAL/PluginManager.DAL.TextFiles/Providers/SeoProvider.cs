@@ -62,13 +62,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
 
-			if (seoData == null)
-			{
-				seoData = new SeoDataRow()
+			seoData ??= new SeoDataRow()
 				{
 					Route = routeName,
 				};
-			}
 
 			if (!seoData.Keywords.Contains(keyword))
 			{
@@ -92,13 +89,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
 
-			if (seoData == null)
-			{
-				seoData = new SeoDataRow()
+			seoData ??= new SeoDataRow()
 				{
 					Route = routeName,
 				};
-			}
 
 			keywords.ForEach(kw =>
 			{
@@ -193,13 +187,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
 
-			if (seoData == null)
-			{
-				seoData = new SeoDataRow()
+			seoData ??= new SeoDataRow()
 				{
 					Route = routeName,
 				};
-			}
 
 			seoData.Description = description;
 			_seoData.InsertOrUpdate(seoData);
@@ -218,13 +209,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
 
-			if (seoData == null)
-			{
-				seoData = new SeoDataRow()
+			seoData ??= new SeoDataRow()
 				{
 					Route = routeName,
 				};
-			}
 
 			seoData.Title = title;
 			_seoData.InsertOrUpdate(seoData);
@@ -243,13 +231,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
 
-			if (seoData == null)
-			{
-				seoData = new SeoDataRow()
+			seoData ??= new SeoDataRow()
 				{
 					Route = routeName,
 				};
-			}
 
 			seoData.Author = author;
 			_seoData.InsertOrUpdate(seoData);

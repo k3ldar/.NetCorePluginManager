@@ -408,8 +408,7 @@ namespace UserSessionMiddleware.Plugin.Classes
 				}
 			}
 
-			if (Result == null)
-				Result = new List<SessionUserAgent>();
+			Result ??= new List<SessionUserAgent>();
 
 			Result = Result.OrderBy(o => o.IsBot).ThenByDescending(d => d.Count).ToList();
 		}

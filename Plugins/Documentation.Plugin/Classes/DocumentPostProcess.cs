@@ -353,10 +353,7 @@ namespace DocumentationPlugin.Classes
 			if (String.IsNullOrEmpty(text))
 				return text;
 
-			if (linkDocument == null)
-			{
-				linkDocument = document;
-			}
+			linkDocument ??= document;
 
 			StringBuilder builder = new(text.Length + 2048);
 			StringBuilder currentTag = null;

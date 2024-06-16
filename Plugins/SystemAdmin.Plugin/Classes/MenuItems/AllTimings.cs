@@ -84,11 +84,8 @@ namespace SystemAdmin.Plugin.Classes.MenuItems
 			{
 				_lastRun = DateTime.Now;
 
-				if (_timingItems == null)
-				{
-					_timingItems = _systemAdminHelperService.GetSubMenuItems(nameof(Languages.LanguageStrings.Timings))
+				_timingItems ??= _systemAdminHelperService.GetSubMenuItems(nameof(Languages.LanguageStrings.Timings))
 						.Where(t => t.UniqueId != UniqueId).ToList();
-				}
 
 				StringBuilder Result = new("Name|Total Requests|Fastest|Slowest|Average|Trimmed Avg ms|Total ms", 2048);
 

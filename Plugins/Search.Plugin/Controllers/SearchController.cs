@@ -268,10 +268,7 @@ namespace SearchPlugin.Controllers
 				}
 			}
 
-			if (Result.AdvancedSearch == null)
-			{
-				Result.AdvancedSearch = _searchProvider.AdvancedSearch();
-			}
+			Result.AdvancedSearch ??= _searchProvider.AdvancedSearch();
 
 			return Result;
 		}

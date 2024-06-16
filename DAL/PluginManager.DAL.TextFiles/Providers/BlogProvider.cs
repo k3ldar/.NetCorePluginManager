@@ -101,8 +101,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			BlogDataRow tableBlog = _blogs.Select(blogItem.Id);
 
-			if (tableBlog == null)
-				tableBlog = new BlogDataRow();
+			tableBlog ??= new BlogDataRow();
 
 			tableBlog.UserId = blogItem.UserId;
 			tableBlog.Title = blogItem.Title;
