@@ -387,7 +387,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())

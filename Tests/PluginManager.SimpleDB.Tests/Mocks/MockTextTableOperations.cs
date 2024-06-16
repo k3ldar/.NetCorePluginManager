@@ -33,7 +33,7 @@ using SharedPluginFeatures;
 namespace SimpleDB.Tests.Mocks
 {
 	[ExcludeFromCodeCoverage]
-	public class MockTextTableOperations<T> : ISimpleDBOperations<T>, ISimpleDBTable
+	public sealed class MockTextTableOperations<T> : ISimpleDBOperations<T>, ISimpleDBTable
 		where T : TableRowDefinition
 	{
 		public int DataLength => throw new NotImplementedException();
