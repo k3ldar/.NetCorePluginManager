@@ -195,7 +195,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			return Result;
 		}
 
-		private void RecursivlyAddCommentsToBlog(int depth, List<BlogCommentDataRow> comments, BlogItem blogItem, BlogComment parentComment)
+		private static void RecursivlyAddCommentsToBlog(int depth, List<BlogCommentDataRow> comments, BlogItem blogItem, BlogComment parentComment)
 		{
 			if (depth > MaxRecursionDepth)
 				return;

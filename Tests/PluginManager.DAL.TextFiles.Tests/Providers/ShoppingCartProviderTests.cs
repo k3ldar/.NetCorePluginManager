@@ -59,7 +59,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -83,7 +82,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 
 				UserSession userSession = new();
 				ShoppingCartSummary shoppingCart = new(0, 0, 0, 0, 0, 20,
@@ -140,7 +138,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 
 				UserSession userSession = new();
 				ShoppingCartSummary shoppingCart = new(0, 0, 0, 0, 0, 20,
@@ -204,7 +201,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 
 				UserSession userSession = new();
 				ShoppingCartSummary shoppingCart = new(0, 0, 0, 0, 0, 20,
@@ -253,7 +249,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 
 				UserSession userSession = new();
 				ShoppingCartSummary shoppingCart = new(0, 0, 0, 0, 0, 20,
@@ -318,7 +313,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			{
 				Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 
 				UserSession userSession = new();
 				ShoppingCartSummary shoppingCart = new(0, 0, 0, 0, 0, 20,
@@ -445,7 +439,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				UserSession userSession = new();
@@ -574,7 +567,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 
 				UserSession userSession = new();
 				ShoppingCartSummary shoppingCart = new(0, 0, 0, 0, 0, 20,
@@ -624,7 +616,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 
 				UserSession userSession = new();
 				ShoppingCartSummary shoppingCart = new(0, 0, 0, 0, 0, 20,

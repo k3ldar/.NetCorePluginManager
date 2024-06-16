@@ -52,7 +52,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -79,7 +78,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -117,7 +115,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -158,7 +155,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -220,7 +216,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -278,7 +273,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 				Directory.CreateDirectory(directory);
 				MockApplicationClaims mockApplicationClaims = new(claims);
-				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 				mockPluginClassesService.Items.Add(mockApplicationClaims);
 
@@ -349,7 +343,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 				};
 
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 				mockPluginClassesService.Items.Add(new MockApplicationClaims(applicationClaims));
 				using (ServiceProvider provider = services.BuildServiceProvider())

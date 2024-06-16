@@ -55,7 +55,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 
 				UserSession userSession = new();
 				ShoppingCartSummary shoppingCart = new(0, 0, 0, 0, 0, 20,
@@ -110,7 +109,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 
 				UserSession userSession = new();
 				ShoppingCartSummary shoppingCart = new(0, 0, 0, 0, 0, 20,
@@ -178,7 +176,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 
 				UserSession userSession = new();
 
@@ -223,7 +220,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 
 				UserSession userSession = new();
 				ShoppingCartSummary shoppingCart = new(0, 0, 0, 0, 0, 20,
