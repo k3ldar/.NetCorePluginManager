@@ -27,38 +27,38 @@
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Interface for custom robot route data
-    /// </summary>
-    public interface IRobotRouteData
-    {
-        /// <summary>
-        /// Agent name
-        /// </summary>
-        /// <value>string</value>
-        public string Agent { get; set; }
+	/// <summary>
+	/// Interface for custom robot route data
+	/// </summary>
+	public interface IRobotRouteData
+	{
+		/// <summary>
+		/// Agent name
+		/// </summary>
+		/// <value>string</value>
+		public string Agent { get; set; }
 
-        /// <summary>
-        /// Custom comment applied to the user defined route data
-        /// </summary>
-        /// <value>string</value>
-        public string Comment { get; set; }
+		/// <summary>
+		/// Custom comment applied to the user defined route data
+		/// </summary>
+		/// <value>string</value>
+		public string Comment { get; set; }
 
-        /// <summary>
-        /// User defined route
-        /// </summary>
-        /// <value>string</value>
-        public string Route { get; set; }
+		/// <summary>
+		/// User defined route
+		/// </summary>
+		/// <value>string</value>
+		public string Route { get; set; }
 
-        /// <summary>
-        /// Whether it is an allowed or denied route
-        /// </summary>
-        /// <value>bool</value>
-        public bool Allowed { get; set; }
+		/// <summary>
+		/// Whether it is an allowed or denied route
+		/// </summary>
+		/// <value>bool</value>
+		public bool Allowed { get; set; }
 
-        /// <summary>
-        /// Determines whether route is a custom user defined route, or one discovered via attributes
-        /// </summary>
-        public bool IsCustom { get; set; }
-    }
+		/// <summary>
+		/// Determines whether route is a custom user defined route, or one discovered via attributes
+		/// </summary>
+		public bool IsCustom { get; set; }
+	}
 }

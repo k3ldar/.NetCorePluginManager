@@ -27,31 +27,31 @@ using System;
 
 namespace DemoWebsitePlugin.Classes
 {
-    public class DependencyInjectionMenuItem : SharedPluginFeatures.MainMenuItem
-    {
-        public override string Area()
-        {
-            return String.Empty;
-        }
+	public class DependencyInjectionMenuItem : SharedPluginFeatures.MainMenuItem
+	{
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return "Services";
-        }
+		public override string Controller()
+		{
+			return "Services";
+		}
 
-        public override string Action()
-        {
-            return "DependencyInjection";
-        }
+		public override string Action()
+		{
+			return "DependencyInjection";
+		}
 
-        public override string Name()
-        {
-            return "Dependency Injection";
-        }
+		public override string Name()
+		{
+			return "Dependency Injection";
+		}
 
-        public override int SortOrder()
-        {
-            return (2);
-        }
-    }
+		public override int SortOrder()
+		{
+			return (2);
+		}
+	}
 }

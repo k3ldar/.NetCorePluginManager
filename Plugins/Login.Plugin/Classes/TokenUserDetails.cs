@@ -33,41 +33,41 @@ using Middleware;
 
 namespace LoginPlugin.Classes
 {
-    public class TokenUserDetails : ITokenUserDetails
-    {
-        public TokenUserDetails()
-        {
+	public class TokenUserDetails : ITokenUserDetails
+	{
+		public TokenUserDetails()
+		{
 
-        }
+		}
 
-        public TokenUserDetails(FacebookRemoveUser facebookRemoveUser)
-        {
-            if (facebookRemoveUser == null)
-                throw new ArgumentNullException(nameof(facebookRemoveUser));
+		public TokenUserDetails(FacebookRemoveUser facebookRemoveUser)
+		{
+			if (facebookRemoveUser == null)
+				throw new ArgumentNullException(nameof(facebookRemoveUser));
 
-            Id = facebookRemoveUser.UserId;
-            Provider = "Facebook";
-        }
+			Id = facebookRemoveUser.UserId;
+			Provider = "Facebook";
+		}
 
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
+		[JsonPropertyName("id")]
+		public string Id { get; set; }
 
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
+		[JsonPropertyName("name")]
+		public string Name { get; set; }
 
-        [JsonPropertyName("given_name")]
-        public string GivenName { get; set; }
+		[JsonPropertyName("given_name")]
+		public string GivenName { get; set; }
 
-        [JsonPropertyName("email")]
-        public string Email { get; set; }
+		[JsonPropertyName("email")]
+		public string Email { get; set; }
 
-        [JsonPropertyName("picture")]
-        public string Picture { get; set; }
+		[JsonPropertyName("picture")]
+		public string Picture { get; set; }
 
-        public string Provider { get; set; }
+		public string Provider { get; set; }
 
-        public bool Verify { get; set; }
-    }
+		public bool Verify { get; set; }
+	}
 }
 
 #pragma warning restore CS1591

@@ -29,34 +29,34 @@ using SharedPluginFeatures;
 
 namespace HelpdeskPlugin.Models
 {
-    public class IndexViewModel : BaseModel
-    {
-        #region Construtors
+	public class IndexViewModel : BaseModel
+	{
+		#region Construtors
 
-        public IndexViewModel(in BaseModelData modelData,
-            in bool showTickets, in bool showFaq, in bool showFeedback, in string growlMessage)
-            : base(modelData)
-        {
-            ShowFaq = showFaq;
-            ShowFeedback = showFeedback;
-            ShowTickets = showTickets;
-            GrowlMessage = growlMessage ?? string.Empty;
-        }
+		public IndexViewModel(in BaseModelData modelData,
+			in bool showTickets, in bool showFaq, in bool showFeedback, in string growlMessage)
+			: base(modelData)
+		{
+			ShowFaq = showFaq;
+			ShowFeedback = showFeedback;
+			ShowTickets = showTickets;
+			GrowlMessage = growlMessage ?? string.Empty;
+		}
 
-        #endregion Construtors
+		#endregion Construtors
 
-        #region Properties
+		#region Properties
 
-        public bool ShowTickets { get; private set; }
+		public bool ShowTickets { get; private set; }
 
-        public bool ShowFaq { get; private set; }
+		public bool ShowFaq { get; private set; }
 
-        public bool ShowFeedback { get; private set; }
+		public bool ShowFeedback { get; private set; }
 
-        public string GrowlMessage { get; private set; }
+		public string GrowlMessage { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

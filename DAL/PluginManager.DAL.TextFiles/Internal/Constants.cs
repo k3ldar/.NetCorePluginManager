@@ -26,48 +26,48 @@
 
 namespace PluginManager.DAL.TextFiles
 {
-    internal static class Constants
-    {
-        public const string TableNameSettings = "Settings";
-        public const string TableNameUsers = "Users";
-        public const string TableNameBlogs = "Blogs";
-        public const string TableNameBlogComments = "BlogComments";
-        public const string TableNameCountries = "Countries";
-        public const string TableNameExternalUsers = "ExternalUsers";
-        public const string TableNameUserClaims = "UserClaims";
-        public const string TableNameUserApi = "UserApi";
-        public const string TableNameAddresses = "Addresses";
-        public const string TableNameOrders = "Orders";
-        public const string TableNameOrderItems = "OrderItems";
-        public const string TableNameInvoices = "Invoices";
-        public const string TableNameInvoiceItems = "InvoiceItems";
-        public const string TableNameSeo = "Seo";
-        public const string TableNameProducts = "Products";
-        public const string TableNameProductGroups = "ProductGroups";
-        public const string TableNameShoppingCart = "ShoppingCart";
-        public const string TableNameShoppingCartItems = "ShoppingCartItems";
-        public const string TableNameShoppingCartVoucher = "ShoppingCartVoucher";
-        public const string TableNameStock = "Stock";
-        public const string TableNameLicenseTypes = "LicenseTypes";
-        public const string TableNameLicenses = "Licenses";
-        public const string TableNameFeedback = "Feedback";
+	internal static class Constants
+	{
+		public const string TableNameSettings = "Settings";
+		public const string TableNameUsers = "Users";
+		public const string TableNameBlogs = "Blogs";
+		public const string TableNameBlogComments = "BlogComments";
+		public const string TableNameCountries = "Countries";
+		public const string TableNameExternalUsers = "ExternalUsers";
+		public const string TableNameUserClaims = "UserClaims";
+		public const string TableNameUserApi = "UserApi";
+		public const string TableNameAddresses = "Addresses";
+		public const string TableNameOrders = "Orders";
+		public const string TableNameOrderItems = "OrderItems";
+		public const string TableNameInvoices = "Invoices";
+		public const string TableNameInvoiceItems = "InvoiceItems";
+		public const string TableNameSeo = "Seo";
+		public const string TableNameProducts = "Products";
+		public const string TableNameProductGroups = "ProductGroups";
+		public const string TableNameShoppingCart = "ShoppingCart";
+		public const string TableNameShoppingCartItems = "ShoppingCartItems";
+		public const string TableNameShoppingCartVoucher = "ShoppingCartVoucher";
+		public const string TableNameStock = "Stock";
+		public const string TableNameLicenseTypes = "LicenseTypes";
+		public const string TableNameLicenses = "Licenses";
+		public const string TableNameFeedback = "Feedback";
 
-        public const string DomainHelpdesk = "Helpdesk";
-        public const string TableNameTicket = "HelpdeskTicket";
-        public const string TableNameTicketMessages = "HelpdeskTicketMessage";
-        public const string TableNameTicketDepartments = "HelpdeskTicketDepartments";
-        public const string TableNameTicketPriorities = "HelpdeskTicketPriorities";
-        public const string TableNameTicketStatus = "HelpdeskTicketStatus";
-        public const string TableNameFAQ = "FAQGroups";
-        public const string TableNameFAQItem = "FAQItems";
+		public const string DomainHelpdesk = "Helpdesk";
+		public const string TableNameTicket = "HelpdeskTicket";
+		public const string TableNameTicketMessages = "HelpdeskTicketMessage";
+		public const string TableNameTicketDepartments = "HelpdeskTicketDepartments";
+		public const string TableNameTicketPriorities = "HelpdeskTicketPriorities";
+		public const string TableNameTicketStatus = "HelpdeskTicketStatus";
+		public const string TableNameFAQ = "FAQGroups";
+		public const string TableNameFAQItem = "FAQItems";
 
-        public const string DomainDownloads = "Downloads";
-        public const string TableNameDownloadCategories = "DownloadCategories";
-        public const string TableNameDownloadItems = "DownloadItems";
+		public const string DomainDownloads = "Downloads";
+		public const string TableNameDownloadCategories = "DownloadCategories";
+		public const string TableNameDownloadItems = "DownloadItems";
 
-        public const string DomainDynamicContent = "DynamicContent";
-        public const string TableNameContentPage = "Page";
-        public const string TableNameContentItem = "PageItems";
+		public const string DomainDynamicContent = "DynamicContent";
+		public const string TableNameContentPage = "Page";
+		public const string TableNameContentItem = "PageItems";
 
 		public const string DomainSessions = "Sessions";
 		public const string TableNameInitialReferrals = "InitialReferrals";

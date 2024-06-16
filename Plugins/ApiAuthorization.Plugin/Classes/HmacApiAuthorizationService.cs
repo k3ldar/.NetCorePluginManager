@@ -37,131 +37,131 @@ using SharedPluginFeatures;
 
 namespace ApiAuthorization.Plugin.Classes
 {
-    public sealed class HmacApiAuthorizationService : IApiAuthorizationService
-    {
-        #region Private Members
+	public sealed class HmacApiAuthorizationService : IApiAuthorizationService
+	{
+		#region Private Members
 
-        private const string AuthCode = "authcode";
-        private const string ApiKey = "apikey";
-        private const string MerchantId = "merchantId";
-        private const string Nonce = "nonce";
-        private const string TimeStamp = "timestamp";
+		private const string AuthCode = "authcode";
+		private const string ApiKey = "apikey";
+		private const string MerchantId = "merchantId";
+		private const string Nonce = "nonce";
+		private const string TimeStamp = "timestamp";
 		private const string PayloadLength = "payloadLength";
 
-        private static readonly Timings _timings = new();
+		private static readonly Timings _timings = new();
 
-        private readonly IUserApiQueryProvider _apiQueryProvider;
-        private readonly TimeSpan _maximumRequestAge;
+		private readonly IUserApiQueryProvider _apiQueryProvider;
+		private readonly TimeSpan _maximumRequestAge;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public HmacApiAuthorizationService(IUserApiQueryProvider apiQueryProvider)
-            : this(apiQueryProvider, new TimeSpan(0, 0, 0, 180, 0))
-        {
+		public HmacApiAuthorizationService(IUserApiQueryProvider apiQueryProvider)
+			: this(apiQueryProvider, new TimeSpan(0, 0, 0, 180, 0))
+		{
 
-        }
+		}
 
-        public HmacApiAuthorizationService(IUserApiQueryProvider apiQueryProvider, TimeSpan maximumRequestAge)
-        {
-            _apiQueryProvider = apiQueryProvider ?? throw new ArgumentNullException(nameof(apiQueryProvider));
-            _maximumRequestAge = maximumRequestAge;
-        }
+		public HmacApiAuthorizationService(IUserApiQueryProvider apiQueryProvider, TimeSpan maximumRequestAge)
+		{
+			_apiQueryProvider = apiQueryProvider ?? throw new ArgumentNullException(nameof(apiQueryProvider));
+			_maximumRequestAge = maximumRequestAge;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IApiAuthorizationService Methods
+		#region IApiAuthorizationService Methods
 
-        public bool ValidateApiRequest(HttpRequest httpRequest, string policyName, out int responseCode)
-        {
-            using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
-            {
-                ApiUserDetails apiDetails = ValidateHeaders(httpRequest);
+		public bool ValidateApiRequest(HttpRequest httpRequest, string policyName, out int responseCode)
+		{
+			using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
+			{
+				ApiUserDetails apiDetails = ValidateHeaders(httpRequest);
 
-                if (apiDetails == null || !apiDetails.WithinTimeParameters(_maximumRequestAge))
-                {
-                    responseCode = SharedPluginFeatures.Constants.HtmlResponseBadRequest;
-                    return false;
-                }
+				if (apiDetails == null || !apiDetails.WithinTimeParameters(_maximumRequestAge))
+				{
+					responseCode = SharedPluginFeatures.Constants.HtmlResponseBadRequest;
+					return false;
+				}
 
-                if (!_apiQueryProvider.ApiSecret(apiDetails.MerchantId, apiDetails.ApiKey, out string userSecret))
-                {
-                    responseCode = SharedPluginFeatures.Constants.HtmlResponseUnauthorized;
-                    return false;
-                }
+				if (!_apiQueryProvider.ApiSecret(apiDetails.MerchantId, apiDetails.ApiKey, out string userSecret))
+				{
+					responseCode = SharedPluginFeatures.Constants.HtmlResponseUnauthorized;
+					return false;
+				}
 
-                string payload = String.Empty;
+				string payload = String.Empty;
 
-                if (apiDetails.PayloadLength > 0 && httpRequest.Body.CanSeek && httpRequest.ContentLength > 0)
-                {
-                    byte[] requestBytes = new byte[httpRequest.Body.Length];
-                    httpRequest.Body.Position = 0;
-                    httpRequest.Body.Read(requestBytes, 0, (int)httpRequest.Body.Length);
-                    payload = Encoding.ASCII.GetString(requestBytes);
-                    httpRequest.Body.Position = 0;
-                }
+				if (apiDetails.PayloadLength > 0 && httpRequest.Body.CanSeek && httpRequest.ContentLength > 0)
+				{
+					byte[] requestBytes = new byte[httpRequest.Body.Length];
+					httpRequest.Body.Position = 0;
+					httpRequest.Body.Read(requestBytes, 0, (int)httpRequest.Body.Length);
+					payload = Encoding.ASCII.GetString(requestBytes);
+					httpRequest.Body.Position = 0;
+				}
 
-                string hmacValidation = HmacGenerator.GenerateHmac(apiDetails.ApiKey, userSecret,
-                    apiDetails.EpochTimeStamp.Ticks - DateTime.UnixEpoch.Ticks,
-                    apiDetails.Nonce, apiDetails.MerchantId, payload);
+				string hmacValidation = HmacGenerator.GenerateHmac(apiDetails.ApiKey, userSecret,
+					apiDetails.EpochTimeStamp.Ticks - DateTime.UnixEpoch.Ticks,
+					apiDetails.Nonce, apiDetails.MerchantId, payload);
 
-                if (hmacValidation.Equals(apiDetails.Authorization))
-                {
-                    responseCode = SharedPluginFeatures.Constants.HtmlResponseSuccess;
-                    return true;
-                }
+				if (hmacValidation.Equals(apiDetails.Authorization))
+				{
+					responseCode = SharedPluginFeatures.Constants.HtmlResponseSuccess;
+					return true;
+				}
 
-                responseCode = SharedPluginFeatures.Constants.HtmlResponseUnauthorized;
-                return false;
-            }
-        }
+				responseCode = SharedPluginFeatures.Constants.HtmlResponseUnauthorized;
+				return false;
+			}
+		}
 
-        #endregion IApiAuthorizationService Methods
+		#endregion IApiAuthorizationService Methods
 
-        #region Properties
+		#region Properties
 
-        internal static Timings GetTimings => _timings.Clone();
+		internal static Timings GetTimings => _timings.Clone();
 
-        #endregion Properties
+		#endregion Properties
 
-        #region Private Methods
+		#region Private Methods
 
-        private static ApiUserDetails ValidateHeaders(HttpRequest request)
-        {
-            if (!request.Headers.ContainsKey(ApiKey) ||
-                !request.Headers.ContainsKey(MerchantId) ||
-                !request.Headers.ContainsKey(Nonce) ||
-                !request.Headers.ContainsKey(TimeStamp) ||
-                !request.Headers.ContainsKey(AuthCode))
-            {
-                return null;
-            }
+		private static ApiUserDetails ValidateHeaders(HttpRequest request)
+		{
+			if (!request.Headers.ContainsKey(ApiKey) ||
+				!request.Headers.ContainsKey(MerchantId) ||
+				!request.Headers.ContainsKey(Nonce) ||
+				!request.Headers.ContainsKey(TimeStamp) ||
+				!request.Headers.ContainsKey(AuthCode))
+			{
+				return null;
+			}
 
-            string apiKey = request.Headers[ApiKey];
+			string apiKey = request.Headers[ApiKey];
 
-            if (String.IsNullOrEmpty(apiKey))
-                return null;
+			if (String.IsNullOrEmpty(apiKey))
+				return null;
 
-            string merchantId = request.Headers[MerchantId];
+			string merchantId = request.Headers[MerchantId];
 
-            if (String.IsNullOrEmpty(merchantId))
-                return null;
+			if (String.IsNullOrEmpty(merchantId))
+				return null;
 
-            string nonce = request.Headers[Nonce];
+			string nonce = request.Headers[Nonce];
 
-            if (String.IsNullOrEmpty(nonce) || !UInt64.TryParse(nonce, out ulong numericNonce))
-                return null;
+			if (String.IsNullOrEmpty(nonce) || !UInt64.TryParse(nonce, out ulong numericNonce))
+				return null;
 
-            string timestamp = request.Headers[TimeStamp];
+			string timestamp = request.Headers[TimeStamp];
 
-            if (String.IsNullOrEmpty(timestamp) || !Int64.TryParse(timestamp, out long numericTimestamp))
-                return null;
+			if (String.IsNullOrEmpty(timestamp) || !Int64.TryParse(timestamp, out long numericTimestamp))
+				return null;
 
-            string authorization = request.Headers[AuthCode];
+			string authorization = request.Headers[AuthCode];
 
-            if (String.IsNullOrEmpty(authorization))
-                return null;
+			if (String.IsNullOrEmpty(authorization))
+				return null;
 
 			int payloadLength = 0;
 
@@ -170,11 +170,11 @@ namespace ApiAuthorization.Plugin.Classes
 				Int32.TryParse(request.Headers[PayloadLength], out payloadLength);
 			}
 
-            return new ApiUserDetails(apiKey, merchantId, authorization, numericNonce, numericTimestamp, payloadLength);
-        }
+			return new ApiUserDetails(apiKey, merchantId, authorization, numericNonce, numericTimestamp, payloadLength);
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591

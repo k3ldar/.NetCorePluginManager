@@ -27,99 +27,99 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.DomainHelpdesk, Constants.TableNameFAQ, WriteStrategy.Lazy)]
-    internal class FaqDataRow : TableRowDefinition
-    {
-        private string _name;
-        private long _parent;
-        private string _description;
-        private int _order;
-        private int _viewCount;
+	[Table(Constants.DomainHelpdesk, Constants.TableNameFAQ, WriteStrategy.Lazy)]
+	internal class FaqDataRow : TableRowDefinition
+	{
+		private string _name;
+		private long _parent;
+		private string _description;
+		private int _order;
+		private int _viewCount;
 
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
+		public string Name
+		{
+			get
+			{
+				return _name;
+			}
 
-            set
-            {
-                if (_name == value)
-                    return;
+			set
+			{
+				if (_name == value)
+					return;
 
-                _name = value;
-                Update();
-            }
-        }
+				_name = value;
+				Update();
+			}
+		}
 
-        [ForeignKey(Constants.TableNameFAQ, ForeignKeyAttributes.DefaultValue)]
-        public long Parent
-        {
-            get
-            {
-                return _parent;
-            }
+		[ForeignKey(Constants.TableNameFAQ, ForeignKeyAttributes.DefaultValue)]
+		public long Parent
+		{
+			get
+			{
+				return _parent;
+			}
 
-            set
-            {
-                if (_parent == value)
-                    return;
+			set
+			{
+				if (_parent == value)
+					return;
 
-                _parent = value;
-                Update();
-            }
-        }
+				_parent = value;
+				Update();
+			}
+		}
 
-        public string Description
-        {
-            get
-            {
-                return _description;
-            }
+		public string Description
+		{
+			get
+			{
+				return _description;
+			}
 
-            set
-            {
-                if (_description == value)
-                    return;
+			set
+			{
+				if (_description == value)
+					return;
 
-                _description = value;
-                Update();
-            }
-        }
+				_description = value;
+				Update();
+			}
+		}
 
-        public int Order
-        {
-            get
-            {
-                return _order;
-            }
+		public int Order
+		{
+			get
+			{
+				return _order;
+			}
 
-            set
-            {
-                if (_order == value)
-                    return;
+			set
+			{
+				if (_order == value)
+					return;
 
-                _order = value;
-                Update();
-            }
-        }
+				_order = value;
+				Update();
+			}
+		}
 
-        public int ViewCount
-        {
-            get
-            {
-                return _viewCount;
-            }
+		public int ViewCount
+		{
+			get
+			{
+				return _viewCount;
+			}
 
-            set
-            {
-                if (_viewCount == value)
-                    return;
+			set
+			{
+				if (_viewCount == value)
+					return;
 
-                _viewCount = value;
-                Update();
-            }
-        }
-    }
+				_viewCount = value;
+				Update();
+			}
+		}
+	}
 }

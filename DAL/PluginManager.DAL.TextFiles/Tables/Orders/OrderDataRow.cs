@@ -27,100 +27,100 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameOrders)]
-    internal sealed class OrderDataRow : TableRowDefinition
-    {
-        private long _deliveryAddress;
-        private long _userId;
-        private decimal _postage;
-        private string _culture;
-        private int _processStatus;
+	[Table(Constants.TableNameOrders)]
+	internal sealed class OrderDataRow : TableRowDefinition
+	{
+		private long _deliveryAddress;
+		private long _userId;
+		private decimal _postage;
+		private string _culture;
+		private int _processStatus;
 
-        [ForeignKey(Constants.TableNameUsers)]
-        public long UserId
-        {
-            get
-            {
-                return _userId;
-            }
+		[ForeignKey(Constants.TableNameUsers)]
+		public long UserId
+		{
+			get
+			{
+				return _userId;
+			}
 
-            set
-            {
-                if (_userId == value)
-                    return;
+			set
+			{
+				if (_userId == value)
+					return;
 
-                _userId = value;
-                Update();
-            }
-        }
+				_userId = value;
+				Update();
+			}
+		}
 
-        [ForeignKey(Constants.TableNameAddresses)]
-        public long DeliveryAddress
-        {
-            get
-            {
-                return _deliveryAddress;
-            }
+		[ForeignKey(Constants.TableNameAddresses)]
+		public long DeliveryAddress
+		{
+			get
+			{
+				return _deliveryAddress;
+			}
 
-            set
-            {
-                if (_deliveryAddress == value)
-                    return;
+			set
+			{
+				if (_deliveryAddress == value)
+					return;
 
-                _deliveryAddress = value;
-                Update();
-            }
-        }
+				_deliveryAddress = value;
+				Update();
+			}
+		}
 
-        public decimal Postage
-        {
-            get
-            {
-                return _postage;
-            }
+		public decimal Postage
+		{
+			get
+			{
+				return _postage;
+			}
 
-            set
-            {
-                if (_postage == value)
-                    return;
+			set
+			{
+				if (_postage == value)
+					return;
 
-                _postage = value;
-                Update();
-            }
-        }
+				_postage = value;
+				Update();
+			}
+		}
 
-        public string Culture
-        {
-            get
-            {
-                return _culture;
-            }
+		public string Culture
+		{
+			get
+			{
+				return _culture;
+			}
 
-            set
-            {
-                if (_culture == value)
-                    return;
+			set
+			{
+				if (_culture == value)
+					return;
 
-                _culture = value;
-                Update();
-            }
-        }
+				_culture = value;
+				Update();
+			}
+		}
 
-        public int ProcessStatus
-        {
-            get
-            {
-                return _processStatus;
-            }
+		public int ProcessStatus
+		{
+			get
+			{
+				return _processStatus;
+			}
 
-            set
-            {
-                if (_processStatus == value)
-                    return;
+			set
+			{
+				if (_processStatus == value)
+					return;
 
-                _processStatus = value;
-                Update();
-            }
-        }
-    }
+				_processStatus = value;
+				Update();
+			}
+		}
+	}
 }

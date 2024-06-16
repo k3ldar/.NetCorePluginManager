@@ -31,28 +31,28 @@ using System.Reflection;
 
 namespace PluginManager.Abstractions
 {
-    /// <summary>
-    /// Provides a mechanism for the host application or other plugin modules to query the 
-    /// AspNetCore.PluginManager for specific data.
-    /// 
-    /// This interface is implemented by the Plugin Manager and registered for use within the 
-    /// DI contianer when loading.
-    /// </summary>
-    public interface IPluginHelperService
-    {
-        /// <summary>
-        /// Determines whether a plugin module has been loaded.
-        /// </summary>
-        /// <param name="pluginLibraryName">The name of the plugin module, i.e. SeoPlugin.dll</param>
-        /// <param name="version">out int.  Returns the internal plugin version of the plugin if found.</param>
-        /// <returns>bool</returns>
-        bool PluginLoaded(in string pluginLibraryName, out int version);
+	/// <summary>
+	/// Provides a mechanism for the host application or other plugin modules to query the 
+	/// AspNetCore.PluginManager for specific data.
+	/// 
+	/// This interface is implemented by the Plugin Manager and registered for use within the 
+	/// DI contianer when loading.
+	/// </summary>
+	public interface IPluginHelperService
+	{
+		/// <summary>
+		/// Determines whether a plugin module has been loaded.
+		/// </summary>
+		/// <param name="pluginLibraryName">The name of the plugin module, i.e. SeoPlugin.dll</param>
+		/// <param name="version">out int.  Returns the internal plugin version of the plugin if found.</param>
+		/// <returns>bool</returns>
+		bool PluginLoaded(in string pluginLibraryName, out int version);
 
-        /// <summary>
-        /// Dynamically adds a non plugin assembly to the list of managed plugins.
-        /// </summary>
-        /// <param name="assembly">Assembly instance of assembly to be added to the list of available plugins.</param>
-        /// <returns></returns>
-        DynamicLoadResult AddAssembly(in Assembly assembly);
-    }
+		/// <summary>
+		/// Dynamically adds a non plugin assembly to the list of managed plugins.
+		/// </summary>
+		/// <param name="assembly">Assembly instance of assembly to be added to the list of available plugins.</param>
+		/// <returns></returns>
+		DynamicLoadResult AddAssembly(in Assembly assembly);
+	}
 }

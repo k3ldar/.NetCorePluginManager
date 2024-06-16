@@ -27,35 +27,35 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace SimpleDB.Tests.Mocks
 {
-    [ExcludeFromCodeCoverage]
-    [Table("MockTableAddress", cachingStrategy: CachingStrategy.Memory)]
-    public class MockTableAddressRow : TableRowDefinition
-    {
-        private long _userId;
+	[ExcludeFromCodeCoverage]
+	[Table("MockTableAddress", cachingStrategy: CachingStrategy.Memory)]
+	public class MockTableAddressRow : TableRowDefinition
+	{
+		private long _userId;
 
-        public MockTableAddressRow()
-        {
+		public MockTableAddressRow()
+		{
 
-        }
+		}
 
-        public MockTableAddressRow(long userId)
-        {
-            UserId = userId;
-            Description = $"Address {userId}";
-        }
+		public MockTableAddressRow(long userId)
+		{
+			UserId = userId;
+			Description = $"Address {userId}";
+		}
 
-        [ForeignKey("MockTableUser")]
-        public long UserId
-        {
-            get => _userId;
-            
-            set
-            {
-                _userId = value;
-                Update();
-            }
-        }
+		[ForeignKey("MockTableUser")]
+		public long UserId
+		{
+			get => _userId;
 
-        public string Description { get; set; }
-    }
+			set
+			{
+				_userId = value;
+				Update();
+			}
+		}
+
+		public string Description { get; set; }
+	}
 }

@@ -27,15 +27,15 @@ using System;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// This attribute is used in conjunction with the UserSessionMiddleware.Plugin module and indicates that a user can be
-    /// either logged in or out when attempting to navigate to the route.
-    /// 
-    /// This attribute would be used if a LoggedInAttribute or LoggedOutAttribute is defined on the controller, but a specific
-    /// method is allowed regardless of the user logged in stats.
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class LoggedInOutAttribute : Attribute
-    {
-    }
+	/// <summary>
+	/// This attribute is used in conjunction with the UserSessionMiddleware.Plugin module and indicates that a user can be
+	/// either logged in or out when attempting to navigate to the route.
+	/// 
+	/// This attribute would be used if a LoggedInAttribute or LoggedOutAttribute is defined on the controller, but a specific
+	/// method is allowed regardless of the user logged in stats.
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+	public class LoggedInOutAttribute : Attribute
+	{
+	}
 }

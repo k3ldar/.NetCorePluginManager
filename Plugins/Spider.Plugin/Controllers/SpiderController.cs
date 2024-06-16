@@ -38,159 +38,159 @@ using Spider.Plugin.Models;
 
 namespace Spider.Plugin.Controllers
 {
-    [RestrictedIpRoute("SystemAdminRoute")]
-    [Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameStaff)]
-    [DenySpider]
-    public class SpiderController : BaseController
-    {
-        #region Private Members
+	[RestrictedIpRoute("SystemAdminRoute")]
+	[Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameStaff)]
+	[DenySpider]
+	public class SpiderController : BaseController
+	{
+		#region Private Members
 
-        private readonly IRobots _robots;
-        private readonly ISaveData _saveData;
+		private readonly IRobots _robots;
+		private readonly ISaveData _saveData;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public SpiderController(IRobots robots, ISaveData saveData)
-        {
-            _robots = robots ?? throw new ArgumentNullException(nameof(robots));
-            _saveData = saveData ?? throw new ArgumentNullException(nameof(saveData));
-        }
+		public SpiderController(IRobots robots, ISaveData saveData)
+		{
+			_robots = robots ?? throw new ArgumentNullException(nameof(robots));
+			_saveData = saveData ?? throw new ArgumentNullException(nameof(saveData));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Constants
+		#region Constants
 
-        public const string Name = "Spider";
+		public const string Name = "Spider";
 
-        #endregion Constants
+		#endregion Constants
 
-        #region Controller Action Methods
+		#region Controller Action Methods
 
-        [HttpGet]
-        [LoggedIn]
-        public IActionResult Index()
-        {
-            return CreateDefaultPartialView();
-        }
+		[HttpGet]
+		[LoggedIn]
+		public IActionResult Index()
+		{
+			return CreateDefaultPartialView();
+		}
 
-        [HttpPost]
-        [AjaxOnly]
-        public IActionResult AddCustomRoute(EditRobotsModel model)
-        {
-            if (model == null)
-                return CreateDefaultPartialView();
+		[HttpPost]
+		[AjaxOnly]
+		public IActionResult AddCustomRoute(EditRobotsModel model)
+		{
+			if (model == null)
+				return CreateDefaultPartialView();
 
-            if (String.IsNullOrEmpty(model.AgentName))
-                ModelState.AddModelError(nameof(EditRobotsModel.AgentName), "Invalid agent name");
+			if (String.IsNullOrEmpty(model.AgentName))
+				ModelState.AddModelError(nameof(EditRobotsModel.AgentName), "Invalid agent name");
 
-            if (String.IsNullOrEmpty(model.Route))
-                ModelState.AddModelError(nameof(EditRobotsModel.Route), "Invalid Route");
+			if (String.IsNullOrEmpty(model.Route))
+				ModelState.AddModelError(nameof(EditRobotsModel.Route), "Invalid Route");
 
-            if (_robots.DeniedRoutes.Exists(dr => dr.UserAgent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) && 
+			if (_robots.DeniedRoutes.Exists(dr => dr.UserAgent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) &&
 				dr.Route.Equals(model.Route, StringComparison.InvariantCultureIgnoreCase)))
-            {
-                ModelState.AddModelError(String.Empty, "Route already exists");
-            }
+			{
+				ModelState.AddModelError(String.Empty, "Route already exists");
+			}
 
-            if (_robots.CustomRoutes.Exists(cr => cr.Agent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) && 
+			if (_robots.CustomRoutes.Exists(cr => cr.Agent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) &&
 				cr.Route.Equals(model.Route, StringComparison.InvariantCultureIgnoreCase)))
-            {
-                ModelState.AddModelError(String.Empty, "Custom route already exists");
-            }
+			{
+				ModelState.AddModelError(String.Empty, "Custom route already exists");
+			}
 
-            if (!ModelState.IsValid)
-                return CreateDefaultPartialView();
+			if (!ModelState.IsValid)
+				return CreateDefaultPartialView();
 
-            if (!_robots.Agents.Exists(a => a.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase)))
-            {
-                _robots.AgentAdd(model.AgentName);
-            }
+			if (!_robots.Agents.Exists(a => a.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase)))
+			{
+				_robots.AgentAdd(model.AgentName);
+			}
 
-            if (model.Allowed)
-            {
-                _robots.AddAllowedRoute(model.AgentName, model.Route);
-            }
-            else
-            {
-                _robots.AddDeniedRoute(model.AgentName, model.Route);
-            }
+			if (model.Allowed)
+			{
+				_robots.AddAllowedRoute(model.AgentName, model.Route);
+			}
+			else
+			{
+				_robots.AddDeniedRoute(model.AgentName, model.Route);
+			}
 
-            _robots.SaveData(_saveData);
+			_robots.SaveData(_saveData);
 
-            return CreateDefaultPartialView();
-        }
+			return CreateDefaultPartialView();
+		}
 
-        [HttpPost]
-        [AjaxOnly]
-        public IActionResult DeleteCustomRoute(EditRobotsModel model)
-        {
-            if (model == null)
-                return CreateDefaultPartialView();
+		[HttpPost]
+		[AjaxOnly]
+		public IActionResult DeleteCustomRoute(EditRobotsModel model)
+		{
+			if (model == null)
+				return CreateDefaultPartialView();
 
-            if (String.IsNullOrEmpty(model.AgentName))
-                ModelState.AddModelError(nameof(model.AgentName), "Invalid agent name");
+			if (String.IsNullOrEmpty(model.AgentName))
+				ModelState.AddModelError(nameof(model.AgentName), "Invalid agent name");
 
-            if (String.IsNullOrEmpty(model.Route))
-                ModelState.AddModelError(nameof(model.Route), "Invalid route");
+			if (String.IsNullOrEmpty(model.Route))
+				ModelState.AddModelError(nameof(model.Route), "Invalid route");
 
-            DeniedRoute deniedRoute = _robots.DeniedRoutes
-				.Find(cr => cr.UserAgent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) && 
+			DeniedRoute deniedRoute = _robots.DeniedRoutes
+				.Find(cr => cr.UserAgent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) &&
 				cr.Route.Equals(model.Route, StringComparison.InvariantCultureIgnoreCase));
 
-            if (deniedRoute != null)
-                ModelState.AddModelError(String.Empty, "Unable to delete non custom route");
+			if (deniedRoute != null)
+				ModelState.AddModelError(String.Empty, "Unable to delete non custom route");
 
-            if (!ModelState.IsValid)
-                return CreateDefaultPartialView();
+			if (!ModelState.IsValid)
+				return CreateDefaultPartialView();
 
-            IRobotRouteData customRoute = _robots.CustomRoutes.Find(cr =>
-                cr.Agent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) &&
-                cr.Route.Equals(model.Route, StringComparison.InvariantCultureIgnoreCase) &&
-                cr.IsCustom);
+			IRobotRouteData customRoute = _robots.CustomRoutes.Find(cr =>
+				cr.Agent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) &&
+				cr.Route.Equals(model.Route, StringComparison.InvariantCultureIgnoreCase) &&
+				cr.IsCustom);
 
-            if (customRoute == null)
-                ModelState.AddModelError(String.Empty, "Custom route not found");
+			if (customRoute == null)
+				ModelState.AddModelError(String.Empty, "Custom route not found");
 			else
 				_robots.RemoveRoute(customRoute.Agent, customRoute.Route);
 
 			if (!ModelState.IsValid)
-                return CreateDefaultPartialView();
+				return CreateDefaultPartialView();
 
-            _robots.SaveData(_saveData);
+			_robots.SaveData(_saveData);
 
-            return CreateDefaultPartialView();
-        }
+			return CreateDefaultPartialView();
+		}
 
-        #endregion Controller Action Methods
+		#endregion Controller Action Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private PartialViewResult CreateDefaultPartialView()
-        {
-            return PartialView("/Views/Spider/_systemRobots.cshtml", CreateRobotsModel());
-        }
+		private PartialViewResult CreateDefaultPartialView()
+		{
+			return PartialView("/Views/Spider/_systemRobots.cshtml", CreateRobotsModel());
+		}
 
-        private EditRobotsModel CreateRobotsModel()
-        {
-            List<CustomAgentModel> customAgents = new();
+		private EditRobotsModel CreateRobotsModel()
+		{
+			List<CustomAgentModel> customAgents = new();
 
-            foreach (DeniedRoute deniedRoute in _robots.DeniedRoutes)
-            {
-                customAgents.Add(new CustomAgentModel(deniedRoute.UserAgent, deniedRoute.Route, false, false, String.Empty));
-            }
+			foreach (DeniedRoute deniedRoute in _robots.DeniedRoutes)
+			{
+				customAgents.Add(new CustomAgentModel(deniedRoute.UserAgent, deniedRoute.Route, false, false, String.Empty));
+			}
 
-            foreach (IRobotRouteData customRoute in _robots.CustomRoutes)
-            {
-                customAgents.Add(new CustomAgentModel(customRoute.Agent, customRoute.Route, customRoute.Allowed, true, customRoute.Comment));
-            }
+			foreach (IRobotRouteData customRoute in _robots.CustomRoutes)
+			{
+				customAgents.Add(new CustomAgentModel(customRoute.Agent, customRoute.Route, customRoute.Allowed, true, customRoute.Comment));
+			}
 
-            return new EditRobotsModel(GetModelData(), _robots.Agents, customAgents);
-        }
+			return new EditRobotsModel(GetModelData(), _robots.Agents, customAgents);
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591

@@ -32,22 +32,22 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
-    public class MockPluginConfiguration : IConfigureApplicationBuilder, IConfigureMvcBuilder
-    {
-        #region IConfigureApplicationBuilder Methods
+	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
+	public class MockPluginConfiguration : IConfigureApplicationBuilder, IConfigureMvcBuilder
+	{
+		#region IConfigureApplicationBuilder Methods
 
-        public void ConfigureApplicationBuilder(in IApplicationBuilder applicationBuilder)
-        {
+		public void ConfigureApplicationBuilder(in IApplicationBuilder applicationBuilder)
+		{
 			// required by interface not used in mock
-        }
+		}
 
-        #endregion IConfigureApplicationBuilder Methods
+		#endregion IConfigureApplicationBuilder Methods
 
-        #region IConfigureMvcBuilder Methods
+		#region IConfigureMvcBuilder Methods
 
-        public void ConfigureMvcBuilder(in IMvcBuilder mvcBuilder)
-        {
+		public void ConfigureMvcBuilder(in IMvcBuilder mvcBuilder)
+		{
 			// required by interface not used in mock
 		}
 

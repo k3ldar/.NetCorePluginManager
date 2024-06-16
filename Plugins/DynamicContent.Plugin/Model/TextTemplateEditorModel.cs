@@ -28,24 +28,24 @@
 
 namespace DynamicContent.Plugin.Model
 {
-    public sealed class TextTemplateEditorModel
-    {
-        #region Constructors
+	public sealed class TextTemplateEditorModel
+	{
+		#region Constructors
 
-        public TextTemplateEditorModel()
-        {
+		public TextTemplateEditorModel()
+		{
 
-        }
+		}
 
-        public TextTemplateEditorModel(string data)
-        {
-            Data = data ?? string.Empty;
-        }
+		public TextTemplateEditorModel(string data)
+		{
+			Data = data ?? string.Empty;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        public string Data { get; set; }
-    }
+		public string Data { get; set; }
+	}
 }
 
 #pragma warning restore CS1591

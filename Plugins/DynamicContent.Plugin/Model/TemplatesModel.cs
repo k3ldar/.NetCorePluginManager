@@ -29,23 +29,23 @@ using System.Collections.Generic;
 
 namespace DynamicContent.Plugin.Model
 {
-    public sealed class TemplatesModel
-    {
-        #region Constructors
+	public sealed class TemplatesModel
+	{
+		#region Constructors
 
-        public TemplatesModel()
-        {
-            Templates = new List<TemplateModel>();
-        }
+		public TemplatesModel()
+		{
+			Templates = new List<TemplateModel>();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public List<TemplateModel> Templates { get; }
+		public List<TemplateModel> Templates { get; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

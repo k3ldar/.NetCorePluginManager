@@ -33,57 +33,57 @@ using Middleware.ShoppingCart;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
-    public sealed class MockStockProvider : IStockProvider
-    {
-        #region Private Members
+	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
+	public sealed class MockStockProvider : IStockProvider
+	{
+		#region Private Members
 
-        private readonly Random _random;
+		private readonly Random _random;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public MockStockProvider()
-        {
-            _random = new Random(DateTime.Now.Millisecond);
-        }
+		public MockStockProvider()
+		{
+			_random = new Random(DateTime.Now.Millisecond);
+		}
 
 		#endregion Constructors
 
 		#region IStockProvider Methods
 
 		public void GetStockAvailability(in Product product)
-        {
-            if (product == null)
-                throw new ArgumentNullException(nameof(product));
+		{
+			if (product == null)
+				throw new ArgumentNullException(nameof(product));
 
-            product.SetCurrentStockLevel(Convert.ToUInt32(_random.Next(1000)));
-        }
+			product.SetCurrentStockLevel(Convert.ToUInt32(_random.Next(1000)));
+		}
 
-        public void GetStockAvailability(in List<Product> productList)
-        {
-            if (productList == null)
-                throw new ArgumentNullException(nameof(productList));
+		public void GetStockAvailability(in List<Product> productList)
+		{
+			if (productList == null)
+				throw new ArgumentNullException(nameof(productList));
 
-            productList.ForEach(p => p.SetCurrentStockLevel(Convert.ToUInt32(_random.Next(1000))));
-        }
+			productList.ForEach(p => p.SetCurrentStockLevel(Convert.ToUInt32(_random.Next(1000))));
+		}
 
-        public void GetStockAvailability(in ShoppingCartItem shoppingCartItem)
-        {
-            if (shoppingCartItem == null)
-                throw new ArgumentNullException(nameof(shoppingCartItem));
+		public void GetStockAvailability(in ShoppingCartItem shoppingCartItem)
+		{
+			if (shoppingCartItem == null)
+				throw new ArgumentNullException(nameof(shoppingCartItem));
 
-            shoppingCartItem.SetCurrentStockLevel(Convert.ToUInt32(_random.Next(1000)));
-        }
+			shoppingCartItem.SetCurrentStockLevel(Convert.ToUInt32(_random.Next(1000)));
+		}
 
-        public void GetStockAvailability(in List<ShoppingCartItem> shoppingCartItemList)
-        {
-            if (shoppingCartItemList == null)
-                throw new ArgumentNullException(nameof(shoppingCartItemList));
+		public void GetStockAvailability(in List<ShoppingCartItem> shoppingCartItemList)
+		{
+			if (shoppingCartItemList == null)
+				throw new ArgumentNullException(nameof(shoppingCartItemList));
 
-            shoppingCartItemList.ForEach(p => p.SetCurrentStockLevel(Convert.ToUInt32(_random.Next(1000))));
-        }
+			shoppingCartItemList.ForEach(p => p.SetCurrentStockLevel(Convert.ToUInt32(_random.Next(1000))));
+		}
 
 		public bool AddStockToProduct(Product product, uint stockCount, out string error)
 		{

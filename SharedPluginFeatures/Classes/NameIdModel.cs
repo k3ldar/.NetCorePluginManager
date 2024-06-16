@@ -27,43 +27,43 @@ using System;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Default model for containing Names with Ids
-    /// </summary>
-    public sealed class NameIdModel
-    {
-        #region Constructors
+	/// <summary>
+	/// Default model for containing Names with Ids
+	/// </summary>
+	public sealed class NameIdModel
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default Constructor
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="name"></param>
-        public NameIdModel(long id, string name)
-        {
-            if (String.IsNullOrEmpty(name))
-                throw new ArgumentNullException(nameof(name));
+		/// <summary>
+		/// Default Constructor
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="name"></param>
+		public NameIdModel(long id, string name)
+		{
+			if (String.IsNullOrEmpty(name))
+				throw new ArgumentNullException(nameof(name));
 
-            Id = id;
-            Name = name;
-        }
+			Id = id;
+			Name = name;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Id value
-        /// </summary>
-        /// <value>long</value>
-        public long Id { get; private set; }
+		/// <summary>
+		/// Id value
+		/// </summary>
+		/// <value>long</value>
+		public long Id { get; private set; }
 
-        /// <summary>
-        /// Name
-        /// </summary>
-        /// <value>string</value>
-        public string Name { get; private set; }
+		/// <summary>
+		/// Name
+		/// </summary>
+		/// <value>string</value>
+		public string Name { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

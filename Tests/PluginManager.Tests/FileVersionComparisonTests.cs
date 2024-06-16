@@ -31,60 +31,60 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace PluginManager.Tests
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
-    public class FileVersionComparisonTests
-    {
-        [TestMethod]
-        public void Compare_NullComparisonObjects_Returns_Zero()
-        {
-            FileVersionComparison sut = new();
+	[TestClass]
+	[ExcludeFromCodeCoverage]
+	public class FileVersionComparisonTests
+	{
+		[TestMethod]
+		public void Compare_NullComparisonObjects_Returns_Zero()
+		{
+			FileVersionComparison sut = new();
 
-            int result = sut.Compare(null, null);
+			int result = sut.Compare(null, null);
 
-            Assert.AreEqual(0, result);
-        }
+			Assert.AreEqual(0, result);
+		}
 
-        [TestMethod]
-        public void Equals_NullComparisonObjects_Returns_Zero()
-        {
-            FileVersionComparison sut = new();
+		[TestMethod]
+		public void Equals_NullComparisonObjects_Returns_Zero()
+		{
+			FileVersionComparison sut = new();
 
-            bool result = sut.Equals(null, null);
+			bool result = sut.Equals(null, null);
 
-            Assert.IsTrue(result);
-        }
+			Assert.IsTrue(result);
+		}
 
-        [TestMethod]
-        public void Newer_ValidComparison_Returns_True()
-        {
-            FileVersionComparison sut = new();
+		[TestMethod]
+		public void Newer_ValidComparison_Returns_True()
+		{
+			FileVersionComparison sut = new();
 
-            FileInfo fileInfo = new(Assembly.GetExecutingAssembly().Location);
-            bool result = sut.Equals(fileInfo, fileInfo);
+			FileInfo fileInfo = new(Assembly.GetExecutingAssembly().Location);
+			bool result = sut.Equals(fileInfo, fileInfo);
 
-            Assert.IsTrue(result);
-        }
+			Assert.IsTrue(result);
+		}
 
-        [TestMethod]
-        public void Newer_NullComparisonObjects_Returns_True()
-        {
-            FileVersionComparison sut = new();
+		[TestMethod]
+		public void Newer_NullComparisonObjects_Returns_True()
+		{
+			FileVersionComparison sut = new();
 
-            bool result = sut.Newer(null, null);
+			bool result = sut.Newer(null, null);
 
-            Assert.IsTrue(result);
-        }
+			Assert.IsTrue(result);
+		}
 
-        [TestMethod]
-        public void Newer_ValidComparison_Returns_False()
-        {
-            FileVersionComparison sut = new();
+		[TestMethod]
+		public void Newer_ValidComparison_Returns_False()
+		{
+			FileVersionComparison sut = new();
 
-            FileInfo fileInfo = new(Assembly.GetExecutingAssembly().Location);
-            bool result = sut.Newer(fileInfo, fileInfo);
+			FileInfo fileInfo = new(Assembly.GetExecutingAssembly().Location);
+			bool result = sut.Newer(fileInfo, fileInfo);
 
-            Assert.IsFalse(result);
-        }
-    }
+			Assert.IsFalse(result);
+		}
+	}
 }

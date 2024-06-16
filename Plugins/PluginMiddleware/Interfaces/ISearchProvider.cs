@@ -29,37 +29,37 @@ using Middleware.Search;
 
 namespace Middleware
 {
-    /// <summary>
-    /// Search provider, provides methods used to search within a website.
-    /// </summary>
-    public interface ISearchProvider
-    {
-        /// <summary>
-        /// Performs a keyword search using the search options.
-        /// </summary>
-        /// <param name="keywordSearchOptions">Search Options</param>
-        /// <returns>List&lt;SearchResponseItem&gt;</returns>
-        List<SearchResponseItem> KeywordSearch(in KeywordSearchOptions keywordSearchOptions);
+	/// <summary>
+	/// Search provider, provides methods used to search within a website.
+	/// </summary>
+	public interface ISearchProvider
+	{
+		/// <summary>
+		/// Performs a keyword search using the search options.
+		/// </summary>
+		/// <param name="keywordSearchOptions">Search Options</param>
+		/// <returns>List&lt;SearchResponseItem&gt;</returns>
+		List<SearchResponseItem> KeywordSearch(in KeywordSearchOptions keywordSearchOptions);
 
-        /// <summary>
-        /// Retrieves the available search response types for the provider.
-        /// </summary>
-        /// <param name="quickSearch">indicates whether the response types are from a quick search or not.</param>
-        /// <returns>List&lt;string&gt;</returns>
-        List<string> SearchResponseTypes(in bool quickSearch);
+		/// <summary>
+		/// Retrieves the available search response types for the provider.
+		/// </summary>
+		/// <param name="quickSearch">indicates whether the response types are from a quick search or not.</param>
+		/// <returns>List&lt;string&gt;</returns>
+		List<string> SearchResponseTypes(in bool quickSearch);
 
-        /// <summary>
-        /// Retrieves a list of advanced search options for providers that can optionally be used by the UI 
-        /// to provide a paged or tabbed advance search option.
-        /// </summary>
-        /// <returns>Dictionary&lt;string, AdvancedSearchOptions&gt;</returns>
-        Dictionary<string, AdvancedSearchOptions> AdvancedSearch();
+		/// <summary>
+		/// Retrieves a list of advanced search options for providers that can optionally be used by the UI 
+		/// to provide a paged or tabbed advance search option.
+		/// </summary>
+		/// <returns>Dictionary&lt;string, AdvancedSearchOptions&gt;</returns>
+		Dictionary<string, AdvancedSearchOptions> AdvancedSearch();
 
-        /// <summary>
-        /// Retreive previous named search results.
-        /// </summary>
-        /// <param name="searchId">Name of search to be found.</param>
-        /// <returns>List&lt;SearchResponseItem&gt;</returns>
-        List<SearchResponseItem> GetSearchResults(in string searchId);
-    }
+		/// <summary>
+		/// Retreive previous named search results.
+		/// </summary>
+		/// <param name="searchId">Name of search to be found.</param>
+		/// <returns>List&lt;SearchResponseItem&gt;</returns>
+		List<SearchResponseItem> GetSearchResults(in string searchId);
+	}
 }

@@ -27,35 +27,35 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace SimpleDB.Tests.Mocks
 {
-    [ExcludeFromCodeCoverage]
-    [Table("MockTableIndex", cachingStrategy: CachingStrategy.Memory)]
+	[ExcludeFromCodeCoverage]
+	[Table("MockTableIndex", cachingStrategy: CachingStrategy.Memory)]
 	public class MockRowMultipleIndex : TableRowDefinition
-    {
-        private string _name;
-        private int _index;
+	{
+		private string _name;
+		private int _index;
 
-        [UniqueIndex("TestIndex")]
-        public string Name
-        {
-            get => _name;
+		[UniqueIndex("TestIndex")]
+		public string Name
+		{
+			get => _name;
 
-            set
-            {
-                _name = value;
-                Update();
-            }
-        }
+			set
+			{
+				_name = value;
+				Update();
+			}
+		}
 
-        [UniqueIndex("TestIndex")]
-        public int Index
-        {
-            get => _index;
+		[UniqueIndex("TestIndex")]
+		public int Index
+		{
+			get => _index;
 
-            set
-            {
-                _index = value;
-                Update();
-            }
-        }
-    }
+			set
+			{
+				_index = value;
+				Update();
+			}
+		}
+	}
 }

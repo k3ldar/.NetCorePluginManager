@@ -27,27 +27,27 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal class TicketPrioritiesDataRowDefaults : ITableDefaults<TicketPrioritiesDataRow>
-    {
-        public long PrimarySequence => 0;
+	internal class TicketPrioritiesDataRowDefaults : ITableDefaults<TicketPrioritiesDataRow>
+	{
+		public long PrimarySequence => 0;
 
-        public long SecondarySequence => 0;
+		public long SecondarySequence => 0;
 
-        public ushort Version => 1;
+		public ushort Version => 1;
 
-        public List<TicketPrioritiesDataRow> InitialData(ushort version)
-        {
-            if (version == 1)
-            {
-                return new List<TicketPrioritiesDataRow>()
-                {
-                    new() { Description = "Low" },
-                    new() { Description = "Medium" },
-                    new() { Description = "High" }
-                };
-            }
+		public List<TicketPrioritiesDataRow> InitialData(ushort version)
+		{
+			if (version == 1)
+			{
+				return new List<TicketPrioritiesDataRow>()
+				{
+					new() { Description = "Low" },
+					new() { Description = "Medium" },
+					new() { Description = "High" }
+				};
+			}
 
-            return null;
-        }
-    }
+			return null;
+		}
+	}
 }

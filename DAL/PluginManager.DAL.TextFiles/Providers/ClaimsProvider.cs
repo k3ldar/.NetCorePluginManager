@@ -35,12 +35,12 @@ using SharedPluginFeatures;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
-    internal class ClaimsProvider : IClaimsProvider
-    {
-        #region Private Members
+	internal class ClaimsProvider : IClaimsProvider
+	{
+		#region Private Members
 
-        private readonly IPluginClassesService _pluginClassesService;
-        private readonly ISimpleDBOperations<UserDataRow> _users;
+		private readonly IPluginClassesService _pluginClassesService;
+		private readonly ISimpleDBOperations<UserDataRow> _users;
 		private readonly ISimpleDBOperations<ExternalUsersDataRow> _externalUsers;
 		private readonly ISimpleDBOperations<UserClaimsDataRow> _userClaims;
 		private readonly IApplicationClaimProvider _additionalClaimsProvider;
@@ -50,31 +50,31 @@ namespace PluginManager.DAL.TextFiles.Providers
 		#region Constructors
 
 		public ClaimsProvider(IPluginClassesService pluginClassesService,
-            ISimpleDBOperations<UserDataRow> users, 
+			ISimpleDBOperations<UserDataRow> users,
 			ISimpleDBOperations<ExternalUsersDataRow> externalUsers,
 			ISimpleDBOperations<UserClaimsDataRow> userClaims)
-        {
-            _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
-            _users = users ?? throw new ArgumentNullException(nameof(users));
+		{
+			_pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
+			_users = users ?? throw new ArgumentNullException(nameof(users));
 			_externalUsers = externalUsers ?? throw new ArgumentNullException(nameof(externalUsers));
 			_userClaims = userClaims ?? throw new ArgumentNullException(nameof(userClaims));
 			_additionalClaimsProvider = _pluginClassesService.GetPluginClasses<IApplicationClaimProvider>().FirstOrDefault();
-        }
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IClaimsProvider Methods
+		#region IClaimsProvider Methods
 
-        public AuthenticationProperties GetAuthenticationProperties()
-        {
-            return new AuthenticationProperties()
-            {
-                AllowRefresh = true,
-                IsPersistent = true,
-            };
-        }
+		public AuthenticationProperties GetAuthenticationProperties()
+		{
+			return new AuthenticationProperties()
+			{
+				AllowRefresh = true,
+				IsPersistent = true,
+			};
+		}
 
-        public List<ClaimsIdentity> GetUserClaims(in long userId)
+		public List<ClaimsIdentity> GetUserClaims(in long userId)
 		{
 			List<ClaimsIdentity> Result = new();
 
@@ -128,69 +128,69 @@ namespace PluginManager.DAL.TextFiles.Providers
 		}
 
 		public bool SetClaimsForUser(in long id, in List<string> claims)
-        {
-            UserDataRow user = _users.Select(id);
+		{
+			UserDataRow user = _users.Select(id);
 
-            if (user == null)
-            {
-                return false;
-            }
+			if (user == null)
+			{
+				return false;
+			}
 
-            UserClaimsDataRow userClaims = _userClaims.Select().FirstOrDefault(uc => uc.UserId.Equals(user.Id));
+			UserClaimsDataRow userClaims = _userClaims.Select().FirstOrDefault(uc => uc.UserId.Equals(user.Id));
 
-            if (userClaims == null)
-            {
-                userClaims = new UserClaimsDataRow();
-                userClaims.Claims.AddRange(claims);
+			if (userClaims == null)
+			{
+				userClaims = new UserClaimsDataRow();
+				userClaims.Claims.AddRange(claims);
 				userClaims.UserId = id;
-                _userClaims.Insert(userClaims);
-            }
-            else
-            {
-                userClaims.Claims.Clear();
-                userClaims.Claims.AddRange(claims);
-                _userClaims.Update(userClaims);
-            }
+				_userClaims.Insert(userClaims);
+			}
+			else
+			{
+				userClaims.Claims.Clear();
+				userClaims.Claims.AddRange(claims);
+				_userClaims.Update(userClaims);
+			}
 
-            return true;
-        }
+			return true;
+		}
 
-        public List<string> GetAllClaims()
-        {
-            List<string> Result = new();
+		public List<string> GetAllClaims()
+		{
+			List<string> Result = new();
 
-            foreach (IClaimsService claimsService in _pluginClassesService.GetPluginClasses<IClaimsService>())
-            {
-                foreach (string claim in claimsService.GetClaims())
-                {
-                    if (!Result.Contains(claim))
-                        Result.Add(claim);
-                }
-            }
+			foreach (IClaimsService claimsService in _pluginClassesService.GetPluginClasses<IClaimsService>())
+			{
+				foreach (string claim in claimsService.GetClaims())
+				{
+					if (!Result.Contains(claim))
+						Result.Add(claim);
+				}
+			}
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public List<string> GetClaimsForUser(in long id)
-        {
-            List<string> Result = new();
+		public List<string> GetClaimsForUser(in long id)
+		{
+			List<string> Result = new();
 
-            UserDataRow user = _users.Select(id);
+			UserDataRow user = _users.Select(id);
 
-            if (user == null)
-                return Result;
+			if (user == null)
+				return Result;
 
 
-            UserClaimsDataRow claims = _userClaims.Select().FirstOrDefault(uc => uc.UserId.Equals(user.Id));
+			UserClaimsDataRow claims = _userClaims.Select().FirstOrDefault(uc => uc.UserId.Equals(user.Id));
 
-            if (claims == null)
-                return Result;
+			if (claims == null)
+				return Result;
 
-            claims.Claims.ForEach(c => Result.Add(c));
+			claims.Claims.ForEach(c => Result.Add(c));
 
-            return Result;
-        }
+			return Result;
+		}
 
-        #endregion IClaimsProvider Methods
-    }
+		#endregion IClaimsProvider Methods
+	}
 }

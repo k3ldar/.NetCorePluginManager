@@ -46,7 +46,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 	/// This class descends from SystemAdminSubMenu.
 	/// </summary>
 	public sealed class VisitsMonthlySubMenu : SystemAdminSubMenu
-    {
+	{
 		#region Private Members
 
 		private readonly ISessionStatisticsProvider _sessionStatisticsProvider;
@@ -59,95 +59,95 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 			_sessionStatisticsProvider = sessionStatisticsProvider ?? throw new ArgumentNullException(nameof(sessionStatisticsProvider));
 
 			if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(SharedPluginFeatures.Constants.UserSessionConfiguration);
+			UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(SharedPluginFeatures.Constants.UserSessionConfiguration);
 
-            _enabled = settings.EnableDefaultSessionService;
-        }
+			_enabled = settings.EnableDefaultSessionService;
+		}
 
-        public override string Action()
-        {
-            return String.Empty;
-        }
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        /// <summary>
-        /// Returns last 24 months of user sessions by month.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            ChartModel Result = new();
+		/// <summary>
+		/// Returns last 24 months of user sessions by month.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			ChartModel Result = new();
 
-            Result.ChartTitle = "Monthly Visitor Statistics";
+			Result.ChartTitle = "Monthly Visitor Statistics";
 
-            List<SessionMonthly> sessionData = _sessionStatisticsProvider.GetMonthlyData(false)
-                .OrderBy(o => o.Year)
-                .ThenBy(o => o.Month)
-                .Take(24)
-                .ToList();
+			List<SessionMonthly> sessionData = _sessionStatisticsProvider.GetMonthlyData(false)
+				.OrderBy(o => o.Year)
+				.ThenBy(o => o.Month)
+				.Take(24)
+				.ToList();
 
-            if (sessionData == null)
-                return String.Empty;
+			if (sessionData == null)
+				return String.Empty;
 
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.String, "Month"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Visits"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Mobile Visits"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bounced"));
+			Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.String, "Month"));
+			Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Visits"));
+			Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Mobile Visits"));
+			Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bounced"));
 
-            foreach (SessionMonthly month in sessionData)
-            {
-                List<Decimal> datavalues = new();
-                Result.DataValues[month.Month.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat)] = datavalues;
+			foreach (SessionMonthly month in sessionData)
+			{
+				List<Decimal> datavalues = new();
+				Result.DataValues[month.Month.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat)] = datavalues;
 
-                datavalues.Add(month.HumanVisits);
-                datavalues.Add(month.MobileVisits);
-                datavalues.Add(month.Bounced);
-            }
+				datavalues.Add(month.HumanVisits);
+				datavalues.Add(month.MobileVisits);
+				datavalues.Add(month.Bounced);
+			}
 
-            return JsonSerializer.Serialize(Result);
-        }
+			return JsonSerializer.Serialize(Result);
+		}
 
-        public override string Image()
-        {
-            return SharedPluginFeatures.Constants.SystemImageChart;
-        }
+		public override string Image()
+		{
+			return SharedPluginFeatures.Constants.SystemImageChart;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Chart;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Chart;
+		}
 
-        public override string Name()
-        {
-            return "Visits - Monthly";
-        }
+		public override string Name()
+		{
+			return "Visits - Monthly";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "User Sessions";
-        }
+		public override string ParentMenuName()
+		{
+			return "User Sessions";
+		}
 
-        public override int SortOrder()
-        {
-            return 480;
-        }
+		public override int SortOrder()
+		{
+			return 480;
+		}
 
-        public override Boolean Enabled()
-        {
-            return _enabled;
-        }
-    }
+		public override Boolean Enabled()
+		{
+			return _enabled;
+		}
+	}
 }
 
 #pragma warning restore CS1591

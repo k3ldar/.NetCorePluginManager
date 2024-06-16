@@ -46,7 +46,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 	/// This class descends from SystemAdminSubMenu.
 	/// </summary>
 	public sealed class BotVisitsYearlySubMenu : SystemAdminSubMenu
-    {
+	{
 		#region Private Members
 
 		private readonly ISessionStatisticsProvider _sessionStatisticsProvider;
@@ -59,92 +59,92 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 			_sessionStatisticsProvider = sessionStatisticsProvider ?? throw new ArgumentNullException(nameof(sessionStatisticsProvider));
 
 			if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(SharedPluginFeatures.Constants.UserSessionConfiguration);
+			UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(SharedPluginFeatures.Constants.UserSessionConfiguration);
 
-            _enabled = settings.EnableDefaultSessionService;
-        }
+			_enabled = settings.EnableDefaultSessionService;
+		}
 
-        public override string Action()
-        {
-            return String.Empty;
-        }
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        /// <summary>
-        /// Returns last 10 years of bot sessions by year.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            ChartModel Result = new();
+		/// <summary>
+		/// Returns last 10 years of bot sessions by year.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			ChartModel Result = new();
 
-            Result.ChartTitle = "Yearly Bot Visitor Statistics";
+			Result.ChartTitle = "Yearly Bot Visitor Statistics";
 
-            List<SessionYearly> sessionData = _sessionStatisticsProvider.GetYearlyData(false)
-                .OrderBy(o => o.Year)
-                .Take(10)
-                .ToList();
+			List<SessionYearly> sessionData = _sessionStatisticsProvider.GetYearlyData(false)
+				.OrderBy(o => o.Year)
+				.Take(10)
+				.ToList();
 
-            if (sessionData == null)
-                return String.Empty;
+			if (sessionData == null)
+				return String.Empty;
 
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.String, "Year"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bot Visits"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bounced"));
+			Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.String, "Year"));
+			Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bot Visits"));
+			Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bounced"));
 
-            foreach (SessionYearly year in sessionData)
-            {
-                List<Decimal> datavalues = new();
-                Result.DataValues[year.Year.ToString(Thread.CurrentThread.CurrentUICulture)] = datavalues;
+			foreach (SessionYearly year in sessionData)
+			{
+				List<Decimal> datavalues = new();
+				Result.DataValues[year.Year.ToString(Thread.CurrentThread.CurrentUICulture)] = datavalues;
 
-                datavalues.Add(year.BotVisits);
-                datavalues.Add(year.Bounced);
-            }
+				datavalues.Add(year.BotVisits);
+				datavalues.Add(year.Bounced);
+			}
 
-            return JsonSerializer.Serialize(Result);
-        }
+			return JsonSerializer.Serialize(Result);
+		}
 
-        public override string Image()
-        {
-            return SharedPluginFeatures.Constants.SystemImageChart;
-        }
+		public override string Image()
+		{
+			return SharedPluginFeatures.Constants.SystemImageChart;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Chart;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Chart;
+		}
 
-        public override string Name()
-        {
-            return "Bot Visits - Yearly";
-        }
+		public override string Name()
+		{
+			return "Bot Visits - Yearly";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "User Sessions";
-        }
+		public override string ParentMenuName()
+		{
+			return "User Sessions";
+		}
 
-        public override int SortOrder()
-        {
-            return 690;
-        }
+		public override int SortOrder()
+		{
+			return 690;
+		}
 
-        public override Boolean Enabled()
-        {
-            return _enabled;
-        }
-    }
+		public override Boolean Enabled()
+		{
+			return _enabled;
+		}
+	}
 }
 
 #pragma warning restore CS1591

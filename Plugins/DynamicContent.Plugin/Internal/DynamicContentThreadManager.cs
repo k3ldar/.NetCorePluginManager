@@ -41,134 +41,134 @@ using static SharedPluginFeatures.Constants;
 
 namespace DynamicContent.Plugin.Internal
 {
-    public sealed class DynamicContentThreadManager : ThreadManager, INotificationListener
-    {
-        #region Private Members
+	public sealed class DynamicContentThreadManager : ThreadManager, INotificationListener
+	{
+		#region Private Members
 
-        private readonly Timings _updateContentTimings = new();
-        private readonly IDynamicContentProvider _dynamicContentProvider;
-        private readonly object _lockObject = new();
+		private readonly Timings _updateContentTimings = new();
+		private readonly IDynamicContentProvider _dynamicContentProvider;
+		private readonly object _lockObject = new();
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public DynamicContentThreadManager(INotificationService notificationService, IDynamicContentProvider dynamicContentProvider)
-            : base(null, new TimeSpan(0, 0, 0, 0, 250))
-        {
+		public DynamicContentThreadManager(INotificationService notificationService, IDynamicContentProvider dynamicContentProvider)
+			: base(null, new TimeSpan(0, 0, 0, 0, 250))
+		{
 			if (notificationService == null)
 				throw new ArgumentNullException(nameof(notificationService));
 
-            _dynamicContentProvider = dynamicContentProvider ?? throw new ArgumentNullException(nameof(dynamicContentProvider));
+			_dynamicContentProvider = dynamicContentProvider ?? throw new ArgumentNullException(nameof(dynamicContentProvider));
 
-            UpdateRequired = true;
-            ContinueIfGlobalException = true;
-            notificationService.RegisterListener(this);
-        }
+			UpdateRequired = true;
+			ContinueIfGlobalException = true;
+			notificationService.RegisterListener(this);
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public bool UpdateRequired { get; private set; }
+		public bool UpdateRequired { get; private set; }
 
-        public DateTime NextUpdate { get; private set; }
+		public DateTime NextUpdate { get; private set; }
 
-        public Timings UpdateContentTimings
-        {
-            get
-            {
-                return _updateContentTimings.Clone();
-            }
-        }
+		public Timings UpdateContentTimings
+		{
+			get
+			{
+				return _updateContentTimings.Clone();
+			}
+		}
 
-        public int CacheCount
-        {
-            get
-            {
-                return PluginInitialisation.DynamicContentCache.Count;
-            }
-        }
+		public int CacheCount
+		{
+			get
+			{
+				return PluginInitialisation.DynamicContentCache.Count;
+			}
+		}
 
-        #endregion Properties
+		#endregion Properties
 
-        #region INotificationListener Methods
+		#region INotificationListener Methods
 
-        public bool EventRaised(in string eventId, in object param1, in object param2, ref object result)
-        {
-            if (eventId.Equals(NotificationEventDynamicContentUpdated))
-            {
-                UpdateRequired = true;
-                return true;
-            }
+		public bool EventRaised(in string eventId, in object param1, in object param2, ref object result)
+		{
+			if (eventId.Equals(NotificationEventDynamicContentUpdated))
+			{
+				UpdateRequired = true;
+				return true;
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        public void EventRaised(in string eventId, in object param1, in object param2)
-        {
-            if (eventId.Equals(NotificationEventDynamicContentUpdated))
-                UpdateRequired = true;
-        }
+		public void EventRaised(in string eventId, in object param1, in object param2)
+		{
+			if (eventId.Equals(NotificationEventDynamicContentUpdated))
+				UpdateRequired = true;
+		}
 
-        public List<string> GetEvents()
-        {
-            return new List<string>()
-            {
-                NotificationEventDynamicContentUpdated
-            };
-        }
+		public List<string> GetEvents()
+		{
+			return new List<string>()
+			{
+				NotificationEventDynamicContentUpdated
+			};
+		}
 
-        #endregion INotificationListener Methods
+		#endregion INotificationListener Methods
 
-        #region Overridden Methods
+		#region Overridden Methods
 
-        protected override bool Run(object parameters)
-        {
-            if (UpdateRequired || DateTime.Now > NextUpdate)
-            {
-                using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-                using (StopWatchTimer stopWatch = StopWatchTimer.Initialise(_updateContentTimings))
-                {
-                    UpdateDynamicContent();
-                }
-            }
+		protected override bool Run(object parameters)
+		{
+			if (UpdateRequired || DateTime.Now > NextUpdate)
+			{
+				using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+				using (StopWatchTimer stopWatch = StopWatchTimer.Initialise(_updateContentTimings))
+				{
+					UpdateDynamicContent();
+				}
+			}
 
-            return !HasCancelled();
-        }
+			return !HasCancelled();
+		}
 
-        #endregion Overridden Methods
+		#endregion Overridden Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private void UpdateDynamicContent()
-        {
-            DateTime nextUpdate = DateTime.MaxValue;
-            DateTime processTime = DateTime.Now;
-            PluginInitialisation.DynamicContentCache.Clear();
+		private void UpdateDynamicContent()
+		{
+			DateTime nextUpdate = DateTime.MaxValue;
+			DateTime processTime = DateTime.Now;
+			PluginInitialisation.DynamicContentCache.Clear();
 
-            foreach (IDynamicContentPage dynamicContentPage in _dynamicContentProvider.GetCustomPages())
-            {
-                if (dynamicContentPage.ActiveTo > processTime && dynamicContentPage.ActiveTo < nextUpdate)
-                    nextUpdate = dynamicContentPage.ActiveTo;
+			foreach (IDynamicContentPage dynamicContentPage in _dynamicContentProvider.GetCustomPages())
+			{
+				if (dynamicContentPage.ActiveTo > processTime && dynamicContentPage.ActiveTo < nextUpdate)
+					nextUpdate = dynamicContentPage.ActiveTo;
 
-                if (dynamicContentPage.ActiveFrom > processTime && dynamicContentPage.ActiveFrom < nextUpdate)
-                    nextUpdate = dynamicContentPage.ActiveFrom;
+				if (dynamicContentPage.ActiveFrom > processTime && dynamicContentPage.ActiveFrom < nextUpdate)
+					nextUpdate = dynamicContentPage.ActiveFrom;
 
-                if (dynamicContentPage.ActiveFrom <= processTime && dynamicContentPage.ActiveTo >= processTime)
-                {
-                    CacheItem cacheItem = new(dynamicContentPage.RouteName.ToLower(), dynamicContentPage);
-                    PluginInitialisation.DynamicContentCache.Add(dynamicContentPage.RouteName.ToLower(), cacheItem, true);
-                }
-            }
+				if (dynamicContentPage.ActiveFrom <= processTime && dynamicContentPage.ActiveTo >= processTime)
+				{
+					CacheItem cacheItem = new(dynamicContentPage.RouteName.ToLower(), dynamicContentPage);
+					PluginInitialisation.DynamicContentCache.Add(dynamicContentPage.RouteName.ToLower(), cacheItem, true);
+				}
+			}
 
 
-            UpdateRequired = false;
-            NextUpdate = nextUpdate;
-        }
+			UpdateRequired = false;
+			NextUpdate = nextUpdate;
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591

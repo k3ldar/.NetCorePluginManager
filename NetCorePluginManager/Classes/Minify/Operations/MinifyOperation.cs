@@ -30,36 +30,36 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Classes.Minify
 {
-    internal abstract class MinifyOperation
-    {
-        protected readonly Timings _timings = new();
+	internal abstract class MinifyOperation
+	{
+		protected readonly Timings _timings = new();
 
-        public abstract IMinifyResult Process(in MinificationFileType fileType, ref string data, in List<PreserveBlock> preserveBlocks);
+		public abstract IMinifyResult Process(in MinificationFileType fileType, ref string data, in List<PreserveBlock> preserveBlocks);
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for dev not public use.")]
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for dev not public use.")]
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Protected and used in other places")]
 		protected bool IsInPreBlock(in int currentPosition, in List<PreserveBlock> preserveBlocks, out MinificationPreserveBlock blockType)
-        {
-            blockType = MinificationPreserveBlock.Undefined;
+		{
+			blockType = MinificationPreserveBlock.Undefined;
 
-            if (currentPosition < 0)
-                throw new ArgumentOutOfRangeException(nameof(currentPosition), "Must be greater or equal to 0");
+			if (currentPosition < 0)
+				throw new ArgumentOutOfRangeException(nameof(currentPosition), "Must be greater or equal to 0");
 
-            if (preserveBlocks == null)
-                throw new ArgumentNullException(nameof(preserveBlocks));
+			if (preserveBlocks == null)
+				throw new ArgumentNullException(nameof(preserveBlocks));
 
 
-            for (int i = 0; i < preserveBlocks.Count; i++)
-            {
-                if (currentPosition >= preserveBlocks[i].BlockStart && currentPosition <= preserveBlocks[i].BlockEnd)
-                {
-                    blockType = preserveBlocks[i].BlockType;
-                    return true;
-                }
-            }
+			for (int i = 0; i < preserveBlocks.Count; i++)
+			{
+				if (currentPosition >= preserveBlocks[i].BlockStart && currentPosition <= preserveBlocks[i].BlockEnd)
+				{
+					blockType = preserveBlocks[i].BlockType;
+					return true;
+				}
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-    }
+	}
 }

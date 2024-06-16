@@ -33,62 +33,62 @@ using SharedPluginFeatures;
 
 namespace SearchPlugin.Classes.SystemAdmin
 {
-    public class SearchTimings : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	public class SearchTimings : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        public override string Data()
-        {
-            string Result = "Setting|Value";
+		public override string Data()
+		{
+			string Result = "Setting|Value";
 
-            Result += $"\rTotal Requests|{DefaultSearchProvider.SearchTimings.Requests}";
-            Result += $"\rFastest ms|{DefaultSearchProvider.SearchTimings.Fastest}";
-            Result += $"\rSlowest ms|{DefaultSearchProvider.SearchTimings.Slowest}";
-            Result += $"\rAverage ms|{DefaultSearchProvider.SearchTimings.Average}";
-            Result += $"\rTrimmed Avg ms|{DefaultSearchProvider.SearchTimings.TrimmedAverage}";
-            Result += $"\rTotal ms|{DefaultSearchProvider.SearchTimings.Total}";
+			Result += $"\rTotal Requests|{DefaultSearchProvider.SearchTimings.Requests}";
+			Result += $"\rFastest ms|{DefaultSearchProvider.SearchTimings.Fastest}";
+			Result += $"\rSlowest ms|{DefaultSearchProvider.SearchTimings.Slowest}";
+			Result += $"\rAverage ms|{DefaultSearchProvider.SearchTimings.Average}";
+			Result += $"\rTrimmed Avg ms|{DefaultSearchProvider.SearchTimings.TrimmedAverage}";
+			Result += $"\rTotal ms|{DefaultSearchProvider.SearchTimings.Total}";
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public override string Image()
-        {
-            return Constants.SystemImageStopWatch;
-        }
+		public override string Image()
+		{
+			return Constants.SystemImageStopWatch;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override string Name()
-        {
-            return nameof(Languages.LanguageStrings.Search);
-        }
+		public override string Name()
+		{
+			return nameof(Languages.LanguageStrings.Search);
+		}
 
-        public override string ParentMenuName()
-        {
-            return nameof(Languages.LanguageStrings.Timings);
-        }
+		public override string ParentMenuName()
+		{
+			return nameof(Languages.LanguageStrings.Timings);
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
-    }
+		public override int SortOrder()
+		{
+			return 0;
+		}
+	}
 }
 
 #pragma warning restore CS1591

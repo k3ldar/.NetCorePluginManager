@@ -33,56 +33,56 @@ using SharedPluginFeatures;
 
 namespace ProductPlugin.Models
 {
-    /// <summary>
-    /// List of products for a page view
-    /// </summary>
-    public class ProductPageListModel : BaseModel
-    {
-        #region Constructors
+	/// <summary>
+	/// List of products for a page view
+	/// </summary>
+	public class ProductPageListModel : BaseModel
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public ProductPageListModel(in BaseModelData modelData, List<Product> products, string pagination, int pageNumber)
-            : base (modelData)
-        {
-            if (products == null)
-                throw new ArgumentNullException(nameof(products));
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		public ProductPageListModel(in BaseModelData modelData, List<Product> products, string pagination, int pageNumber)
+			: base(modelData)
+		{
+			if (products == null)
+				throw new ArgumentNullException(nameof(products));
 
-            if (String.IsNullOrEmpty(pagination))
-                throw new ArgumentNullException(nameof(pagination));
+			if (String.IsNullOrEmpty(pagination))
+				throw new ArgumentNullException(nameof(pagination));
 
-            if (pageNumber < 1)
-                throw new ArgumentOutOfRangeException(nameof(pageNumber));
+			if (pageNumber < 1)
+				throw new ArgumentOutOfRangeException(nameof(pageNumber));
 
-            List<ProductListModel> items = new();
+			List<ProductListModel> items = new();
 
-            products.ForEach(p => items.Add(new ProductListModel(p.Id, p.Sku, p.Name)));
+			products.ForEach(p => items.Add(new ProductListModel(p.Id, p.Sku, p.Name)));
 
-            Items = items;
-            Pagination = pagination;
-            PageNumber = pageNumber;
-        }
+			Items = items;
+			Pagination = pagination;
+			PageNumber = pageNumber;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// List of items
-        /// </summary>
-        public IReadOnlyList<ProductListModel> Items { get; }
+		/// <summary>
+		/// List of items
+		/// </summary>
+		public IReadOnlyList<ProductListModel> Items { get; }
 
-        /// <summary>
-        /// Pagination for page views
-        /// </summary>
-        public string Pagination { get; }
+		/// <summary>
+		/// Pagination for page views
+		/// </summary>
+		public string Pagination { get; }
 
-        /// <summary>
-        /// Current page number
-        /// </summary>
-        public int PageNumber { get; }
+		/// <summary>
+		/// Current page number
+		/// </summary>
+		public int PageNumber { get; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

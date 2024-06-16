@@ -31,31 +31,31 @@ using System;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Attribute which provides the name of the configuration setting to be used when
-    /// routing requests to a controller through to a subdomain of the main site
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public sealed class SubdomainAttribute : Attribute
-    {
-        /// <summary>
-        /// Initialises a new subdomain and applies the configuration name for the controller
-        /// </summary>
-        /// <param name="configurationName">Name of the configuration for the subdomain.</param>
-        /// <exception cref="ArgumentNullException">Thrown if configurationName is null or empty</exception>
-        public SubdomainAttribute(string configurationName)
-        {
-            if (String.IsNullOrEmpty(configurationName))
-                throw new ArgumentNullException(nameof(configurationName));
+	/// <summary>
+	/// Attribute which provides the name of the configuration setting to be used when
+	/// routing requests to a controller through to a subdomain of the main site
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+	public sealed class SubdomainAttribute : Attribute
+	{
+		/// <summary>
+		/// Initialises a new subdomain and applies the configuration name for the controller
+		/// </summary>
+		/// <param name="configurationName">Name of the configuration for the subdomain.</param>
+		/// <exception cref="ArgumentNullException">Thrown if configurationName is null or empty</exception>
+		public SubdomainAttribute(string configurationName)
+		{
+			if (String.IsNullOrEmpty(configurationName))
+				throw new ArgumentNullException(nameof(configurationName));
 
-            ConfigurationName = configurationName;
-        }
+			ConfigurationName = configurationName;
+		}
 
-        /// <summary>
-        /// Name of the configuration entry which is used to manage the subdomain 
-        /// </summary>
-        public string ConfigurationName { get; private set; }
-    }
+		/// <summary>
+		/// Name of the configuration entry which is used to manage the subdomain 
+		/// </summary>
+		public string ConfigurationName { get; private set; }
+	}
 }
 
 #if NET_CORE_3_1

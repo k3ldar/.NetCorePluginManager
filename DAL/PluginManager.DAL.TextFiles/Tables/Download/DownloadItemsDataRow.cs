@@ -27,145 +27,145 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.DomainDownloads, Constants.TableNameDownloadItems, WriteStrategy.Lazy)]
-    internal class DownloadItemsDataRow : TableRowDefinition
-    {
-        private string _name;
-        private string _description;
-        private string _version;
-        private string _filename;
-        private string _icon;
-        private string _size;
-        private int _downloadCount;
-        private long _categoryId;
-        private long _userId;
+	[Table(Constants.DomainDownloads, Constants.TableNameDownloadItems, WriteStrategy.Lazy)]
+	internal class DownloadItemsDataRow : TableRowDefinition
+	{
+		private string _name;
+		private string _description;
+		private string _version;
+		private string _filename;
+		private string _icon;
+		private string _size;
+		private int _downloadCount;
+		private long _categoryId;
+		private long _userId;
 
-        [ForeignKey(Constants.TableNameDownloadCategories)]
-        public long CategoryId
-        {
-            get => _categoryId;
+		[ForeignKey(Constants.TableNameDownloadCategories)]
+		public long CategoryId
+		{
+			get => _categoryId;
 
-            set
-            {
-                if (_categoryId == value)
-                    return;
+			set
+			{
+				if (_categoryId == value)
+					return;
 
-                _categoryId = value;
-                Update();
-            }
-        }
+				_categoryId = value;
+				Update();
+			}
+		}
 
-        [ForeignKey(Constants.TableNameUsers, ForeignKeyAttributes.DefaultValue)]
-        public long UserId
-        {
-            get => _userId;
+		[ForeignKey(Constants.TableNameUsers, ForeignKeyAttributes.DefaultValue)]
+		public long UserId
+		{
+			get => _userId;
 
-            set
-            {
-                if (_userId == value)
-                    return;
+			set
+			{
+				if (_userId == value)
+					return;
 
-                _userId = value;
-                Update();
-            }
-        }
+				_userId = value;
+				Update();
+			}
+		}
 
-        public string Name
-        {
-            get => _name;
+		public string Name
+		{
+			get => _name;
 
-            set
-            {
-                if (value == _name)
-                    return;
+			set
+			{
+				if (value == _name)
+					return;
 
-                _name = value;
-                Update();
-            }
-        }
+				_name = value;
+				Update();
+			}
+		}
 
-        public string Description
-        {
-            get => _description;
+		public string Description
+		{
+			get => _description;
 
-            set
-            {
-                if (value == _description)
-                    return;
+			set
+			{
+				if (value == _description)
+					return;
 
-                _description = value;
-                Update();
-            }
-        }
+				_description = value;
+				Update();
+			}
+		}
 
-        public string Version
-        {
-            get => _version;
+		public string Version
+		{
+			get => _version;
 
-            set
-            {
-                if (value == _version)
-                    return;
+			set
+			{
+				if (value == _version)
+					return;
 
-                _version = value;
-                Update();
-            }
-        }
+				_version = value;
+				Update();
+			}
+		}
 
-        public string Filename
-        {
-            get => _filename;
+		public string Filename
+		{
+			get => _filename;
 
-            set
-            {
-                if (value == _filename)
-                    return;
+			set
+			{
+				if (value == _filename)
+					return;
 
-                _filename = value;
-                Update();
-            }
-        }
+				_filename = value;
+				Update();
+			}
+		}
 
-        public string Icon
-        {
-            get => _icon;
+		public string Icon
+		{
+			get => _icon;
 
-            set
-            {
-                if (value == _icon)
-                    return;
+			set
+			{
+				if (value == _icon)
+					return;
 
-                _icon = value;
-                Update();
-            }
-        }
+				_icon = value;
+				Update();
+			}
+		}
 
-        public string Size
-        {
-            get => _size;
+		public string Size
+		{
+			get => _size;
 
-            set
-            {
-                if (value == _size)
-                    return;
+			set
+			{
+				if (value == _size)
+					return;
 
-                _size = value;
-                Update();
-            }
-        }
+				_size = value;
+				Update();
+			}
+		}
 
-        public int DownloadCount
-        {
-            get => _downloadCount;
+		public int DownloadCount
+		{
+			get => _downloadCount;
 
-            set
-            {
-                if (value == _downloadCount)
-                    return;
+			set
+			{
+				if (value == _downloadCount)
+					return;
 
-                _downloadCount = value;
-                Update();
-            }
-        }
-    }
+				_downloadCount = value;
+				Update();
+			}
+		}
+	}
 }

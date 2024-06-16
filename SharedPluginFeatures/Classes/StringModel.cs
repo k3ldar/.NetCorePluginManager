@@ -27,32 +27,32 @@ using System;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Simple model for passing a single string to a view
-    /// </summary>
-    public sealed class StringModel
-    {
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public StringModel()
-        {
+	/// <summary>
+	/// Simple model for passing a single string to a view
+	/// </summary>
+	public sealed class StringModel
+	{
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public StringModel()
+		{
 
-        }
+		}
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="value">Value of the string to be passed to a view.</param>
-        public StringModel(in string value)
-        {
-            Value = value ?? throw new ArgumentNullException(nameof(value));
-        }
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="value">Value of the string to be passed to a view.</param>
+		public StringModel(in string value)
+		{
+			Value = value ?? throw new ArgumentNullException(nameof(value));
+		}
 
-        /// <summary>
-        /// Value to be passed to a view.
-        /// </summary>
-        /// <value>string</value>
-        public string Value { get; set; }
-    }
+		/// <summary>
+		/// Value to be passed to a view.
+		/// </summary>
+		/// <value>string</value>
+		public string Value { get; set; }
+	}
 }

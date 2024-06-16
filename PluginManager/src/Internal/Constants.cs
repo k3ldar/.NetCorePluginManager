@@ -28,21 +28,21 @@
 
 namespace PluginManager.Internal
 {
-    internal static class Constants
-    {
-        /// <summary>
-        /// Exception message used when registering a INotificationListener with the INotificationService message notifications, when the listener does not provide any event names.
-        /// </summary>
-        public const string InvalidListener = "Listener must provide at least one event";
+	internal static class Constants
+	{
+		/// <summary>
+		/// Exception message used when registering a INotificationListener with the INotificationService message notifications, when the listener does not provide any event names.
+		/// </summary>
+		public const string InvalidListener = "Listener must provide at least one event";
 
-        /// <summary>
-        /// Exception message used when registering a INotificationListener with the INotificationService message notifications, when the event name has not been recognised.
-        /// </summary>
-        public const string InvalidEventName = "Invalid event name in listener";
+		/// <summary>
+		/// Exception message used when registering a INotificationListener with the INotificationService message notifications, when the event name has not been recognised.
+		/// </summary>
+		public const string InvalidEventName = "Invalid event name in listener";
 
-        /// <summary>
-        /// Name of thread used for INotificationService message notifications
-        /// </summary>
-        public const string ThreadNotificationService = "Notification Service";
-    }
+		/// <summary>
+		/// Name of thread used for INotificationService message notifications
+		/// </summary>
+		public const string ThreadNotificationService = "Notification Service";
+	}
 }

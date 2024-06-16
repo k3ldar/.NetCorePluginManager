@@ -44,205 +44,205 @@ using static Shared.Utilities;
 
 namespace HelpdeskPlugin.Controllers
 {
-    public partial class HelpdeskController
-    {
-        #region Public Action Methods
+	public partial class HelpdeskController
+	{
+		#region Public Action Methods
 
-        [HttpGet]
-        [Breadcrumb(nameof(SubmitTicket), HelpdeskController.Name, nameof(Index))]
-        [DenySpider]
-        public IActionResult SubmitTicket()
-        {
-            if (!_settings.ShowTickets)
-                return RedirectToAction(nameof(Index), Name);
+		[HttpGet]
+		[Breadcrumb(nameof(SubmitTicket), HelpdeskController.Name, nameof(Index))]
+		[DenySpider]
+		public IActionResult SubmitTicket()
+		{
+			if (!_settings.ShowTickets)
+				return RedirectToAction(nameof(Index), Name);
 
-            return View(GetSubmitTicketViewModel(String.Empty, String.Empty, String.Empty, String.Empty));
-        }
+			return View(GetSubmitTicketViewModel(String.Empty, String.Empty, String.Empty, String.Empty));
+		}
 
-        [HttpPost]
-        [BadEgg]
-        public IActionResult SubmitTicket(SubmitTicketViewModel model)
-        {
-            if (!_settings.ShowTickets)
-                return RedirectToAction(nameof(Index), Name);
+		[HttpPost]
+		[BadEgg]
+		public IActionResult SubmitTicket(SubmitTicketViewModel model)
+		{
+			if (!_settings.ShowTickets)
+				return RedirectToAction(nameof(Index), Name);
 
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
 
-            if (String.IsNullOrEmpty(model.CaptchaText))
-                ModelState.AddModelError(nameof(model.CaptchaText), Languages.LanguageStrings.CodeNotValid);
+			if (String.IsNullOrEmpty(model.CaptchaText))
+				ModelState.AddModelError(nameof(model.CaptchaText), Languages.LanguageStrings.CodeNotValid);
 
-            if (_settings.ShowCaptchaText)
-            {
-                HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);
+			if (_settings.ShowCaptchaText)
+			{
+				HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);
 
-                if (!model.CaptchaText.Equals(helpdeskCache.CaptchaText, StringComparison.CurrentCultureIgnoreCase))
-                    ModelState.AddModelError(nameof(model.CaptchaText), Languages.LanguageStrings.CodeNotValid);
-            }
+				if (!model.CaptchaText.Equals(helpdeskCache.CaptchaText, StringComparison.CurrentCultureIgnoreCase))
+					ModelState.AddModelError(nameof(model.CaptchaText), Languages.LanguageStrings.CodeNotValid);
+			}
 
-            if (ModelState.IsValid)
-            {
-                if (_helpdeskProvider.SubmitTicket(UserId(), model.Department, model.Priority,
-                    model.Username, model.Email, model.Subject, model.Message, out HelpdeskTicket ticket))
-                {
-                    return RedirectToAction(nameof(ViewTicket), Name, new { ticket.Id });
-                }
+			if (ModelState.IsValid)
+			{
+				if (_helpdeskProvider.SubmitTicket(UserId(), model.Department, model.Priority,
+					model.Username, model.Email, model.Subject, model.Message, out HelpdeskTicket ticket))
+				{
+					return RedirectToAction(nameof(ViewTicket), Name, new { ticket.Id });
+				}
 
-                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.OopsError);
-            }
+				ModelState.AddModelError(String.Empty, Languages.LanguageStrings.OopsError);
+			}
 
-            return View(GetSubmitTicketViewModel(model.Subject, model.Message, model.Username, model.Email));
-        }
+			return View(GetSubmitTicketViewModel(model.Subject, model.Message, model.Username, model.Email));
+		}
 
-        [HttpGet]
-        [Breadcrumb(nameof(ViewTicket), HelpdeskController.Name, nameof(Index))]
-        [DenySpider]
-        public IActionResult ViewTicket(int id)
-        {
-            HelpdeskTicket ticket = _helpdeskProvider.GetTicket(id);
+		[HttpGet]
+		[Breadcrumb(nameof(ViewTicket), HelpdeskController.Name, nameof(Index))]
+		[DenySpider]
+		public IActionResult ViewTicket(int id)
+		{
+			HelpdeskTicket ticket = _helpdeskProvider.GetTicket(id);
 
-            if (ticket == null)
-            {
-                GrowlAdd(Languages.LanguageStrings.TicketNotFound);
-                return RedirectToAction(nameof(FindTicket), Name);
-            }
+			if (ticket == null)
+			{
+				GrowlAdd(Languages.LanguageStrings.TicketNotFound);
+				return RedirectToAction(nameof(FindTicket), Name);
+			}
 
-            return View(GetTicketViewModel(ticket));
-        }
+			return View(GetTicketViewModel(ticket));
+		}
 
-        [HttpPost]
-        [BadEgg]
-        public IActionResult ViewTicket(string email, string ticketKey)
-        {
-            if (!_settings.ShowTickets)
-                return RedirectToAction(nameof(Index), Name);
+		[HttpPost]
+		[BadEgg]
+		public IActionResult ViewTicket(string email, string ticketKey)
+		{
+			if (!_settings.ShowTickets)
+				return RedirectToAction(nameof(Index), Name);
 
-            HelpdeskTicket ticket = _helpdeskProvider.GetTicket(email, ticketKey);
+			HelpdeskTicket ticket = _helpdeskProvider.GetTicket(email, ticketKey);
 
-            if (ticket == null)
-            {
-                GrowlAdd(Languages.LanguageStrings.TicketNotFound);
-                return RedirectToAction(nameof(FindTicket), Name);
-            }
+			if (ticket == null)
+			{
+				GrowlAdd(Languages.LanguageStrings.TicketNotFound);
+				return RedirectToAction(nameof(FindTicket), Name);
+			}
 
-            return View(GetTicketViewModel(ticket));
-        }
+			return View(GetTicketViewModel(ticket));
+		}
 
-        [HttpPost]
-        [DenySpider]
-        public IActionResult TicketRespond(TicketResponseViewModel model)
-        {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+		[HttpPost]
+		[DenySpider]
+		public IActionResult TicketRespond(TicketResponseViewModel model)
+		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
 
-            if (!_settings.ShowTickets)
-                return RedirectToAction(nameof(Index), Name);
+			if (!_settings.ShowTickets)
+				return RedirectToAction(nameof(Index), Name);
 
-            HelpdeskTicket ticket = _helpdeskProvider.GetTicket(model.Id);
+			HelpdeskTicket ticket = _helpdeskProvider.GetTicket(model.Id);
 
-            if (ticket == null)
-                return RedirectToAction(nameof(FindTicket), Name);
+			if (ticket == null)
+				return RedirectToAction(nameof(FindTicket), Name);
 
-            _helpdeskProvider.TicketRespond(ticket, model.Name, model.Message);
+			_helpdeskProvider.TicketRespond(ticket, model.Name, model.Message);
 
-            return RedirectToAction(nameof(ViewTicket), Name, new { id = model.Id });
-        }
+			return RedirectToAction(nameof(ViewTicket), Name, new { id = model.Id });
+		}
 
-        [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.FindATicket), Name, nameof(Index))]
-        [DenySpider]
-        public IActionResult FindTicket()
-        {
-            if (!_settings.ShowTickets)
-                return RedirectToAction(nameof(Index), Name);
+		[HttpGet]
+		[Breadcrumb(nameof(Languages.LanguageStrings.FindATicket), Name, nameof(Index))]
+		[DenySpider]
+		public IActionResult FindTicket()
+		{
+			if (!_settings.ShowTickets)
+				return RedirectToAction(nameof(Index), Name);
 
-            return View(GetFindTicketViewModel());
-        }
+			return View(GetFindTicketViewModel());
+		}
 
-        [HttpPost]
-        [BadEgg]
-        public IActionResult FindTicket(FindTicketViewModel model)
-        {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+		[HttpPost]
+		[BadEgg]
+		public IActionResult FindTicket(FindTicketViewModel model)
+		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
 
-            if (!_settings.ShowTickets)
-                return RedirectToAction(nameof(Index), Name);
+			if (!_settings.ShowTickets)
+				return RedirectToAction(nameof(Index), Name);
 
-            if (!Shared.Utilities.IsValidEmail(model.Email))
-                ModelState.AddModelError(nameof(model.Email), Languages.LanguageStrings.InvalidEmailAddress);
+			if (!Shared.Utilities.IsValidEmail(model.Email))
+				ModelState.AddModelError(nameof(model.Email), Languages.LanguageStrings.InvalidEmailAddress);
 
-            HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);
+			HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);
 
-            if (_settings.ShowCaptchaText && helpdeskCache.Requests > 1 &&
+			if (_settings.ShowCaptchaText && helpdeskCache.Requests > 1 &&
 				!model.CaptchaText.Equals(helpdeskCache.CaptchaText, StringComparison.CurrentCultureIgnoreCase))
 			{
-                ModelState.AddModelError(nameof(model.CaptchaText), Languages.LanguageStrings.CodeNotValid);
-            }
+				ModelState.AddModelError(nameof(model.CaptchaText), Languages.LanguageStrings.CodeNotValid);
+			}
 
-            if (ModelState.IsValid)
-            {
-                HelpdeskTicket ticket = _helpdeskProvider.GetTicket(model.Email, model.Key);
+			if (ModelState.IsValid)
+			{
+				HelpdeskTicket ticket = _helpdeskProvider.GetTicket(model.Email, model.Key);
 
-                if (ticket != null)
-                    return RedirectToAction(nameof(ViewTicket), Name, new { ticket.Id });
+				if (ticket != null)
+					return RedirectToAction(nameof(ViewTicket), Name, new { ticket.Id });
 
-                GrowlAdd(Languages.LanguageStrings.TicketNotFound);
-            }
+				GrowlAdd(Languages.LanguageStrings.TicketNotFound);
+			}
 
-            return View(GetFindTicketViewModel());
-        }
+			return View(GetFindTicketViewModel());
+		}
 
-        #endregion Public Action Methods
+		#endregion Public Action Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private ViewTicketViewModel GetTicketViewModel(HelpdeskTicket ticket)
-        {
-            List<ViewTicketResponseViewModel> messages = new();
+		private ViewTicketViewModel GetTicketViewModel(HelpdeskTicket ticket)
+		{
+			List<ViewTicketResponseViewModel> messages = new();
 
-            foreach (HelpdeskTicketMessage item in ticket.Messages)
-                messages.Add(new ViewTicketResponseViewModel(item.DateCreated, item.UserName, FormatTextForDisplay(item.Message)));
+			foreach (HelpdeskTicketMessage item in ticket.Messages)
+				messages.Add(new ViewTicketResponseViewModel(item.DateCreated, item.UserName, FormatTextForDisplay(item.Message)));
 
-            return new ViewTicketViewModel(GetModelData(),
-                ticket.Id, ticket.Priority.Description,
-                ticket.Department.Description, ticket.Status.Description,
-                ticket.Key, ticket.Subject, ticket.DateCreated, ticket.DateLastUpdated,
-                ticket.CreatedBy, ticket.LastReplier, messages);
-        }
+			return new ViewTicketViewModel(GetModelData(),
+				ticket.Id, ticket.Priority.Description,
+				ticket.Department.Description, ticket.Status.Description,
+				ticket.Key, ticket.Subject, ticket.DateCreated, ticket.DateLastUpdated,
+				ticket.CreatedBy, ticket.LastReplier, messages);
+		}
 
-        private FindTicketViewModel GetFindTicketViewModel()
-        {
-            HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);
-            helpdeskCache.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
-            helpdeskCache.Requests++;
+		private FindTicketViewModel GetFindTicketViewModel()
+		{
+			HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);
+			helpdeskCache.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
+			helpdeskCache.Requests++;
 
-            return new FindTicketViewModel(GetModelData(),
-                _settings.ShowCaptchaText && helpdeskCache.Requests > 1);
-        }
+			return new FindTicketViewModel(GetModelData(),
+				_settings.ShowCaptchaText && helpdeskCache.Requests > 1);
+		}
 
-        private SubmitTicketViewModel GetSubmitTicketViewModel(in string subject, in string message,
-            in string userName, in string email)
-        {
-            HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);
-            helpdeskCache.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
+		private SubmitTicketViewModel GetSubmitTicketViewModel(in string subject, in string message,
+			in string userName, in string email)
+		{
+			HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);
+			helpdeskCache.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
 
-            UserSession userSession = GetUserSession();
+			UserSession userSession = GetUserSession();
 
-            SubmitTicketViewModel Result = new(GetModelData(),
-                _helpdeskProvider.GetTicketDepartments(),
-                _helpdeskProvider.GetTicketPriorities(),
-                String.IsNullOrEmpty(userName) ? userSession.UserName : userName,
-                String.IsNullOrEmpty(email) ? userSession.UserEmail : email,
-                subject,
-                message,
-                !String.IsNullOrEmpty(userSession.UserName));
+			SubmitTicketViewModel Result = new(GetModelData(),
+				_helpdeskProvider.GetTicketDepartments(),
+				_helpdeskProvider.GetTicketPriorities(),
+				String.IsNullOrEmpty(userName) ? userSession.UserName : userName,
+				String.IsNullOrEmpty(email) ? userSession.UserEmail : email,
+				subject,
+				message,
+				!String.IsNullOrEmpty(userSession.UserName));
 
-            return Result;
-        }
+			return Result;
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591

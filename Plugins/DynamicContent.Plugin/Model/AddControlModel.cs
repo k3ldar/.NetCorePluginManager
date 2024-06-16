@@ -28,14 +28,14 @@
 
 namespace DynamicContent.Plugin.Model
 {
-    public sealed class AddControlModel
-    {
-        public string CacheId { get; set; }
+	public sealed class AddControlModel
+	{
+		public string CacheId { get; set; }
 
-        public string TemplateId { get; set; }
+		public string TemplateId { get; set; }
 
-        public string NextControl { get; set; }
-    }
+		public string NextControl { get; set; }
+	}
 }
 
 #pragma warning restore CS1591

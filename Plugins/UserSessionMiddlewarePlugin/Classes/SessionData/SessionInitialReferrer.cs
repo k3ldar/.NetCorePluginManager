@@ -28,56 +28,56 @@ using System;
 
 namespace UserSessionMiddleware.Plugin.Classes.SessionData
 {
-    /// <summary>
-    /// Initial referrer details
-    /// </summary>
-    public sealed class SessionInitialReferrer
-    {
-        #region Constructors
+	/// <summary>
+	/// Initial referrer details
+	/// </summary>
+	public sealed class SessionInitialReferrer
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public SessionInitialReferrer()
-        {
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public SessionInitialReferrer()
+		{
 
-        }
+		}
 
-        internal SessionInitialReferrer(in string hash, in string referrerUrl)
-        {
-            if (string.IsNullOrEmpty(hash))
-                throw new ArgumentNullException(nameof(hash));
+		internal SessionInitialReferrer(in string hash, in string referrerUrl)
+		{
+			if (string.IsNullOrEmpty(hash))
+				throw new ArgumentNullException(nameof(hash));
 
-            if (string.IsNullOrEmpty(referrerUrl))
-                throw new ArgumentNullException(nameof(referrerUrl));
+			if (string.IsNullOrEmpty(referrerUrl))
+				throw new ArgumentNullException(nameof(referrerUrl));
 
-            Hash = hash;
-            ReferrerUrl = referrerUrl;
-            Usage = 0;
-        }
+			Hash = hash;
+			ReferrerUrl = referrerUrl;
+			Usage = 0;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Hash of Url
-        /// </summary>
-        /// <value>string</value>
-        public string Hash { get; set; }
+		/// <summary>
+		/// Hash of Url
+		/// </summary>
+		/// <value>string</value>
+		public string Hash { get; set; }
 
-        /// <summary>
-        /// Url being monitored
-        /// </summary>
-        /// <value>string</value>
-        public string ReferrerUrl { get; set; }
+		/// <summary>
+		/// Url being monitored
+		/// </summary>
+		/// <value>string</value>
+		public string ReferrerUrl { get; set; }
 
-        /// <summary>
-        /// Number of times the Url has been used to refer to the page
-        /// </summary>
-        /// <value>uint</value>
-        public uint Usage { get; set; }
+		/// <summary>
+		/// Number of times the Url has been used to refer to the page
+		/// </summary>
+		/// <value>uint</value>
+		public uint Usage { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

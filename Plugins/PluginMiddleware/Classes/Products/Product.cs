@@ -27,11 +27,11 @@ using System;
 
 namespace Middleware.Products
 {
-    /// <summary>
-    /// Display options for a product within a website.
-    /// </summary>
-    public sealed class Product
-    {
+	/// <summary>
+	/// Display options for a product within a website.
+	/// </summary>
+	public sealed class Product
+	{
 		#region Constructors
 
 		/// <summary>
@@ -50,12 +50,12 @@ namespace Middleware.Products
 		/// <param name="allowBackorder">Indicates the product is allowed to be back ordered, if there is no stock available at the time of purchase.</param>
 		/// <param name="isVisible">Indicates whether the product is visible or not</param>
 		public Product(in int id, in int productGroupId, in string name, in string description, in string features,
-            in string videoLink, in string[] images, in decimal retailPrice, in string sku, in bool isDownload,
-            in bool allowBackorder, in bool isVisible)
-            : this(id, productGroupId, name, description, features, videoLink, images, retailPrice, sku, isDownload, allowBackorder, false, false, isVisible)
-        {
+			in string videoLink, in string[] images, in decimal retailPrice, in string sku, in bool isDownload,
+			in bool allowBackorder, in bool isVisible)
+			: this(id, productGroupId, name, description, features, videoLink, images, retailPrice, sku, isDownload, allowBackorder, false, false, isVisible)
+		{
 
-        }
+		}
 
 		/// <summary>
 		/// Constructor
@@ -75,138 +75,138 @@ namespace Middleware.Products
 		/// <param name="isBestSeller">Indicates the product is a best selling product.</param>
 		/// <param name="isVisible">Indicates whether the product is visible or not</param>
 		public Product(in int id, in int productGroupId, in string name, in string description, in string features,
-            in string videoLink, in string[] images, in decimal retailPrice, in string sku, in bool isDownload,
-            in bool allowBackorder, in bool isNew, in bool isBestSeller, in bool isVisible)
-        {
-            if (String.IsNullOrEmpty(name))
-                throw new ArgumentNullException(nameof(name));
+			in string videoLink, in string[] images, in decimal retailPrice, in string sku, in bool isDownload,
+			in bool allowBackorder, in bool isNew, in bool isBestSeller, in bool isVisible)
+		{
+			if (String.IsNullOrEmpty(name))
+				throw new ArgumentNullException(nameof(name));
 
-            if (String.IsNullOrEmpty(description))
-                throw new ArgumentNullException(nameof(description));
+			if (String.IsNullOrEmpty(description))
+				throw new ArgumentNullException(nameof(description));
 
-            Id = id;
-            ProductGroupId = productGroupId;
-            Name = name;
-            Description = description;
-            Features = features;
-            VideoLink = videoLink;
-            Images = images;
-            RetailPrice = retailPrice;
-            Sku = sku;
-            IsDownload = isDownload;
-            AllowBackorder = allowBackorder;
-            NewProduct = isNew;
-            BestSeller = isBestSeller;
+			Id = id;
+			ProductGroupId = productGroupId;
+			Name = name;
+			Description = description;
+			Features = features;
+			VideoLink = videoLink;
+			Images = images;
+			RetailPrice = retailPrice;
+			Sku = sku;
+			IsDownload = isDownload;
+			AllowBackorder = allowBackorder;
+			NewProduct = isNew;
+			BestSeller = isBestSeller;
 			IsVisible = isVisible;
-        }
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Methods
+		#region Public Methods
 
-        /// <summary>
-        /// Sets the current stock availability for the product.
-        /// </summary>
-        /// <param name="currentStock"></param>
-        public void SetCurrentStockLevel(uint currentStock)
-        {
-            StockAvailability = currentStock;
-        }
+		/// <summary>
+		/// Sets the current stock availability for the product.
+		/// </summary>
+		/// <param name="currentStock"></param>
+		public void SetCurrentStockLevel(uint currentStock)
+		{
+			StockAvailability = currentStock;
+		}
 
-        #endregion Public Methods
+		#endregion Public Methods
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Unique product id.
-        /// </summary>
-        /// <value>int</value>
-        public int Id { get; }
+		/// <summary>
+		/// Unique product id.
+		/// </summary>
+		/// <value>int</value>
+		public int Id { get; }
 
-        /// <summary>
-        /// Primary ProductGroup the product belongs to.
-        /// </summary>
-        /// <value>int</value>
-        public int ProductGroupId { get; }
+		/// <summary>
+		/// Primary ProductGroup the product belongs to.
+		/// </summary>
+		/// <value>int</value>
+		public int ProductGroupId { get; }
 
-        /// <summary>
-        /// Name of the product.
-        /// </summary>
-        /// <value>string</value>
-        public string Name { get; }
+		/// <summary>
+		/// Name of the product.
+		/// </summary>
+		/// <value>string</value>
+		public string Name { get; }
 
-        /// <summary>
-        /// Description of the product.
-        /// </summary>
-        /// <value>string</value>
-        public string Description { get; }
+		/// <summary>
+		/// Description of the product.
+		/// </summary>
+		/// <value>string</value>
+		public string Description { get; }
 
-        /// <summary>
-        /// Product feature list.  This will be converted to a bullet list when displayed on a website.
-        /// </summary>
-        /// <value>string</value>
-        public string Features { get; }
+		/// <summary>
+		/// Product feature list.  This will be converted to a bullet list when displayed on a website.
+		/// </summary>
+		/// <value>string</value>
+		public string Features { get; }
 
-        /// <summary>
-        /// The url for a video linkt to the product if one exists.
-        /// </summary>
-        /// <value>string</value>
-        public string VideoLink { get; }
+		/// <summary>
+		/// The url for a video linkt to the product if one exists.
+		/// </summary>
+		/// <value>string</value>
+		public string VideoLink { get; }
 
-        /// <summary>
-        /// List of images which represent the product.
-        /// </summary>
-        /// <value>string[]</value>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
-        public string[] Images { get; }
+		/// <summary>
+		/// List of images which represent the product.
+		/// </summary>
+		/// <value>string[]</value>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
+		public string[] Images { get; }
 
-        /// <summary>
-        /// Indicates the product is a new product.
-        /// </summary>
-        /// <value>bool.  if true the product may have different display options on the website.</value>
-        public bool NewProduct { get; }
+		/// <summary>
+		/// Indicates the product is a new product.
+		/// </summary>
+		/// <value>bool.  if true the product may have different display options on the website.</value>
+		public bool NewProduct { get; }
 
-        /// <summary>
-        /// Indicates the product is a best selling product.
-        /// </summary>
-        /// <value>bool.  If true the product may have different display options on the website.</value>
-        public bool BestSeller { get; }
+		/// <summary>
+		/// Indicates the product is a best selling product.
+		/// </summary>
+		/// <value>bool.  If true the product may have different display options on the website.</value>
+		public bool BestSeller { get; }
 
-        /// <summary>
-        /// Retail price of product.
-        /// </summary>
-        /// <value>decimal</value>
-        public decimal RetailPrice { get; }
+		/// <summary>
+		/// Retail price of product.
+		/// </summary>
+		/// <value>decimal</value>
+		public decimal RetailPrice { get; }
 
-        /// <summary>
-        /// Unique product SKU.
-        /// </summary>
-        /// <value>string</value>
-        public string Sku { get; }
+		/// <summary>
+		/// Unique product SKU.
+		/// </summary>
+		/// <value>string</value>
+		public string Sku { get; }
 
-        /// <summary>
-        /// Indicates the product is downloadable.
-        /// </summary>
-        /// <value>bool</value>
-        public bool IsDownload { get; }
+		/// <summary>
+		/// Indicates the product is downloadable.
+		/// </summary>
+		/// <value>bool</value>
+		public bool IsDownload { get; }
 
-        /// <summary>
-        /// Indicates the product is allowed to be back ordered, if there is no stock available at the time of purchase.
-        /// </summary>
-        /// <value>bool.  If true the item can be back ordered.</value>
-        public bool AllowBackorder { get; }
+		/// <summary>
+		/// Indicates the product is allowed to be back ordered, if there is no stock available at the time of purchase.
+		/// </summary>
+		/// <value>bool.  If true the item can be back ordered.</value>
+		public bool AllowBackorder { get; }
 
-        /// <summary>
-        /// The quantity of stock available for the product.
-        /// </summary>
-        /// <value>uint.  Quantity of stock or zero.</value>
-        public uint StockAvailability { get; private set; }
+		/// <summary>
+		/// The quantity of stock available for the product.
+		/// </summary>
+		/// <value>uint.  Quantity of stock or zero.</value>
+		public uint StockAvailability { get; private set; }
 
 		/// <summary>
 		/// Indicates whether the product is available and visible or not
 		/// </summary>
 		public bool IsVisible { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

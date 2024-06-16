@@ -27,46 +27,46 @@ using System.Collections.Generic;
 
 namespace Middleware
 {
-    /// <summary>
-    /// Provides country data used throughout the website.
-    /// 
-    /// This item must be implemented by the host application and made available via DI.
-    /// </summary>
-    public interface ICountryProvider
-    {
-        /// <summary>
-        /// Retrieve all countries.
-        /// </summary>
-        /// <returns>List&lt;Country&gt;</returns>
-        List<Country> GetAllCountries();
+	/// <summary>
+	/// Provides country data used throughout the website.
+	/// 
+	/// This item must be implemented by the host application and made available via DI.
+	/// </summary>
+	public interface ICountryProvider
+	{
+		/// <summary>
+		/// Retrieve all countries.
+		/// </summary>
+		/// <returns>List&lt;Country&gt;</returns>
+		List<Country> GetAllCountries();
 
-        /// <summary>
-        /// Retrieve a list of all visible (available) countries.
-        /// </summary>
-        /// <returns>List&lt;Country&gt;</returns>
-        List<Country> GetVisibleCountries();
+		/// <summary>
+		/// Retrieve a list of all visible (available) countries.
+		/// </summary>
+		/// <returns>List&lt;Country&gt;</returns>
+		List<Country> GetVisibleCountries();
 
-        /// <summary>
-        /// Update a country.
-        /// </summary>
-        /// <param name="country">Country to be updated.</param>
-        /// <returns>bool.  True if the country was updated.</returns>
-        bool CountryUpdate(in Country country);
+		/// <summary>
+		/// Update a country.
+		/// </summary>
+		/// <param name="country">Country to be updated.</param>
+		/// <returns>bool.  True if the country was updated.</returns>
+		bool CountryUpdate(in Country country);
 
-        /// <summary>
-        /// Deletes a country.
-        /// </summary>
-        /// <param name="country">Country to be deleted.</param>
-        /// <returns>bool.  True if the country has been deleted.</returns>
-        bool CountryDelete(in Country country);
+		/// <summary>
+		/// Deletes a country.
+		/// </summary>
+		/// <param name="country">Country to be deleted.</param>
+		/// <returns>bool.  True if the country has been deleted.</returns>
+		bool CountryDelete(in Country country);
 
-        /// <summary>
-        /// Create a country.
-        /// </summary>
-        /// <param name="name">Name of country.</param>
-        /// <param name="code">Country code.</param>
-        /// <param name="visible">bool.  Determines whether the country is visible or not.</param>
-        /// <returns>Country</returns>
-        Country CountryCreate(in string name, in string code, in bool visible);
-    }
+		/// <summary>
+		/// Create a country.
+		/// </summary>
+		/// <param name="name">Name of country.</param>
+		/// <param name="code">Country code.</param>
+		/// <param name="visible">bool.  Determines whether the country is visible or not.</param>
+		/// <returns>Country</returns>
+		Country CountryCreate(in string name, in string code, in bool visible);
+	}
 }

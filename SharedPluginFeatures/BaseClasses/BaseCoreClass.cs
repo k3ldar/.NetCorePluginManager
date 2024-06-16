@@ -32,8 +32,8 @@ using System.Text;
 
 namespace SharedPluginFeatures
 {
-    public class BaseCoreClass
-    {
+	public class BaseCoreClass
+	{
 		#region Private Members
 
 		private const string AtoZUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

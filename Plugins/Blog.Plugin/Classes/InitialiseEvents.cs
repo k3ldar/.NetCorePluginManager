@@ -34,46 +34,46 @@ using SharedPluginFeatures;
 
 namespace Blog.Plugin.Classes
 {
-    /// <summary>
-    /// Implements IInitialiseEvents which allows the Blog module to configure policies
-    /// </summary>
-    public class InitialiseEvents : IInitialiseEvents, IClaimsService
-    {
-        #region IInitialiseEvents
+	/// <summary>
+	/// Implements IInitialiseEvents which allows the Blog module to configure policies
+	/// </summary>
+	public class InitialiseEvents : IInitialiseEvents, IClaimsService
+	{
+		#region IInitialiseEvents
 
-        public void AfterConfigure(in IApplicationBuilder app)
-        {
+		public void AfterConfigure(in IApplicationBuilder app)
+		{
 			// required by interface not used in this implementation
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
-        {
-            // Add blog specific policies
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy(
-                    Constants.PolicyNameBlogCreate,
-                    policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameCreateBlog));
-                options.AddPolicy(
-                    Constants.PolicyNameBlogRespond,
-                    policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameUsername)
-                        .RequireClaim(Constants.ClaimNameUserId)
-                        .RequireClaim(Constants.ClaimNameUserEmail));
-            });
-        }
+		{
+			// Add blog specific policies
+			services.AddAuthorization(options =>
+			{
+				options.AddPolicy(
+					Constants.PolicyNameBlogCreate,
+					policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameCreateBlog));
+				options.AddPolicy(
+					Constants.PolicyNameBlogRespond,
+					policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameUsername)
+						.RequireClaim(Constants.ClaimNameUserId)
+						.RequireClaim(Constants.ClaimNameUserEmail));
+			});
+		}
 
-        public void BeforeConfigure(in IApplicationBuilder app)
-        {
+		public void BeforeConfigure(in IApplicationBuilder app)
+		{
 			// required by interface not used in this implementation
 		}
 
 		public void BeforeConfigureServices(in IServiceCollection services)
-        {
+		{
 			// required by interface not used in this implementation
 		}
 
 		public void Configure(in IApplicationBuilder app)
-        {
+		{
 			// required by interface not used in this implementation
 		}
 
@@ -82,19 +82,19 @@ namespace Blog.Plugin.Classes
 		#region IClaimsService
 
 		public List<string> GetClaims()
-        {
-            return new List<string>()
-            {
-                Constants.ClaimNameCreateBlog,
-                Constants.ClaimNameUsername,
-                Constants.ClaimNameUserId,
-                Constants.ClaimNameUserEmail,
-                Constants.ClaimIdentityBlog
-            };
-        }
+		{
+			return new List<string>()
+			{
+				Constants.ClaimNameCreateBlog,
+				Constants.ClaimNameUsername,
+				Constants.ClaimNameUserId,
+				Constants.ClaimNameUserEmail,
+				Constants.ClaimIdentityBlog
+			};
+		}
 
-        #endregion IClaimsService
-    }
+		#endregion IClaimsService
+	}
 }
 
 #pragma warning restore CS1591

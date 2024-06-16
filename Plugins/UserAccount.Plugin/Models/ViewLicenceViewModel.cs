@@ -32,31 +32,31 @@ namespace UserAccount.Plugin.Models
 {
 #pragma warning disable CS1591, IDE0060
 
-    public class ViewLicenceViewModel : BaseModel
-    {
-        #region Constructors
+	public class ViewLicenceViewModel : BaseModel
+	{
+		#region Constructors
 
-        public ViewLicenceViewModel()
-        {
+		public ViewLicenceViewModel()
+		{
 
-        }
+		}
 
-        public ViewLicenceViewModel(in BaseModelData baseModelData,
-            in long id, in string domain, in string licenceType, in bool active,
-            in bool trial, in DateTime expires, in byte updates, in string licence)
-            : base(baseModelData)
-        {
-            if (String.IsNullOrEmpty(licenceType))
-                throw new ArgumentNullException(nameof(licenceType));
+		public ViewLicenceViewModel(in BaseModelData baseModelData,
+			in long id, in string domain, in string licenceType, in bool active,
+			in bool trial, in DateTime expires, in byte updates, in string licence)
+			: base(baseModelData)
+		{
+			if (String.IsNullOrEmpty(licenceType))
+				throw new ArgumentNullException(nameof(licenceType));
 
-            Id = id;
-            Domain = domain ?? throw new ArgumentNullException(nameof(domain));
-            LicenceType = licenceType;
-            Active = active;
-            Trial = trial;
-            Expires = expires;
-            Licence = licence ?? throw new ArgumentNullException(nameof(licence));
-        }
+			Id = id;
+			Domain = domain ?? throw new ArgumentNullException(nameof(domain));
+			LicenceType = licenceType;
+			Active = active;
+			Trial = trial;
+			Expires = expires;
+			Licence = licence ?? throw new ArgumentNullException(nameof(licence));
+		}
 
 		#endregion Constructors
 
@@ -65,30 +65,30 @@ namespace UserAccount.Plugin.Models
 		[JsonRequired]
 		public long Id { get; set; }
 
-        public string Domain { get; set; }
+		public string Domain { get; set; }
 
-        public string LicenceType { get; set; }
+		public string LicenceType { get; set; }
 
-        public bool Active { get; set; }
+		public bool Active { get; set; }
 
-        public DateTime Expires { get; set; }
+		public DateTime Expires { get; set; }
 
-        public byte Updates { get; set; }
+		public byte Updates { get; set; }
 
-        public string Licence { get; set; }
+		public string Licence { get; set; }
 
-        public bool Trial { get; set; }
+		public bool Trial { get; set; }
 
-        public string AvailableUpdates
-        {
-            get
-            {
-                return Convert.ToString(3 - Updates);
-            }
-        }
+		public string AvailableUpdates
+		{
+			get
+			{
+				return Convert.ToString(3 - Updates);
+			}
+		}
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 
 #pragma warning restore CS1591, IDE0060
 }

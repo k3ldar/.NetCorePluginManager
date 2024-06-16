@@ -37,126 +37,126 @@ using SharedPluginFeatures;
 
 namespace SearchPlugin.Classes.Search
 {
-    /// <summary>
-    /// Default search provider to be used if no other search provider is registered
-    /// </summary>
-    public class DefaultSearchProvider : ISearchProvider
-    {
-        #region Private Members
+	/// <summary>
+	/// Default search provider to be used if no other search provider is registered
+	/// </summary>
+	public class DefaultSearchProvider : ISearchProvider
+	{
+		#region Private Members
 
-        private readonly List<ISearchKeywordProvider> _searchProviders;
+		private readonly List<ISearchKeywordProvider> _searchProviders;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="pluginClassesService">IPluginClassesService instance</param>
-        public DefaultSearchProvider(IPluginClassesService pluginClassesService)
-        {
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="pluginClassesService">IPluginClassesService instance</param>
+		public DefaultSearchProvider(IPluginClassesService pluginClassesService)
+		{
 			if (pluginClassesService == null)
 				throw new ArgumentNullException(nameof(pluginClassesService));
 
-            _searchProviders = pluginClassesService.GetPluginClasses<ISearchKeywordProvider>();
-        }
+			_searchProviders = pluginClassesService.GetPluginClasses<ISearchKeywordProvider>();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region ISearchProvider Methods
+		#region ISearchProvider Methods
 
-        /// <summary>
-        /// Performs a keyword search
-        /// </summary>
-        /// <param name="keywordSearchOptions"></param>
-        /// <returns></returns>
-        public List<SearchResponseItem> KeywordSearch(in KeywordSearchOptions keywordSearchOptions)
-        {
-            return DefaultSearchThread.KeywordSearch(_searchProviders, keywordSearchOptions);
-        }
+		/// <summary>
+		/// Performs a keyword search
+		/// </summary>
+		/// <param name="keywordSearchOptions"></param>
+		/// <returns></returns>
+		public List<SearchResponseItem> KeywordSearch(in KeywordSearchOptions keywordSearchOptions)
+		{
+			return DefaultSearchThread.KeywordSearch(_searchProviders, keywordSearchOptions);
+		}
 
-        /// <summary>
-        /// Retrieves all available search response types from all registered search providers
-        /// </summary>
-        /// <param name="quickSearch">Indicates whether its the providers from a quick search or normal search.</param>
-        /// <returns>List&lt;string&gt;</returns>
-        public List<string> SearchResponseTypes(in Boolean quickSearch)
-        {
-            List<string> Result = new();
+		/// <summary>
+		/// Retrieves all available search response types from all registered search providers
+		/// </summary>
+		/// <param name="quickSearch">Indicates whether its the providers from a quick search or normal search.</param>
+		/// <returns>List&lt;string&gt;</returns>
+		public List<string> SearchResponseTypes(in Boolean quickSearch)
+		{
+			List<string> Result = new();
 
-            foreach (ISearchKeywordProvider provider in _searchProviders)
-            {
-                List<string> providerResults = provider.SearchResponseTypes(quickSearch);
+			foreach (ISearchKeywordProvider provider in _searchProviders)
+			{
+				List<string> providerResults = provider.SearchResponseTypes(quickSearch);
 
-                if (providerResults == null)
-                    continue;
+				if (providerResults == null)
+					continue;
 
-                providerResults.ForEach(st => Result.Add(st));
-            }
+				providerResults.ForEach(st => Result.Add(st));
+			}
 
-            return Result;
-        }
+			return Result;
+		}
 
-        /// <summary>
-        /// Retrieves a list of strings from all search providers that can optionally be used by the UI 
-        /// to provide a paged or tabbed advance search option.
-        /// </summary>
-        /// <returns>Dictionary&lt;string, AdvancedSearchOptions&gt;</returns>
-        public Dictionary<string, AdvancedSearchOptions> AdvancedSearch()
-        {
-            Dictionary<string, AdvancedSearchOptions> Result = new();
+		/// <summary>
+		/// Retrieves a list of strings from all search providers that can optionally be used by the UI 
+		/// to provide a paged or tabbed advance search option.
+		/// </summary>
+		/// <returns>Dictionary&lt;string, AdvancedSearchOptions&gt;</returns>
+		public Dictionary<string, AdvancedSearchOptions> AdvancedSearch()
+		{
+			Dictionary<string, AdvancedSearchOptions> Result = new();
 
-            foreach (ISearchKeywordProvider provider in _searchProviders)
-            {
-                Dictionary<string, AdvancedSearchOptions> advancedSearch = provider.AdvancedSearch();
+			foreach (ISearchKeywordProvider provider in _searchProviders)
+			{
+				Dictionary<string, AdvancedSearchOptions> advancedSearch = provider.AdvancedSearch();
 
-                if (advancedSearch == null)
-                    continue;
+				if (advancedSearch == null)
+					continue;
 
-                foreach (KeyValuePair<string, AdvancedSearchOptions> item in advancedSearch)
-                    Result.Add(item.Key, item.Value);
-            }
+				foreach (KeyValuePair<string, AdvancedSearchOptions> item in advancedSearch)
+					Result.Add(item.Key, item.Value);
+			}
 
-            return Result;
-        }
+			return Result;
+		}
 
-        /// <summary>
-        /// Retrieve existing search results if they exist.
-        /// </summary>
-        /// <param name="searchId">Name of search</param>
-        /// <returns>List&lt;SearchResponseItem&gt;</returns>
-        public List<SearchResponseItem> GetSearchResults(in String searchId)
-        {
-            if (String.IsNullOrEmpty(searchId))
-            {
-                return null;
-            }
+		/// <summary>
+		/// Retrieve existing search results if they exist.
+		/// </summary>
+		/// <param name="searchId">Name of search</param>
+		/// <returns>List&lt;SearchResponseItem&gt;</returns>
+		public List<SearchResponseItem> GetSearchResults(in String searchId)
+		{
+			if (String.IsNullOrEmpty(searchId))
+			{
+				return null;
+			}
 
-            return DefaultSearchThread.RetrieveSearch(searchId);
-        }
+			return DefaultSearchThread.RetrieveSearch(searchId);
+		}
 
-        #endregion ISearchProvider Methods
+		#endregion ISearchProvider Methods
 
-        #region Properties
+		#region Properties
 
-        internal static Timings SearchTimings
-        {
-            get
-            {
-                return DefaultSearchThread.SearchTimings;
-            }
-        }
+		internal static Timings SearchTimings
+		{
+			get
+			{
+				return DefaultSearchThread.SearchTimings;
+			}
+		}
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Internal and used in other places")]
 		internal CacheManager GetCacheManager
-        {
-            get
-            {
-                return DefaultSearchThread.SearchCache;
-            }
-        }
+		{
+			get
+			{
+				return DefaultSearchThread.SearchCache;
+			}
+		}
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

@@ -26,18 +26,18 @@
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Interface used for reading data from storage, the type of storage used will depend on the implementation
-    /// </summary>
-    public interface ILoadData
-    {
-        /// <summary>
-        /// Loads data of type T
-        /// </summary>
-        /// <typeparam name="T">Type of data to be loaded</typeparam>
-        /// <param name="location">Storage location</param>
-        /// <param name="name">Name of storage</param>
-        /// <returns>Type of data to be loaded or default type if exception occurs</returns>
-        T Load<T>(in string location, in string name);
-    }
+	/// <summary>
+	/// Interface used for reading data from storage, the type of storage used will depend on the implementation
+	/// </summary>
+	public interface ILoadData
+	{
+		/// <summary>
+		/// Loads data of type T
+		/// </summary>
+		/// <typeparam name="T">Type of data to be loaded</typeparam>
+		/// <param name="location">Storage location</param>
+		/// <param name="name">Name of storage</param>
+		/// <returns>Type of data to be loaded or default type if exception occurs</returns>
+		T Load<T>(in string location, in string name);
+	}
 }

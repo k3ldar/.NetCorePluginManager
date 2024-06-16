@@ -27,19 +27,19 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace PluginManager.Abstractions
 {
-    /// <summary>
-    /// Provides an opportunity for only one plugin (or host) to register for final service configuration.
-    /// 
-    /// This would allow for the host to remove and re-add any specific services which it needs specific
-    /// control over.
-    /// </summary>
-    public interface IServiceConfigurator
-    {
-        /// <summary>
-        /// Method called when all plugins have registered services which can allow the host, or a specific plugin 
-        /// with the ability to get notified after all services have been created.
-        /// </summary>
-        /// <param name="services">IServiceCollection instance</param>
-        void RegisterServices(IServiceCollection services);
-    }
+	/// <summary>
+	/// Provides an opportunity for only one plugin (or host) to register for final service configuration.
+	/// 
+	/// This would allow for the host to remove and re-add any specific services which it needs specific
+	/// control over.
+	/// </summary>
+	public interface IServiceConfigurator
+	{
+		/// <summary>
+		/// Method called when all plugins have registered services which can allow the host, or a specific plugin 
+		/// with the ability to get notified after all services have been created.
+		/// </summary>
+		/// <param name="services">IServiceCollection instance</param>
+		void RegisterServices(IServiceCollection services);
+	}
 }

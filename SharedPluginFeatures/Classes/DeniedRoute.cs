@@ -27,51 +27,51 @@ using System;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Contains information on routes that are denied to robots
-    /// </summary>
-    public sealed class DeniedRoute
-    {
-        #region Constructors
+	/// <summary>
+	/// Contains information on routes that are denied to robots
+	/// </summary>
+	public sealed class DeniedRoute
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <param name="route"></param>
-        /// <param name="userAgent"></param>
-        /// <exception cref="ArgumentNullException">Raised if route is null or empty</exception>
-        /// <exception cref="ArgumentNullException">Raised if userAgent is null or empty</exception>
-        /// <exception cref="ArgumentException">Raised if route is not a valid partial uri</exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Exception message is for developers")]
-        public DeniedRoute(in string route, in string userAgent)
-        {
-            if (string.IsNullOrEmpty(route))
-                throw new ArgumentNullException(nameof(route));
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		/// <param name="route"></param>
+		/// <param name="userAgent"></param>
+		/// <exception cref="ArgumentNullException">Raised if route is null or empty</exception>
+		/// <exception cref="ArgumentNullException">Raised if userAgent is null or empty</exception>
+		/// <exception cref="ArgumentException">Raised if route is not a valid partial uri</exception>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Exception message is for developers")]
+		public DeniedRoute(in string route, in string userAgent)
+		{
+			if (string.IsNullOrEmpty(route))
+				throw new ArgumentNullException(nameof(route));
 
-            if (String.IsNullOrEmpty(userAgent))
-                throw new ArgumentNullException(nameof(userAgent));
+			if (String.IsNullOrEmpty(userAgent))
+				throw new ArgumentNullException(nameof(userAgent));
 
-            if (!Uri.TryCreate(route, UriKind.Relative, out _))
-                throw new ArgumentException("route must be a partial Uri", nameof(route));
+			if (!Uri.TryCreate(route, UriKind.Relative, out _))
+				throw new ArgumentException("route must be a partial Uri", nameof(route));
 
-            Route = route;
-            UserAgent = userAgent;
-        }
+			Route = route;
+			UserAgent = userAgent;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Route being denied
-        /// </summary>
-        public string Route { get; private set; }
+		/// <summary>
+		/// Route being denied
+		/// </summary>
+		public string Route { get; private set; }
 
-        /// <summary>
-        /// User agent name being denied
-        /// </summary>
-        public string UserAgent { get; private set; }
+		/// <summary>
+		/// User agent name being denied
+		/// </summary>
+		public string UserAgent { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

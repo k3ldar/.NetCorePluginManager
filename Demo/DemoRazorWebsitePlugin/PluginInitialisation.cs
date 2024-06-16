@@ -29,27 +29,27 @@ using PluginManager.Abstractions;
 
 namespace DemoWebsitePlugin.Plugin
 {
-    public class PluginInitialisation : IPlugin
-    {
-        #region IPlugin Methods
+	public class PluginInitialisation : IPlugin
+	{
+		#region IPlugin Methods
 
-        public void ConfigureServices(IServiceCollection services)
-        {
+		public void ConfigureServices(IServiceCollection services)
+		{
 			// from interface but unused in this context
 		}
 
 		public void Finalise()
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public ushort GetVersion()
-        {
-            return 1;
-        }
+		{
+			return 1;
+		}
 
-        public void Initialise(ILogger logger)
-        {
+		public void Initialise(ILogger logger)
+		{
 			// from interface but unused in this context
 		}
 

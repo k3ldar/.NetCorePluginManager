@@ -27,48 +27,48 @@ using System;
 
 namespace ProductPlugin.Models
 {
-    /// <summary>
-    /// Model for list of products
-    /// </summary>
-    public sealed class ProductListModel
-    {
-        #region Constructors
+	/// <summary>
+	/// Model for list of products
+	/// </summary>
+	public sealed class ProductListModel
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public ProductListModel(int id, string sku, string name)
-        {
-            if (String.IsNullOrEmpty(sku))
-                throw new ArgumentNullException(nameof(sku));
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		public ProductListModel(int id, string sku, string name)
+		{
+			if (String.IsNullOrEmpty(sku))
+				throw new ArgumentNullException(nameof(sku));
 
-            if (String.IsNullOrEmpty(name))
-                throw new ArgumentNullException(nameof(name));
+			if (String.IsNullOrEmpty(name))
+				throw new ArgumentNullException(nameof(name));
 
-            Id = id;
-            Sku = sku;
-            Name = name;
-        }
+			Id = id;
+			Sku = sku;
+			Name = name;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Product Id
-        /// </summary>
-        public int Id { get; }
+		/// <summary>
+		/// Product Id
+		/// </summary>
+		public int Id { get; }
 
-        /// <summary>
-        /// Product Sku
-        /// </summary>
-        public string Sku { get; }
+		/// <summary>
+		/// Product Sku
+		/// </summary>
+		public string Sku { get; }
 
-        /// <summary>
-        /// Product Name
-        /// </summary>
-        public string Name { get; }
+		/// <summary>
+		/// Product Name
+		/// </summary>
+		public string Name { get; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

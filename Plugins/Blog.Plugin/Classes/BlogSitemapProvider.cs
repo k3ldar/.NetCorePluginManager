@@ -33,50 +33,50 @@ using SharedPluginFeatures;
 
 namespace Blog.Plugin.Classes
 {
-    /// <summary>
-    /// Blog sitemap provider, provides sitemap information for blog items
-    /// </summary>
-    public class BlogSitemapProvider : ISitemapProvider
-    {
-        #region Private Members
+	/// <summary>
+	/// Blog sitemap provider, provides sitemap information for blog items
+	/// </summary>
+	public class BlogSitemapProvider : ISitemapProvider
+	{
+		#region Private Members
 
-        private readonly IBlogProvider _blogProvider;
+		private readonly IBlogProvider _blogProvider;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <param name="blogProvider">IBlogProvider instance</param>
-        public BlogSitemapProvider(IBlogProvider blogProvider)
-        {
-            _blogProvider = blogProvider ?? throw new ArgumentNullException(nameof(blogProvider));
-        }
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		/// <param name="blogProvider">IBlogProvider instance</param>
+		public BlogSitemapProvider(IBlogProvider blogProvider)
+		{
+			_blogProvider = blogProvider ?? throw new ArgumentNullException(nameof(blogProvider));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        /// <summary>
-        /// Retrieve a list of all blog items that will be included in the sitemap
-        /// </summary>
-        /// <returns>List&lt;ISitemapItem&gt;</returns>
-        public List<SitemapItem> Items()
-        {
-            List<SitemapItem> Result = new();
+		/// <summary>
+		/// Retrieve a list of all blog items that will be included in the sitemap
+		/// </summary>
+		/// <returns>List&lt;ISitemapItem&gt;</returns>
+		public List<SitemapItem> Items()
+		{
+			List<SitemapItem> Result = new();
 
-            List<BlogItem> blogs = _blogProvider.GetRecentPosts(1000, true);
+			List<BlogItem> blogs = _blogProvider.GetRecentPosts(1000, true);
 
-            foreach (BlogItem blogItem in blogs)
-            {
-                Uri blogUrl = new($"Blog/{HtmlHelper.RouteFriendlyName(blogItem.Username)}/{blogItem.Id}/" +
-                    $"{blogItem.LastModified.ToString("dd-MM-yyyy")}/{HtmlHelper.RouteFriendlyName(blogItem.Title)}",
-                    UriKind.RelativeOrAbsolute);
+			foreach (BlogItem blogItem in blogs)
+			{
+				Uri blogUrl = new($"Blog/{HtmlHelper.RouteFriendlyName(blogItem.Username)}/{blogItem.Id}/" +
+					$"{blogItem.LastModified.ToString("dd-MM-yyyy")}/{HtmlHelper.RouteFriendlyName(blogItem.Title)}",
+					UriKind.RelativeOrAbsolute);
 
-                Result.Add(new SitemapItem(blogUrl, SitemapChangeFrequency.Daily, blogItem.PublishDateTime));
-            }
+				Result.Add(new SitemapItem(blogUrl, SitemapChangeFrequency.Daily, blogItem.PublishDateTime));
+			}
 
-            return Result;
-        }
-    }
+			return Result;
+		}
+	}
 }

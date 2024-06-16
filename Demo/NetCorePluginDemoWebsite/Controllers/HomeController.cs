@@ -35,22 +35,22 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Controllers
 {
-    public class HomeController : BaseController
-    {
-        [Breadcrumb(nameof(Languages.LanguageStrings.PluginManager))]
-        public IActionResult Index()
-        {
-            UserSession session = (UserSession)HttpContext.Items[Constants.UserSession];
-            ViewBag.Username = String.IsNullOrEmpty(session.UserName) ? "Guest" : session.UserName;
+	public class HomeController : BaseController
+	{
+		[Breadcrumb(nameof(Languages.LanguageStrings.PluginManager))]
+		public IActionResult Index()
+		{
+			UserSession session = (UserSession)HttpContext.Items[Constants.UserSession];
+			ViewBag.Username = String.IsNullOrEmpty(session.UserName) ? "Guest" : session.UserName;
 
-            return View(new BaseModel(GetModelData()));
-        }
+			return View(new BaseModel(GetModelData()));
+		}
 
-        [DenySpider("*")]
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return RedirectToAction(nameof(Index));
-        }
-    }
+		[DenySpider("*")]
+		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+		public IActionResult Error()
+		{
+			return RedirectToAction(nameof(Index));
+		}
+	}
 }

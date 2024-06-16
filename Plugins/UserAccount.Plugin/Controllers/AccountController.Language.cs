@@ -35,20 +35,20 @@ namespace UserAccount.Plugin.Controllers
 {
 #pragma warning disable CS1591
 
-    public partial class AccountController
-    {
-        [HttpPost]
-        [LoggedInOut]
-        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult SetLanguage(string culture, string returnUrl)
-        {
-            UserSession userSession = GetUserSession();
+	public partial class AccountController
+	{
+		[HttpPost]
+		[LoggedInOut]
+		[ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+		public IActionResult SetLanguage(string culture, string returnUrl)
+		{
+			UserSession userSession = GetUserSession();
 
-            userSession.Culture = culture;
-            CultureInfo newCulture = new(culture);
+			userSession.Culture = culture;
+			CultureInfo newCulture = new(culture);
 
-            if (_cultureProvider.IsCultureValid(newCulture))
-                _userCultureChanged.CultureChanged(HttpContext, userSession, newCulture);
+			if (_cultureProvider.IsCultureValid(newCulture))
+				_userCultureChanged.CultureChanged(HttpContext, userSession, newCulture);
 
 			string redirectPath = returnUrl ?? "/";
 
@@ -56,8 +56,8 @@ namespace UserAccount.Plugin.Controllers
 				return Redirect(redirectPath);
 
 			return RedirectToAction("Index", "Home");
-        }
-    }
+		}
+	}
 
 #pragma warning restore CS1591
 }

@@ -36,78 +36,78 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager
 {
-    internal sealed class RouteDataServices : IRouteDataService
-    {
-        public string GetRouteFromClass(Type type, IActionDescriptorCollectionProvider routeProvider)
-        {
-            // does the class have a route attribute
-            RouteAttribute classRouteAttribute = (RouteAttribute)type.GetCustomAttributes(true)
-                .FirstOrDefault(r => r.GetType() == typeof(RouteAttribute));
+	internal sealed class RouteDataServices : IRouteDataService
+	{
+		public string GetRouteFromClass(Type type, IActionDescriptorCollectionProvider routeProvider)
+		{
+			// does the class have a route attribute
+			RouteAttribute classRouteAttribute = (RouteAttribute)type.GetCustomAttributes(true)
+				.FirstOrDefault(r => r.GetType() == typeof(RouteAttribute));
 
-            if (classRouteAttribute != null && !String.IsNullOrEmpty(classRouteAttribute.Template))
-            {
-                return classRouteAttribute.Template;
-            }
+			if (classRouteAttribute != null && !String.IsNullOrEmpty(classRouteAttribute.Template))
+			{
+				return classRouteAttribute.Template;
+			}
 
-            ActionDescriptor route = routeProvider.ActionDescriptors.Items
+			ActionDescriptor route = routeProvider.ActionDescriptors.Items
 				.FirstOrDefault(ad => ad.DisplayName.StartsWith(type.FullName, StringComparison.CurrentCultureIgnoreCase));
 
-            if (route == null)
-                return String.Empty;
+			if (route == null)
+				return String.Empty;
 
-            if (route.AttributeRouteInfo != null)
-            {
-                return $"/{route.AttributeRouteInfo.Template}/{route.AttributeRouteInfo.Name}";
-            }
-            else if (route.AttributeRouteInfo == null)
-            {
-                ControllerActionDescriptor controllerDescriptor = route as ControllerActionDescriptor;
-                return $"/{controllerDescriptor.ControllerName}";
-            }
+			if (route.AttributeRouteInfo != null)
+			{
+				return $"/{route.AttributeRouteInfo.Template}/{route.AttributeRouteInfo.Name}";
+			}
+			else if (route.AttributeRouteInfo == null)
+			{
+				ControllerActionDescriptor controllerDescriptor = route as ControllerActionDescriptor;
+				return $"/{controllerDescriptor.ControllerName}";
+			}
 
-            return String.Empty;
-        }
+			return String.Empty;
+		}
 
-        public string GetRouteFromMethod(in MethodInfo method, in IActionDescriptorCollectionProvider routeProvider)
-        {
-            // does the class have a route attribute
-            RouteAttribute classRouteAttribute = (RouteAttribute)method.GetCustomAttributes(true)
-                .FirstOrDefault(r => r.GetType() == typeof(RouteAttribute));
+		public string GetRouteFromMethod(in MethodInfo method, in IActionDescriptorCollectionProvider routeProvider)
+		{
+			// does the class have a route attribute
+			RouteAttribute classRouteAttribute = (RouteAttribute)method.GetCustomAttributes(true)
+				.FirstOrDefault(r => r.GetType() == typeof(RouteAttribute));
 
-            if (classRouteAttribute != null && !String.IsNullOrEmpty(classRouteAttribute.Template))
-            {
-                string template = classRouteAttribute.Template;
+			if (classRouteAttribute != null && !String.IsNullOrEmpty(classRouteAttribute.Template))
+			{
+				string template = classRouteAttribute.Template;
 
-                while (template.IndexOf('{') > -1)
-                    template = template.Substring(0, template.Length - 1);
+				while (template.IndexOf('{') > -1)
+					template = template.Substring(0, template.Length - 1);
 
-                if (template.EndsWith('/'))
-                    template = template.Substring(0, template.Length - 1);
+				if (template.EndsWith('/'))
+					template = template.Substring(0, template.Length - 1);
 
-                return template;
-            }
+				return template;
+			}
 
-            string routeName = $"{method.DeclaringType.ToString()}.{method.Name}";
+			string routeName = $"{method.DeclaringType.ToString()}.{method.Name}";
 
-            ActionDescriptor route = routeProvider.ActionDescriptors.Items
+			ActionDescriptor route = routeProvider.ActionDescriptors.Items
 				.FirstOrDefault(ad => ad.DisplayName.StartsWith(routeName, StringComparison.CurrentCultureIgnoreCase));
 
-            if (route == null)
-                return String.Empty;
+			if (route == null)
+				return String.Empty;
 
-            if (route.AttributeRouteInfo != null)
-            {
-                return $"/{route.AttributeRouteInfo.Template}/{route.AttributeRouteInfo.Name}";
-            }
+			if (route.AttributeRouteInfo != null)
+			{
+				return $"/{route.AttributeRouteInfo.Template}/{route.AttributeRouteInfo.Name}";
+			}
 
-            if (route.RouteValues["controller"].ToString() == "Home")
-            {
-                return $"/{route.RouteValues["action"]}";
-            }
-            else
-            {
-                return $"/{route.RouteValues["controller"]}/{route.RouteValues["action"]}";
-            }
-        }
-    }
+			if (route.RouteValues["controller"].ToString() == "Home")
+			{
+				return $"/{route.RouteValues["action"]}";
+			}
+			else
+			{
+				return $"/{route.RouteValues["controller"]}/{route.RouteValues["action"]}";
+			}
+		}
+	}
 }

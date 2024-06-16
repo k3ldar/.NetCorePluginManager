@@ -33,47 +33,47 @@ using SharedPluginFeatures;
 
 namespace DownloadPlugin.Classes
 {
-    /// <summary>
-    /// Download sitemap provider, provides sitemap information for downloadable items
-    /// </summary>
-    public class DownloadSitemapProvider : ISitemapProvider
-    {
-        #region Private Members
+	/// <summary>
+	/// Download sitemap provider, provides sitemap information for downloadable items
+	/// </summary>
+	public class DownloadSitemapProvider : ISitemapProvider
+	{
+		#region Private Members
 
-        private readonly IDownloadProvider _downloadProvider;
+		private readonly IDownloadProvider _downloadProvider;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <param name="downloadProvider">IDownloadProvider instance</param>
-        public DownloadSitemapProvider(IDownloadProvider downloadProvider)
-        {
-            _downloadProvider = downloadProvider ?? throw new ArgumentNullException(nameof(downloadProvider));
-        }
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		/// <param name="downloadProvider">IDownloadProvider instance</param>
+		public DownloadSitemapProvider(IDownloadProvider downloadProvider)
+		{
+			_downloadProvider = downloadProvider ?? throw new ArgumentNullException(nameof(downloadProvider));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        /// <summary>
-        /// Retrieve a list of all download items that will be included in the sitemap
-        /// </summary>
-        /// <returns>List&lt;ISitemapItem&gt;</returns>
-        public List<SitemapItem> Items()
-        {
-            List<SitemapItem> Result = new();
+		/// <summary>
+		/// Retrieve a list of all download items that will be included in the sitemap
+		/// </summary>
+		/// <returns>List&lt;ISitemapItem&gt;</returns>
+		public List<SitemapItem> Items()
+		{
+			List<SitemapItem> Result = new();
 
-            foreach (DownloadCategory download in _downloadProvider.DownloadCategoriesGet())
-            {
-                Result.Add(new SitemapItem(
-                    new Uri($"Download/{download.Id}/Category/{HtmlHelper.RouteFriendlyName(download.Name)}",
-                        UriKind.RelativeOrAbsolute),
-                    SitemapChangeFrequency.Monthly));
-            }
+			foreach (DownloadCategory download in _downloadProvider.DownloadCategoriesGet())
+			{
+				Result.Add(new SitemapItem(
+					new Uri($"Download/{download.Id}/Category/{HtmlHelper.RouteFriendlyName(download.Name)}",
+						UriKind.RelativeOrAbsolute),
+					SitemapChangeFrequency.Monthly));
+			}
 
-            return Result;
-        }
-    }
+			return Result;
+		}
+	}
 }

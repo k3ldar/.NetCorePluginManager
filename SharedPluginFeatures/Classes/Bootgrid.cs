@@ -29,33 +29,33 @@ using System.Collections.Generic;
 
 namespace SharedPluginFeatures
 {
-    public class BootgridRequestData
-    {
-        public int current { get; set; }
+	public class BootgridRequestData
+	{
+		public int current { get; set; }
 
-        public int rowCount { get; set; }
+		public int rowCount { get; set; }
 
-        public string searchPhrase { get; set; }
+		public string searchPhrase { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
-        public string[] sort { get; set; }
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
+		public string[] sort { get; set; }
 
-        public IEnumerable<SortData> sortItems { get; set; }
-    }
+		public IEnumerable<SortData> sortItems { get; set; }
+	}
 
-    public class BootgridResponseData<T> where T : class
-    {
-        public int current { get; set; }
-        public int rowCount { get; set; }
-        public IEnumerable<T> rows { get; set; }
-        public int total { get; set; }
-    }
+	public class BootgridResponseData<T> where T : class
+	{
+		public int current { get; set; }
+		public int rowCount { get; set; }
+		public IEnumerable<T> rows { get; set; }
+		public int total { get; set; }
+	}
 
-    public class SortData
-    {
-        public string Field { get; set; }
-        public string Type { get; set; }
-    }
+	public class SortData
+	{
+		public string Field { get; set; }
+		public string Type { get; set; }
+	}
 
 }
 

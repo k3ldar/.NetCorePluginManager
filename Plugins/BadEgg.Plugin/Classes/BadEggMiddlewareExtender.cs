@@ -28,20 +28,20 @@ using Microsoft.AspNetCore.Builder;
 
 namespace BadEgg.Plugin
 {
-    /// <summary>
-    /// BadEgg middleware extender
-    /// </summary>
-    public static class BadEggMiddlewareExtender
-    {
-        /// <summary>
-        /// Adds BadEgg to the request pipeline
-        /// </summary>
-        /// <param name="builder">IApplicationBuilder instance</param>
-        /// <returns>IApplicationBuilder</returns>
-        /// <example><c><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseBadEgg</span>();</c></example>
-        public static IApplicationBuilder UseBadEgg(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<BadEggMiddleware>();
-        }
-    }
+	/// <summary>
+	/// BadEgg middleware extender
+	/// </summary>
+	public static class BadEggMiddlewareExtender
+	{
+		/// <summary>
+		/// Adds BadEgg to the request pipeline
+		/// </summary>
+		/// <param name="builder">IApplicationBuilder instance</param>
+		/// <returns>IApplicationBuilder</returns>
+		/// <example><c><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseBadEgg</span>();</c></example>
+		public static IApplicationBuilder UseBadEgg(this IApplicationBuilder builder)
+		{
+			return builder.UseMiddleware<BadEggMiddleware>();
+		}
+	}
 }

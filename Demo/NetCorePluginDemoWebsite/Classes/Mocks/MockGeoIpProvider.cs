@@ -30,22 +30,22 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 {
-    [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
-    public sealed class MockGeoIpProvider : IGeoIpProvider
-    {
-        public Boolean GetIpAddressDetails(in String ipAddress, out String countryCode, out String region,
-            out String cityName, out Decimal latitude, out Decimal longitude, out Int64 uniqueId,
-            out Int64 ipFrom, out Int64 ipTo)
-        {
-            countryCode = null;
-            region = null;
-            cityName = null;
-            latitude = 0;
-            longitude = 0;
-            uniqueId = 0;
-            ipFrom = 0;
-            ipTo = 0;
-            return false;
-        }
-    }
+	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
+	public sealed class MockGeoIpProvider : IGeoIpProvider
+	{
+		public Boolean GetIpAddressDetails(in String ipAddress, out String countryCode, out String region,
+			out String cityName, out Decimal latitude, out Decimal longitude, out Int64 uniqueId,
+			out Int64 ipFrom, out Int64 ipTo)
+		{
+			countryCode = null;
+			region = null;
+			cityName = null;
+			latitude = 0;
+			longitude = 0;
+			uniqueId = 0;
+			ipFrom = 0;
+			ipTo = 0;
+			return false;
+		}
+	}
 }

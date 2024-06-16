@@ -27,15 +27,15 @@ using System.Collections.Generic;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Sitemap provider interface, any plugin that wants to supply sitemap data must implement 
-    /// an instance of this class
-    /// </summary>
-    public interface ISitemapProvider
-    {
-        /// <summary>
-        /// Returns a list of ISitemapItem's provided by the plugin
-        /// </summary>
-        List<SitemapItem> Items();
-    }
+	/// <summary>
+	/// Sitemap provider interface, any plugin that wants to supply sitemap data must implement 
+	/// an instance of this class
+	/// </summary>
+	public interface ISitemapProvider
+	{
+		/// <summary>
+		/// Returns a list of ISitemapItem's provided by the plugin
+		/// </summary>
+		List<SitemapItem> Items();
+	}
 }

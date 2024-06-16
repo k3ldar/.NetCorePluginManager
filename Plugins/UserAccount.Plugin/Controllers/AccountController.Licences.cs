@@ -39,139 +39,139 @@ namespace UserAccount.Plugin.Controllers
 {
 #pragma warning disable CS1591
 
-    public partial class AccountController
-    {
-        #region Public Action Methods
+	public partial class AccountController
+	{
+		#region Public Action Methods
 
-        [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.MyLicences), nameof(AccountController), nameof(Index))]
-        public IActionResult Licences()
-        {
-            List<ViewLicenceViewModel> licences = new();
+		[HttpGet]
+		[Breadcrumb(nameof(Languages.LanguageStrings.MyLicences), nameof(AccountController), nameof(Index))]
+		public IActionResult Licences()
+		{
+			List<ViewLicenceViewModel> licences = new();
 
-            foreach (Licence licence in _licenceProvider.LicencesGet(UserId()))
-            {
-                licences.Add(new ViewLicenceViewModel(GetModelData(),
-                    licence.Id, licence.DomainName, licence.LicenceType.Description,
-                    Shared.Utilities.DateWithin(licence.ExpireDate, licence.StartDate, DateTime.Now) && licence.IsValid,
-                    licence.IsTrial, licence.ExpireDate, licence.UpdateCount, licence.EncryptedLicence));
-            }
+			foreach (Licence licence in _licenceProvider.LicencesGet(UserId()))
+			{
+				licences.Add(new ViewLicenceViewModel(GetModelData(),
+					licence.Id, licence.DomainName, licence.LicenceType.Description,
+					Shared.Utilities.DateWithin(licence.ExpireDate, licence.StartDate, DateTime.Now) && licence.IsValid,
+					licence.IsTrial, licence.ExpireDate, licence.UpdateCount, licence.EncryptedLicence));
+			}
 
-            LicenceViewModel model = new(GetModelData(), licences, GrowlGet());
+			LicenceViewModel model = new(GetModelData(), licences, GrowlGet());
 
-            model.Breadcrumbs = GetBreadcrumbs();
-            model.CartSummary = GetCartSummary();
+			model.Breadcrumbs = GetBreadcrumbs();
+			model.CartSummary = GetCartSummary();
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.LicenceView), nameof(AccountController), nameof(AccountController.Licences))]
-        public IActionResult LicenceView(int id)
-        {
-            ViewLicenceViewModel model = null;
-            Licence licence = _licenceProvider.LicencesGet(UserId()).Find(l => l.Id == id);
+		[HttpGet]
+		[Breadcrumb(nameof(Languages.LanguageStrings.LicenceView), nameof(AccountController), nameof(AccountController.Licences))]
+		public IActionResult LicenceView(int id)
+		{
+			ViewLicenceViewModel model = null;
+			Licence licence = _licenceProvider.LicencesGet(UserId()).Find(l => l.Id == id);
 
-            if (licence != null)
-            {
-                model = new ViewLicenceViewModel(GetModelData(),
-                    licence.Id, licence.DomainName, licence.LicenceType.Description,
-                    Shared.Utilities.DateWithin(licence.ExpireDate, licence.StartDate, DateTime.Now) && licence.IsValid,
-                    licence.IsTrial, licence.ExpireDate, licence.UpdateCount, licence.EncryptedLicence);
-            }
+			if (licence != null)
+			{
+				model = new ViewLicenceViewModel(GetModelData(),
+					licence.Id, licence.DomainName, licence.LicenceType.Description,
+					Shared.Utilities.DateWithin(licence.ExpireDate, licence.StartDate, DateTime.Now) && licence.IsValid,
+					licence.IsTrial, licence.ExpireDate, licence.UpdateCount, licence.EncryptedLicence);
+			}
 
-            if (model == null)
-                return RedirectToAction(nameof(Licences));
+			if (model == null)
+				return RedirectToAction(nameof(Licences));
 
-            model.Breadcrumbs = GetBreadcrumbs();
-            model.CartSummary = GetCartSummary();
+			model.Breadcrumbs = GetBreadcrumbs();
+			model.CartSummary = GetCartSummary();
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.LicenceCreateTrial), nameof(AccountController), nameof(AccountController.Licences))]
+		[HttpGet]
+		[Breadcrumb(nameof(Languages.LanguageStrings.LicenceCreateTrial), nameof(AccountController), nameof(AccountController.Licences))]
 
-        public IActionResult LicenceCreate()
-        {
-            return View(new CreateLicenceViewModel(GetModelData()));
-        }
+		public IActionResult LicenceCreate()
+		{
+			return View(new CreateLicenceViewModel(GetModelData()));
+		}
 
-        [HttpPost]
-        public IActionResult LicenceCreate(CreateLicenceViewModel model)
-        {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+		[HttpPost]
+		public IActionResult LicenceCreate(CreateLicenceViewModel model)
+		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
 
-            LicenceType licenceType = _licenceProvider.LicenceTypesGet().Find(l => l.Id == model.LicenceType);
+			LicenceType licenceType = _licenceProvider.LicenceTypesGet().Find(l => l.Id == model.LicenceType);
 
-            if (licenceType == null)
-                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.LicenceTypeInvalid);
+			if (licenceType == null)
+				ModelState.AddModelError(String.Empty, Languages.LanguageStrings.LicenceTypeInvalid);
 
-            if (ModelState.IsValid)
-            {
-                switch (_licenceProvider.LicenceTrialCreate(UserId(), licenceType))
-                {
-                    case Middleware.LicenceCreate.Existing:
-                        GrowlAdd(String.Format(Languages.LanguageStrings.LicenceCreateTrialExists,
-                            licenceType.Description));
-                        break;
+			if (ModelState.IsValid)
+			{
+				switch (_licenceProvider.LicenceTrialCreate(UserId(), licenceType))
+				{
+					case Middleware.LicenceCreate.Existing:
+						GrowlAdd(String.Format(Languages.LanguageStrings.LicenceCreateTrialExists,
+							licenceType.Description));
+						break;
 
-                    case Middleware.LicenceCreate.Failed:
-                        GrowlAdd(Languages.LanguageStrings.LicenceCreateTrialFailed);
-                        break;
+					case Middleware.LicenceCreate.Failed:
+						GrowlAdd(Languages.LanguageStrings.LicenceCreateTrialFailed);
+						break;
 
-                    case Middleware.LicenceCreate.Success:
-                        GrowlAdd(Languages.LanguageStrings.LicenceCreatedTrial);
-                        break;
-                }
+					case Middleware.LicenceCreate.Success:
+						GrowlAdd(Languages.LanguageStrings.LicenceCreatedTrial);
+						break;
+				}
 
-                return RedirectToAction(nameof(Licences));
-            }
+				return RedirectToAction(nameof(Licences));
+			}
 
-            model.Breadcrumbs = GetBreadcrumbs();
-            model.CartSummary = GetCartSummary();
+			model.Breadcrumbs = GetBreadcrumbs();
+			model.CartSummary = GetCartSummary();
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpPost]
-        public IActionResult LicenceUpdateDomain(ViewLicenceViewModel model)
-        {
-            Licence licence = _licenceProvider.LicencesGet(UserId()).Find(l => l.Id == model.Id);
+		[HttpPost]
+		public IActionResult LicenceUpdateDomain(ViewLicenceViewModel model)
+		{
+			Licence licence = _licenceProvider.LicencesGet(UserId()).Find(l => l.Id == model.Id);
 
-            if (!Shared.Utilities.ValidateIPAddress(model.Domain))
-            {
-                ModelState.AddModelError(nameof(model.Domain), Languages.LanguageStrings.RuleErrorIPAddressInvalid);
-                return View(nameof(LicenceView), model);
-            }
+			if (!Shared.Utilities.ValidateIPAddress(model.Domain))
+			{
+				ModelState.AddModelError(nameof(model.Domain), Languages.LanguageStrings.RuleErrorIPAddressInvalid);
+				return View(nameof(LicenceView), model);
+			}
 
-            if (licence != null && _licenceProvider.LicenceUpdateDomain(UserId(), licence, model.Domain))
-            {
-                GrowlAdd(Languages.LanguageStrings.LicenceUpdated);
-                return RedirectToAction(nameof(Licences));
-            }
+			if (licence != null && _licenceProvider.LicenceUpdateDomain(UserId(), licence, model.Domain))
+			{
+				GrowlAdd(Languages.LanguageStrings.LicenceUpdated);
+				return RedirectToAction(nameof(Licences));
+			}
 
-            GrowlAdd(Languages.LanguageStrings.LicenceUpdateFailed);
-            return RedirectToAction(nameof(Licences));
-        }
+			GrowlAdd(Languages.LanguageStrings.LicenceUpdateFailed);
+			return RedirectToAction(nameof(Licences));
+		}
 
-        public IActionResult LicenceSendEmail(int id)
-        {
-            Licence licence = _licenceProvider.LicencesGet(UserId()).Find(l => l.Id == id);
+		public IActionResult LicenceSendEmail(int id)
+		{
+			Licence licence = _licenceProvider.LicencesGet(UserId()).Find(l => l.Id == id);
 
-            if (licence != null && _licenceProvider.LicenceSendEmail(UserId(), id))
-            {
-                GrowlAdd(Languages.LanguageStrings.EmailSent);
-                return RedirectToAction(nameof(Licences));
-            }
+			if (licence != null && _licenceProvider.LicenceSendEmail(UserId(), id))
+			{
+				GrowlAdd(Languages.LanguageStrings.EmailSent);
+				return RedirectToAction(nameof(Licences));
+			}
 
-            GrowlAdd(Languages.LanguageStrings.EmailSendFailed);
-            return RedirectToAction(nameof(Licences));
-        }
+			GrowlAdd(Languages.LanguageStrings.EmailSendFailed);
+			return RedirectToAction(nameof(Licences));
+		}
 
-        #endregion Public Action Methods
-    }
+		#endregion Public Action Methods
+	}
 
 #pragma warning restore CS1591
 }

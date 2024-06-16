@@ -33,60 +33,60 @@ using SharedPluginFeatures;
 
 namespace ProductPlugin.Classes
 {
-    /// <summary>
-    /// Product sitemap provider, provides sitemap information for products
-    /// </summary>
-    public class ProductSitemapProvider : ISitemapProvider
-    {
-        #region Private Members
+	/// <summary>
+	/// Product sitemap provider, provides sitemap information for products
+	/// </summary>
+	public class ProductSitemapProvider : ISitemapProvider
+	{
+		#region Private Members
 
-        private readonly IProductProvider _productProvider;
+		private readonly IProductProvider _productProvider;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <param name="productProvider">IProductProvider instance</param>
-        public ProductSitemapProvider(IProductProvider productProvider)
-        {
-            _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
-        }
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		/// <param name="productProvider">IProductProvider instance</param>
+		public ProductSitemapProvider(IProductProvider productProvider)
+		{
+			_productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        /// <summary>
-        /// Retrieve a list of all product items that will be included in the sitemap
-        /// </summary>
-        /// <returns>List&lt;ISitemapItem&gt;</returns>
-        public List<SitemapItem> Items()
-        {
-            List<SitemapItem> Result = new();
+		/// <summary>
+		/// Retrieve a list of all product items that will be included in the sitemap
+		/// </summary>
+		/// <returns>List&lt;ISitemapItem&gt;</returns>
+		public List<SitemapItem> Items()
+		{
+			List<SitemapItem> Result = new();
 
 
-            foreach (ProductGroup group in _productProvider.ProductGroupsGet())
-            {
-                if (group.ShowOnWebsite)
-                {
-                    string groupUrl = String.IsNullOrEmpty(group.Url) ?
-                        $"Products/{HtmlHelper.RouteFriendlyName(group.Description)}/{group.Id}/" :
-                        group.Url;
+			foreach (ProductGroup group in _productProvider.ProductGroupsGet())
+			{
+				if (group.ShowOnWebsite)
+				{
+					string groupUrl = String.IsNullOrEmpty(group.Url) ?
+						$"Products/{HtmlHelper.RouteFriendlyName(group.Description)}/{group.Id}/" :
+						group.Url;
 
-                    Result.Add(new SitemapItem(new Uri(groupUrl, UriKind.RelativeOrAbsolute),
-                        SitemapChangeFrequency.Daily, 1.0m));
-                }
-            }
+					Result.Add(new SitemapItem(new Uri(groupUrl, UriKind.RelativeOrAbsolute),
+						SitemapChangeFrequency.Daily, 1.0m));
+				}
+			}
 
-            foreach (Product product in _productProvider.GetProducts(1, ushort.MaxValue))
-            {
-                Result.Add(new SitemapItem(
-                    new Uri($"Product/{product.Id}/{HtmlHelper.RouteFriendlyName(product.Name)}/", UriKind.RelativeOrAbsolute),
-                    SitemapChangeFrequency.Hourly));
-            }
+			foreach (Product product in _productProvider.GetProducts(1, ushort.MaxValue))
+			{
+				Result.Add(new SitemapItem(
+					new Uri($"Product/{product.Id}/{HtmlHelper.RouteFriendlyName(product.Name)}/", UriKind.RelativeOrAbsolute),
+					SitemapChangeFrequency.Hourly));
+			}
 
-            return Result;
-        }
-    }
+			return Result;
+		}
+	}
 }

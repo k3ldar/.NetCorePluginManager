@@ -31,72 +31,72 @@ using SharedPluginFeatures;
 
 namespace GeoIp.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns Timings information for all time spent processing Geo Ip requests and can 
-    /// be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public class GeoIpProviderTimingsSubMenu : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	/// <summary>
+	/// Returns Timings information for all time spent processing Geo Ip requests and can 
+	/// be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public class GeoIpProviderTimingsSubMenu : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        /// <summary>
-        /// Returns Timings data in milliseconds for time spent processing by GeoIpPlugin requests.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            string Result = "Setting|Value";
+		/// <summary>
+		/// Returns Timings data in milliseconds for time spent processing by GeoIpPlugin requests.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			string Result = "Setting|Value";
 
-            Result += $"\rTotal Requests|{GeoIpService._timingsIpProvider.Requests}";
-            Result += $"\rFastest ms|{GeoIpService._timingsIpProvider.Fastest}";
-            Result += $"\rSlowest ms|{GeoIpService._timingsIpProvider.Slowest}";
-            Result += $"\rAverage ms|{GeoIpService._timingsIpProvider.Average}";
-            Result += $"\rTrimmed Avg ms|{GeoIpService._timingsIpProvider.TrimmedAverage}";
-            Result += $"\rTotal ms|{GeoIpService._timingsIpProvider.Total}";
+			Result += $"\rTotal Requests|{GeoIpService._timingsIpProvider.Requests}";
+			Result += $"\rFastest ms|{GeoIpService._timingsIpProvider.Fastest}";
+			Result += $"\rSlowest ms|{GeoIpService._timingsIpProvider.Slowest}";
+			Result += $"\rAverage ms|{GeoIpService._timingsIpProvider.Average}";
+			Result += $"\rTrimmed Avg ms|{GeoIpService._timingsIpProvider.TrimmedAverage}";
+			Result += $"\rTotal ms|{GeoIpService._timingsIpProvider.Total}";
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public override string Image()
-        {
-            return Constants.SystemImageStopWatch;
-        }
+		public override string Image()
+		{
+			return Constants.SystemImageStopWatch;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override string Name()
-        {
-            return "GeoIp Provider";
-        }
+		public override string Name()
+		{
+			return "GeoIp Provider";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "Timings";
-        }
+		public override string ParentMenuName()
+		{
+			return "Timings";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
-    }
+		public override int SortOrder()
+		{
+			return 0;
+		}
+	}
 }
 
 #pragma warning restore CS1591

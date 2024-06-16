@@ -28,17 +28,17 @@
 
 namespace HelpdeskPlugin.Classes
 {
-    public sealed class HelpdeskCacheItem
-    {
-        public HelpdeskCacheItem()
-        {
+	public sealed class HelpdeskCacheItem
+	{
+		public HelpdeskCacheItem()
+		{
 
-        }
+		}
 
-        public string CaptchaText { get; set; }
+		public string CaptchaText { get; set; }
 
-        public uint Requests { get; set; }
-    }
+		public uint Requests { get; set; }
+	}
 }
 
 #pragma warning restore CS1591

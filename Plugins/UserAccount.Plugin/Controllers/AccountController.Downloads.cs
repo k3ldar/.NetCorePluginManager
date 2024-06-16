@@ -40,71 +40,71 @@ namespace UserAccount.Plugin.Controllers
 {
 #pragma warning disable CS1591, IDE0017, IDE0066
 
-    public partial class AccountController
-    {
-        #region Public Controller Methods
+	public partial class AccountController
+	{
+		#region Public Controller Methods
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.Downloads), nameof(AccountController), nameof(Index))]
-        public IActionResult Downloads(int id)
-        {
-            List<DownloadCategory> categories = _downloadProvider.DownloadCategoriesGet(UserId());
-            DownloadCategory activeCategory = categories.Find(d => d.Id == id);
+		[Breadcrumb(nameof(Languages.LanguageStrings.Downloads), nameof(AccountController), nameof(Index))]
+		public IActionResult Downloads(int id)
+		{
+			List<DownloadCategory> categories = _downloadProvider.DownloadCategoriesGet(UserId());
+			DownloadCategory activeCategory = categories.Find(d => d.Id == id);
 
-            activeCategory ??= categories[0];
+			activeCategory ??= categories[0];
 
-            List<ViewDownloadViewItem> downloads = new();
+			List<ViewDownloadViewItem> downloads = new();
 
-            foreach (DownloadItem item in activeCategory.Downloads)
-            {
-                downloads.Add(new ViewDownloadViewItem(GetModelData(),
-                    item.Id, item.Name, item.Description,
-                    item.Version, item.Filename, item.Icon, item.Size));
-            }
+			foreach (DownloadItem item in activeCategory.Downloads)
+			{
+				downloads.Add(new ViewDownloadViewItem(GetModelData(),
+					item.Id, item.Name, item.Description,
+					item.Version, item.Filename, item.Icon, item.Size));
+			}
 
-            DownloadViewModel model = new(GetModelData(),
-                categories, activeCategory.Name, downloads);
+			DownloadViewModel model = new(GetModelData(),
+				categories, activeCategory.Name, downloads);
 
-            model.Breadcrumbs = GetBreadcrumbs();
-            model.CartSummary = GetCartSummary();
+			model.Breadcrumbs = GetBreadcrumbs();
+			model.CartSummary = GetCartSummary();
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.Download), nameof(AccountController), nameof(Downloads))]
-        public IActionResult DownloadView(int id)
-        {
-            DownloadItem downloadItem = null;
+		[Breadcrumb(nameof(Languages.LanguageStrings.Download), nameof(AccountController), nameof(Downloads))]
+		public IActionResult DownloadView(int id)
+		{
+			DownloadItem downloadItem = null;
 
-            foreach (DownloadCategory category in _downloadProvider.DownloadCategoriesGet(UserId()))
-            {
-                foreach (DownloadItem item in category.Downloads)
-                {
-                    if (item.Id == id)
-                    {
-                        downloadItem = item;
-                        break;
-                    }
-                }
+			foreach (DownloadCategory category in _downloadProvider.DownloadCategoriesGet(UserId()))
+			{
+				foreach (DownloadItem item in category.Downloads)
+				{
+					if (item.Id == id)
+					{
+						downloadItem = item;
+						break;
+					}
+				}
 
-                if (downloadItem != null)
-                    break;
-            }
+				if (downloadItem != null)
+					break;
+			}
 
-            if (downloadItem == null)
-                return RedirectToAction(nameof(Index));
+			if (downloadItem == null)
+				return RedirectToAction(nameof(Index));
 
-            ViewDownloadViewItem model = new(GetModelData(),
-                downloadItem.Id, downloadItem.Name, downloadItem.Description, downloadItem.Version,
-                downloadItem.Filename, downloadItem.Icon, downloadItem.Size);
+			ViewDownloadViewItem model = new(GetModelData(),
+				downloadItem.Id, downloadItem.Name, downloadItem.Description, downloadItem.Version,
+				downloadItem.Filename, downloadItem.Icon, downloadItem.Size);
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpPost]
-        public IActionResult DownloadFile(ViewDownloadViewItem model)
-        {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+		[HttpPost]
+		public IActionResult DownloadFile(ViewDownloadViewItem model)
+		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
 
 			DownloadItem downloadItem = null;
 
@@ -127,63 +127,63 @@ namespace UserAccount.Plugin.Controllers
 				return RedirectToAction(nameof(Index));
 
 			string path = downloadItem.Filename;
-            string name = Path.GetFileName(path);
-            string ext = Path.GetExtension(path) ?? String.Empty;
+			string name = Path.GetFileName(path);
+			string ext = Path.GetExtension(path) ?? String.Empty;
 
-            Response.Headers["content-disposition"] = $"attachment; filename={name}";
-            return File(new FileStream(path, FileMode.Open), GetContentType(ext));
-        }
+			Response.Headers["content-disposition"] = $"attachment; filename={name}";
+			return File(new FileStream(path, FileMode.Open), GetContentType(ext));
+		}
 
-        #endregion Public Controller Methods
+		#endregion Public Controller Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private static string GetContentType(in string fileExtension)
-        {
-            switch (fileExtension.ToLower())
-            {
-                case ".htm":
-                case ".html":
-                    return "text/HTML";
+		private static string GetContentType(in string fileExtension)
+		{
+			switch (fileExtension.ToLower())
+			{
+				case ".htm":
+				case ".html":
+					return "text/HTML";
 
-                case ".txt":
-                    return "text/plain";
+				case ".txt":
+					return "text/plain";
 
-                case ".doc":
-                case ".rtf":
-                    return "Application/msword";
+				case ".doc":
+				case ".rtf":
+					return "Application/msword";
 
-                case ".js":
-                    return "text/javascript";
+				case ".js":
+					return "text/javascript";
 
-                case ".css":
-                    return "text/css";
+				case ".css":
+					return "text/css";
 
-                case ".jpg":
-                case ".jpeg":
-                    return "image/jpeg";
+				case ".jpg":
+				case ".jpeg":
+					return "image/jpeg";
 
-                case ".png":
-                    return "image/png";
+				case ".png":
+					return "image/png";
 
-                case ".mpeg":
-                    return "audio/mpeg";
+				case ".mpeg":
+					return "audio/mpeg";
 
-                case ".mp4":
-                    return "video/mp4";
+				case ".mp4":
+					return "video/mp4";
 
-                case ".json":
-                    return Constants.ContentTypeApplicationJson;
+				case ".json":
+					return Constants.ContentTypeApplicationJson;
 
-                case ".pdf":
-                    return "application/pdf";
-            }
+				case ".pdf":
+					return "application/pdf";
+			}
 
-            return "application/octet-stream";
-        }
+			return "application/octet-stream";
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 
 #pragma warning restore CS1591, IDE0017, IDE0066
 }

@@ -27,17 +27,17 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal class AddressDataRowDefaults : ITableDefaults<AddressDataRow>
-    {
-        public long PrimarySequence => 0;
+	internal class AddressDataRowDefaults : ITableDefaults<AddressDataRow>
+	{
+		public long PrimarySequence => 0;
 
-        public long SecondarySequence => 0;
+		public long SecondarySequence => 0;
 
-        public ushort Version => 1;
+		public ushort Version => 1;
 
-        public List<AddressDataRow> InitialData(ushort version)
-        {
-            return null;
-        }
-    }
+		public List<AddressDataRow> InitialData(ushort version)
+		{
+			return null;
+		}
+	}
 }

@@ -31,36 +31,36 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Models
 {
-    public sealed class PartialViewModel : BaseModel
-    {
-        #region Constructors
+	public sealed class PartialViewModel : BaseModel
+	{
+		#region Constructors
 
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly", Justification = "Validating property of param so ok")]
-        public PartialViewModel(in BaseModelData modelData, SystemAdminSubMenu subMenu)
-            : base(modelData)
-        {
-            if (subMenu == null)
-                throw new ArgumentNullException(nameof(subMenu));
+		//[System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly", Justification = "Validating property of param so ok")]
+		public PartialViewModel(in BaseModelData modelData, SystemAdminSubMenu subMenu)
+			: base(modelData)
+		{
+			if (subMenu == null)
+				throw new ArgumentNullException(nameof(subMenu));
 
-            Title = subMenu.Name();
+			Title = subMenu.Name();
 
 
-            PartialView = $"/{subMenu.Controller()}/{subMenu.Action()}";
-            ControllerRoot = $"/{subMenu.Controller()}/";
-        }
+			PartialView = $"/{subMenu.Controller()}/{subMenu.Action()}";
+			ControllerRoot = $"/{subMenu.Controller()}/";
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Properties
+		#region Public Properties
 
-        public string Title { get; }
+		public string Title { get; }
 
-        public string PartialView { get; }
+		public string PartialView { get; }
 
-        public string ControllerRoot { get; }
+		public string ControllerRoot { get; }
 
-        #endregion Public Properties
-    }
+		#endregion Public Properties
+	}
 }
 
 #pragma warning restore CS1591

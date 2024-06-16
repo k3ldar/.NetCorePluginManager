@@ -33,44 +33,44 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Models
 {
-    public sealed class MapViewModel : BaseModel
-    {
-        #region Constructors
+	public sealed class MapViewModel : BaseModel
+	{
+		#region Constructors
 
-        public MapViewModel(in BaseModelData modelData,
-            in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu)
-            : base(modelData)
-        {
-            if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+		public MapViewModel(in BaseModelData modelData,
+			in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu)
+			: base(modelData)
+		{
+			if (settingsProvider == null)
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            if (subMenu == null)
-                throw new ArgumentNullException(nameof(subMenu));
+			if (subMenu == null)
+				throw new ArgumentNullException(nameof(subMenu));
 
-            Title = subMenu.Name();
+			Title = subMenu.Name();
 
-            MapLocationData = subMenu.Data();
+			MapLocationData = subMenu.Data();
 
-            if (String.IsNullOrWhiteSpace(MapLocationData))
-                throw new InvalidOperationException("map data not found");
+			if (String.IsNullOrWhiteSpace(MapLocationData))
+				throw new InvalidOperationException("map data not found");
 
-            SystemAdminSettings settings = settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
+			SystemAdminSettings settings = settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
 
-            GoogleMapApiKey = settings.GoogleMapApiKey;
-        }
+			GoogleMapApiKey = settings.GoogleMapApiKey;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Properties
+		#region Public Properties
 
-        public string GoogleMapApiKey { get; set; }
+		public string GoogleMapApiKey { get; set; }
 
-        public string MapLocationData { get; set; }
+		public string MapLocationData { get; set; }
 
-        public string Title { get; set; }
+		public string Title { get; set; }
 
-        #endregion Public Properties
-    }
+		#endregion Public Properties
+	}
 }
 
 #pragma warning restore CS1591

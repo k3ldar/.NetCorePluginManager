@@ -45,97 +45,97 @@ using UserSessionMiddleware.Plugin.Classes;
 
 namespace UserSessionMiddleware.Plugin
 {
-    /// <summary>
-    /// Implements IPlugin which allows the UserSessionMiddleware.Plugin module to be
-    /// loaded as a plugin module
-    /// </summary>
-    public sealed class PluginInitialisation : IPlugin, IInitialiseEvents
-    {
-        #region Internal Static Properties
+	/// <summary>
+	/// Implements IPlugin which allows the UserSessionMiddleware.Plugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	public sealed class PluginInitialisation : IPlugin, IInitialiseEvents
+	{
+		#region Internal Static Properties
 
-        internal static ILogger GetLogger { get; private set; }
+		internal static ILogger GetLogger { get; private set; }
 
-        #endregion Internal Static Properties
+		#endregion Internal Static Properties
 
-        #region IPlugin Methods
+		#region IPlugin Methods
 
-        /// <summary>
-        /// Initialises the Plugin module
-        /// </summary>
-        /// <param name="logger">ILogger</param>
-        public void Initialise(ILogger logger)
-        {
-            ThreadManager.Initialise();
-            GetLogger = logger ?? throw new ArgumentNullException(nameof(logger));
-        }
+		/// <summary>
+		/// Initialises the Plugin module
+		/// </summary>
+		/// <param name="logger">ILogger</param>
+		public void Initialise(ILogger logger)
+		{
+			ThreadManager.Initialise();
+			GetLogger = logger ?? throw new ArgumentNullException(nameof(logger));
+		}
 
-        /// <summary>
-        /// Finalises the Plugin module
-        /// </summary>
-        public void Finalise()
-        {
+		/// <summary>
+		/// Finalises the Plugin module
+		/// </summary>
+		public void Finalise()
+		{
 			if (ThreadManager.IsInitialized)
 				ThreadManager.Finalise();
-        }
+		}
 
-        /// <summary>
-        /// Allows the Plugin module to configure the services for the application
-        /// </summary>
-        /// <param name="services">IServiceCollection</param>
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddSingleton<IUserCultureChangeProvider, UserCultureChanged>();
-        }
+		/// <summary>
+		/// Allows the Plugin module to configure the services for the application
+		/// </summary>
+		/// <param name="services">IServiceCollection</param>
+		public void ConfigureServices(IServiceCollection services)
+		{
+			services.AddSingleton<IUserCultureChangeProvider, UserCultureChanged>();
+		}
 
-        /// <summary>
-        /// Returns the internal plugin version number
-        /// </summary>
-        /// <returns></returns>
-        public ushort GetVersion()
-        {
-            return 1;
-        }
+		/// <summary>
+		/// Returns the internal plugin version number
+		/// </summary>
+		/// <returns></returns>
+		public ushort GetVersion()
+		{
+			return 1;
+		}
 
-        #endregion IPlugin Methods
+		#endregion IPlugin Methods
 
-        #region IInitialiseEvents Methods
+		#region IInitialiseEvents Methods
 
-        public void AfterConfigure(in IApplicationBuilder app)
-        {
-            SessionHelper.InitSessionHelper(app.ApplicationServices);
-        }
+		public void AfterConfigure(in IApplicationBuilder app)
+		{
+			SessionHelper.InitSessionHelper(app.ApplicationServices);
+		}
 
-        public void AfterConfigureServices(in IServiceCollection services)
-        {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
+		public void AfterConfigureServices(in IServiceCollection services)
+		{
+			if (services == null)
+				throw new ArgumentNullException(nameof(services));
 
-            ISettingsProvider settingsProvider = services.GetServiceInstance<ISettingsProvider>();
+			ISettingsProvider settingsProvider = services.GetServiceInstance<ISettingsProvider>();
 
-            if (settingsProvider != null)
-            {
-                UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(SharedPluginFeatures.Constants.UserSessionConfiguration);
+			if (settingsProvider != null)
+			{
+				UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(SharedPluginFeatures.Constants.UserSessionConfiguration);
 
-                if (settings.EnableDefaultSessionService && !services.Any(x => x.ServiceType == typeof(IUserSessionService)))
-                {
-                    services.TryAddSingleton<IUserSessionService, DefaultUserSessionService>();
+				if (settings.EnableDefaultSessionService && !services.Any(x => x.ServiceType == typeof(IUserSessionService)))
+				{
+					services.TryAddSingleton<IUserSessionService, DefaultUserSessionService>();
 					services.TryAddSingleton<ISessionStatisticsProvider, DefaultUserSessionService>();
-                }
-            }
-        }
+				}
+			}
+		}
 
-        public void BeforeConfigure(in IApplicationBuilder app)
-        {
-            app.UseUserSessionMiddleware();
-        }
+		public void BeforeConfigure(in IApplicationBuilder app)
+		{
+			app.UseUserSessionMiddleware();
+		}
 
-        public void BeforeConfigureServices(in IServiceCollection services)
-        {
+		public void BeforeConfigureServices(in IServiceCollection services)
+		{
 			// from interface but unused in this context
 		}
 
 		public void Configure(in IApplicationBuilder app)
-        {
+		{
 			// from interface but unused in this context
 		}
 

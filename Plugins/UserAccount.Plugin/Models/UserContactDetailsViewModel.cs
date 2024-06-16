@@ -31,60 +31,60 @@ namespace UserAccount.Plugin.Models
 {
 #pragma warning disable CS1591
 
-    public class UserContactDetailsViewModel : BaseModel
-    {
-        #region Constructors
+	public class UserContactDetailsViewModel : BaseModel
+	{
+		#region Constructors
 
-        public UserContactDetailsViewModel()
-        {
+		public UserContactDetailsViewModel()
+		{
 
-        }
+		}
 
-        public UserContactDetailsViewModel(in BaseModelData baseModelData,
-            in string firstName, in string lastName, in string email,
-            in bool emailConfirmed, in string telephone, in bool telephoneConfirmed, in bool showTelephone)
-            : base(baseModelData)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-            Email = email;
-            EmailConfirmed = emailConfirmed;
-            Telephone = telephone;
-            TelephoneConfirmed = telephoneConfirmed;
-            ShowTelephone = showTelephone;
-        }
+		public UserContactDetailsViewModel(in BaseModelData baseModelData,
+			in string firstName, in string lastName, in string email,
+			in bool emailConfirmed, in string telephone, in bool telephoneConfirmed, in bool showTelephone)
+			: base(baseModelData)
+		{
+			FirstName = firstName;
+			LastName = lastName;
+			Email = email;
+			EmailConfirmed = emailConfirmed;
+			Telephone = telephone;
+			TelephoneConfirmed = telephoneConfirmed;
+			ShowTelephone = showTelephone;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        [Required]
-        [Display(Name = nameof(Languages.LanguageStrings.FirstName))]
-        [StringLength(50, MinimumLength = 2)]
-        public string FirstName { get; set; }
+		[Required]
+		[Display(Name = nameof(Languages.LanguageStrings.FirstName))]
+		[StringLength(50, MinimumLength = 2)]
+		public string FirstName { get; set; }
 
-        [Required]
-        [Display(Name = nameof(Languages.LanguageStrings.LastName))]
-        [StringLength(50, MinimumLength = 2)]
-        public string LastName { get; set; }
+		[Required]
+		[Display(Name = nameof(Languages.LanguageStrings.LastName))]
+		[StringLength(50, MinimumLength = 2)]
+		public string LastName { get; set; }
 
-        [Required]
-        [Display(Name = nameof(Languages.LanguageStrings.Email))]
-        [StringLength(100, MinimumLength = 5)]
-        public string Email { get; set; }
+		[Required]
+		[Display(Name = nameof(Languages.LanguageStrings.Email))]
+		[StringLength(100, MinimumLength = 5)]
+		public string Email { get; set; }
 
-        public bool EmailConfirmed { get; set; }
+		public bool EmailConfirmed { get; set; }
 
-        public bool ShowTelephone { get; set; }
+		public bool ShowTelephone { get; set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.Telephone))]
-        [StringLength(20, MinimumLength = 0)]
-        public string Telephone { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.Telephone))]
+		[StringLength(20, MinimumLength = 0)]
+		public string Telephone { get; set; }
 
-        public bool TelephoneConfirmed { get; set; }
+		public bool TelephoneConfirmed { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 
 #pragma warning restore CS1591
 }

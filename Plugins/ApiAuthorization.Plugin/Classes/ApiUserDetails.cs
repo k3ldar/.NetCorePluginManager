@@ -27,50 +27,50 @@ using System;
 
 namespace ApiAuthorization.Plugin.Classes
 {
-    internal sealed class ApiUserDetails
-    {
-        public ApiUserDetails(string apiKey, string merchantId, string authorization, ulong nonce, long epoch, int payloadLength)
-        {
-            if (String.IsNullOrEmpty(apiKey))
-                throw new ArgumentNullException(nameof(apiKey));
+	internal sealed class ApiUserDetails
+	{
+		public ApiUserDetails(string apiKey, string merchantId, string authorization, ulong nonce, long epoch, int payloadLength)
+		{
+			if (String.IsNullOrEmpty(apiKey))
+				throw new ArgumentNullException(nameof(apiKey));
 
-            if (String.IsNullOrEmpty(merchantId))
-                throw new ArgumentNullException(nameof(merchantId));
+			if (String.IsNullOrEmpty(merchantId))
+				throw new ArgumentNullException(nameof(merchantId));
 
-            if (String.IsNullOrEmpty(authorization))
-                throw new ArgumentNullException(nameof(authorization));
+			if (String.IsNullOrEmpty(authorization))
+				throw new ArgumentNullException(nameof(authorization));
 
-            if (nonce < 1)
-                throw new ArgumentOutOfRangeException(nameof(nonce));
+			if (nonce < 1)
+				throw new ArgumentOutOfRangeException(nameof(nonce));
 
-            EpochTimeStamp = new DateTime(epoch + DateTime.UnixEpoch.Ticks, DateTimeKind.Utc);
-            Nonce = nonce;
-            ApiKey = apiKey;
-            MerchantId = merchantId;
-            Authorization = authorization;
-            Created = DateTime.UtcNow;
+			EpochTimeStamp = new DateTime(epoch + DateTime.UnixEpoch.Ticks, DateTimeKind.Utc);
+			Nonce = nonce;
+			ApiKey = apiKey;
+			MerchantId = merchantId;
+			Authorization = authorization;
+			Created = DateTime.UtcNow;
 			PayloadLength = payloadLength;
-        }
+		}
 
-        public string ApiKey { get; }
+		public string ApiKey { get; }
 
-        public string MerchantId { get; }
+		public string MerchantId { get; }
 
-        public ulong Nonce { get; }
+		public ulong Nonce { get; }
 
-        public DateTime EpochTimeStamp { get; }
+		public DateTime EpochTimeStamp { get; }
 
-        public DateTime Created { get; }
+		public DateTime Created { get; }
 
-        public string Authorization { get; }
+		public string Authorization { get; }
 
 		public int PayloadLength { get; }
 
-        public bool WithinTimeParameters(TimeSpan span)
-        {
-            TimeSpan range = Created - EpochTimeStamp;
+		public bool WithinTimeParameters(TimeSpan span)
+		{
+			TimeSpan range = Created - EpochTimeStamp;
 
-            return range.TotalMilliseconds <= span.TotalMilliseconds;
-        }
-    }
+			return range.TotalMilliseconds <= span.TotalMilliseconds;
+		}
+	}
 }

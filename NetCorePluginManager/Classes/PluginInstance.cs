@@ -32,8 +32,8 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager
 {
-    internal sealed class PluginInstance : IPlugin
-    {
+	internal sealed class PluginInstance : IPlugin
+	{
 		public void ConfigureServices(IServiceCollection services)
 		{
 			// required by interface not used in this implementation
@@ -45,9 +45,9 @@ namespace AspNetCore.PluginManager
 		}
 
 		public ushort GetVersion()
-        {
-            return 1;
-        }
+		{
+			return 1;
+		}
 
 		public void Initialise(ILogger logger)
 		{

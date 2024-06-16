@@ -29,32 +29,32 @@ using Middleware.Search;
 
 namespace Middleware
 {
-    /// <summary>
-    /// Keyword search provider interface is implemented by classes which provide keyword search 
-    /// facilities within a plugin
-    /// </summary>
-    public interface ISearchKeywordProvider
-    {
-        /// <summary>
-        /// Interface for searching keywords
-        /// </summary>
-        /// <param name="searchOptions"></param>
-        /// <returns>List&lt;SearchResponseItem&gt;</returns>
-        List<SearchResponseItem> Search(in KeywordSearchOptions searchOptions);
+	/// <summary>
+	/// Keyword search provider interface is implemented by classes which provide keyword search 
+	/// facilities within a plugin
+	/// </summary>
+	public interface ISearchKeywordProvider
+	{
+		/// <summary>
+		/// Interface for searching keywords
+		/// </summary>
+		/// <param name="searchOptions"></param>
+		/// <returns>List&lt;SearchResponseItem&gt;</returns>
+		List<SearchResponseItem> Search(in KeywordSearchOptions searchOptions);
 
-        /// <summary>
-        /// Retrieves the available search response types for all search providers.
-        /// </summary>
-        /// <param name="quickSearch">indicates whether the response types are from a quick search or not.</param>
-        /// <returns>List&lt;string&gt;</returns>
-        List<string> SearchResponseTypes(in bool quickSearch);
+		/// <summary>
+		/// Retrieves the available search response types for all search providers.
+		/// </summary>
+		/// <param name="quickSearch">indicates whether the response types are from a quick search or not.</param>
+		/// <returns>List&lt;string&gt;</returns>
+		List<string> SearchResponseTypes(in bool quickSearch);
 
-        /// <summary>
-        /// Retrieves a string that can optionally be used by the UI to provide a paged or tabbed advance search option.
-        /// 
-        /// Return null or empty string if the search provider should not have a custom advanced search option.
-        /// </summary>
-        /// <returns>Dictionary&lt;string, AdvancedSearchOptions&gt;</returns>
-        Dictionary<string, AdvancedSearchOptions> AdvancedSearch();
-    }
+		/// <summary>
+		/// Retrieves a string that can optionally be used by the UI to provide a paged or tabbed advance search option.
+		/// 
+		/// Return null or empty string if the search provider should not have a custom advanced search option.
+		/// </summary>
+		/// <returns>Dictionary&lt;string, AdvancedSearchOptions&gt;</returns>
+		Dictionary<string, AdvancedSearchOptions> AdvancedSearch();
+	}
 }

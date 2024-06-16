@@ -29,29 +29,29 @@ using System;
 
 namespace DynamicContent.Plugin.Model
 {
-    public sealed class DeleteControlModel
-    {
-        public DeleteControlModel()
-        {
+	public sealed class DeleteControlModel
+	{
+		public DeleteControlModel()
+		{
 
-        }
+		}
 
-        public DeleteControlModel(string cacheId, string controlId)
-        {
-            if (String.IsNullOrEmpty(cacheId))
-                throw new ArgumentNullException(nameof(cacheId));
+		public DeleteControlModel(string cacheId, string controlId)
+		{
+			if (String.IsNullOrEmpty(cacheId))
+				throw new ArgumentNullException(nameof(cacheId));
 
-            if (String.IsNullOrEmpty(controlId))
-                throw new ArgumentNullException(nameof(controlId));
+			if (String.IsNullOrEmpty(controlId))
+				throw new ArgumentNullException(nameof(controlId));
 
-            CacheId = cacheId;
-            ControlId = controlId;
-        }
+			CacheId = cacheId;
+			ControlId = controlId;
+		}
 
-        public string CacheId { get; set; }
+		public string CacheId { get; set; }
 
-        public string ControlId { get; set; }
-    }
+		public string ControlId { get; set; }
+	}
 }
 
 #pragma warning restore CS1591

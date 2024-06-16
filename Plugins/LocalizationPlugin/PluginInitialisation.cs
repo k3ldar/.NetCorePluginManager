@@ -47,88 +47,88 @@ using SharedPluginFeatures;
 
 namespace Localization.Plugin
 {
-    /// <summary>
-    /// Implements IPlugin which allows the Localization.Plugin module to be
-    /// loaded as a plugin module
-    /// </summary>
-    public class PluginInitialisation : IPlugin, IConfigureMvcBuilder, IInitialiseEvents
-    {
-        #region Internal Static Properties / Members
+	/// <summary>
+	/// Implements IPlugin which allows the Localization.Plugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	public class PluginInitialisation : IPlugin, IConfigureMvcBuilder, IInitialiseEvents
+	{
+		#region Internal Static Properties / Members
 
-        internal readonly static CacheManager CultureCacheManager = new("Available Cultures", new TimeSpan(24, 0, 0), true, true);
+		internal readonly static CacheManager CultureCacheManager = new("Available Cultures", new TimeSpan(24, 0, 0), true, true);
 
-        internal static string[] InstalledCultures { get; private set; }
+		internal static string[] InstalledCultures { get; private set; }
 
-        #endregion Internal Static Properties / Members
+		#endregion Internal Static Properties / Members
 
-        #region IPlugin Methods
+		#region IPlugin Methods
 
-        public void Initialise(ILogger logger)
-        {
-            ThreadManager.Initialise();
-        }
+		public void Initialise(ILogger logger)
+		{
+			ThreadManager.Initialise();
+		}
 
-        public void Finalise()
-        {
+		public void Finalise()
+		{
 			if (ThreadManager.IsInitialized)
 				ThreadManager.Finalise();
-        }
+		}
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddSingleton<ICultureProvider, CultureProvider>();
-            services.AddSingleton<IStringLocalizerFactory, StringLocalizerFactory>();
+		public void ConfigureServices(IServiceCollection services)
+		{
+			services.AddSingleton<ICultureProvider, CultureProvider>();
+			services.AddSingleton<IStringLocalizerFactory, StringLocalizerFactory>();
 
-            IHostEnvironment environment = services.GetServiceInstance<IHostEnvironment>();
+			IHostEnvironment environment = services.GetServiceInstance<IHostEnvironment>();
 
-            InstalledCultures = LanguageWrapper.GetInstalledLanguages(environment.ContentRootPath);
+			InstalledCultures = LanguageWrapper.GetInstalledLanguages(environment.ContentRootPath);
 
-            List<CultureInfo> cultures = new();
+			List<CultureInfo> cultures = new();
 
-            for (int i = 0; i < InstalledCultures.Length; i++)
-                cultures.Add(new CultureInfo(InstalledCultures[i]));
+			for (int i = 0; i < InstalledCultures.Length; i++)
+				cultures.Add(new CultureInfo(InstalledCultures[i]));
 
-            services.Configure<RequestLocalizationOptions>(
-                opts =>
-                {
-                    opts.DefaultRequestCulture = new RequestCulture(InstalledCultures[0]);
-                    opts.SupportedCultures = cultures;
-                    opts.SupportedUICultures = cultures;
-                });
-        }
+			services.Configure<RequestLocalizationOptions>(
+				opts =>
+				{
+					opts.DefaultRequestCulture = new RequestCulture(InstalledCultures[0]);
+					opts.SupportedCultures = cultures;
+					opts.SupportedUICultures = cultures;
+				});
+		}
 
-        public ushort GetVersion()
-        {
-            return 1;
-        }
+		public ushort GetVersion()
+		{
+			return 1;
+		}
 
-        #endregion IPlugin Methods
+		#endregion IPlugin Methods
 
-        #region IInitialiseEvents Methods
+		#region IInitialiseEvents Methods
 
-        public void BeforeConfigure(in IApplicationBuilder app)
-        {
+		public void BeforeConfigure(in IApplicationBuilder app)
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterConfigure(in IApplicationBuilder app)
-        {
-            app.UseRequestLocalization();
-            app.UseLocalizationMiddleware();
-        }
+		{
+			app.UseRequestLocalization();
+			app.UseLocalizationMiddleware();
+		}
 
-        public void Configure(in IApplicationBuilder app)
-        {
+		public void Configure(in IApplicationBuilder app)
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeConfigureServices(in IServiceCollection services)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
-        {
+		{
 			// from interface but unused in this context
 		}
 
@@ -141,19 +141,19 @@ namespace Localization.Plugin
 		/// </summary>
 		/// <param name="mvcBuilder">IMvcBuilder instance</param>
 		public void ConfigureMvcBuilder(in IMvcBuilder mvcBuilder)
-        {
-            if (mvcBuilder == null)
-                throw new ArgumentNullException(nameof(mvcBuilder));
+		{
+			if (mvcBuilder == null)
+				throw new ArgumentNullException(nameof(mvcBuilder));
 
-            mvcBuilder
-                .AddViewLocalization(
-                    LanguageViewLocationExpanderFormat.Suffix,
-                    opts => { opts.ResourcesPath = "Resources"; })
-                .AddDataAnnotationsLocalization();
-        }
+			mvcBuilder
+				.AddViewLocalization(
+					LanguageViewLocationExpanderFormat.Suffix,
+					opts => { opts.ResourcesPath = "Resources"; })
+				.AddDataAnnotationsLocalization();
+		}
 
-        #endregion IConfigureMvcBuilder Methods
-    }
+		#endregion IConfigureMvcBuilder Methods
+	}
 }
 
 #pragma warning restore CS1591

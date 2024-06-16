@@ -33,55 +33,55 @@ using Shared.Classes;
 
 namespace Localization.Plugin
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
-    internal sealed class StringLocalizerFactory : IStringLocalizerFactory
-    {
-        #region Private Members
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
+	internal sealed class StringLocalizerFactory : IStringLocalizerFactory
+	{
+		#region Private Members
 
-        private readonly ILogger _logger;
+		private readonly ILogger _logger;
 		private readonly IPluginClassesService _pluginClassesService;
 		private const string _cacheName = "IStringLocalizerFactory";
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public StringLocalizerFactory(ILogger logger, IPluginClassesService pluginClassesService)
-        {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+		public StringLocalizerFactory(ILogger logger, IPluginClassesService pluginClassesService)
+		{
+			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			_pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
-        }
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IStringLocalizerFactory Methods
+		#region IStringLocalizerFactory Methods
 
-        public IStringLocalizer Create(Type resourceSource)
-        {
-            CacheItem cacheItem = PluginInitialisation.CultureCacheManager.Get(_cacheName);
+		public IStringLocalizer Create(Type resourceSource)
+		{
+			CacheItem cacheItem = PluginInitialisation.CultureCacheManager.Get(_cacheName);
 
-            if (cacheItem == null)
-            {
-                cacheItem = new CacheItem(_cacheName, new StringLocalizer(_logger, _pluginClassesService));
-                PluginInitialisation.CultureCacheManager.Add(_cacheName, cacheItem);
-            }
+			if (cacheItem == null)
+			{
+				cacheItem = new CacheItem(_cacheName, new StringLocalizer(_logger, _pluginClassesService));
+				PluginInitialisation.CultureCacheManager.Add(_cacheName, cacheItem);
+			}
 
-            return (IStringLocalizer)cacheItem.Value;
-        }
+			return (IStringLocalizer)cacheItem.Value;
+		}
 
-        public IStringLocalizer Create(string baseName, string location)
-        {
-            CacheItem cacheItem = PluginInitialisation.CultureCacheManager.Get(_cacheName);
+		public IStringLocalizer Create(string baseName, string location)
+		{
+			CacheItem cacheItem = PluginInitialisation.CultureCacheManager.Get(_cacheName);
 
-            if (cacheItem == null)
-            {
-                cacheItem = new CacheItem(_cacheName, new StringLocalizer(_logger, _pluginClassesService));
-                PluginInitialisation.CultureCacheManager.Add(_cacheName, cacheItem);
-            }
+			if (cacheItem == null)
+			{
+				cacheItem = new CacheItem(_cacheName, new StringLocalizer(_logger, _pluginClassesService));
+				PluginInitialisation.CultureCacheManager.Add(_cacheName, cacheItem);
+			}
 
-            return (IStringLocalizer)cacheItem.Value;
-        }
+			return (IStringLocalizer)cacheItem.Value;
+		}
 
-        #endregion IStringLocalizerFactory Methods
-    }
+		#endregion IStringLocalizerFactory Methods
+	}
 }

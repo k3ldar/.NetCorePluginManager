@@ -34,83 +34,83 @@ using PluginManager.Tests.Mocks;
 
 namespace PluginManager.Tests
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
-    public class PluginModuleTests
-    {
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_InvalidParamAssembly_Null_Throws_ArgumentNullException()
-        {
-            new PluginModule(null, "TestAssembly", new MockIPlugin());
-        }
+	[TestClass]
+	[ExcludeFromCodeCoverage]
+	public class PluginModuleTests
+	{
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Construct_InvalidParamAssembly_Null_Throws_ArgumentNullException()
+		{
+			new PluginModule(null, "TestAssembly", new MockIPlugin());
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_InvalidModuleAssembly_Null_Throws_ArgumentNullException()
-        {
-            new PluginModule(Assembly.GetExecutingAssembly(), null, new MockIPlugin());
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Construct_InvalidModuleAssembly_Null_Throws_ArgumentNullException()
+		{
+			new PluginModule(Assembly.GetExecutingAssembly(), null, new MockIPlugin());
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_InvalidModuleAssembly_EmptyString_Throws_ArgumentNullException()
-        {
-            new PluginModule(Assembly.GetExecutingAssembly(), "", new MockIPlugin());
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Construct_InvalidModuleAssembly_EmptyString_Throws_ArgumentNullException()
+		{
+			new PluginModule(Assembly.GetExecutingAssembly(), "", new MockIPlugin());
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_InvalidPluginService_Null_Throws_ArgumentNullException()
-        {
-            new PluginModule(Assembly.GetExecutingAssembly(), "TestAssembly", null);
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Construct_InvalidPluginService_Null_Throws_ArgumentNullException()
+		{
+			new PluginModule(Assembly.GetExecutingAssembly(), "TestAssembly", null);
+		}
 
-        [TestMethod]
-        public void Version_Set_RemembersSetting_Success()
-        {
-            PluginModule sut = new(Assembly.GetExecutingAssembly(), "TestAssembly", new MockIPlugin());
-            sut.Version = 123;
+		[TestMethod]
+		public void Version_Set_RemembersSetting_Success()
+		{
+			PluginModule sut = new(Assembly.GetExecutingAssembly(), "TestAssembly", new MockIPlugin());
+			sut.Version = 123;
 
-            Assert.AreEqual(123, sut.Version);
-            Assert.AreEqual(123, sut.GetVersion());
-        }
+			Assert.AreEqual(123, sut.Version);
+			Assert.AreEqual(123, sut.GetVersion());
+		}
 
-        [TestMethod]
-        public void Module_Set_RemembersSetting_Success()
-        {
-            PluginModule sut = new(Assembly.GetExecutingAssembly(), "TestAssembly", new MockIPlugin());
+		[TestMethod]
+		public void Module_Set_RemembersSetting_Success()
+		{
+			PluginModule sut = new(Assembly.GetExecutingAssembly(), "TestAssembly", new MockIPlugin());
 
-            Assert.AreEqual("TestAssembly", sut.Module);
-        }
+			Assert.AreEqual("TestAssembly", sut.Module);
+		}
 
-        [TestMethod]
-        public void Assembly_Set_RemembersSetting_Success()
-        {
-            PluginModule sut = new(Assembly.GetExecutingAssembly(), "TestAssembly", new MockIPlugin());
+		[TestMethod]
+		public void Assembly_Set_RemembersSetting_Success()
+		{
+			PluginModule sut = new(Assembly.GetExecutingAssembly(), "TestAssembly", new MockIPlugin());
 
-            Assert.AreEqual(Assembly.GetExecutingAssembly(), sut.Assembly);
-        }
+			Assert.AreEqual(Assembly.GetExecutingAssembly(), sut.Assembly);
+		}
 
-        [TestMethod]
-        public void Plugin_Set_RemembersSetting_Success()
-        {
-            MockIPlugin mockIPlugin = new();
-            PluginModule sut = new(Assembly.GetExecutingAssembly(), "TestAssembly", mockIPlugin);
+		[TestMethod]
+		public void Plugin_Set_RemembersSetting_Success()
+		{
+			MockIPlugin mockIPlugin = new();
+			PluginModule sut = new(Assembly.GetExecutingAssembly(), "TestAssembly", mockIPlugin);
 
-            Assert.AreEqual(mockIPlugin, sut.Plugin);
-        }
+			Assert.AreEqual(mockIPlugin, sut.Plugin);
+		}
 
-        [TestMethod]
-        public void FileVersion_Set_RemembersSetting_Success()
-        {
-            MockIPlugin mockIPlugin = new();
-            PluginModule sut = new(Assembly.GetExecutingAssembly(), "TestAssembly", mockIPlugin)
-            {
-                FileVersion = "1.2.3.4"
-            };
+		[TestMethod]
+		public void FileVersion_Set_RemembersSetting_Success()
+		{
+			MockIPlugin mockIPlugin = new();
+			PluginModule sut = new(Assembly.GetExecutingAssembly(), "TestAssembly", mockIPlugin)
+			{
+				FileVersion = "1.2.3.4"
+			};
 
-            Assert.AreEqual("1.2.3.4", sut.FileVersion);
-        }
-    }
+			Assert.AreEqual("1.2.3.4", sut.FileVersion);
+		}
+	}
 }

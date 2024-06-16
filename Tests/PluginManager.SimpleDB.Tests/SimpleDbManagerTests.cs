@@ -39,169 +39,169 @@ using SimpleDB.Tests.Mocks;
 namespace SimpleDB.Tests
 {
 	[TestClass]
-    [ExcludeFromCodeCoverage]
-    public class SimpleDbManagerTests
-    {
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_NullPath_Throws_ArgumentNullException()
-        {
-            try
-            {
-                new SimpleDBManager(path: null);
-            }
-            catch (ArgumentNullException e)
-            {
-                Assert.AreEqual("path", e.ParamName);
-                throw;
-            }
-        }
-         
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_EmptyStringPath_Throws_ArgumentNullException()
-        {
-            try
-            {
-                new SimpleDBManager("");
-            }
-            catch (ArgumentNullException e)
-            {
-                Assert.AreEqual("path", e.ParamName);
-                throw;
-            }
-        }
+	[ExcludeFromCodeCoverage]
+	public class SimpleDbManagerTests
+	{
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Construct_NullPath_Throws_ArgumentNullException()
+		{
+			try
+			{
+				new SimpleDBManager(path: null);
+			}
+			catch (ArgumentNullException e)
+			{
+				Assert.AreEqual("path", e.ParamName);
+				throw;
+			}
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void Construct_DirectoryDoesNotExists_Throws_ArgumentException()
-        {
-            string directory = TestHelper.GetTestPath();
-            try
-            {
-                new SimpleDBManager(directory);
-            }
-            catch (ArgumentException e)
-            {
-                Assert.AreEqual("path", e.ParamName);
-                Assert.AreEqual($"Path does not exist: {directory} (Parameter 'path')", e.Message);
-                throw;
-            }
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Construct_EmptyStringPath_Throws_ArgumentNullException()
+		{
+			try
+			{
+				new SimpleDBManager("");
+			}
+			catch (ArgumentNullException e)
+			{
+				Assert.AreEqual("path", e.ParamName);
+				throw;
+			}
+		}
 
-        [TestMethod]
-        public void Construct_ValidInstance_Success()
-        {
-            string directory = TestHelper.GetTestPath();
-            try
-            {
-                Directory.CreateDirectory(directory);
-                SimpleDBManager sut = new(directory);
-                Assert.AreEqual(1u, sut.MinimumVersion);
-                Assert.AreEqual(directory, sut.Path);
-            }
-            finally
-            {
-                Directory.Delete(directory);
-            }
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentException))]
+		public void Construct_DirectoryDoesNotExists_Throws_ArgumentException()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				new SimpleDBManager(directory);
+			}
+			catch (ArgumentException e)
+			{
+				Assert.AreEqual("path", e.ParamName);
+				Assert.AreEqual($"Path does not exist: {directory} (Parameter 'path')", e.Message);
+				throw;
+			}
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void RegisterTable_InvalidParam_Null_Throws_ArgumentNullException()
-        {
-            string directory = TestHelper.GetTestPath();
-            try
-            {
-                Directory.CreateDirectory(directory);
-                SimpleDBManager sut = new(directory);
-                Assert.AreEqual(1u, sut.MinimumVersion);
-                Assert.AreEqual(directory, sut.Path);
+		[TestMethod]
+		public void Construct_ValidInstance_Success()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				SimpleDBManager sut = new(directory);
+				Assert.AreEqual(1u, sut.MinimumVersion);
+				Assert.AreEqual(directory, sut.Path);
+			}
+			finally
+			{
+				Directory.Delete(directory);
+			}
+		}
 
-                sut.RegisterTable(null);
-            }
-            finally
-            {
-                Directory.Delete(directory);
-            }
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void RegisterTable_InvalidParam_Null_Throws_ArgumentNullException()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				SimpleDBManager sut = new(directory);
+				Assert.AreEqual(1u, sut.MinimumVersion);
+				Assert.AreEqual(directory, sut.Path);
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void RegisterTable_TableAlreadyRegistered_Throws_IOException()
-        {
-            string directory = TestHelper.GetTestPath();
-            try
-            {
-                Directory.CreateDirectory(directory);
-                SimpleDBManager sut = new(directory);
-                Assert.AreEqual(1u, sut.MinimumVersion);
-                Assert.AreEqual(directory, sut.Path);
+				sut.RegisterTable(null);
+			}
+			finally
+			{
+				Directory.Delete(directory);
+			}
+		}
 
-                using (SimpleDBOperations<MockRow> mockTable = new(sut, new ForeignKeyManager()))
-                    sut.RegisterTable(mockTable);
-            }
-            finally
-            {
-                Directory.Delete(directory, true);
-            }
-        }
+		[TestMethod]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void RegisterTable_TableAlreadyRegistered_Throws_IOException()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				SimpleDBManager sut = new(directory);
+				Assert.AreEqual(1u, sut.MinimumVersion);
+				Assert.AreEqual(directory, sut.Path);
 
-        [TestMethod]
-        public void RegisterTable_TableRegistered_Success()
-        {
-            string directory = TestHelper.GetTestPath();
-            try
-            {
-                Directory.CreateDirectory(directory);
-                SimpleDBManager sut = new(directory);
-                Assert.AreEqual(1u, sut.MinimumVersion);
-                Assert.AreEqual(directory, sut.Path);
+				using (SimpleDBOperations<MockRow> mockTable = new(sut, new ForeignKeyManager()))
+					sut.RegisterTable(mockTable);
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
 
-                using (SimpleDBOperations<MockRow> mockTable = new(sut, new ForeignKeyManager()))
-                {
-                    IReadOnlyDictionary<string, ISimpleDBTable> tables = sut.Tables;
-                    Assert.AreEqual(1, tables.Count);
-                    Assert.IsTrue(tables.ContainsKey("MockTable"));
-                }
-            }
-            finally
-            {
-                Directory.Delete(directory, true);
-            }
-        }
+		[TestMethod]
+		public void RegisterTable_TableRegistered_Success()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				SimpleDBManager sut = new(directory);
+				Assert.AreEqual(1u, sut.MinimumVersion);
+				Assert.AreEqual(directory, sut.Path);
 
-        [TestMethod]
-        public void RegisterAndUnregisterTable_WithForeignKeyManager_Success()
-        {
-            string directory = TestHelper.GetTestPath();
-            try
-            {
-                Directory.CreateDirectory(directory);
-                SimpleDBManager sut = new(directory);
-                Assert.AreEqual(1u, sut.MinimumVersion);
-                Assert.AreEqual(directory, sut.Path);
-                MockForeignKeyManager foreignKeyManager = new();
-                Assert.AreEqual(0, foreignKeyManager.RegisteredTables.Count);
+				using (SimpleDBOperations<MockRow> mockTable = new(sut, new ForeignKeyManager()))
+				{
+					IReadOnlyDictionary<string, ISimpleDBTable> tables = sut.Tables;
+					Assert.AreEqual(1, tables.Count);
+					Assert.IsTrue(tables.ContainsKey("MockTable"));
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
 
-                using (SimpleDBOperations<MockRow> mockTable = new(sut, foreignKeyManager))
-                {
+		[TestMethod]
+		public void RegisterAndUnregisterTable_WithForeignKeyManager_Success()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				SimpleDBManager sut = new(directory);
+				Assert.AreEqual(1u, sut.MinimumVersion);
+				Assert.AreEqual(directory, sut.Path);
+				MockForeignKeyManager foreignKeyManager = new();
+				Assert.AreEqual(0, foreignKeyManager.RegisteredTables.Count);
+
+				using (SimpleDBOperations<MockRow> mockTable = new(sut, foreignKeyManager))
+				{
 					sut.Initialize(new MockPluginClassesService());
 					Assert.AreEqual(1, foreignKeyManager.RegisteredTables.Count);
-                    Assert.IsTrue(foreignKeyManager.RegisteredTables.Contains("MockTable"));
+					Assert.IsTrue(foreignKeyManager.RegisteredTables.Contains("MockTable"));
 
-                    IReadOnlyDictionary<string, ISimpleDBTable> tables = sut.Tables;
-                    Assert.AreEqual(1, tables.Count);
-                    Assert.IsTrue(tables.ContainsKey("MockTable"));
-                }
+					IReadOnlyDictionary<string, ISimpleDBTable> tables = sut.Tables;
+					Assert.AreEqual(1, tables.Count);
+					Assert.IsTrue(tables.ContainsKey("MockTable"));
+				}
 
-                Assert.AreEqual(0, foreignKeyManager.RegisteredTables.Count);
-            }
-            finally
-            {
-                Directory.Delete(directory, true);
-            }
-        }
+				Assert.AreEqual(0, foreignKeyManager.RegisteredTables.Count);
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
 
 		[TestMethod]
 		public void Run_ClearsMemoryViaThread_AfterRecordInserted_Success()

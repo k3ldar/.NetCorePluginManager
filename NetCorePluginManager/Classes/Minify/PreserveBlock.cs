@@ -29,61 +29,61 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Classes.Minify
 {
-    /// <summary>
-    /// Represents a block of preserved data that should not be modified during minification
-    /// </summary>
-    public sealed class PreserveBlock
-    {
-        #region Constructors
+	/// <summary>
+	/// Represents a block of preserved data that should not be modified during minification
+	/// </summary>
+	public sealed class PreserveBlock
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="blockType">Type of minification block.</param>
-        /// <param name="startBlock">Start of block within the data.</param>
-        public PreserveBlock(in MinificationPreserveBlock blockType, in int startBlock)
-        {
-            if (startBlock < 0)
-                throw new ArgumentOutOfRangeException(nameof(startBlock));
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="blockType">Type of minification block.</param>
+		/// <param name="startBlock">Start of block within the data.</param>
+		public PreserveBlock(in MinificationPreserveBlock blockType, in int startBlock)
+		{
+			if (startBlock < 0)
+				throw new ArgumentOutOfRangeException(nameof(startBlock));
 
-            BlockStart = startBlock;
-            BlockType = blockType;
-        }
+			BlockStart = startBlock;
+			BlockType = blockType;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Starting index of the block of data.
-        /// </summary>
-        /// <value>int</value>
-        public int BlockStart { get; private set; }
+		/// <summary>
+		/// Starting index of the block of data.
+		/// </summary>
+		/// <value>int</value>
+		public int BlockStart { get; private set; }
 
-        /// <summary>
-        /// Ending index of the block of data.
-        /// </summary>
-        /// <value>int</value>
-        public int BlockEnd { get; private set; }
+		/// <summary>
+		/// Ending index of the block of data.
+		/// </summary>
+		/// <value>int</value>
+		public int BlockEnd { get; private set; }
 
-        /// <summary>
-        /// Type of preserved block
-        /// </summary>
-        /// <value>MinificationPreserveBlock</value>
-        public MinificationPreserveBlock BlockType { get; private set; }
+		/// <summary>
+		/// Type of preserved block
+		/// </summary>
+		/// <value>MinificationPreserveBlock</value>
+		public MinificationPreserveBlock BlockType { get; private set; }
 
-        #endregion Properties
+		#endregion Properties
 
-        #region Internal Methods
+		#region Internal Methods
 
-        internal void SetBlockEnd(in int endBlock)
-        {
-            if (endBlock < 0)
-                throw new ArgumentOutOfRangeException(nameof(endBlock));
+		internal void SetBlockEnd(in int endBlock)
+		{
+			if (endBlock < 0)
+				throw new ArgumentOutOfRangeException(nameof(endBlock));
 
-            BlockEnd = endBlock;
-        }
+			BlockEnd = endBlock;
+		}
 
-        #endregion Internal Methods
-    }
+		#endregion Internal Methods
+	}
 }

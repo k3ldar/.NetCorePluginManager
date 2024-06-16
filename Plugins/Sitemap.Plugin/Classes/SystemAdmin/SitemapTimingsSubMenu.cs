@@ -31,72 +31,72 @@ using SharedPluginFeatures;
 
 namespace Sitemap.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns Timings information for all time spent processing Sitemap requests and can 
-    /// be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class SitemapTimingsSubMenu : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	/// <summary>
+	/// Returns Timings information for all time spent processing Sitemap requests and can 
+	/// be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public sealed class SitemapTimingsSubMenu : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        /// <summary>
-        /// Returns Timings data in milliseconds for time spent processing by Sitemap.Plugin requests.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            string Result = "Setting|Value";
+		/// <summary>
+		/// Returns Timings data in milliseconds for time spent processing by Sitemap.Plugin requests.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			string Result = "Setting|Value";
 
-            Result += $"\rTotal Requests|{SitemapMiddleware._timings.Requests}";
-            Result += $"\rFastest ms|{SitemapMiddleware._timings.Fastest}";
-            Result += $"\rSlowest ms|{SitemapMiddleware._timings.Slowest}";
-            Result += $"\rAverage ms|{SitemapMiddleware._timings.Average}";
-            Result += $"\rTrimmed Avg ms|{SitemapMiddleware._timings.TrimmedAverage}";
-            Result += $"\rTotal ms|{SitemapMiddleware._timings.Total}";
+			Result += $"\rTotal Requests|{SitemapMiddleware._timings.Requests}";
+			Result += $"\rFastest ms|{SitemapMiddleware._timings.Fastest}";
+			Result += $"\rSlowest ms|{SitemapMiddleware._timings.Slowest}";
+			Result += $"\rAverage ms|{SitemapMiddleware._timings.Average}";
+			Result += $"\rTrimmed Avg ms|{SitemapMiddleware._timings.TrimmedAverage}";
+			Result += $"\rTotal ms|{SitemapMiddleware._timings.Total}";
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public override string Image()
-        {
-            return Constants.SystemImageStopWatch;
-        }
+		public override string Image()
+		{
+			return Constants.SystemImageStopWatch;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override string Name()
-        {
-            return "Sitemap";
-        }
+		public override string Name()
+		{
+			return "Sitemap";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "Timings";
-        }
+		public override string ParentMenuName()
+		{
+			return "Timings";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
-    }
+		public override int SortOrder()
+		{
+			return 0;
+		}
+	}
 }
 
 #pragma warning restore CS1591

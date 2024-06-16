@@ -27,51 +27,51 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameStock)]
-    internal class StockDataRow : TableRowDefinition
-    {
-        private long _productId;
-        private uint _quantity;
+	[Table(Constants.TableNameStock)]
+	internal class StockDataRow : TableRowDefinition
+	{
+		private long _productId;
+		private uint _quantity;
 		private uint _minimumStockLevel;
 		private uint _reorderQuantity;
 		private long _storeId;
 		private bool _autoRenew;
 
 		[UniqueIndex("Idx_UniqueStockItem")]
-        [ForeignKey(Constants.TableNameProducts, ForeignKeyAttributes.CascadeDelete)]
-        public long ProductId
-        {
-            get
-            {
-                return _productId;
-            }
+		[ForeignKey(Constants.TableNameProducts, ForeignKeyAttributes.CascadeDelete)]
+		public long ProductId
+		{
+			get
+			{
+				return _productId;
+			}
 
-            set
-            {
-                if (_productId == value)
-                    return;
+			set
+			{
+				if (_productId == value)
+					return;
 
-                _productId = value;
-                Update();
-            }
-        }
+				_productId = value;
+				Update();
+			}
+		}
 
-        public uint StockAvailability
-        {
-            get
-            {
-                return _quantity;
-            }
+		public uint StockAvailability
+		{
+			get
+			{
+				return _quantity;
+			}
 
-            set
-            {
-                if (_quantity == value)
-                    return;
+			set
+			{
+				if (_quantity == value)
+					return;
 
-                _quantity = value;
-                Update();
-            }
-        }
+				_quantity = value;
+				Update();
+			}
+		}
 
 		[UniqueIndex("Idx_UniqueStockItem")]
 		[ForeignKey(Constants.TableNameStore)]
@@ -89,7 +89,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 			}
 		}
 
-		public uint	MinimumStockLevel
+		public uint MinimumStockLevel
 		{
 			get => _minimumStockLevel;
 

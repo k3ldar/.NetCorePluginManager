@@ -35,107 +35,107 @@ using SharedPluginFeatures.DynamicContent;
 
 namespace DynamicContent.Plugin.Templates
 {
-    public sealed class SpacerTemplate : DynamicContentTemplate
-    {
-        #region Constructors
+	public sealed class SpacerTemplate : DynamicContentTemplate
+	{
+		#region Constructors
 
-        public SpacerTemplate()
-        {
-            Width = 2;
-            WidthType = DynamicContentWidthType.Columns;
-            Height = 200;
-            HeightType = DynamicContentHeightType.Pixels;
-            ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
-        }
+		public SpacerTemplate()
+		{
+			Width = 2;
+			WidthType = DynamicContentWidthType.Columns;
+			Height = 200;
+			HeightType = DynamicContentHeightType.Pixels;
+			ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+			ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region DynamicContentTemplate Properties
+		#region DynamicContentTemplate Properties
 
-        public override String AssemblyQualifiedName => typeof(SpacerTemplate).AssemblyQualifiedName;
+		public override String AssemblyQualifiedName => typeof(SpacerTemplate).AssemblyQualifiedName;
 
-        public override String EditorAction => String.Empty;
+		public override String EditorAction => String.Empty;
 
-        public override string EditorInstructions => String.Empty;
+		public override string EditorInstructions => String.Empty;
 
-        public override String Name => LanguageStrings.TemplateNameSpacer;
+		public override String Name => LanguageStrings.TemplateNameSpacer;
 
-        public override DynamicContentTemplateType TemplateType => DynamicContentTemplateType.Default;
+		public override DynamicContentTemplateType TemplateType => DynamicContentTemplateType.Default;
 
-        public override int TemplateSortOrder => 1000;
+		public override int TemplateSortOrder => 1000;
 
-        public override Int32 SortOrder { get; set; }
+		public override Int32 SortOrder { get; set; }
 
-        public override DynamicContentWidthType WidthType { get; set; }
+		public override DynamicContentWidthType WidthType { get; set; }
 
-        public override Int32 Width { get; set; }
+		public override Int32 Width { get; set; }
 
-        public override DynamicContentHeightType HeightType { get; set; }
+		public override DynamicContentHeightType HeightType { get; set; }
 
-        public override Int32 Height { get; set; }
+		public override Int32 Height { get; set; }
 
-        public override String Data
-        {
-            get
-            {
-                return String.Empty;
-            }
+		public override String Data
+		{
+			get
+			{
+				return String.Empty;
+			}
 
-            set
-            {
+			set
+			{
 				// unused for this implementation
-            }
-        }
+			}
+		}
 
-        public override DateTime ActiveFrom { get; set; }
+		public override DateTime ActiveFrom { get; set; }
 
-        public override DateTime ActiveTo { get; set; }
+		public override DateTime ActiveTo { get; set; }
 
-        #endregion DynamicContentTemplate Properties
+		#endregion DynamicContentTemplate Properties
 
-        #region DynamicContentTemplate Methods
+		#region DynamicContentTemplate Methods
 
-        public override String Content()
-        {
-            return GenerateContent(false);
-        }
+		public override String Content()
+		{
+			return GenerateContent(false);
+		}
 
-        public override string EditorContent()
-        {
-            return GenerateContent(true);
-        }
+		public override string EditorContent()
+		{
+			return GenerateContent(true);
+		}
 
-        public override DynamicContentTemplate Clone(string uniqueId)
-        {
-            if (String.IsNullOrEmpty(uniqueId))
-                uniqueId = Guid.NewGuid().ToString();
+		public override DynamicContentTemplate Clone(string uniqueId)
+		{
+			if (String.IsNullOrEmpty(uniqueId))
+				uniqueId = Guid.NewGuid().ToString();
 
-            return new SpacerTemplate()
-            {
-                UniqueId = uniqueId
-            };
-        }
+			return new SpacerTemplate()
+			{
+				UniqueId = uniqueId
+			};
+		}
 
-        #endregion DynamicContentTemplate Methods
+		#endregion DynamicContentTemplate Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private string GenerateContent(bool isEditing)
-        {
-            StringBuilder Result = new(1024);
+		private string GenerateContent(bool isEditing)
+		{
+			StringBuilder Result = new(1024);
 
-            HtmlStart(Result, isEditing);
+			HtmlStart(Result, isEditing);
 
-            Result.AppendFormat("<p{0}>&nbsp;</p>", RetrieveCssClassAndStyle());
+			Result.AppendFormat("<p{0}>&nbsp;</p>", RetrieveCssClassAndStyle());
 
-            HtmlEnd(Result);
+			HtmlEnd(Result);
 
-            return Result.ToString();
-        }
+			return Result.ToString();
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591, S3237

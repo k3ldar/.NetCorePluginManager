@@ -32,40 +32,40 @@ using PluginManager.Abstractions;
 
 namespace PluginManager.Internal
 {
-    internal class DefaultLogger : ILogger
-    {
-        #region ILogger Methods
+	internal class DefaultLogger : ILogger
+	{
+		#region ILogger Methods
 
-        public void AddToLog(in LogLevel logLevel, in string data)
-        {
-            AddToLog(logLevel, String.Empty, data);
-        }
+		public void AddToLog(in LogLevel logLevel, in string data)
+		{
+			AddToLog(logLevel, String.Empty, data);
+		}
 
-        public void AddToLog(in LogLevel logLevel, in Exception exception)
-        {
-            AddToLog(logLevel, String.Empty, exception);
-        }
+		public void AddToLog(in LogLevel logLevel, in Exception exception)
+		{
+			AddToLog(logLevel, String.Empty, exception);
+		}
 
-        public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
-        {
-            AddToLog(logLevel, String.Empty, exception, data);
-        }
+		public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
+		{
+			AddToLog(logLevel, String.Empty, exception, data);
+		}
 
-        public void AddToLog(in LogLevel logLevel, in string moduleName, in string data)
-        {
+		public void AddToLog(in LogLevel logLevel, in string moduleName, in string data)
+		{
 #if TRACE
-            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {moduleName} {data}");
+			System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {moduleName} {data}");
 #endif
 
 #if !DEBUG
             Shared.EventLog.Add($"{logLevel.ToString()}\t{moduleName}\t{data}");
 #endif
-        }
+		}
 
-        public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception)
-        {
+		public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception)
+		{
 #if TRACE
-            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {moduleName} {exception.Message}");
+			System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {moduleName} {exception.Message}");
 #endif
 
 #if !DEBUG
@@ -74,9 +74,9 @@ namespace PluginManager.Internal
 		}
 
 		public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception, string data)
-        {
+		{
 #if TRACE
-            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()}\t{moduleName}\t{exception.Message}\t{data}");
+			System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()}\t{moduleName}\t{exception.Message}\t{data}");
 #endif
 
 #if !DEBUG

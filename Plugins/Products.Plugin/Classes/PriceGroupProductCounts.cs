@@ -35,45 +35,45 @@ using static SharedPluginFeatures.Constants;
 
 namespace ProductPlugin.Classes
 {
-    internal class PriceGroupProductCounts : ThreadManager
-    {
-        #region Private Members
+	internal class PriceGroupProductCounts : ThreadManager
+	{
+		#region Private Members
 
-        private readonly IProductProvider _productProvider;
+		private readonly IProductProvider _productProvider;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public PriceGroupProductCounts(in IProductProvider productProvider, in List<ProductPriceInfo> productPriceInfo)
-            : base(productPriceInfo, new TimeSpan())
-        {
-            if (productPriceInfo == null)
-                throw new ArgumentNullException(nameof(productPriceInfo));
+		public PriceGroupProductCounts(in IProductProvider productProvider, in List<ProductPriceInfo> productPriceInfo)
+			: base(productPriceInfo, new TimeSpan())
+		{
+			if (productPriceInfo == null)
+				throw new ArgumentNullException(nameof(productPriceInfo));
 
-            _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
+			_productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
 
-            base.ContinueIfGlobalException = false;
-        }
+			base.ContinueIfGlobalException = false;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Overridden Methods
+		#region Overridden Methods
 
-        protected override Boolean Run(object parameters)
-        {
-            List<ProductPriceInfo> productPriceInfo = (List<ProductPriceInfo>)parameters;
+		protected override Boolean Run(object parameters)
+		{
+			List<ProductPriceInfo> productPriceInfo = (List<ProductPriceInfo>)parameters;
 
-            foreach (ProductPriceInfo priceInfo in productPriceInfo)
-            {
-                int productPriceCount = _productProvider.GetProducts(1, MaximumProducts)
-                    .Count(p => priceInfo.PriceMatch(p.RetailPrice));
-                priceInfo.Text += $" ({productPriceCount})";
-            }
+			foreach (ProductPriceInfo priceInfo in productPriceInfo)
+			{
+				int productPriceCount = _productProvider.GetProducts(1, MaximumProducts)
+					.Count(p => priceInfo.PriceMatch(p.RetailPrice));
+				priceInfo.Text += $" ({productPriceCount})";
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        #endregion Overridden Methods
-    }
+		#endregion Overridden Methods
+	}
 }

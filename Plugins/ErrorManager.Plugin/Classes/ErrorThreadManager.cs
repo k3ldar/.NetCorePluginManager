@@ -34,70 +34,70 @@ using SharedPluginFeatures;
 
 namespace ErrorManager.Plugin
 {
-    /// <summary>
-    /// Internally managed thread that manages errors and ensures they are reported correctly usinng the IErrorManager interface.
-    /// </summary>
-    public sealed class ErrorThreadManager : ThreadManager
-    {
-        #region Static Members
+	/// <summary>
+	/// Internally managed thread that manages errors and ensures they are reported correctly usinng the IErrorManager interface.
+	/// </summary>
+	public sealed class ErrorThreadManager : ThreadManager
+	{
+		#region Static Members
 
-        private readonly IErrorManager _errorManager;
-        private static readonly object _lockObject = new();
-        private static readonly List<ErrorInformation> _errorList = new();
-        private static readonly List<ErrorInformation> _processList = new();
+		private readonly IErrorManager _errorManager;
+		private static readonly object _lockObject = new();
+		private static readonly List<ErrorInformation> _errorList = new();
+		private static readonly List<ErrorInformation> _processList = new();
 
-        #endregion Static Members
+		#endregion Static Members
 
-        #region Constructors
+		#region Constructors
 
-        public ErrorThreadManager(IErrorManager errorManager)
-            : base(null, new TimeSpan(0, 0, 10))
-        {
-            _errorManager = errorManager ?? throw new ArgumentNullException(nameof(errorManager));
-        }
+		public ErrorThreadManager(IErrorManager errorManager)
+			: base(null, new TimeSpan(0, 0, 10))
+		{
+			_errorManager = errorManager ?? throw new ArgumentNullException(nameof(errorManager));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Overridden Methods
+		#region Overridden Methods
 
-        protected override bool Run(object parameters)
-        {
-            using (TimedLock lck = TimedLock.Lock(_lockObject))
-            {
-                foreach (ErrorInformation error in _errorList)
-                {
-                    _processList.Add(error);
-                }
+		protected override bool Run(object parameters)
+		{
+			using (TimedLock lck = TimedLock.Lock(_lockObject))
+			{
+				foreach (ErrorInformation error in _errorList)
+				{
+					_processList.Add(error);
+				}
 
-                _errorList.Clear();
-            }
-            try
-            {
-                // process the list of errors
-                for (int i = _processList.Count - 1; i >= 0; i--)
-                {
-                    ErrorInformation errorInformation = _processList[i];
+				_errorList.Clear();
+			}
+			try
+			{
+				// process the list of errors
+				for (int i = _processList.Count - 1; i >= 0; i--)
+				{
+					ErrorInformation errorInformation = _processList[i];
 
-                    _errorManager.ErrorRaised(errorInformation);
+					_errorManager.ErrorRaised(errorInformation);
 
-                    _processList.RemoveAt(i);
-                }
-            }
-            finally
-            {
-                // if there are any items left in the list, add them back to the list
-                // for processing next time
-                using (TimedLock lck = TimedLock.Lock(_lockObject))
-                {
-                    foreach (ErrorInformation error in _processList)
-                        _errorList.Add(error);
-                }
+					_processList.RemoveAt(i);
+				}
+			}
+			finally
+			{
+				// if there are any items left in the list, add them back to the list
+				// for processing next time
+				using (TimedLock lck = TimedLock.Lock(_lockObject))
+				{
+					foreach (ErrorInformation error in _processList)
+						_errorList.Add(error);
+				}
 
-                _processList.Clear();
-            }
+				_processList.Clear();
+			}
 
-            return !HasCancelled();
-        }
+			return !HasCancelled();
+		}
 
 		#endregion Overridden Methods
 
@@ -105,15 +105,15 @@ namespace ErrorManager.Plugin
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Internal and used in other places")]
 		internal void AddError(ErrorInformation errorInformation)
-        {
-            using (TimedLock lck = TimedLock.Lock(_lockObject))
-            {
-                _errorList.Add(errorInformation);
-            }
-        }
+		{
+			using (TimedLock lck = TimedLock.Lock(_lockObject))
+			{
+				_errorList.Add(errorInformation);
+			}
+		}
 
-        #endregion Internal Methods
-    }
+		#endregion Internal Methods
+	}
 }
 
 #pragma warning restore CS1591

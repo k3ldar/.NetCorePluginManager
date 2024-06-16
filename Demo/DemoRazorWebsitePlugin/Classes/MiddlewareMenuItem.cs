@@ -27,31 +27,31 @@ using System;
 
 namespace DemoWebsitePlugin.Classes
 {
-    public class MiddlewareMenuItem : SharedPluginFeatures.MainMenuItem
-    {
-        public override string Area()
-        {
-            return String.Empty;
-        }
+	public class MiddlewareMenuItem : SharedPluginFeatures.MainMenuItem
+	{
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return "Services";
-        }
+		public override string Controller()
+		{
+			return "Services";
+		}
 
-        public override string Action()
-        {
-            return "Middleware";
-        }
+		public override string Action()
+		{
+			return "Middleware";
+		}
 
-        public override string Name()
-        {
-            return "Middleware";
-        }
+		public override string Name()
+		{
+			return "Middleware";
+		}
 
-        public override int SortOrder()
-        {
-            return (2);
-        }
-    }
+		public override int SortOrder()
+		{
+			return (2);
+		}
+	}
 }

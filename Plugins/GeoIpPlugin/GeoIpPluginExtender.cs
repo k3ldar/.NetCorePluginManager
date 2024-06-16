@@ -29,22 +29,22 @@ using SharedPluginFeatures;
 
 namespace GeoIp.Plugin
 {
-    /// <summary>
-    /// GeoIp.Plugin extender class.
-    /// </summary>
-    public static class GeoIpPluginExtender
-    {
-        /// <summary>
-        /// IApplicationBuilder extender method.
-        /// 
-        /// Allows easy use of registering GeoIp.Plugin
-        /// </summary>
-        /// <param name="services">IServiceCollection instance</param>
-        /// <returns>IApplicationBuilder</returns>
-        /// <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">services</span>.<span style="color:#74531f;">UseGeoIpService</span>();</pre></example>
-        public static void UseGeoIpService(this IServiceCollection services)
-        {
-            services.AddSingleton<IGeoIpProvider, GeoIpService>();
-        }
-    }
+	/// <summary>
+	/// GeoIp.Plugin extender class.
+	/// </summary>
+	public static class GeoIpPluginExtender
+	{
+		/// <summary>
+		/// IApplicationBuilder extender method.
+		/// 
+		/// Allows easy use of registering GeoIp.Plugin
+		/// </summary>
+		/// <param name="services">IServiceCollection instance</param>
+		/// <returns>IApplicationBuilder</returns>
+		/// <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">services</span>.<span style="color:#74531f;">UseGeoIpService</span>();</pre></example>
+		public static void UseGeoIpService(this IServiceCollection services)
+		{
+			services.AddSingleton<IGeoIpProvider, GeoIpService>();
+		}
+	}
 }

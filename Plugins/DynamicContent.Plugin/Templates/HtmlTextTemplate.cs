@@ -35,128 +35,128 @@ using SharedPluginFeatures.DynamicContent;
 
 namespace DynamicContent.Plugin.Templates
 {
-    public class HtmlTextTemplate : DynamicContentTemplate
-    {
-        #region Constructors
+	public class HtmlTextTemplate : DynamicContentTemplate
+	{
+		#region Constructors
 
-        public HtmlTextTemplate()
-        {
-            WidthType = DynamicContentWidthType.Columns;
-            Width = 12;
-            ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
-        }
+		public HtmlTextTemplate()
+		{
+			WidthType = DynamicContentWidthType.Columns;
+			Width = 12;
+			ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+			ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region DynamicContentTemplate Properties
+		#region DynamicContentTemplate Properties
 
-        public override string AssemblyQualifiedName => typeof(HtmlTextTemplate).AssemblyQualifiedName;
+		public override string AssemblyQualifiedName => typeof(HtmlTextTemplate).AssemblyQualifiedName;
 
-        public override string EditorAction
-        {
-            get
-            {
-                return $"/{Controllers.DynamicContentController.Name}/{nameof(Controllers.DynamicContentController.TextTemplateEditor)}/";
-            }
-        }
+		public override string EditorAction
+		{
+			get
+			{
+				return $"/{Controllers.DynamicContentController.Name}/{nameof(Controllers.DynamicContentController.TextTemplateEditor)}/";
+			}
+		}
 
-        public override string EditorInstructions => String.Empty;
+		public override string EditorInstructions => String.Empty;
 
-        public override string Name
-        {
-            get
-            {
-                return LanguageStrings.TemplateNameHtml;
-            }
-        }
+		public override string Name
+		{
+			get
+			{
+				return LanguageStrings.TemplateNameHtml;
+			}
+		}
 
-        public override DynamicContentTemplateType TemplateType => DynamicContentTemplateType.Default;
+		public override DynamicContentTemplateType TemplateType => DynamicContentTemplateType.Default;
 
-        public override int TemplateSortOrder => 200;
+		public override int TemplateSortOrder => 200;
 
-        public override Int32 SortOrder { get; set; }
+		public override Int32 SortOrder { get; set; }
 
-        public override DynamicContentHeightType HeightType
-        {
-            get
-            {
-                return DynamicContentHeightType.Automatic;
-            }
+		public override DynamicContentHeightType HeightType
+		{
+			get
+			{
+				return DynamicContentHeightType.Automatic;
+			}
 
-            set
-            {
+			set
+			{
 				// not used but required for interface
 			}
 		}
 
-        public override int Height
-        {
-            get
-            {
-                return -1;
-            }
+		public override int Height
+		{
+			get
+			{
+				return -1;
+			}
 
-            set
-            {
+			set
+			{
 				// not used but required for interface
 			}
 		}
 
-        public override DynamicContentWidthType WidthType { get; set; }
+		public override DynamicContentWidthType WidthType { get; set; }
 
-        public override int Width { get; set; }
+		public override int Width { get; set; }
 
-        public override string Data { get; set; }
+		public override string Data { get; set; }
 
-        public override DateTime ActiveFrom { get; set; }
+		public override DateTime ActiveFrom { get; set; }
 
-        public override DateTime ActiveTo { get; set; }
+		public override DateTime ActiveTo { get; set; }
 
-        #endregion DynamicContentTemplate Properties
+		#endregion DynamicContentTemplate Properties
 
-        #region DynamicContentTemplate Methods
+		#region DynamicContentTemplate Methods
 
-        public override String Content()
-        {
-            return GenerateContent(false);
-        }
+		public override String Content()
+		{
+			return GenerateContent(false);
+		}
 
-        public override string EditorContent()
-        {
-            return GenerateContent(true);
-        }
+		public override string EditorContent()
+		{
+			return GenerateContent(true);
+		}
 
-        public override DynamicContentTemplate Clone(string uniqueId)
-        {
-            if (String.IsNullOrEmpty(uniqueId))
-                uniqueId = Guid.NewGuid().ToString();
+		public override DynamicContentTemplate Clone(string uniqueId)
+		{
+			if (String.IsNullOrEmpty(uniqueId))
+				uniqueId = Guid.NewGuid().ToString();
 
-            return new HtmlTextTemplate()
-            {
-                UniqueId = uniqueId
-            };
-        }
+			return new HtmlTextTemplate()
+			{
+				UniqueId = uniqueId
+			};
+		}
 
-        #endregion DynamicContentTemplate Methods
+		#endregion DynamicContentTemplate Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private string GenerateContent(bool isEditing)
-        {
-            StringBuilder Result = new(2048);
+		private string GenerateContent(bool isEditing)
+		{
+			StringBuilder Result = new(2048);
 
-            HtmlStart(Result, isEditing);
+			HtmlStart(Result, isEditing);
 
-            Result.Append(Data);
+			Result.Append(Data);
 
-            HtmlEnd(Result);
+			HtmlEnd(Result);
 
-            return Result.ToString();
-        }
+			return Result.ToString();
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591, S3237

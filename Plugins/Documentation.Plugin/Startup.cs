@@ -30,31 +30,31 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DocumentationPlugin
 {
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+	public class Startup
+	{
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
 
-        public IConfiguration Configuration { get; }
+		public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddMemoryCache();
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			services.AddMemoryCache();
 
-            services.AddMvc(
+			services.AddMvc(
 #if NET_CORE_3_X || NET_5_ABOVE
 				option => option.EnableEndpointRouting = false
 #endif
-                )
-                .AddSessionStateTempDataProvider();
-        }
+				)
+				.AddSessionStateTempDataProvider();
+		}
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
-        public void Configure(
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
+		public void Configure(
 #if !NET_CORE_3_X && !NET_5_ABOVE
             IApplicationBuilder app, IHostingEnvironment env
 #endif

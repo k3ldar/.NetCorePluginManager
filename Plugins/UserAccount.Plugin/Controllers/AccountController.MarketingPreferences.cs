@@ -36,67 +36,67 @@ namespace UserAccount.Plugin.Controllers
 {
 #pragma warning disable CS1591
 
-    public partial class AccountController
-    {
-        #region Public Action Methods
+	public partial class AccountController
+	{
+		#region Public Action Methods
 
-        [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.MarketingPreferences), nameof(AccountController), nameof(Index))]
-        public IActionResult MarketingPreferences()
-        {
-            MarketingPreferencesViewModel model = new(GetModelData());
-            PrepareMarketingModel(ref model, _accountProvider.GetMarketingPreferences(UserId()));
+		[HttpGet]
+		[Breadcrumb(nameof(Languages.LanguageStrings.MarketingPreferences), nameof(AccountController), nameof(Index))]
+		public IActionResult MarketingPreferences()
+		{
+			MarketingPreferencesViewModel model = new(GetModelData());
+			PrepareMarketingModel(ref model, _accountProvider.GetMarketingPreferences(UserId()));
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpPost]
-        public IActionResult MarketingPreferences(MarketingPreferencesViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                Marketing marketing = new(model.EmailOffers, model.TelephoneOffers,
-                    model.SMSOffers, model.PostalOffers);
+		[HttpPost]
+		public IActionResult MarketingPreferences(MarketingPreferencesViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				Marketing marketing = new(model.EmailOffers, model.TelephoneOffers,
+					model.SMSOffers, model.PostalOffers);
 
-                if (_accountProvider.SetMarketingPreferences(UserId(), marketing))
-                {
-                    GrowlAdd(Languages.LanguageStrings.MarketingUpdated);
-                    return RedirectToAction(nameof(Index));
-                }
-            }
+				if (_accountProvider.SetMarketingPreferences(UserId(), marketing))
+				{
+					GrowlAdd(Languages.LanguageStrings.MarketingUpdated);
+					return RedirectToAction(nameof(Index));
+				}
+			}
 
-            PrepareMarketingModel(ref model, null);
+			PrepareMarketingModel(ref model, null);
 
-            return View();
-        }
+			return View();
+		}
 
-        #endregion Public Action Methods
+		#endregion Public Action Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private void PrepareMarketingModel(ref MarketingPreferencesViewModel model, in Marketing marketing)
-        {
-            MarketingOptions options = _accountProvider.GetMarketingOptions();
+		private void PrepareMarketingModel(ref MarketingPreferencesViewModel model, in Marketing marketing)
+		{
+			MarketingOptions options = _accountProvider.GetMarketingOptions();
 
-            model.Breadcrumbs = GetBreadcrumbs();
-            model.CartSummary = GetCartSummary();
+			model.Breadcrumbs = GetBreadcrumbs();
+			model.CartSummary = GetCartSummary();
 
-            model.ShowEmail = options.HasFlag(MarketingOptions.ShowEmail);
-            model.ShowPostal = options.HasFlag(MarketingOptions.ShowPostal);
-            model.ShowSMS = options.HasFlag(MarketingOptions.ShowSMS);
-            model.ShowTelephone = options.HasFlag(MarketingOptions.ShowTelephone);
+			model.ShowEmail = options.HasFlag(MarketingOptions.ShowEmail);
+			model.ShowPostal = options.HasFlag(MarketingOptions.ShowPostal);
+			model.ShowSMS = options.HasFlag(MarketingOptions.ShowSMS);
+			model.ShowTelephone = options.HasFlag(MarketingOptions.ShowTelephone);
 
-            if (marketing != null)
-            {
-                model.EmailOffers = marketing.EmailOffers;
-                model.PostalOffers = marketing.PostalOffers;
-                model.SMSOffers = marketing.SMSOffers;
-                model.TelephoneOffers = marketing.TelephoneOffers;
-            }
-        }
+			if (marketing != null)
+			{
+				model.EmailOffers = marketing.EmailOffers;
+				model.PostalOffers = marketing.PostalOffers;
+				model.SMSOffers = marketing.SMSOffers;
+				model.TelephoneOffers = marketing.TelephoneOffers;
+			}
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 
 #pragma warning restore CS1591
 }

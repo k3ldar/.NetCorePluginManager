@@ -30,40 +30,40 @@ using System.Reflection;
 
 namespace PluginManager.Abstractions
 {
-    /// <summary>
-    /// Interface representing a plugin module that has been loaded using PluginManager
-    /// </summary>
-    public interface IPluginModule
-    {
-        /// <summary>
-        /// Plugin version, this is the internal plugin version not the file version
-        /// </summary>
-        /// <value>ushort</value>
-        ushort Version { get; }
+	/// <summary>
+	/// Interface representing a plugin module that has been loaded using PluginManager
+	/// </summary>
+	public interface IPluginModule
+	{
+		/// <summary>
+		/// Plugin version, this is the internal plugin version not the file version
+		/// </summary>
+		/// <value>ushort</value>
+		ushort Version { get; }
 
 
-        /// <summary>
-        /// Assembly name and location
-        /// </summary>
-        /// <value>string</value>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Already out in the wild and would case breaking compatibility!")]
-        string Module { get; }
+		/// <summary>
+		/// Assembly name and location
+		/// </summary>
+		/// <value>string</value>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Already out in the wild and would case breaking compatibility!")]
+		string Module { get; }
 
-        /// <summary>
-        /// Assembly instance representing the Plugin module
-        /// </summary>
-        /// <value>Assembly</value>
-        Assembly Assembly { get; }
+		/// <summary>
+		/// Assembly instance representing the Plugin module
+		/// </summary>
+		/// <value>Assembly</value>
+		Assembly Assembly { get; }
 
-        /// <summary>
-        /// The plugin modules IPlugin interface
-        /// </summary>
-        /// <value>IPlugin</value>
-        IPlugin Plugin { get; }
+		/// <summary>
+		/// The plugin modules IPlugin interface
+		/// </summary>
+		/// <value>IPlugin</value>
+		IPlugin Plugin { get; }
 
-        /// <summary>
-        /// Current version of assembly
-        /// </summary>
-        string FileVersion { get; }
-    }
+		/// <summary>
+		/// Current version of assembly
+		/// </summary>
+		string FileVersion { get; }
+	}
 }

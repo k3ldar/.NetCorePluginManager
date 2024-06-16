@@ -33,53 +33,53 @@ using SharedPluginFeatures;
 
 namespace BadEgg.Plugin
 {
-    internal class IpManagement : IIpManagement
-    {
-        #region IIpManagement Methods
+	internal class IpManagement : IIpManagement
+	{
+		#region IIpManagement Methods
 
-        public void AddBlackListedIp(in string ipAddress)
-        {
-            if (String.IsNullOrEmpty(ipAddress))
-                throw new ArgumentNullException(nameof(ipAddress));
+		public void AddBlackListedIp(in string ipAddress)
+		{
+			if (String.IsNullOrEmpty(ipAddress))
+				throw new ArgumentNullException(nameof(ipAddress));
 
-            using (TimedLock lck = TimedLock.Lock(WebDefender.ValidateConnections.InternalIpAddressLock))
-            {
-                WebDefender.ValidateConnections.InternalIpAddressList[ipAddress] = true;
-            }
-        }
+			using (TimedLock lck = TimedLock.Lock(WebDefender.ValidateConnections.InternalIpAddressLock))
+			{
+				WebDefender.ValidateConnections.InternalIpAddressList[ipAddress] = true;
+			}
+		}
 
-        public void AddWhiteListedIp(in string ipAddress)
-        {
-            if (String.IsNullOrEmpty(ipAddress))
-                throw new ArgumentNullException(nameof(ipAddress));
+		public void AddWhiteListedIp(in string ipAddress)
+		{
+			if (String.IsNullOrEmpty(ipAddress))
+				throw new ArgumentNullException(nameof(ipAddress));
 
-            using (TimedLock lck = TimedLock.Lock(WebDefender.ValidateConnections.InternalIpAddressLock))
-            {
-                WebDefender.ValidateConnections.InternalIpAddressList[ipAddress] = false;
-            }
-        }
+			using (TimedLock lck = TimedLock.Lock(WebDefender.ValidateConnections.InternalIpAddressLock))
+			{
+				WebDefender.ValidateConnections.InternalIpAddressList[ipAddress] = false;
+			}
+		}
 
-        public void ClearAllIpAddresses()
-        {
-            using (TimedLock lck = TimedLock.Lock(WebDefender.ValidateConnections.InternalIpAddressLock))
-            {
-                WebDefender.ValidateConnections.InternalIpAddressList.Clear();
-            }
-        }
+		public void ClearAllIpAddresses()
+		{
+			using (TimedLock lck = TimedLock.Lock(WebDefender.ValidateConnections.InternalIpAddressLock))
+			{
+				WebDefender.ValidateConnections.InternalIpAddressList.Clear();
+			}
+		}
 
-        public void RemoveIpAddress(in string ipAddress)
-        {
-            if (String.IsNullOrEmpty(ipAddress))
-                throw new ArgumentNullException(nameof(ipAddress));
+		public void RemoveIpAddress(in string ipAddress)
+		{
+			if (String.IsNullOrEmpty(ipAddress))
+				throw new ArgumentNullException(nameof(ipAddress));
 
-            using (TimedLock lck = TimedLock.Lock(WebDefender.ValidateConnections.InternalIpAddressLock))
-            {
+			using (TimedLock lck = TimedLock.Lock(WebDefender.ValidateConnections.InternalIpAddressLock))
+			{
 				WebDefender.ValidateConnections.InternalIpAddressList.Remove(ipAddress);
 			}
-        }
+		}
 
-        #endregion IIpManagement Methods
-    }
+		#endregion IIpManagement Methods
+	}
 }
 
 #pragma warning restore CA1812

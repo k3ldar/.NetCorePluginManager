@@ -27,17 +27,17 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal class ExternalUsersDataRowDefaults : ITableDefaults<ExternalUsersDataRow>
-    {
-        public long PrimarySequence => Int64.MinValue;
+	internal class ExternalUsersDataRowDefaults : ITableDefaults<ExternalUsersDataRow>
+	{
+		public long PrimarySequence => Int64.MinValue;
 
-        public long SecondarySequence => 0;
+		public long SecondarySequence => 0;
 
-        public ushort Version => 0;
+		public ushort Version => 0;
 
-        List<ExternalUsersDataRow> ITableDefaults<ExternalUsersDataRow>.InitialData(ushort version)
-        {
-            return null;
-        }
-    }
+		List<ExternalUsersDataRow> ITableDefaults<ExternalUsersDataRow>.InitialData(ushort version)
+		{
+			return null;
+		}
+	}
 }

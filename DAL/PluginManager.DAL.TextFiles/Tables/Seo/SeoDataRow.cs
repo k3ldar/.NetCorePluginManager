@@ -27,108 +27,108 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameSeo, CompressionType.None, CachingStrategy.None)]
-    internal class SeoDataRow : TableRowDefinition
-    {
-        string _route;
-        string _title;
-        string _author;
-        string _description;
-        private ObservableList<string> _keywords;
+	[Table(Constants.TableNameSeo, CompressionType.None, CachingStrategy.None)]
+	internal class SeoDataRow : TableRowDefinition
+	{
+		string _route;
+		string _title;
+		string _author;
+		string _description;
+		private ObservableList<string> _keywords;
 
-        public SeoDataRow()
-        {
-            Keywords = new ObservableList<string>();
-            Keywords.Changed += ObservableDataChanged;
-        }
+		public SeoDataRow()
+		{
+			Keywords = new ObservableList<string>();
+			Keywords.Changed += ObservableDataChanged;
+		}
 
-        public string Route
-        {
-            get
-            {
-                return _route;
-            }
+		public string Route
+		{
+			get
+			{
+				return _route;
+			}
 
-            set
-            {
-                if (_route == value)
-                    return;
+			set
+			{
+				if (_route == value)
+					return;
 
-                _route = value;
-                Update();
-            }
-        }
+				_route = value;
+				Update();
+			}
+		}
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0016:Use 'throw' expression", Justification = "Validation is required before removing the Changed event")]
-        public ObservableList<string> Keywords
-        {
-            get
-            {
-                return _keywords;
-            }
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0016:Use 'throw' expression", Justification = "Validation is required before removing the Changed event")]
+		public ObservableList<string> Keywords
+		{
+			get
+			{
+				return _keywords;
+			}
 
-            set
-            {
-                if (value == null)
-                    throw new InvalidOperationException();
+			set
+			{
+				if (value == null)
+					throw new InvalidOperationException();
 
-                if (_keywords != null)
-                    _keywords.Changed -= ObservableDataChanged;
+				if (_keywords != null)
+					_keywords.Changed -= ObservableDataChanged;
 
-                _keywords = value;
-                _keywords.Changed += ObservableDataChanged;
-            }
-        }
+				_keywords = value;
+				_keywords.Changed += ObservableDataChanged;
+			}
+		}
 
-        public string Title
-        {
-            get
-            {
-                return _title;
-            }
+		public string Title
+		{
+			get
+			{
+				return _title;
+			}
 
-            set
-            {
-                if (_title == value)
-                    return;
+			set
+			{
+				if (_title == value)
+					return;
 
-                _title = value;
-                Update();
-            }
-        }
+				_title = value;
+				Update();
+			}
+		}
 
-        public string Description
-        {
-            get
-            {
-                return _description;
-            }
+		public string Description
+		{
+			get
+			{
+				return _description;
+			}
 
-            set
-            {
-                if (_description == value)
-                    return;
+			set
+			{
+				if (_description == value)
+					return;
 
-                _description = value;
-                Update();
-            }
-        }
+				_description = value;
+				Update();
+			}
+		}
 
-        public string Author
-        {
-            get
-            {
-                return _author;
-            }
+		public string Author
+		{
+			get
+			{
+				return _author;
+			}
 
-            set
-            {
-                if (_author == value)
-                    return;
+			set
+			{
+				if (_author == value)
+					return;
 
-                _author = value;
-                Update();
-            }
-        }
-    }
+				_author = value;
+				Update();
+			}
+		}
+	}
 }

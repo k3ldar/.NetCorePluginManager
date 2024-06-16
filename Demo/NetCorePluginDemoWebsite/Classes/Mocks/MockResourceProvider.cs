@@ -180,11 +180,11 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			return category;
 		}
 
-		public ResourceItem AddResourceItem(long categoryId, ResourceType resourceType, long userId, 
+		public ResourceItem AddResourceItem(long categoryId, ResourceType resourceType, long userId,
 			string userName, string name, string description, string value, bool approved, List<string> tags)
 		{
 			if (String.IsNullOrEmpty(userName))
-				 throw new ArgumentNullException(nameof(userName));
+				throw new ArgumentNullException(nameof(userName));
 
 			if (String.IsNullOrEmpty(name))
 				throw new ArgumentNullException(nameof(name));
@@ -203,7 +203,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			if (resourceCategory == null)
 				throw new InvalidOperationException();
 
-			ResourceItem Result = new(_nextId++, categoryId, resourceType, userId, 
+			ResourceItem Result = new(_nextId++, categoryId, resourceType, userId,
 				userName, name, description, value, 0, 0, 0, false, tags);
 			resourceCategory.ResourceItems.Add(Result);
 			_items.Add(Result);

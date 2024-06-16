@@ -27,17 +27,17 @@ using AppSettings;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    public class ApplicationOverrides : IApplicationOverride
-    {
-        public bool ExpandApplicationVariable(string variableName, ref object value)
-        {
-            if (variableName.Equals("RootPath"))
-            {
-                value = PluginManagerService.ApplicationRootPath;
-                return true;
-            }
+	public class ApplicationOverrides : IApplicationOverride
+	{
+		public bool ExpandApplicationVariable(string variableName, ref object value)
+		{
+			if (variableName.Equals("RootPath"))
+			{
+				value = PluginManagerService.ApplicationRootPath;
+				return true;
+			}
 
-            return false;
-        }
-    }
+			return false;
+		}
+	}
 }

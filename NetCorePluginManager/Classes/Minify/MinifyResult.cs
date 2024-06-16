@@ -29,73 +29,73 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Classes.Minify
 {
-    /// <summary>
-    /// Indicates the individual timings, start and end length of data and name of minification process.
-    /// </summary>
-    internal sealed class MinifyResult : IMinifyResult
-    {
-        #region Constructors
+	/// <summary>
+	/// Indicates the individual timings, start and end length of data and name of minification process.
+	/// </summary>
+	internal sealed class MinifyResult : IMinifyResult
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="processName">Name of individual minification process name.</param>
-        /// <param name="startLength">Starting length of the data to be minified.</param>
-        public MinifyResult(in string processName, in int startLength)
-        {
-            if (String.IsNullOrEmpty(processName))
-                throw new ArgumentNullException(nameof(processName));
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="processName">Name of individual minification process name.</param>
+		/// <param name="startLength">Starting length of the data to be minified.</param>
+		public MinifyResult(in string processName, in int startLength)
+		{
+			if (String.IsNullOrEmpty(processName))
+				throw new ArgumentNullException(nameof(processName));
 
-            if (startLength < 0)
-                throw new ArgumentOutOfRangeException(nameof(startLength));
+			if (startLength < 0)
+				throw new ArgumentOutOfRangeException(nameof(startLength));
 
-            ProcessName = processName;
-            StartLength = startLength;
-        }
+			ProcessName = processName;
+			StartLength = startLength;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IMInifyResult Properties
+		#region IMInifyResult Properties
 
-        /// <summary>
-        /// Name of process within the minification, if the minification is not split into individual elements then the name of the minification engine.
-        /// </summary>
-        /// <value>string</value>
-        public string ProcessName { get; private set; }
+		/// <summary>
+		/// Name of process within the minification, if the minification is not split into individual elements then the name of the minification engine.
+		/// </summary>
+		/// <value>string</value>
+		public string ProcessName { get; private set; }
 
-        /// <summary>
-        /// Length of data before minification has taken place.
-        /// </summary>
-        /// <value>int</value>
-        public int StartLength { get; private set; }
+		/// <summary>
+		/// Length of data before minification has taken place.
+		/// </summary>
+		/// <value>int</value>
+		public int StartLength { get; private set; }
 
-        /// <summary>
-        /// Length of data after minification has completed.
-        /// </summary>
-        /// <value>int</value>
-        public int EndLength { get; private set; }
+		/// <summary>
+		/// Length of data after minification has completed.
+		/// </summary>
+		/// <value>int</value>
+		public int EndLength { get; private set; }
 
-        /// <summary>
-        /// Time taken to complete the minification
-        /// </summary>
-        /// <value>decimal</value>
-        public decimal TimeTaken { get; private set; }
+		/// <summary>
+		/// Time taken to complete the minification
+		/// </summary>
+		/// <value>decimal</value>
+		public decimal TimeTaken { get; private set; }
 
-        #endregion IMInifyResult Properties
+		#endregion IMInifyResult Properties
 
-        #region Public Methods
+		#region Public Methods
 
-        /// <summary>
-        /// Called to indicate the minification process is complete and store the final length of data and time taken in 1000ths ms.
-        /// </summary>
-        /// <param name="endLength">Length of data after minification.</param>
-        /// <param name="timeTaken">Time taken to complete the minification.</param>
-        public void Finalise(int endLength, decimal timeTaken)
-        {
-            EndLength = endLength;
-            TimeTaken = timeTaken;
-        }
+		/// <summary>
+		/// Called to indicate the minification process is complete and store the final length of data and time taken in 1000ths ms.
+		/// </summary>
+		/// <param name="endLength">Length of data after minification.</param>
+		/// <param name="timeTaken">Time taken to complete the minification.</param>
+		public void Finalise(int endLength, decimal timeTaken)
+		{
+			EndLength = endLength;
+			TimeTaken = timeTaken;
+		}
 
-        #endregion Public Methods
-    }
+		#endregion Public Methods
+	}
 }

@@ -34,19 +34,19 @@ namespace SimpleDB.Tests.Mocks
 {
 	[ExcludeFromCodeCoverage]
 	public class MockTextTableOperations<T> : ISimpleDBOperations<T>, ISimpleDBTable
-        where T : TableRowDefinition
-    {
-        public int DataLength => throw new NotImplementedException();
+		where T : TableRowDefinition
+	{
+		public int DataLength => throw new NotImplementedException();
 
-        public int RecordCount => throw new NotImplementedException();
+		public int RecordCount => throw new NotImplementedException();
 
-        public long PrimarySequence => throw new NotImplementedException();
+		public long PrimarySequence => throw new NotImplementedException();
 
-        public long SecondarySequence => throw new NotImplementedException();
+		public long SecondarySequence => throw new NotImplementedException();
 
-        public byte CompactPercent => throw new NotImplementedException();
+		public byte CompactPercent => throw new NotImplementedException();
 
-        public string TableName => throw new NotImplementedException();
+		public string TableName => throw new NotImplementedException();
 
 		public CachingStrategy CachingStrategy => throw new NotImplementedException();
 
@@ -61,39 +61,39 @@ namespace SimpleDB.Tests.Mocks
 #pragma warning restore CS0067
 
 		public void Delete(List<T> records)
-        {
-            throw new NotImplementedException();
-        }
+		{
+			throw new NotImplementedException();
+		}
 
-        public void Delete(T record)
-        {
-            throw new NotImplementedException();
-        }
+		public void Delete(T record)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
+		public void Dispose()
+		{
+			throw new NotImplementedException();
+		}
 
-        public bool IdExists(long id)
-        {
-            throw new NotImplementedException();
-        }
+		public bool IdExists(long id)
+		{
+			throw new NotImplementedException();
+		}
 
-        public bool IdIsInUse(string propertyName, long value)
-        {
-            throw new NotImplementedException();
-        }
+		public bool IdIsInUse(string propertyName, long value)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void Insert(List<T> records)
-        {
-            throw new NotImplementedException();
-        }
+		public void Insert(List<T> records)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void Insert(T record)
-        {
-            throw new NotImplementedException();
-        }
+		public void Insert(T record)
+		{
+			throw new NotImplementedException();
+		}
 
 		public void Insert(T record, InsertOptions insertOptions)
 		{
@@ -111,41 +111,41 @@ namespace SimpleDB.Tests.Mocks
 		}
 
 		public void InsertOrUpdate(T record)
-        {
-            throw new NotImplementedException();
-        }
+		{
+			throw new NotImplementedException();
+		}
 
-        public long NextSequence()
-        {
-            throw new NotImplementedException();
-        }
+		public long NextSequence()
+		{
+			throw new NotImplementedException();
+		}
 
-        public long NextSequence(long increment)
-        {
-            throw new NotImplementedException();
-        }
+		public long NextSequence(long increment)
+		{
+			throw new NotImplementedException();
+		}
 
-        public long NextSecondarySequence(long increment)
-        {
-            throw new NotImplementedException();
-        }
+		public long NextSecondarySequence(long increment)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void ResetSequence(long primarySequence, long secondarySequence)
-        {
-            throw new NotImplementedException();
-        }
+		public void ResetSequence(long primarySequence, long secondarySequence)
+		{
+			throw new NotImplementedException();
+		}
 
 		public object TableLock => this;
 
-        public IReadOnlyList<T> Select()
-        {
-            throw new NotImplementedException();
-        }
+		public IReadOnlyList<T> Select()
+		{
+			throw new NotImplementedException();
+		}
 
-        public T Select(long id)
-        {
-            throw new NotImplementedException();
-        }
+		public T Select(long id)
+		{
+			throw new NotImplementedException();
+		}
 
 		public IReadOnlyList<T> Select(Func<T, bool> predicate)
 		{
@@ -153,24 +153,24 @@ namespace SimpleDB.Tests.Mocks
 		}
 
 		public void Truncate()
-        {
-            throw new NotImplementedException();
-        }
+		{
+			throw new NotImplementedException();
+		}
 
-        public void Update(List<T> records)
-        {
-            throw new NotImplementedException();
-        }
+		public void Update(List<T> records)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void Update(T record)
-        {
-            throw new NotImplementedException();
-        }
+		public void Update(T record)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void ForceWrite()
-        {
-            throw new NotImplementedException();
-        }
+		public void ForceWrite()
+		{
+			throw new NotImplementedException();
+		}
 
 		public void ClearAllMemory()
 		{

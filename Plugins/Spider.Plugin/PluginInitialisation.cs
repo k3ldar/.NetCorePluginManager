@@ -36,44 +36,44 @@ using Spider.Plugin.Classes;
 
 namespace Spider.Plugin
 {
-    /// <summary>
-    /// Implements IPlugin which allows the Spider.Plugin module to be
-    /// loaded as a plugin module
-    /// </summary>
-    public sealed class PluginInitialisation : IPlugin, IInitialiseEvents
-    {
-        #region Constructors
+	/// <summary>
+	/// Implements IPlugin which allows the Spider.Plugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	public sealed class PluginInitialisation : IPlugin, IInitialiseEvents
+	{
+		#region Constructors
 
-        public PluginInitialisation()
-        {
-        }
+		public PluginInitialisation()
+		{
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IInitialiseEvents Methods
+		#region IInitialiseEvents Methods
 
-        public void AfterConfigure(in IApplicationBuilder app)
-        {
+		public void AfterConfigure(in IApplicationBuilder app)
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeConfigure(in IApplicationBuilder app)
-        {
-            app.UseSpider();
-        }
+		{
+			app.UseSpider();
+		}
 
-        public void BeforeConfigureServices(in IServiceCollection services)
-        {
+		public void BeforeConfigureServices(in IServiceCollection services)
+		{
 			// from interface but unused in this context
 		}
 
 		public void Configure(in IApplicationBuilder app)
-        {
+		{
 			// from interface but unused in this context
 		}
 
@@ -82,27 +82,27 @@ namespace Spider.Plugin
 		#region IPlugin Methods
 
 		public void Initialise(ILogger logger)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void Finalise()
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddSingleton<IRobots, Robots>();
-        }
+		{
+			services.AddSingleton<IRobots, Robots>();
+		}
 
-        public ushort GetVersion()
-        {
-            return 1;
-        }
+		public ushort GetVersion()
+		{
+			return 1;
+		}
 
-        #endregion IPlugin Methods
-    }
+		#endregion IPlugin Methods
+	}
 }
 
 #pragma warning restore CS1591

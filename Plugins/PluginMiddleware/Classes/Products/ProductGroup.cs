@@ -27,76 +27,76 @@ using System;
 
 namespace Middleware.Products
 {
-    /// <summary>
-    /// Displays information for a product group within a website.
-    /// </summary>
-    public class ProductGroup
-    {
-        #region Constructors
+	/// <summary>
+	/// Displays information for a product group within a website.
+	/// </summary>
+	public class ProductGroup
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="id">Unique id of product group.</param>
-        /// <param name="description">Description for Product Group.</param>
-        /// <param name="showOnWebsite">Determines whether the product group is visible on the website or not.</param>
-        /// <param name="sortOrder">Sort order in comparison to other product groups.</param>
-        /// <param name="tagLine">Tag line displayed at the top of the page when thr group is shown.</param>
-        /// <param name="url">Custom url to be redirected to if the group is selected.  Default route values apply if not set.</param>
-        public ProductGroup(in int id, in string description, in bool showOnWebsite,
-            in int sortOrder, in string tagLine, in string url)
-        {
-            if (string.IsNullOrEmpty(description))
-                throw new ArgumentNullException(nameof(description));
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="id">Unique id of product group.</param>
+		/// <param name="description">Description for Product Group.</param>
+		/// <param name="showOnWebsite">Determines whether the product group is visible on the website or not.</param>
+		/// <param name="sortOrder">Sort order in comparison to other product groups.</param>
+		/// <param name="tagLine">Tag line displayed at the top of the page when thr group is shown.</param>
+		/// <param name="url">Custom url to be redirected to if the group is selected.  Default route values apply if not set.</param>
+		public ProductGroup(in int id, in string description, in bool showOnWebsite,
+			in int sortOrder, in string tagLine, in string url)
+		{
+			if (string.IsNullOrEmpty(description))
+				throw new ArgumentNullException(nameof(description));
 
-            Id = id;
-            Description = description;
-            ShowOnWebsite = showOnWebsite;
-            SortOrder = sortOrder;
-            TagLine = tagLine ?? String.Empty;
-            Url = url ?? String.Empty;
-        }
+			Id = id;
+			Description = description;
+			ShowOnWebsite = showOnWebsite;
+			SortOrder = sortOrder;
+			TagLine = tagLine ?? String.Empty;
+			Url = url ?? String.Empty;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Unique id of product group.
-        /// </summary>
-        /// <value>int</value>
-        public int Id { get; }
+		/// <summary>
+		/// Unique id of product group.
+		/// </summary>
+		/// <value>int</value>
+		public int Id { get; }
 
-        /// <summary>
-        /// Description for Product Group.
-        /// </summary>
-        /// <value>string</value>
-        public string Description { get; }
+		/// <summary>
+		/// Description for Product Group.
+		/// </summary>
+		/// <value>string</value>
+		public string Description { get; }
 
-        /// <summary>
-        /// Determines whether the product group is visible on the website or not.
-        /// </summary>
-        /// <value>bool.  If true the value is shown.</value>
-        public bool ShowOnWebsite { get; }
+		/// <summary>
+		/// Determines whether the product group is visible on the website or not.
+		/// </summary>
+		/// <value>bool.  If true the value is shown.</value>
+		public bool ShowOnWebsite { get; }
 
-        /// <summary>
-        /// Sort order in comparison to other product groups.
-        /// </summary>
-        /// <value>int</value>
-        public int SortOrder { get; }
+		/// <summary>
+		/// Sort order in comparison to other product groups.
+		/// </summary>
+		/// <value>int</value>
+		public int SortOrder { get; }
 
-        /// <summary>
-        /// Tag line displayed at the top of the page when thr group is shown.
-        /// </summary>
-        /// <value>string</value>
-        public string TagLine { get; }
+		/// <summary>
+		/// Tag line displayed at the top of the page when thr group is shown.
+		/// </summary>
+		/// <value>string</value>
+		public string TagLine { get; }
 
-        /// <summary>
-        /// Custom url to be redirected to if the group is selected.  Default route values apply if not set.
-        /// </summary>
-        /// <value>string</value>
-        public string Url { get; }
+		/// <summary>
+		/// Custom url to be redirected to if the group is selected.  Default route values apply if not set.
+		/// </summary>
+		/// <value>string</value>
+		public string Url { get; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

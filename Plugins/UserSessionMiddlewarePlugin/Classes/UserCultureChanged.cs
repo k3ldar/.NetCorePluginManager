@@ -36,43 +36,43 @@ using SharedPluginFeatures;
 
 namespace UserSessionMiddleware.Plugin
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
-    internal class UserCultureChanged : BaseMiddleware, IUserCultureChangeProvider
-    {
-        #region Private Members
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
+	internal class UserCultureChanged : BaseMiddleware, IUserCultureChangeProvider
+	{
+		#region Private Members
 
-        private readonly ISettingsProvider _settingsProvider;
+		private readonly ISettingsProvider _settingsProvider;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public UserCultureChanged(ISettingsProvider settingsProvider)
-        {
-            _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
-        }
+		public UserCultureChanged(ISettingsProvider settingsProvider)
+		{
+			_settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IUserCultureChangeProvider Methods
+		#region IUserCultureChangeProvider Methods
 
-        public void CultureChanged(in HttpContext httpContext, in UserSession userSession, in CultureInfo cultureInfo)
-        {
-            if (httpContext == null)
-                throw new ArgumentNullException(nameof(httpContext));
+		public void CultureChanged(in HttpContext httpContext, in UserSession userSession, in CultureInfo cultureInfo)
+		{
+			if (httpContext == null)
+				throw new ArgumentNullException(nameof(httpContext));
 
-            if (userSession == null)
-                throw new ArgumentNullException(nameof(userSession));
+			if (userSession == null)
+				throw new ArgumentNullException(nameof(userSession));
 
-            if (cultureInfo == null)
-                throw new ArgumentNullException(nameof(cultureInfo));
+			if (cultureInfo == null)
+				throw new ArgumentNullException(nameof(cultureInfo));
 
-            UserSessionSettings settings = _settingsProvider.GetSettings<UserSessionSettings>(Constants.UserSessionConfiguration);
+			UserSessionSettings settings = _settingsProvider.GetSettings<UserSessionSettings>(Constants.UserSessionConfiguration);
 
-            CookieAdd(httpContext, Constants.UserCulture,
-                Shared.Utilities.Encrypt(cultureInfo.Name, settings.EncryptionKey), 365);
-        }
+			CookieAdd(httpContext, Constants.UserCulture,
+				Shared.Utilities.Encrypt(cultureInfo.Name, settings.EncryptionKey), 365);
+		}
 
-        #endregion IUserCultureChangeProvider Methods
-    }
+		#endregion IUserCultureChangeProvider Methods
+	}
 }

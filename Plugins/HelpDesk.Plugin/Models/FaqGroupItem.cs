@@ -31,42 +31,42 @@ using SharedPluginFeatures;
 
 namespace HelpdeskPlugin.Models
 {
-    public sealed class FaqGroupItem : BaseModel
-    {
-        #region Constructors
+	public sealed class FaqGroupItem : BaseModel
+	{
+		#region Constructors
 
-        public FaqGroupItem(in long id, in string description,
-            in int viewCount, in string content)
-        {
-            if (String.IsNullOrEmpty(description))
-                throw new ArgumentNullException(nameof(description));
+		public FaqGroupItem(in long id, in string description,
+			in int viewCount, in string content)
+		{
+			if (String.IsNullOrEmpty(description))
+				throw new ArgumentNullException(nameof(description));
 
-            if (String.IsNullOrEmpty(content))
-                throw new ArgumentNullException(nameof(content));
+			if (String.IsNullOrEmpty(content))
+				throw new ArgumentNullException(nameof(content));
 
-            if (viewCount < 0)
-                throw new ArgumentOutOfRangeException(nameof(viewCount));
+			if (viewCount < 0)
+				throw new ArgumentOutOfRangeException(nameof(viewCount));
 
-            Id = id;
-            Description = description;
-            ViewCount = viewCount;
-            Content = content;
-        }
+			Id = id;
+			Description = description;
+			ViewCount = viewCount;
+			Content = content;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public long Id { get; private set; }
+		public long Id { get; private set; }
 
-        public string Description { get; private set; }
+		public string Description { get; private set; }
 
-        public int ViewCount { get; private set; }
+		public int ViewCount { get; private set; }
 
-        public string Content { get; private set; }
+		public string Content { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

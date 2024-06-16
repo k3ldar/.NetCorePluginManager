@@ -32,73 +32,73 @@ using Middleware.Accounts.Licences;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
-    public class MockLicenceProvider : ILicenceProvider
-    {
-        #region Private Members
+	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
+	public class MockLicenceProvider : ILicenceProvider
+	{
+		#region Private Members
 
-        private List<Licence> _licences;
+		private List<Licence> _licences;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Public Interface Methods
+		#region Public Interface Methods
 
-        public List<LicenceType> LicenceTypesGet()
-        {
-            return new List<LicenceType>()
-                {
-                    new(1, "Product 1"),
-                    new(2, "Product 2")
-                };
-        }
+		public List<LicenceType> LicenceTypesGet()
+		{
+			return new List<LicenceType>()
+				{
+					new(1, "Product 1"),
+					new(2, "Product 2")
+				};
+		}
 
-        public List<Licence> LicencesGet(in long userId)
-        {
-            if (_licences == null)
-            {
-                _licences = new List<Licence>()
-                {
-                    new(1, 1, LicenceTypesGet()[0], DateTime.Now.AddMonths(-9), DateTime.Now.AddMonths(3),
-                        true, false, 0, 1, "65.45.76.124", String.Empty),
-                    new(2, 1, LicenceTypesGet()[1], DateTime.Now.AddMonths(-9), DateTime.Now.AddMonths(3),
-                        true, false, 0, 1, "124.76.45.65", "Encrypted String value")
-                };
-            }
+		public List<Licence> LicencesGet(in long userId)
+		{
+			if (_licences == null)
+			{
+				_licences = new List<Licence>()
+				{
+					new(1, 1, LicenceTypesGet()[0], DateTime.Now.AddMonths(-9), DateTime.Now.AddMonths(3),
+						true, false, 0, 1, "65.45.76.124", String.Empty),
+					new(2, 1, LicenceTypesGet()[1], DateTime.Now.AddMonths(-9), DateTime.Now.AddMonths(3),
+						true, false, 0, 1, "124.76.45.65", "Encrypted String value")
+				};
+			}
 
-            return _licences;
-        }
+			return _licences;
+		}
 
-        public bool LicenceUpdateDomain(in long userId, in Licence licence, in string domain)
-        {
-            if (licence == null || String.IsNullOrEmpty(domain))
-                return false;
+		public bool LicenceUpdateDomain(in long userId, in Licence licence, in string domain)
+		{
+			if (licence == null || String.IsNullOrEmpty(domain))
+				return false;
 
-            _licences[(int)licence.Id - 1].DomainName = domain;
+			_licences[(int)licence.Id - 1].DomainName = domain;
 
-            return true;
-        }
+			return true;
+		}
 
-        public bool LicenceSendEmail(in long userId, in int licenceId)
-        {
-            return true;
-        }
+		public bool LicenceSendEmail(in long userId, in int licenceId)
+		{
+			return true;
+		}
 
-        public LicenceCreate LicenceTrialCreate(in Int64 userId, in LicenceType licenceType)
-        {
-            if (licenceType == null)
-                throw new ArgumentNullException(nameof(licenceType));
+		public LicenceCreate LicenceTrialCreate(in Int64 userId, in LicenceType licenceType)
+		{
+			if (licenceType == null)
+				throw new ArgumentNullException(nameof(licenceType));
 
-            if (licenceType.Id == 1)
-            {
-                _licences.Add(new Licence(_licences.Count + 1, userId, licenceType, DateTime.Now,
-                    DateTime.Now.AddMonths(1), true, true, 0, 1, String.Empty, String.Empty));
+			if (licenceType.Id == 1)
+			{
+				_licences.Add(new Licence(_licences.Count + 1, userId, licenceType, DateTime.Now,
+					DateTime.Now.AddMonths(1), true, true, 0, 1, String.Empty, String.Empty));
 
-                return LicenceCreate.Success;
-            }
+				return LicenceCreate.Success;
+			}
 
-            return LicenceCreate.Failed;
-        }
+			return LicenceCreate.Failed;
+		}
 
-        #endregion Public Interface Methods
-    }
+		#endregion Public Interface Methods
+	}
 }

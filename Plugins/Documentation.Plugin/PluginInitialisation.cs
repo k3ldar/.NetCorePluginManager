@@ -41,63 +41,63 @@ using static SharedPluginFeatures.Constants;
 
 namespace DocumentationPlugin
 {
-    /// <summary>
-    /// Implements IPlugin which allows the Documentation.Plugin module to be
-    /// loaded as a plugin module
-    /// </summary>
-    public class PluginInitialisation : IPlugin, IInitialiseEvents
-    {
-        private readonly IThreadManagerServices _threadManagerServices;
+	/// <summary>
+	/// Implements IPlugin which allows the Documentation.Plugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	public class PluginInitialisation : IPlugin, IInitialiseEvents
+	{
+		private readonly IThreadManagerServices _threadManagerServices;
 
-        public PluginInitialisation(IThreadManagerServices threadManagerServices)
-        {
-            _threadManagerServices = threadManagerServices ?? throw new ArgumentNullException(nameof(threadManagerServices));
-        }
+		public PluginInitialisation(IThreadManagerServices threadManagerServices)
+		{
+			_threadManagerServices = threadManagerServices ?? throw new ArgumentNullException(nameof(threadManagerServices));
+		}
 
-        public void ConfigureServices(IServiceCollection services)
-        {
+		public void ConfigureServices(IServiceCollection services)
+		{
 			services.AddTransient(typeof(DocumentLoadThread));
 		}
 
 		public void Finalise()
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public ushort GetVersion()
-        {
-            return 1;
-        }
+		{
+			return 1;
+		}
 
-        public void Initialise(ILogger logger)
-        {
+		public void Initialise(ILogger logger)
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterConfigure(in IApplicationBuilder app)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
-        {
-            services.TryAddSingleton<IDocumentationService, DefaultDocumentationService>();
+		{
+			services.TryAddSingleton<IDocumentationService, DefaultDocumentationService>();
 
-            _threadManagerServices.RegisterStartupThread(DocumentationLoadThread, typeof(DocumentLoadThread));
-        }
+			_threadManagerServices.RegisterStartupThread(DocumentationLoadThread, typeof(DocumentLoadThread));
+		}
 
-        public void BeforeConfigure(in IApplicationBuilder app)
-        {
+		public void BeforeConfigure(in IApplicationBuilder app)
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeConfigureServices(in IServiceCollection services)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void Configure(in IApplicationBuilder app)
-        {
+		{
 			// from interface but unused in this context
 		}
 	}

@@ -25,43 +25,43 @@ using System;
 
 namespace ImageManager.Plugin.Models
 {
-    /// <summary>
-    /// Cached image upload data
-    /// </summary>
-    public sealed class ImagesUploadedModel
-    {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <exception cref="ArgumentNullException">Thrown if groupName is null or empty.</exception>
-        public ImagesUploadedModel(string groupName, string subgroupName, string memoryCacheName)
-        {
-            if (String.IsNullOrEmpty(groupName))
-                throw new ArgumentNullException(nameof(groupName));
+	/// <summary>
+	/// Cached image upload data
+	/// </summary>
+	public sealed class ImagesUploadedModel
+	{
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <exception cref="ArgumentNullException">Thrown if groupName is null or empty.</exception>
+		public ImagesUploadedModel(string groupName, string subgroupName, string memoryCacheName)
+		{
+			if (String.IsNullOrEmpty(groupName))
+				throw new ArgumentNullException(nameof(groupName));
 
-            if (String.IsNullOrEmpty(memoryCacheName))
-                throw new ArgumentNullException(nameof(memoryCacheName));
+			if (String.IsNullOrEmpty(memoryCacheName))
+				throw new ArgumentNullException(nameof(memoryCacheName));
 
-            GroupName = groupName;
-            SubgroupName = subgroupName;
-            MemoryCacheName = memoryCacheName;
-        }
+			GroupName = groupName;
+			SubgroupName = subgroupName;
+			MemoryCacheName = memoryCacheName;
+		}
 
-        /// <summary>
-        /// Name of group images are being uploaded to
-        /// </summary>
-        /// <value>string</value>
-        public string GroupName { get; }
+		/// <summary>
+		/// Name of group images are being uploaded to
+		/// </summary>
+		/// <value>string</value>
+		public string GroupName { get; }
 
-        /// <summary>
-        /// Name of subgroup images are being uploaded to
-        /// </summary>
-        /// <value>string</value>
-        public string SubgroupName { get; }
+		/// <summary>
+		/// Name of subgroup images are being uploaded to
+		/// </summary>
+		/// <value>string</value>
+		public string SubgroupName { get; }
 
-        /// <summary>
-        /// Name of memory cache item for uploaded images
-        /// </summary>
-        public string MemoryCacheName { get; set; }
-    }
+		/// <summary>
+		/// Name of memory cache item for uploaded images
+		/// </summary>
+		public string MemoryCacheName { get; set; }
+	}
 }

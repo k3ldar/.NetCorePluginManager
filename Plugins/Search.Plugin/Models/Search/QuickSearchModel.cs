@@ -26,21 +26,21 @@
 
 namespace SearchPlugin.Models
 {
-    /// <summary>
-    /// Search model passed to search controller for ajax calls
-    /// </summary>
-    public class QuickSearchModel
-    {
-        /// <summary>
-        /// Keywords to be searched
-        /// </summary>
-        /// <value>string</value>
-        public string keywords { get; set; }
+	/// <summary>
+	/// Search model passed to search controller for ajax calls
+	/// </summary>
+	public class QuickSearchModel
+	{
+		/// <summary>
+		/// Keywords to be searched
+		/// </summary>
+		/// <value>string</value>
+		public string keywords { get; set; }
 
-        /// <summary>
-        /// Unique search id used to verify the call
-        /// </summary>
-        /// <value>string</value>
-        public string searchid { get; set; }
-    }
+		/// <summary>
+		/// Unique search id used to verify the call
+		/// </summary>
+		/// <value>string</value>
+		public string searchid { get; set; }
+	}
 }

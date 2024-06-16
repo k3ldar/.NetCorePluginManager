@@ -26,49 +26,49 @@ using System;
 
 namespace ImageManager.Plugin.Models
 {
-    /// <summary>
-    /// View model for processing uploaded images
-    /// </summary>
-    public sealed class ImageProcessViewModel
-    {
-        #region Constructors
+	/// <summary>
+	/// View model for processing uploaded images
+	/// </summary>
+	public sealed class ImageProcessViewModel
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public ImageProcessViewModel()
-        {
-        }
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public ImageProcessViewModel()
+		{
+		}
 
-        /// <summary>
-        /// Constructor accepting id of file upload
-        /// </summary>
-        /// <param name="fileUploadId">Id for the file upload</param>
-        /// <exception cref="ArgumentNullException">Thrown if fileUploadId is null or an empty string</exception>
-        public ImageProcessViewModel(string fileUploadId)
-        {
-            if (string.IsNullOrEmpty(fileUploadId))
-                throw new ArgumentNullException(nameof(fileUploadId));
+		/// <summary>
+		/// Constructor accepting id of file upload
+		/// </summary>
+		/// <param name="fileUploadId">Id for the file upload</param>
+		/// <exception cref="ArgumentNullException">Thrown if fileUploadId is null or an empty string</exception>
+		public ImageProcessViewModel(string fileUploadId)
+		{
+			if (string.IsNullOrEmpty(fileUploadId))
+				throw new ArgumentNullException(nameof(fileUploadId));
 
-            FileUploadId = fileUploadId;
-        }
+			FileUploadId = fileUploadId;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Unique file upload id
-        /// </summary>
-        /// <value>string</value>
-        public string FileUploadId { get; set; }
+		/// <summary>
+		/// Unique file upload id
+		/// </summary>
+		/// <value>string</value>
+		public string FileUploadId { get; set; }
 
-        /// <summary>
-        /// Additional data supplied by user
-        /// </summary>
-        /// <value>string</value>
-        public string AdditionalData { get; set; }
+		/// <summary>
+		/// Additional data supplied by user
+		/// </summary>
+		/// <value>string</value>
+		public string AdditionalData { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

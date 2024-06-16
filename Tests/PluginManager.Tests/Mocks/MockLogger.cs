@@ -33,143 +33,143 @@ using Shared.Classes;
 
 namespace PluginManager.Tests.Mocks
 {
-    [ExcludeFromCodeCoverage]
-    public sealed class MockLogger : ILogger
-    {
-        #region Private Methods
+	[ExcludeFromCodeCoverage]
+	public sealed class MockLogger : ILogger
+	{
+		#region Private Methods
 
-        private readonly object _lockObject = new();
-        private Exception _exception;
-        private readonly List<string> _messages = new();
-        private readonly List<MockLoggerItem> _errors;
-        private readonly List<MockLoggerItem> _logs;
+		private readonly object _lockObject = new();
+		private Exception _exception;
+		private readonly List<string> _messages = new();
+		private readonly List<MockLoggerItem> _errors;
+		private readonly List<MockLoggerItem> _logs;
 
-        #endregion Private Methods
+		#endregion Private Methods
 
-        #region Constructors
+		#region Constructors
 
-        public MockLogger()
-        {
-            _errors = new List<MockLoggerItem>();
-            _logs = new List<MockLoggerItem>();
-        }
+		public MockLogger()
+		{
+			_errors = new List<MockLoggerItem>();
+			_logs = new List<MockLoggerItem>();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public List<MockLoggerItem> Errors
-        {
-            get
-            {
-                using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-                {
-                    return _errors;
-                }
-            }
-        }
+		public List<MockLoggerItem> Errors
+		{
+			get
+			{
+				using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+				{
+					return _errors;
+				}
+			}
+		}
 
-        public List<MockLoggerItem> Logs
-        {
-            get
-            {
-                using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-                {
-                    return _logs;
-                }
-            }
-        }
+		public List<MockLoggerItem> Logs
+		{
+			get
+			{
+				using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+				{
+					return _logs;
+				}
+			}
+		}
 
-        #endregion Properties
+		#endregion Properties
 
-        #region Public Methods
+		#region Public Methods
 
 
-        public bool ExceptionLogged(Type exception)
-        {
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                return exception.Equals(_exception.GetType());
-            }
-        }
+		public bool ExceptionLogged(Type exception)
+		{
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				return exception.Equals(_exception.GetType());
+			}
+		}
 
-        public bool ContainsMessage(string message)
-        {
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                if (_messages.Contains(message))
-                    return true;
+		public bool ContainsMessage(string message)
+		{
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				if (_messages.Contains(message))
+					return true;
 
-                foreach (string msg in _messages)
-                {
-                    if (msg.StartsWith(message))
-                        return true;
-                }
+				foreach (string msg in _messages)
+				{
+					if (msg.StartsWith(message))
+						return true;
+				}
 
-                return false;
-            }
-        }
+				return false;
+			}
+		}
 
-        #endregion Public Methods
+		#endregion Public Methods
 
-        #region ILogger Methods
+		#region ILogger Methods
 
-        public void AddToLog(in LogLevel logLevel, in string data)
-        {
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                _messages.Add($"{logLevel} {data}");
-                AddToLog(logLevel, String.Empty, data);
-            }
-        }
+		public void AddToLog(in LogLevel logLevel, in string data)
+		{
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				_messages.Add($"{logLevel} {data}");
+				AddToLog(logLevel, String.Empty, data);
+			}
+		}
 
-        public void AddToLog(in LogLevel logLevel, in Exception exception)
-        {
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                _messages.Add($"{logLevel} {exception.Message}");
-                AddToLog(logLevel, String.Empty, exception, String.Empty);
-            }
-        }
+		public void AddToLog(in LogLevel logLevel, in Exception exception)
+		{
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				_messages.Add($"{logLevel} {exception.Message}");
+				AddToLog(logLevel, String.Empty, exception, String.Empty);
+			}
+		}
 
-        public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
-        {
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                _messages.Add($"{logLevel} {exception.Message} {data}");
+		public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
+		{
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				_messages.Add($"{logLevel} {exception.Message} {data}");
 
-                _exception = exception;
-                AddToLog(logLevel, String.Empty, exception, data);
-            }
-        }
+				_exception = exception;
+				AddToLog(logLevel, String.Empty, exception, data);
+			}
+		}
 
-        public void AddToLog(in LogLevel logLevel, in string moduleName, in string data)
-        {
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                _messages.Add($"{logLevel} {moduleName} {data}");
-                _logs.Add(new MockLoggerItem(logLevel, moduleName, data));
-            }
-        }
+		public void AddToLog(in LogLevel logLevel, in string moduleName, in string data)
+		{
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				_messages.Add($"{logLevel} {moduleName} {data}");
+				_logs.Add(new MockLoggerItem(logLevel, moduleName, data));
+			}
+		}
 
-        public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception)
-        {
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                _messages.Add($"{logLevel} {moduleName} {exception.Message}");
-                AddToLog(logLevel, moduleName, exception, String.Empty);
-            }
-        }
+		public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception)
+		{
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				_messages.Add($"{logLevel} {moduleName} {exception.Message}");
+				AddToLog(logLevel, moduleName, exception, String.Empty);
+			}
+		}
 
-        public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception, string data)
-        {
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                _messages.Add($"{logLevel} {moduleName} {exception.Message} {data}");
-                _errors.Add(new MockLoggerItem(logLevel, moduleName, exception, data));
-            }
-        }
+		public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception, string data)
+		{
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				_messages.Add($"{logLevel} {moduleName} {exception.Message} {data}");
+				_errors.Add(new MockLoggerItem(logLevel, moduleName, exception, data));
+			}
+		}
 
-        #endregion ILogger Methods
-    }
+		#endregion ILogger Methods
+	}
 }

@@ -32,66 +32,66 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Models
 {
-    public sealed class GridViewModel : BaseModel
-    {
-        #region Constructors
+	public sealed class GridViewModel : BaseModel
+	{
+		#region Constructors
 
-        public GridViewModel(in BaseModelData modelData,
-            SystemAdminSubMenu subMenu)
-            : base(modelData)
-        {
-            if (subMenu == null)
-                throw new ArgumentNullException(nameof(subMenu));
+		public GridViewModel(in BaseModelData modelData,
+			SystemAdminSubMenu subMenu)
+			: base(modelData)
+		{
+			if (subMenu == null)
+				throw new ArgumentNullException(nameof(subMenu));
 
-            Title = subMenu.Name();
+			Title = subMenu.Name();
 
-            string data = subMenu.Data();
+			string data = subMenu.Data();
 
-            if (String.IsNullOrEmpty(data))
-                throw new ArgumentException("No data has been returned");
+			if (String.IsNullOrEmpty(data))
+				throw new ArgumentException("No data has been returned");
 
-            // data has to have the header on first row, each column seperated by a pipe |
-            // the data is on all following lines and is also seperated by pipe |
-            // each line is seperated with \r
-            string[] allLines = data.Trim().Split('\r');
+			// data has to have the header on first row, each column seperated by a pipe |
+			// the data is on all following lines and is also seperated by pipe |
+			// each line is seperated with \r
+			string[] allLines = data.Trim().Split('\r');
 
-            // must have a header at the very least!
-            if (allLines.Length == 1 && String.IsNullOrEmpty(allLines[0].Trim()))
-                throw new InvalidOperationException(nameof(subMenu.Data));
+			// must have a header at the very least!
+			if (allLines.Length == 1 && String.IsNullOrEmpty(allLines[0].Trim()))
+				throw new InvalidOperationException(nameof(subMenu.Data));
 
-            Headers = allLines[0].Split('|');
+			Headers = allLines[0].Split('|');
 
-            HeaderColumnCount = Headers.Length;
+			HeaderColumnCount = Headers.Length;
 
-            Items = new List<string[]>();
+			Items = new List<string[]>();
 
-            for (int i = 1; i < allLines.Length; i++)
-            {
-                string[] line = allLines[i].Split('|');
+			for (int i = 1; i < allLines.Length; i++)
+			{
+				string[] line = allLines[i].Split('|');
 
-                if (line.Length != Headers.Length)
-                    throw new InvalidOperationException("line column count much match header column count" +
-                        $"\r\n\r\n{subMenu.Data()}");
+				if (line.Length != Headers.Length)
+					throw new InvalidOperationException("line column count much match header column count" +
+						$"\r\n\r\n{subMenu.Data()}");
 
-                Items.Add(line);
-            }
-        }
+				Items.Add(line);
+			}
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Properties
+		#region Public Properties
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
-        public string[] Headers { get; set; }
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
+		public string[] Headers { get; set; }
 
-        public List<string[]> Items { get; set; }
+		public List<string[]> Items { get; set; }
 
-        public string Title { get; set; }
+		public string Title { get; set; }
 
-        public int HeaderColumnCount { get; }
+		public int HeaderColumnCount { get; }
 
-        #endregion Public Properties
-    }
+		#endregion Public Properties
+	}
 }
 
 #pragma warning restore CS1591

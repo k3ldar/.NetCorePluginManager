@@ -46,7 +46,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 	/// This class descends from SystemAdminSubMenu.
 	/// </summary>
 	public sealed class VisitsDailySubMenu : SystemAdminSubMenu
-    {
+	{
 		#region Private Members
 
 		private readonly ISessionStatisticsProvider _sessionStatisticsProvider;
@@ -59,94 +59,94 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 			_sessionStatisticsProvider = sessionStatisticsProvider ?? throw new ArgumentNullException(nameof(sessionStatisticsProvider));
 
 			if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(SharedPluginFeatures.Constants.UserSessionConfiguration);
+			UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(SharedPluginFeatures.Constants.UserSessionConfiguration);
 
-            _enabled = settings.EnableDefaultSessionService;
-        }
+			_enabled = settings.EnableDefaultSessionService;
+		}
 
-        public override string Action()
-        {
-            return String.Empty;
-        }
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        /// <summary>
-        /// Returns last 30 days of daily user sessions.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            ChartModel Result = new();
+		/// <summary>
+		/// Returns last 30 days of daily user sessions.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			ChartModel Result = new();
 
-            Result.ChartTitle = "Daily Visitor Statistics";
+			Result.ChartTitle = "Daily Visitor Statistics";
 
-            List<SessionDaily> sessionData = _sessionStatisticsProvider.GetDailyData(false)
-                .OrderBy(o => o.Date)
-                .Take(30)
-                .ToList();
+			List<SessionDaily> sessionData = _sessionStatisticsProvider.GetDailyData(false)
+				.OrderBy(o => o.Date)
+				.Take(30)
+				.ToList();
 
-            if (sessionData == null)
-                return String.Empty;
+			if (sessionData == null)
+				return String.Empty;
 
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.String, "Day"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Visits"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Mobile Visits"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bounced"));
+			Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.String, "Day"));
+			Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Visits"));
+			Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Mobile Visits"));
+			Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bounced"));
 
-            foreach (SessionDaily day in sessionData)
-            {
-                List<Decimal> datavalues = new();
-                Result.DataValues[day.Date.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern)] = datavalues;
+			foreach (SessionDaily day in sessionData)
+			{
+				List<Decimal> datavalues = new();
+				Result.DataValues[day.Date.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern)] = datavalues;
 
-                datavalues.Add(day.HumanVisits);
-                datavalues.Add(day.MobileVisits);
-                datavalues.Add(day.Bounced);
-            }
+				datavalues.Add(day.HumanVisits);
+				datavalues.Add(day.MobileVisits);
+				datavalues.Add(day.Bounced);
+			}
 
-            return JsonSerializer.Serialize(Result);
-        }
+			return JsonSerializer.Serialize(Result);
+		}
 
-        public override string Image()
-        {
-            return SharedPluginFeatures.Constants.SystemImageChart;
-        }
+		public override string Image()
+		{
+			return SharedPluginFeatures.Constants.SystemImageChart;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Chart;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Chart;
+		}
 
-        public override string Name()
-        {
-            return "Visits - Daily";
-        }
+		public override string Name()
+		{
+			return "Visits - Daily";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "User Sessions";
-        }
+		public override string ParentMenuName()
+		{
+			return "User Sessions";
+		}
 
-        public override int SortOrder()
-        {
-            return 460;
-        }
+		public override int SortOrder()
+		{
+			return 460;
+		}
 
-        public override Boolean Enabled()
-        {
-            return _enabled;
-        }
-    }
+		public override Boolean Enabled()
+		{
+			return _enabled;
+		}
+	}
 }
 
 #pragma warning restore CS1591

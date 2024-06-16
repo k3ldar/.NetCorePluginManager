@@ -29,32 +29,32 @@
 
 namespace PluginManager.Abstractions
 {
-    /// <summary>
-    /// This interface is used when initially loading the AspNetCore.PluginManager to load 
-    /// settings it requires.  A custom implementation can be supplied during initialisation
-    /// of the Plugin Manager which can enable the settings to be loaded from a custom data
-    /// source.
-    /// 
-    /// This interface will be used to load PluginSetting and PluginSettings but may be
-    /// extended in future versions to include other initialisation data.
-    /// </summary>
-    public interface ILoadSettingsService
-    {
-        /// <summary>
-        /// Requests that setting data be loaded for T, this could be PluginSetting or PluginSettings.
-        /// </summary>
-        /// <typeparam name="T">Class type</typeparam>
-        /// <param name="jsonFile">jsonFile to use, this can be altered for custom implementations.</param>
-        /// <param name="name">Name of settings to be loaded.</param>
-        /// <returns>Instance of T</returns>
-        T LoadSettings<T>(in string jsonFile, in string name);
+	/// <summary>
+	/// This interface is used when initially loading the AspNetCore.PluginManager to load 
+	/// settings it requires.  A custom implementation can be supplied during initialisation
+	/// of the Plugin Manager which can enable the settings to be loaded from a custom data
+	/// source.
+	/// 
+	/// This interface will be used to load PluginSetting and PluginSettings but may be
+	/// extended in future versions to include other initialisation data.
+	/// </summary>
+	public interface ILoadSettingsService
+	{
+		/// <summary>
+		/// Requests that setting data be loaded for T, this could be PluginSetting or PluginSettings.
+		/// </summary>
+		/// <typeparam name="T">Class type</typeparam>
+		/// <param name="jsonFile">jsonFile to use, this can be altered for custom implementations.</param>
+		/// <param name="name">Name of settings to be loaded.</param>
+		/// <returns>Instance of T</returns>
+		T LoadSettings<T>(in string jsonFile, in string name);
 
-        /// <summary>
-        /// Requests that setting data be loaded for T, this could be PluginSetting or PluginSettings, the default jsonFile name is used (appsettings.json).
-        /// </summary>
-        /// <typeparam name="T">Class type</typeparam>
-        /// <param name="name">Name of settings to be loaded.</param>
-        /// <returns>Instance of T</returns>
-        T LoadSettings<T>(in string name);
-    }
+		/// <summary>
+		/// Requests that setting data be loaded for T, this could be PluginSetting or PluginSettings, the default jsonFile name is used (appsettings.json).
+		/// </summary>
+		/// <typeparam name="T">Class type</typeparam>
+		/// <param name="name">Name of settings to be loaded.</param>
+		/// <returns>Instance of T</returns>
+		T LoadSettings<T>(in string name);
+	}
 }

@@ -33,45 +33,45 @@ using PluginManager.Abstractions;
 
 namespace PluginManager.Internal
 {
-    internal sealed class PluginModule : IPluginModule, IPluginVersion
-    {
-        #region Constructors
+	internal sealed class PluginModule : IPluginModule, IPluginVersion
+	{
+		#region Constructors
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "I deem it to be valid in this context!")]
-        public PluginModule(Assembly assembly, string module, IPlugin pluginService)
-        {
-            if (String.IsNullOrEmpty(module))
-                throw new ArgumentNullException(nameof(module));
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "I deem it to be valid in this context!")]
+		public PluginModule(Assembly assembly, string module, IPlugin pluginService)
+		{
+			if (String.IsNullOrEmpty(module))
+				throw new ArgumentNullException(nameof(module));
 
-            Assembly = assembly ?? throw new ArgumentNullException(nameof(assembly));
-            Module = module;
-            Plugin = pluginService ?? throw new ArgumentNullException(nameof(pluginService));
-            FileVersion = "unknown";
-        }
+			Assembly = assembly ?? throw new ArgumentNullException(nameof(assembly));
+			Module = module;
+			Plugin = pluginService ?? throw new ArgumentNullException(nameof(pluginService));
+			FileVersion = "unknown";
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IPluginModule Properties
+		#region IPluginModule Properties
 
-        public ushort Version { get; set; }
+		public ushort Version { get; set; }
 
-        public string Module { get; private set; }
+		public string Module { get; private set; }
 
-        public Assembly Assembly { get; private set; }
+		public Assembly Assembly { get; private set; }
 
-        public IPlugin Plugin { get; private set; }
+		public IPlugin Plugin { get; private set; }
 
-        public string FileVersion { get; internal set; }
+		public string FileVersion { get; internal set; }
 
-        #endregion IPluginModule Properties
+		#endregion IPluginModule Properties
 
-        #region IPluginVersion Methods
+		#region IPluginVersion Methods
 
-        public ushort GetVersion()
-        {
-            return Version;
-        }
+		public ushort GetVersion()
+		{
+			return Version;
+		}
 
-        #endregion IPluginVersion Methods
-    }
+		#endregion IPluginVersion Methods
+	}
 }

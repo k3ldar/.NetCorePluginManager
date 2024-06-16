@@ -2,26 +2,26 @@
 
 namespace UserAccount.Plugin
 {
-    internal class CreateAccountCacheItem
-    {
-        #region Constructors
+	internal class CreateAccountCacheItem
+	{
+		#region Constructors
 
-        public CreateAccountCacheItem()
-        {
-            FirstAttempt = DateTime.Now;
-            CaptchaText = String.Empty;
-        }
+		public CreateAccountCacheItem()
+		{
+			FirstAttempt = DateTime.Now;
+			CaptchaText = String.Empty;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public DateTime FirstAttempt { get; private set; }
+		public DateTime FirstAttempt { get; private set; }
 
-        public byte CreateAttempts { get; set; }
+		public byte CreateAttempts { get; set; }
 
-        public string CaptchaText { get; set; }
+		public string CaptchaText { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

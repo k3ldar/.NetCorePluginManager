@@ -34,52 +34,52 @@ using SharedPluginFeatures;
 
 namespace DocumentationPlugin.Classes
 {
-    /// <summary>
-    /// Documentation sitemap provider, provides sitemap information for documentation items
-    /// </summary>
-    public class DocumentationSitemapProvider : ISitemapProvider
-    {
-        #region Private Members
+	/// <summary>
+	/// Documentation sitemap provider, provides sitemap information for documentation items
+	/// </summary>
+	public class DocumentationSitemapProvider : ISitemapProvider
+	{
+		#region Private Members
 
-        private readonly IDocumentationService _documentationService;
+		private readonly IDocumentationService _documentationService;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <param name="documentationService">IDocumentationService instance</param>
-        public DocumentationSitemapProvider(IDocumentationService documentationService)
-        {
-            _documentationService = documentationService ?? throw new ArgumentNullException(nameof(documentationService));
-        }
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		/// <param name="documentationService">IDocumentationService instance</param>
+		public DocumentationSitemapProvider(IDocumentationService documentationService)
+		{
+			_documentationService = documentationService ?? throw new ArgumentNullException(nameof(documentationService));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        /// <summary>
-        /// Retrieve a list of all documents that will be included in the sitemap
-        /// </summary>
-        /// <returns>List&lt;ISitemapItem&gt;</returns>
-        public List<SitemapItem> Items()
-        {
-            List<SitemapItem> Result = new();
+		/// <summary>
+		/// Retrieve a list of all documents that will be included in the sitemap
+		/// </summary>
+		/// <returns>List&lt;ISitemapItem&gt;</returns>
+		public List<SitemapItem> Items()
+		{
+			List<SitemapItem> Result = new();
 
-            List<Document> documents = _documentationService.GetDocuments()
-                .Where(d => d.DocumentType == DocumentType.Assembly || d.DocumentType == DocumentType.Custom)
-                .OrderBy(o => o.SortOrder).ThenBy(o => o.Title)
-                .ToList();
+			List<Document> documents = _documentationService.GetDocuments()
+				.Where(d => d.DocumentType == DocumentType.Assembly || d.DocumentType == DocumentType.Custom)
+				.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)
+				.ToList();
 
-            foreach (Document document in documents)
-            {
-                Uri blogUrl = new($"docs/Document/{HtmlHelper.RouteFriendlyName(document.Title)}/",
-                    UriKind.RelativeOrAbsolute);
+			foreach (Document document in documents)
+			{
+				Uri blogUrl = new($"docs/Document/{HtmlHelper.RouteFriendlyName(document.Title)}/",
+					UriKind.RelativeOrAbsolute);
 
-                Result.Add(new SitemapItem(blogUrl, SitemapChangeFrequency.Daily));
-            }
+				Result.Add(new SitemapItem(blogUrl, SitemapChangeFrequency.Daily));
+			}
 
-            return Result;
-        }
-    }
+			return Result;
+		}
+	}
 }

@@ -25,19 +25,19 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Interface used for persisting data to storage, the type of storage used will depend on the implementation
-    /// </summary>
-    public interface ISaveData
-    {
-        /// <summary>
-        /// Saves data
-        /// </summary>
-        /// <typeparam name="T">Type of data to be saved</typeparam>
-        /// <param name="data">Data to be saved</param>
-        /// <param name="location">Storage location</param>
-        /// <param name="name">Name of storage</param>
-        /// <returns>bool</returns>
-        bool Save<T>(T data, in string location, in string name);
-    }
+	/// <summary>
+	/// Interface used for persisting data to storage, the type of storage used will depend on the implementation
+	/// </summary>
+	public interface ISaveData
+	{
+		/// <summary>
+		/// Saves data
+		/// </summary>
+		/// <typeparam name="T">Type of data to be saved</typeparam>
+		/// <param name="data">Data to be saved</param>
+		/// <param name="location">Storage location</param>
+		/// <param name="name">Name of storage</param>
+		/// <returns>bool</returns>
+		bool Save<T>(T data, in string location, in string name);
+	}
 }

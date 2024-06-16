@@ -37,45 +37,45 @@ using SystemAdmin.Plugin.Models;
 
 namespace SystemAdmin.Plugin.Controllers
 {
-    public partial class SystemAdminController
-    {
-        #region Controller Action Methods
+	public partial class SystemAdminController
+	{
+		#region Controller Action Methods
 
-        [HttpGet]
-        [Authorize(Policy = Constants.PolicyNameManagePermissions)]
-        public IActionResult Permissions()
-        {
-            return View(new PermissionsModel(GetModelData()));
-        }
+		[HttpGet]
+		[Authorize(Policy = Constants.PolicyNameManagePermissions)]
+		public IActionResult Permissions()
+		{
+			return View(new PermissionsModel(GetModelData()));
+		}
 
-        [HttpGet]
-        [Authorize(Policy = Constants.PolicyNameManagePermissions)]
-        public IActionResult GetUserPermissions(long id)
-        {
-            UserPermissionsViewModel model = new(id,
-                _claimsProvider.GetClaimsForUser(id), _claimsProvider.GetAllClaims());
+		[HttpGet]
+		[Authorize(Policy = Constants.PolicyNameManagePermissions)]
+		public IActionResult GetUserPermissions(long id)
+		{
+			UserPermissionsViewModel model = new(id,
+				_claimsProvider.GetClaimsForUser(id), _claimsProvider.GetAllClaims());
 
-            return PartialView("_UserPermissions", model);
-        }
+			return PartialView("_UserPermissions", model);
+		}
 
-        [HttpPost]
-        [Authorize(Policy = Constants.PolicyNameManagePermissions)]
-        public IActionResult SetUserPermissions(UserPermissionsViewModel model)
-        {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+		[HttpPost]
+		[Authorize(Policy = Constants.PolicyNameManagePermissions)]
+		public IActionResult SetUserPermissions(UserPermissionsViewModel model)
+		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
 
-            if (String.IsNullOrEmpty(model.SelectedClaims))
-                model.SelectedClaims = String.Empty;
+			if (String.IsNullOrEmpty(model.SelectedClaims))
+				model.SelectedClaims = String.Empty;
 
-            string[] claims = model.SelectedClaims.Split(';', StringSplitOptions.RemoveEmptyEntries);
-            _claimsProvider.SetClaimsForUser(model.UserId, claims.ToList());
+			string[] claims = model.SelectedClaims.Split(';', StringSplitOptions.RemoveEmptyEntries);
+			_claimsProvider.SetClaimsForUser(model.UserId, claims.ToList());
 
-            return new JsonResult(new { updated = true });
-        }
+			return new JsonResult(new { updated = true });
+		}
 
-        #endregion Controller Action Methods
-    }
+		#endregion Controller Action Methods
+	}
 }
 
 #pragma warning restore CS1591

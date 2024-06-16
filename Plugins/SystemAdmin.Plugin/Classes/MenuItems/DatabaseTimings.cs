@@ -59,7 +59,7 @@ namespace SystemAdmin.Plugin.Classes.MenuItems
 		}
 
 		public DatabaseTimings()
-		{ 
+		{
 			_databaseTimings = null;
 		}
 
@@ -137,7 +137,7 @@ namespace SystemAdmin.Plugin.Classes.MenuItems
 					Result.Append(tableData);
 				}
 
-				_lastData = Result.ToString().Trim(); 
+				_lastData = Result.ToString().Trim();
 			}
 
 			return _lastData;

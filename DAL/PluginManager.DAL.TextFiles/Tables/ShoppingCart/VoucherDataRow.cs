@@ -27,178 +27,178 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameShoppingCartVoucher)]
-    internal sealed class VoucherDataRow : TableRowDefinition
-    {
-        #region Private Members
+	[Table(Constants.TableNameShoppingCartVoucher)]
+	internal sealed class VoucherDataRow : TableRowDefinition
+	{
+		#region Private Members
 
-        private string _name;
-        private long _validFromTicks;
-        private long _validToTicks;
-        private decimal _discountRate;
-        private int _discountType;
-        private long _userId;
-        private long _productId;
-        private ushort _maxProductsToDiscount;
+		private string _name;
+		private long _validFromTicks;
+		private long _validToTicks;
+		private decimal _discountRate;
+		private int _discountType;
+		private long _userId;
+		private long _productId;
+		private ushort _maxProductsToDiscount;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Properties
+		#region Properties
 
-        [UniqueIndex]
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
+		[UniqueIndex]
+		public string Name
+		{
+			get
+			{
+				return _name;
+			}
 
-            set
-            {
-                if (value.Equals(_name))
-                    return;
+			set
+			{
+				if (value.Equals(_name))
+					return;
 
-                _name = value;
-                Update();
-            }
-        }
+				_name = value;
+				Update();
+			}
+		}
 
-        public long ValidFromTicks
-        {
-            get
-            {
-                return _validFromTicks;
-            }
+		public long ValidFromTicks
+		{
+			get
+			{
+				return _validFromTicks;
+			}
 
-            set
-            {
-                if (value == _validFromTicks)
-                    return;
+			set
+			{
+				if (value == _validFromTicks)
+					return;
 
-                _validFromTicks = value;
-                Update();
-            }
-        }
+				_validFromTicks = value;
+				Update();
+			}
+		}
 
-        public long ValidToTicks
-        {
-            get
-            {
-                return _validToTicks;
-            }
+		public long ValidToTicks
+		{
+			get
+			{
+				return _validToTicks;
+			}
 
-            set
-            {
-                if (value == _validToTicks)
-                    return;
+			set
+			{
+				if (value == _validToTicks)
+					return;
 
-                _validToTicks = value;
-                Update();
-            }
-        }
+				_validToTicks = value;
+				Update();
+			}
+		}
 
-        public int DiscountType
-        {
-            get
-            {
-                return _discountType;
-            }
+		public int DiscountType
+		{
+			get
+			{
+				return _discountType;
+			}
 
-            set
-            {
-                if (value == _discountType)
-                    return;
+			set
+			{
+				if (value == _discountType)
+					return;
 
-                _discountType = value;
-                Update();
-            }
-        }
+				_discountType = value;
+				Update();
+			}
+		}
 
-        public decimal DiscountRate
-        {
-            get
-            {
-                return _discountRate;
-            }
+		public decimal DiscountRate
+		{
+			get
+			{
+				return _discountRate;
+			}
 
-            set
-            {
-                if (value == _discountRate)
-                    return;
+			set
+			{
+				if (value == _discountRate)
+					return;
 
-                _discountRate = value;
-                Update();
-            }
-        }
+				_discountRate = value;
+				Update();
+			}
+		}
 
-        [ForeignKey(Constants.TableNameUsers, ForeignKeyAttributes.DefaultValue)]
-        public long UserId
-        {
-            get
-            {
-                return _userId;
-            }
+		[ForeignKey(Constants.TableNameUsers, ForeignKeyAttributes.DefaultValue)]
+		public long UserId
+		{
+			get
+			{
+				return _userId;
+			}
 
-            set
-            {
-                if (value == _userId)
-                    return;
+			set
+			{
+				if (value == _userId)
+					return;
 
-                _userId = value;
-                Update();
-            }
-        }
+				_userId = value;
+				Update();
+			}
+		}
 
-        [ForeignKey(Constants.TableNameProducts, ForeignKeyAttributes.DefaultValue)]
-        public long ProductId
-        {
-            get
-            {
-                return _productId;
-            }
+		[ForeignKey(Constants.TableNameProducts, ForeignKeyAttributes.DefaultValue)]
+		public long ProductId
+		{
+			get
+			{
+				return _productId;
+			}
 
-            set
-            {
-                if (value == _productId)
-                    return;
+			set
+			{
+				if (value == _productId)
+					return;
 
-                _productId = value;
-                Update();
-            }
-        }
+				_productId = value;
+				Update();
+			}
+		}
 
-        public ushort MaxProductsToDiscount
-        {
-            get
-            {
-                return _maxProductsToDiscount;
-            }
+		public ushort MaxProductsToDiscount
+		{
+			get
+			{
+				return _maxProductsToDiscount;
+			}
 
-            set
-            {
-                if (value == _maxProductsToDiscount)
-                    return;
+			set
+			{
+				if (value == _maxProductsToDiscount)
+					return;
 
-                _maxProductsToDiscount = value;
-                Update();
-            }
-        }
+				_maxProductsToDiscount = value;
+				Update();
+			}
+		}
 
-        public DateTime ValidFrom => new(ValidFromTicks, DateTimeKind.Utc);
+		public DateTime ValidFrom => new(ValidFromTicks, DateTimeKind.Utc);
 
-        public DateTime ValidTo => new(ValidToTicks, DateTimeKind.Utc);
+		public DateTime ValidTo => new(ValidToTicks, DateTimeKind.Utc);
 
-        #endregion Properties
+		#endregion Properties
 
-        #region Public Methods
+		#region Public Methods
 
-        public bool IsValid(long userId)
-        {
-            return ValidFrom <= DateTime.UtcNow && 
-                ValidTo >= DateTime.UtcNow &&
-                (_userId == 0 || _userId.Equals(userId));
-        }
+		public bool IsValid(long userId)
+		{
+			return ValidFrom <= DateTime.UtcNow &&
+				ValidTo >= DateTime.UtcNow &&
+				(_userId == 0 || _userId.Equals(userId));
+		}
 
-        #endregion Public Methods
-    }
+		#endregion Public Methods
+	}
 }

@@ -34,31 +34,31 @@ using SharedPluginFeatures;
 
 namespace CacheControl.Plugin
 {
-    /// <summary>
-    /// Implements IPlugin which allows the CacheControl.Plugin module to be
-    /// loaded as a plugin module
-    /// </summary>
-    public class PluginInitialisation : IPlugin, IInitialiseEvents
-    {
-        #region IPlugin Methods
+	/// <summary>
+	/// Implements IPlugin which allows the CacheControl.Plugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	public class PluginInitialisation : IPlugin, IInitialiseEvents
+	{
+		#region IPlugin Methods
 
-        public void ConfigureServices(IServiceCollection services)
-        {
+		public void ConfigureServices(IServiceCollection services)
+		{
 			// from interface but unused in this context
 		}
 
 		public void Finalise()
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public ushort GetVersion()
-        {
-            return 1;
-        }
+		{
+			return 1;
+		}
 
-        public void Initialise(ILogger logger)
-        {
+		public void Initialise(ILogger logger)
+		{
 			// from interface but unused in this context
 		}
 
@@ -67,27 +67,27 @@ namespace CacheControl.Plugin
 		#region IInitialiseEvents Methods
 
 		public void AfterConfigure(in IApplicationBuilder app)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeConfigure(in IApplicationBuilder app)
-        {
-            app.UseCacheControl();
-        }
+		{
+			app.UseCacheControl();
+		}
 
-        public void BeforeConfigureServices(in IServiceCollection services)
-        {
+		public void BeforeConfigureServices(in IServiceCollection services)
+		{
 			// from interface but unused in this context
 		}
 
 		public void Configure(in IApplicationBuilder app)
-        {
+		{
 			// from interface but unused in this context
 		}
 

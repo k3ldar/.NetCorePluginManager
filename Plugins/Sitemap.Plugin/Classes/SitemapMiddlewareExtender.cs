@@ -27,22 +27,22 @@ using Microsoft.AspNetCore.Builder;
 
 namespace Sitemap.Plugin
 {
-    /// <summary>
-    /// Sitemap middleware extender
-    /// </summary>
-    public static class SitemapMiddlewareExtender
-    {
-        /// <summary>
-        /// IApplicationBuilder extender method.
-        /// 
-        /// Allows easy use of registering SitemapMiddleware.Plugin
-        /// </summary>
-        /// <param name="builder">IApplicationBuilder instance</param>
-        /// <returns>IApplicationBuilder</returns>
-        /// <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseSitemaps</span>();</pre></example>
-        public static IApplicationBuilder UseSitemaps(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<SitemapMiddleware>();
-        }
-    }
+	/// <summary>
+	/// Sitemap middleware extender
+	/// </summary>
+	public static class SitemapMiddlewareExtender
+	{
+		/// <summary>
+		/// IApplicationBuilder extender method.
+		/// 
+		/// Allows easy use of registering SitemapMiddleware.Plugin
+		/// </summary>
+		/// <param name="builder">IApplicationBuilder instance</param>
+		/// <returns>IApplicationBuilder</returns>
+		/// <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseSitemaps</span>();</pre></example>
+		public static IApplicationBuilder UseSitemaps(this IApplicationBuilder builder)
+		{
+			return builder.UseMiddleware<SitemapMiddleware>();
+		}
+	}
 }

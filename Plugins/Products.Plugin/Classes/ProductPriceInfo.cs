@@ -27,68 +27,68 @@ using System;
 
 namespace ProductPlugin.Classes
 {
-    /// <summary>
-    /// Contains price information for displaying on the search page, a min and max value for the price range.
-    /// </summary>
-    public sealed class ProductPriceInfo
-    {
-        #region Constructors
+	/// <summary>
+	/// Contains price information for displaying on the search page, a min and max value for the price range.
+	/// </summary>
+	public sealed class ProductPriceInfo
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="text">Display text for price bracket</param>
-        /// <param name="minValue">Minimum price value</param>
-        /// <param name="maxValue">Maximum price value</param>
-        public ProductPriceInfo(in string text, in decimal minValue, in decimal maxValue)
-        {
-            if (String.IsNullOrEmpty(text))
-                throw new ArgumentNullException(nameof(text));
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="text">Display text for price bracket</param>
+		/// <param name="minValue">Minimum price value</param>
+		/// <param name="maxValue">Maximum price value</param>
+		public ProductPriceInfo(in string text, in decimal minValue, in decimal maxValue)
+		{
+			if (String.IsNullOrEmpty(text))
+				throw new ArgumentNullException(nameof(text));
 
-            if (minValue > maxValue)
-                throw new ArgumentOutOfRangeException(nameof(minValue));
+			if (minValue > maxValue)
+				throw new ArgumentOutOfRangeException(nameof(minValue));
 
-            if (minValue < 0)
-                throw new ArgumentOutOfRangeException(nameof(minValue));
+			if (minValue < 0)
+				throw new ArgumentOutOfRangeException(nameof(minValue));
 
-            Text = text;
-            MinValue = minValue;
-            MaxValue = maxValue;
-        }
+			Text = text;
+			MinValue = minValue;
+			MaxValue = maxValue;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Display text, e.g. Under $10
-        /// </summary>
-        public string Text { get; internal set; }
+		/// <summary>
+		/// Display text, e.g. Under $10
+		/// </summary>
+		public string Text { get; internal set; }
 
-        /// <summary>
-        /// Minimum product value
-        /// </summary>
-        public decimal MinValue { get; }
+		/// <summary>
+		/// Minimum product value
+		/// </summary>
+		public decimal MinValue { get; }
 
-        /// <summary>
-        /// Maximum product value
-        /// </summary>
-        public decimal MaxValue { get; }
+		/// <summary>
+		/// Maximum product value
+		/// </summary>
+		public decimal MaxValue { get; }
 
-        #endregion Properties
+		#endregion Properties
 
-        #region Public Methods
+		#region Public Methods
 
-        /// <summary>
-        /// Determines whether a price matches the price value
-        /// </summary>
-        /// <param name="price"></param>
-        /// <returns></returns>
-        public bool PriceMatch(in decimal price)
-        {
-            return price >= MinValue && price <= MaxValue;
-        }
+		/// <summary>
+		/// Determines whether a price matches the price value
+		/// </summary>
+		/// <param name="price"></param>
+		/// <returns></returns>
+		public bool PriceMatch(in decimal price)
+		{
+			return price >= MinValue && price <= MaxValue;
+		}
 
-        #endregion Public Methods
-    }
+		#endregion Public Methods
+	}
 }

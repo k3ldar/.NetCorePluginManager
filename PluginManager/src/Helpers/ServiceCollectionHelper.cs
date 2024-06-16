@@ -35,111 +35,111 @@ using Shared.Classes;
 
 namespace PluginManager
 {
-    /// <summary>
-    /// IServiceCollection helper method which allows the retrieval of a class instance prior to the 
-    /// Service Provider being built
-    /// </summary>
-    public static class ServiceCollectionHelper
-    {
-        private static readonly object _lockObject = new();
+	/// <summary>
+	/// IServiceCollection helper method which allows the retrieval of a class instance prior to the 
+	/// Service Provider being built
+	/// </summary>
+	public static class ServiceCollectionHelper
+	{
+		private static readonly object _lockObject = new();
 
-        /// <summary>
-        /// Retrieves an instance of a class from within an IServiceCollection
-        /// </summary>
-        /// <typeparam name="T">Type of class instance being sought</typeparam>
-        /// <param name="serviceCollection"></param>
-        /// <returns>Instance of type T if found within the service collection, otherwise null</returns>
-        public static T GetServiceInstance<T>(this IServiceCollection serviceCollection) where T : class
-        {
-            if (serviceCollection == null)
-                return null;
+		/// <summary>
+		/// Retrieves an instance of a class from within an IServiceCollection
+		/// </summary>
+		/// <typeparam name="T">Type of class instance being sought</typeparam>
+		/// <param name="serviceCollection"></param>
+		/// <returns>Instance of type T if found within the service collection, otherwise null</returns>
+		public static T GetServiceInstance<T>(this IServiceCollection serviceCollection) where T : class
+		{
+			if (serviceCollection == null)
+				return null;
 
-            using (TimedLock tl = TimedLock.Lock(_lockObject))
-            {
-                return GetClassImplementation<T>(serviceCollection, typeof(T));
-            }
-        }
+			using (TimedLock tl = TimedLock.Lock(_lockObject))
+			{
+				return GetClassImplementation<T>(serviceCollection, typeof(T));
+			}
+		}
 
-        #region Private Methods
+		#region Private Methods
 
-        private static T GetClassImplementation<T>(IServiceCollection serviceCollection, Type classType) where T : class
-        {
-            ServiceDescriptor sd = serviceCollection
-                .FirstOrDefault(sd => GetNameWithoutGenericArity(sd.ServiceType).Equals(GetNameWithoutGenericArity(classType)));
+		private static T GetClassImplementation<T>(IServiceCollection serviceCollection, Type classType) where T : class
+		{
+			ServiceDescriptor sd = serviceCollection
+				.FirstOrDefault(sd => GetNameWithoutGenericArity(sd.ServiceType).Equals(GetNameWithoutGenericArity(classType)));
 
-            if (sd == null)
-                return null;
+			if (sd == null)
+				return null;
 
-            T Result = null;
+			T Result = null;
 
-            if (sd.ImplementationInstance != null)
-            {
-                Result = (T)sd.ImplementationInstance;
-            }
-            else if (sd.ImplementationType != null)
-            {
-                Result = (T)Activator.CreateInstance(sd.ImplementationType, GetInstancesConstructorParameters(serviceCollection, sd.ImplementationType));
+			if (sd.ImplementationInstance != null)
+			{
+				Result = (T)sd.ImplementationInstance;
+			}
+			else if (sd.ImplementationType != null)
+			{
+				Result = (T)Activator.CreateInstance(sd.ImplementationType, GetInstancesConstructorParameters(serviceCollection, sd.ImplementationType));
 
-                if (sd.Lifetime == ServiceLifetime.Singleton)
-                {
-                    ServiceDescriptor replacementServiceDescriptor = new(sd.ServiceType, Result);
+				if (sd.Lifetime == ServiceLifetime.Singleton)
+				{
+					ServiceDescriptor replacementServiceDescriptor = new(sd.ServiceType, Result);
 
-                    serviceCollection.Remove(sd);
-                    serviceCollection.Add(replacementServiceDescriptor);
-                }
-            }
-            else if (sd.ImplementationFactory != null)
-            {
-                Result = sd.ImplementationFactory.Invoke(null) as T;
-            }
+					serviceCollection.Remove(sd);
+					serviceCollection.Add(replacementServiceDescriptor);
+				}
+			}
+			else if (sd.ImplementationFactory != null)
+			{
+				Result = sd.ImplementationFactory.Invoke(null) as T;
+			}
 
-            return Result;
-        }
+			return Result;
+		}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static string GetNameWithoutGenericArity(Type t)
-        {
-            string name = t.FullName;
-            int index = name.IndexOf('`');
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private static string GetNameWithoutGenericArity(Type t)
+		{
+			string name = t.FullName;
+			int index = name.IndexOf('`');
 
-            return index == -1 ? name : name.Substring(0, index);
-        }
+			return index == -1 ? name : name.Substring(0, index);
+		}
 
-        internal static object[] GetInstancesConstructorParameters(IServiceCollection serviceCollection, Type type)
-        {
-            List<object> Result = new();
+		internal static object[] GetInstancesConstructorParameters(IServiceCollection serviceCollection, Type type)
+		{
+			List<object> Result = new();
 
-            //grab a list of all constructors in the class, start with the one with most parameters
-            List<ConstructorInfo> constructors = type.GetConstructors()
-                .Where(c => c.IsPublic && !c.IsStatic && c.GetParameters().Length > 0)
-                .OrderByDescending(c => c.GetParameters().Length)
-                .ToList();
+			//grab a list of all constructors in the class, start with the one with most parameters
+			List<ConstructorInfo> constructors = type.GetConstructors()
+				.Where(c => c.IsPublic && !c.IsStatic && c.GetParameters().Length > 0)
+				.OrderByDescending(c => c.GetParameters().Length)
+				.ToList();
 
-            foreach (ConstructorInfo constructor in constructors)
-            {
-                foreach (ParameterInfo param in constructor.GetParameters())
-                {
-                    object paramClass = GetClassImplementation<object>(serviceCollection, param.ParameterType);
+			foreach (ConstructorInfo constructor in constructors)
+			{
+				foreach (ParameterInfo param in constructor.GetParameters())
+				{
+					object paramClass = GetClassImplementation<object>(serviceCollection, param.ParameterType);
 
-                    // if we didn't find a specific param type for this constructor, try the next constructor
-                    if (paramClass == null)
-                    {
-                        Result.Clear();
-                        break;
-                    }
+					// if we didn't find a specific param type for this constructor, try the next constructor
+					if (paramClass == null)
+					{
+						Result.Clear();
+						break;
+					}
 
-                    Result.Add(paramClass);
-                }
+					Result.Add(paramClass);
+				}
 
-                if (Result.Count > 0)
-                    return Result.ToArray();
-            }
+				if (Result.Count > 0)
+					return Result.ToArray();
+			}
 
-            return Result.ToArray();
-        }
+			return Result.ToArray();
+		}
 
 
-        #endregion Private Methods
+		#endregion Private Methods
 
-    }
+	}
 }

@@ -29,40 +29,40 @@ using SharedPluginFeatures;
 
 namespace DemoWebsitePlugin.Controllers
 {
-    [Subdomain(ServicesController.Name)]
-    public class ServicesController : BaseController
-    {
-        public const string Name = "Services";
+	[Subdomain(ServicesController.Name)]
+	public class ServicesController : BaseController
+	{
+		public const string Name = "Services";
 
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.Middleware))]
-        public IActionResult Middleware()
-        {
-            return View(new BaseModel(GetModelData()));
-        }
+		[Breadcrumb(nameof(Languages.LanguageStrings.Middleware))]
+		public IActionResult Middleware()
+		{
+			return View(new BaseModel(GetModelData()));
+		}
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.Api))]
-        public IActionResult Api()
-        {
-            return View(new BaseModel(GetModelData()));
-        }
+		[Breadcrumb(nameof(Languages.LanguageStrings.Api))]
+		public IActionResult Api()
+		{
+			return View(new BaseModel(GetModelData()));
+		}
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.DependencyInjection))]
-        public IActionResult DependencyInjection()
-        {
-            return View(new BaseModel(GetModelData()));
-        }
+		[Breadcrumb(nameof(Languages.LanguageStrings.DependencyInjection))]
+		public IActionResult DependencyInjection()
+		{
+			return View(new BaseModel(GetModelData()));
+		}
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.Website))]
-        public IActionResult Website()
-        {
-            return View(new BaseModel(GetModelData()));
-        }
+		[Breadcrumb(nameof(Languages.LanguageStrings.Website))]
+		public IActionResult Website()
+		{
+			return View(new BaseModel(GetModelData()));
+		}
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.Custom))]
-        public IActionResult Custom()
-        {
-            return View(new BaseModel(GetModelData()));
-        }
-    }
+		[Breadcrumb(nameof(Languages.LanguageStrings.Custom))]
+		public IActionResult Custom()
+		{
+			return View(new BaseModel(GetModelData()));
+		}
+	}
 }

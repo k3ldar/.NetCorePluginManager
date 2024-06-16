@@ -30,30 +30,30 @@ using System;
 
 namespace PluginManager.Internal
 {
-    internal sealed class NotificationQueueItem
-    {
-        #region Constructors
+	internal sealed class NotificationQueueItem
+	{
+		#region Constructors
 
-        internal NotificationQueueItem(in string eventId, in object param1, in object param2)
-        {
-            if (String.IsNullOrEmpty(eventId))
-                throw new ArgumentNullException(nameof(eventId));
+		internal NotificationQueueItem(in string eventId, in object param1, in object param2)
+		{
+			if (String.IsNullOrEmpty(eventId))
+				throw new ArgumentNullException(nameof(eventId));
 
-            EventId = eventId;
-            Param1 = param1;
-            Param2 = param2;
-        }
+			EventId = eventId;
+			Param1 = param1;
+			Param2 = param2;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        internal string EventId { get; }
+		internal string EventId { get; }
 
-        internal object Param1 { get; }
+		internal object Param1 { get; }
 
-        internal object Param2 { get; }
+		internal object Param2 { get; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

@@ -30,34 +30,34 @@ using SharedPluginFeatures;
 
 namespace Blog.Plugin.Models
 {
-    /// <summary>
-    /// View model for viewing a specific users list of blogs.
-    /// </summary>
-    public class MyBlogsViewModel : BaseModel
-    {
-        #region Constructors
+	/// <summary>
+	/// View model for viewing a specific users list of blogs.
+	/// </summary>
+	public class MyBlogsViewModel : BaseModel
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <param name="modelData">BaseModelData items.</param>
-        /// <param name="blogItems">User blog items.</param>
-        public MyBlogsViewModel(BaseModelData modelData, List<BlogPostViewModel> blogItems)
-            : base(modelData)
-        {
-            BlogItems = blogItems ?? throw new ArgumentNullException(nameof(blogItems));
-        }
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		/// <param name="modelData">BaseModelData items.</param>
+		/// <param name="blogItems">User blog items.</param>
+		public MyBlogsViewModel(BaseModelData modelData, List<BlogPostViewModel> blogItems)
+			: base(modelData)
+		{
+			BlogItems = blogItems ?? throw new ArgumentNullException(nameof(blogItems));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// List of blog items for a specific user.
-        /// </summary>
-        /// <value>List&lt;BlogPostViewModel&gt;</value>
-        public List<BlogPostViewModel> BlogItems { get; private set; }
+		/// <summary>
+		/// List of blog items for a specific user.
+		/// </summary>
+		/// <value>List&lt;BlogPostViewModel&gt;</value>
+		public List<BlogPostViewModel> BlogItems { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

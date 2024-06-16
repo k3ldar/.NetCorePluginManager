@@ -27,55 +27,55 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameUserClaims, CompressionType.None, CachingStrategy.None)]
-    internal sealed class UserClaimsDataRow : TableRowDefinition
-    {
-        private long _userId;
-        private ObservableList<string> _claims;
+	[Table(Constants.TableNameUserClaims, CompressionType.None, CachingStrategy.None)]
+	internal sealed class UserClaimsDataRow : TableRowDefinition
+	{
+		private long _userId;
+		private ObservableList<string> _claims;
 
-        public UserClaimsDataRow()
-        {
-            _claims = new ObservableList<string>();
-            _claims.Changed += ObservableDataChanged;
-        }
+		public UserClaimsDataRow()
+		{
+			_claims = new ObservableList<string>();
+			_claims.Changed += ObservableDataChanged;
+		}
 
-        [ForeignKey(Constants.TableNameUsers)]
-        
-        public long UserId
-        {
-            get
-            {
-                return _userId;
-            }
-        
-            set
-            {
-                if (_userId == value)
-                    return;
+		[ForeignKey(Constants.TableNameUsers)]
 
-                _userId = value;
-                Update();
-            }
-        }
+		public long UserId
+		{
+			get
+			{
+				return _userId;
+			}
 
-        public ObservableList<string> Claims
-        {
-            get
-            {
-                return _claims;
-            }
-        
-            set
-            {
-                if (_claims == value)
-                    return;
+			set
+			{
+				if (_userId == value)
+					return;
 
-                if (_claims != null)
-                    _claims.Changed -= ObservableDataChanged;
+				_userId = value;
+				Update();
+			}
+		}
 
-                _claims = value;
-                _claims.Changed += ObservableDataChanged;
-            }
-        }
-    }
+		public ObservableList<string> Claims
+		{
+			get
+			{
+				return _claims;
+			}
+
+			set
+			{
+				if (_claims == value)
+					return;
+
+				if (_claims != null)
+					_claims.Changed -= ObservableDataChanged;
+
+				_claims = value;
+				_claims.Changed += ObservableDataChanged;
+			}
+		}
+	}
 }

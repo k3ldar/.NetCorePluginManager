@@ -29,19 +29,19 @@ using Middleware.Users;
 
 namespace Middleware
 {
-    /// <summary>
-    /// Interface for searching system users, includes administrators, staff and web users.
-    /// </summary>
-    public interface IUserSearch
-    {
-        /// <summary>
-        /// Search for users.
-        /// </summary>
-        /// <param name="pageNumber">Page number.</param>
-        /// <param name="pageSize">Page size.</param>
-        /// <param name="searchField">Field which is being searched.</param>
-        /// <param name="searchOrder">Search order for search field.</param>
-        /// <returns>List&lt;Users&gt;</returns>
-        List<SearchUser> GetUsers(in int pageNumber, in int pageSize, string searchField, string searchOrder);
-    }
+	/// <summary>
+	/// Interface for searching system users, includes administrators, staff and web users.
+	/// </summary>
+	public interface IUserSearch
+	{
+		/// <summary>
+		/// Search for users.
+		/// </summary>
+		/// <param name="pageNumber">Page number.</param>
+		/// <param name="pageSize">Page size.</param>
+		/// <param name="searchField">Field which is being searched.</param>
+		/// <param name="searchOrder">Search order for search field.</param>
+		/// <returns>List&lt;Users&gt;</returns>
+		List<SearchUser> GetUsers(in int pageNumber, in int pageSize, string searchField, string searchOrder);
+	}
 }

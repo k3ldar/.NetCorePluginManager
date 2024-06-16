@@ -24,33 +24,33 @@
 
 namespace ImageManager.Plugin.Models
 {
-    /// <summary>
-    /// Model used for deleting images
-    /// </summary>
-    public sealed class DeleteImageModel
-    {
-        /// <summary>
-        /// Name of image
-        /// </summary>
-        /// <value>string</value>
-        public string ImageName { get; set; }
+	/// <summary>
+	/// Model used for deleting images
+	/// </summary>
+	public sealed class DeleteImageModel
+	{
+		/// <summary>
+		/// Name of image
+		/// </summary>
+		/// <value>string</value>
+		public string ImageName { get; set; }
 
-        /// <summary>
-        /// Name of group
-        /// </summary>
-        /// <value>string</value>
-        public string GroupName { get; set; }
+		/// <summary>
+		/// Name of group
+		/// </summary>
+		/// <value>string</value>
+		public string GroupName { get; set; }
 
-        /// <summary>
-        /// Name of sub group
-        /// </summary>
-        /// <value>string</value>
-        public string SubgroupName { get; set; }
+		/// <summary>
+		/// Name of sub group
+		/// </summary>
+		/// <value>string</value>
+		public string SubgroupName { get; set; }
 
-        /// <summary>
-        /// Check box confirming the item can be deleted
-        /// </summary>
-        /// <value>bool</value>
-        public bool ConfirmDelete { get; set; }
-    }
+		/// <summary>
+		/// Check box confirming the item can be deleted
+		/// </summary>
+		/// <value>bool</value>
+		public bool ConfirmDelete { get; set; }
+	}
 }

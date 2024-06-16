@@ -31,17 +31,17 @@ using SharedPluginFeatures;
 
 namespace DemoApiPlugin.Controllers
 {
-    [ApiController]
-    [RestrictedIpRoute("RestrictedRouteRemote")]
-    [Route("/api/Restricted/")]
-    public class RestrictedRouteController : ControllerBase
-    {
-        [HttpGet]
-        public string About()
-        {
-            return ("Test");
-        }
-    }
+	[ApiController]
+	[RestrictedIpRoute("RestrictedRouteRemote")]
+	[Route("/api/Restricted/")]
+	public class RestrictedRouteController : ControllerBase
+	{
+		[HttpGet]
+		public string About()
+		{
+			return ("Test");
+		}
+	}
 }
 
 #pragma warning restore S3400

@@ -30,41 +30,41 @@ using System;
 
 namespace Spider.Plugin.Models
 {
-    public class CustomAgentModel
-    {
-        #region Constructors
+	public class CustomAgentModel
+	{
+		#region Constructors
 
-        public CustomAgentModel(string agent, string route, bool allowed, bool isCustom, string comment)
-        {
-            if (String.IsNullOrEmpty(agent))
-                throw new ArgumentNullException(nameof(agent));
+		public CustomAgentModel(string agent, string route, bool allowed, bool isCustom, string comment)
+		{
+			if (String.IsNullOrEmpty(agent))
+				throw new ArgumentNullException(nameof(agent));
 
-            if (String.IsNullOrEmpty(route))
-                throw new ArgumentNullException(nameof(route));
+			if (String.IsNullOrEmpty(route))
+				throw new ArgumentNullException(nameof(route));
 
-            Agent = agent;
-            Route = route;
-            Allowed = allowed;
-            IsCustom = isCustom;
-            Comment = comment ?? String.Empty;
-        }
+			Agent = agent;
+			Route = route;
+			Allowed = allowed;
+			IsCustom = isCustom;
+			Comment = comment ?? String.Empty;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public string Agent { get; private set; }
+		public string Agent { get; private set; }
 
-        public string Comment { get; private set; }
+		public string Comment { get; private set; }
 
-        public string Route { get; private set; }
+		public string Route { get; private set; }
 
-        public bool Allowed { get; private set; }
+		public bool Allowed { get; private set; }
 
-        public bool IsCustom { get; private set; }
+		public bool IsCustom { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

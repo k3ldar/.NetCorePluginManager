@@ -38,86 +38,86 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Middleware
 {
-    public sealed class RouteLoadTimeMiddleware : BaseMiddleware
-    {
-        #region Private Members
+	public sealed class RouteLoadTimeMiddleware : BaseMiddleware
+	{
+		#region Private Members
 
-        private readonly RequestDelegate _next;
-        private readonly static object _lockObject = new();
-        private readonly static Dictionary<string, Timings> _pageTimings = new();
+		private readonly RequestDelegate _next;
+		private readonly static object _lockObject = new();
+		private readonly static Dictionary<string, Timings> _pageTimings = new();
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public RouteLoadTimeMiddleware(RequestDelegate next)
-        {
-            _next = next;
-        }
+		public RouteLoadTimeMiddleware(RequestDelegate next)
+		{
+			_next = next;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Methods
+		#region Public Methods
 
-        public async Task Invoke(HttpContext context)
-        {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
+		public async Task Invoke(HttpContext context)
+		{
+			if (context == null)
+				throw new ArgumentNullException(nameof(context));
 
-            using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(GetPageTimings(RouteLowered(context))))
-            {
-                if (_next != null)
-                    await _next(context);
-            }
-        }
+			using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(GetPageTimings(RouteLowered(context))))
+			{
+				if (_next != null)
+					await _next(context);
+			}
+		}
 
-        #endregion Public Methods
+		#endregion Public Methods
 
-        #region Internal Methods
+		#region Internal Methods
 
-        internal static void ClearPageTimings()
-        {
-            using (TimedLock tl = TimedLock.Lock(_lockObject))
-            {
-                _pageTimings.Clear();
-            }
-        }
+		internal static void ClearPageTimings()
+		{
+			using (TimedLock tl = TimedLock.Lock(_lockObject))
+			{
+				_pageTimings.Clear();
+			}
+		}
 
-        internal static Dictionary<string, Timings> ClonePageTimings()
-        {
-            using (TimedLock tl = TimedLock.Lock(_lockObject))
-            {
-                Dictionary<string, Timings> Result = new();
+		internal static Dictionary<string, Timings> ClonePageTimings()
+		{
+			using (TimedLock tl = TimedLock.Lock(_lockObject))
+			{
+				Dictionary<string, Timings> Result = new();
 
-                foreach (KeyValuePair<string, Timings> entry in _pageTimings)
-                {
-                    Result.Add(entry.Key, entry.Value.Clone());
-                }
+				foreach (KeyValuePair<string, Timings> entry in _pageTimings)
+				{
+					Result.Add(entry.Key, entry.Value.Clone());
+				}
 
-                return Result;
-            }
-        }
+				return Result;
+			}
+		}
 
-        #endregion Internal Methods
+		#endregion Internal Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static Timings GetPageTimings(string route)
-        {
-            using (TimedLock tl = TimedLock.Lock(_lockObject))
-            {
-                if (!_pageTimings.ContainsKey(route))
-                {
-                    _pageTimings.Add(route, new Timings());
-                }
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private static Timings GetPageTimings(string route)
+		{
+			using (TimedLock tl = TimedLock.Lock(_lockObject))
+			{
+				if (!_pageTimings.ContainsKey(route))
+				{
+					_pageTimings.Add(route, new Timings());
+				}
 
-                return _pageTimings[route];
-            }
-        }
+				return _pageTimings[route];
+			}
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591

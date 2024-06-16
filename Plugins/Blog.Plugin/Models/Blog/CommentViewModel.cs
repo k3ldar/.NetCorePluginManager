@@ -27,54 +27,54 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Blog.Plugin.Models
 {
-    /// <summary>
-    /// View model for adding comments.
-    /// </summary>
-    public class CommentViewModel
-    {
-        #region Constructors
+	/// <summary>
+	/// View model for adding comments.
+	/// </summary>
+	public class CommentViewModel
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public CommentViewModel()
-        {
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public CommentViewModel()
+		{
 
-        }
+		}
 
-        /// <summary>
-        /// Constructor for adding blog id to comment view model.
-        /// </summary>
-        /// <param name="blogId">Id of the blog the comment will be added to.</param>
-        /// <param name="isLoggedIn">Indicates whether the current user is logged in or not.</param>
-        public CommentViewModel(in int blogId, in bool isLoggedIn)
-        {
-            BlogId = blogId;
-            IsLoggedIn = isLoggedIn;
-        }
+		/// <summary>
+		/// Constructor for adding blog id to comment view model.
+		/// </summary>
+		/// <param name="blogId">Id of the blog the comment will be added to.</param>
+		/// <param name="isLoggedIn">Indicates whether the current user is logged in or not.</param>
+		public CommentViewModel(in int blogId, in bool isLoggedIn)
+		{
+			BlogId = blogId;
+			IsLoggedIn = isLoggedIn;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Id of the blog the comment will be assigned to.
-        /// </summary>
-        /// <value>int</value>
-        public int BlogId { get; set; }
+		/// <summary>
+		/// Id of the blog the comment will be assigned to.
+		/// </summary>
+		/// <value>int</value>
+		public int BlogId { get; set; }
 
-        /// <summary>
-        /// Comment to be added to the blog post.
-        /// </summary>
-        /// <value>string</value>
-        [Required]
-        public string Comment { get; set; }
+		/// <summary>
+		/// Comment to be added to the blog post.
+		/// </summary>
+		/// <value>string</value>
+		[Required]
+		public string Comment { get; set; }
 
-        /// <summary>
-        /// Determines whether the current user is logged in or not.
-        /// </summary>
-        public bool IsLoggedIn { get; private set; }
+		/// <summary>
+		/// Determines whether the current user is logged in or not.
+		/// </summary>
+		public bool IsLoggedIn { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

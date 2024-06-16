@@ -31,109 +31,109 @@ using Middleware.Downloads;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
-    public class MockDownloads : IDownloadProvider
-    {
-        #region Private Static Members
+	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
+	public class MockDownloads : IDownloadProvider
+	{
+		#region Private Static Members
 
-        private static List<DownloadCategory> _userDownloads;
+		private static List<DownloadCategory> _userDownloads;
 
-        private static List<DownloadCategory> _publicDownloads;
+		private static List<DownloadCategory> _publicDownloads;
 
-        #endregion Private Static Members
+		#endregion Private Static Members
 
-        #region IDownloads
+		#region IDownloads
 
-        public List<DownloadCategory> DownloadCategoriesGet(in long userId)
-        {
-            if (_userDownloads == null)
-            {
-                _userDownloads = new List<DownloadCategory>()
-                {
-                    new(1, "Brochures", new List<DownloadItem>()
-                    {
-                        new(1, "Summer 2018", "Summer 2018 Catalogue", null, "\\Files\\Catalogues\\summer2018.pdf"),
-                        new(2, "Autumn 2018", "Autumn 2018 Catalogue", null, "\\Files\\Catalogues\\autumn2018.pdf"),
-                        new(3, "Winter 2018", "Winter 2018 Catalogue", null, "\\Files\\Catalogues\\winter2018.pdf"),
-                        new(4, "Spring 2019", "Spring 2019 Catalogue", null, "\\Files\\Catalogues\\spring2019.pdf"),
-                    }),
-                    new(2, "Applications", new List<DownloadItem>()
-                    {
-                        new(5, "FB Stored Proc Generator", "Firebird stored procedure generator",
-                            "2.2.0", "\\Files\\Install\\fbspgen_v2.2_setup.exe"),
-                        new(6, "FB Task Scheduler", "Firebird task scheduler",
-                            "1.2", "\\Files\\Install\\fbtaskscheduler_1.2_setup.exe"),
-                    })
-                };
-            }
+		public List<DownloadCategory> DownloadCategoriesGet(in long userId)
+		{
+			if (_userDownloads == null)
+			{
+				_userDownloads = new List<DownloadCategory>()
+				{
+					new(1, "Brochures", new List<DownloadItem>()
+					{
+						new(1, "Summer 2018", "Summer 2018 Catalogue", null, "\\Files\\Catalogues\\summer2018.pdf"),
+						new(2, "Autumn 2018", "Autumn 2018 Catalogue", null, "\\Files\\Catalogues\\autumn2018.pdf"),
+						new(3, "Winter 2018", "Winter 2018 Catalogue", null, "\\Files\\Catalogues\\winter2018.pdf"),
+						new(4, "Spring 2019", "Spring 2019 Catalogue", null, "\\Files\\Catalogues\\spring2019.pdf"),
+					}),
+					new(2, "Applications", new List<DownloadItem>()
+					{
+						new(5, "FB Stored Proc Generator", "Firebird stored procedure generator",
+							"2.2.0", "\\Files\\Install\\fbspgen_v2.2_setup.exe"),
+						new(6, "FB Task Scheduler", "Firebird task scheduler",
+							"1.2", "\\Files\\Install\\fbtaskscheduler_1.2_setup.exe"),
+					})
+				};
+			}
 
-            return _userDownloads;
-        }
+			return _userDownloads;
+		}
 
-        public List<DownloadCategory> DownloadCategoriesGet()
-        {
-            if (_publicDownloads == null)
-            {
-                _publicDownloads = new List<DownloadCategory>()
-                {
-                    new(3, "Brochures", new List<DownloadItem>()
-                    {
-                        new(7, "Summer 2018", "Summer 2018 Catalogue", null, "\\Files\\Catalogues\\summer2018.pdf"),
-                        new(8, "Autumn 2018", "Autumn 2018 Catalogue", null, "\\Files\\Catalogues\\autumn2018.pdf"),
-                        new(9, "Winter 2018", "Winter 2018 Catalogue", null, "\\Files\\Catalogues\\winter2018.pdf"),
-                        new(10, "Spring 2019", "Spring 2019 Catalogue", null, "\\Files\\Catalogues\\spring2019.pdf"),
-                    }),
-                    new(4, "Applications", new List<DownloadItem>()
-                    {
-                        new(11, "FB Stored Proc Generator", "Firebird stored procedure generator",
-                            "2.2.0", "\\Files\\Install\\fbspgen_v2.2_setup.exe"),
-                        new(12, "FB Task Scheduler", "Firebird task scheduler",
-                            "1.2", "\\Files\\Install\\fbtaskscheduler_1.2_setup.exe"),
-                    })
-                };
-            }
+		public List<DownloadCategory> DownloadCategoriesGet()
+		{
+			if (_publicDownloads == null)
+			{
+				_publicDownloads = new List<DownloadCategory>()
+				{
+					new(3, "Brochures", new List<DownloadItem>()
+					{
+						new(7, "Summer 2018", "Summer 2018 Catalogue", null, "\\Files\\Catalogues\\summer2018.pdf"),
+						new(8, "Autumn 2018", "Autumn 2018 Catalogue", null, "\\Files\\Catalogues\\autumn2018.pdf"),
+						new(9, "Winter 2018", "Winter 2018 Catalogue", null, "\\Files\\Catalogues\\winter2018.pdf"),
+						new(10, "Spring 2019", "Spring 2019 Catalogue", null, "\\Files\\Catalogues\\spring2019.pdf"),
+					}),
+					new(4, "Applications", new List<DownloadItem>()
+					{
+						new(11, "FB Stored Proc Generator", "Firebird stored procedure generator",
+							"2.2.0", "\\Files\\Install\\fbspgen_v2.2_setup.exe"),
+						new(12, "FB Task Scheduler", "Firebird task scheduler",
+							"1.2", "\\Files\\Install\\fbtaskscheduler_1.2_setup.exe"),
+					})
+				};
+			}
 
-            return _publicDownloads;
-        }
+			return _publicDownloads;
+		}
 
-        public DownloadItem GetDownloadItem(in long fileId)
-        {
-            foreach (DownloadCategory category in DownloadCategoriesGet())
-            {
-                foreach (DownloadItem downloadItem in category.Downloads)
-                {
-                    if (downloadItem.Id == fileId)
-                        return downloadItem;
-                }
-            }
+		public DownloadItem GetDownloadItem(in long fileId)
+		{
+			foreach (DownloadCategory category in DownloadCategoriesGet())
+			{
+				foreach (DownloadItem downloadItem in category.Downloads)
+				{
+					if (downloadItem.Id == fileId)
+						return downloadItem;
+				}
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        public DownloadItem GetDownloadItem(in long userId, in long fileId)
-        {
-            foreach (DownloadCategory category in DownloadCategoriesGet(userId))
-            {
-                foreach (DownloadItem downloadItem in category.Downloads)
-                {
-                    if (downloadItem.Id == fileId)
-                        return downloadItem;
-                }
-            }
+		public DownloadItem GetDownloadItem(in long userId, in long fileId)
+		{
+			foreach (DownloadCategory category in DownloadCategoriesGet(userId))
+			{
+				foreach (DownloadItem downloadItem in category.Downloads)
+				{
+					if (downloadItem.Id == fileId)
+						return downloadItem;
+				}
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        public void ItemDownloaded(in long userId, in long fileId)
-        {
-            // its a mock do nothing
-        }
+		public void ItemDownloaded(in long userId, in long fileId)
+		{
+			// its a mock do nothing
+		}
 
-        public void ItemDownloaded(in long fileId)
-        {
-            // its a mock do nothing
-        }
+		public void ItemDownloaded(in long fileId)
+		{
+			// its a mock do nothing
+		}
 
-        #endregion IDownloads
-    }
+		#endregion IDownloads
+	}
 }

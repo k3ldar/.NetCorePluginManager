@@ -32,54 +32,54 @@ using SharedPluginFeatures;
 
 namespace ProductPlugin.Models
 {
-    public class ProductGroupModel : BaseProductModel
-    {
-        #region Constructors
+	public class ProductGroupModel : BaseProductModel
+	{
+		#region Constructors
 
-        public ProductGroupModel()
-        {
-        }
+		public ProductGroupModel()
+		{
+		}
 
-        public ProductGroupModel(in BaseModelData modelData,
-            in List<ProductCategoryModel> productGroups,
-            in string description, in string tagLine)
-            : base(modelData, productGroups)
-        {
-            if (String.IsNullOrEmpty(description))
-                throw new ArgumentNullException(nameof(description));
+		public ProductGroupModel(in BaseModelData modelData,
+			in List<ProductCategoryModel> productGroups,
+			in string description, in string tagLine)
+			: base(modelData, productGroups)
+		{
+			if (String.IsNullOrEmpty(description))
+				throw new ArgumentNullException(nameof(description));
 
-            if (String.IsNullOrEmpty(tagLine))
-                throw new ArgumentNullException(nameof(tagLine));
+			if (String.IsNullOrEmpty(tagLine))
+				throw new ArgumentNullException(nameof(tagLine));
 
-            Products = new List<ProductCategoryProductModel>();
-            Description = description;
-            TagLine = tagLine;
-        }
+			Products = new List<ProductCategoryProductModel>();
+			Description = description;
+			TagLine = tagLine;
+		}
 
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Methods
+		#region Public Methods
 
-        public string GetRouteDescription()
-        {
-            return RouteFriendlyName(Description);
-        }
+		public string GetRouteDescription()
+		{
+			return RouteFriendlyName(Description);
+		}
 
-        #endregion Public Methods
+		#endregion Public Methods
 
-        #region Properties
+		#region Properties
 
-        public string Description { get; set; }
+		public string Description { get; set; }
 
-        public string TagLine { get; set; }
+		public string TagLine { get; set; }
 
-        public string Pagination { get; internal set; }
+		public string Pagination { get; internal set; }
 
-        public List<ProductCategoryProductModel> Products { get; }
+		public List<ProductCategoryProductModel> Products { get; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

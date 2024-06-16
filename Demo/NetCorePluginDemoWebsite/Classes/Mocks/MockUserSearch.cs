@@ -32,18 +32,18 @@ using Middleware.Users;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
-    public class MockUserSearch : IUserSearch
-    {
-        public List<SearchUser> GetUsers(in int pageNumber, in int pageSize, string searchField, string searchOrder)
-        {
-            return new List<SearchUser>()
-            {
-                new(1, "Joe Bloggs", "joe@blogs.com"),
-                new(2, "Jane Doe", "jane@doe.com"),
-                new(3, "John Doe", "john@doe.com"),
-            };
+	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
+	public class MockUserSearch : IUserSearch
+	{
+		public List<SearchUser> GetUsers(in int pageNumber, in int pageSize, string searchField, string searchOrder)
+		{
+			return new List<SearchUser>()
+			{
+				new(1, "Joe Bloggs", "joe@blogs.com"),
+				new(2, "Jane Doe", "jane@doe.com"),
+				new(3, "John Doe", "john@doe.com"),
+			};
 
-        }
-    }
+		}
+	}
 }

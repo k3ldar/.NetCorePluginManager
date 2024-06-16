@@ -55,10 +55,10 @@ namespace Resources.Plugin.Models
 		/// <param name="viewCount">Number of views for resource item</param>
 		/// <param name="approved">Approved for public viewing</param>
 		/// <param name="tags">Resource tags</param>
-		public ResourceViewItemModel(BaseModelData baseModelData, long id, long categoryId, ResourceType resourceType, 
-			long userId, string userName, string name, string description, string value, int likes, int dislikes, 
+		public ResourceViewItemModel(BaseModelData baseModelData, long id, long categoryId, ResourceType resourceType,
+			long userId, string userName, string name, string description, string value, int likes, int dislikes,
 			int viewCount, bool approved, List<string> tags)
-			: base (baseModelData)
+			: base(baseModelData)
 		{
 			Id = id;
 			CategoryId = categoryId;
@@ -123,7 +123,7 @@ namespace Resources.Plugin.Models
 		/// <summary>
 		/// Number of dislikes
 		/// </summary>
-		public int Dislikes { get;  }
+		public int Dislikes { get; }
 
 		/// <summary>
 		/// Number of views for resource item

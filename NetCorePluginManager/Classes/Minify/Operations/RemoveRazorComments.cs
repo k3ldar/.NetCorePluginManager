@@ -25,12 +25,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 namespace AspNetCore.PluginManager.Classes.Minify
 {
-    internal sealed class RemoveRazorComments : RemoveComments
-    {
-        public RemoveRazorComments()
-            : base("@*", "*@")
-        {
+	internal sealed class RemoveRazorComments : RemoveComments
+	{
+		public RemoveRazorComments()
+			: base("@*", "*@")
+		{
 
-        }
-    }
+		}
+	}
 }

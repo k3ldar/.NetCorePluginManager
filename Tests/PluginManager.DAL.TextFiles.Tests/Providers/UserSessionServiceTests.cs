@@ -100,7 +100,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.IsNotNull(sessionData);
 					Assert.AreEqual(0, sessionData.RecordCount);
 
-					UserSession userSession = new(-1, DateTime.Now, "SN123", "The agent", "referrer site", "10.2.3.1", 
+					UserSession userSession = new(-1, DateTime.Now, "SN123", "The agent", "referrer site", "10.2.3.1",
 						"the host", true, true, false, ReferalType.Google, false, false, "Samsung", "Galax S7", 0, 1, 1, "GBP", 0);
 					sut.Created(userSession);
 

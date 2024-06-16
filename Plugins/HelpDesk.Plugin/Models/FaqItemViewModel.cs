@@ -31,43 +31,43 @@ using SharedPluginFeatures;
 
 namespace HelpdeskPlugin.Models
 {
-    public class FaqItemViewModel : BaseModel
-    {
-        #region Constructors
+	public class FaqItemViewModel : BaseModel
+	{
+		#region Constructors
 
-        public FaqItemViewModel(in BaseModelData modelData,
-            in FaqGroup parentGroup, in string description, in int viewCount, in string content)
-            : base(modelData)
-        {
-            if (String.IsNullOrEmpty(description))
-                throw new ArgumentNullException(nameof(description));
+		public FaqItemViewModel(in BaseModelData modelData,
+			in FaqGroup parentGroup, in string description, in int viewCount, in string content)
+			: base(modelData)
+		{
+			if (String.IsNullOrEmpty(description))
+				throw new ArgumentNullException(nameof(description));
 
-            if (String.IsNullOrEmpty(content))
-                throw new ArgumentNullException(nameof(content));
+			if (String.IsNullOrEmpty(content))
+				throw new ArgumentNullException(nameof(content));
 
-            if (viewCount < 0)
-                throw new ArgumentOutOfRangeException(nameof(viewCount));
+			if (viewCount < 0)
+				throw new ArgumentOutOfRangeException(nameof(viewCount));
 
-            ParentGroup = parentGroup ?? throw new ArgumentNullException(nameof(parentGroup));
-            Description = description;
-            ViewCount = viewCount;
-            Content = content;
-        }
+			ParentGroup = parentGroup ?? throw new ArgumentNullException(nameof(parentGroup));
+			Description = description;
+			ViewCount = viewCount;
+			Content = content;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public FaqGroup ParentGroup { get; private set; }
+		public FaqGroup ParentGroup { get; private set; }
 
-        public string Description { get; private set; }
+		public string Description { get; private set; }
 
-        public int ViewCount { get; private set; }
+		public int ViewCount { get; private set; }
 
-        public string Content { get; private set; }
+		public string Content { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

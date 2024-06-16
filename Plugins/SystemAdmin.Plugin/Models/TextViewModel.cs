@@ -32,66 +32,66 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Models
 {
-    public sealed class TextViewModel : BaseModel
-    {
-        #region Constructors
+	public sealed class TextViewModel : BaseModel
+	{
+		#region Constructors
 
-        public TextViewModel(in BaseModelData modelData,
-            SystemAdminSubMenu subMenu)
-            : base(modelData)
-        {
-            if (subMenu == null)
-                throw new ArgumentNullException(nameof(subMenu));
+		public TextViewModel(in BaseModelData modelData,
+			SystemAdminSubMenu subMenu)
+			: base(modelData)
+		{
+			if (subMenu == null)
+				throw new ArgumentNullException(nameof(subMenu));
 
-            Title = subMenu.Name();
+			Title = subMenu.Name();
 
-            StringBuilder newData = new();
+			StringBuilder newData = new();
 
-            string data = subMenu.Data();
+			string data = subMenu.Data();
 
-            for (int i = 0; i < data.Length; i++)
-            {
-                char character = data[i];
+			for (int i = 0; i < data.Length; i++)
+			{
+				char character = data[i];
 
-                switch (character)
-                {
-                    case ' ':
-                        newData.Append("&nbsp;");
-                        break;
-                    case '\t':
-                        newData.Append("&nbsp;&nbsp;&nbsp;&nbsp;");
-                        break;
-                    case '\n':
-                        newData.Append("<br />");
-                        break;
-                    case '<':
-                        newData.Append("&lt;");
-                        break;
-                    case '>':
-                        newData.Append("&gt;");
-                        break;
-                    case '\r':
-                        break;
-                    default:
-                        newData.Append(character);
-                        break;
-                }
-            }
+				switch (character)
+				{
+					case ' ':
+						newData.Append("&nbsp;");
+						break;
+					case '\t':
+						newData.Append("&nbsp;&nbsp;&nbsp;&nbsp;");
+						break;
+					case '\n':
+						newData.Append("<br />");
+						break;
+					case '<':
+						newData.Append("&lt;");
+						break;
+					case '>':
+						newData.Append("&gt;");
+						break;
+					case '\r':
+						break;
+					default:
+						newData.Append(character);
+						break;
+				}
+			}
 
 
-            Text = newData.ToString();
-        }
+			Text = newData.ToString();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Properties
+		#region Public Properties
 
-        public string Title { get; }
+		public string Title { get; }
 
-        public string Text { get; }
+		public string Text { get; }
 
-        #endregion Public Properties
-    }
+		#endregion Public Properties
+	}
 }
 
 #pragma warning restore CS1591

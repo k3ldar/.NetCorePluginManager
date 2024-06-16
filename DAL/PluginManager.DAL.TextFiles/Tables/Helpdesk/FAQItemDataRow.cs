@@ -27,81 +27,81 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.DomainHelpdesk, Constants.TableNameFAQItem, WriteStrategy.Lazy)]
-    internal class FaqItemDataRow : TableRowDefinition
-    {
-        private long _parentId;
-        private string _description;
-        private int _viewCount;
-        private string _content;
+	[Table(Constants.DomainHelpdesk, Constants.TableNameFAQItem, WriteStrategy.Lazy)]
+	internal class FaqItemDataRow : TableRowDefinition
+	{
+		private long _parentId;
+		private string _description;
+		private int _viewCount;
+		private string _content;
 
-        [ForeignKey(Constants.TableNameFAQ)]
-        public long ParentId
-        {
-            get
-            {
-                return _parentId;
-            }
+		[ForeignKey(Constants.TableNameFAQ)]
+		public long ParentId
+		{
+			get
+			{
+				return _parentId;
+			}
 
-            set
-            {
-                if (_parentId == value)
-                    return;
+			set
+			{
+				if (_parentId == value)
+					return;
 
-                _parentId = value;
-                Update();
-            }
-        }
+				_parentId = value;
+				Update();
+			}
+		}
 
-        public string Description
-        {
-            get
-            {
-                return _description;
-            }
+		public string Description
+		{
+			get
+			{
+				return _description;
+			}
 
-            set
-            {
-                if (_description == value)
-                    return;
+			set
+			{
+				if (_description == value)
+					return;
 
-                _description = value;
-                Update();
-            }
-        }
+				_description = value;
+				Update();
+			}
+		}
 
-        public int ViewCount
-        {
-            get
-            {
-                return _viewCount;
-            }
+		public int ViewCount
+		{
+			get
+			{
+				return _viewCount;
+			}
 
-            set
-            {
-                if (_viewCount == value)
-                    return;
+			set
+			{
+				if (_viewCount == value)
+					return;
 
-                _viewCount = value;
-                Update();
-            }
-        }
+				_viewCount = value;
+				Update();
+			}
+		}
 
-        public string Content
-        {
-            get
-            {
-                return _content;
-            }
+		public string Content
+		{
+			get
+			{
+				return _content;
+			}
 
-            set
-            {
-                if (_content == value)
-                    return;
+			set
+			{
+				if (_content == value)
+					return;
 
-                _content = value;
-                Update();
-            }
-        }
-    }
+				_content = value;
+				Update();
+			}
+		}
+	}
 }

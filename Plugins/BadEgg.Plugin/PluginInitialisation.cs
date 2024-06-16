@@ -34,36 +34,36 @@ using SharedPluginFeatures;
 
 namespace BadEgg.Plugin
 {
-    /// <summary>
-    /// Implements IPlugin which allows the BadEgg.Plugin module to be
-    /// loaded as a plugin module
-    /// </summary>
-    public sealed class PluginInitialisation : IPlugin
-    {
-        #region IPlugin Methods
+	/// <summary>
+	/// Implements IPlugin which allows the BadEgg.Plugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	public sealed class PluginInitialisation : IPlugin
+	{
+		#region IPlugin Methods
 
-        public void Initialise(ILogger logger)
-        {
+		public void Initialise(ILogger logger)
+		{
 			// from interface but unused in this context
 		}
 
 		public void Finalise()
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddSingleton<IIpManagement, IpManagement>();
-        }
+		{
+			services.AddSingleton<IIpManagement, IpManagement>();
+		}
 
-        public ushort GetVersion()
-        {
-            return 1;
-        }
+		public ushort GetVersion()
+		{
+			return 1;
+		}
 
-        #endregion IPlugin Methods
-    }
+		#endregion IPlugin Methods
+	}
 }
 
 #pragma warning restore CS1591

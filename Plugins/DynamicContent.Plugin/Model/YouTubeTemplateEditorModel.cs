@@ -31,30 +31,30 @@ using SharedPluginFeatures;
 
 namespace DynamicContent.Plugin.Model
 {
-    public sealed class YouTubeTemplateEditorModel
-    {
-        public YouTubeTemplateEditorModel(string data)
-        {
-            if (String.IsNullOrEmpty(data))
-                data = Constants.PipeString;
+	public sealed class YouTubeTemplateEditorModel
+	{
+		public YouTubeTemplateEditorModel(string data)
+		{
+			if (String.IsNullOrEmpty(data))
+				data = Constants.PipeString;
 
-            string[] parts = data.Split(Constants.PipeChar, StringSplitOptions.None);
+			string[] parts = data.Split(Constants.PipeChar, StringSplitOptions.None);
 
-            if (parts.Length > 0)
-                VideoId = parts[0];
+			if (parts.Length > 0)
+				VideoId = parts[0];
 
-            if (parts.Length > 1)
-                AutoPlay = parts[1].Equals(Boolean.TrueString, StringComparison.InvariantCultureIgnoreCase);
+			if (parts.Length > 1)
+				AutoPlay = parts[1].Equals(Boolean.TrueString, StringComparison.InvariantCultureIgnoreCase);
 
-            Data = data;
-        }
+			Data = data;
+		}
 
-        public string VideoId { get; }
+		public string VideoId { get; }
 
-        public bool AutoPlay { get; }
+		public bool AutoPlay { get; }
 
-        public string Data { get; set; }
-    }
+		public string Data { get; set; }
+	}
 }
 
 #pragma warning restore CS1591

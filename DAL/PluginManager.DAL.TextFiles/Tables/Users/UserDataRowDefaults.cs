@@ -29,43 +29,43 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal class UserDataRowDefaults : ITableDefaults<UserDataRow>
-    {
-        private readonly string _encryptionKey;
+	internal class UserDataRowDefaults : ITableDefaults<UserDataRow>
+	{
+		private readonly string _encryptionKey;
 
-        public UserDataRowDefaults(ISettingsProvider settingsProvider)
-        {
-            SimpleDBSettings settings = settingsProvider.GetSettings<SimpleDBSettings>(nameof(SimpleDBSettings));
+		public UserDataRowDefaults(ISettingsProvider settingsProvider)
+		{
+			SimpleDBSettings settings = settingsProvider.GetSettings<SimpleDBSettings>(nameof(SimpleDBSettings));
 
-            if (settings == null)
-                throw new InvalidOperationException();
+			if (settings == null)
+				throw new InvalidOperationException();
 
-            _encryptionKey = settings.EnycryptionKey;
-        }
+			_encryptionKey = settings.EnycryptionKey;
+		}
 
-        public long PrimarySequence => 0;
+		public long PrimarySequence => 0;
 
-        public long SecondarySequence => 0;
+		public long SecondarySequence => 0;
 
-        public ushort Version => 1;
+		public ushort Version => 1;
 
-        public List<UserDataRow> InitialData(ushort version)
-        {
-            if (version == 1)
-            {
-                return new List<UserDataRow>()
-                {
-                    new()
-                    {
-                        Email = "admin",
-                        FirstName = "admin",
-                        Surname = "user",
-                        Password = Shared.Utilities.Encrypt("M4sterK3y", _encryptionKey),
-                    }
-                };
-            }
+		public List<UserDataRow> InitialData(ushort version)
+		{
+			if (version == 1)
+			{
+				return new List<UserDataRow>()
+				{
+					new()
+					{
+						Email = "admin",
+						FirstName = "admin",
+						Surname = "user",
+						Password = Shared.Utilities.Encrypt("M4sterK3y", _encryptionKey),
+					}
+				};
+			}
 
-            return null;
-        }
-    }
+			return null;
+		}
+	}
 }

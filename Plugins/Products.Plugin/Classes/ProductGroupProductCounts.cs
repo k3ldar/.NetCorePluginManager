@@ -34,49 +34,49 @@ using Shared.Classes;
 
 namespace ProductPlugin.Classes
 {
-    internal class ProductGroupProductCounts : ThreadManager
-    {
-        #region Private Members
+	internal class ProductGroupProductCounts : ThreadManager
+	{
+		#region Private Members
 
-        internal const int MaximumProducts = 50000000;
-        private readonly IProductProvider _productProvider;
+		internal const int MaximumProducts = 50000000;
+		private readonly IProductProvider _productProvider;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public ProductGroupProductCounts(in IProductProvider productProvider, in List<string> productGroups)
-            : base(productGroups, new TimeSpan())
-        {
-            if (productGroups == null)
-                throw new ArgumentNullException(nameof(productGroups));
+		public ProductGroupProductCounts(in IProductProvider productProvider, in List<string> productGroups)
+			: base(productGroups, new TimeSpan())
+		{
+			if (productGroups == null)
+				throw new ArgumentNullException(nameof(productGroups));
 
-            _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
-        }
+			_productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Overridden Methods
+		#region Overridden Methods
 
-        protected override Boolean Run(object parameters)
-        {
-            List<string> productGroups = (List<string>)parameters;
+		protected override Boolean Run(object parameters)
+		{
+			List<string> productGroups = (List<string>)parameters;
 
-            for (int i = 0; i < productGroups.Count; i++)
-            {
-                ProductGroup group = _productProvider.ProductGroupsGet().Find(p => p.Description.Equals(productGroups[i]));
+			for (int i = 0; i < productGroups.Count; i++)
+			{
+				ProductGroup group = _productProvider.ProductGroupsGet().Find(p => p.Description.Equals(productGroups[i]));
 
-                if (group != null)
-                {
-                    int groupProductCount = _productProvider.GetProducts(1, MaximumProducts)
-                        .Count(p => p.ProductGroupId == group.Id);
-                    productGroups[i] += $" ({groupProductCount})";
-                }
-            }
+				if (group != null)
+				{
+					int groupProductCount = _productProvider.GetProducts(1, MaximumProducts)
+						.Count(p => p.ProductGroupId == group.Id);
+					productGroups[i] += $" ({groupProductCount})";
+				}
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        #endregion Overridden Methods
-    }
+		#endregion Overridden Methods
+	}
 }

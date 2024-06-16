@@ -31,65 +31,65 @@ using System.Linq;
 
 namespace HelpdeskPlugin.Models
 {
-    public sealed class FaqGroup
-    {
-        #region Constructors
+	public sealed class FaqGroup
+	{
+		#region Constructors
 
-        public FaqGroup(in long id, in string name, in string description,
-            in List<FaqGroupItem> items, in int subGroupCount)
-        {
-            if (String.IsNullOrEmpty(name))
-                throw new ArgumentNullException(nameof(name));
+		public FaqGroup(in long id, in string name, in string description,
+			in List<FaqGroupItem> items, in int subGroupCount)
+		{
+			if (String.IsNullOrEmpty(name))
+				throw new ArgumentNullException(nameof(name));
 
-            if (String.IsNullOrEmpty(description))
-                throw new ArgumentNullException(nameof(description));
+			if (String.IsNullOrEmpty(description))
+				throw new ArgumentNullException(nameof(description));
 
-            if (subGroupCount < 0)
-                throw new ArgumentOutOfRangeException(nameof(subGroupCount));
+			if (subGroupCount < 0)
+				throw new ArgumentOutOfRangeException(nameof(subGroupCount));
 
-            Id = id;
-            Name = name;
-            Description = description;
-            Items = items ?? throw new ArgumentNullException(nameof(items));
-            SubGroupCount = subGroupCount;
-        }
+			Id = id;
+			Name = name;
+			Description = description;
+			Items = items ?? throw new ArgumentNullException(nameof(items));
+			SubGroupCount = subGroupCount;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public long Id { get; private set; }
+		public long Id { get; private set; }
 
-        public string Name { get; private set; }
+		public string Name { get; private set; }
 
-        public string Description { get; private set; }
+		public string Description { get; private set; }
 
-        public int SubGroupCount { get; private set; }
+		public int SubGroupCount { get; private set; }
 
-        public List<FaqGroupItem> Items { get; private set; }
+		public List<FaqGroupItem> Items { get; private set; }
 
-        public bool HasItems
-        {
-            get
-            {
-                return Items.Count > 0;
-            }
-        }
+		public bool HasItems
+		{
+			get
+			{
+				return Items.Count > 0;
+			}
+		}
 
-        #endregion Properties
+		#endregion Properties
 
-        #region Public Methods
+		#region Public Methods
 
-        public List<FaqGroupItem> GetTopItems(int count)
-        {
-            if (count < 1)
-                throw new ArgumentOutOfRangeException(nameof(count));
+		public List<FaqGroupItem> GetTopItems(int count)
+		{
+			if (count < 1)
+				throw new ArgumentOutOfRangeException(nameof(count));
 
-            return Items.OrderByDescending(o => o.ViewCount).Take(count).ToList();
-        }
+			return Items.OrderByDescending(o => o.ViewCount).Take(count).ToList();
+		}
 
-        #endregion Public Methods
-    }
+		#endregion Public Methods
+	}
 }
 
 #pragma warning restore CS1591

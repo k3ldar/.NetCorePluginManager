@@ -27,96 +27,96 @@ using System;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Interface for an individual sitemap item.
-    /// </summary>
-    public sealed class SitemapItem
-    {
-        #region Constructors
+	/// <summary>
+	/// Interface for an individual sitemap item.
+	/// </summary>
+	public sealed class SitemapItem
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor for item with no priority or modification date
-        /// </summary>
-        /// <param name="location">Partial or full uri</param>
-        /// <param name="changeFrequency">Change frequency</param>
-        public SitemapItem(Uri location, SitemapChangeFrequency changeFrequency)
-            : this(location, changeFrequency, null, null)
-        {
+		/// <summary>
+		/// Constructor for item with no priority or modification date
+		/// </summary>
+		/// <param name="location">Partial or full uri</param>
+		/// <param name="changeFrequency">Change frequency</param>
+		public SitemapItem(Uri location, SitemapChangeFrequency changeFrequency)
+			: this(location, changeFrequency, null, null)
+		{
 
-        }
+		}
 
-        /// <summary>
-        /// Constructor for item with no priority
-        /// </summary>
-        /// <param name="location">Partial or full uri</param>
-        /// <param name="changeFrequency">Change frequency</param>
-        /// <param name="lastModified">Date and time last modified</param>
-        public SitemapItem(Uri location, SitemapChangeFrequency changeFrequency, DateTime lastModified)
-            : this(location, changeFrequency, null, lastModified)
-        {
+		/// <summary>
+		/// Constructor for item with no priority
+		/// </summary>
+		/// <param name="location">Partial or full uri</param>
+		/// <param name="changeFrequency">Change frequency</param>
+		/// <param name="lastModified">Date and time last modified</param>
+		public SitemapItem(Uri location, SitemapChangeFrequency changeFrequency, DateTime lastModified)
+			: this(location, changeFrequency, null, lastModified)
+		{
 
-        }
+		}
 
-        /// <summary>
-        /// Constructor for item with no last modified date
-        /// </summary>
-        /// <param name="location">Partial or full uri</param>
-        /// <param name="changeFrequency">Change frequency</param>
-        /// <param name="priority">Priority for item compared to other items</param>
-        public SitemapItem(Uri location, SitemapChangeFrequency changeFrequency, decimal priority)
-            : this(location, changeFrequency, priority, null)
-        {
+		/// <summary>
+		/// Constructor for item with no last modified date
+		/// </summary>
+		/// <param name="location">Partial or full uri</param>
+		/// <param name="changeFrequency">Change frequency</param>
+		/// <param name="priority">Priority for item compared to other items</param>
+		public SitemapItem(Uri location, SitemapChangeFrequency changeFrequency, decimal priority)
+			: this(location, changeFrequency, priority, null)
+		{
 
-        }
+		}
 
-        /// <summary>
-        /// Constructor for items with priority and last modified date
-        /// </summary>
-        /// <param name="location">Partial or full uri</param>
-        /// <param name="changeFrequency">Change frequency</param>
-        /// <param name="priority">Priority for item compared to other items</param>
-        /// <param name="lastModified">Date and time last modified</param>
-        public SitemapItem(Uri location, SitemapChangeFrequency changeFrequency, decimal? priority, DateTime? lastModified)
-        {
-            Location = location ?? throw new ArgumentNullException(nameof(location));
-            ChangeFrequency = changeFrequency;
+		/// <summary>
+		/// Constructor for items with priority and last modified date
+		/// </summary>
+		/// <param name="location">Partial or full uri</param>
+		/// <param name="changeFrequency">Change frequency</param>
+		/// <param name="priority">Priority for item compared to other items</param>
+		/// <param name="lastModified">Date and time last modified</param>
+		public SitemapItem(Uri location, SitemapChangeFrequency changeFrequency, decimal? priority, DateTime? lastModified)
+		{
+			Location = location ?? throw new ArgumentNullException(nameof(location));
+			ChangeFrequency = changeFrequency;
 
-            if (priority.HasValue && (priority < 0.0m || priority > 1.0m))
-                throw new ArgumentOutOfRangeException(nameof(priority));
+			if (priority.HasValue && (priority < 0.0m || priority > 1.0m))
+				throw new ArgumentOutOfRangeException(nameof(priority));
 
-            Priority = priority ?? 0.5m;
-            LastModified = lastModified;
-        }
+			Priority = priority ?? 0.5m;
+			LastModified = lastModified;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// The url for the sitemap item, this can be a full or partial uri
-        /// </summary>
-        /// <value>Uri</value>
-        public Uri Location { get; }
+		/// <summary>
+		/// The url for the sitemap item, this can be a full or partial uri
+		/// </summary>
+		/// <value>Uri</value>
+		public Uri Location { get; }
 
-        /// <summary>
-        /// Date/time the item was last modified, this can be null
-        /// </summary>
-        /// <value>DateTime?</value>
-        public DateTime? LastModified { get; }
+		/// <summary>
+		/// Date/time the item was last modified, this can be null
+		/// </summary>
+		/// <value>DateTime?</value>
+		public DateTime? LastModified { get; }
 
-        /// <summary>
-        /// The frequency at which the item is updated
-        /// </summary>
-        /// <value>SitemapChangeFrequency</value>
-        public SitemapChangeFrequency ChangeFrequency { get; }
+		/// <summary>
+		/// The frequency at which the item is updated
+		/// </summary>
+		/// <value>SitemapChangeFrequency</value>
+		public SitemapChangeFrequency ChangeFrequency { get; }
 
-        /// <summary>
-        /// The priority of this item in comparison to other sitemap items.
-        /// 
-        /// This value must be between 0.0 and 1.0, if null a default value of 0.5 will be used.
-        /// </summary>
-        public decimal? Priority { get; }
+		/// <summary>
+		/// The priority of this item in comparison to other sitemap items.
+		/// 
+		/// This value must be between 0.0 and 1.0, if null a default value of 0.5 will be used.
+		/// </summary>
+		public decimal? Priority { get; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

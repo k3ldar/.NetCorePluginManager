@@ -37,122 +37,122 @@ using SharedPluginFeatures;
 
 namespace Company.Plugin.Controllers
 {
-    [Subdomain(CompanyController.Name)]
-    public class CompanyController : BaseController
-    {
-        #region Private Members
+	[Subdomain(CompanyController.Name)]
+	public class CompanyController : BaseController
+	{
+		#region Private Members
 
-        public const string Name = "Company";
-        private readonly CompanySettings _settings;
+		public const string Name = "Company";
+		private readonly CompanySettings _settings;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public CompanyController(ISettingsProvider settingsProvider)
-        {
-            if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+		public CompanyController(ISettingsProvider settingsProvider)
+		{
+			if (settingsProvider == null)
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            _settings = settingsProvider.GetSettings<CompanySettings>(nameof(CompanySettings));
-        }
+			_settings = settingsProvider.GetSettings<CompanySettings>(nameof(CompanySettings));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Controller Methods
+		#region Public Controller Methods
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.About))]
-        public IActionResult About()
-        {
-            if (!_settings.ShowAbout)
-                return Redirect("/");
+		[Breadcrumb(nameof(Languages.LanguageStrings.About))]
+		public IActionResult About()
+		{
+			if (!_settings.ShowAbout)
+				return Redirect("/");
 
-            return View(new BaseModel(GetModelData()));
-        }
+			return View(new BaseModel(GetModelData()));
+		}
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.Contact))]
-        public IActionResult Contact()
-        {
-            if (!_settings.ShowContact)
-                return Redirect("/");
+		[Breadcrumb(nameof(Languages.LanguageStrings.Contact))]
+		public IActionResult Contact()
+		{
+			if (!_settings.ShowContact)
+				return Redirect("/");
 
-            return View(new BaseModel(GetModelData()));
-        }
+			return View(new BaseModel(GetModelData()));
+		}
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.Privacy))]
-        public IActionResult Privacy()
-        {
-            if (!_settings.ShowPrivacy)
-                return Redirect("/");
+		[Breadcrumb(nameof(Languages.LanguageStrings.Privacy))]
+		public IActionResult Privacy()
+		{
+			if (!_settings.ShowPrivacy)
+				return Redirect("/");
 
-            return View(new BaseModel(GetModelData()));
-        }
+			return View(new BaseModel(GetModelData()));
+		}
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.TermsAndConditions))]
-        public IActionResult Terms()
-        {
-            if (!_settings.ShowTerms)
-                return Redirect("/");
+		[Breadcrumb(nameof(Languages.LanguageStrings.TermsAndConditions))]
+		public IActionResult Terms()
+		{
+			if (!_settings.ShowTerms)
+				return Redirect("/");
 
-            return View(new BaseModel(GetModelData()));
-        }
+			return View(new BaseModel(GetModelData()));
+		}
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.Cookies))]
-        public IActionResult Cookies()
-        {
-            if (!_settings.ShowCookies)
-                return Redirect("/");
+		[Breadcrumb(nameof(Languages.LanguageStrings.Cookies))]
+		public IActionResult Cookies()
+		{
+			if (!_settings.ShowCookies)
+				return Redirect("/");
 
-            return View(new BaseModel(GetModelData()));
-        }
+			return View(new BaseModel(GetModelData()));
+		}
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.Careers))]
-        public IActionResult Careers()
-        {
-            if (!_settings.ShowCareers)
-                return Redirect("/");
+		[Breadcrumb(nameof(Languages.LanguageStrings.Careers))]
+		public IActionResult Careers()
+		{
+			if (!_settings.ShowCareers)
+				return Redirect("/");
 
-            return View(new BaseModel(GetModelData()));
-        }
+			return View(new BaseModel(GetModelData()));
+		}
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.Returns))]
-        public IActionResult Returns()
-        {
-            if (!_settings.ShowReturns)
-                return Redirect("/");
+		[Breadcrumb(nameof(Languages.LanguageStrings.Returns))]
+		public IActionResult Returns()
+		{
+			if (!_settings.ShowReturns)
+				return Redirect("/");
 
-            return View(new BaseModel(GetModelData()));
-        }
+			return View(new BaseModel(GetModelData()));
+		}
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.Delivery))]
-        public IActionResult Delivery()
-        {
-            if (!_settings.ShowDelivery)
-                return Redirect("/");
+		[Breadcrumb(nameof(Languages.LanguageStrings.Delivery))]
+		public IActionResult Delivery()
+		{
+			if (!_settings.ShowDelivery)
+				return Redirect("/");
 
-            return View(new BaseModel(GetModelData()));
-        }
+			return View(new BaseModel(GetModelData()));
+		}
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.Newsletter))]
-        public IActionResult NewsLetter()
-        {
-            if (!_settings.ShowNewsletter)
-                return Redirect("/");
+		[Breadcrumb(nameof(Languages.LanguageStrings.Newsletter))]
+		public IActionResult NewsLetter()
+		{
+			if (!_settings.ShowNewsletter)
+				return Redirect("/");
 
-            return View(new BaseModel(GetModelData()));
-        }
+			return View(new BaseModel(GetModelData()));
+		}
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.Affiliate))]
-        public IActionResult Affiliate()
-        {
-            if (!_settings.ShowAffiliates)
-                return Redirect("/");
+		[Breadcrumb(nameof(Languages.LanguageStrings.Affiliate))]
+		public IActionResult Affiliate()
+		{
+			if (!_settings.ShowAffiliates)
+				return Redirect("/");
 
-            return View(new BaseModel(GetModelData()));
-        }
+			return View(new BaseModel(GetModelData()));
+		}
 
-        #endregion Public Controller Methods
-    }
+		#endregion Public Controller Methods
+	}
 }
 
 #pragma warning restore CS1591

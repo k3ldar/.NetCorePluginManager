@@ -29,29 +29,29 @@ using Microsoft.AspNetCore.Builder;
 
 namespace AspNetCore.PluginManager
 {
-    /// <summary>
-    /// Static class for easyily adding route load times to the pipeline
-    /// </summary>
-    public static class RouteLoadTimeMiddlewareExtender
-    {
-        private static bool _hasLoaded = false;
+	/// <summary>
+	/// Static class for easyily adding route load times to the pipeline
+	/// </summary>
+	public static class RouteLoadTimeMiddlewareExtender
+	{
+		private static bool _hasLoaded = false;
 
-        /// <summary>
-        /// IApplicationBuilder extender method.
-        /// 
-        /// Allows easy use of registering RouteLoadTimeMiddleware
-        /// </summary>
-        /// <param name="builder">IApplicationBuilder instance</param>
-        /// <returns>IApplicationBuilder</returns>
-        /// <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseRouteLoadTimes</span>();</pre></example>
-        public static IApplicationBuilder UseRouteLoadTimes(this IApplicationBuilder builder)
-        {
-            if (_hasLoaded)
-                return builder;
+		/// <summary>
+		/// IApplicationBuilder extender method.
+		/// 
+		/// Allows easy use of registering RouteLoadTimeMiddleware
+		/// </summary>
+		/// <param name="builder">IApplicationBuilder instance</param>
+		/// <returns>IApplicationBuilder</returns>
+		/// <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseRouteLoadTimes</span>();</pre></example>
+		public static IApplicationBuilder UseRouteLoadTimes(this IApplicationBuilder builder)
+		{
+			if (_hasLoaded)
+				return builder;
 
-            _hasLoaded = true;
+			_hasLoaded = true;
 
-            return builder.UseMiddleware<RouteLoadTimeMiddleware>();
-        }
-    }
+			return builder.UseMiddleware<RouteLoadTimeMiddleware>();
+		}
+	}
 }

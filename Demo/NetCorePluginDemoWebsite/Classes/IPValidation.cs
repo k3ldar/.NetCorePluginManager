@@ -30,29 +30,29 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    [ExcludeFromCodeCoverage(Justification = "Code coverage not required, only intended as demonstration")]
-    public class IPValidation : IIpValidation
-    {
-        #region IIpValidation Methods
+	[ExcludeFromCodeCoverage(Justification = "Code coverage not required, only intended as demonstration")]
+	public class IPValidation : IIpValidation
+	{
+		#region IIpValidation Methods
 
-        public void ConnectionAdd(in string ipAddress)
-        {
+		public void ConnectionAdd(in string ipAddress)
+		{
 			// required for interface, not used in demo mode
-        }
+		}
 
-        public bool ConnectionBan(in string ipAddress, in double hits, in ulong requests, in TimeSpan duration)
-        {
-            // don't ban for real on demo website
-            return false;
-        }
+		public bool ConnectionBan(in string ipAddress, in double hits, in ulong requests, in TimeSpan duration)
+		{
+			// don't ban for real on demo website
+			return false;
+		}
 
-        public void ConnectionRemove(in string ipAddress, in double hits, in ulong requests, in TimeSpan duration)
-        {
+		public void ConnectionRemove(in string ipAddress, in double hits, in ulong requests, in TimeSpan duration)
+		{
 			// required for interface, not used in demo mode
 		}
 
 		public void ConnectionReport(in string ipAddress, in string queryString, in Enums.ValidateRequestResult validation)
-        {
+		{
 			// required for interface, not used in demo mode
 		}
 

@@ -35,96 +35,96 @@ using PluginManager.Internal;
 
 namespace PluginManager.Tests
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
-    public class LoadSettingsServiceTests
-    {
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void PluginSetting_Construct_InvalidPluginName_Null_Throws_ArgumentNullException()
-        {
-            new PluginSetting(null);
-        }
+	[TestClass]
+	[ExcludeFromCodeCoverage]
+	public class LoadSettingsServiceTests
+	{
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void PluginSetting_Construct_InvalidPluginName_Null_Throws_ArgumentNullException()
+		{
+			new PluginSetting(null);
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void PluginSetting_Construct_InvalidPluginName_EmptyString_Throws_ArgumentNullException()
-        {
-            new PluginSetting("");
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void PluginSetting_Construct_InvalidPluginName_EmptyString_Throws_ArgumentNullException()
+		{
+			new PluginSetting("");
+		}
 
-        [TestMethod]
-        public void LoadSettings_DefaultFileName_Success()
-        {
-            string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-            int isDebugPos = path.IndexOf("\\bin\\debug\\", StringComparison.InvariantCultureIgnoreCase);
+		[TestMethod]
+		public void LoadSettings_DefaultFileName_Success()
+		{
+			string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+			int isDebugPos = path.IndexOf("\\bin\\debug\\", StringComparison.InvariantCultureIgnoreCase);
 
-            if (isDebugPos > -1)
-                path = path.Substring(0, isDebugPos);
+			if (isDebugPos > -1)
+				path = path.Substring(0, isDebugPos);
 
-            PluginSetting testData = new("test.plugin")
-            {
-                Disabled = true,
-                Version = "1.2.3",
-                PreventExtractResources = true,
-                ReplaceExistingResources = true
-            };
+			PluginSetting testData = new("test.plugin")
+			{
+				Disabled = true,
+				Version = "1.2.3",
+				PreventExtractResources = true,
+				ReplaceExistingResources = true
+			};
 
-            PluginSettings pluginSettings = new();
-            pluginSettings.Plugins.Add(testData);
+			PluginSettings pluginSettings = new();
+			pluginSettings.Plugins.Add(testData);
 
-            string filename = Path.Combine(path, "appsettings.json");
-            File.WriteAllText(filename, "{\"TestConfiguration\": " + JsonSerializer.Serialize(pluginSettings) + "}");
-            try
-            {
-                LoadSettingsService sut = new();
+			string filename = Path.Combine(path, "appsettings.json");
+			File.WriteAllText(filename, "{\"TestConfiguration\": " + JsonSerializer.Serialize(pluginSettings) + "}");
+			try
+			{
+				LoadSettingsService sut = new();
 
-                PluginSettings settings = sut.LoadSettings<PluginSettings>("TestConfiguration");
+				PluginSettings settings = sut.LoadSettings<PluginSettings>("TestConfiguration");
 
-                Assert.IsNotNull(settings);
-                Assert.AreEqual("1.2.3", settings.Plugins[0].Version);
-                Assert.IsTrue(settings.Plugins[0].Disabled);
-                Assert.IsTrue(settings.Plugins[0].PreventExtractResources);
-                Assert.IsTrue(settings.Plugins[0].ReplaceExistingResources);
-            }
-            finally
-            {
-                File.Delete(filename);
-            }
-        }
+				Assert.IsNotNull(settings);
+				Assert.AreEqual("1.2.3", settings.Plugins[0].Version);
+				Assert.IsTrue(settings.Plugins[0].Disabled);
+				Assert.IsTrue(settings.Plugins[0].PreventExtractResources);
+				Assert.IsTrue(settings.Plugins[0].ReplaceExistingResources);
+			}
+			finally
+			{
+				File.Delete(filename);
+			}
+		}
 
-        [TestMethod]
-        public void LoadSettings_UserDefinedFileName_Success()
-        {
-            PluginSetting testData = new("test.plugin")
-            {
-                Disabled = true,
-                Version = "1.2.3",
-                PreventExtractResources = true,
-                ReplaceExistingResources = true
-            };
+		[TestMethod]
+		public void LoadSettings_UserDefinedFileName_Success()
+		{
+			PluginSetting testData = new("test.plugin")
+			{
+				Disabled = true,
+				Version = "1.2.3",
+				PreventExtractResources = true,
+				ReplaceExistingResources = true
+			};
 
-            PluginSettings pluginSettings = new();
-            pluginSettings.Plugins.Add(testData);
+			PluginSettings pluginSettings = new();
+			pluginSettings.Plugins.Add(testData);
 
-            string filename = Path.GetTempFileName();
-            File.WriteAllText(filename, "{\"CustomConfiguration\": " + JsonSerializer.Serialize(pluginSettings) + "}");
-            try
-            {
-                LoadSettingsService sut = new();
+			string filename = Path.GetTempFileName();
+			File.WriteAllText(filename, "{\"CustomConfiguration\": " + JsonSerializer.Serialize(pluginSettings) + "}");
+			try
+			{
+				LoadSettingsService sut = new();
 
-                PluginSettings settings = sut.LoadSettings<PluginSettings>(filename, "CustomConfiguration");
+				PluginSettings settings = sut.LoadSettings<PluginSettings>(filename, "CustomConfiguration");
 
-                Assert.IsNotNull(settings);
-                Assert.AreEqual("1.2.3", settings.Plugins[0].Version);
-                Assert.IsTrue(settings.Plugins[0].Disabled);
-                Assert.IsTrue(settings.Plugins[0].PreventExtractResources);
-                Assert.IsTrue(settings.Plugins[0].ReplaceExistingResources);
-            }
-            finally
-            {
-                File.Delete(filename);
-            }
-        }
-    }
+				Assert.IsNotNull(settings);
+				Assert.AreEqual("1.2.3", settings.Plugins[0].Version);
+				Assert.IsTrue(settings.Plugins[0].Disabled);
+				Assert.IsTrue(settings.Plugins[0].PreventExtractResources);
+				Assert.IsTrue(settings.Plugins[0].ReplaceExistingResources);
+			}
+			finally
+			{
+				File.Delete(filename);
+			}
+		}
+	}
 }

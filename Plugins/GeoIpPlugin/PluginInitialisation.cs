@@ -33,44 +33,44 @@ using Shared.Classes;
 
 namespace GeoIp.Plugin
 {
-    /// <summary>
-    /// Implements IPlugin which allows the GeoIp.Plugin module to be
-    /// loaded as a plugin module
-    /// </summary>
-    public class PluginInitialisation : IPlugin
-    {
-        #region Internal Static Properties
+	/// <summary>
+	/// Implements IPlugin which allows the GeoIp.Plugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	public class PluginInitialisation : IPlugin
+	{
+		#region Internal Static Properties
 
-        internal static ILogger GetLogger { get; private set; }
+		internal static ILogger GetLogger { get; private set; }
 
-        #endregion Internal Static Properties
+		#endregion Internal Static Properties
 
-        #region IPlugin Methods
+		#region IPlugin Methods
 
-        public void Initialise(ILogger logger)
-        {
-            ThreadManager.Initialise();
-            GetLogger = logger;
-        }
+		public void Initialise(ILogger logger)
+		{
+			ThreadManager.Initialise();
+			GetLogger = logger;
+		}
 
-        public void Finalise()
-        {
+		public void Finalise()
+		{
 			if (ThreadManager.IsInitialized)
 				ThreadManager.Finalise();
-        }
+		}
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.UseGeoIpService();
-        }
+		public void ConfigureServices(IServiceCollection services)
+		{
+			services.UseGeoIpService();
+		}
 
-        public ushort GetVersion()
-        {
-            return 1;
-        }
+		public ushort GetVersion()
+		{
+			return 1;
+		}
 
-        #endregion IPlugin Methods
-    }
+		#endregion IPlugin Methods
+	}
 }
 
 #pragma warning restore CS1591

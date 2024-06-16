@@ -32,88 +32,88 @@ using SharedPluginFeatures;
 
 namespace ShoppingCartPlugin.Models
 {
-    public sealed class ShippingAddressModel : BaseModel
-    {
-        #region Constructors
+	public sealed class ShippingAddressModel : BaseModel
+	{
+		#region Constructors
 
-        public ShippingAddressModel(in BaseModelData modelData,
-            in long id, in string businessName, in string addressLine1,
-            in string addressLine2, in string addressLine3, in string city, in string county,
-            in string postcode, in string country, in decimal shippingCost)
-            : base(modelData)
-        {
-            Id = id;
-            Name = businessName;
-            AddressLine1 = addressLine1;
-            AddressLine2 = addressLine2;
-            AddressLine3 = addressLine3;
-            City = city;
-            County = county;
-            Postcode = postcode;
-            Country = country;
-            ShippingCost = shippingCost;
-        }
+		public ShippingAddressModel(in BaseModelData modelData,
+			in long id, in string businessName, in string addressLine1,
+			in string addressLine2, in string addressLine3, in string city, in string county,
+			in string postcode, in string country, in decimal shippingCost)
+			: base(modelData)
+		{
+			Id = id;
+			Name = businessName;
+			AddressLine1 = addressLine1;
+			AddressLine2 = addressLine2;
+			AddressLine3 = addressLine3;
+			City = city;
+			County = county;
+			Postcode = postcode;
+			Country = country;
+			ShippingCost = shippingCost;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public long Id { get; private set; }
+		public long Id { get; private set; }
 
-        public string Name { get; private set; }
+		public string Name { get; private set; }
 
-        public string AddressLine1 { get; private set; }
+		public string AddressLine1 { get; private set; }
 
-        public string AddressLine2 { get; private set; }
+		public string AddressLine2 { get; private set; }
 
-        public string AddressLine3 { get; private set; }
+		public string AddressLine3 { get; private set; }
 
-        public string City { get; private set; }
+		public string City { get; private set; }
 
-        public string County { get; private set; }
+		public string County { get; private set; }
 
-        public string Postcode { get; private set; }
+		public string Postcode { get; private set; }
 
-        public string Country { get; private set; }
+		public string Country { get; private set; }
 
-        public decimal ShippingCost { get; private set; }
+		public decimal ShippingCost { get; private set; }
 
-        #endregion Properties
+		#endregion Properties
 
-        #region Public Methods
+		#region Public Methods
 
-        public string ShippingAddress
-        {
-            get
-            {
-                string Result = AddLine(Name);
-                Result += AddLine(AddressLine1);
-                Result += AddLine(AddressLine2);
-                Result += AddLine(AddressLine3);
-                Result += AddLine(City);
-                Result += AddLine(County);
-                Result += AddLine(Postcode);
-                Result += AddLine(Country);
+		public string ShippingAddress
+		{
+			get
+			{
+				string Result = AddLine(Name);
+				Result += AddLine(AddressLine1);
+				Result += AddLine(AddressLine2);
+				Result += AddLine(AddressLine3);
+				Result += AddLine(City);
+				Result += AddLine(County);
+				Result += AddLine(Postcode);
+				Result += AddLine(Country);
 
-                return Result;
-            }
-        }
+				return Result;
+			}
+		}
 
-        #endregion Public Methods
+		#endregion Public Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static string AddLine(string s)
-        {
-            if (String.IsNullOrEmpty(s))
-                return String.Empty;
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private static string AddLine(string s)
+		{
+			if (String.IsNullOrEmpty(s))
+				return String.Empty;
 
-            return $"{s}<br />";
-        }
+			return $"{s}<br />";
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591

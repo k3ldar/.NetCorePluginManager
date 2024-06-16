@@ -34,35 +34,35 @@ using System.IO;
 
 namespace PluginManager
 {
-    public sealed class FileVersionComparison : Comparer<FileInfo>
-    {
-        public override int Compare(FileInfo objectCompare1, FileInfo objectCompare2)
-        {
-            if (objectCompare1 == null || objectCompare2 == null)
-                return 0;
+	public sealed class FileVersionComparison : Comparer<FileInfo>
+	{
+		public override int Compare(FileInfo objectCompare1, FileInfo objectCompare2)
+		{
+			if (objectCompare1 == null || objectCompare2 == null)
+				return 0;
 
-            FileVersionInfo versionX = FileVersionInfo.GetVersionInfo(objectCompare1.FullName);
-            FileVersionInfo versionY = FileVersionInfo.GetVersionInfo(objectCompare2.FullName);
+			FileVersionInfo versionX = FileVersionInfo.GetVersionInfo(objectCompare1.FullName);
+			FileVersionInfo versionY = FileVersionInfo.GetVersionInfo(objectCompare2.FullName);
 
-            return versionX.FileVersion.CompareTo(versionY.FileVersion);
-        }
+			return versionX.FileVersion.CompareTo(versionY.FileVersion);
+		}
 
-        public bool Equals(FileInfo objectCompare1, FileInfo objectCompare2)
-        {
-            if (objectCompare1 == null || objectCompare2 == null)
-                return true;
+		public bool Equals(FileInfo objectCompare1, FileInfo objectCompare2)
+		{
+			if (objectCompare1 == null || objectCompare2 == null)
+				return true;
 
-            return Compare(objectCompare1, objectCompare2) == 0;
-        }
+			return Compare(objectCompare1, objectCompare2) == 0;
+		}
 
-        public bool Newer(FileInfo objectCompare1, FileInfo objectCompare2)
-        {
-            if (objectCompare1 == null || objectCompare2 == null)
-                return true;
+		public bool Newer(FileInfo objectCompare1, FileInfo objectCompare2)
+		{
+			if (objectCompare1 == null || objectCompare2 == null)
+				return true;
 
-            return Compare(objectCompare1, objectCompare2) == 1;
-        }
-    }
+			return Compare(objectCompare1, objectCompare2) == 1;
+		}
+	}
 }
 
 #pragma warning restore CS1591

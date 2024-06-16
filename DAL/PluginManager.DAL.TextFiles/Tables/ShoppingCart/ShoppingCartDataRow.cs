@@ -27,260 +27,260 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameShoppingCart)]
-    internal class ShoppingCartDataRow : TableRowDefinition
-    {
-        private int _totalItems;
-        private decimal _subTotal;
-        private int _discountType;
-        private decimal _discountRate;
-        private decimal _discount;
-        private decimal _taxRate;
-        private decimal _tax;
-        private decimal _shipping;
-        private decimal _total;
-        private string _culture;
-        private string _currencyCode;
-        private string _couponCode;
-        private bool _requiresShipping;
-        private int _deliveryAddressId;
+	[Table(Constants.TableNameShoppingCart)]
+	internal class ShoppingCartDataRow : TableRowDefinition
+	{
+		private int _totalItems;
+		private decimal _subTotal;
+		private int _discountType;
+		private decimal _discountRate;
+		private decimal _discount;
+		private decimal _taxRate;
+		private decimal _tax;
+		private decimal _shipping;
+		private decimal _total;
+		private string _culture;
+		private string _currencyCode;
+		private string _couponCode;
+		private bool _requiresShipping;
+		private int _deliveryAddressId;
 
-        public int TotalItems
-        {
-            get
-            {
-                return _totalItems;
-            }
+		public int TotalItems
+		{
+			get
+			{
+				return _totalItems;
+			}
 
-            set
-            {
-                if (_totalItems == value)
-                    return;
+			set
+			{
+				if (_totalItems == value)
+					return;
 
-                _totalItems = value;
-                Update();
-            }
-        }
+				_totalItems = value;
+				Update();
+			}
+		}
 
-        public decimal SubTotal
-        {
-            get
-            {
-                return _subTotal;
-            }
+		public decimal SubTotal
+		{
+			get
+			{
+				return _subTotal;
+			}
 
-            set
-            {
-                if (_subTotal == value)
-                    return;
+			set
+			{
+				if (_subTotal == value)
+					return;
 
-                _subTotal = value;
-                Update();
-            }
-        }
+				_subTotal = value;
+				Update();
+			}
+		}
 
-        public int DiscountType
-        {
-            get
-            {
-                return _discountType;
-            }
+		public int DiscountType
+		{
+			get
+			{
+				return _discountType;
+			}
 
-            set
-            {
-                if (value == _discountType)
-                    return;
+			set
+			{
+				if (value == _discountType)
+					return;
 
-                _discountType = value;
-                Update();
-            }
-        }
+				_discountType = value;
+				Update();
+			}
+		}
 
-        public decimal DiscountRate
-        {
-            get
-            {
-                return _discountRate;
-            }
+		public decimal DiscountRate
+		{
+			get
+			{
+				return _discountRate;
+			}
 
-            set
-            {
-                if (_discountRate == value)
-                    return;
+			set
+			{
+				if (_discountRate == value)
+					return;
 
-                _discountRate = value;
-                Update();
-            }
-        }
+				_discountRate = value;
+				Update();
+			}
+		}
 
-        public decimal Discount
-        {
-            get
-            {
-                return _discount;
-            }
+		public decimal Discount
+		{
+			get
+			{
+				return _discount;
+			}
 
-            set
-            {
-                if (_discount == value)
-                    return;
+			set
+			{
+				if (_discount == value)
+					return;
 
-                _discount = value;
-                Update();
-            }
-        }
+				_discount = value;
+				Update();
+			}
+		}
 
-        public decimal TaxRate
-        {
-            get
-            {
-                return _taxRate;
-            }
+		public decimal TaxRate
+		{
+			get
+			{
+				return _taxRate;
+			}
 
-            set
-            {
-                if (_taxRate == value)
-                    return;
+			set
+			{
+				if (_taxRate == value)
+					return;
 
-                _taxRate = value;
-                Update();
-            }
-        }
+				_taxRate = value;
+				Update();
+			}
+		}
 
-        public decimal Tax
-        {
-            get
-            {
-                return _tax;
-            }
+		public decimal Tax
+		{
+			get
+			{
+				return _tax;
+			}
 
-            set
-            {
-                if (_tax == value)
-                    return;
+			set
+			{
+				if (_tax == value)
+					return;
 
-                _tax = value;
-                Update();
-            }
-        }
+				_tax = value;
+				Update();
+			}
+		}
 
-        public decimal Shipping
-        {
-            get
-            {
-                return _shipping;
-            }
+		public decimal Shipping
+		{
+			get
+			{
+				return _shipping;
+			}
 
-            set
-            {
-                if (_shipping == value)
-                    return;
+			set
+			{
+				if (_shipping == value)
+					return;
 
-                _shipping = value;
-                Update();
-            }
-        }
+				_shipping = value;
+				Update();
+			}
+		}
 
-        public decimal Total
-        {
-            get
-            {
-                return _total;
-            }
+		public decimal Total
+		{
+			get
+			{
+				return _total;
+			}
 
-            set
-            {
-                if (_total == value)
-                    return;
+			set
+			{
+				if (_total == value)
+					return;
 
-                _total = value;
-                Update();
-            }
-        }
+				_total = value;
+				Update();
+			}
+		}
 
-        public string Culture
-        {
-            get
-            {
-                return _culture;
-            }
+		public string Culture
+		{
+			get
+			{
+				return _culture;
+			}
 
-            set
-            {
-                if (_culture == value)
-                    return;
+			set
+			{
+				if (_culture == value)
+					return;
 
-                _culture = value;
-                Update();
-            }
-        }
+				_culture = value;
+				Update();
+			}
+		}
 
-        public string CurrencyCode
-        {
-            get
-            {
-                return _currencyCode;
-            }
+		public string CurrencyCode
+		{
+			get
+			{
+				return _currencyCode;
+			}
 
-            set
-            {
-                if (_currencyCode == value)
-                    return;
+			set
+			{
+				if (_currencyCode == value)
+					return;
 
-                _currencyCode = value;
-                Update();
-            }
-        }
+				_currencyCode = value;
+				Update();
+			}
+		}
 
-        public string CouponCode
-        {
-            get
-            {
-                return _couponCode;
-            }
+		public string CouponCode
+		{
+			get
+			{
+				return _couponCode;
+			}
 
-            set
-            {
-                if (_couponCode == value)
-                    return;
+			set
+			{
+				if (_couponCode == value)
+					return;
 
-                _couponCode = value;
-                Update();
-            }
-        }
+				_couponCode = value;
+				Update();
+			}
+		}
 
-        public bool RequiresShipping
-        {
-            get
-            {
-                return _requiresShipping;
-            }
+		public bool RequiresShipping
+		{
+			get
+			{
+				return _requiresShipping;
+			}
 
-            set
-            {
-                if (_requiresShipping == value)
-                    return;
+			set
+			{
+				if (_requiresShipping == value)
+					return;
 
-                _requiresShipping = value;
-                Update();
-            }
-        }
+				_requiresShipping = value;
+				Update();
+			}
+		}
 
-        public int DeliveryAddressId
-        {
-            get
-            {
-                return _deliveryAddressId;
-            }
+		public int DeliveryAddressId
+		{
+			get
+			{
+				return _deliveryAddressId;
+			}
 
-            set
-            {
-                if (_deliveryAddressId == value)
-                    return;
+			set
+			{
+				if (_deliveryAddressId == value)
+					return;
 
-                _deliveryAddressId = value;
-                Update();
-            }
-        }
-    }
+				_deliveryAddressId = value;
+				Update();
+			}
+		}
+	}
 }

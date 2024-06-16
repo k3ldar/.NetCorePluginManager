@@ -28,28 +28,29 @@ using Middleware;
 using Middleware.Users;
 
 using PluginManager.DAL.TextFiles.Tables;
+
 using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
-    internal class UserSearch : IUserSearch
-    {
-        private readonly ISimpleDBOperations<UserDataRow> _users;
+	internal class UserSearch : IUserSearch
+	{
+		private readonly ISimpleDBOperations<UserDataRow> _users;
 
-        public UserSearch(ISimpleDBOperations<UserDataRow> users)
-        {
-            _users = users ?? throw new ArgumentNullException(nameof(users));
-        }
+		public UserSearch(ISimpleDBOperations<UserDataRow> users)
+		{
+			_users = users ?? throw new ArgumentNullException(nameof(users));
+		}
 
-        public List<SearchUser> GetUsers(in int pageNumber, in int pageSize, string searchField, string searchOrder)
-        {
-            List<SearchUser> Result = new();
+		public List<SearchUser> GetUsers(in int pageNumber, in int pageSize, string searchField, string searchOrder)
+		{
+			List<SearchUser> Result = new();
 
-            List<UserDataRow> users = _users.Select().Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+			List<UserDataRow> users = _users.Select().Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
-            users.ForEach(u => Result.Add(new SearchUser(u.Id, u.FullName, u.Email)));
+			users.ForEach(u => Result.Add(new SearchUser(u.Id, u.FullName, u.Email)));
 
-            return Result;
-        }
-    }
+			return Result;
+		}
+	}
 }

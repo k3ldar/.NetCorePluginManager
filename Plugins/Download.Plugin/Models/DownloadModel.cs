@@ -30,60 +30,60 @@ using SharedPluginFeatures;
 
 namespace DownloadPlugin.Models
 {
-    /// <summary>
-    /// View model used to display download data.
-    /// </summary>
-    public class DownloadModel : BaseModel
-    {
-        #region Constructors
+	/// <summary>
+	/// View model used to display download data.
+	/// </summary>
+	public class DownloadModel : BaseModel
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="modelData">Base model data.</param>
-        /// <param name="category">Download category.</param>
-        /// <param name="downloads">List of downloadable files for the category.</param>
-        /// <param name="categories">All available categories.</param>
-        public DownloadModel(in BaseModelData modelData,
-            in string category, in List<DownloadableItem> downloads, in List<CategoriesModel> categories)
-            : base(modelData)
-        {
-            if (String.IsNullOrEmpty(category))
-                throw new ArgumentNullException(nameof(category));
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="modelData">Base model data.</param>
+		/// <param name="category">Download category.</param>
+		/// <param name="downloads">List of downloadable files for the category.</param>
+		/// <param name="categories">All available categories.</param>
+		public DownloadModel(in BaseModelData modelData,
+			in string category, in List<DownloadableItem> downloads, in List<CategoriesModel> categories)
+			: base(modelData)
+		{
+			if (String.IsNullOrEmpty(category))
+				throw new ArgumentNullException(nameof(category));
 
-            Category = category;
-            Categories = categories ?? throw new ArgumentNullException(nameof(categories));
-            Downloads = downloads ?? throw new ArgumentNullException(nameof(downloads));
-        }
+			Category = category;
+			Categories = categories ?? throw new ArgumentNullException(nameof(categories));
+			Downloads = downloads ?? throw new ArgumentNullException(nameof(downloads));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Download category.
-        /// </summary>
-        /// <value>string</value>
-        public string Category { get; private set; }
+		/// <summary>
+		/// Download category.
+		/// </summary>
+		/// <value>string</value>
+		public string Category { get; private set; }
 
-        /// <summary>
-        /// >All available categories.
-        /// </summary>
-        /// <value>List&lt;CategoriesModel&gt;</value>
-        public List<CategoriesModel> Categories { get; private set; }
+		/// <summary>
+		/// >All available categories.
+		/// </summary>
+		/// <value>List&lt;CategoriesModel&gt;</value>
+		public List<CategoriesModel> Categories { get; private set; }
 
-        /// <summary>
-        /// List of downloadable files for the category.
-        /// </summary>
-        /// <value>List&lt;DownloadableItem&gt;</value>
-        public List<DownloadableItem> Downloads { get; private set; }
+		/// <summary>
+		/// List of downloadable files for the category.
+		/// </summary>
+		/// <value>List&lt;DownloadableItem&gt;</value>
+		public List<DownloadableItem> Downloads { get; private set; }
 
-        /// <summary>
-        /// Pagination used for displaying the downloads.
-        /// </summary>
-        /// <value>string</value>
-        public string Pagination { get; internal set; }
+		/// <summary>
+		/// Pagination used for displaying the downloads.
+		/// </summary>
+		/// <value>string</value>
+		public string Pagination { get; internal set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

@@ -37,17 +37,17 @@ namespace AspNetCore.PluginManager
 	/// Plugin Manager IMvcBuilder extension class.
 	/// </summary>
 	public static class ConfigurePluginManagerExtender
-    {
-        #region Public Static Methods
+	{
+		#region Public Static Methods
 
-        /// <summary>
-        /// IApplicationBuilder extender method used to provide easy access to ConfigurePluginManager 
-        /// method when configuring an application.
-        /// </summary>
-        /// <param name="mvcBuilder">IMvcBuilder instance.</param>
-        /// <returns>IMvcBuilder</returns>
-        public static IMvcBuilder ConfigurePluginManager(this IMvcBuilder mvcBuilder)
-        {
+		/// <summary>
+		/// IApplicationBuilder extender method used to provide easy access to ConfigurePluginManager 
+		/// method when configuring an application.
+		/// </summary>
+		/// <param name="mvcBuilder">IMvcBuilder instance.</param>
+		/// <returns>IMvcBuilder</returns>
+		public static IMvcBuilder ConfigurePluginManager(this IMvcBuilder mvcBuilder)
+		{
 #if NET_CORE_2_2 || NET_CORE_2_1 || NET_CORE_2_0 || NET461
             ConfigurePartManager(mvcBuilder);
             ConfigureCompiledViews(mvcBuilder);
@@ -57,15 +57,15 @@ namespace AspNetCore.PluginManager
             AddApplicationParts(mvcBuilder);
 #endif
 
-            // allow plugins to configure MvcBuilder
-            ConfigurePlugins(mvcBuilder);
+			// allow plugins to configure MvcBuilder
+			ConfigurePlugins(mvcBuilder);
 
-            return mvcBuilder;
-        }
+			return mvcBuilder;
+		}
 
-        #endregion Public Static Methods
+		#endregion Public Static Methods
 
-        #region Private Static Methods
+		#region Private Static Methods
 
 #if NET_CORE_3_X
         private static void AddApplicationParts(in IMvcBuilder mvcBuilder)
@@ -113,15 +113,15 @@ namespace AspNetCore.PluginManager
         }
 #endif
 
-        private static void ConfigurePlugins(in IMvcBuilder mvcBuilder)
-        {
-            List<IConfigureMvcBuilder> appBuilderServices = PluginManagerService
-                .GetPluginManager().PluginGetClasses<IConfigureMvcBuilder>();
+		private static void ConfigurePlugins(in IMvcBuilder mvcBuilder)
+		{
+			List<IConfigureMvcBuilder> appBuilderServices = PluginManagerService
+				.GetPluginManager().PluginGetClasses<IConfigureMvcBuilder>();
 
-            foreach (IConfigureMvcBuilder builder in appBuilderServices)
-                builder.ConfigureMvcBuilder(mvcBuilder);
-        }
+			foreach (IConfigureMvcBuilder builder in appBuilderServices)
+				builder.ConfigureMvcBuilder(mvcBuilder);
+		}
 
-        #endregion Private Static Methods
-    }
+		#endregion Private Static Methods
+	}
 }

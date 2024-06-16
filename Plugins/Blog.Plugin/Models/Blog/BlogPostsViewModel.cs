@@ -30,49 +30,49 @@ using SharedPluginFeatures;
 
 namespace Blog.Plugin.Models
 {
-    /// <summary>
-    /// Container view model which can hold one or more blog posts.
-    /// </summary>
-    public class BlogPostsViewModel : BaseModel
-    {
-        #region Constructors
+	/// <summary>
+	/// Container view model which can hold one or more blog posts.
+	/// </summary>
+	public class BlogPostsViewModel : BaseModel
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor for multiple blog entries.
-        /// </summary>
-        /// <param name="baseModelData"></param>
-        /// <param name="blogEntries"></param>
-        public BlogPostsViewModel(in BaseModelData baseModelData, in List<BlogPostViewModel> blogEntries)
-            : base(baseModelData)
-        {
-            BlogEntries = blogEntries ?? throw new ArgumentNullException(nameof(blogEntries));
-        }
+		/// <summary>
+		/// Default constructor for multiple blog entries.
+		/// </summary>
+		/// <param name="baseModelData"></param>
+		/// <param name="blogEntries"></param>
+		public BlogPostsViewModel(in BaseModelData baseModelData, in List<BlogPostViewModel> blogEntries)
+			: base(baseModelData)
+		{
+			BlogEntries = blogEntries ?? throw new ArgumentNullException(nameof(blogEntries));
+		}
 
-        /// <summary>
-        /// Default constructor for a single blog entry.
-        /// </summary>
-        /// <param name="baseModelData"></param>
-        /// <param name="blogItem"></param>
-        public BlogPostsViewModel(in BaseModelData baseModelData, in BlogPostViewModel blogItem)
-            : base(baseModelData)
-        {
-            if (blogItem == null)
-                throw new ArgumentNullException(nameof(blogItem));
+		/// <summary>
+		/// Default constructor for a single blog entry.
+		/// </summary>
+		/// <param name="baseModelData"></param>
+		/// <param name="blogItem"></param>
+		public BlogPostsViewModel(in BaseModelData baseModelData, in BlogPostViewModel blogItem)
+			: base(baseModelData)
+		{
+			if (blogItem == null)
+				throw new ArgumentNullException(nameof(blogItem));
 
-            BlogEntries = new List<BlogPostViewModel>();
-            BlogEntries.Add(blogItem);
-        }
+			BlogEntries = new List<BlogPostViewModel>();
+			BlogEntries.Add(blogItem);
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// List of blog entries within the view model
-        /// </summary>
-        /// <value>List&lt;BlogPostViewModel&gt;</value>
-        public List<BlogPostViewModel> BlogEntries { get; private set; }
+		/// <summary>
+		/// List of blog entries within the view model
+		/// </summary>
+		/// <value>List&lt;BlogPostViewModel&gt;</value>
+		public List<BlogPostViewModel> BlogEntries { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

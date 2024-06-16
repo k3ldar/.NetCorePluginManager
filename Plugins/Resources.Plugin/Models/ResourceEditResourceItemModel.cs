@@ -63,7 +63,7 @@ namespace Resources.Plugin.Models
 		/// <param name="approved">Approved for public viewing</param>
 		/// <param name="tags">Resource item tags</param>
 		/// <param name="allCategories">List of all categories except current category</param>
-		public ResourceEditResourceItemModel(BaseModelData modelData, long id, long categoryId, ResourceType resourceType, 
+		public ResourceEditResourceItemModel(BaseModelData modelData, long id, long categoryId, ResourceType resourceType,
 			long userId, string userName, string name, string description, string value, bool approved,
 			string tags, List<NameIdModel> allCategories)
 			: base(modelData)

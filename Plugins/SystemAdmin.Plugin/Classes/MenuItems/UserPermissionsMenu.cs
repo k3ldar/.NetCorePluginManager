@@ -33,57 +33,57 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Classes.MenuItems
 {
-    public class UserPermissionsMenu : SystemAdminSubMenu
-    {
-        #region SystemAdminSubMenu Methods
+	public class UserPermissionsMenu : SystemAdminSubMenu
+	{
+		#region SystemAdminSubMenu Methods
 
-        public override string Action()
-        {
-            return nameof(Controllers.SystemAdminController.Permissions);
-        }
+		public override string Action()
+		{
+			return nameof(Controllers.SystemAdminController.Permissions);
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return Controllers.SystemAdminController.Name;
-        }
+		public override string Controller()
+		{
+			return Controllers.SystemAdminController.Name;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.View;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.View;
+		}
 
-        public override string Data()
-        {
-            return String.Empty;
-        }
+		public override string Data()
+		{
+			return String.Empty;
+		}
 
-        public override string Name()
-        {
-            return nameof(Languages.LanguageStrings.UserPermissions);
-        }
+		public override string Name()
+		{
+			return nameof(Languages.LanguageStrings.UserPermissions);
+		}
 
-        public override string ParentMenuName()
-        {
-            return nameof(Languages.LanguageStrings.Permissions);
-        }
+		public override string ParentMenuName()
+		{
+			return nameof(Languages.LanguageStrings.Permissions);
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
+		public override int SortOrder()
+		{
+			return 0;
+		}
 
-        public override string Image()
-        {
-            return String.Empty;
-        }
+		public override string Image()
+		{
+			return String.Empty;
+		}
 
-        #endregion SystemAdminSubMenu Methods
-    }
+		#endregion SystemAdminSubMenu Methods
+	}
 }
 
 #pragma warning restore CS1591

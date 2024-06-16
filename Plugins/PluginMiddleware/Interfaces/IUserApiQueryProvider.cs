@@ -26,18 +26,18 @@
 
 namespace Middleware
 {
-    /// <summary>
-    /// Interface used to query a users api details in order to validate requests
-    /// </summary>
-    public interface IUserApiQueryProvider
-    {
-        /// <summary>
-        /// Retrieves the Api Secret associated with the merchant and api key
-        /// </summary>
-        /// <param name="merchantId">Unique Merchant Id</param>
-        /// <param name="apiKey">Unique Merchant Api Key</param>
-        /// <param name="secret">The secret associated with the merchanes Api Key</param>
-        /// <returns>bool</returns>
-        bool ApiSecret(string merchantId, string apiKey, out string secret);
-    }
+	/// <summary>
+	/// Interface used to query a users api details in order to validate requests
+	/// </summary>
+	public interface IUserApiQueryProvider
+	{
+		/// <summary>
+		/// Retrieves the Api Secret associated with the merchant and api key
+		/// </summary>
+		/// <param name="merchantId">Unique Merchant Id</param>
+		/// <param name="apiKey">Unique Merchant Api Key</param>
+		/// <param name="secret">The secret associated with the merchanes Api Key</param>
+		/// <returns>bool</returns>
+		bool ApiSecret(string merchantId, string apiKey, out string secret);
+	}
 }

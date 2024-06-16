@@ -46,7 +46,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 	/// This class descends from SystemAdminSubMenu.
 	/// </summary>
 	public sealed class BotVisitsHourlySubMenu : SystemAdminSubMenu
-    {
+	{
 		#region Private Members
 
 		private readonly ISessionStatisticsProvider _sessionStatisticsProvider;
@@ -54,101 +54,101 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
 		#endregion Private Members
 
-        public BotVisitsHourlySubMenu(ISettingsProvider settingsProvider, ISessionStatisticsProvider sessionStatisticsProvider)
+		public BotVisitsHourlySubMenu(ISettingsProvider settingsProvider, ISessionStatisticsProvider sessionStatisticsProvider)
 		{
 			_sessionStatisticsProvider = sessionStatisticsProvider ?? throw new ArgumentNullException(nameof(sessionStatisticsProvider));
 
 			if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(SharedPluginFeatures.Constants.UserSessionConfiguration);
+			UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(SharedPluginFeatures.Constants.UserSessionConfiguration);
 
-            _enabled = settings.EnableDefaultSessionService;
-        }
+			_enabled = settings.EnableDefaultSessionService;
+		}
 
-        public override string Action()
-        {
-            return String.Empty;
-        }
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        /// <summary>
-        /// Returns last 24 hours of bot sessions by quarter of an hour.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            ChartModel Result = new();
+		/// <summary>
+		/// Returns last 24 hours of bot sessions by quarter of an hour.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			ChartModel Result = new();
 
-            Result.ChartTitle = "Hourly Bot Visitor Statistics";
+			Result.ChartTitle = "Hourly Bot Visitor Statistics";
 
-            List<SessionHourly> sessionData = _sessionStatisticsProvider.GetHourlyData(false)
-                .OrderBy(o => o.Date)
-                .ThenBy(h => h.Hour)
-                .ThenBy(q => q.Quarter)
-                .Take(96)
-                .ToList();
+			List<SessionHourly> sessionData = _sessionStatisticsProvider.GetHourlyData(false)
+				.OrderBy(o => o.Date)
+				.ThenBy(h => h.Hour)
+				.ThenBy(q => q.Quarter)
+				.Take(96)
+				.ToList();
 
-            if (sessionData == null)
-                return String.Empty;
+			if (sessionData == null)
+				return String.Empty;
 
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.String, "Hour"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bot Visits"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bounced"));
+			Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.String, "Hour"));
+			Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bot Visits"));
+			Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bounced"));
 
-            foreach (SessionHourly hour in sessionData)
-            {
-                List<Decimal> datavalues = new();
-                Result.DataValues[
-                    $"{hour.Date.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern.Replace("y", ""))} H{hour.Hour.ToString(Thread.CurrentThread.CurrentUICulture)} Q{hour.Quarter}"] = 
-                    datavalues;
+			foreach (SessionHourly hour in sessionData)
+			{
+				List<Decimal> datavalues = new();
+				Result.DataValues[
+					$"{hour.Date.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern.Replace("y", ""))} H{hour.Hour.ToString(Thread.CurrentThread.CurrentUICulture)} Q{hour.Quarter}"] =
+					datavalues;
 
-                datavalues.Add(hour.BotVisits);
-                datavalues.Add(hour.Bounced);
-            }
+				datavalues.Add(hour.BotVisits);
+				datavalues.Add(hour.Bounced);
+			}
 
-            return JsonSerializer.Serialize(Result);
-        }
+			return JsonSerializer.Serialize(Result);
+		}
 
-        public override string Image()
-        {
-            return SharedPluginFeatures.Constants.SystemImageChart;
-        }
+		public override string Image()
+		{
+			return SharedPluginFeatures.Constants.SystemImageChart;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Chart;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Chart;
+		}
 
-        public override string Name()
-        {
-            return "Bot Visits - Hourly";
-        }
+		public override string Name()
+		{
+			return "Bot Visits - Hourly";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "User Sessions";
-        }
+		public override string ParentMenuName()
+		{
+			return "User Sessions";
+		}
 
-        public override int SortOrder()
-        {
-            return 650;
-        }
+		public override int SortOrder()
+		{
+			return 650;
+		}
 
-        public override Boolean Enabled()
-        {
-            return _enabled;
-        }
-    }
+		public override Boolean Enabled()
+		{
+			return _enabled;
+		}
+	}
 }
 
 #pragma warning restore CS1591

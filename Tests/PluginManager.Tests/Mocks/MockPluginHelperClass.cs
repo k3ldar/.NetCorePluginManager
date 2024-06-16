@@ -29,24 +29,24 @@ using PluginManager.Abstractions;
 
 namespace PluginManager.Tests.Mocks
 {
-    [ExcludeFromCodeCoverage]
-    public class MockPluginHelperClass
-    {
-        public MockPluginHelperClass(IPluginHelperService pluginHelperService)
-        {
-            PluginHelperService = pluginHelperService;
-        }
+	[ExcludeFromCodeCoverage]
+	public class MockPluginHelperClass
+	{
+		public MockPluginHelperClass(IPluginHelperService pluginHelperService)
+		{
+			PluginHelperService = pluginHelperService;
+		}
 
-        public IPluginHelperService PluginHelperService { get; private set; }
-    }
+		public IPluginHelperService PluginHelperService { get; private set; }
+	}
 
-    [ExcludeFromCodeCoverage]
-    public class MockPluginHelperTest : MockPluginHelperClass
-    {
-        public MockPluginHelperTest(IPluginHelperService pluginHelperService)
-            : base(pluginHelperService)
-        {
+	[ExcludeFromCodeCoverage]
+	public class MockPluginHelperTest : MockPluginHelperClass
+	{
+		public MockPluginHelperTest(IPluginHelperService pluginHelperService)
+			: base(pluginHelperService)
+		{
 
-        }
-    }
+		}
+	}
 }

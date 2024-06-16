@@ -34,33 +34,33 @@ using SharedPluginFeatures;
 
 namespace ShoppingCartPlugin.Models
 {
-    public sealed class CheckoutModel : BaseModel
-    {
-        #region Constructors
+	public sealed class CheckoutModel : BaseModel
+	{
+		#region Constructors
 
-        public CheckoutModel()
-        {
-            Providers = new List<IPaymentProvider>();
-        }
+		public CheckoutModel()
+		{
+			Providers = new List<IPaymentProvider>();
+		}
 
-        public CheckoutModel(in BaseModelData modelData)
-            : base(modelData)
-        {
-            Providers = new List<IPaymentProvider>();
-        }
+		public CheckoutModel(in BaseModelData modelData)
+			: base(modelData)
+		{
+			Providers = new List<IPaymentProvider>();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public List<IPaymentProvider> Providers { get; private set; }
+		public List<IPaymentProvider> Providers { get; private set; }
 
-        public string SelectedProvider { get; set; }
+		public string SelectedProvider { get; set; }
 
-        public Guid SelectedProviderId { get; set; }
+		public Guid SelectedProviderId { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

@@ -28,27 +28,27 @@ using AppSettings;
 
 namespace DynamicContent.Plugin
 {
-    /// <summary>
-    /// Settings which affect how dynamic content plugin is configured.
-    /// </summary>
-    public sealed class DynamicContentSettings
-    {
+	/// <summary>
+	/// Settings which affect how dynamic content plugin is configured.
+	/// </summary>
+	public sealed class DynamicContentSettings
+	{
 
-        /// <summary>
-        /// Path where dynamic content files will be placed.
-        /// </summary>
-        /// <value>string</value>
-        [SettingString(true)]
-        [SettingValidPath]
-        [SettingDefault("%RootPath%")]
-        public string DynamicContentLocation { get; set; }
+		/// <summary>
+		/// Path where dynamic content files will be placed.
+		/// </summary>
+		/// <value>string</value>
+		[SettingString(true)]
+		[SettingValidPath]
+		[SettingDefault("%RootPath%")]
+		public string DynamicContentLocation { get; set; }
 
-        /// <summary>
-        /// Method called after settings have been validated
-        /// </summary>
-        public void ValidateSettings()
-        {
-            DynamicContentLocation += "\\wwwroot\\DynamicContent";
-        }
-    }
+		/// <summary>
+		/// Method called after settings have been validated
+		/// </summary>
+		public void ValidateSettings()
+		{
+			DynamicContentLocation += "\\wwwroot\\DynamicContent";
+		}
+	}
 }

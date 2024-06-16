@@ -27,219 +27,219 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    /// <summary>
-    /// Delivery address table 
-    /// </summary>
-    [Table(Constants.TableNameAddresses, CompressionType.Brotli)]
-    internal sealed class AddressDataRow : TableRowDefinition
-    {
-        private long _userId;
-        private string _businessName;
-        private string _addressLine1;
-        private string _addressLine2;
-        private string _addressLine3;
-        private string _city;
-        private string _county;
-        private string _postcode;
-        private string _country;
-        private decimal _postageCost;
-        private bool _isDelivery;
+	/// <summary>
+	/// Delivery address table 
+	/// </summary>
+	[Table(Constants.TableNameAddresses, CompressionType.Brotli)]
+	internal sealed class AddressDataRow : TableRowDefinition
+	{
+		private long _userId;
+		private string _businessName;
+		private string _addressLine1;
+		private string _addressLine2;
+		private string _addressLine3;
+		private string _city;
+		private string _county;
+		private string _postcode;
+		private string _country;
+		private decimal _postageCost;
+		private bool _isDelivery;
 
-        /// <summary>
-        /// Id of user owning the address
-        /// </summary>
-        [ForeignKey(Constants.TableNameUsers)]
-        public long UserId
-        {
-            get => _userId;
+		/// <summary>
+		/// Id of user owning the address
+		/// </summary>
+		[ForeignKey(Constants.TableNameUsers)]
+		public long UserId
+		{
+			get => _userId;
 
-            set
-            {
-                if (_userId == value)
-                    return;
+			set
+			{
+				if (_userId == value)
+					return;
 
-                _userId = value;
-                Update();
-            }
-        }
+				_userId = value;
+				Update();
+			}
+		}
 
-        /// <summary>
-        /// Business name if applicable.
-        /// </summary>
-        /// <value>string</value>
-        public string BusinessName
-        {
-            get => _businessName;
+		/// <summary>
+		/// Business name if applicable.
+		/// </summary>
+		/// <value>string</value>
+		public string BusinessName
+		{
+			get => _businessName;
 
-            set
-            {
-                if (_businessName == value)
-                    return;
+			set
+			{
+				if (_businessName == value)
+					return;
 
-                _businessName = value;
-                Update();
-            }
-        }
+				_businessName = value;
+				Update();
+			}
+		}
 
-        /// <summary>
-        /// Address line 1.
-        /// </summary>
-        /// <value>string</value>
-        public string AddressLine1
-        {
-            get => _addressLine1;
+		/// <summary>
+		/// Address line 1.
+		/// </summary>
+		/// <value>string</value>
+		public string AddressLine1
+		{
+			get => _addressLine1;
 
-            set
-            {
-                if (_addressLine1 == value)
-                    return;
+			set
+			{
+				if (_addressLine1 == value)
+					return;
 
-                _addressLine1 = value;
-                Update();
-            }
-        }
+				_addressLine1 = value;
+				Update();
+			}
+		}
 
-        /// <summary>
-        /// Address line 2.
-        /// </summary>
-        /// <value>string</value>
-        public string AddressLine2
-        {
-            get => _addressLine2;
+		/// <summary>
+		/// Address line 2.
+		/// </summary>
+		/// <value>string</value>
+		public string AddressLine2
+		{
+			get => _addressLine2;
 
-            set
-            {
-                if (_addressLine2 == value)
-                    return;
+			set
+			{
+				if (_addressLine2 == value)
+					return;
 
-                _addressLine2 = value;
-                Update();
-            }
-        }
+				_addressLine2 = value;
+				Update();
+			}
+		}
 
-        /// <summary>
-        /// Address line 3.
-        /// </summary>
-        /// <value>string</value>
-        public string AddressLine3
-        {
-            get => _addressLine3;
+		/// <summary>
+		/// Address line 3.
+		/// </summary>
+		/// <value>string</value>
+		public string AddressLine3
+		{
+			get => _addressLine3;
 
-            set
-            {
-                if (_addressLine3 == value)
-                    return;
+			set
+			{
+				if (_addressLine3 == value)
+					return;
 
-                _addressLine3 = value;
-                Update();
-            }
-        }
+				_addressLine3 = value;
+				Update();
+			}
+		}
 
-        /// <summary>
-        /// City name.
-        /// </summary>
-        /// <value>string</value>
-        public string City
-        {
-            get => _city;
+		/// <summary>
+		/// City name.
+		/// </summary>
+		/// <value>string</value>
+		public string City
+		{
+			get => _city;
 
-            set
-            {
-                if (_city == value)
-                    return;
+			set
+			{
+				if (_city == value)
+					return;
 
-                _city = value;
-                Update();
-            }
-        }
+				_city = value;
+				Update();
+			}
+		}
 
-        /// <summary>
-        /// County/state name.
-        /// </summary>
-        /// <value>string</value>
-        public string County
-        {
-            get => _county;
+		/// <summary>
+		/// County/state name.
+		/// </summary>
+		/// <value>string</value>
+		public string County
+		{
+			get => _county;
 
-            set
-            {
-                if (_county == value)
-                    return;
+			set
+			{
+				if (_county == value)
+					return;
 
-                _county = value;
-                Update();
-            }
-        }
+				_county = value;
+				Update();
+			}
+		}
 
-        /// <summary>
-        /// Postal or zip code.
-        /// </summary>
-        /// <value>string</value>
-        public string Postcode
-        {
-            get => _postcode;
+		/// <summary>
+		/// Postal or zip code.
+		/// </summary>
+		/// <value>string</value>
+		public string Postcode
+		{
+			get => _postcode;
 
-            set
-            {
-                if (_postcode == value)
-                    return;
+			set
+			{
+				if (_postcode == value)
+					return;
 
-                _postcode = value;
-                Update();
-            }
-        }
+				_postcode = value;
+				Update();
+			}
+		}
 
-        /// <summary>
-        /// Country name.
-        /// </summary>
-        /// <value>string</value>
-        public string Country
-        {
-            get => _country;
+		/// <summary>
+		/// Country name.
+		/// </summary>
+		/// <value>string</value>
+		public string Country
+		{
+			get => _country;
 
-            set
-            {
-                if (_country == value)
-                    return;
+			set
+			{
+				if (_country == value)
+					return;
 
-                _country = value;
-                Update();
-            }
-        }
+				_country = value;
+				Update();
+			}
+		}
 
-        /// <summary>
-        /// Postage cost for the address.
-        /// </summary>
-        /// <value>decimal</value>
-        public decimal PostageCost
-        {
-            get => _postageCost;
+		/// <summary>
+		/// Postage cost for the address.
+		/// </summary>
+		/// <value>decimal</value>
+		public decimal PostageCost
+		{
+			get => _postageCost;
 
-            set
-            {
-                if (_postageCost == value)
-                    return;
+			set
+			{
+				if (_postageCost == value)
+					return;
 
-                _postageCost = value;
-                Update();
-            }
-        }
+				_postageCost = value;
+				Update();
+			}
+		}
 
-        /// <summary>
-        /// Indicicates whether it's a delivery address or billing address
-        /// </summary>
-        public bool IsDelivery
-        {
-            get => _isDelivery;
+		/// <summary>
+		/// Indicicates whether it's a delivery address or billing address
+		/// </summary>
+		public bool IsDelivery
+		{
+			get => _isDelivery;
 
-            set
-            {
-                if (IsDelivery == value)
-                    return;
+			set
+			{
+				if (IsDelivery == value)
+					return;
 
-                _isDelivery = value;
-                Update();
-            }
-        }
-    }
+				_isDelivery = value;
+				Update();
+			}
+		}
+	}
 }

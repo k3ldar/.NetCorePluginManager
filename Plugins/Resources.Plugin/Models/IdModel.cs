@@ -42,6 +42,6 @@ namespace Resources.Plugin.Models
 		/// <summary>
 		/// Id
 		/// </summary>
-		public long Id { get;  }
+		public long Id { get; }
 	}
 }

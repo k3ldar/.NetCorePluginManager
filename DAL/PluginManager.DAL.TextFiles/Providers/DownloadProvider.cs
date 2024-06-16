@@ -35,141 +35,141 @@ using SharedPluginFeatures;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
-    internal class DownloadProvider : IDownloadProvider
-    {
-        #region Private Members
+	internal class DownloadProvider : IDownloadProvider
+	{
+		#region Private Members
 
-        private readonly IMemoryCache _memoryCache;
-        private readonly ISimpleDBOperations<DownloadItemsDataRow> _downloadItemData;
-        private readonly ISimpleDBOperations<DownloadCategoryDataRow> _downloadCategoryData;
+		private readonly IMemoryCache _memoryCache;
+		private readonly ISimpleDBOperations<DownloadItemsDataRow> _downloadItemData;
+		private readonly ISimpleDBOperations<DownloadCategoryDataRow> _downloadCategoryData;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public DownloadProvider(IMemoryCache memoryCache,
-            ISimpleDBOperations<DownloadItemsDataRow> downloadItemData,
-            ISimpleDBOperations<DownloadCategoryDataRow> downloadCategoryData)
-        {
-            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
-            _downloadItemData = downloadItemData ?? throw new ArgumentNullException(nameof(downloadItemData));
-            _downloadCategoryData = downloadCategoryData ?? throw new ArgumentNullException(nameof(downloadCategoryData));
-        }
+		public DownloadProvider(IMemoryCache memoryCache,
+			ISimpleDBOperations<DownloadItemsDataRow> downloadItemData,
+			ISimpleDBOperations<DownloadCategoryDataRow> downloadCategoryData)
+		{
+			_memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
+			_downloadItemData = downloadItemData ?? throw new ArgumentNullException(nameof(downloadItemData));
+			_downloadCategoryData = downloadCategoryData ?? throw new ArgumentNullException(nameof(downloadCategoryData));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IDownloads
+		#region IDownloads
 
-        public List<DownloadCategory> DownloadCategoriesGet(in long userId)
-        {
-            string cacheName = $"{nameof(DownloadCategoriesGet)} {userId}";
+		public List<DownloadCategory> DownloadCategoriesGet(in long userId)
+		{
+			string cacheName = $"{nameof(DownloadCategoriesGet)} {userId}";
 
-            CacheItem cacheItem = _memoryCache.GetExtendingCache().Get(cacheName);
+			CacheItem cacheItem = _memoryCache.GetExtendingCache().Get(cacheName);
 
-            if (cacheItem == null)
-            {
-                List<DownloadCategory> result = new();
+			if (cacheItem == null)
+			{
+				List<DownloadCategory> result = new();
 
-                long user = userId;
+				long user = userId;
 
-                IEnumerable<DownloadCategoryDataRow> categories = _downloadCategoryData.Select().Where(dc => dc.UserId.Equals(user) || dc.UserId.Equals(0));
+				IEnumerable<DownloadCategoryDataRow> categories = _downloadCategoryData.Select().Where(dc => dc.UserId.Equals(user) || dc.UserId.Equals(0));
 
-                foreach (DownloadCategoryDataRow category in categories)
-                {
-                    List<DownloadItem> downloads = new();
+				foreach (DownloadCategoryDataRow category in categories)
+				{
+					List<DownloadItem> downloads = new();
 
-                    IEnumerable<DownloadItemsDataRow> items = _downloadItemData.Select().Where(di => di.CategoryId.Equals(category.Id) && (di.UserId.Equals(0) || di.UserId.Equals(user)));
+					IEnumerable<DownloadItemsDataRow> items = _downloadItemData.Select().Where(di => di.CategoryId.Equals(category.Id) && (di.UserId.Equals(0) || di.UserId.Equals(user)));
 
-                    foreach (DownloadItemsDataRow download in items)
-                    {
-                        downloads.Add(new DownloadItem(download.Id, download.Name, download.Description, download.Version, download.Filename, download.Icon, download.Size));
-                    }
+					foreach (DownloadItemsDataRow download in items)
+					{
+						downloads.Add(new DownloadItem(download.Id, download.Name, download.Description, download.Version, download.Filename, download.Icon, download.Size));
+					}
 
-                    result.Add(new DownloadCategory(category.Id, category.Name, downloads));
-                }
+					result.Add(new DownloadCategory(category.Id, category.Name, downloads));
+				}
 
-                cacheItem = new CacheItem(cacheName, result);
-                _memoryCache.GetExtendingCache().Add(cacheName, cacheItem);
-            }
+				cacheItem = new CacheItem(cacheName, result);
+				_memoryCache.GetExtendingCache().Add(cacheName, cacheItem);
+			}
 
-            return (List<DownloadCategory>)cacheItem.Value;
-        }
+			return (List<DownloadCategory>)cacheItem.Value;
+		}
 
-        public List<DownloadCategory> DownloadCategoriesGet()
-        {
-            string cacheName = $"{nameof(DownloadCategoriesGet)} All Users";
+		public List<DownloadCategory> DownloadCategoriesGet()
+		{
+			string cacheName = $"{nameof(DownloadCategoriesGet)} All Users";
 
-            CacheItem cacheItem = _memoryCache.GetExtendingCache().Get(cacheName);
+			CacheItem cacheItem = _memoryCache.GetExtendingCache().Get(cacheName);
 
-            if (cacheItem == null)
-            {
-                List<DownloadCategory> result = new();
+			if (cacheItem == null)
+			{
+				List<DownloadCategory> result = new();
 
-                IEnumerable<DownloadCategoryDataRow> categories = _downloadCategoryData.Select().Where(dc => dc.UserId.Equals(0));
+				IEnumerable<DownloadCategoryDataRow> categories = _downloadCategoryData.Select().Where(dc => dc.UserId.Equals(0));
 
-                foreach (DownloadCategoryDataRow category in categories)
-                {
-                    List<DownloadItem> downloads = new();
+				foreach (DownloadCategoryDataRow category in categories)
+				{
+					List<DownloadItem> downloads = new();
 
-                    IEnumerable<DownloadItemsDataRow> items = _downloadItemData.Select().Where(di => di.CategoryId.Equals(category.Id) && di.UserId.Equals(0));
+					IEnumerable<DownloadItemsDataRow> items = _downloadItemData.Select().Where(di => di.CategoryId.Equals(category.Id) && di.UserId.Equals(0));
 
-                    foreach (DownloadItemsDataRow download in items)
-                    {
-                        downloads.Add(new DownloadItem(download.Id, download.Name, download.Description, download.Version, download.Filename, download.Icon, download.Size));
-                    }
+					foreach (DownloadItemsDataRow download in items)
+					{
+						downloads.Add(new DownloadItem(download.Id, download.Name, download.Description, download.Version, download.Filename, download.Icon, download.Size));
+					}
 
-                    result.Add(new DownloadCategory(category.Id, category.Name, downloads));
-                }
+					result.Add(new DownloadCategory(category.Id, category.Name, downloads));
+				}
 
-                cacheItem = new CacheItem(cacheName, result);
-                _memoryCache.GetExtendingCache().Add(cacheName, cacheItem);
-            }
+				cacheItem = new CacheItem(cacheName, result);
+				_memoryCache.GetExtendingCache().Add(cacheName, cacheItem);
+			}
 
-            return (List<DownloadCategory>)cacheItem.Value;
-        }
+			return (List<DownloadCategory>)cacheItem.Value;
+		}
 
-        public DownloadItem GetDownloadItem(in long fileId)
-        {
-            DownloadItemsDataRow download = _downloadItemData.Select(fileId);
+		public DownloadItem GetDownloadItem(in long fileId)
+		{
+			DownloadItemsDataRow download = _downloadItemData.Select(fileId);
 
-            if (download == null)
-                return null;
+			if (download == null)
+				return null;
 
-            return new DownloadItem(download.Id, download.Name, download.Description, download.Version, download.Filename, download.Icon, download.Size);
-        }
+			return new DownloadItem(download.Id, download.Name, download.Description, download.Version, download.Filename, download.Icon, download.Size);
+		}
 
-        public DownloadItem GetDownloadItem(in long userId, in long fileId)
-        {
-            DownloadItemsDataRow download = _downloadItemData.Select(fileId);
+		public DownloadItem GetDownloadItem(in long userId, in long fileId)
+		{
+			DownloadItemsDataRow download = _downloadItemData.Select(fileId);
 
-            if (download == null || (download.UserId > 0 && !download.UserId.Equals(userId)))
-                return null;
+			if (download == null || (download.UserId > 0 && !download.UserId.Equals(userId)))
+				return null;
 
-            return new DownloadItem(download.Id, download.Name, download.Description, download.Version, download.Filename, download.Icon, download.Size);
-        }
+			return new DownloadItem(download.Id, download.Name, download.Description, download.Version, download.Filename, download.Icon, download.Size);
+		}
 
-        public void ItemDownloaded(in long userId, in long fileId)
-        {
-            DownloadItemsDataRow download = _downloadItemData.Select(fileId);
+		public void ItemDownloaded(in long userId, in long fileId)
+		{
+			DownloadItemsDataRow download = _downloadItemData.Select(fileId);
 
-            if (download == null || (download.UserId > 0 && !download.UserId.Equals(userId)))
-                return;
+			if (download == null || (download.UserId > 0 && !download.UserId.Equals(userId)))
+				return;
 
-            download.DownloadCount++;
-            _downloadItemData.Update(download);
-        }
+			download.DownloadCount++;
+			_downloadItemData.Update(download);
+		}
 
-        public void ItemDownloaded(in long fileId)
-        {
-            DownloadItemsDataRow download = _downloadItemData.Select(fileId);
+		public void ItemDownloaded(in long fileId)
+		{
+			DownloadItemsDataRow download = _downloadItemData.Select(fileId);
 
-            if (download == null)
-                return;
+			if (download == null)
+				return;
 
-            download.DownloadCount++;
-            _downloadItemData.Update(download);
-        }
+			download.DownloadCount++;
+			_downloadItemData.Update(download);
+		}
 
-        #endregion IDownloads
-    }
+		#endregion IDownloads
+	}
 }

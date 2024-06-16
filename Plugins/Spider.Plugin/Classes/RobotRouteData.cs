@@ -31,41 +31,41 @@ using SharedPluginFeatures;
 
 namespace Spider.Plugin.Classes
 {
-    public class RobotRouteData : IRobotRouteData
-    {
-        public RobotRouteData()
-        {
+	public class RobotRouteData : IRobotRouteData
+	{
+		public RobotRouteData()
+		{
 
-        }
+		}
 
-        public RobotRouteData(string agent, string comment, string route, bool allowed, bool isCustom)
-        {
-            if (String.IsNullOrEmpty(agent))
-                throw new ArgumentNullException(nameof(agent));
+		public RobotRouteData(string agent, string comment, string route, bool allowed, bool isCustom)
+		{
+			if (String.IsNullOrEmpty(agent))
+				throw new ArgumentNullException(nameof(agent));
 
-            if (String.IsNullOrEmpty(route))
-                throw new ArgumentNullException(nameof(route));
+			if (String.IsNullOrEmpty(route))
+				throw new ArgumentNullException(nameof(route));
 
-            if (!Uri.TryCreate(route, UriKind.Relative, out _))
-                throw new ArgumentException("route must be a partial Uri", nameof(route));
+			if (!Uri.TryCreate(route, UriKind.Relative, out _))
+				throw new ArgumentException("route must be a partial Uri", nameof(route));
 
-            Agent = agent;
-            Comment = comment ?? String.Empty;
-            Route = route;
-            Allowed = allowed;
-            IsCustom = isCustom;
-        }
+			Agent = agent;
+			Comment = comment ?? String.Empty;
+			Route = route;
+			Allowed = allowed;
+			IsCustom = isCustom;
+		}
 
-        public string Agent { get; set; }
+		public string Agent { get; set; }
 
-        public string Comment { get; set; }
+		public string Comment { get; set; }
 
-        public string Route { get; set; }
+		public string Route { get; set; }
 
-        public bool Allowed { get; set; }
+		public bool Allowed { get; set; }
 
-        public bool IsCustom { get; set; }
-    }
+		public bool IsCustom { get; set; }
+	}
 }
 
 #pragma warning restore CS1591, CA1303

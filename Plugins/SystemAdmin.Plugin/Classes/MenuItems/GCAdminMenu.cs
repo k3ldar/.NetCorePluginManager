@@ -34,64 +34,64 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Classes.MenuItems
 {
-    public class GCAdminMenu : SystemAdminSubMenu
-    {
-        public override String Action()
-        {
-            return null;
-        }
+	public class GCAdminMenu : SystemAdminSubMenu
+	{
+		public override String Action()
+		{
+			return null;
+		}
 
-        public override String Area()
-        {
-            return null;
-        }
+		public override String Area()
+		{
+			return null;
+		}
 
-        public override String Controller()
-        {
-            return null;
-        }
+		public override String Controller()
+		{
+			return null;
+		}
 
-        public override String Data()
-        {
-            StringBuilder Result = new("Date/Time|Duration|Memory Reclaimed\r");
+		public override String Data()
+		{
+			StringBuilder Result = new("Date/Time|Duration|Memory Reclaimed\r");
 
-            List<GCSnapshot> snapshots = GCAnalysis.RetrieveGCData();
+			List<GCSnapshot> snapshots = GCAnalysis.RetrieveGCData();
 
-            foreach (GCSnapshot snapshot in snapshots)
-            {
-                Result.Append($"{snapshot.TimeStarted.ToString(Thread.CurrentThread.CurrentUICulture)}|");
-                Result.Append($"{snapshot.TimeTaken.ToString("n3")}ms|");
-                Result.Append($"{Shared.Utilities.FileSize(snapshot.MemorySaved, 2)}\r");
-            }
+			foreach (GCSnapshot snapshot in snapshots)
+			{
+				Result.Append($"{snapshot.TimeStarted.ToString(Thread.CurrentThread.CurrentUICulture)}|");
+				Result.Append($"{snapshot.TimeTaken.ToString("n3")}ms|");
+				Result.Append($"{Shared.Utilities.FileSize(snapshot.MemorySaved, 2)}\r");
+			}
 
-            return Result.ToString();
-        }
+			return Result.ToString();
+		}
 
-        public override String Image()
-        {
-            return null;
-        }
+		public override String Image()
+		{
+			return null;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override String Name()
-        {
-            return "GC Timings";
-        }
+		public override String Name()
+		{
+			return "GC Timings";
+		}
 
-        public override String ParentMenuName()
-        {
-            return "System";
-        }
+		public override String ParentMenuName()
+		{
+			return "System";
+		}
 
-        public override Int32 SortOrder()
-        {
-            return 0;
-        }
-    }
+		public override Int32 SortOrder()
+		{
+			return 0;
+		}
+	}
 }
 
-#pragma warning restore CS1591 
+#pragma warning restore CS1591

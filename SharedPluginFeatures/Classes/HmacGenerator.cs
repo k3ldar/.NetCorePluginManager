@@ -30,89 +30,89 @@ using System.Text;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Helper class providing methods that can generate a hmac value to be used with HmacApiAuthorizationService
-    /// </summary>
-    public static class HmacGenerator
-    {
-        private readonly static Random _random = new((int)(EpochDateTime() / TimeSpan.TicksPerSecond));
+	/// <summary>
+	/// Helper class providing methods that can generate a hmac value to be used with HmacApiAuthorizationService
+	/// </summary>
+	public static class HmacGenerator
+	{
+		private readonly static Random _random = new((int)(EpochDateTime() / TimeSpan.TicksPerSecond));
 
-        private const int MininumNonceValue = 1;
-        private const int MinimumEpochTicks = 0;
+		private const int MininumNonceValue = 1;
+		private const int MinimumEpochTicks = 0;
 
-        /// <summary>
-        /// Generates a hmac value based on parameter values
-        /// </summary>
-        /// <param name="apiKey">Users api key</param>
-        /// <param name="apiSecret">Users api secret</param>
-        /// <param name="epochTicks">Number of ticks since 1/1/1970</param>
-        /// <param name="nonce">User generated nonce value</param>
-        /// <param name="token">Users token</param>
-        /// <param name="payload">Payload being validated using user details</param>
-        /// <returns>string</returns>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="apiKey"/> is null or empty</exception>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="apiSecret"/> is null or empty</exception>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="token"/> is null or empty</exception>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="payload"/> is null or empty</exception>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="epochTicks"/> is less than zero</exception>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="nonce"/>is less than 1</exception>
-        public static string GenerateHmac(string apiKey, string apiSecret, long epochTicks, ulong nonce, string token, string payload)
-        {
-            if (String.IsNullOrEmpty(apiKey))
-                throw new ArgumentNullException(nameof(apiKey));
+		/// <summary>
+		/// Generates a hmac value based on parameter values
+		/// </summary>
+		/// <param name="apiKey">Users api key</param>
+		/// <param name="apiSecret">Users api secret</param>
+		/// <param name="epochTicks">Number of ticks since 1/1/1970</param>
+		/// <param name="nonce">User generated nonce value</param>
+		/// <param name="token">Users token</param>
+		/// <param name="payload">Payload being validated using user details</param>
+		/// <returns>string</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="apiKey"/> is null or empty</exception>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="apiSecret"/> is null or empty</exception>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="token"/> is null or empty</exception>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="payload"/> is null or empty</exception>
+		/// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="epochTicks"/> is less than zero</exception>
+		/// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="nonce"/>is less than 1</exception>
+		public static string GenerateHmac(string apiKey, string apiSecret, long epochTicks, ulong nonce, string token, string payload)
+		{
+			if (String.IsNullOrEmpty(apiKey))
+				throw new ArgumentNullException(nameof(apiKey));
 
-            if (String.IsNullOrEmpty(apiSecret))
-                throw new ArgumentNullException(nameof(apiSecret));
+			if (String.IsNullOrEmpty(apiSecret))
+				throw new ArgumentNullException(nameof(apiSecret));
 
-            if (epochTicks < MinimumEpochTicks)
-                throw new ArgumentOutOfRangeException(nameof(epochTicks));
+			if (epochTicks < MinimumEpochTicks)
+				throw new ArgumentOutOfRangeException(nameof(epochTicks));
 
-            if (nonce < MininumNonceValue)
-                throw new ArgumentOutOfRangeException(nameof(nonce));
+			if (nonce < MininumNonceValue)
+				throw new ArgumentOutOfRangeException(nameof(nonce));
 
-            if (String.IsNullOrEmpty(token))
-                throw new ArgumentNullException(nameof(token));
+			if (String.IsNullOrEmpty(token))
+				throw new ArgumentNullException(nameof(token));
 
-            if (payload == null)
-                throw new ArgumentNullException(nameof(payload));
+			if (payload == null)
+				throw new ArgumentNullException(nameof(payload));
 
-            string hmacData = $"{apiKey}{nonce}{epochTicks}{token}{payload}";
+			string hmacData = $"{apiKey}{nonce}{epochTicks}{token}{payload}";
 
-            using (HMACSHA256 hmac = new(Encoding.UTF8.GetBytes(apiSecret)))
-            {
-                byte[] encBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(hmacData));
-                string encString = ByteArrayToHexString(encBytes);
-                return Convert.ToBase64String(Encoding.UTF8.GetBytes(encString));
-            }
-        }
+			using (HMACSHA256 hmac = new(Encoding.UTF8.GetBytes(apiSecret)))
+			{
+				byte[] encBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(hmacData));
+				string encString = ByteArrayToHexString(encBytes);
+				return Convert.ToBase64String(Encoding.UTF8.GetBytes(encString));
+			}
+		}
 
-        /// <summary>
-        /// Generates the current date time as epoch date time returning the number of ticks
-        /// </summary>
-        /// <returns>long</returns>
-        public static long EpochDateTime()
-        {
-            return (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).Ticks;
-        }
+		/// <summary>
+		/// Generates the current date time as epoch date time returning the number of ticks
+		/// </summary>
+		/// <returns>long</returns>
+		public static long EpochDateTime()
+		{
+			return (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).Ticks;
+		}
 
-        /// <summary>
-        /// Generates a random nonce value
-        /// </summary>
-        /// <returns>ulong</returns>
-        public static ulong GenerateNonce()
-        {
-            return UInt64.MaxValue - (ulong)_random.Next(0, Int32.MaxValue);
-        }
+		/// <summary>
+		/// Generates a random nonce value
+		/// </summary>
+		/// <returns>ulong</returns>
+		public static ulong GenerateNonce()
+		{
+			return UInt64.MaxValue - (ulong)_random.Next(0, Int32.MaxValue);
+		}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static string ByteArrayToHexString(byte[] ba)
-        {
-            StringBuilder hex = new(ba.Length * 2);
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private static string ByteArrayToHexString(byte[] ba)
+		{
+			StringBuilder hex = new(ba.Length * 2);
 
-            foreach (byte b in ba)
-                hex.AppendFormat("{0:x2}", b);
+			foreach (byte b in ba)
+				hex.AppendFormat("{0:x2}", b);
 
-            return hex.ToString();
-        }
-    }
+			return hex.ToString();
+		}
+	}
 }

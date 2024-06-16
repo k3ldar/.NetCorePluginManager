@@ -31,29 +31,29 @@ using SharedPluginFeatures;
 
 namespace ShoppingCartPlugin.Models
 {
-    public sealed class ShippingModel : BaseModel
-    {
-        #region Constructors
+	public sealed class ShippingModel : BaseModel
+	{
+		#region Constructors
 
-        public ShippingModel()
-        {
-            ShippingAddresses = new List<ShippingAddressModel>();
-        }
+		public ShippingModel()
+		{
+			ShippingAddresses = new List<ShippingAddressModel>();
+		}
 
-        public ShippingModel(in BaseModelData modelData)
-            : base(modelData)
-        {
-            ShippingAddresses = new List<ShippingAddressModel>();
-        }
+		public ShippingModel(in BaseModelData modelData)
+			: base(modelData)
+		{
+			ShippingAddresses = new List<ShippingAddressModel>();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public List<ShippingAddressModel> ShippingAddresses { get; private set; }
+		public List<ShippingAddressModel> ShippingAddresses { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

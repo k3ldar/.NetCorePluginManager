@@ -31,7 +31,7 @@ namespace ApiAuthorization.Plugin
 	/// </summary>
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty", Justification = "Will be used to contain settings, kept at present")]
 	public class ApiAuthorizationSettings
-    {
+	{
 
-    }
+	}
 }

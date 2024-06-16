@@ -31,73 +31,73 @@ using SharedPluginFeatures;
 
 namespace ErrorManager.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns a list of current Timings for time spent processing missing pages can be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class Error404TimingsSubMenu : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	/// <summary>
+	/// Returns a list of current Timings for time spent processing missing pages can be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public sealed class Error404TimingsSubMenu : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        /// <summary>
-        /// Returns Timings data in milliseconds for time spent processing by missing pages (404) within ErrorManager.Plugin.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            string Result = "Setting|Value";
+		/// <summary>
+		/// Returns Timings data in milliseconds for time spent processing by missing pages (404) within ErrorManager.Plugin.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			string Result = "Setting|Value";
 
-            Timings timingData = ErrorManagerMiddleware.GetMissingPageTimings();
+			Timings timingData = ErrorManagerMiddleware.GetMissingPageTimings();
 
-            Result += $"\rTotal|{timingData.Requests}";
-            Result += $"\rFastest ms|{timingData.Fastest}";
-            Result += $"\rSlowest ms|{timingData.Slowest}";
-            Result += $"\rAverage ms|{timingData.Average}";
-            Result += $"\rTrimmed Avg ms|{timingData.TrimmedAverage}";
-            Result += $"\rTotal ms|{timingData.Total}";
+			Result += $"\rTotal|{timingData.Requests}";
+			Result += $"\rFastest ms|{timingData.Fastest}";
+			Result += $"\rSlowest ms|{timingData.Slowest}";
+			Result += $"\rAverage ms|{timingData.Average}";
+			Result += $"\rTrimmed Avg ms|{timingData.TrimmedAverage}";
+			Result += $"\rTotal ms|{timingData.Total}";
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public override string Image()
-        {
-            return Constants.SystemImageStopWatch;
-        }
+		public override string Image()
+		{
+			return Constants.SystemImageStopWatch;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override string Name()
-        {
-            return "Errors404";
-        }
+		public override string Name()
+		{
+			return "Errors404";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "Timings";
-        }
+		public override string ParentMenuName()
+		{
+			return "Timings";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
-    }
+		public override int SortOrder()
+		{
+			return 0;
+		}
+	}
 }
 
 #pragma warning restore CS1591

@@ -47,207 +47,207 @@ using static SharedPluginFeatures.Constants;
 
 namespace ProductPlugin.Controllers
 {
-    /// <summary>
-    /// Product controller displays standard product information on a website.
-    /// </summary>
-    [Subdomain(ProductController.Name)]
-    public partial class ProductController : BaseController
-    {
-        #region Private Members
+	/// <summary>
+	/// Product controller displays standard product information on a website.
+	/// </summary>
+	[Subdomain(ProductController.Name)]
+	public partial class ProductController : BaseController
+	{
+		#region Private Members
 
-        private const string InvalidModel = "Invalid Model";
-        private const string InvalidProduct = "Invalid Product";
+		private const string InvalidModel = "Invalid Model";
+		private const string InvalidProduct = "Invalid Product";
 
-        private readonly bool _hasShoppingCart;
-        private readonly IProductProvider _productProvider;
-        private readonly ProductPluginSettings _settings;
-        private readonly IStockProvider _stockProvider;
-        private readonly IMemoryCache _memoryCache;
-        private readonly IImageProvider _imageProvider;
-        private readonly IShoppingCartProvider _shoppingCartProvider;
+		private readonly bool _hasShoppingCart;
+		private readonly IProductProvider _productProvider;
+		private readonly ProductPluginSettings _settings;
+		private readonly IStockProvider _stockProvider;
+		private readonly IMemoryCache _memoryCache;
+		private readonly IImageProvider _imageProvider;
+		private readonly IShoppingCartProvider _shoppingCartProvider;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public ProductController(IProductProvider productProvider, ISettingsProvider settingsProvider,
-            IPluginHelperService pluginHelper, IStockProvider stockProvider, IMemoryCache memoryCache,
-            IImageProvider imageProvider, IShoppingCartProvider shoppingCartProvider)
-        {
-            if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+		public ProductController(IProductProvider productProvider, ISettingsProvider settingsProvider,
+			IPluginHelperService pluginHelper, IStockProvider stockProvider, IMemoryCache memoryCache,
+			IImageProvider imageProvider, IShoppingCartProvider shoppingCartProvider)
+		{
+			if (settingsProvider == null)
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            if (pluginHelper == null)
-                throw new ArgumentNullException(nameof(pluginHelper));
+			if (pluginHelper == null)
+				throw new ArgumentNullException(nameof(pluginHelper));
 
-            _settings = settingsProvider.GetSettings<ProductPluginSettings>(Name);
+			_settings = settingsProvider.GetSettings<ProductPluginSettings>(Name);
 
-            _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
-            _stockProvider = stockProvider ?? throw new ArgumentNullException(nameof(stockProvider));
-            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
-            _hasShoppingCart = pluginHelper.PluginLoaded(SharedPluginFeatures.Constants.PluginNameShoppingCart, out _);
-            _imageProvider = imageProvider ?? throw new ArgumentNullException(nameof(imageProvider));
-            _shoppingCartProvider = shoppingCartProvider ?? throw new ArgumentNullException(nameof(shoppingCartProvider));
-        }
+			_productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
+			_stockProvider = stockProvider ?? throw new ArgumentNullException(nameof(stockProvider));
+			_memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
+			_hasShoppingCart = pluginHelper.PluginLoaded(SharedPluginFeatures.Constants.PluginNameShoppingCart, out _);
+			_imageProvider = imageProvider ?? throw new ArgumentNullException(nameof(imageProvider));
+			_shoppingCartProvider = shoppingCartProvider ?? throw new ArgumentNullException(nameof(shoppingCartProvider));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Constants
+		#region Constants
 
-        public const string Name = "Product";
+		public const string Name = "Product";
 
-        #endregion Constants
+		#endregion Constants
 
-        #region Public Action Methods
+		#region Public Action Methods
 
-        [HttpGet]
-        public IActionResult Index(int? id)
-        {
-            return Index(String.Empty, id, 1);
-        }
+		[HttpGet]
+		public IActionResult Index(int? id)
+		{
+			return Index(String.Empty, id, 1);
+		}
 
-        [HttpGet]
-        [Route("/Products/{groupName}/{id?}/Page/{page}/")]
-        [Route("/Products/{groupName}/{id?}/")]
-        public IActionResult Index(string groupName, int? id, int? page)
-        {
-            ProductGroup group = null;
+		[HttpGet]
+		[Route("/Products/{groupName}/{id?}/Page/{page}/")]
+		[Route("/Products/{groupName}/{id?}/")]
+		public IActionResult Index(string groupName, int? id, int? page)
+		{
+			ProductGroup group = null;
 
-            if (id.HasValue)
-                group = _productProvider.ProductGroupsGet().Find(pg => pg.Id == id.Value);
+			if (id.HasValue)
+				group = _productProvider.ProductGroupsGet().Find(pg => pg.Id == id.Value);
 
-            if (group == null)
-                group = _productProvider.ProductGroupsGet().FirstOrDefault();
+			if (group == null)
+				group = _productProvider.ProductGroupsGet().FirstOrDefault();
 
-            if (group == null)
-                return RedirectToAction(nameof(Index));
+			if (group == null)
+				return RedirectToAction(nameof(Index));
 
-            if (!page.HasValue || page.Value < 1)
-                page = 1;
+			if (!page.HasValue || page.Value < 1)
+				page = 1;
 
-            List<Product> products = _productProvider.GetProducts(group, page.Value, (int)_settings.ProductsPerPage);
+			List<Product> products = _productProvider.GetProducts(group, page.Value, (int)_settings.ProductsPerPage);
 
-            ProductGroupModel model = GetProductGroupModel(group, products, page.Value);
+			ProductGroupModel model = GetProductGroupModel(group, products, page.Value);
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpGet]
-        [Route("/Product/{id}/{productName}/")]
-        public IActionResult Product(int id, string productName)
-        {
-            ProductModel model = GetProductModel(id);
+		[HttpGet]
+		[Route("/Product/{id}/{productName}/")]
+		public IActionResult Product(int id, string productName)
+		{
+			ProductModel model = GetProductModel(id);
 
-            if (model == null)
-                return RedirectToAction(nameof(Index));
+			if (model == null)
+				return RedirectToAction(nameof(Index));
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpPost]
-        [DenySpider]
-        public IActionResult AddToCart(AddToCartModel model)
-        {
-            if (model == null)
-                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidModel);
+		[HttpPost]
+		[DenySpider]
+		public IActionResult AddToCart(AddToCartModel model)
+		{
+			if (model == null)
+				return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidModel);
 
-            Product product = _productProvider.GetProduct(model.Id);
+			Product product = _productProvider.GetProduct(model.Id);
 
-            if (product == null)
-                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidProduct);
+			if (product == null)
+				return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidProduct);
 
-            _shoppingCartProvider.AddToCart(GetUserSession(), GetCartSummary(), product, model.Quantity);
+			_shoppingCartProvider.AddToCart(GetUserSession(), GetCartSummary(), product, model.Quantity);
 
-            return RedirectToAction("Product", "Product", new { id = model.Id, productName = BaseModel.RouteFriendlyName(product.Name) });
-        }
+			return RedirectToAction("Product", "Product", new { id = model.Id, productName = BaseModel.RouteFriendlyName(product.Name) });
+		}
 
-        #endregion Public Action Methods
+		#endregion Public Action Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private ProductGroupModel GetProductGroupModel(in ProductGroup group, List<Product> products, in int page)
-        {
-            List<ProductCategoryModel> modelCategories = new();
+		private ProductGroupModel GetProductGroupModel(in ProductGroup group, List<Product> products, in int page)
+		{
+			List<ProductCategoryModel> modelCategories = new();
 
-            foreach (ProductGroup item in _productProvider.ProductGroupsGet())
-            {
-                modelCategories.Add(new ProductCategoryModel(item.Id, item.Description, item.Url));
-            }
+			foreach (ProductGroup item in _productProvider.ProductGroupsGet())
+			{
+				modelCategories.Add(new ProductCategoryModel(item.Id, item.Description, item.Url));
+			}
 
-            ProductGroupModel Result = new(GetModelData(),
-                modelCategories, group.Description, group.TagLine);
+			ProductGroupModel Result = new(GetModelData(),
+				modelCategories, group.Description, group.TagLine);
 
-            foreach (Product product in products)
-            {
-                Result.Products.Add(new ProductCategoryProductModel(product.Id, product.Name, product.Images[0],
-                    group.Id, product.NewProduct, product.BestSeller, product.RetailPrice, product.Sku));
-            }
+			foreach (Product product in products)
+			{
+				Result.Products.Add(new ProductCategoryProductModel(product.Id, product.Name, product.Images[0],
+					group.Id, product.NewProduct, product.BestSeller, product.RetailPrice, product.Sku));
+			}
 
-            Result.Breadcrumbs.Clear();
-            Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.Home, "/", false));
-            Result.Breadcrumbs.Add(new BreadcrumbItem(group.Description, $"/Products/{group.Id}/", false));
+			Result.Breadcrumbs.Clear();
+			Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.Home, "/", false));
+			Result.Breadcrumbs.Add(new BreadcrumbItem(group.Description, $"/Products/{group.Id}/", false));
 
-            Result.Pagination = BuildPagination(_productProvider.ProductCountForGroup(group), (int)_settings.ProductsPerPage, page,
-                $"/Products/{Result.RouteText(group.Description)}/{group.Id}/", "",
-                LanguageStrings.Previous, LanguageStrings.Next);
+			Result.Pagination = BuildPagination(_productProvider.ProductCountForGroup(group), (int)_settings.ProductsPerPage, page,
+				$"/Products/{Result.RouteText(group.Description)}/{group.Id}/", "",
+				LanguageStrings.Previous, LanguageStrings.Next);
 
-            return Result;
-        }
+			return Result;
+		}
 
-        private ProductModel GetProductModel(in int productId)
-        {
-            ProductModel Result;
+		private ProductModel GetProductModel(in int productId)
+		{
+			ProductModel Result;
 
-            List<ProductCategoryModel> modelCategories = new();
+			List<ProductCategoryModel> modelCategories = new();
 
-            foreach (ProductGroup item in _productProvider.ProductGroupsGet())
-            {
-                modelCategories.Add(new ProductCategoryModel(item.Id, item.Description, item.Url));
-            }
+			foreach (ProductGroup item in _productProvider.ProductGroupsGet())
+			{
+				modelCategories.Add(new ProductCategoryModel(item.Id, item.Description, item.Url));
+			}
 
-            Product product = _productProvider.GetProduct(productId);
+			Product product = _productProvider.GetProduct(productId);
 
-            if (product == null)
-                return null;
+			if (product == null)
+				return null;
 
-            _stockProvider.GetStockAvailability(product);
+			_stockProvider.GetStockAvailability(product);
 
-            if (_productProvider.ProductGroupGet(product.ProductGroupId) == null)
-                return null;
-
-
-            Result = new ProductModel(GetModelData(), modelCategories, product.Id, product.ProductGroupId,
-                product.Name, product.Description, product.Features, product.VideoLink, GetImageNameArray(product),
-                product.RetailPrice, product.Sku, product.NewProduct, product.BestSeller,
-                _hasShoppingCart && product.RetailPrice > 0, product.StockAvailability);
+			if (_productProvider.ProductGroupGet(product.ProductGroupId) == null)
+				return null;
 
 
+			Result = new ProductModel(GetModelData(), modelCategories, product.Id, product.ProductGroupId,
+				product.Name, product.Description, product.Features, product.VideoLink, GetImageNameArray(product),
+				product.RetailPrice, product.Sku, product.NewProduct, product.BestSeller,
+				_hasShoppingCart && product.RetailPrice > 0, product.StockAvailability);
 
-            ProductGroup primaryProductGroup = _productProvider.ProductGroupGet(product.ProductGroupId);
-            Result.Breadcrumbs.Clear();
-            Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.Home, "/", false));
-            Result.Breadcrumbs.Add(new BreadcrumbItem(primaryProductGroup.Description,
-                $"/Products/{primaryProductGroup.Id}/", false));
-            Result.Breadcrumbs.Add(new BreadcrumbItem(product.Name,
-                $"/Product/{product.Id}/{Result.RouteText(product.Name)}/", false));
 
-            return Result;
-        }
 
-        private string[] GetImageNameArray(Product product)
-        {
-            List<Middleware.Images.ImageFile> images = _imageProvider.Images(ProductImageFolderName, product.Sku)
-                    .Where(i => i.Name.Contains("_orig"))
-                    .ToList();
+			ProductGroup primaryProductGroup = _productProvider.ProductGroupGet(product.ProductGroupId);
+			Result.Breadcrumbs.Clear();
+			Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.Home, "/", false));
+			Result.Breadcrumbs.Add(new BreadcrumbItem(primaryProductGroup.Description,
+				$"/Products/{primaryProductGroup.Id}/", false));
+			Result.Breadcrumbs.Add(new BreadcrumbItem(product.Name,
+				$"/Product/{product.Id}/{Result.RouteText(product.Name)}/", false));
 
-            List<string> imageNames = new();
-            images.ForEach(i => imageNames.Add(i.Name.Substring(0, i.Name.IndexOf("_orig"))));
+			return Result;
+		}
 
-            return imageNames.ToArray();
-        }
+		private string[] GetImageNameArray(Product product)
+		{
+			List<Middleware.Images.ImageFile> images = _imageProvider.Images(ProductImageFolderName, product.Sku)
+					.Where(i => i.Name.Contains("_orig"))
+					.ToList();
 
-        #endregion Private Methods
-    }
+			List<string> imageNames = new();
+			images.ForEach(i => imageNames.Add(i.Name.Substring(0, i.Name.IndexOf("_orig"))));
+
+			return imageNames.ToArray();
+		}
+
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591, IDE0060

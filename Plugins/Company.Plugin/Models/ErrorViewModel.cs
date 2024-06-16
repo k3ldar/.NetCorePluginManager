@@ -27,12 +27,12 @@ namespace Company.Plugin.Models
 {
 #pragma warning disable CS1591
 
-    public class ErrorViewModel
-    {
-        public string RequestId { get; set; }
+	public class ErrorViewModel
+	{
+		public string RequestId { get; set; }
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
-    }
+		public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+	}
 
 #pragma warning restore CS1591
 }

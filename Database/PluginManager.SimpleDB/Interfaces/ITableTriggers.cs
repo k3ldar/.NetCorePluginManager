@@ -31,26 +31,26 @@ namespace SimpleDB
 	/// Definition for class containing triggers for a table
 	/// </summary>
 	/// <typeparam name="T">Class table to which the triggers belong</typeparam>
-    public interface ITableTriggers<T>
-        where T : TableRowDefinition
-    {
+	public interface ITableTriggers<T>
+		where T : TableRowDefinition
+	{
 		/// <summary>
 		/// Position of triggers when being called
 		/// </summary>
 		/// <value>int</value>
-        int Position { get; }
+		int Position { get; }
 
 		/// <summary>
 		/// Supported trigger types
 		/// </summary>
 		/// <vvalue>TriggerType</vvalue>
-        TriggerType TriggerTypes { get; }
+		TriggerType TriggerTypes { get; }
 
 		/// <summary>
 		/// Method fired for all rows, before inserting
 		/// </summary>
 		/// <param name="records"></param>
-        void BeforeInsert(List<T> records);
+		void BeforeInsert(List<T> records);
 
 		/// <summary>
 		/// Method fired for all rows, after inserting
@@ -88,5 +88,5 @@ namespace SimpleDB
 		/// </summary>
 		/// <param name="records"></param>
 		void AfterUpdate(List<T> records);
-    }
+	}
 }

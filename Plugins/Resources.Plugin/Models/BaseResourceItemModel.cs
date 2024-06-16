@@ -42,7 +42,7 @@ namespace Resources.Plugin.Models
 		/// <param name="modelData"></param>
 		public BaseResourceItemModel(BaseModelData modelData)
 			: base(modelData)
-		{ 
+		{
 		}
 
 		/// <summary>

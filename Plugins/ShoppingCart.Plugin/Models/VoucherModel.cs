@@ -28,14 +28,14 @@
 
 namespace ShoppingCartPlugin.Models
 {
-    public sealed class VoucherModel
-    {
-        #region Properties
+	public sealed class VoucherModel
+	{
+		#region Properties
 
-        public string Voucher { get; set; }
+		public string Voucher { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

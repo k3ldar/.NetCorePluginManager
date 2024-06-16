@@ -27,31 +27,31 @@
 
 namespace Middleware.SessionData
 {
-    /// <summary>
-    /// Monthly session data
-    /// </summary>
-    public sealed class SessionMonthly : SessionYearly
-    {
-        #region Constructors
+	/// <summary>
+	/// Monthly session data
+	/// </summary>
+	public sealed class SessionMonthly : SessionYearly
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public SessionMonthly()
-            : base()
-        {
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public SessionMonthly()
+			: base()
+		{
 
-        }
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Month of Visit
-        /// </summary>
-        public int Month { get; set; }
+		/// <summary>
+		/// Month of Visit
+		/// </summary>
+		public int Month { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

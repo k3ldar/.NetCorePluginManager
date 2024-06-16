@@ -34,7 +34,7 @@ namespace SystemAdmin.Plugin.Classes.MenuItems
 	/// <summary>
 	/// Settings menu item
 	/// </summary>
-	public sealed class SettingsMenuItem: SystemAdminSubMenu
+	public sealed class SettingsMenuItem : SystemAdminSubMenu
 	{
 		private readonly IPluginSettings _pluginSettings;
 

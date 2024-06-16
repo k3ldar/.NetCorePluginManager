@@ -33,136 +33,136 @@ using Middleware.Interfaces;
 
 namespace ImageManager.Plugin.Models
 {
-    public sealed class ImageTemplateEditorModel
-    {
-        #region Private Members
+	public sealed class ImageTemplateEditorModel
+	{
+		#region Private Members
 
-        private readonly IImageProvider _imageProvider;
+		private readonly IImageProvider _imageProvider;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public ImageTemplateEditorModel(IImageProvider imageProvider, string data)
-        {
-            _imageProvider = imageProvider ?? throw new ArgumentNullException(nameof(imageProvider));
-            Data = data ?? string.Empty;
+		public ImageTemplateEditorModel(IImageProvider imageProvider, string data)
+		{
+			_imageProvider = imageProvider ?? throw new ArgumentNullException(nameof(imageProvider));
+			Data = data ?? string.Empty;
 
-            if (String.IsNullOrEmpty(data) || !data.StartsWith("/images/", StringComparison.InvariantCultureIgnoreCase))
-            {
-                CreateGroupListNoExistingData();
-            }
-            else
-            {
-                string[] parts = data.Split('/', StringSplitOptions.RemoveEmptyEntries);
+			if (String.IsNullOrEmpty(data) || !data.StartsWith("/images/", StringComparison.InvariantCultureIgnoreCase))
+			{
+				CreateGroupListNoExistingData();
+			}
+			else
+			{
+				string[] parts = data.Split('/', StringSplitOptions.RemoveEmptyEntries);
 
-                if (parts.Length == 4)
-                {
-                    ActiveGroup = parts[1];
-                    ActiveSubgroup = parts[2];
-                    ActiveFile = parts[3];
-                }
-                else if (parts.Length == 3)
-                {
-                    ActiveGroup = parts[1];
-                    ActiveFile = parts[2];
-                }
+				if (parts.Length == 4)
+				{
+					ActiveGroup = parts[1];
+					ActiveSubgroup = parts[2];
+					ActiveFile = parts[3];
+				}
+				else if (parts.Length == 3)
+				{
+					ActiveGroup = parts[1];
+					ActiveFile = parts[2];
+				}
 
-                if (!CreateSubgroupsAndImagesForData())
-                    CreateGroupListNoExistingData();
-            }
-        }
+				if (!CreateSubgroupsAndImagesForData())
+					CreateGroupListNoExistingData();
+			}
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Image template data
-        /// </summary>
-        /// <value>string</value>
-        public string Data { get; set; }
+		/// <summary>
+		/// Image template data
+		/// </summary>
+		/// <value>string</value>
+		public string Data { get; set; }
 
-        public string[] Groups { get; private set; }
+		public string[] Groups { get; private set; }
 
-        public string[] Subgroups { get; private set; }
+		public string[] Subgroups { get; private set; }
 
-        public string[] Images { get; private set; }
+		public string[] Images { get; private set; }
 
-        public string ActiveGroup { get; }
+		public string ActiveGroup { get; }
 
-        public string ActiveSubgroup { get; }
+		public string ActiveSubgroup { get; }
 
-        public string ActiveFile { get; }
+		public string ActiveFile { get; }
 
-        #endregion Properties
+		#endregion Properties
 
-        #region Private Methods
+		#region Private Methods
 
-        private bool CreateSubgroupsAndImagesForData()
-        {
-            if (!_imageProvider.GroupExists(ActiveGroup))
-                return false;
+		private bool CreateSubgroupsAndImagesForData()
+		{
+			if (!_imageProvider.GroupExists(ActiveGroup))
+				return false;
 
-            Dictionary<string, List<string>> allGroups = _imageProvider.Groups();
+			Dictionary<string, List<string>> allGroups = _imageProvider.Groups();
 
-            List<string> groups = new();
+			List<string> groups = new();
 
-            foreach (KeyValuePair<string, List<string>> item in allGroups)
-            {
-                groups.Add(item.Key);
-            }
+			foreach (KeyValuePair<string, List<string>> item in allGroups)
+			{
+				groups.Add(item.Key);
+			}
 
-            Groups = groups.ToArray();
-            Subgroups = allGroups[ActiveGroup].ToArray();
-            SetImagesForCurrentGroupAndSubgroup();
+			Groups = groups.ToArray();
+			Subgroups = allGroups[ActiveGroup].ToArray();
+			SetImagesForCurrentGroupAndSubgroup();
 
-            return true;
-        }
+			return true;
+		}
 
-        private void SetImagesForCurrentGroupAndSubgroup()
-        {
-            List<ImageFile> files = null;
+		private void SetImagesForCurrentGroupAndSubgroup()
+		{
+			List<ImageFile> files = null;
 
-            if (String.IsNullOrEmpty(ActiveGroup))
-                files = new List<ImageFile>();
-            else if (String.IsNullOrEmpty(ActiveSubgroup))
-                files = _imageProvider.Images(ActiveGroup);
-            else
-                files = _imageProvider.Images(ActiveGroup, ActiveSubgroup);
+			if (String.IsNullOrEmpty(ActiveGroup))
+				files = new List<ImageFile>();
+			else if (String.IsNullOrEmpty(ActiveSubgroup))
+				files = _imageProvider.Images(ActiveGroup);
+			else
+				files = _imageProvider.Images(ActiveGroup, ActiveSubgroup);
 
-            List<string> fileNames = new();
-            files.ForEach(f => fileNames.Add(f.Name));
+			List<string> fileNames = new();
+			files.ForEach(f => fileNames.Add(f.Name));
 
-            Images = fileNames.ToArray();
-        }
+			Images = fileNames.ToArray();
+		}
 
-        private void CreateGroupListNoExistingData()
-        {
-            List<string> groups = new();
-            List<string> subgroups = new();
-            bool firstGroup = true;
+		private void CreateGroupListNoExistingData()
+		{
+			List<string> groups = new();
+			List<string> subgroups = new();
+			bool firstGroup = true;
 
-            foreach (KeyValuePair<string, List<string>> item in _imageProvider.Groups())
-            {
-                groups.Add(item.Key);
+			foreach (KeyValuePair<string, List<string>> item in _imageProvider.Groups())
+			{
+				groups.Add(item.Key);
 
-                if (firstGroup)
-                {
-                    firstGroup = false;
+				if (firstGroup)
+				{
+					firstGroup = false;
 
-                    foreach (string subgroup in item.Value)
-                        subgroups.Add(subgroup);
-                }
-            }
+					foreach (string subgroup in item.Value)
+						subgroups.Add(subgroup);
+				}
+			}
 
-            Groups = groups.ToArray();
-            Subgroups = subgroups.ToArray();
-            SetImagesForCurrentGroupAndSubgroup();
-        }
+			Groups = groups.ToArray();
+			Subgroups = subgroups.ToArray();
+			SetImagesForCurrentGroupAndSubgroup();
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 
 }
 

@@ -31,108 +31,108 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Classes.Minify
 {
-    internal class RemoveComments : MinifyOperation
-    {
-        #region Private Members
+	internal class RemoveComments : MinifyOperation
+	{
+		#region Private Members
 
-        private readonly string _commentStart;
-        private readonly string _commentEnd;
-        private readonly char _commentEndChar;
+		private readonly string _commentStart;
+		private readonly string _commentEnd;
+		private readonly char _commentEndChar;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public RemoveComments(string commentStart, string commentEnd)
-        {
-            if (String.IsNullOrEmpty(commentStart))
-                throw new ArgumentNullException(nameof(commentStart));
+		public RemoveComments(string commentStart, string commentEnd)
+		{
+			if (String.IsNullOrEmpty(commentStart))
+				throw new ArgumentNullException(nameof(commentStart));
 
-            if (String.IsNullOrEmpty(commentEnd))
-                throw new ArgumentNullException(nameof(commentEnd));
+			if (String.IsNullOrEmpty(commentEnd))
+				throw new ArgumentNullException(nameof(commentEnd));
 
-            _commentStart = commentStart;
-            _commentEnd = commentEnd;
-            _commentEndChar = commentEnd[commentEnd.Length - 1];
-        }
+			_commentStart = commentStart;
+			_commentEnd = commentEnd;
+			_commentEndChar = commentEnd[commentEnd.Length - 1];
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        public override IMinifyResult Process(in MinificationFileType fileType, ref string data, in List<PreserveBlock> preserveBlocks)
-        {
-            MinifyResult Result = new(GetType().Name, data.Length);
+		public override IMinifyResult Process(in MinificationFileType fileType, ref string data, in List<PreserveBlock> preserveBlocks)
+		{
+			MinifyResult Result = new(GetType().Name, data.Length);
 
-            using (StopWatchTimer.Initialise(_timings))
-            {
-                switch (fileType)
-                {
-                    case MinificationFileType.Htm:
-                    case MinificationFileType.Html:
-                    case MinificationFileType.Razor:
-                    case MinificationFileType.CSS:
-                        data = RemoveCommentsFromFile(data, preserveBlocks);
-                        break;
-                }
-            }
+			using (StopWatchTimer.Initialise(_timings))
+			{
+				switch (fileType)
+				{
+					case MinificationFileType.Htm:
+					case MinificationFileType.Html:
+					case MinificationFileType.Razor:
+					case MinificationFileType.CSS:
+						data = RemoveCommentsFromFile(data, preserveBlocks);
+						break;
+				}
+			}
 
-            Result.Finalise(data.Length, _timings.Fastest);
+			Result.Finalise(data.Length, _timings.Fastest);
 
-            return Result;
-        }
+			return Result;
+		}
 
-        private string RemoveCommentsFromFile(string data, in List<PreserveBlock> preserveBlocks)
-        {
-            StringBuilder Result = new(data.Length);
+		private string RemoveCommentsFromFile(string data, in List<PreserveBlock> preserveBlocks)
+		{
+			StringBuilder Result = new(data.Length);
 
-            int startPos = data.IndexOf(_commentStart, StringComparison.Ordinal);
+			int startPos = data.IndexOf(_commentStart, StringComparison.Ordinal);
 
-            if (startPos > -1)
-            {
-                bool isInComment = false;
+			if (startPos > -1)
+			{
+				bool isInComment = false;
 
-                for (int i = 0; i < data.Length; i++)
-                {
-                    bool canPeekForward = i < data.Length - _commentStart.Length;
-                    bool canPeekBack = i > _commentEnd.Length - 1;
-                    char currentChar = data[i];
+				for (int i = 0; i < data.Length; i++)
+				{
+					bool canPeekForward = i < data.Length - _commentStart.Length;
+					bool canPeekBack = i > _commentEnd.Length - 1;
+					char currentChar = data[i];
 
-                    if (IsInPreBlock(i, preserveBlocks, out MinificationPreserveBlock _))
-                    {
-                        Result.Append(currentChar);
-                        continue;
-                    }
+					if (IsInPreBlock(i, preserveBlocks, out MinificationPreserveBlock _))
+					{
+						Result.Append(currentChar);
+						continue;
+					}
 
-                    if (!canPeekBack && (!canPeekForward && !isInComment))
-                    {
-                        Result.Append(currentChar);
-                        continue;
-                    }
+					if (!canPeekBack && (!canPeekForward && !isInComment))
+					{
+						Result.Append(currentChar);
+						continue;
+					}
 
-                    if (!isInComment &&
-                        canPeekForward &&
-                        data.Substring(i, _commentStart.Length) == _commentStart)
-                    {
-                        isInComment = true;
-                    }
+					if (!isInComment &&
+						canPeekForward &&
+						data.Substring(i, _commentStart.Length) == _commentStart)
+					{
+						isInComment = true;
+					}
 
-                    if (!isInComment)
-                        Result.Append(currentChar);
+					if (!isInComment)
+						Result.Append(currentChar);
 
-                    if (isInComment &&
-                        currentChar == _commentEndChar &&
-                        canPeekBack &&
-                        data.Substring(i - (_commentEnd.Length - 1), _commentEnd.Length) == _commentEnd)
-                    {
-                        isInComment = false;
-                    }
-                }
-            }
-            else
-            {
-                Result.Append(data);
-            }
+					if (isInComment &&
+						currentChar == _commentEndChar &&
+						canPeekBack &&
+						data.Substring(i - (_commentEnd.Length - 1), _commentEnd.Length) == _commentEnd)
+					{
+						isInComment = false;
+					}
+				}
+			}
+			else
+			{
+				Result.Append(data);
+			}
 
-            return Result.ToString();
-        }
-    }
+			return Result.ToString();
+		}
+	}
 }

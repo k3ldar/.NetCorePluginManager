@@ -26,53 +26,53 @@
 
 namespace DocumentationPlugin.Classes
 {
-    /// <summary>
-    /// Global constants for <see cref="DocumentationPlugin"/>
-    /// </summary>
-    public static class Constants
-    {
-        #region Constants
+	/// <summary>
+	/// Global constants for <see cref="DocumentationPlugin"/>
+	/// </summary>
+	public static class Constants
+	{
+		#region Constants
 
-        /// <summary>
-        /// Count value for &lt;see&gt; references replaced.
-        /// </summary>
-        public const string CountValueSee = "See";
+		/// <summary>
+		/// Count value for &lt;see&gt; references replaced.
+		/// </summary>
+		public const string CountValueSee = "See";
 
-        /// <summary>
-        /// Count value for &lt;see&gt; references not found.
-        /// </summary>
-        public const string CountValueSeeNotFound = "SeeNotFound";
+		/// <summary>
+		/// Count value for &lt;see&gt; references not found.
+		/// </summary>
+		public const string CountValueSeeNotFound = "SeeNotFound";
 
-        /// <summary>
-        /// Count value for &lt;seealso&gt; references replaced.
-        /// </summary>
-        public const string CountValueSeeAlso = "SeeAlso";
+		/// <summary>
+		/// Count value for &lt;seealso&gt; references replaced.
+		/// </summary>
+		public const string CountValueSeeAlso = "SeeAlso";
 
-        /// <summary>
-        /// Count value for &lt;seealso&gt; references not found.
-        /// </summary>
-        public const string CountValueSeeAlsoNotFound = "SeeAlsoNotFound";
+		/// <summary>
+		/// Count value for &lt;seealso&gt; references not found.
+		/// </summary>
+		public const string CountValueSeeAlsoNotFound = "SeeAlsoNotFound";
 
-        /// <summary>
-        /// Count value for &lt;para&gt; references replaced.
-        /// </summary>
-        public const string CountValueParaOpen = "ParaOpen";
+		/// <summary>
+		/// Count value for &lt;para&gt; references replaced.
+		/// </summary>
+		public const string CountValueParaOpen = "ParaOpen";
 
-        /// <summary>
-        /// Count value for &lt;/para&gt; references closing tag.
-        /// </summary>
-        public const string CountValueParaClose = "ParaClose";
+		/// <summary>
+		/// Count value for &lt;/para&gt; references closing tag.
+		/// </summary>
+		public const string CountValueParaClose = "ParaClose";
 
-        /// <summary>
-        /// Count value for &lt;code&gt; references replaced.
-        /// </summary>
-        public const string CountValueCodeOpen = "CodeOpen";
+		/// <summary>
+		/// Count value for &lt;code&gt; references replaced.
+		/// </summary>
+		public const string CountValueCodeOpen = "CodeOpen";
 
-        /// <summary>
-        /// Count value for &lt;/code&gt; references closing tag.
-        /// </summary>
-        public const string CountValueCodeClose = "CodeClose";
+		/// <summary>
+		/// Count value for &lt;/code&gt; references closing tag.
+		/// </summary>
+		public const string CountValueCodeClose = "CodeClose";
 
-        #endregion Constants
-    }
+		#endregion Constants
+	}
 }

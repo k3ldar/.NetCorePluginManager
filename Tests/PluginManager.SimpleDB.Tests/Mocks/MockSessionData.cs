@@ -59,8 +59,8 @@ namespace SimpleDB.Tests.Mocks
 
 		}
 
-		public MockSessionData(string sessionId, string ipAddress, string hostName, string userAgent, bool isMobile, bool isBrowserMobile, bool mobileRedirect, 
-			int referralType, string initialReferrer, bool bounced, bool isBot, string countryCode, long userId, string mobileModel, string mobileManufacturer, 
+		public MockSessionData(string sessionId, string ipAddress, string hostName, string userAgent, bool isMobile, bool isBrowserMobile, bool mobileRedirect,
+			int referralType, string initialReferrer, bool bounced, bool isBot, string countryCode, long userId, string mobileModel, string mobileManufacturer,
 			string saleCurrency, decimal saleAmount)
 		{
 			SessionId = sessionId;

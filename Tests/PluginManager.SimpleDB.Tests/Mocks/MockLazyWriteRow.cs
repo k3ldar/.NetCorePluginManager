@@ -28,28 +28,28 @@ using System.Diagnostics.CodeAnalysis;
 namespace SimpleDB.Tests.Mocks
 {
 	[ExcludeFromCodeCoverage]
-    [Table("MockLazyWriteTable", WriteStrategy.Lazy)]
-    public class MockLazyWriteRow : TableRowDefinition
-    {
-        private string _data;
+	[Table("MockLazyWriteTable", WriteStrategy.Lazy)]
+	public class MockLazyWriteRow : TableRowDefinition
+	{
+		private string _data;
 
-        public MockLazyWriteRow(string data)
-        {
-            Data = data;
-        }
+		public MockLazyWriteRow(string data)
+		{
+			Data = data;
+		}
 
-        public string Data
-        {
-            get => _data;
+		public string Data
+		{
+			get => _data;
 
-            set
-            {
-                if (_data == value)
-                    return;
+			set
+			{
+				if (_data == value)
+					return;
 
-                _data = value;
-                Update();
-            }
-        }
-    }
+				_data = value;
+				Update();
+			}
+		}
+	}
 }

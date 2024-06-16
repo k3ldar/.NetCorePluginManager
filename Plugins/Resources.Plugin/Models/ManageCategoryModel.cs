@@ -43,7 +43,7 @@ namespace Resources.Plugin.Models
 		/// <param name="categories"></param>
 		/// <exception cref="ArgumentNullException"></exception>
 		public ManageCategoryModel(BaseModelData baseModelData, string growlMessage, List<ResourceCategoryModel> categories)
-			: base (baseModelData)
+			: base(baseModelData)
 		{
 			GrowlMessage = growlMessage;
 			Categories = categories ?? throw new ArgumentNullException(nameof(categories));

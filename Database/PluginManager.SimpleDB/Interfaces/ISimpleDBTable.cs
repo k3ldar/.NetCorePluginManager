@@ -32,15 +32,15 @@ namespace SimpleDB
 {
 
 
-    /// <summary>
-    /// add before/after insert/delete/update and add foreign key attributes and unique index attributes which can be validated
-    /// </summary>
-    public interface ISimpleDBTable
-    {
+	/// <summary>
+	/// add before/after insert/delete/update and add foreign key attributes and unique index attributes which can be validated
+	/// </summary>
+	public interface ISimpleDBTable
+	{
 		/// <summary>
 		/// Name of the table
 		/// </summary>
-        string TableName { get; }
+		string TableName { get; }
 
 		/// <summary>
 		/// Retrieves the caching strategy for the table
@@ -62,7 +62,7 @@ namespace SimpleDB
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-        bool IdExists(long id);
+		bool IdExists(long id);
 
 		/// <summary>
 		/// Determines whether an ID is in use on a specific property or not
@@ -70,7 +70,7 @@ namespace SimpleDB
 		/// <param name="propertyName"></param>
 		/// <param name="value"></param>
 		/// <returns></returns>
-        bool IdIsInUse(string propertyName, long value);
+		bool IdIsInUse(string propertyName, long value);
 
 		/// <summary>
 		/// Initializes the table

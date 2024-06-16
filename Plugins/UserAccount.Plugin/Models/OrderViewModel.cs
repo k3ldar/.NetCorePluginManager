@@ -38,45 +38,45 @@ namespace UserAccount.Plugin.Models
 {
 #pragma warning disable CS1591
 
-    public sealed class OrderViewModel : BaseModel
-    {
-        #region Constructors
+	public sealed class OrderViewModel : BaseModel
+	{
+		#region Constructors
 
-        public OrderViewModel(in BaseModelData baseModelData, Order order)
-            : base(baseModelData)
-        {
-            if (order == null)
-                throw new ArgumentNullException(nameof(order));
+		public OrderViewModel(in BaseModelData baseModelData, Order order)
+			: base(baseModelData)
+		{
+			if (order == null)
+				throw new ArgumentNullException(nameof(order));
 
-            OrderId = order.Id;
-            Culture = order.Culture ?? throw new ArgumentOutOfRangeException(nameof(order.Culture));
-            Date = order.Date;
-            SubTotal = order.SubTotal;
-            Postage = order.Postage;
-            Tax = order.Tax;
-            Total = order.Total;
-            Status = order.Status;
-            OrderItems = order.OrderItems ?? throw new ArgumentNullException(nameof(order.OrderItems));
-            DeliveryAddress = String.Empty;
+			OrderId = order.Id;
+			Culture = order.Culture ?? throw new ArgumentOutOfRangeException(nameof(order.Culture));
+			Date = order.Date;
+			SubTotal = order.SubTotal;
+			Postage = order.Postage;
+			Tax = order.Tax;
+			Total = order.Total;
+			Status = order.Status;
+			OrderItems = order.OrderItems ?? throw new ArgumentNullException(nameof(order.OrderItems));
+			DeliveryAddress = String.Empty;
 
-            if (order.DeliveryAddress != null)
-            {
-                DeliveryAddress += String.IsNullOrEmpty(order.DeliveryAddress.BusinessName) ?
-                    String.Empty : order.DeliveryAddress.BusinessName + "<br />";
-                DeliveryAddress += String.IsNullOrEmpty(order.DeliveryAddress.AddressLine1) ?
-                    String.Empty : order.DeliveryAddress.AddressLine1 + "<br />";
-                DeliveryAddress += String.IsNullOrEmpty(order.DeliveryAddress.AddressLine2) ?
-                    String.Empty : order.DeliveryAddress.AddressLine2 + "<br />";
-                DeliveryAddress += String.IsNullOrEmpty(order.DeliveryAddress.AddressLine3) ?
-                    String.Empty : order.DeliveryAddress.AddressLine3 + "<br />";
-                DeliveryAddress += String.IsNullOrEmpty(order.DeliveryAddress.City) ?
-                    String.Empty : order.DeliveryAddress.City + "<br />";
-                DeliveryAddress += String.IsNullOrEmpty(order.DeliveryAddress.County) ?
-                    String.Empty : order.DeliveryAddress.County + "<br />";
-                DeliveryAddress += String.IsNullOrEmpty(order.DeliveryAddress.Country) ?
-                    String.Empty : order.DeliveryAddress.Country + "<br />";
-            }
-        }
+			if (order.DeliveryAddress != null)
+			{
+				DeliveryAddress += String.IsNullOrEmpty(order.DeliveryAddress.BusinessName) ?
+					String.Empty : order.DeliveryAddress.BusinessName + "<br />";
+				DeliveryAddress += String.IsNullOrEmpty(order.DeliveryAddress.AddressLine1) ?
+					String.Empty : order.DeliveryAddress.AddressLine1 + "<br />";
+				DeliveryAddress += String.IsNullOrEmpty(order.DeliveryAddress.AddressLine2) ?
+					String.Empty : order.DeliveryAddress.AddressLine2 + "<br />";
+				DeliveryAddress += String.IsNullOrEmpty(order.DeliveryAddress.AddressLine3) ?
+					String.Empty : order.DeliveryAddress.AddressLine3 + "<br />";
+				DeliveryAddress += String.IsNullOrEmpty(order.DeliveryAddress.City) ?
+					String.Empty : order.DeliveryAddress.City + "<br />";
+				DeliveryAddress += String.IsNullOrEmpty(order.DeliveryAddress.County) ?
+					String.Empty : order.DeliveryAddress.County + "<br />";
+				DeliveryAddress += String.IsNullOrEmpty(order.DeliveryAddress.Country) ?
+					String.Empty : order.DeliveryAddress.Country + "<br />";
+			}
+		}
 
 		#endregion Constructors
 
@@ -85,27 +85,27 @@ namespace UserAccount.Plugin.Models
 		[JsonRequired]
 		public long OrderId { get; private set; }
 
-        public CultureInfo Culture { get; private set; }
+		public CultureInfo Culture { get; private set; }
 
-        public string DeliveryAddress { get; private set; }
+		public string DeliveryAddress { get; private set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.OrderDate))]
-        public DateTime Date { get; private set; }
+		[Display(Name = nameof(Languages.LanguageStrings.OrderDate))]
+		public DateTime Date { get; private set; }
 
-        public decimal SubTotal { get; private set; }
+		public decimal SubTotal { get; private set; }
 
-        public decimal Postage { get; private set; }
+		public decimal Postage { get; private set; }
 
-        public decimal Tax { get; private set; }
+		public decimal Tax { get; private set; }
 
-        public decimal Total { get; private set; }
+		public decimal Total { get; private set; }
 
-        public ProcessStatus Status { get; private set; }
+		public ProcessStatus Status { get; private set; }
 
-        public List<OrderItem> OrderItems { get; private set; }
+		public List<OrderItem> OrderItems { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 
 #pragma warning restore CS1591
 }

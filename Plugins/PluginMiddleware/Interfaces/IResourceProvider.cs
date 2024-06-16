@@ -117,7 +117,7 @@ namespace Middleware
 		/// <param name="approved"></param>
 		/// <param name="tags"></param>
 		/// <returns></returns>
-		ResourceItem AddResourceItem(long categoryId, ResourceType resourceType, long userId, string userName, 
+		ResourceItem AddResourceItem(long categoryId, ResourceType resourceType, long userId, string userName,
 			string name, string description, string value, bool approved, List<string> tags);
 
 		/// <summary>

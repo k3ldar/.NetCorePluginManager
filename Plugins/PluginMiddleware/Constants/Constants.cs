@@ -26,76 +26,76 @@
 
 namespace Middleware
 {
-    /// <summary>
-    /// Constant values used by PluginMiddleware
-    /// </summary>
-    public static class Constants
-    {
-        /// <summary>
-        /// Captcha characters that will be used to generate captcha requests.
-        /// </summary>
-        /// <value>string</value>
-        public const string CaptchaCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	/// <summary>
+	/// Constant values used by PluginMiddleware
+	/// </summary>
+	public static class Constants
+	{
+		/// <summary>
+		/// Captcha characters that will be used to generate captcha requests.
+		/// </summary>
+		/// <value>string</value>
+		public const string CaptchaCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        /// <summary>
-        /// Cash on delivery payment provider.
-        /// </summary>
-        /// <value>string</value>
-        public const string PaymentProviderCashOnDelivery = "Cash on Delivery";
+		/// <summary>
+		/// Cash on delivery payment provider.
+		/// </summary>
+		/// <value>string</value>
+		public const string PaymentProviderCashOnDelivery = "Cash on Delivery";
 
-        /// <summary>
-        /// Click and collect payment provider.
-        /// </summary>
-        /// <value>string</value>
-        public const string PaymentProviderClickAndCollect = "Click and Collect";
+		/// <summary>
+		/// Click and collect payment provider.
+		/// </summary>
+		/// <value>string</value>
+		public const string PaymentProviderClickAndCollect = "Click and Collect";
 
-        /// <summary>
-        /// Cheque payment provider.
-        /// </summary>
-        /// <value>string</value>
-        public const string PaymentProviderCheque = "Cheque";
+		/// <summary>
+		/// Cheque payment provider.
+		/// </summary>
+		/// <value>string</value>
+		public const string PaymentProviderCheque = "Cheque";
 
-        /// <summary>
-        /// Direct bank transfer payment provider.
-        /// </summary>
-        /// <value>string</value>
-        public const string PaymentProviderDirectTransfer = "Direct Transfer";
+		/// <summary>
+		/// Direct bank transfer payment provider.
+		/// </summary>
+		/// <value>string</value>
+		public const string PaymentProviderDirectTransfer = "Direct Transfer";
 
-        /// <summary>
-        /// Payflow payment provider.
-        /// </summary>
-        /// <value>string</value>
-        public const string PaymentProviderPayflow = "Payflow";
+		/// <summary>
+		/// Payflow payment provider.
+		/// </summary>
+		/// <value>string</value>
+		public const string PaymentProviderPayflow = "Payflow";
 
-        /// <summary>
-        /// Paypoint payment provider.
-        /// </summary>
-        /// <value>string</value>
-        public const string PaymentProviderPaypoint = "Paypoint";
+		/// <summary>
+		/// Paypoint payment provider.
+		/// </summary>
+		/// <value>string</value>
+		public const string PaymentProviderPaypoint = "Paypoint";
 
-        /// <summary>
-        /// Phone payment provider.
-        /// </summary>
-        /// <value>string</value>
-        public const string PaymentProviderPhone = "Phone";
+		/// <summary>
+		/// Phone payment provider.
+		/// </summary>
+		/// <value>string</value>
+		public const string PaymentProviderPhone = "Phone";
 
-        /// <summary>
-        /// SunTech24 payment provider.
-        /// </summary>
-        /// <value>string</value>
-        public const string PaymentProviderSunTech24Payment = "SunTech24Payment";
+		/// <summary>
+		/// SunTech24 payment provider.
+		/// </summary>
+		/// <value>string</value>
+		public const string PaymentProviderSunTech24Payment = "SunTech24Payment";
 
 
-        /// <summary>
-        /// No payment providers configured.
-        /// </summary>
-        /// <value>string</value>
-        public const string PaymentProviderNone = "There are no payment providers configured";
+		/// <summary>
+		/// No payment providers configured.
+		/// </summary>
+		/// <value>string</value>
+		public const string PaymentProviderNone = "There are no payment providers configured";
 
-        /// <summary>
-        /// Invalid payment provider.
-        /// </summary>
-        /// <value>string</value>
-        public const string PaymentProviderNotFound = "Could not find payment provider";
-    }
+		/// <summary>
+		/// Invalid payment provider.
+		/// </summary>
+		/// <value>string</value>
+		public const string PaymentProviderNotFound = "Could not find payment provider";
+	}
 }

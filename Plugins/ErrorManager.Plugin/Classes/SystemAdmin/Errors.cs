@@ -34,72 +34,72 @@ using SharedPluginFeatures;
 
 namespace ErrorManager.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns a list of current errors that have been raised within ErrorManager.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public class Errors : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	/// <summary>
+	/// Returns a list of current errors that have been raised within ErrorManager.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public class Errors : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        /// <summary>
-        /// Returns error information raised within ErrorManager.Plugin.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            StringBuilder Result = new("Date|Error|Count");
+		/// <summary>
+		/// Returns error information raised within ErrorManager.Plugin.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			StringBuilder Result = new("Date|Error|Count");
 
-            List<ErrorInformation> errors = ErrorManagerMiddleware.GetErrors();
+			List<ErrorInformation> errors = ErrorManagerMiddleware.GetErrors();
 
-            foreach (ErrorInformation item in errors)
-            {
-                Result.Append($"\r{item.Date.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat)}|" +
-                    $"{item.Error.Message.Replace('|', ' ').Replace("\r\n", " ")}|{item.ErrorCount}");
-            }
+			foreach (ErrorInformation item in errors)
+			{
+				Result.Append($"\r{item.Date.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat)}|" +
+					$"{item.Error.Message.Replace('|', ' ').Replace("\r\n", " ")}|{item.ErrorCount}");
+			}
 
-            return Result.ToString();
-        }
+			return Result.ToString();
+		}
 
-        public override string Image()
-        {
-            return String.Empty;
-        }
+		public override string Image()
+		{
+			return String.Empty;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override string Name()
-        {
-            return "Errors";
-        }
+		public override string Name()
+		{
+			return "Errors";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "Errors";
-        }
+		public override string ParentMenuName()
+		{
+			return "Errors";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
-    }
+		public override int SortOrder()
+		{
+			return 0;
+		}
+	}
 }
 
 #pragma warning restore CS1591

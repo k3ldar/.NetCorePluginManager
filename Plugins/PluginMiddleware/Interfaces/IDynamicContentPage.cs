@@ -31,57 +31,57 @@ using SharedPluginFeatures.DynamicContent;
 
 namespace Middleware
 {
-    /// <summary>
-    /// Interface for dynamic content page
-    /// </summary>
-    public interface IDynamicContentPage
-    {
-        /// <summary>
-        /// Unique page id
-        /// </summary>
-        /// <value>int</value>
-        long Id { get; set; }
+	/// <summary>
+	/// Interface for dynamic content page
+	/// </summary>
+	public interface IDynamicContentPage
+	{
+		/// <summary>
+		/// Unique page id
+		/// </summary>
+		/// <value>int</value>
+		long Id { get; set; }
 
-        /// <summary>
-        /// Name of dynamic page
-        /// </summary>
-        /// <value>string</value>
-        string Name { get; set; }
+		/// <summary>
+		/// Name of dynamic page
+		/// </summary>
+		/// <value>string</value>
+		string Name { get; set; }
 
-        /// <summary>
-        /// Date and time the page becomes active
-        /// </summary>
-        /// <value>DateTime</value>
-        DateTime ActiveFrom { get; set; }
+		/// <summary>
+		/// Date and time the page becomes active
+		/// </summary>
+		/// <value>DateTime</value>
+		DateTime ActiveFrom { get; set; }
 
-        /// <summary>
-        /// Date and time the page expires
-        /// </summary>
-        /// <value>DateTime</value>
-        DateTime ActiveTo { get; set; }
+		/// <summary>
+		/// Date and time the page expires
+		/// </summary>
+		/// <value>DateTime</value>
+		DateTime ActiveTo { get; set; }
 
-        /// <summary>
-        /// Route name that will form part of the Uri
-        /// </summary>
-        /// <value>string</value>
-        string RouteName { get; set; }
+		/// <summary>
+		/// Route name that will form part of the Uri
+		/// </summary>
+		/// <value>string</value>
+		string RouteName { get; set; }
 
-        /// <summary>
-        /// Color of background, default is white.  Defined as hex color
-        /// </summary>
-        /// <value>string</value>
-        string BackgroundColor { get; set; }
+		/// <summary>
+		/// Color of background, default is white.  Defined as hex color
+		/// </summary>
+		/// <value>string</value>
+		string BackgroundColor { get; set; }
 
-        /// <summary>
-        /// Uri for image for background, this will be stretched across entire page.
-        /// </summary>
-        /// <value>string</value>
-        string BackgroundImage { get; set; }
+		/// <summary>
+		/// Uri for image for background, this will be stretched across entire page.
+		/// </summary>
+		/// <value>string</value>
+		string BackgroundImage { get; set; }
 
-        /// <summary>
-        /// Dynamic content that will be displayed within the page
-        /// </summary>
-        /// <value>List&lt;DynamicContentTemplate&gt;</value>
-        List<DynamicContentTemplate> Content { get; }
-    }
+		/// <summary>
+		/// Dynamic content that will be displayed within the page
+		/// </summary>
+		/// <value>List&lt;DynamicContentTemplate&gt;</value>
+		List<DynamicContentTemplate> Content { get; }
+	}
 }

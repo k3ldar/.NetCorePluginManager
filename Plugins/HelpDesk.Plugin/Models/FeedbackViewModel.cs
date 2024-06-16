@@ -32,25 +32,25 @@ using SharedPluginFeatures;
 
 namespace HelpdeskPlugin.Models
 {
-    public class FeedbackViewModel : BaseModel
-    {
-        #region Constructors
+	public class FeedbackViewModel : BaseModel
+	{
+		#region Constructors
 
-        public FeedbackViewModel(in BaseModelData modelData,
-            in List<FeedbackItemViewModel> feedback)
-            : base(modelData)
-        {
-            Feedback = feedback ?? throw new ArgumentNullException(nameof(feedback));
-        }
+		public FeedbackViewModel(in BaseModelData modelData,
+			in List<FeedbackItemViewModel> feedback)
+			: base(modelData)
+		{
+			Feedback = feedback ?? throw new ArgumentNullException(nameof(feedback));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public List<FeedbackItemViewModel> Feedback { get; private set; }
+		public List<FeedbackItemViewModel> Feedback { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

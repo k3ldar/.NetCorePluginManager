@@ -31,27 +31,27 @@ using SharedPluginFeatures;
 
 namespace ShoppingCartPlugin.Models
 {
-    public class PaymentSuccessModel : BaseModel
-    {
-        #region Constructors
+	public class PaymentSuccessModel : BaseModel
+	{
+		#region Constructors
 
-        public PaymentSuccessModel(in BaseModelData modelData, int orderId)
-            : base(modelData)
-        {
-            if (orderId == 0)
-                throw new ArgumentOutOfRangeException(nameof(orderId));
+		public PaymentSuccessModel(in BaseModelData modelData, int orderId)
+			: base(modelData)
+		{
+			if (orderId == 0)
+				throw new ArgumentOutOfRangeException(nameof(orderId));
 
-            OrderId = orderId;
-        }
+			OrderId = orderId;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public int OrderId { get; private set; }
+		public int OrderId { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

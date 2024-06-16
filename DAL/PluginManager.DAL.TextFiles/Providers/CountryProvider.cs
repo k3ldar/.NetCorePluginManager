@@ -26,93 +26,94 @@
 using Middleware;
 
 using PluginManager.DAL.TextFiles.Tables;
+
 using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
-    internal class CountryProvider : ICountryProvider
-    {
-        private readonly ISimpleDBOperations<CountryDataRow> _countries;
+	internal class CountryProvider : ICountryProvider
+	{
+		private readonly ISimpleDBOperations<CountryDataRow> _countries;
 
-        public CountryProvider(ISimpleDBOperations<CountryDataRow> countries)
-        {
-            _countries = countries ?? throw new ArgumentNullException(nameof(countries));
-        }
+		public CountryProvider(ISimpleDBOperations<CountryDataRow> countries)
+		{
+			_countries = countries ?? throw new ArgumentNullException(nameof(countries));
+		}
 
-        public Country CountryCreate(in string name, in string code, in bool visible)
-        {
-            if (String.IsNullOrEmpty(name))
-                throw new ArgumentNullException(nameof(name));
+		public Country CountryCreate(in string name, in string code, in bool visible)
+		{
+			if (String.IsNullOrEmpty(name))
+				throw new ArgumentNullException(nameof(name));
 
-            if (String.IsNullOrEmpty(code))
-                throw new ArgumentNullException(nameof(code));
+			if (String.IsNullOrEmpty(code))
+				throw new ArgumentNullException(nameof(code));
 
-            if (code.Length > 3)
-                throw new ArgumentOutOfRangeException(nameof(code));
+			if (code.Length > 3)
+				throw new ArgumentOutOfRangeException(nameof(code));
 
-            CountryDataRow tableCountries = new()
-            {
-                Name = name,
-                Code = code,
-                Visible = visible
-            };
+			CountryDataRow tableCountries = new()
+			{
+				Name = name,
+				Code = code,
+				Visible = visible
+			};
 
-            _countries.Insert(tableCountries);
-            return new Country(name, code, visible);
-        }
+			_countries.Insert(tableCountries);
+			return new Country(name, code, visible);
+		}
 
-        public bool CountryDelete(in Country country)
-        {
-            string code = country.Code;
-            CountryDataRow tableCountry = _countries.Select().FirstOrDefault(c => c.Code.Equals(code));
+		public bool CountryDelete(in Country country)
+		{
+			string code = country.Code;
+			CountryDataRow tableCountry = _countries.Select().FirstOrDefault(c => c.Code.Equals(code));
 
-            if (tableCountry == null)
-                return false;
+			if (tableCountry == null)
+				return false;
 
-            tableCountry.Code = country.Code;
-            tableCountry.Visible = country.Visible;
-            tableCountry.Name = country.Name;
-            _countries.Delete(tableCountry);
+			tableCountry.Code = country.Code;
+			tableCountry.Visible = country.Visible;
+			tableCountry.Name = country.Name;
+			_countries.Delete(tableCountry);
 
-            return true;
-        }
+			return true;
+		}
 
-        public bool CountryUpdate(in Country country)
-        {
-            string code = country.Code;
-            CountryDataRow tableCountry = _countries.Select().FirstOrDefault(c => c.Code.Equals(code));
+		public bool CountryUpdate(in Country country)
+		{
+			string code = country.Code;
+			CountryDataRow tableCountry = _countries.Select().FirstOrDefault(c => c.Code.Equals(code));
 
-            if (tableCountry == null)
-                return false;
+			if (tableCountry == null)
+				return false;
 
-            tableCountry.Code = country.Code;
-            tableCountry.Visible = country.Visible;
-            tableCountry.Name = country.Name;
-            _countries.Update(tableCountry);
+			tableCountry.Code = country.Code;
+			tableCountry.Visible = country.Visible;
+			tableCountry.Name = country.Name;
+			_countries.Update(tableCountry);
 
-            return true;
-        }
+			return true;
+		}
 
-        public List<Country> GetAllCountries()
-        {
-            return ConvertTableCountriesToCountries(_countries.Select());
-        }
+		public List<Country> GetAllCountries()
+		{
+			return ConvertTableCountriesToCountries(_countries.Select());
+		}
 
-        public List<Country> GetVisibleCountries()
-        {
-            return ConvertTableCountriesToCountries(_countries.Select().Where(c => c.Visible).ToList());
-        }
+		public List<Country> GetVisibleCountries()
+		{
+			return ConvertTableCountriesToCountries(_countries.Select().Where(c => c.Visible).ToList());
+		}
 
-        private static List<Country> ConvertTableCountriesToCountries(IReadOnlyList<CountryDataRow> tableCountries)
-        {
-            List<Country> Result = new();
+		private static List<Country> ConvertTableCountriesToCountries(IReadOnlyList<CountryDataRow> tableCountries)
+		{
+			List<Country> Result = new();
 
-            foreach (CountryDataRow tableCountry in tableCountries)
-            {
-                Result.Add(new Country(tableCountry.Name, tableCountry.Code, tableCountry.Visible));
-            }
+			foreach (CountryDataRow tableCountry in tableCountries)
+			{
+				Result.Add(new Country(tableCountry.Name, tableCountry.Code, tableCountry.Visible));
+			}
 
-            return Result;
-        }
-    }
+			return Result;
+		}
+	}
 }

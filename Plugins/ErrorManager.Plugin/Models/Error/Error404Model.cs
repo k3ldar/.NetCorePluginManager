@@ -29,77 +29,77 @@ using SharedPluginFeatures;
 
 namespace ErrorManager.Plugin.Models
 {
-    /// <summary>
-    /// View model for a 404 error.
-    /// </summary>
-    public sealed class Error404Model : BaseModel
-    {
-        #region Constructors
+	/// <summary>
+	/// View model for a 404 error.
+	/// </summary>
+	public sealed class Error404Model : BaseModel
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public Error404Model()
-        {
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public Error404Model()
+		{
 
-        }
+		}
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="modelData">Base model data.</param>
-        /// <param name="title">Title to be displayed on the page.</param>
-        public Error404Model(in BaseModelData modelData,
-            string title)
-            : base(modelData)
-        {
-            if (String.IsNullOrEmpty(title))
-                throw new ArgumentNullException(nameof(title));
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="modelData">Base model data.</param>
+		/// <param name="title">Title to be displayed on the page.</param>
+		public Error404Model(in BaseModelData modelData,
+			string title)
+			: base(modelData)
+		{
+			if (String.IsNullOrEmpty(title))
+				throw new ArgumentNullException(nameof(title));
 
-            Title = title;
-        }
+			Title = title;
+		}
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="modelData">Base model data.</param>
-        /// <param name="title">Title to be displayed on the page.</param>
-        /// <param name="message">Message to be displayed to the user.</param>
-        /// <param name="image">Image to be displayed on the page.</param>
-        public Error404Model(in BaseModelData modelData,
-            string title, string message, string image)
-            : this(modelData, title)
-        {
-            if (String.IsNullOrEmpty(title))
-                throw new ArgumentNullException(nameof(title));
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="modelData">Base model data.</param>
+		/// <param name="title">Title to be displayed on the page.</param>
+		/// <param name="message">Message to be displayed to the user.</param>
+		/// <param name="image">Image to be displayed on the page.</param>
+		public Error404Model(in BaseModelData modelData,
+			string title, string message, string image)
+			: this(modelData, title)
+		{
+			if (String.IsNullOrEmpty(title))
+				throw new ArgumentNullException(nameof(title));
 
-            Title = title;
-            Message = message;
-            Image = image;
-        }
+			Title = title;
+			Message = message;
+			Image = image;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Title to be displayed on the page.
-        /// </summary>
-        /// <value>string</value>
-        public string Title { get; set; }
+		/// <summary>
+		/// Title to be displayed on the page.
+		/// </summary>
+		/// <value>string</value>
+		public string Title { get; set; }
 
-        /// <summary>
-        /// Message to be displayed to the user.
-        /// </summary>
-        /// <value>string</value>
-        public string Message { get; set; }
+		/// <summary>
+		/// Message to be displayed to the user.
+		/// </summary>
+		/// <value>string</value>
+		public string Message { get; set; }
 
-        /// <summary>
-        /// Image to be displayed on the page.
-        /// </summary>
-        /// <value>string</value>
-        public string Image { get; set; }
+		/// <summary>
+		/// Image to be displayed on the page.
+		/// </summary>
+		/// <value>string</value>
+		public string Image { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

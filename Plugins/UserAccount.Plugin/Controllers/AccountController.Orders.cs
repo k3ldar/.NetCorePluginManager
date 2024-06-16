@@ -37,42 +37,42 @@ using UserAccount.Plugin.Models;
 
 namespace UserAccount.Plugin.Controllers
 {
-    public partial class AccountController
-    {
-        #region Public Action Methods
+	public partial class AccountController
+	{
+		#region Public Action Methods
 
-        [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.MyOrders), nameof(AccountController), nameof(Index))]
-        public ActionResult Orders()
-        {
-            OrdersViewModel model = new(GetModelData(),
-                _accountProvider.OrdersGet(UserId()));
+		[HttpGet]
+		[Breadcrumb(nameof(Languages.LanguageStrings.MyOrders), nameof(AccountController), nameof(Index))]
+		public ActionResult Orders()
+		{
+			OrdersViewModel model = new(GetModelData(),
+				_accountProvider.OrdersGet(UserId()));
 
-            model.Breadcrumbs = GetBreadcrumbs();
-            model.CartSummary = GetCartSummary();
+			model.Breadcrumbs = GetBreadcrumbs();
+			model.CartSummary = GetCartSummary();
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.ViewOrder), nameof(AccountController), nameof(Orders))]
-        public ActionResult OrderView(int id)
-        {
-            Order order = _accountProvider.OrdersGet(UserId()).Find(o => o.Id == id);
+		[HttpGet]
+		[Breadcrumb(nameof(Languages.LanguageStrings.ViewOrder), nameof(AccountController), nameof(Orders))]
+		public ActionResult OrderView(int id)
+		{
+			Order order = _accountProvider.OrdersGet(UserId()).Find(o => o.Id == id);
 
-            if (order == null)
-                return RedirectToAction(nameof(Index));
+			if (order == null)
+				return RedirectToAction(nameof(Index));
 
-            OrderViewModel model = new(GetModelData(), order);
+			OrderViewModel model = new(GetModelData(), order);
 
-            model.Breadcrumbs = GetBreadcrumbs();
-            model.CartSummary = GetCartSummary();
+			model.Breadcrumbs = GetBreadcrumbs();
+			model.CartSummary = GetCartSummary();
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        #endregion Public Action Methods
-    }
+		#endregion Public Action Methods
+	}
 }
 
 #pragma warning restore IDE0017, CS1591

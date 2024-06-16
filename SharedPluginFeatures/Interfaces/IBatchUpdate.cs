@@ -26,24 +26,24 @@
 
 namespace SharedPluginFeatures.Interfaces
 {
-    /// <summary>
-    /// Interface for batch updates
-    /// </summary>
-    public interface IBatchUpdate
-    {
-        /// <summary>
-        /// Batch update is starting
-        /// </summary>
-        void BeginUpdate();
+	/// <summary>
+	/// Interface for batch updates
+	/// </summary>
+	public interface IBatchUpdate
+	{
+		/// <summary>
+		/// Batch update is starting
+		/// </summary>
+		void BeginUpdate();
 
-        /// <summary>
-        /// Batch update is ended
-        /// </summary>
-        void EndUpdate();
+		/// <summary>
+		/// Batch update is ended
+		/// </summary>
+		void EndUpdate();
 
-        /// <summary>
-        /// Indicates whether it is in batch update
-        /// </summary>
-        bool IsUpdating { get; }
-    }
+		/// <summary>
+		/// Indicates whether it is in batch update
+		/// </summary>
+		bool IsUpdating { get; }
+	}
 }

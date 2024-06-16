@@ -30,24 +30,24 @@ using System.Text.Json.Serialization;
 
 namespace DynamicContent.Plugin.Model
 {
-    public class UpdatePositionModel
-    {
-        [JsonPropertyName("cacheId")]
-        public string CacheId { get; set; }
+	public class UpdatePositionModel
+	{
+		[JsonPropertyName("cacheId")]
+		public string CacheId { get; set; }
 
-        [JsonPropertyName("controlId")]
-        public string ControlId { get; set; }
+		[JsonPropertyName("controlId")]
+		public string ControlId { get; set; }
 
-        [JsonPropertyName("controls")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "Used to get array via json and javascript")]
-        public string[] Controls { get; set; }
+		[JsonPropertyName("controls")]
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "Used to get array via json and javascript")]
+		public string[] Controls { get; set; }
 
-        [JsonPropertyName("top")]
-        public int Top { get; set; }
+		[JsonPropertyName("top")]
+		public int Top { get; set; }
 
-        [JsonPropertyName("left")]
-        public int Left { get; set; }
-    }
+		[JsonPropertyName("left")]
+		public int Left { get; set; }
+	}
 }
 
 #pragma warning restore CS1591

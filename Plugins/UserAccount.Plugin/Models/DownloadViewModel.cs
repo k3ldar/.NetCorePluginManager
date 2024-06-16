@@ -34,45 +34,45 @@ namespace UserAccount.Plugin.Models
 {
 #pragma warning disable CS1591
 
-    public class DownloadViewModel : BaseModel
-    {
-        #region Constructors
+	public class DownloadViewModel : BaseModel
+	{
+		#region Constructors
 
-        public DownloadViewModel()
-        {
-        }
+		public DownloadViewModel()
+		{
+		}
 
-        public DownloadViewModel(in BaseModelData baseModelData,
-            in List<DownloadCategory> categories, in string activeCategory,
-            in List<ViewDownloadViewItem> downloads)
-            : base(baseModelData)
-        {
-            if (categories == null)
-                throw new ArgumentNullException(nameof(categories));
+		public DownloadViewModel(in BaseModelData baseModelData,
+			in List<DownloadCategory> categories, in string activeCategory,
+			in List<ViewDownloadViewItem> downloads)
+			: base(baseModelData)
+		{
+			if (categories == null)
+				throw new ArgumentNullException(nameof(categories));
 
-            if (categories.Count == 0)
-                throw new ArgumentOutOfRangeException(nameof(categories));
+			if (categories.Count == 0)
+				throw new ArgumentOutOfRangeException(nameof(categories));
 
-            if (String.IsNullOrEmpty(activeCategory))
-                throw new ArgumentNullException(nameof(activeCategory));
+			if (String.IsNullOrEmpty(activeCategory))
+				throw new ArgumentNullException(nameof(activeCategory));
 
-            Categories = categories;
-            ActiveCategory = activeCategory;
-            Downloads = downloads ?? throw new ArgumentNullException(nameof(downloads));
-        }
+			Categories = categories;
+			ActiveCategory = activeCategory;
+			Downloads = downloads ?? throw new ArgumentNullException(nameof(downloads));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public List<DownloadCategory> Categories { get; private set; }
+		public List<DownloadCategory> Categories { get; private set; }
 
-        public string ActiveCategory { get; private set; }
+		public string ActiveCategory { get; private set; }
 
-        public List<ViewDownloadViewItem> Downloads { get; private set; }
+		public List<ViewDownloadViewItem> Downloads { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 
 #pragma warning restore CS1591
 }

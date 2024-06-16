@@ -29,17 +29,17 @@ using SharedPluginFeatures;
 
 namespace ProductPlugin.Classes.SystemAdmin
 {
-    public class ManageProductGroupsMenu : SystemAdminSubMenu
+	public class ManageProductGroupsMenu : SystemAdminSubMenu
 	{
-        public override string Controller()
-        {
-            return Controllers.ProductAdminController.Name;
-        }
+		public override string Controller()
+		{
+			return Controllers.ProductAdminController.Name;
+		}
 
-        public override string Action()
-        {
-            return nameof(Controllers.ProductAdminController.GroupIndex);
-        }
+		public override string Action()
+		{
+			return nameof(Controllers.ProductAdminController.GroupIndex);
+		}
 
 		public override string Area()
 		{

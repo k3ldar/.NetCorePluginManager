@@ -28,57 +28,57 @@ using System.Collections.Generic;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Cached image upload data
-    /// </summary>
-    public sealed class CachedImageUpload
-    {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <exception cref="ArgumentNullException">Thrown if groupName is null or empty.</exception>
-        public CachedImageUpload(string groupName, string subgroupName)
-        {
-            if (String.IsNullOrEmpty(groupName))
-                throw new ArgumentNullException(nameof(groupName));
+	/// <summary>
+	/// Cached image upload data
+	/// </summary>
+	public sealed class CachedImageUpload
+	{
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <exception cref="ArgumentNullException">Thrown if groupName is null or empty.</exception>
+		public CachedImageUpload(string groupName, string subgroupName)
+		{
+			if (String.IsNullOrEmpty(groupName))
+				throw new ArgumentNullException(nameof(groupName));
 
-            GroupName = groupName;
-            SubgroupName = subgroupName;
+			GroupName = groupName;
+			SubgroupName = subgroupName;
 
-            Files = new List<string>();
-        }
+			Files = new List<string>();
+		}
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <exception cref="ArgumentNullException">Thrown if groupName is null or empty.</exception>
-        public CachedImageUpload(string groupName)
-            : this(groupName, null)
-        {
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <exception cref="ArgumentNullException">Thrown if groupName is null or empty.</exception>
+		public CachedImageUpload(string groupName)
+			: this(groupName, null)
+		{
 
-        }
+		}
 
-        /// <summary>
-        /// List of files that have been uploaded
-        /// </summary>
-        /// <value>List&lt;string&gt;</value>
-        public List<string> Files { get; }
+		/// <summary>
+		/// List of files that have been uploaded
+		/// </summary>
+		/// <value>List&lt;string&gt;</value>
+		public List<string> Files { get; }
 
-        /// <summary>
-        /// Name of group images are being uploaded to
-        /// </summary>
-        /// <value>string</value>
-        public string GroupName { get; }
+		/// <summary>
+		/// Name of group images are being uploaded to
+		/// </summary>
+		/// <value>string</value>
+		public string GroupName { get; }
 
-        /// <summary>
-        /// Name of subgroup images are being uploaded to
-        /// </summary>
-        /// <value>string</value>
-        public string SubgroupName { get; }
+		/// <summary>
+		/// Name of subgroup images are being uploaded to
+		/// </summary>
+		/// <value>string</value>
+		public string SubgroupName { get; }
 
-        /// <summary>
-        /// Name of memory cache item for uploaded images
-        /// </summary>
-        public string MemoryCacheName { get; set; }
-    }
+		/// <summary>
+		/// Name of memory cache item for uploaded images
+		/// </summary>
+		public string MemoryCacheName { get; set; }
+	}
 }

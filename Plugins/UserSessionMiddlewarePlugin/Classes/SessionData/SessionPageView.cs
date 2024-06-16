@@ -26,56 +26,56 @@
 
 namespace UserSessionMiddleware.Plugin.Classes.SessionData
 {
-    /// <summary>
-    /// Statistics for a page view
-    /// </summary>
-    public sealed class SessionPageView
-    {
-        /// <summary>
-        /// Page hash for searching
-        /// </summary>
-        /// <value>string</value>
-        public string Hash { get; set; }
+	/// <summary>
+	/// Statistics for a page view
+	/// </summary>
+	public sealed class SessionPageView
+	{
+		/// <summary>
+		/// Page hash for searching
+		/// </summary>
+		/// <value>string</value>
+		public string Hash { get; set; }
 
-        /// <summary>
-        /// Url of page being visited
-        /// </summary>
-        /// <value>string</value>
-        public string Url { get; set; }
+		/// <summary>
+		/// Url of page being visited
+		/// </summary>
+		/// <value>string</value>
+		public string Url { get; set; }
 
-        /// <summary>
-        /// Year visit was made
-        /// </summary>
-        /// <value>int</value>
-        public int Year { get; set; }
+		/// <summary>
+		/// Year visit was made
+		/// </summary>
+		/// <value>int</value>
+		public int Year { get; set; }
 
-        /// <summary>
-        /// Month the visit was made
-        /// </summary>
-        /// <value>byte</value>
-        public byte Month { get; set; }
+		/// <summary>
+		/// Month the visit was made
+		/// </summary>
+		/// <value>byte</value>
+		public byte Month { get; set; }
 
-        /// <summary>
-        /// Number of humans visiting the page
-        /// </summary>
-        /// <value>uint</value>
-        public uint HumanCount { get; set; }
+		/// <summary>
+		/// Number of humans visiting the page
+		/// </summary>
+		/// <value>uint</value>
+		public uint HumanCount { get; set; }
 
-        /// <summary>
-        /// Number of bots visiting the page
-        /// </summary>
-        /// <value>uint</value>
-        public uint BotCount { get; set; }
+		/// <summary>
+		/// Number of bots visiting the page
+		/// </summary>
+		/// <value>uint</value>
+		public uint BotCount { get; set; }
 
-        /// <summary>
-        /// Number of times the page has been bounced
-        /// </summary>
-        /// <value>uint</value>
-        public uint BounceCount { get; set; }
+		/// <summary>
+		/// Number of times the page has been bounced
+		/// </summary>
+		/// <value>uint</value>
+		public uint BounceCount { get; set; }
 
-        /// <summary>
-        /// Total time spent viewing the page (human visitors only)
-        /// </summary>
-        public double TotalTime { get; set; }
-    }
+		/// <summary>
+		/// Total time spent viewing the page (human visitors only)
+		/// </summary>
+		public double TotalTime { get; set; }
+	}
 }

@@ -26,40 +26,40 @@
 
 namespace DownloadPlugin.Models
 {
-    /// <summary>
-    /// Download category view mode.
-    /// </summary>
-    public class CategoriesModel
-    {
-        #region Constructors
+	/// <summary>
+	/// Download category view mode.
+	/// </summary>
+	public class CategoriesModel
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="id">Category id.</param>
-        /// <param name="name">Category name.</param>
-        public CategoriesModel(in long id, in string name)
-        {
-            Id = id;
-            Name = name;
-        }
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="id">Category id.</param>
+		/// <param name="name">Category name.</param>
+		public CategoriesModel(in long id, in string name)
+		{
+			Id = id;
+			Name = name;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Category id.
-        /// </summary>
-        /// <value>int</value>
-        public long Id { get; private set; }
+		/// <summary>
+		/// Category id.
+		/// </summary>
+		/// <value>int</value>
+		public long Id { get; private set; }
 
-        /// <summary>
-        /// Category name.
-        /// </summary>
-        /// <value>string</value>
-        public string Name { get; private set; }
+		/// <summary>
+		/// Category name.
+		/// </summary>
+		/// <value>string</value>
+		public string Name { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

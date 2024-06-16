@@ -27,22 +27,22 @@ using Microsoft.AspNetCore.Builder;
 
 namespace UserSessionMiddleware.Plugin
 {
-    /// <summary>
-    /// User Session Middleware Extender
-    /// </summary>
-    public static class UserSessionMiddlewareExtender
-    {
-        /// <summary>
-        /// IApplicationBuilder extender method.
-        /// 
-        /// Allows easy use of registering UserSessionMiddleware.Plugin
-        /// </summary>
-        /// <param name="builder">IApplicationBuilder instance</param>
-        /// <returns>IApplicationBuilder</returns>
-        /// <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseUserSessionMiddleware</span>();</pre></example>
-        public static IApplicationBuilder UseUserSessionMiddleware(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<SessionMiddleware>();
-        }
-    }
+	/// <summary>
+	/// User Session Middleware Extender
+	/// </summary>
+	public static class UserSessionMiddlewareExtender
+	{
+		/// <summary>
+		/// IApplicationBuilder extender method.
+		/// 
+		/// Allows easy use of registering UserSessionMiddleware.Plugin
+		/// </summary>
+		/// <param name="builder">IApplicationBuilder instance</param>
+		/// <returns>IApplicationBuilder</returns>
+		/// <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseUserSessionMiddleware</span>();</pre></example>
+		public static IApplicationBuilder UseUserSessionMiddleware(this IApplicationBuilder builder)
+		{
+			return builder.UseMiddleware<SessionMiddleware>();
+		}
+	}
 }

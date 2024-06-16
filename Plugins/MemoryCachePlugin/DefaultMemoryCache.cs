@@ -37,25 +37,25 @@ using SharedPluginFeatures;
 
 namespace MemoryCache.Plugin
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
-    internal class DefaultMemoryCache : BaseCoreClass, IMemoryCache
-    {
-        #region Private Members
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
+	internal class DefaultMemoryCache : BaseCoreClass, IMemoryCache
+	{
+		#region Private Members
 
-        private static CacheManager _cacheShort;
+		private static CacheManager _cacheShort;
 
-        private static CacheManager _cache;
+		private static CacheManager _cache;
 
-        private static CacheManager _extendingCache;
+		private static CacheManager _extendingCache;
 
-        private static CacheManager _permanentCache;
+		private static CacheManager _permanentCache;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public DefaultMemoryCache(ISettingsProvider settingsProvider)
-        {
+		public DefaultMemoryCache(ISettingsProvider settingsProvider)
+		{
 			MemoryClassPluginSettings settings = settingsProvider.GetSettings<MemoryClassPluginSettings>(Constants.MemoryCacheSettings);
 
 			// create the caches
@@ -90,15 +90,15 @@ namespace MemoryCache.Plugin
 					CacheManager.RemoveCacheManager(_cache.Name);
 
 				_cache = null;
-				
+
 				if (_cacheShort != null)
 					CacheManager.RemoveCacheManager(_cacheShort.Name);
 				_cacheShort = null;
-				
+
 				if (_extendingCache != null)
 					CacheManager.RemoveCacheManager(_extendingCache.Name);
 				_extendingCache = null;
-				
+
 				if (_permanentCache != null)
 					CacheManager.RemoveCacheManager(_permanentCache.Name);
 
@@ -107,54 +107,54 @@ namespace MemoryCache.Plugin
 
 			MemoryClassPluginSettings settings = settingsProvider.GetSettings<MemoryClassPluginSettings>(Constants.MemoryCacheSettings);
 
-            // create the caches
-            if (_cache == null)
-                _cache = new CacheManager(Constants.CacheNameDefault,
-                    new TimeSpan(0, settings.DefaultCacheDuration, 0));
+			// create the caches
+			if (_cache == null)
+				_cache = new CacheManager(Constants.CacheNameDefault,
+					new TimeSpan(0, settings.DefaultCacheDuration, 0));
 
-            if (_cacheShort == null)
-                _cacheShort = new CacheManager(Constants.CacheNameShort,
-                    new TimeSpan(0, settings.ShortCacheDuration, 0));
+			if (_cacheShort == null)
+				_cacheShort = new CacheManager(Constants.CacheNameShort,
+					new TimeSpan(0, settings.ShortCacheDuration, 0));
 
-            if (_extendingCache == null)
-                _extendingCache = new CacheManager(Constants.CacheNameExtending,
-                    new TimeSpan(0, settings.DefaultCacheDuration, 0), true);
+			if (_extendingCache == null)
+				_extendingCache = new CacheManager(Constants.CacheNameExtending,
+					new TimeSpan(0, settings.DefaultCacheDuration, 0), true);
 
-            if (_permanentCache == null)
-                _permanentCache = new CacheManager(Constants.CacheNamePermanent,
-                    new TimeSpan(5000, 0, 0, 0), true);
+			if (_permanentCache == null)
+				_permanentCache = new CacheManager(Constants.CacheNamePermanent,
+					new TimeSpan(5000, 0, 0, 0), true);
 		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Methods
+		#region Public Methods
 
-        public CacheManager GetCache()
-        {
-            return _cache;
-        }
+		public CacheManager GetCache()
+		{
+			return _cache;
+		}
 
-        public CacheManager GetShortCache()
-        {
-            return _cacheShort;
-        }
+		public CacheManager GetShortCache()
+		{
+			return _cacheShort;
+		}
 
-        public CacheManager GetExtendingCache()
-        {
-            return _extendingCache;
-        }
+		public CacheManager GetExtendingCache()
+		{
+			return _extendingCache;
+		}
 
-        public CacheManager GetPermanentCache()
-        {
-            return _permanentCache;
-        }
+		public CacheManager GetPermanentCache()
+		{
+			return _permanentCache;
+		}
 
-        public void ResetCaches()
-        {
-            _cacheShort.Clear();
-            _cache.Clear();
-        }
+		public void ResetCaches()
+		{
+			_cacheShort.Clear();
+			_cache.Clear();
+		}
 
-        #endregion Public Methods
-    }
+		#endregion Public Methods
+	}
 }

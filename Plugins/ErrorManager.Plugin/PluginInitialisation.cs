@@ -38,59 +38,59 @@ using SharedPluginFeatures;
 
 namespace ErrorManager.Plugin
 {
-    /// <summary>
-    /// Implements IPlugin and IPluginVersion which allows the ErrorManager.Plugin module to be
-    /// loaded as a plugin module
-    /// </summary>
-    public class PluginInitialisation : IPlugin, IInitialiseEvents
-    {
-        public void ConfigureServices(IServiceCollection services)
-        {
+	/// <summary>
+	/// Implements IPlugin and IPluginVersion which allows the ErrorManager.Plugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	public class PluginInitialisation : IPlugin, IInitialiseEvents
+	{
+		public void ConfigureServices(IServiceCollection services)
+		{
 			// from interface but unused in this context
 		}
 
 		public void Finalise()
-        {
+		{
 			if (ThreadManager.IsInitialized)
 				ThreadManager.Finalise();
-        }
+		}
 
-        public ushort GetVersion()
-        {
-            return 1;
-        }
+		public ushort GetVersion()
+		{
+			return 1;
+		}
 
-        public void Initialise(ILogger logger)
-        {
-            ThreadManager.Initialise();
-        }
+		public void Initialise(ILogger logger)
+		{
+			ThreadManager.Initialise();
+		}
 
-        #region IInitialiseEvents Methods
+		#region IInitialiseEvents Methods
 
-        public void AfterConfigure(in IApplicationBuilder app)
-        {
+		public void AfterConfigure(in IApplicationBuilder app)
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
-        {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
+		{
+			if (services == null)
+				throw new ArgumentNullException(nameof(services));
 
-        }
+		}
 
-        public void BeforeConfigure(in IApplicationBuilder app)
-        {
-            app.UseErrorManager();
-        }
+		public void BeforeConfigure(in IApplicationBuilder app)
+		{
+			app.UseErrorManager();
+		}
 
-        public void BeforeConfigureServices(in IServiceCollection services)
-        {
+		public void BeforeConfigureServices(in IServiceCollection services)
+		{
 			// from interface but unused in this context
 		}
 
 		public void Configure(in IApplicationBuilder app)
-        {
+		{
 			// from interface but unused in this context
 		}
 

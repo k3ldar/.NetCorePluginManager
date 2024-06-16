@@ -27,44 +27,44 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameSettings, CompressionType.Brotli, CachingStrategy.None)]
-    internal class SettingsDataRow : TableRowDefinition
-    {
-        string _name;
-        string _value;
+	[Table(Constants.TableNameSettings, CompressionType.Brotli, CachingStrategy.None)]
+	internal class SettingsDataRow : TableRowDefinition
+	{
+		string _name;
+		string _value;
 
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
+		public string Name
+		{
+			get
+			{
+				return _name;
+			}
 
-            set
-            {
-                if (_name == value)
-                    return;
+			set
+			{
+				if (_name == value)
+					return;
 
-                _name = value;
-                Update();
-            }
-        }
+				_name = value;
+				Update();
+			}
+		}
 
-        public string Value
-        {
-            get
-            {
-                return _value;
-            }
+		public string Value
+		{
+			get
+			{
+				return _value;
+			}
 
-            set
-            {
-                if (_value == value)
-                    return;
+			set
+			{
+				if (_value == value)
+					return;
 
-                _value = value;
-                Update();
-            }
-        }
-    }
+				_value = value;
+				Update();
+			}
+		}
+	}
 }

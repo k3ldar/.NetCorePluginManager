@@ -30,30 +30,30 @@ using SharedPluginFeatures;
 
 namespace Localization.Plugin
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
-    internal class CultureProvider : ICultureProvider
-    {
-        #region ICultureProvider Methods
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
+	internal class CultureProvider : ICultureProvider
+	{
+		#region ICultureProvider Methods
 
-        public string[] AvailableCultures()
-        {
-            return PluginInitialisation.InstalledCultures;
-        }
+		public string[] AvailableCultures()
+		{
+			return PluginInitialisation.InstalledCultures;
+		}
 
-        public bool IsCultureValid(in CultureInfo cultureInfo)
-        {
-            if (cultureInfo == null)
-                throw new ArgumentNullException(nameof(cultureInfo));
+		public bool IsCultureValid(in CultureInfo cultureInfo)
+		{
+			if (cultureInfo == null)
+				throw new ArgumentNullException(nameof(cultureInfo));
 
-            foreach (string culture in PluginInitialisation.InstalledCultures)
-            {
-                if (culture.Equals(cultureInfo.Name, StringComparison.InvariantCultureIgnoreCase))
-                    return true;
-            }
+			foreach (string culture in PluginInitialisation.InstalledCultures)
+			{
+				if (culture.Equals(cultureInfo.Name, StringComparison.InvariantCultureIgnoreCase))
+					return true;
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        #endregion ICultureProvider Methods
-    }
+		#endregion ICultureProvider Methods
+	}
 }

@@ -32,10 +32,10 @@ using Middleware;
 
 namespace UserSessionMiddleware.Plugin.Classes.SessionData
 {
-    /// <summary>
-    /// Contains a collection of initial referrers
-    /// </summary>
-    public sealed class SessionInitialReferrers : IUrlHash
+	/// <summary>
+	/// Contains a collection of initial referrers
+	/// </summary>
+	public sealed class SessionInitialReferrers : IUrlHash
 	{
 		#region Private Members
 
@@ -49,50 +49,50 @@ namespace UserSessionMiddleware.Plugin.Classes.SessionData
 		/// Default constructor
 		/// </summary>
 		public SessionInitialReferrers()
-        {
-            InitialReferrers = new List<SessionInitialReferrer>();
-        }
+		{
+			InitialReferrers = new List<SessionInitialReferrer>();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// List of initial referrers
-        /// </summary>
-        public List<SessionInitialReferrer> InitialReferrers { get; set; }
+		/// <summary>
+		/// List of initial referrers
+		/// </summary>
+		public List<SessionInitialReferrer> InitialReferrers { get; set; }
 
-        /// <summary>
-        /// Indicates whether the list has been updated or not
-        /// </summary>
-        internal bool IsDirty { get; set; }
+		/// <summary>
+		/// Indicates whether the list has been updated or not
+		/// </summary>
+		internal bool IsDirty { get; set; }
 
-        #endregion Properties
+		#endregion Properties
 
-        #region Public Methods
+		#region Public Methods
 
-        /// <summary>
-        /// Adds or updates the count for an initial referrer
-        /// </summary>
-        /// <param name="referalUrl"></param>
-        public void Add(in string referalUrl)
-        {
-            if (string.IsNullOrEmpty(referalUrl))
-                return;
+		/// <summary>
+		/// Adds or updates the count for an initial referrer
+		/// </summary>
+		/// <param name="referalUrl"></param>
+		public void Add(in string referalUrl)
+		{
+			if (string.IsNullOrEmpty(referalUrl))
+				return;
 
-            string hash = _urlHashProvider.GetUrlHash(referalUrl);
+			string hash = _urlHashProvider.GetUrlHash(referalUrl);
 
-            SessionInitialReferrer referrer = InitialReferrers.Find(ir => ir.Hash.Equals(hash));
+			SessionInitialReferrer referrer = InitialReferrers.Find(ir => ir.Hash.Equals(hash));
 
-            if (referrer == null)
-            {
-                referrer = new SessionInitialReferrer(hash, referalUrl);
-                InitialReferrers.Add(referrer);
-            }
+			if (referrer == null)
+			{
+				referrer = new SessionInitialReferrer(hash, referalUrl);
+				InitialReferrers.Add(referrer);
+			}
 
-            referrer.Usage++;
-            IsDirty = true;
-        }
+			referrer.Usage++;
+			IsDirty = true;
+		}
 
 		/// <summary>
 		/// Sets the url hash provider interface

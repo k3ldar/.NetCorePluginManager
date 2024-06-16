@@ -29,29 +29,29 @@ namespace SimpleDB
 	/// <summary>
 	/// Insert options class containing options to be used when inserting records
 	/// </summary>
-    public sealed class InsertOptions
-    {
+	public sealed class InsertOptions
+	{
 		/// <summary>
 		/// Constructor, default to assigning primary key
 		/// </summary>
-        public InsertOptions()
-            : this(true)
-        {
+		public InsertOptions()
+			: this(true)
+		{
 
-        }
+		}
 
 		/// <summary>
 		/// Constructor
 		/// </summary>
 		/// <param name="assignPrimaryKey">Assignes the primary key</param>
-        public InsertOptions(bool assignPrimaryKey)
-        {
-            AssignPrimaryKey = assignPrimaryKey;
-        }
+		public InsertOptions(bool assignPrimaryKey)
+		{
+			AssignPrimaryKey = assignPrimaryKey;
+		}
 
 		/// <summary>
 		/// Indicates whether the primary key is assigned or not
 		/// </summary>
-        public bool AssignPrimaryKey { get; }
-    }
+		public bool AssignPrimaryKey { get; }
+	}
 }

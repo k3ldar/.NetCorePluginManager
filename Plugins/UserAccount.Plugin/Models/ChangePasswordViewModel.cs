@@ -32,56 +32,56 @@ namespace UserAccount.Plugin.Models
 {
 #pragma warning disable CS1591
 
-    public class ChangePasswordViewModel : BaseModel
-    {
-        #region Constructors
+	public class ChangePasswordViewModel : BaseModel
+	{
+		#region Constructors
 
-        public ChangePasswordViewModel()
-        {
+		public ChangePasswordViewModel()
+		{
 
-        }
+		}
 
-        public ChangePasswordViewModel(in BaseModelData baseModelData)
-            : base(baseModelData)
-        {
+		public ChangePasswordViewModel(in BaseModelData baseModelData)
+			: base(baseModelData)
+		{
 
-        }
+		}
 
-        public ChangePasswordViewModel(in BaseModelData baseModelData, in string username)
-            : this(baseModelData)
-        {
-            if (String.IsNullOrEmpty(username))
-                throw new ArgumentNullException(nameof(username));
+		public ChangePasswordViewModel(in BaseModelData baseModelData, in string username)
+			: this(baseModelData)
+		{
+			if (String.IsNullOrEmpty(username))
+				throw new ArgumentNullException(nameof(username));
 
-            Username = username;
-        }
+			Username = username;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        [Required]
-        [Display(Name = nameof(Languages.LanguageStrings.Username))]
-        [StringLength(100, MinimumLength = 5)]
-        public string Username { get; set; }
+		[Required]
+		[Display(Name = nameof(Languages.LanguageStrings.Username))]
+		[StringLength(100, MinimumLength = 5)]
+		public string Username { get; set; }
 
-        [Required]
-        [Display(Name = nameof(Languages.LanguageStrings.CurrentPassword))]
-        [StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
-        public string CurrentPassword { get; set; }
+		[Required]
+		[Display(Name = nameof(Languages.LanguageStrings.CurrentPassword))]
+		[StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
+		public string CurrentPassword { get; set; }
 
-        [Required]
-        [Display(Name = nameof(Languages.LanguageStrings.NewPassword))]
-        [StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
-        public string NewPassword { get; set; }
+		[Required]
+		[Display(Name = nameof(Languages.LanguageStrings.NewPassword))]
+		[StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
+		public string NewPassword { get; set; }
 
-        [Required]
-        [Display(Name = nameof(Languages.LanguageStrings.ConfirmNewPassword))]
-        [StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
-        public string ConfirmNewPassword { get; set; }
+		[Required]
+		[Display(Name = nameof(Languages.LanguageStrings.ConfirmNewPassword))]
+		[StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
+		public string ConfirmNewPassword { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 
 #pragma warning restore CS1591
 }

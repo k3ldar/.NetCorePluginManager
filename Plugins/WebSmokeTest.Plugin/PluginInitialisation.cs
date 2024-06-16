@@ -39,67 +39,67 @@ using SharedPluginFeatures;
 
 namespace WebSmokeTest.Plugin
 {
-    /// <summary>
-    /// Implements IPlugin which allows the WebSmokeTest.Plugin module to be
-    /// loaded as a plugin module
-    /// </summary>
-    public sealed class PluginInitialisation : IPlugin, IInitialiseEvents
-    {
-        #region IPlugin Methods
+	/// <summary>
+	/// Implements IPlugin which allows the WebSmokeTest.Plugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	public sealed class PluginInitialisation : IPlugin, IInitialiseEvents
+	{
+		#region IPlugin Methods
 
-        public void Initialise(ILogger logger)
-        {
-            ThreadManager.Initialise();
-        }
+		public void Initialise(ILogger logger)
+		{
+			ThreadManager.Initialise();
+		}
 
-        public void Finalise()
-        {
+		public void Finalise()
+		{
 			if (ThreadManager.IsInitialized)
 				ThreadManager.Finalise();
-        }
+		}
 
-        public void ConfigureServices(IServiceCollection services)
-        {
+		public void ConfigureServices(IServiceCollection services)
+		{
 			// from interface but unused in this context
 		}
 
 		public ushort GetVersion()
-        {
-            return 1;
-        }
+		{
+			return 1;
+		}
 
-        #endregion IPlugin Methods
+		#endregion IPlugin Methods
 
-        #region IInitialiseEvents Methods
+		#region IInitialiseEvents Methods
 
-        public void BeforeConfigure(in IApplicationBuilder app)
-        {
+		public void BeforeConfigure(in IApplicationBuilder app)
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterConfigure(in IApplicationBuilder app)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void Configure(in IApplicationBuilder app)
-        {
-            app.UseWebSmokeTest();
-        }
+		{
+			app.UseWebSmokeTest();
+		}
 
-        public void BeforeConfigureServices(in IServiceCollection services)
-        {
+		public void BeforeConfigureServices(in IServiceCollection services)
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
-        {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
-        }
+		{
+			if (services == null)
+				throw new ArgumentNullException(nameof(services));
+		}
 
-        #endregion IInitialiseEvents Methods
-    }
+		#endregion IInitialiseEvents Methods
+	}
 }
 
 #pragma warning restore CS1591

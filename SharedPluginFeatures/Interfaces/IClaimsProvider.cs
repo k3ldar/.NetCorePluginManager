@@ -30,43 +30,43 @@ using Microsoft.AspNetCore.Authentication;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// IClaimsProvider returns individual claims and claims principals for a user
-    /// </summary>
-    public interface IClaimsProvider
-    {
-        /// <summary>
-        /// Retrieves a dictionary of ClaimsPrincipal, along with a dictionary of principal name/value pairs.
-        /// </summary>
-        /// <param name="userId">Unique Id of user whos claims are sought.</param>
-        /// <returns>IReadOnlyDictionary&lt;string, IReadOnlyDictionary&lt;string, string&gt;&gt;</returns>
-        List<ClaimsIdentity> GetUserClaims(in long userId);
+	/// <summary>
+	/// IClaimsProvider returns individual claims and claims principals for a user
+	/// </summary>
+	public interface IClaimsProvider
+	{
+		/// <summary>
+		/// Retrieves a dictionary of ClaimsPrincipal, along with a dictionary of principal name/value pairs.
+		/// </summary>
+		/// <param name="userId">Unique Id of user whos claims are sought.</param>
+		/// <returns>IReadOnlyDictionary&lt;string, IReadOnlyDictionary&lt;string, string&gt;&gt;</returns>
+		List<ClaimsIdentity> GetUserClaims(in long userId);
 
-        /// <summary>
-        /// Sets claims for an individual user.
-        /// </summary>
-        /// <param name="id">Id of the user whos claims will be set.</param>
-        /// <param name="claims">List&lt;string&gt; of claims for the user.</param>
-        /// <returns>bool</returns>
-        bool SetClaimsForUser(in long id, in List<string> claims);
+		/// <summary>
+		/// Sets claims for an individual user.
+		/// </summary>
+		/// <param name="id">Id of the user whos claims will be set.</param>
+		/// <param name="claims">List&lt;string&gt; of claims for the user.</param>
+		/// <returns>bool</returns>
+		bool SetClaimsForUser(in long id, in List<string> claims);
 
-        /// <summary>
-        /// Retrieves a list of all claims for a user.
-        /// </summary>
-        /// <param name="id">Id of the user whos claims will be retrieved.</param>
-        /// <returns></returns>
-        List<string> GetClaimsForUser(in long id);
+		/// <summary>
+		/// Retrieves a list of all claims for a user.
+		/// </summary>
+		/// <param name="id">Id of the user whos claims will be retrieved.</param>
+		/// <returns></returns>
+		List<string> GetClaimsForUser(in long id);
 
-        /// <summary>
-        /// Retrieves default properties to be used with IAuthenticationService interface
-        /// </summary>
-        /// <returns>AuthenticationProperties</returns>
-        AuthenticationProperties GetAuthenticationProperties();
+		/// <summary>
+		/// Retrieves default properties to be used with IAuthenticationService interface
+		/// </summary>
+		/// <returns>AuthenticationProperties</returns>
+		AuthenticationProperties GetAuthenticationProperties();
 
-        /// <summary>
-        /// Retrieves a list of all claims within the system
-        /// </summary>
-        /// <returns>List&lt;string&gt;</returns>
-        List<string> GetAllClaims();
-    }
+		/// <summary>
+		/// Retrieves a list of all claims within the system
+		/// </summary>
+		/// <returns>List&lt;string&gt;</returns>
+		List<string> GetAllClaims();
+	}
 }

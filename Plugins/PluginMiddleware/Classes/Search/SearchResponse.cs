@@ -27,33 +27,33 @@ using System.Collections.Generic;
 
 namespace Middleware.Search
 {
-    /// <summary>
-    /// Base search response
-    /// </summary>
-    public class SearchResponse : BaseSearchOptions
-    {
-        #region Constructors
+	/// <summary>
+	/// Base search response
+	/// </summary>
+	public class SearchResponse : BaseSearchOptions
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="isLoggedIn">Indicates that the search is being completed from a user who is logged in.</param>
-        /// <param name="searchTerm">The search term being sought.</param>
-        public SearchResponse(in bool isLoggedIn, in string searchTerm)
-            : base(isLoggedIn, searchTerm)
-        {
-            SearchResults = new List<SearchResponseItem>();
-        }
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="isLoggedIn">Indicates that the search is being completed from a user who is logged in.</param>
+		/// <param name="searchTerm">The search term being sought.</param>
+		public SearchResponse(in bool isLoggedIn, in string searchTerm)
+			: base(isLoggedIn, searchTerm)
+		{
+			SearchResults = new List<SearchResponseItem>();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// List of search results
-        /// </summary>
-        public List<SearchResponseItem> SearchResults { get; private set; }
+		/// <summary>
+		/// List of search results
+		/// </summary>
+		public List<SearchResponseItem> SearchResults { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

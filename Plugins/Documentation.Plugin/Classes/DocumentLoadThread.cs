@@ -31,42 +31,42 @@ using SharedPluginFeatures;
 
 namespace DocumentationPlugin.Classes
 {
-    /// <summary>
-    /// Thread that loads all documentation data when the plugin is initialised, preventing
-    /// any delay in the showing of doucmentation which can take a little while to load depending on the 
-    /// quantity and composition of document files.
-    /// </summary>
-    internal sealed class DocumentLoadThread : ThreadManager
-    {
-        #region Private Members
+	/// <summary>
+	/// Thread that loads all documentation data when the plugin is initialised, preventing
+	/// any delay in the showing of doucmentation which can take a little while to load depending on the 
+	/// quantity and composition of document files.
+	/// </summary>
+	internal sealed class DocumentLoadThread : ThreadManager
+	{
+		#region Private Members
 
-        private readonly IDocumentationService _documentationService;
+		private readonly IDocumentationService _documentationService;
 
-        #endregion Private members
+		#endregion Private members
 
-        #region Constructors
+		#region Constructors
 
-        public DocumentLoadThread(IDocumentationService documentationService)
-            : base(null, new TimeSpan(0, 5, 0), null, 10000, 200, false, true)
-        {
-            HangTimeout = 0;
-            _documentationService = documentationService ?? throw new ArgumentNullException(nameof(documentationService));
-        }
+		public DocumentLoadThread(IDocumentationService documentationService)
+			: base(null, new TimeSpan(0, 5, 0), null, 10000, 200, false, true)
+		{
+			HangTimeout = 0;
+			_documentationService = documentationService ?? throw new ArgumentNullException(nameof(documentationService));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Overridden Methods
+		#region Overridden Methods
 
-        protected override bool Run(object parameters)
-        {
-            DocumentPostProcess documentPostProcess = new(
-                _documentationService.GetDocuments());
+		protected override bool Run(object parameters)
+		{
+			DocumentPostProcess documentPostProcess = new(
+				_documentationService.GetDocuments());
 
-            PostProcessResults results = documentPostProcess.Process();
+			PostProcessResults results = documentPostProcess.Process();
 
-            return results.DocumentsProcessed == 0;
-        }
+			return results.DocumentsProcessed == 0;
+		}
 
-        #endregion Overridden Methods
-    }
+		#endregion Overridden Methods
+	}
 }

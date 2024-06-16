@@ -32,230 +32,230 @@ using SharedPluginFeatures;
 
 namespace Middleware.Search
 {
-    /// <summary>
-    /// The default thread item to be used for performing searches
-    /// </summary>
-    public class DefaultSearchThread : ThreadManager
-    {
-        #region Private Members
+	/// <summary>
+	/// The default thread item to be used for performing searches
+	/// </summary>
+	public class DefaultSearchThread : ThreadManager
+	{
+		#region Private Members
 
-        private readonly List<ISearchKeywordProvider> _searchKeywordProviders;
-        private readonly KeywordSearchOptions _keywordSearchOptions;
-        private static readonly CacheManager _searchCache = new("Search Cache", new TimeSpan(0, 20, 0), true, true);
-        private static readonly object _lockObject = new();
-        private static readonly Timings _searchTimings = new();
+		private readonly List<ISearchKeywordProvider> _searchKeywordProviders;
+		private readonly KeywordSearchOptions _keywordSearchOptions;
+		private static readonly CacheManager _searchCache = new("Search Cache", new TimeSpan(0, 20, 0), true, true);
+		private static readonly object _lockObject = new();
+		private static readonly Timings _searchTimings = new();
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        private DefaultSearchThread(in List<ISearchKeywordProvider> searchProviders,
-            in KeywordSearchOptions keywordSearchOptions)
-            : base(null, new TimeSpan(), null, 0, 0, true, true)
-        {
-            _searchKeywordProviders = searchProviders ?? throw new ArgumentNullException(nameof(searchProviders));
-            _keywordSearchOptions = keywordSearchOptions ?? throw new ArgumentNullException(nameof(keywordSearchOptions));
-        }
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		private DefaultSearchThread(in List<ISearchKeywordProvider> searchProviders,
+			in KeywordSearchOptions keywordSearchOptions)
+			: base(null, new TimeSpan(), null, 0, 0, true, true)
+		{
+			_searchKeywordProviders = searchProviders ?? throw new ArgumentNullException(nameof(searchProviders));
+			_keywordSearchOptions = keywordSearchOptions ?? throw new ArgumentNullException(nameof(keywordSearchOptions));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Static Properties
+		#region Static Properties
 
-        /// <summary>
-        /// Default search cache item
-        /// </summary>
-        public static CacheManager SearchCache
-        {
-            get
-            {
-                return _searchCache;
-            }
-        }
+		/// <summary>
+		/// Default search cache item
+		/// </summary>
+		public static CacheManager SearchCache
+		{
+			get
+			{
+				return _searchCache;
+			}
+		}
 
-        /// <summary>
-        /// Retrieves the timings for searches
-        /// </summary>
-        /// <value>Timings</value>
-        public static Timings SearchTimings
-        {
-            get
-            {
-                return _searchTimings;
-            }
-        }
+		/// <summary>
+		/// Retrieves the timings for searches
+		/// </summary>
+		/// <value>Timings</value>
+		public static Timings SearchTimings
+		{
+			get
+			{
+				return _searchTimings;
+			}
+		}
 
-        #endregion Static Properties
+		#endregion Static Properties
 
-        #region Static Methods
+		#region Static Methods
 
-        /// <summary>
-        /// Default keyword search using the specified options and parameters.
-        /// </summary>
-        /// <param name="searchProviders">List of search providers to be searched.</param>
-        /// <param name="keywordSearchOptions">Keyword search options</param>
-        /// <returns>List&lt;SearchResponseItem&gt;</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Exceptions are meant for developers not end users.")]
-        public static List<SearchResponseItem> KeywordSearch(in List<ISearchKeywordProvider> searchProviders,
-            in KeywordSearchOptions keywordSearchOptions)
-        {
-            using (StopWatchTimer timer = new(_searchTimings))
-            {
-                if (keywordSearchOptions == null)
-                {
-                    throw new ArgumentNullException(nameof(keywordSearchOptions));
-                }
+		/// <summary>
+		/// Default keyword search using the specified options and parameters.
+		/// </summary>
+		/// <param name="searchProviders">List of search providers to be searched.</param>
+		/// <param name="keywordSearchOptions">Keyword search options</param>
+		/// <returns>List&lt;SearchResponseItem&gt;</returns>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Exceptions are meant for developers not end users.")]
+		public static List<SearchResponseItem> KeywordSearch(in List<ISearchKeywordProvider> searchProviders,
+			in KeywordSearchOptions keywordSearchOptions)
+		{
+			using (StopWatchTimer timer = new(_searchTimings))
+			{
+				if (keywordSearchOptions == null)
+				{
+					throw new ArgumentNullException(nameof(keywordSearchOptions));
+				}
 
-                CacheItem cacheItem = _searchCache.Get(keywordSearchOptions.SearchName);
+				CacheItem cacheItem = _searchCache.Get(keywordSearchOptions.SearchName);
 
-                using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-                {
-                    if (cacheItem == null && !ThreadManager.Exists(keywordSearchOptions.SearchName))
-                    {
-                        DefaultSearchThread searchThread = new(searchProviders, keywordSearchOptions);
-                        ThreadStart(searchThread, keywordSearchOptions.SearchName, System.Threading.ThreadPriority.BelowNormal);
-                    }
-                }
+				using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+				{
+					if (cacheItem == null && !ThreadManager.Exists(keywordSearchOptions.SearchName))
+					{
+						DefaultSearchThread searchThread = new(searchProviders, keywordSearchOptions);
+						ThreadStart(searchThread, keywordSearchOptions.SearchName, System.Threading.ThreadPriority.BelowNormal);
+					}
+				}
 
-                DateTime searchStart = DateTime.Now;
+				DateTime searchStart = DateTime.Now;
 
-                while (true)
-                {
-                    TimeSpan span = DateTime.Now - searchStart;
+				while (true)
+				{
+					TimeSpan span = DateTime.Now - searchStart;
 
-                    if (span.TotalMilliseconds > keywordSearchOptions.Timeout)
-                    {
-                        throw new TimeoutException("Search timed out");
-                    }
+					if (span.TotalMilliseconds > keywordSearchOptions.Timeout)
+					{
+						throw new TimeoutException("Search timed out");
+					}
 
-                    cacheItem = _searchCache.Get(keywordSearchOptions.SearchName);
+					cacheItem = _searchCache.Get(keywordSearchOptions.SearchName);
 
-                    if (cacheItem != null)
-                    {
-                        break;
-                    }
-                }
+					if (cacheItem != null)
+					{
+						break;
+					}
+				}
 
-                return (List<SearchResponseItem>)cacheItem.Value;
-            }
-        }
+				return (List<SearchResponseItem>)cacheItem.Value;
+			}
+		}
 
-        /// <summary>
-        /// Default keyword search using the specified options and parameters.
-        /// </summary>
-        /// <param name="searchProvider">Search providers to be searched.</param>
-        /// <param name="keywordSearchOptions">Keyword search options</param>
-        /// <returns>List&lt;SearchResponseItem&gt;</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Exceptions are meant for developers not end users.")]
-        public static List<SearchResponseItem> KeywordSearch(in ISearchKeywordProvider searchProvider,
-            in KeywordSearchOptions keywordSearchOptions)
-        {
-            using (StopWatchTimer timer = new(_searchTimings))
-            {
-                if (keywordSearchOptions == null)
-                {
-                    throw new ArgumentNullException(nameof(keywordSearchOptions));
-                }
+		/// <summary>
+		/// Default keyword search using the specified options and parameters.
+		/// </summary>
+		/// <param name="searchProvider">Search providers to be searched.</param>
+		/// <param name="keywordSearchOptions">Keyword search options</param>
+		/// <returns>List&lt;SearchResponseItem&gt;</returns>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Exceptions are meant for developers not end users.")]
+		public static List<SearchResponseItem> KeywordSearch(in ISearchKeywordProvider searchProvider,
+			in KeywordSearchOptions keywordSearchOptions)
+		{
+			using (StopWatchTimer timer = new(_searchTimings))
+			{
+				if (keywordSearchOptions == null)
+				{
+					throw new ArgumentNullException(nameof(keywordSearchOptions));
+				}
 
-                CacheItem cacheItem = _searchCache.Get(keywordSearchOptions.SearchName);
+				CacheItem cacheItem = _searchCache.Get(keywordSearchOptions.SearchName);
 
-                using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-                {
-                    if (cacheItem == null && !ThreadManager.Exists(keywordSearchOptions.SearchName))
-                    {
-                        List<ISearchKeywordProvider> searchProviders = new()
-                        {
-                            { searchProvider }
-                        };
+				using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+				{
+					if (cacheItem == null && !ThreadManager.Exists(keywordSearchOptions.SearchName))
+					{
+						List<ISearchKeywordProvider> searchProviders = new()
+						{
+							{ searchProvider }
+						};
 
-                        DefaultSearchThread searchThread = new(searchProviders, keywordSearchOptions);
-                        ThreadStart(searchThread, keywordSearchOptions.SearchName, System.Threading.ThreadPriority.BelowNormal);
-                    }
-                }
+						DefaultSearchThread searchThread = new(searchProviders, keywordSearchOptions);
+						ThreadStart(searchThread, keywordSearchOptions.SearchName, System.Threading.ThreadPriority.BelowNormal);
+					}
+				}
 
-                DateTime searchStart = DateTime.Now;
+				DateTime searchStart = DateTime.Now;
 
-                while (true)
-                {
-                    TimeSpan span = DateTime.Now - searchStart;
+				while (true)
+				{
+					TimeSpan span = DateTime.Now - searchStart;
 
-                    if (span.TotalMilliseconds > keywordSearchOptions.Timeout)
-                    {
-                        throw new TimeoutException("Search timed out");
-                    }
+					if (span.TotalMilliseconds > keywordSearchOptions.Timeout)
+					{
+						throw new TimeoutException("Search timed out");
+					}
 
-                    cacheItem = _searchCache.Get(keywordSearchOptions.SearchName);
+					cacheItem = _searchCache.Get(keywordSearchOptions.SearchName);
 
-                    if (cacheItem != null)
-                    {
-                        break;
-                    }
-                }
+					if (cacheItem != null)
+					{
+						break;
+					}
+				}
 
-                return (List<SearchResponseItem>)cacheItem.Value;
-            }
-        }
+				return (List<SearchResponseItem>)cacheItem.Value;
+			}
+		}
 
-        /// <summary>
-        /// Retrieve search data based on the name of the search, if it exists.
-        /// </summary>
-        /// <param name="searchName"></param>
-        /// <returns>List&lt;SearchResponseItem&gt;</returns>
-        public static List<SearchResponseItem> RetrieveSearch(in string searchName)
-        {
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                CacheItem cache = _searchCache.Get(searchName);
+		/// <summary>
+		/// Retrieve search data based on the name of the search, if it exists.
+		/// </summary>
+		/// <param name="searchName"></param>
+		/// <returns>List&lt;SearchResponseItem&gt;</returns>
+		public static List<SearchResponseItem> RetrieveSearch(in string searchName)
+		{
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				CacheItem cache = _searchCache.Get(searchName);
 
-                if (cache == null)
-                {
-                    return null;
-                }
+				if (cache == null)
+				{
+					return null;
+				}
 
-                return (List<SearchResponseItem>)cache.Value;
-            }
-        }
+				return (List<SearchResponseItem>)cache.Value;
+			}
+		}
 
-        #endregion Static Methods
+		#endregion Static Methods
 
-        #region Overridden Methods
+		#region Overridden Methods
 
-        /// <summary>
-        /// Method that executes a search in a dedicated thread
-        /// </summary>
-        /// <param name="parameters"></param>
-        /// <returns>bool</returns>
-        protected override Boolean Run(object parameters)
-        {
-            List<SearchResponseItem> Results = new();
+		/// <summary>
+		/// Method that executes a search in a dedicated thread
+		/// </summary>
+		/// <param name="parameters"></param>
+		/// <returns>bool</returns>
+		protected override Boolean Run(object parameters)
+		{
+			List<SearchResponseItem> Results = new();
 
-            foreach (ISearchKeywordProvider keywordProvider in _searchKeywordProviders)
-            {
-                if (HasCancelled())
-                    return false;
+			foreach (ISearchKeywordProvider keywordProvider in _searchKeywordProviders)
+			{
+				if (HasCancelled())
+					return false;
 
-                List<SearchResponseItem> keywords = keywordProvider.Search(_keywordSearchOptions);
+				List<SearchResponseItem> keywords = keywordProvider.Search(_keywordSearchOptions);
 
-                if (keywords != null)
-                {
-                    foreach (SearchResponseItem searchResult in keywords)
-                    {
-                        if (HasCancelled())
-                            return false;
+				if (keywords != null)
+				{
+					foreach (SearchResponseItem searchResult in keywords)
+					{
+						if (HasCancelled())
+							return false;
 
-                        Results.Add(searchResult);
-                    }
-                }
-            }
+						Results.Add(searchResult);
+					}
+				}
+			}
 
-            CacheItem cacheItem = new(Name, Results);
-            _searchCache.Add(Name, cacheItem, true);
+			CacheItem cacheItem = new(Name, Results);
+			_searchCache.Add(Name, cacheItem, true);
 
-            return false;
-        }
+			return false;
+		}
 
-        #endregion Overridden Methods
-    }
+		#endregion Overridden Methods
+	}
 }

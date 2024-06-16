@@ -35,70 +35,70 @@ using PluginManager.Tests.Mocks;
 
 namespace PluginManager.Tests
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
-    public class PluginClassesServiceTests
-    {
-        [TestMethod]
-        public void FindAllILoggerClassTypes()
-        {
-            using (MockPluginManager pluginManager = new())
-            {
-                IPluginClassesService pluginServices = pluginManager as IPluginClassesService;
+	[TestClass]
+	[ExcludeFromCodeCoverage]
+	public class PluginClassesServiceTests
+	{
+		[TestMethod]
+		public void FindAllILoggerClassTypes()
+		{
+			using (MockPluginManager pluginManager = new())
+			{
+				IPluginClassesService pluginServices = pluginManager as IPluginClassesService;
 
-                Assert.IsNotNull(pluginServices);
+				Assert.IsNotNull(pluginServices);
 
-                List<Type> classTypes = pluginServices.GetPluginClassTypes<ILogger>();
+				List<Type> classTypes = pluginServices.GetPluginClassTypes<ILogger>();
 
-                Assert.AreEqual(1, classTypes.Count);
+				Assert.AreEqual(1, classTypes.Count);
 
-                Assert.AreEqual("PluginManager.Internal.DefaultLogger", classTypes[0].FullName);
-            }
-        }
+				Assert.AreEqual("PluginManager.Internal.DefaultLogger", classTypes[0].FullName);
+			}
+		}
 
-        [TestMethod]
-        public void FindTestLoggerClassTypeInstances()
-        {
-            using (MockPluginManager pluginManager = new())
-            {
-                pluginManager.PluginLoad(Assembly.GetExecutingAssembly(), String.Empty, false);
-                IPluginClassesService pluginServices = pluginManager as IPluginClassesService;
+		[TestMethod]
+		public void FindTestLoggerClassTypeInstances()
+		{
+			using (MockPluginManager pluginManager = new())
+			{
+				pluginManager.PluginLoad(Assembly.GetExecutingAssembly(), String.Empty, false);
+				IPluginClassesService pluginServices = pluginManager as IPluginClassesService;
 
-                Assert.IsNotNull(pluginServices);
+				Assert.IsNotNull(pluginServices);
 
-                List<ILogger> classTypes = pluginServices.GetPluginClasses<ILogger>();
+				List<ILogger> classTypes = pluginServices.GetPluginClasses<ILogger>();
 
-                Assert.AreEqual(2, classTypes.Count);
+				Assert.AreEqual(2, classTypes.Count);
 
-                Assert.AreEqual("PluginManager.Tests.Mocks.MockLogger", classTypes[1].GetType().FullName);
-            }
-        }
+				Assert.AreEqual("PluginManager.Tests.Mocks.MockLogger", classTypes[1].GetType().FullName);
+			}
+		}
 
-        [TestMethod]
-        public void FindTestLoggerClassTypeInstancesAddLogAndVerify()
-        {
-            using (MockPluginManager pluginManager = new())
-            {
-                pluginManager.PluginLoad(Assembly.GetExecutingAssembly(), String.Empty, false);
-                IPluginClassesService pluginServices = pluginManager as IPluginClassesService;
+		[TestMethod]
+		public void FindTestLoggerClassTypeInstancesAddLogAndVerify()
+		{
+			using (MockPluginManager pluginManager = new())
+			{
+				pluginManager.PluginLoad(Assembly.GetExecutingAssembly(), String.Empty, false);
+				IPluginClassesService pluginServices = pluginManager as IPluginClassesService;
 
-                Assert.IsNotNull(pluginServices);
+				Assert.IsNotNull(pluginServices);
 
-                List<ILogger> classTypes = pluginServices.GetPluginClasses<ILogger>();
+				List<ILogger> classTypes = pluginServices.GetPluginClasses<ILogger>();
 
-                Assert.AreEqual(2, classTypes.Count);
+				Assert.AreEqual(2, classTypes.Count);
 
-                Assert.AreEqual("PluginManager.Tests.Mocks.MockLogger", classTypes[1].GetType().FullName);
+				Assert.AreEqual("PluginManager.Tests.Mocks.MockLogger", classTypes[1].GetType().FullName);
 
-                MockLogger testLogger = classTypes[1] as MockLogger;
+				MockLogger testLogger = classTypes[1] as MockLogger;
 
-                Assert.IsNotNull(testLogger);
+				Assert.IsNotNull(testLogger);
 
-                testLogger.AddToLog(LogLevel.Information, "test");
+				testLogger.AddToLog(LogLevel.Information, "test");
 
-                Assert.AreEqual("test", testLogger.Logs[0].Data);
-                Assert.AreEqual(LogLevel.Information, testLogger.Logs[0].LogLevel);
-            }
-        }
-    }
+				Assert.AreEqual("test", testLogger.Logs[0].Data);
+				Assert.AreEqual(LogLevel.Information, testLogger.Logs[0].LogLevel);
+			}
+		}
+	}
 }

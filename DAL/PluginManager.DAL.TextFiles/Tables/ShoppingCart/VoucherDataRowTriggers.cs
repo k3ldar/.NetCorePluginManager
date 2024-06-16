@@ -27,61 +27,61 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal sealed class VoucherDataRowTriggers : ITableTriggers<VoucherDataRow>
-    {
-        public int Position => throw new NotImplementedException();
+	internal sealed class VoucherDataRowTriggers : ITableTriggers<VoucherDataRow>
+	{
+		public int Position => throw new NotImplementedException();
 
-        public TriggerType TriggerTypes => TriggerType.BeforeUpdate | TriggerType.BeforeInsert;
+		public TriggerType TriggerTypes => TriggerType.BeforeUpdate | TriggerType.BeforeInsert;
 
-        public void AfterDelete(List<VoucherDataRow> records)
-        {
+		public void AfterDelete(List<VoucherDataRow> records)
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterInsert(List<VoucherDataRow> records)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterUpdate(List<VoucherDataRow> records)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeDelete(List<VoucherDataRow> records)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeInsert(List<VoucherDataRow> records)
-        {
-            ValidateVoucherData(records);
-        }
+		{
+			ValidateVoucherData(records);
+		}
 
-        public void BeforeUpdate(List<VoucherDataRow> records)
-        {
-            ValidateVoucherData(records);
-        }
+		public void BeforeUpdate(List<VoucherDataRow> records)
+		{
+			ValidateVoucherData(records);
+		}
 
-        public void BeforeUpdate(VoucherDataRow newRecord, VoucherDataRow oldRecord)
-        {
+		public void BeforeUpdate(VoucherDataRow newRecord, VoucherDataRow oldRecord)
+		{
 			// from interface but unused in this context
 		}
 
 		private static void ValidateVoucherData(List<VoucherDataRow> records)
-        {
-            foreach (VoucherDataRow record in records)
-            {
-                if (record.ValidFromTicks < DateTime.MinValue.Ticks)
-                    record.ValidFromTicks = DateTime.MinValue.Ticks;
+		{
+			foreach (VoucherDataRow record in records)
+			{
+				if (record.ValidFromTicks < DateTime.MinValue.Ticks)
+					record.ValidFromTicks = DateTime.MinValue.Ticks;
 
-                if (record.ValidToTicks > DateTime.MaxValue.Ticks)
-                    record.ValidToTicks = DateTime.MaxValue.Ticks;
+				if (record.ValidToTicks > DateTime.MaxValue.Ticks)
+					record.ValidToTicks = DateTime.MaxValue.Ticks;
 
-                //individual product discount not yet supported
-                record.ProductId = 0;
-            }
-        }
+				//individual product discount not yet supported
+				record.ProductId = 0;
+			}
+		}
 
-    }
+	}
 }

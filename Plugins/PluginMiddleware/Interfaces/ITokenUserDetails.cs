@@ -26,44 +26,44 @@
 
 namespace Middleware
 {
-    /// <summary>
-    /// User details obtained via OAuth
-    /// </summary>
-    public interface ITokenUserDetails
-    {
-        /// <summary>
-        /// User Id
-        /// </summary>
-        string Id { get; set; }
+	/// <summary>
+	/// User details obtained via OAuth
+	/// </summary>
+	public interface ITokenUserDetails
+	{
+		/// <summary>
+		/// User Id
+		/// </summary>
+		string Id { get; set; }
 
-        /// <summary>
-        /// User name
-        /// </summary>
-        string Name { get; set; }
+		/// <summary>
+		/// User name
+		/// </summary>
+		string Name { get; set; }
 
-        /// <summary>
-        /// Give name
-        /// </summary>
-        string GivenName { get; set; }
+		/// <summary>
+		/// Give name
+		/// </summary>
+		string GivenName { get; set; }
 
-        /// <summary>
-        /// Email address
-        /// </summary>
-        string Email { get; set; }
+		/// <summary>
+		/// Email address
+		/// </summary>
+		string Email { get; set; }
 
-        /// <summary>
-        /// Picture
-        /// </summary>
-        string Picture { get; set; }
+		/// <summary>
+		/// Picture
+		/// </summary>
+		string Picture { get; set; }
 
-        /// <summary>
-        /// Provider of the current credentials
-        /// </summary>
-        string Provider { get; set; }
+		/// <summary>
+		/// Provider of the current credentials
+		/// </summary>
+		string Provider { get; set; }
 
-        /// <summary>
-        /// Indicates whether we are just verifying the details or performing a login
-        /// </summary>
-        bool Verify { get; set; }
-    }
+		/// <summary>
+		/// Indicates whether we are just verifying the details or performing a login
+		/// </summary>
+		bool Verify { get; set; }
+	}
 }

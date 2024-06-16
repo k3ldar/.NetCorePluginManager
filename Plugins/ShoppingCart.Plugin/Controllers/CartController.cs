@@ -46,248 +46,248 @@ using ShoppingCartPlugin.Models;
 
 namespace ShoppingCartPlugin.Controllers
 {
-    [DenySpider]
-    [Subdomain(CartController.Name)]
-    public partial class CartController : BaseController
-    {
+	[DenySpider]
+	[Subdomain(CartController.Name)]
+	public partial class CartController : BaseController
+	{
 		#region Private Members
 
-        private const string Name = "Cart";
-        private readonly IShoppingCartProvider _shoppingCartProvider;
-        private readonly IAccountProvider _accountProvider;
-        private readonly IPluginClassesService _pluginClassesService;
-        private readonly IApplicationProvider _applicationProvider;
-        private readonly IStockProvider _stockProvider;
+		private const string Name = "Cart";
+		private readonly IShoppingCartProvider _shoppingCartProvider;
+		private readonly IAccountProvider _accountProvider;
+		private readonly IPluginClassesService _pluginClassesService;
+		private readonly IApplicationProvider _applicationProvider;
+		private readonly IStockProvider _stockProvider;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public CartController(IShoppingCartProvider shoppingCartProvider, IAccountProvider accountProvider,
-            IPluginClassesService pluginClassesService, IStockProvider stockProvider,
-            IApplicationProvider applicationProvider)
-        {
-            _applicationProvider = applicationProvider ?? throw new ArgumentNullException(nameof(applicationProvider));
-            _shoppingCartProvider = shoppingCartProvider ?? throw new ArgumentNullException(nameof(shoppingCartProvider));
-            _accountProvider = accountProvider ?? throw new ArgumentNullException(nameof(accountProvider));
-            _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
-            _stockProvider = stockProvider ?? throw new ArgumentNullException(nameof(stockProvider));
-        }
+		public CartController(IShoppingCartProvider shoppingCartProvider, IAccountProvider accountProvider,
+			IPluginClassesService pluginClassesService, IStockProvider stockProvider,
+			IApplicationProvider applicationProvider)
+		{
+			_applicationProvider = applicationProvider ?? throw new ArgumentNullException(nameof(applicationProvider));
+			_shoppingCartProvider = shoppingCartProvider ?? throw new ArgumentNullException(nameof(shoppingCartProvider));
+			_accountProvider = accountProvider ?? throw new ArgumentNullException(nameof(accountProvider));
+			_pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
+			_stockProvider = stockProvider ?? throw new ArgumentNullException(nameof(stockProvider));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Action Methods
+		#region Public Action Methods
 
-        [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.ShoppingCart))]
-        public IActionResult Index()
-        {
-            List<BasketItemModel> basketItems = new();
-            ShoppingCartSummary cartSummary = GetCartSummary();
-            BasketModel model;
+		[HttpGet]
+		[Breadcrumb(nameof(Languages.LanguageStrings.ShoppingCart))]
+		public IActionResult Index()
+		{
+			List<BasketItemModel> basketItems = new();
+			ShoppingCartSummary cartSummary = GetCartSummary();
+			BasketModel model;
 
-            BaseModelData modelData = GetModelData();
+			BaseModelData modelData = GetModelData();
 
-            if (cartSummary.Id != 0)
-            {
-                ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(cartSummary.Id);
-                _stockProvider.GetStockAvailability(cartDetails.Items);
+			if (cartSummary.Id != 0)
+			{
+				ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(cartSummary.Id);
+				_stockProvider.GetStockAvailability(cartDetails.Items);
 
-                foreach (ShoppingCartItem item in cartDetails.Items)
-                {
-                    basketItems.Add(new BasketItemModel(GetModelData(),
-                        item.Id, item.Name, item.Description,
-                        item.Size, item.SKU, item.ItemCost, (int)item.ItemCount,
-                        item.StockAvailability > 500 ? "> 500" : item.StockAvailability.ToString(),
-                        item.ItemCount * item.ItemCost, false, item.Images[0]));
-                }
+				foreach (ShoppingCartItem item in cartDetails.Items)
+				{
+					basketItems.Add(new BasketItemModel(GetModelData(),
+						item.Id, item.Name, item.Description,
+						item.Size, item.SKU, item.ItemCost, (int)item.ItemCount,
+						item.StockAvailability > 500 ? "> 500" : item.StockAvailability.ToString(),
+						item.ItemCount * item.ItemCost, false, item.Images[0]));
+				}
 
-                if (TempData.ContainsKey("VoucherError"))
-                {
-                    ModelState.AddModelError(nameof(VoucherModel.Voucher), Languages.LanguageStrings.VoucherInvalid);
-                    TempData.Remove("VoucherError");
-                }
+				if (TempData.ContainsKey("VoucherError"))
+				{
+					ModelState.AddModelError(nameof(VoucherModel.Voucher), Languages.LanguageStrings.VoucherInvalid);
+					TempData.Remove("VoucherError");
+				}
 
-                modelData.ReplaceCartSummary(cartSummary);
-                model = new BasketModel(modelData, basketItems,
-                    cartDetails.CouponCode, cartDetails.RequiresShipping,
-                    !String.IsNullOrEmpty(GetUserSession().UserEmail));
-            }
-            else
-            {
-                modelData.ReplaceCartSummary(cartSummary);
-                model = new BasketModel(modelData, new List<BasketItemModel>(),
-                    String.Empty, false, GetUserSession().UserID != 0);
-            }
+				modelData.ReplaceCartSummary(cartSummary);
+				model = new BasketModel(modelData, basketItems,
+					cartDetails.CouponCode, cartDetails.RequiresShipping,
+					!String.IsNullOrEmpty(GetUserSession().UserEmail));
+			}
+			else
+			{
+				modelData.ReplaceCartSummary(cartSummary);
+				model = new BasketModel(modelData, new List<BasketItemModel>(),
+					String.Empty, false, GetUserSession().UserID != 0);
+			}
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [Route("/Cart/Delete/{productId}")]
-        public IActionResult Delete(int productId)
-        {
-            ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
+		[Route("/Cart/Delete/{productId}")]
+		public IActionResult Delete(int productId)
+		{
+			ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
 
-            cartDetails.Delete(productId);
+			cartDetails.Delete(productId);
 
-            return RedirectToAction(nameof(Index));
-        }
+			return RedirectToAction(nameof(Index));
+		}
 
-        [HttpPost]
-        public IActionResult Update(UpdateQuantityModel model)
-        {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+		[HttpPost]
+		public IActionResult Update(UpdateQuantityModel model)
+		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
 
-            ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
+			ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
 
-            ShoppingCartItem item = cartDetails.Items.Find(i => i.Id == model.ProductId);
+			ShoppingCartItem item = cartDetails.Items.Find(i => i.Id == model.ProductId);
 
-            if (item != null)
-            {
-                cartDetails.Update(item.Id, model.Quantity);
-            }
+			if (item != null)
+			{
+				cartDetails.Update(item.Id, model.Quantity);
+			}
 
-            return RedirectToAction(nameof(Index));
-        }
+			return RedirectToAction(nameof(Index));
+		}
 
-        [HttpPost]
-        public IActionResult AddVoucher(VoucherModel model)
-        {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+		[HttpPost]
+		public IActionResult AddVoucher(VoucherModel model)
+		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
 
-            if (!String.IsNullOrEmpty(model.Voucher) && _shoppingCartProvider.ValidateVoucher(GetCartSummary(), model.Voucher, GetUserSession().UserID))
-                    return RedirectToAction(nameof(Index));
+			if (!String.IsNullOrEmpty(model.Voucher) && _shoppingCartProvider.ValidateVoucher(GetCartSummary(), model.Voucher, GetUserSession().UserID))
+				return RedirectToAction(nameof(Index));
 
-            TempData["VoucherError"] = Languages.LanguageStrings.VoucherInvalid;
+			TempData["VoucherError"] = Languages.LanguageStrings.VoucherInvalid;
 
-            return RedirectToAction(nameof(Index));
-        }
+			return RedirectToAction(nameof(Index));
+		}
 
-        [HttpGet]
-        [Breadcrumb(nameof(Shipping), nameof(CartController), nameof(Index))]
-        public IActionResult Shipping()
-        {
-            ShoppingCartSummary cartSummary = GetCartSummary();
-            ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(cartSummary.Id);
+		[HttpGet]
+		[Breadcrumb(nameof(Shipping), nameof(CartController), nameof(Index))]
+		public IActionResult Shipping()
+		{
+			ShoppingCartSummary cartSummary = GetCartSummary();
+			ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(cartSummary.Id);
 
-            if (!cartDetails.RequiresShipping)
-                return RedirectToAction(nameof(Checkout));
+			if (!cartDetails.RequiresShipping)
+				return RedirectToAction(nameof(Checkout));
 
-            ShippingModel model = new(GetModelData());
-            PrepareShippingAddressModel(in model, _accountProvider.GetDeliveryAddresses(GetUserSession().UserID));
+			ShippingModel model = new(GetModelData());
+			PrepareShippingAddressModel(in model, _accountProvider.GetDeliveryAddresses(GetUserSession().UserID));
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpPost]
-        [Breadcrumb(nameof(Checkout), nameof(CartController), nameof(Shipping))]
-        public IActionResult Checkout(int? shippingId)
-        {
-            CheckoutModel model = new(GetModelData());
-            ShoppingCartDetail cartDetail = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
+		[HttpPost]
+		[Breadcrumb(nameof(Checkout), nameof(CartController), nameof(Shipping))]
+		public IActionResult Checkout(int? shippingId)
+		{
+			CheckoutModel model = new(GetModelData());
+			ShoppingCartDetail cartDetail = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
 
-            if (cartDetail.RequiresShipping && (!shippingId.HasValue || shippingId.Value < 1))
-                return RedirectToAction(nameof(Shipping));
+			if (cartDetail.RequiresShipping && (!shippingId.HasValue || shippingId.Value < 1))
+				return RedirectToAction(nameof(Shipping));
 
-            if (!cartDetail.RequiresShipping)
-                model.Breadcrumbs.RemoveAt(2);
+			if (!cartDetail.RequiresShipping)
+				model.Breadcrumbs.RemoveAt(2);
 
-            DeliveryAddress shippingAddress = _accountProvider.GetDeliveryAddress(GetUserSession().UserID, shippingId.Value);
+			DeliveryAddress shippingAddress = _accountProvider.GetDeliveryAddress(GetUserSession().UserID, shippingId.Value);
 
 
-            if (shippingAddress != null)
-                cartDetail.SetDeliveryAddress(shippingAddress);
+			if (shippingAddress != null)
+				cartDetail.SetDeliveryAddress(shippingAddress);
 
-            PrepareCheckoutModel(model, cartDetail);
+			PrepareCheckoutModel(model, cartDetail);
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpPost]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "I deem it to be valid in this context!")]
-        public IActionResult ProcessCheckout(CheckoutModel model)
-        {
-            // get the selected provider
-            IPaymentProvider provider = _pluginClassesService.GetPluginClasses<IPaymentProvider>()
+		[HttpPost]
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "I deem it to be valid in this context!")]
+		public IActionResult ProcessCheckout(CheckoutModel model)
+		{
+			// get the selected provider
+			IPaymentProvider provider = _pluginClassesService.GetPluginClasses<IPaymentProvider>()
 				.Find(p => p.UniqueId().CompareTo(model.SelectedProviderId) == 0);
 
-            if (provider == null)
-                throw new InvalidOperationException(Middleware.Constants.PaymentProviderNotFound);
+			if (provider == null)
+				throw new InvalidOperationException(Middleware.Constants.PaymentProviderNotFound);
 
-            ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
-            UserSession session = GetUserSession();
+			ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
+			UserSession session = GetUserSession();
 
-            if (_shoppingCartProvider.ConvertToOrder(cartDetails, session.UserID, out Order order) &&
+			if (_shoppingCartProvider.ConvertToOrder(cartDetails, session.UserID, out Order order) &&
 				provider.Execute(HttpContext.Request, order, PaymentStatus.Unpaid, session, out string providerUrl))
-            {
-                session.Tag = order.Id;
-                return Redirect(providerUrl);
-            }
+			{
+				session.Tag = order.Id;
+				return Redirect(providerUrl);
+			}
 
-            return RedirectToAction(nameof(Failed));
-        }
+			return RedirectToAction(nameof(Failed));
+		}
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.PaymentFailed), "Cart", nameof(Index))]
-        public IActionResult Failed()
-        {
-            return View(new BaseModel(GetModelData()));
-        }
+		[Breadcrumb(nameof(Languages.LanguageStrings.PaymentFailed), "Cart", nameof(Index))]
+		public IActionResult Failed()
+		{
+			return View(new BaseModel(GetModelData()));
+		}
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.ThankyouOrder), "Cart", nameof(Index))]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Forms part of route name")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
-        public IActionResult Success(string provider)
-        {
-            UserSession session = GetUserSession();
+		[Breadcrumb(nameof(Languages.LanguageStrings.ThankyouOrder), "Cart", nameof(Index))]
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Forms part of route name")]
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
+		public IActionResult Success(string provider)
+		{
+			UserSession session = GetUserSession();
 
-            BaseModelData modelData = GetModelData();
-            modelData.ReplaceCartSummary(new ShoppingCartSummary(0, 0, 0, 0, 0, GetDefaultTaxRate(),
-                System.Threading.Thread.CurrentThread.CurrentUICulture,
-                SharedPluginFeatures.Constants.CurrencyCodeDefault));
+			BaseModelData modelData = GetModelData();
+			modelData.ReplaceCartSummary(new ShoppingCartSummary(0, 0, 0, 0, 0, GetDefaultTaxRate(),
+				System.Threading.Thread.CurrentThread.CurrentUICulture,
+				SharedPluginFeatures.Constants.CurrencyCodeDefault));
 
-            PaymentSuccessModel model = new(modelData, (int)session.Tag);
+			PaymentSuccessModel model = new(modelData, (int)session.Tag);
 
-            // clear basket data
-            session.Tag = null;
-            session.UserBasketId = 0;
-            CookieDelete(SharedPluginFeatures.Constants.ShoppingCart);
+			// clear basket data
+			session.Tag = null;
+			session.UserBasketId = 0;
+			CookieDelete(SharedPluginFeatures.Constants.ShoppingCart);
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        #endregion Public Action Methods
+		#endregion Public Action Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private void PrepareShippingAddressModel(in ShippingModel model, in List<DeliveryAddress> deliveryAddresses)
-        {
-            foreach (DeliveryAddress address in deliveryAddresses)
-            {
-                model.ShippingAddresses.Add(new ShippingAddressModel(GetModelData(),
-                    address.Id, address.BusinessName, address.AddressLine1, address.AddressLine2,
-                    address.AddressLine3, address.City, address.County, address.Postcode,
-                    address.Country, address.PostageCost));
-            }
-        }
+		private void PrepareShippingAddressModel(in ShippingModel model, in List<DeliveryAddress> deliveryAddresses)
+		{
+			foreach (DeliveryAddress address in deliveryAddresses)
+			{
+				model.ShippingAddresses.Add(new ShippingAddressModel(GetModelData(),
+					address.Id, address.BusinessName, address.AddressLine1, address.AddressLine2,
+					address.AddressLine3, address.City, address.County, address.Postcode,
+					address.Country, address.PostageCost));
+			}
+		}
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "OK in this context")]
-        private void PrepareCheckoutModel(in CheckoutModel model, in ShoppingCartDetail cartDetail)
-        {
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "OK in this context")]
+		private void PrepareCheckoutModel(in CheckoutModel model, in ShoppingCartDetail cartDetail)
+		{
 
-            foreach (IPaymentProvider provider in _pluginClassesService.GetPluginClasses<IPaymentProvider>())
-            {
-                if (provider.Enabled() && provider.GetCurrencies().Contains(cartDetail.CurrencyCode))
-                    model.Providers.Add(provider);
-            }
+			foreach (IPaymentProvider provider in _pluginClassesService.GetPluginClasses<IPaymentProvider>())
+			{
+				if (provider.Enabled() && provider.GetCurrencies().Contains(cartDetail.CurrencyCode))
+					model.Providers.Add(provider);
+			}
 
-            if (model.Providers.Count == 0)
-                throw new InvalidOperationException(Middleware.Constants.PaymentProviderNone);
-        }
+			if (model.Providers.Count == 0)
+				throw new InvalidOperationException(Middleware.Constants.PaymentProviderNone);
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591

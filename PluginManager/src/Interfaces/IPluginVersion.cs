@@ -30,17 +30,17 @@
 
 namespace PluginManager.Abstractions
 {
-    /// <summary>
-    /// This interface should be implemented by all plugin modules which need to specify which 
-    /// internal version of the AspNetCore.PluginManager is used.  The default is one (1).
-    /// </summary>
-    public interface IPluginVersion
-    {
-        /// <summary>
-        /// Retrieves the currently supported version.  If the value is outside of the valid range
-        /// of internal versions that are in use, then the default one (1) is used.
-        /// </summary>
-        /// <returns>ushort</returns>
-        ushort GetVersion();
-    }
+	/// <summary>
+	/// This interface should be implemented by all plugin modules which need to specify which 
+	/// internal version of the AspNetCore.PluginManager is used.  The default is one (1).
+	/// </summary>
+	public interface IPluginVersion
+	{
+		/// <summary>
+		/// Retrieves the currently supported version.  If the value is outside of the valid range
+		/// of internal versions that are in use, then the default one (1) is used.
+		/// </summary>
+		/// <returns>ushort</returns>
+		ushort GetVersion();
+	}
 }

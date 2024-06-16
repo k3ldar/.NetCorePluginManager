@@ -33,40 +33,40 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Models
 {
-    public sealed class ChartViewModel : BaseModel
-    {
-        #region Constructors
+	public sealed class ChartViewModel : BaseModel
+	{
+		#region Constructors
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly", Justification = "Validating property of param so ok")]
-        public ChartViewModel(in BaseModelData modelData, SystemAdminSubMenu subMenu)
-            : base(modelData)
-        {
-            if (subMenu == null)
-                throw new ArgumentNullException(nameof(subMenu));
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly", Justification = "Validating property of param so ok")]
+		public ChartViewModel(in BaseModelData modelData, SystemAdminSubMenu subMenu)
+			: base(modelData)
+		{
+			if (subMenu == null)
+				throw new ArgumentNullException(nameof(subMenu));
 
-            Title = subMenu.Name();
+			Title = subMenu.Name();
 
-            ChartModel chartModel = JsonSerializer.Deserialize<ChartModel>(subMenu.Data());
+			ChartModel chartModel = JsonSerializer.Deserialize<ChartModel>(subMenu.Data());
 
-            ChartTitle = chartModel.ChartTitle;
-            DataNames = chartModel.DataNames;
-            DataValues = chartModel.DataValues;
-        }
+			ChartTitle = chartModel.ChartTitle;
+			DataNames = chartModel.DataNames;
+			DataValues = chartModel.DataValues;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Properties
+		#region Public Properties
 
-        public string Title { get; }
+		public string Title { get; }
 
-        public string ChartTitle { get; }
+		public string ChartTitle { get; }
 
-        public List<KeyValuePair<ChartDataType, string>> DataNames { get; }
+		public List<KeyValuePair<ChartDataType, string>> DataNames { get; }
 
-        public Dictionary<string, List<decimal>> DataValues { get; }
+		public Dictionary<string, List<decimal>> DataValues { get; }
 
-        #endregion Public Properties
-    }
+		#endregion Public Properties
+	}
 }
 
 #pragma warning restore CS1591

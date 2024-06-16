@@ -33,12 +33,12 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    public class ServiceConfigurator : IServiceConfigurator
-    {
-        public void RegisterServices(IServiceCollection services)
-        {
-            // if no geoip provider is registered, register a mock one which does nothing
-            services.TryAddSingleton<IGeoIpProvider, Mocks.MockGeoIpProvider>();
-        }
-    }
+	public class ServiceConfigurator : IServiceConfigurator
+	{
+		public void RegisterServices(IServiceCollection services)
+		{
+			// if no geoip provider is registered, register a mock one which does nothing
+			services.TryAddSingleton<IGeoIpProvider, Mocks.MockGeoIpProvider>();
+		}
+	}
 }

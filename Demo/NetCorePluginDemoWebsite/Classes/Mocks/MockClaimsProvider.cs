@@ -37,102 +37,102 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
-    public class MockClaimsProvider : IClaimsProvider
-    {
-        #region Private Members
+	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
+	public class MockClaimsProvider : IClaimsProvider
+	{
+		#region Private Members
 
-        private readonly IPluginClassesService _pluginClassesService;
-        private readonly List<string> _claimsForUser;
+		private readonly IPluginClassesService _pluginClassesService;
+		private readonly List<string> _claimsForUser;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public MockClaimsProvider(IPluginClassesService pluginClassesService)
-        {
-            _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
-            _claimsForUser = new List<string>();
-        }
+		public MockClaimsProvider(IPluginClassesService pluginClassesService)
+		{
+			_pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
+			_claimsForUser = new List<string>();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IClaimsProvider Methods
+		#region IClaimsProvider Methods
 
-        public AuthenticationProperties GetAuthenticationProperties()
-        {
-            return new AuthenticationProperties()
-            {
-                AllowRefresh = true,
-                IsPersistent = true,
-            };
-        }
+		public AuthenticationProperties GetAuthenticationProperties()
+		{
+			return new AuthenticationProperties()
+			{
+				AllowRefresh = true,
+				IsPersistent = true,
+			};
+		}
 
-        public List<ClaimsIdentity> GetUserClaims(in long userId)
-        {
-            List<ClaimsIdentity> Result = new();
+		public List<ClaimsIdentity> GetUserClaims(in long userId)
+		{
+			List<ClaimsIdentity> Result = new();
 
-            List<Claim> userClaims = new();
-            userClaims.Add(new Claim("sub", userId.ToString()));
-            userClaims.Add(new Claim(Constants.ClaimNameUsername, "Administrator"));
-            userClaims.Add(new Claim(Constants.ClaimNameUserEmail, "admin@nowhere.com"));
-            userClaims.Add(new Claim(Constants.ClaimNameUserId, userId.ToString()));
-            Result.Add(new ClaimsIdentity(userClaims, Constants.ClaimIdentityUser));
+			List<Claim> userClaims = new();
+			userClaims.Add(new Claim("sub", userId.ToString()));
+			userClaims.Add(new Claim(Constants.ClaimNameUsername, "Administrator"));
+			userClaims.Add(new Claim(Constants.ClaimNameUserEmail, "admin@nowhere.com"));
+			userClaims.Add(new Claim(Constants.ClaimNameUserId, userId.ToString()));
+			Result.Add(new ClaimsIdentity(userClaims, Constants.ClaimIdentityUser));
 
-            List<Claim> webClaims = new();
-            webClaims.Add(new Claim(Constants.ClaimNameCreateBlog, "true"));
-            webClaims.Add(new Claim(Constants.ClaimNameAdministrator, "true"));
-            webClaims.Add(new Claim(Constants.ClaimNameStaff, "true"));
-            webClaims.Add(new Claim(Constants.ClaimNameManageSeo, "true"));
-            webClaims.Add(new Claim(Constants.ClaimNameViewImageManager, "true"));
-            webClaims.Add(new Claim(Constants.ClaimNameManageContent, "true"));
+			List<Claim> webClaims = new();
+			webClaims.Add(new Claim(Constants.ClaimNameCreateBlog, "true"));
+			webClaims.Add(new Claim(Constants.ClaimNameAdministrator, "true"));
+			webClaims.Add(new Claim(Constants.ClaimNameStaff, "true"));
+			webClaims.Add(new Claim(Constants.ClaimNameManageSeo, "true"));
+			webClaims.Add(new Claim(Constants.ClaimNameViewImageManager, "true"));
+			webClaims.Add(new Claim(Constants.ClaimNameManageContent, "true"));
 			webClaims.Add(new Claim(Constants.ClaimNameAddResources, "true"));
 
-            // Only enable the following if the file exists to prevent malicious use
-            // when deployed live as a demo site
-            if (File.Exists("t:\\testimages.tst"))
-            {
+			// Only enable the following if the file exists to prevent malicious use
+			// when deployed live as a demo site
+			if (File.Exists("t:\\testimages.tst"))
+			{
 				webClaims.Add(new Claim(Constants.ClaimNameManageSystemSettings, "true"));
-                webClaims.Add(new Claim(Constants.ClaimNameUserPermissions, "true"));
-                webClaims.Add(new Claim(Constants.ClaimNameManageImages, "true"));
-                webClaims.Add(new Claim(Constants.ClaimNameManageProducts, "true"));
+				webClaims.Add(new Claim(Constants.ClaimNameUserPermissions, "true"));
+				webClaims.Add(new Claim(Constants.ClaimNameManageImages, "true"));
+				webClaims.Add(new Claim(Constants.ClaimNameManageProducts, "true"));
 				webClaims.Add(new Claim(Constants.ClaimNameManageResources, "true"));
 			}
 
 			Result.Add(new ClaimsIdentity(webClaims, Constants.ClaimIdentityWebsite));
 
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public bool SetClaimsForUser(in long id, in List<string> claims)
-        {
-            _claimsForUser.Clear();
-            _claimsForUser.AddRange(claims);
-            return true;
-        }
+		public bool SetClaimsForUser(in long id, in List<string> claims)
+		{
+			_claimsForUser.Clear();
+			_claimsForUser.AddRange(claims);
+			return true;
+		}
 
-        public List<string> GetAllClaims()
-        {
-            List<string> Result = new();
+		public List<string> GetAllClaims()
+		{
+			List<string> Result = new();
 
-            foreach (IClaimsService claimsService in _pluginClassesService.GetPluginClasses<IClaimsService>())
-            {
-                foreach (string claim in claimsService.GetClaims())
-                {
-                    if (!Result.Contains(claim))
-                        Result.Add(claim);
-                }
-            }
+			foreach (IClaimsService claimsService in _pluginClassesService.GetPluginClasses<IClaimsService>())
+			{
+				foreach (string claim in claimsService.GetClaims())
+				{
+					if (!Result.Contains(claim))
+						Result.Add(claim);
+				}
+			}
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public List<string> GetClaimsForUser(in long id)
-        {
-            return _claimsForUser;
-        }
+		public List<string> GetClaimsForUser(in long id)
+		{
+			return _claimsForUser;
+		}
 
-        #endregion IClaimsProvider Methods
-    }
+		#endregion IClaimsProvider Methods
+	}
 }

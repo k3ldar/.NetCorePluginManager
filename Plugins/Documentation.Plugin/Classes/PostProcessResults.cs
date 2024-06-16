@@ -28,76 +28,76 @@ using System.Collections.Generic;
 
 namespace DocumentationPlugin.Classes
 {
-    /// <summary>
-    /// Class that contains the post processing statistics
-    /// </summary>
-    public class PostProcessResults
-    {
-        #region Constructors
+	/// <summary>
+	/// Class that contains the post processing statistics
+	/// </summary>
+	public class PostProcessResults
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public PostProcessResults()
-        {
-            Counts = new Dictionary<string, int>();
-        }
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public PostProcessResults()
+		{
+			Counts = new Dictionary<string, int>();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Returns the total number of documents processed.
-        /// </summary>
-        /// <value>int</value>
-        public int DocumentsProcessed { get; internal set; }
+		/// <summary>
+		/// Returns the total number of documents processed.
+		/// </summary>
+		/// <value>int</value>
+		public int DocumentsProcessed { get; internal set; }
 
-        /// <summary>
-        /// Contains a dictionary of counts, these represent different elements within the post process results.
-        /// </summary>
-        /// <value>Dictionary&lt;string, int&gt;</value>
-        private Dictionary<string, int> Counts { get; set; }
+		/// <summary>
+		/// Contains a dictionary of counts, these represent different elements within the post process results.
+		/// </summary>
+		/// <value>Dictionary&lt;string, int&gt;</value>
+		private Dictionary<string, int> Counts { get; set; }
 
-        #endregion Properties
+		#endregion Properties
 
-        #region Public Methods
+		#region Public Methods
 
-        /// <summary>
-        /// Returns the count for the specificd countName
-        /// </summary>
-        /// <param name="countName">Name of count</param>
-        /// <returns>int</returns>
-        /// <exception cref="System.ArgumentNullException">Thrown when countName is null or empty.</exception>
-        public int GetCountValue(in string countName)
-        {
-            if (string.IsNullOrEmpty(countName))
-                throw new ArgumentNullException(nameof(countName));
+		/// <summary>
+		/// Returns the count for the specificd countName
+		/// </summary>
+		/// <param name="countName">Name of count</param>
+		/// <returns>int</returns>
+		/// <exception cref="System.ArgumentNullException">Thrown when countName is null or empty.</exception>
+		public int GetCountValue(in string countName)
+		{
+			if (string.IsNullOrEmpty(countName))
+				throw new ArgumentNullException(nameof(countName));
 
-            if (!Counts.ContainsKey(countName))
-                return 0;
+			if (!Counts.ContainsKey(countName))
+				return 0;
 
-            return Counts[countName];
-        }
+			return Counts[countName];
+		}
 
-        #endregion Public Methods
+		#endregion Public Methods
 
-        #region Internal Methods
+		#region Internal Methods
 
-        /// <summary>
-        /// Increments the count value for a specific count type
-        /// </summary>
-        /// <param name="countName">Name of count to be incremented</param>
-        internal void IncrementCount(in string countName)
-        {
-            if (!Counts.ContainsKey(countName))
-            {
-                Counts.Add(countName, 0);
-            }
+		/// <summary>
+		/// Increments the count value for a specific count type
+		/// </summary>
+		/// <param name="countName">Name of count to be incremented</param>
+		internal void IncrementCount(in string countName)
+		{
+			if (!Counts.ContainsKey(countName))
+			{
+				Counts.Add(countName, 0);
+			}
 
-            Counts[countName]++;
-        }
+			Counts[countName]++;
+		}
 
-        #endregion Internal Methods
-    }
+		#endregion Internal Methods
+	}
 }

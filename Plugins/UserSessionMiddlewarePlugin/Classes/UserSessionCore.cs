@@ -33,129 +33,129 @@ using UserSessionMiddleware.Plugin.Classes.SessionData;
 
 namespace UserSessionMiddleware.Plugin
 {
-    /// <summary>
-    /// Descendant of UserSession that is used for Net Core Applications.
-    /// </summary>
-    public class UserSessionCore : UserSession
-    {
-        #region Constructor
+	/// <summary>
+	/// Descendant of UserSession that is used for Net Core Applications.
+	/// </summary>
+	public class UserSessionCore : UserSession
+	{
+		#region Constructor
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public UserSessionCore()
-            : base()
-        {
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		public UserSessionCore()
+			: base()
+		{
 
-        }
+		}
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="created">Date time class created</param>
-        /// <param name="sessionID">User Session Id</param>
-        /// <param name="userAgent">Browser user agent</param>
-        /// <param name="initialReferrer">Initial referrer</param>
-        /// <param name="ipAddress">Ip Address of user</param>
-        /// <param name="hostName">Host name</param>
-        /// <param name="isMobile">Determines whether the user should be shown a mobile or standard site.</param>
-        /// <param name="isBrowserMobile">Determines whether the user is on a mobile device.</param>
-        /// <param name="mobileRedirect">Redirect if on a mobal device.</param>
-        /// <param name="referralType">Referral Type</param>
-        /// <param name="bounced">Indicates the user bounced, i.e. only visited one page.</param>
-        /// <param name="isBot">Determines if the session is a bot</param>
-        /// <param name="mobileManufacturer">Not Used</param>
-        /// <param name="mobileModel">Not Used</param>
-        /// <param name="userID">Id of user if known.</param>
-        /// <param name="screenWidth">Not Used</param>
-        /// <param name="screenHeight">Not Used</param>
-        /// <param name="saleCurrency">The currency used for the current sale.</param>
-        /// <param name="saleAmount">Amount of sale for current user session.</param>
-        public UserSessionCore(long id, DateTime created, string sessionID, string userAgent, string initialReferrer,
-            string ipAddress, string hostName, bool isMobile, bool isBrowserMobile, bool mobileRedirect,
-            ReferalType referralType, bool bounced, bool isBot, string mobileManufacturer, string mobileModel,
-            long userID, int screenWidth, int screenHeight, string saleCurrency, decimal saleAmount)
-            : base(id, created, sessionID, userAgent, initialReferrer, ipAddress, hostName, isMobile,
-                  isBrowserMobile, mobileRedirect, referralType, bounced, isBot, mobileManufacturer, mobileModel,
-                  userID, screenWidth, screenHeight, saleCurrency, saleAmount)
-        {
-        }
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="created">Date time class created</param>
+		/// <param name="sessionID">User Session Id</param>
+		/// <param name="userAgent">Browser user agent</param>
+		/// <param name="initialReferrer">Initial referrer</param>
+		/// <param name="ipAddress">Ip Address of user</param>
+		/// <param name="hostName">Host name</param>
+		/// <param name="isMobile">Determines whether the user should be shown a mobile or standard site.</param>
+		/// <param name="isBrowserMobile">Determines whether the user is on a mobile device.</param>
+		/// <param name="mobileRedirect">Redirect if on a mobal device.</param>
+		/// <param name="referralType">Referral Type</param>
+		/// <param name="bounced">Indicates the user bounced, i.e. only visited one page.</param>
+		/// <param name="isBot">Determines if the session is a bot</param>
+		/// <param name="mobileManufacturer">Not Used</param>
+		/// <param name="mobileModel">Not Used</param>
+		/// <param name="userID">Id of user if known.</param>
+		/// <param name="screenWidth">Not Used</param>
+		/// <param name="screenHeight">Not Used</param>
+		/// <param name="saleCurrency">The currency used for the current sale.</param>
+		/// <param name="saleAmount">Amount of sale for current user session.</param>
+		public UserSessionCore(long id, DateTime created, string sessionID, string userAgent, string initialReferrer,
+			string ipAddress, string hostName, bool isMobile, bool isBrowserMobile, bool mobileRedirect,
+			ReferalType referralType, bool bounced, bool isBot, string mobileManufacturer, string mobileModel,
+			long userID, int screenWidth, int screenHeight, string saleCurrency, decimal saleAmount)
+			: base(id, created, sessionID, userAgent, initialReferrer, ipAddress, hostName, isMobile,
+				  isBrowserMobile, mobileRedirect, referralType, bounced, isBot, mobileManufacturer, mobileModel,
+				  userID, screenWidth, screenHeight, saleCurrency, saleAmount)
+		{
+		}
 
-        /// <summary>
-        /// Constructor
-        /// 
-        /// Allows passing of user defined object
-        /// </summary>
-        /// <param name="context">HTTP Context </param>
-        /// <param name="sessionId">User session Id</param>
-        /// <param name="tag">User defined object</param>
-        public UserSessionCore(in HttpContext context, in string sessionId, in object tag)
-            : this(context, sessionId)
-        {
-            Tag = tag;
-            InternalSessionID = -1;
-        }
+		/// <summary>
+		/// Constructor
+		/// 
+		/// Allows passing of user defined object
+		/// </summary>
+		/// <param name="context">HTTP Context </param>
+		/// <param name="sessionId">User session Id</param>
+		/// <param name="tag">User defined object</param>
+		public UserSessionCore(in HttpContext context, in string sessionId, in object tag)
+			: this(context, sessionId)
+		{
+			Tag = tag;
+			InternalSessionID = -1;
+		}
 
-        /// <summary>
-        /// Constructor
-        /// 
-        /// Allows passing of user name and email
-        /// </summary>
-        /// <param name="context">HttpContext</param>
-        /// <param name="sessionId">Current user session id</param>
-        /// <param name="userName">Current user's name</param>
-        /// <param name="userEmail">Current user's email address</param>
-        /// <param name="userID">Current user's unique id</param>
-        public UserSessionCore(in HttpContext context, in string sessionId, in string userName, in string userEmail,
-            Int64 userID)
-            : this(context, sessionId)
-        {
-            UserName = userName;
-            UserEmail = userEmail;
-            UserID = userID;
-        }
+		/// <summary>
+		/// Constructor
+		/// 
+		/// Allows passing of user name and email
+		/// </summary>
+		/// <param name="context">HttpContext</param>
+		/// <param name="sessionId">Current user session id</param>
+		/// <param name="userName">Current user's name</param>
+		/// <param name="userEmail">Current user's email address</param>
+		/// <param name="userID">Current user's unique id</param>
+		public UserSessionCore(in HttpContext context, in string sessionId, in string userName, in string userEmail,
+			Int64 userID)
+			: this(context, sessionId)
+		{
+			UserName = userName;
+			UserEmail = userEmail;
+			UserID = userID;
+		}
 
-        /// <summary>
-        /// Constructor
-        /// 
-        /// Standard constructor
-        /// </summary>
-        /// <param name="context">HttpContext</param>
-        /// <param name="sessionId">Current user session id</param>
-        public UserSessionCore(HttpContext context, string sessionId)
-            : base()
-        {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
+		/// <summary>
+		/// Constructor
+		/// 
+		/// Standard constructor
+		/// </summary>
+		/// <param name="context">HttpContext</param>
+		/// <param name="sessionId">Current user session id</param>
+		public UserSessionCore(HttpContext context, string sessionId)
+			: base()
+		{
+			if (context == null)
+				throw new ArgumentNullException(nameof(context));
 
-            Created = DateTime.UtcNow;
-            CurrentSale = 0.00m;
-            CurrentSaleCurrency = String.Empty;
-            Tag = null;
+			Created = DateTime.UtcNow;
+			CurrentSale = 0.00m;
+			CurrentSaleCurrency = String.Empty;
+			Tag = null;
 
-            SessionID = sessionId;
+			SessionID = sessionId;
 
-            IPAddress = GetIpAddress(context);
+			IPAddress = GetIpAddress(context);
 
-            if (IPAddress == "::1")
-                IPAddress = "127.0.0.1";
+			if (IPAddress == "::1")
+				IPAddress = "127.0.0.1";
 
-            HostName = context.Request.Host.Host;
-            UserAgent = context.Request.Headers["User-Agent"].ToString();
-            IsMobileDevice = CheckIfMobileDevice(UserAgent);
-            IsBrowserMobile = false;// Request.Browser.IsMobileDevice;
+			HostName = context.Request.Host.Host;
+			UserAgent = context.Request.Headers["User-Agent"].ToString();
+			IsMobileDevice = CheckIfMobileDevice(UserAgent);
+			IsBrowserMobile = false;// Request.Browser.IsMobileDevice;
 
-            MobileRedirect = IsMobileDevice || IsBrowserMobile;
+			MobileRedirect = IsMobileDevice || IsBrowserMobile;
 
-            MobileManufacturer = "";// Request.Browser.MobileDeviceManufacturer;
-            MobileModel = ""; // Request.Browser.MobileDeviceModel;
-            ScreenHeight = 10;// Request.Browser.ScreenPixelsHeight;
-            ScreenWidth = 10;// Request.Browser.ScreenPixelsWidth;
+			MobileManufacturer = "";// Request.Browser.MobileDeviceManufacturer;
+			MobileModel = ""; // Request.Browser.MobileDeviceModel;
+			ScreenHeight = 10;// Request.Browser.ScreenPixelsHeight;
+			ScreenWidth = 10;// Request.Browser.ScreenPixelsWidth;
 
-            try
-            {
-                string referrer = context.Request.Headers["Referrer"].ToString();
+			try
+			{
+				string referrer = context.Request.Headers["Referrer"].ToString();
 				InitialReferrer = referrer ?? String.Empty;
 
 				if (!String.IsNullOrEmpty(referrer))
@@ -165,44 +165,44 @@ namespace UserSessionMiddleware.Plugin
 					else
 						Referal = ReferalType.Unknown;
 				}
-            }
-            catch (Exception err)
-            {
-                if (!err.Message.Contains("The hostname could not be parsed"))
-                    throw;
-            }
+			}
+			catch (Exception err)
+			{
+				if (!err.Message.Contains("The hostname could not be parsed"))
+					throw;
+			}
 
-            CountryCode = String.Empty;
+			CountryCode = String.Empty;
 
-            UserName = String.Empty;
-            UserEmail = String.Empty;
-            UserID = -1;
+			UserName = String.Empty;
+			UserEmail = String.Empty;
+			UserID = -1;
 
-            UserSessionManager.UpdateSession(this);
+			UserSessionManager.UpdateSession(this);
 
-            SaveStatus = SaveStatus.Pending;
-            PageSaveStatus = SaveStatus.Saved;
-            InternalSessionID = Int64.MinValue;
-        }
+			SaveStatus = SaveStatus.Pending;
+			PageSaveStatus = SaveStatus.Saved;
+			InternalSessionID = Int64.MinValue;
+		}
 
-        #endregion Constructor
+		#endregion Constructor
 
-        #region Private Methods
+		#region Private Methods
 
-        private static string GetIpAddress(in HttpContext context)
-        {
-            foreach (string key in SharedPluginFeatures.Constants.ForwardForHeader)
-                if (context.Request.Headers.ContainsKey(key))
-                    return context.Request.Headers[key];
+		private static string GetIpAddress(in HttpContext context)
+		{
+			foreach (string key in SharedPluginFeatures.Constants.ForwardForHeader)
+				if (context.Request.Headers.ContainsKey(key))
+					return context.Request.Headers[key];
 
-            string Result = context.Request.HttpContext.Connection.RemoteIpAddress.ToString();
+			string Result = context.Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
-            if (Result == "::1")
-                Result = "127.0.0.1";
+			if (Result == "::1")
+				Result = "127.0.0.1";
 
-            return Result;
-        }
+			return Result;
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }

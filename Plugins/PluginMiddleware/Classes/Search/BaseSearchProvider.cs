@@ -27,7 +27,7 @@ namespace Middleware.Classes.Search
 			if (String.IsNullOrWhiteSpace(word))
 				return true;
 
-			if (ExcludedWords.IndexOf($"{word.ToLower()}\t") > -1) 
+			if (ExcludedWords.IndexOf($"{word.ToLower()}\t") > -1)
 				return true;
 
 			return false;

@@ -34,45 +34,45 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ImageManager.Plugin
 {
-    public class Startup
-    {
-        public Startup()
-        {
-            if (!PluginManagerService.HasInitialised)
-                PluginManagerService.Initialise();
+	public class Startup
+	{
+		public Startup()
+		{
+			if (!PluginManagerService.HasInitialised)
+				PluginManagerService.Initialise();
 
-            PluginManagerService.UsePlugin(typeof(PluginInitialisation));
-        }
+			PluginManagerService.UsePlugin(typeof(PluginInitialisation));
+		}
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			if (services == null)
+				throw new ArgumentNullException(nameof(services));
 
-            PluginManagerService.ConfigureServices(services);
+			PluginManagerService.ConfigureServices(services);
 
-            services.AddMvc(
-                option => option.EnableEndpointRouting = false
-                )
-                .ConfigurePluginManager();
-        }
+			services.AddMvc(
+				option => option.EnableEndpointRouting = false
+				)
+				.ConfigurePluginManager();
+		}
 
-        public void Configure(IApplicationBuilder app)
-        {
-            if (app == null)
-                throw new ArgumentNullException(nameof(app));
+		public void Configure(IApplicationBuilder app)
+		{
+			if (app == null)
+				throw new ArgumentNullException(nameof(app));
 
-            PluginManagerService.Configure(app);
+			PluginManagerService.Configure(app);
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            }).UsePluginManager();
-        }
-    }
+			app.UseMvc(routes =>
+			{
+				routes.MapRoute(
+					name: "default",
+					template: "{controller=Home}/{action=Index}/{id?}");
+			}).UsePluginManager();
+		}
+	}
 }
 
 #pragma warning restore CS1591

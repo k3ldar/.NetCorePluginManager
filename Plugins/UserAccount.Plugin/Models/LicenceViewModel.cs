@@ -32,40 +32,40 @@ namespace UserAccount.Plugin.Models
 {
 #pragma warning disable CS1591
 
-    public class LicenceViewModel : BaseModel
-    {
-        #region Constructors
+	public class LicenceViewModel : BaseModel
+	{
+		#region Constructors
 
-        public LicenceViewModel()
-        {
-            Licences = new List<ViewLicenceViewModel>();
-            GrowlMessage = String.Empty;
-        }
+		public LicenceViewModel()
+		{
+			Licences = new List<ViewLicenceViewModel>();
+			GrowlMessage = String.Empty;
+		}
 
-        public LicenceViewModel(in BaseModelData baseModelData, in List<ViewLicenceViewModel> licences)
-            : base(baseModelData)
-        {
-            Licences = licences ?? throw new ArgumentNullException(nameof(licences));
-        }
+		public LicenceViewModel(in BaseModelData baseModelData, in List<ViewLicenceViewModel> licences)
+			: base(baseModelData)
+		{
+			Licences = licences ?? throw new ArgumentNullException(nameof(licences));
+		}
 
-        public LicenceViewModel(in BaseModelData baseModelData,
-            in List<ViewLicenceViewModel> licences, in string growlMessage)
-            : base(baseModelData)
-        {
-            Licences = licences ?? throw new ArgumentNullException(nameof(licences));
-            GrowlMessage = growlMessage ?? throw new ArgumentNullException(nameof(growlMessage));
-        }
+		public LicenceViewModel(in BaseModelData baseModelData,
+			in List<ViewLicenceViewModel> licences, in string growlMessage)
+			: base(baseModelData)
+		{
+			Licences = licences ?? throw new ArgumentNullException(nameof(licences));
+			GrowlMessage = growlMessage ?? throw new ArgumentNullException(nameof(growlMessage));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public List<ViewLicenceViewModel> Licences { get; private set; }
+		public List<ViewLicenceViewModel> Licences { get; private set; }
 
-        public string GrowlMessage { get; private set; }
+		public string GrowlMessage { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 
 #pragma warning restore CS1591
 }

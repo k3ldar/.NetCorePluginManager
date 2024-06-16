@@ -32,21 +32,21 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 {
 	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
 	public class MockUserApiQueryProvider : IUserApiQueryProvider
-    {
-        private const string MockMerchantId = "mer-9djn5r49fdljnfkjed89dfljhsaf9";
-        private const string MockApiKey = "GH9asdflnler08dsfowlaenfrlasdkfnpo8u";
-        private const string MockSecret = "iOfdafasdfcDSAF48scdjkfnasdfSAAf";
+	{
+		private const string MockMerchantId = "mer-9djn5r49fdljnfkjed89dfljhsaf9";
+		private const string MockApiKey = "GH9asdflnler08dsfowlaenfrlasdkfnpo8u";
+		private const string MockSecret = "iOfdafasdfcDSAF48scdjkfnasdfSAAf";
 
-        public bool ApiSecret(string merchantId, string apiKey, out string secret)
-        {
-            if (merchantId.Equals(MockMerchantId) && apiKey.Equals(MockApiKey))
-            {
-                secret = MockSecret;
-                return true;
-            }
+		public bool ApiSecret(string merchantId, string apiKey, out string secret)
+		{
+			if (merchantId.Equals(MockMerchantId) && apiKey.Equals(MockApiKey))
+			{
+				secret = MockSecret;
+				return true;
+			}
 
-            secret = String.Empty;
-            return false;
-        }
-    }
+			secret = String.Empty;
+			return false;
+		}
+	}
 }

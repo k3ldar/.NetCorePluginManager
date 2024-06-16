@@ -38,52 +38,52 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DynamicContent.Plugin
 {
-    public class Startup
-    {
-        public Startup()
-        {
-            if (!PluginManagerService.HasInitialised)
-                PluginManagerService.Initialise();
+	public class Startup
+	{
+		public Startup()
+		{
+			if (!PluginManagerService.HasInitialised)
+				PluginManagerService.Initialise();
 
-            PluginManagerService.UsePlugin(typeof(PluginInitialisation));
-        }
+			PluginManagerService.UsePlugin(typeof(PluginInitialisation));
+		}
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			if (services == null)
+				throw new ArgumentNullException(nameof(services));
 
-            services.AddSingleton<IApplicationOverride, ApplicationOverrides>();
+			services.AddSingleton<IApplicationOverride, ApplicationOverrides>();
 
 
-            PluginManagerService.ConfigureServices(services);
+			PluginManagerService.ConfigureServices(services);
 
-            services.AddMvc(
+			services.AddMvc(
 #if NET_CORE_3_X || NET_5_ABOVE
 				option => option.EnableEndpointRouting = false
 #endif
-                )
-                .AddSessionStateTempDataProvider()
-                .ConfigurePluginManager();
-        }
+				)
+				.AddSessionStateTempDataProvider()
+				.ConfigurePluginManager();
+		}
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app)
-        {
-            if (app == null)
-                throw new ArgumentNullException(nameof(app));
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void Configure(IApplicationBuilder app)
+		{
+			if (app == null)
+				throw new ArgumentNullException(nameof(app));
 
-            PluginManagerService.Configure(app);
+			PluginManagerService.Configure(app);
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=DynamicContent}/{action=Index}/{id?}");
-            }).UsePluginManager();
-        }
-    }
+			app.UseMvc(routes =>
+			{
+				routes.MapRoute(
+					name: "default",
+					template: "{controller=DynamicContent}/{action=Index}/{id?}");
+			}).UsePluginManager();
+		}
+	}
 }
 
 #pragma warning restore CS1591

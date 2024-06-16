@@ -30,41 +30,41 @@ using Microsoft.Extensions.Logging;
 
 namespace PluginManager.Tests.Mocks
 {
-    [ExcludeFromCodeCoverage]
-    public class MockLoggerFactory : ILoggerFactory
-    {
-        public void AddProvider(ILoggerProvider provider)
-        {
+	[ExcludeFromCodeCoverage]
+	public class MockLoggerFactory : ILoggerFactory
+	{
+		public void AddProvider(ILoggerProvider provider)
+		{
 
-        }
+		}
 
-        public ILogger CreateLogger(string categoryName)
-        {
-            return new MockMicrosoftLogger();
-        }
+		public ILogger CreateLogger(string categoryName)
+		{
+			return new MockMicrosoftLogger();
+		}
 
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-        }
-    }
+		public void Dispose()
+		{
+			GC.SuppressFinalize(this);
+		}
+	}
 
-    [ExcludeFromCodeCoverage]
-    public class MockMicrosoftLogger : ILogger
-    {
-        public IDisposable BeginScope<TState>(TState state)
-        {
-            throw new NotImplementedException();
-        }
+	[ExcludeFromCodeCoverage]
+	public class MockMicrosoftLogger : ILogger
+	{
+		public IDisposable BeginScope<TState>(TState state)
+		{
+			throw new NotImplementedException();
+		}
 
-        public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel logLevel)
-        {
-            return true;
-        }
+		public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel logLevel)
+		{
+			return true;
+		}
 
-        public void Log<TState>(Microsoft.Extensions.Logging.LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
-        {
+		public void Log<TState>(Microsoft.Extensions.Logging.LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+		{
 
-        }
-    }
+		}
+	}
 }

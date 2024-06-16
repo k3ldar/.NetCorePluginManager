@@ -31,21 +31,21 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace SystemAdmin.Plugin
 {
-    public class Startup
-    {
-        /// <summary>
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        ///  
-        /// This method will not be used in a live environment as it will be inserted as a plugin
-        /// </summary>
-        /// <param name="services"></param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "only used for debug")]
-        public void ConfigureServices(IServiceCollection services)
-        {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
-        }
-    }
+	public class Startup
+	{
+		/// <summary>
+		/// This method gets called by the runtime. Use this method to add services to the container.
+		///  
+		/// This method will not be used in a live environment as it will be inserted as a plugin
+		/// </summary>
+		/// <param name="services"></param>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "only used for debug")]
+		public void ConfigureServices(IServiceCollection services)
+		{
+			if (services == null)
+				throw new ArgumentNullException(nameof(services));
+		}
+	}
 }
 
 #pragma warning restore CA1801, IDE0060, CS1591

@@ -30,53 +30,53 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SystemAdmin.Plugin.Models
 {
-    public sealed class SeoDataModel
-    {
-        #region Constructors
+	public sealed class SeoDataModel
+	{
+		#region Constructors
 
-        public SeoDataModel()
-        {
+		public SeoDataModel()
+		{
 			SeoTitle = string.Empty;
 			SeoUrl = string.Empty;
 			SeoTags = string.Empty;
 			SeoAuthor = string.Empty;
-        }
+		}
 
-        public SeoDataModel(string url)
-			:this ()
-        {
-            if (String.IsNullOrEmpty(url))
-                throw new ArgumentNullException(nameof(url));
+		public SeoDataModel(string url)
+			: this()
+		{
+			if (String.IsNullOrEmpty(url))
+				throw new ArgumentNullException(nameof(url));
 
-            SeoUrl = url;
-        }
+			SeoUrl = url;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        [Display(Name = nameof(Languages.LanguageStrings.Title))]
-        [StringLength(20, MinimumLength = 5)]
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.TitleRequired))]
-        public string SeoTitle { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.Title))]
+		[StringLength(20, MinimumLength = 5)]
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.TitleRequired))]
+		public string SeoTitle { get; set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.MetaDescription))]
-        [StringLength(20, MinimumLength = 5)]
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.MetaDescriptionRequired))]
-        public string SeoMetaDescription { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.MetaDescription))]
+		[StringLength(20, MinimumLength = 5)]
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.MetaDescriptionRequired))]
+		public string SeoMetaDescription { get; set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.Tags))]
-        [StringLength(80, MinimumLength = 5)]
-        public string SeoTags { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.Tags))]
+		[StringLength(80, MinimumLength = 5)]
+		public string SeoTags { get; set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.Author))]
-        [StringLength(20, MinimumLength = 0)]
-        public string SeoAuthor { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.Author))]
+		[StringLength(20, MinimumLength = 0)]
+		public string SeoAuthor { get; set; }
 
-        public string SeoUrl { get; set; }
+		public string SeoUrl { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

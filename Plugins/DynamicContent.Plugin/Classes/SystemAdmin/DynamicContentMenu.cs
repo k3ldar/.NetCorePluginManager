@@ -30,24 +30,24 @@ using SharedPluginFeatures;
 
 namespace DynamicContent.Plugin.Classes.SystemAdmin
 {
-    public class DynamicContentMenu : SystemAdminMainMenu
-    {
-        public DynamicContentMenu()
-            : base(Controllers.DynamicContentController.Name, -10000)
-        {
-            Image = "/Images/DynamicContent/dcicon.png";
-        }
+	public class DynamicContentMenu : SystemAdminMainMenu
+	{
+		public DynamicContentMenu()
+			: base(Controllers.DynamicContentController.Name, -10000)
+		{
+			Image = "/Images/DynamicContent/dcicon.png";
+		}
 
-        public override string Controller()
-        {
-            return Controllers.DynamicContentController.Name;
-        }
+		public override string Controller()
+		{
+			return Controllers.DynamicContentController.Name;
+		}
 
-        public override string Action()
-        {
-            return nameof(Controllers.DynamicContentController.GetCustomPages);
-        }
-    }
+		public override string Action()
+		{
+			return nameof(Controllers.DynamicContentController.GetCustomPages);
+		}
+	}
 }
 
 #pragma warning restore CS1591

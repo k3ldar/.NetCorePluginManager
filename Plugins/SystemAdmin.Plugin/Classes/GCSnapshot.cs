@@ -27,23 +27,23 @@ using System;
 
 namespace SystemAdmin.Plugin.Classes
 {
-    internal sealed class GCSnapshot
-    {
-        internal GCSnapshot(double timeTaken, long memorySaved)
-        {
-            TimeStarted = DateTime.UtcNow;
-            TimeTaken = timeTaken;
+	internal sealed class GCSnapshot
+	{
+		internal GCSnapshot(double timeTaken, long memorySaved)
+		{
+			TimeStarted = DateTime.UtcNow;
+			TimeTaken = timeTaken;
 
-            if (memorySaved < 0)
-                memorySaved *= -1;
+			if (memorySaved < 0)
+				memorySaved *= -1;
 
-            MemorySaved = memorySaved;
-        }
+			MemorySaved = memorySaved;
+		}
 
-        internal DateTime TimeStarted { get; }
+		internal DateTime TimeStarted { get; }
 
-        internal double TimeTaken { get; }
+		internal double TimeTaken { get; }
 
-        internal long MemorySaved { get; }
-    }
+		internal long MemorySaved { get; }
+	}
 }

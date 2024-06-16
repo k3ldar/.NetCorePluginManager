@@ -31,71 +31,71 @@ using SharedPluginFeatures;
 
 namespace BadEgg.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns a list of current Timings and can be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class BadEggTimingsSubMenu : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	/// <summary>
+	/// Returns a list of current Timings and can be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public sealed class BadEggTimingsSubMenu : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        /// <summary>
-        /// Returns Timings data in milliseconds for time spent processing by BadEgg.Plugin.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            string Result = "Setting|Value";
+		/// <summary>
+		/// Returns Timings data in milliseconds for time spent processing by BadEgg.Plugin.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			string Result = "Setting|Value";
 
-            Result += $"\rTotal Requests|{BadEggMiddleware._timings.Requests}";
-            Result += $"\rFastest ms|{BadEggMiddleware._timings.Fastest}";
-            Result += $"\rSlowest ms|{BadEggMiddleware._timings.Slowest}";
-            Result += $"\rAverage ms|{BadEggMiddleware._timings.Average}";
-            Result += $"\rTrimmed Avg ms|{BadEggMiddleware._timings.TrimmedAverage}";
-            Result += $"\rTotal ms|{BadEggMiddleware._timings.Total}";
+			Result += $"\rTotal Requests|{BadEggMiddleware._timings.Requests}";
+			Result += $"\rFastest ms|{BadEggMiddleware._timings.Fastest}";
+			Result += $"\rSlowest ms|{BadEggMiddleware._timings.Slowest}";
+			Result += $"\rAverage ms|{BadEggMiddleware._timings.Average}";
+			Result += $"\rTrimmed Avg ms|{BadEggMiddleware._timings.TrimmedAverage}";
+			Result += $"\rTotal ms|{BadEggMiddleware._timings.Total}";
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public override string Image()
-        {
-            return Constants.SystemImageStopWatch;
-        }
+		public override string Image()
+		{
+			return Constants.SystemImageStopWatch;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override string Name()
-        {
-            return "Bad Egg";
-        }
+		public override string Name()
+		{
+			return "Bad Egg";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "Timings";
-        }
+		public override string ParentMenuName()
+		{
+			return "Timings";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
-    }
+		public override int SortOrder()
+		{
+			return 0;
+		}
+	}
 }
 
 #pragma warning restore CS1591

@@ -30,232 +30,232 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
-    internal sealed class SeoProvider : ISeoProvider
-    {
-        #region Private Members
+	internal sealed class SeoProvider : ISeoProvider
+	{
+		#region Private Members
 
-        private readonly ISimpleDBOperations<SeoDataRow> _seoData;
+		private readonly ISimpleDBOperations<SeoDataRow> _seoData;
 
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public SeoProvider(ISimpleDBOperations<SeoDataRow> seoData)
-        {
-            _seoData = seoData ?? throw new ArgumentNullException(nameof(seoData));
-        }
+		public SeoProvider(ISimpleDBOperations<SeoDataRow> seoData)
+		{
+			_seoData = seoData ?? throw new ArgumentNullException(nameof(seoData));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region ISeoProvider Methods
+		#region ISeoProvider Methods
 
-        public bool AddKeyword(in string route, in string keyword)
-        {
-            if (String.IsNullOrEmpty(route))
-                throw new ArgumentNullException(nameof(route));
+		public bool AddKeyword(in string route, in string keyword)
+		{
+			if (String.IsNullOrEmpty(route))
+				throw new ArgumentNullException(nameof(route));
 
-            if (String.IsNullOrEmpty(keyword))
-                throw new ArgumentNullException(nameof(keyword));
+			if (String.IsNullOrEmpty(keyword))
+				throw new ArgumentNullException(nameof(keyword));
 
-            string routeName = route;
+			string routeName = route;
 
-            SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
+			SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
 
-            if (seoData == null)
-            {
-                seoData = new SeoDataRow()
-                {
-                    Route = routeName,
-                };
-            }
+			if (seoData == null)
+			{
+				seoData = new SeoDataRow()
+				{
+					Route = routeName,
+				};
+			}
 
-            if (!seoData.Keywords.Contains(keyword))
-            {
-                seoData.Keywords.Add(keyword);
-                _seoData.InsertOrUpdate(seoData);
-                return true;
-            }
+			if (!seoData.Keywords.Contains(keyword))
+			{
+				seoData.Keywords.Add(keyword);
+				_seoData.InsertOrUpdate(seoData);
+				return true;
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        public bool AddKeywords(in string route, in List<string> keywords)
-        {
-            if (String.IsNullOrEmpty(route))
-                throw new ArgumentNullException(nameof(route));
+		public bool AddKeywords(in string route, in List<string> keywords)
+		{
+			if (String.IsNullOrEmpty(route))
+				throw new ArgumentNullException(nameof(route));
 
-            if (keywords == null)
-                return false;
+			if (keywords == null)
+				return false;
 
-            string routeName = route;
+			string routeName = route;
 
-            SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
+			SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
 
-            if (seoData == null)
-            {
-                seoData = new SeoDataRow()
-                {
-                    Route = routeName,
-                };
-            }
+			if (seoData == null)
+			{
+				seoData = new SeoDataRow()
+				{
+					Route = routeName,
+				};
+			}
 
-            keywords.ForEach(kw => 
-            {
-                if (!seoData.Keywords.Contains(kw))
-                    seoData.Keywords.Add(kw);
-            });
+			keywords.ForEach(kw =>
+			{
+				if (!seoData.Keywords.Contains(kw))
+					seoData.Keywords.Add(kw);
+			});
 
-            _seoData.InsertOrUpdate(seoData);
-            return true;
-        }
+			_seoData.InsertOrUpdate(seoData);
+			return true;
+		}
 
-        public bool GetSeoDataForRoute(in string route, out string title,
-            out string metaDescription, out string author, out List<string> keywords)
-        {
-            if (String.IsNullOrEmpty(route))
-                throw new ArgumentNullException(nameof(route));
+		public bool GetSeoDataForRoute(in string route, out string title,
+			out string metaDescription, out string author, out List<string> keywords)
+		{
+			if (String.IsNullOrEmpty(route))
+				throw new ArgumentNullException(nameof(route));
 
-            string routeName = route;
+			string routeName = route;
 
-            SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
+			SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
 
-            if (seoData == null)
-            {
-                title = String.Empty;
+			if (seoData == null)
+			{
+				title = String.Empty;
 				metaDescription = String.Empty;
-                author = String.Empty;
-                keywords = new();
-                return false;
-            }
+				author = String.Empty;
+				keywords = new();
+				return false;
+			}
 
-            title = seoData.Title;
+			title = seoData.Title;
 			metaDescription = seoData.Description;
-            author = seoData.Author;
-            keywords = seoData.Keywords;
-            return true;
-        }
+			author = seoData.Author;
+			keywords = seoData.Keywords;
+			return true;
+		}
 
-        public bool RemoveKeyword(in string route, in string keyword)
-        {
-            if (route == null)
-                throw new ArgumentNullException(nameof(route));
+		public bool RemoveKeyword(in string route, in string keyword)
+		{
+			if (route == null)
+				throw new ArgumentNullException(nameof(route));
 
-            if (String.IsNullOrEmpty(keyword))
-                return false;
+			if (String.IsNullOrEmpty(keyword))
+				return false;
 
-            string routeName = route;
+			string routeName = route;
 
-            SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
+			SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
 
-            if (seoData == null)
-                return false;
+			if (seoData == null)
+				return false;
 
-            if (!seoData.Keywords.Contains(keyword))
-                return false;
+			if (!seoData.Keywords.Contains(keyword))
+				return false;
 
-            seoData.Keywords.Remove(keyword);
-            _seoData.Update(seoData);
+			seoData.Keywords.Remove(keyword);
+			_seoData.Update(seoData);
 
-            return true;
-        }
+			return true;
+		}
 
-        public bool RemoveKeywords(in string route, in List<string> keywords)
-        {
-            if (route == null)
-                throw new ArgumentNullException(nameof(route));
+		public bool RemoveKeywords(in string route, in List<string> keywords)
+		{
+			if (route == null)
+				throw new ArgumentNullException(nameof(route));
 
-            if (keywords == null)
-                throw new ArgumentNullException(nameof(keywords));
+			if (keywords == null)
+				throw new ArgumentNullException(nameof(keywords));
 
-            string routeName = route;
+			string routeName = route;
 
-            SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
+			SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
 
-            if (seoData == null)
-                return false;
+			if (seoData == null)
+				return false;
 
-            keywords.ForEach(kw => seoData.Keywords.Remove(kw));
-            _seoData.Update(seoData);
+			keywords.ForEach(kw => seoData.Keywords.Remove(kw));
+			_seoData.Update(seoData);
 
-            return true;
-        }
+			return true;
+		}
 
-        public bool UpdateDescription(in string route, in string description)
-        {
-            if (String.IsNullOrEmpty(route))
-                throw new ArgumentNullException(nameof(route));
+		public bool UpdateDescription(in string route, in string description)
+		{
+			if (String.IsNullOrEmpty(route))
+				throw new ArgumentNullException(nameof(route));
 
-            if (String.IsNullOrEmpty(description))
-                return false;
+			if (String.IsNullOrEmpty(description))
+				return false;
 
-            string routeName = route;
+			string routeName = route;
 
-            SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
+			SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
 
-            if (seoData == null)
-            {
-                seoData = new SeoDataRow()
-                {
-                    Route = routeName,
-                };
-            }
+			if (seoData == null)
+			{
+				seoData = new SeoDataRow()
+				{
+					Route = routeName,
+				};
+			}
 
-            seoData.Description = description;
-            _seoData.InsertOrUpdate(seoData);
-            return true;
-        }
+			seoData.Description = description;
+			_seoData.InsertOrUpdate(seoData);
+			return true;
+		}
 
-        public bool UpdateTitle(in string route, in string title)
-        {
-            if (String.IsNullOrEmpty(route))
-                throw new ArgumentNullException(nameof(route));
+		public bool UpdateTitle(in string route, in string title)
+		{
+			if (String.IsNullOrEmpty(route))
+				throw new ArgumentNullException(nameof(route));
 
-            if (String.IsNullOrEmpty(title))
-                return false;
+			if (String.IsNullOrEmpty(title))
+				return false;
 
-            string routeName = route;
+			string routeName = route;
 
-            SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
+			SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
 
-            if (seoData == null)
-            {
-                seoData = new SeoDataRow()
-                {
-                    Route = routeName,
-                };
-            }
+			if (seoData == null)
+			{
+				seoData = new SeoDataRow()
+				{
+					Route = routeName,
+				};
+			}
 
-            seoData.Title = title;
-            _seoData.InsertOrUpdate(seoData);
-            return true;
-        }
+			seoData.Title = title;
+			_seoData.InsertOrUpdate(seoData);
+			return true;
+		}
 
-        public bool UpdateAuthor(in string route, in string author)
-        {
-            if (String.IsNullOrEmpty(route))
-                throw new ArgumentNullException(nameof(route));
+		public bool UpdateAuthor(in string route, in string author)
+		{
+			if (String.IsNullOrEmpty(route))
+				throw new ArgumentNullException(nameof(route));
 
-            if (String.IsNullOrEmpty(author))
-                return false;
+			if (String.IsNullOrEmpty(author))
+				return false;
 
-            string routeName = route;
+			string routeName = route;
 
-            SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
+			SeoDataRow seoData = _seoData.Select().FirstOrDefault(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
 
-            if (seoData == null)
-            {
-                seoData = new SeoDataRow()
-                {
-                    Route = routeName,
-                };
-            }
+			if (seoData == null)
+			{
+				seoData = new SeoDataRow()
+				{
+					Route = routeName,
+				};
+			}
 
-            seoData.Author = author;
-            _seoData.InsertOrUpdate(seoData);
-            return true;
-        }
+			seoData.Author = author;
+			_seoData.InsertOrUpdate(seoData);
+			return true;
+		}
 
-        #endregion ISeoProvider Methods
-    }
+		#endregion ISeoProvider Methods
+	}
 }

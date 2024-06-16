@@ -34,45 +34,45 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Helpers
 {
-    /// <summary>
-    /// This class acts as a wrapper arund the elements you extend through plugin manager
-    /// </summary>
-    public sealed class SharedPluginHelper : ISharedPluginHelper
-    {
-        #region Constants
+	/// <summary>
+	/// This class acts as a wrapper arund the elements you extend through plugin manager
+	/// </summary>
+	public sealed class SharedPluginHelper : ISharedPluginHelper
+	{
+		#region Constants
 
-        private const string MainMenuCache = "Main Menu Cache";
+		private const string MainMenuCache = "Main Menu Cache";
 
-        #endregion Constants
+		#endregion Constants
 
-        #region Private Methods
+		#region Private Methods
 
-        private readonly IMemoryCache _memoryCache;
-        private readonly IPluginClassesService _pluginClassesService;
+		private readonly IMemoryCache _memoryCache;
+		private readonly IPluginClassesService _pluginClassesService;
 
-        #endregion Private Methods
+		#endregion Private Methods
 
-        #region Constructors
+		#region Constructors
 
-        public SharedPluginHelper(IMemoryCache memoryCache, IPluginClassesService pluginClassesService)
-        {
-            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
-            _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
-        }
+		public SharedPluginHelper(IMemoryCache memoryCache, IPluginClassesService pluginClassesService)
+		{
+			_memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
+			_pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        public List<MainMenuItem> BuildMainMenu()
-        {
-            CacheItem cache = _memoryCache.GetExtendingCache().Get(MainMenuCache);
+		public List<MainMenuItem> BuildMainMenu()
+		{
+			CacheItem cache = _memoryCache.GetExtendingCache().Get(MainMenuCache);
 
-            if (cache == null)
-            {
-                cache = new CacheItem(MainMenuCache, _pluginClassesService.GetPluginClasses<MainMenuItem>());
-                _memoryCache.GetExtendingCache().Add(MainMenuCache, cache);
-            }
+			if (cache == null)
+			{
+				cache = new CacheItem(MainMenuCache, _pluginClassesService.GetPluginClasses<MainMenuItem>());
+				_memoryCache.GetExtendingCache().Add(MainMenuCache, cache);
+			}
 
-            return (List<MainMenuItem>)cache.Value;
-        }
-    }
+			return (List<MainMenuItem>)cache.Value;
+		}
+	}
 }

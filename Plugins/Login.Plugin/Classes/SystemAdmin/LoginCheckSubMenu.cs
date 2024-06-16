@@ -31,62 +31,62 @@ using SharedPluginFeatures;
 
 namespace LoginPlugin.Classes.SystemAdmin
 {
-    public class LoginCheckSubMenu : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	public class LoginCheckSubMenu : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        public override string Data()
-        {
-            string Result = "Setting|Value";
+		public override string Data()
+		{
+			string Result = "Setting|Value";
 
-            Result += $"\rTotal Requests|{LoginMiddleware._loginTimings.Requests}";
-            Result += $"\rFastest ms|{LoginMiddleware._loginTimings.Fastest}";
-            Result += $"\rSlowest ms|{LoginMiddleware._loginTimings.Slowest}";
-            Result += $"\rAverage ms|{LoginMiddleware._loginTimings.Average}";
-            Result += $"\rTrimmed Avg ms|{LoginMiddleware._loginTimings.TrimmedAverage}";
-            Result += $"\rTotal ms|{LoginMiddleware._loginTimings.Total}";
+			Result += $"\rTotal Requests|{LoginMiddleware._loginTimings.Requests}";
+			Result += $"\rFastest ms|{LoginMiddleware._loginTimings.Fastest}";
+			Result += $"\rSlowest ms|{LoginMiddleware._loginTimings.Slowest}";
+			Result += $"\rAverage ms|{LoginMiddleware._loginTimings.Average}";
+			Result += $"\rTrimmed Avg ms|{LoginMiddleware._loginTimings.TrimmedAverage}";
+			Result += $"\rTotal ms|{LoginMiddleware._loginTimings.Total}";
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public override string Image()
-        {
-            return Constants.SystemImageStopWatch;
-        }
+		public override string Image()
+		{
+			return Constants.SystemImageStopWatch;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override string Name()
-        {
-            return Languages.LanguageStrings.LoginValidation;
-        }
+		public override string Name()
+		{
+			return Languages.LanguageStrings.LoginValidation;
+		}
 
-        public override string ParentMenuName()
-        {
-            return Languages.LanguageStrings.Timings;
-        }
+		public override string ParentMenuName()
+		{
+			return Languages.LanguageStrings.Timings;
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
-    }
+		public override int SortOrder()
+		{
+			return 0;
+		}
+	}
 }
 
 #pragma warning restore CS1591

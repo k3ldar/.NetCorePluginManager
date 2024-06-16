@@ -30,60 +30,60 @@ using SharedPluginFeatures;
 
 namespace ProductPlugin.Models
 {
-    /// <summary>
-    /// Model used for advanced product searches
-    /// </summary>
-    public class ProductSearchViewModel
-    {
-        #region Constructors
+	/// <summary>
+	/// Model used for advanced product searches
+	/// </summary>
+	public class ProductSearchViewModel
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public ProductSearchViewModel()
-        {
-            ProductGroups = new List<CheckedViewItemModel>();
-            Prices = new List<CheckedViewItemModel>();
-        }
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public ProductSearchViewModel()
+		{
+			ProductGroups = new List<CheckedViewItemModel>();
+			Prices = new List<CheckedViewItemModel>();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Text to be searched
-        /// </summary>
-        /// <value>string</value>
-        [Display(Name = nameof(Languages.LanguageStrings.SearchDescription))]
-        public string SearchText { get; set; }
+		/// <summary>
+		/// Text to be searched
+		/// </summary>
+		/// <value>string</value>
+		[Display(Name = nameof(Languages.LanguageStrings.SearchDescription))]
+		public string SearchText { get; set; }
 
-        /// <summary>
-        /// List of product groups that can be individually selected or not
-        /// </summary>
-        public List<CheckedViewItemModel> ProductGroups { get; set; }
+		/// <summary>
+		/// List of product groups that can be individually selected or not
+		/// </summary>
+		public List<CheckedViewItemModel> ProductGroups { get; set; }
 
-        /// <summary>
-        /// List of product price groupings that can be searched
-        /// </summary>
-        public List<CheckedViewItemModel> Prices { get; set; }
+		/// <summary>
+		/// List of product price groupings that can be searched
+		/// </summary>
+		public List<CheckedViewItemModel> Prices { get; set; }
 
-        /// <summary>
-        /// Only show search results that contains video
-        /// </summary>
-        /// <value>bool</value>
-        [Display(Name = nameof(Languages.LanguageStrings.SearchContainsVideo))]
-        public bool ContainsVideo { get; set; }
+		/// <summary>
+		/// Only show search results that contains video
+		/// </summary>
+		/// <value>bool</value>
+		[Display(Name = nameof(Languages.LanguageStrings.SearchContainsVideo))]
+		public bool ContainsVideo { get; set; }
 
-        /// <summary>
-        /// unique search name representing search options selected by the user
-        /// </summary>
-        public string SearchName { get; set; }
+		/// <summary>
+		/// unique search name representing search options selected by the user
+		/// </summary>
+		public string SearchName { get; set; }
 
-        /// <summary>
-        /// Count of products with video content
-        /// </summary>
-        public int VideoProductCount { get; set; }
+		/// <summary>
+		/// Count of products with video content
+		/// </summary>
+		public int VideoProductCount { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
