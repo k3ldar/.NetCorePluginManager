@@ -211,11 +211,7 @@ namespace ShoppingCartPlugin.Controllers
 		{
 			// get the selected provider
 			IPaymentProvider provider = _pluginClassesService.GetPluginClasses<IPaymentProvider>()
-				.Find(p => p.UniqueId().CompareTo(model.SelectedProviderId) == 0);
-
-			if (provider == null)
-				throw new InvalidOperationException(Middleware.Constants.PaymentProviderNotFound);
-
+				.Find(p => p.UniqueId().CompareTo(model.SelectedProviderId) == 0) ?? throw new InvalidOperationException(Middleware.Constants.PaymentProviderNotFound);
 			ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
 			UserSession session = GetUserSession();
 

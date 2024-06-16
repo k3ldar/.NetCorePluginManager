@@ -544,11 +544,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (paymentStatus == PaymentStatus.Unpaid)
 				throw new ArgumentOutOfRangeException(nameof(paymentStatus));
 
-			OrderDataRow orderDataRow = _orders.Select(order.Id);
-
-			if (orderDataRow == null)
-				throw new InvalidOperationException("Order could not be found!");
-
+			OrderDataRow orderDataRow = _orders.Select(order.Id) ?? throw new InvalidOperationException("Order could not be found!");
 			long userId = orderDataRow.UserId;
 
 			InvoiceDataRow newInvoice = new()

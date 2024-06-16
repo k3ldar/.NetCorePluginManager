@@ -184,11 +184,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (category == null)
 				throw new ArgumentNullException(nameof(category));
 
-			ResourceCategoryDataRow categoryRow = _resourceCategories.Select(category.Id);
-
-			if (categoryRow == null)
-				throw new ArgumentOutOfRangeException(nameof(category));
-
+			ResourceCategoryDataRow categoryRow = _resourceCategories.Select(category.Id) ?? throw new ArgumentOutOfRangeException(nameof(category));
 			UserDataRow userDataRow = _users.Select(userId);
 
 			if (userDataRow == null && userId != 0)
@@ -278,11 +274,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (resourceItem == null) throw
 				new ArgumentNullException(nameof(resourceItem));
 
-			ResourceItemDataRow resourceItemRow = _resourceItems.Select(resourceItem.Id);
-
-			if (resourceItemRow == null)
-				throw new ArgumentOutOfRangeException(nameof(resourceItem));
-
+			ResourceItemDataRow resourceItemRow = _resourceItems.Select(resourceItem.Id) ?? throw new ArgumentOutOfRangeException(nameof(resourceItem));
 			UserDataRow userDataRow = _users.Select(userId);
 
 			if (userDataRow == null && userId != 0)

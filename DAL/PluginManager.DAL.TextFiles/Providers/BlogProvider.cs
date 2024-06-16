@@ -133,11 +133,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			else
 				parentComment.Comments.Add(blogComment);
 
-			BlogDataRow tableBlog = _blogs.Select(blogItem.Id);
-
-			if (tableBlog == null)
-				throw new InvalidOperationException("Blog not found");
-
+			BlogDataRow tableBlog = _blogs.Select(blogItem.Id) ?? throw new InvalidOperationException("Blog not found");
 			BlogCommentDataRow blogCommentDataRow = new()
 			{
 				BlogId = blogItem.Id,

@@ -114,11 +114,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				if (product == null)
 					throw new ArgumentNullException(nameof(product));
 
-				StockDataRow stockDataRow = _stock.Select().FirstOrDefault(ps => ps.ProductId.Equals(product.Id));
-
-				if (stockDataRow == null)
-					throw new InvalidOperationException($"Stock data is missing for product {product.Name} {product.Id}");
-
+				StockDataRow stockDataRow = _stock.Select().FirstOrDefault(ps => ps.ProductId.Equals(product.Id)) ?? throw new InvalidOperationException($"Stock data is missing for product {product.Name} {product.Id}");
 				using (TimedLock tl = TimedLock.Lock(_stock.TableLock))
 				{
 					stockDataRow.StockAvailability += stockCount;

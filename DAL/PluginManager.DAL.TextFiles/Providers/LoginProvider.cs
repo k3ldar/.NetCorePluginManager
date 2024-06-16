@@ -43,11 +43,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (settingsProvider == null)
 				throw new ArgumentNullException(nameof(settingsProvider));
 
-			SimpleDBSettings settings = settingsProvider.GetSettings<SimpleDBSettings>(nameof(SimpleDBSettings));
-
-			if (settings == null)
-				throw new InvalidOperationException();
-
+			SimpleDBSettings settings = settingsProvider.GetSettings<SimpleDBSettings>(nameof(SimpleDBSettings)) ?? throw new InvalidOperationException();
 			_encryptionKey = settings.EnycryptionKey ?? throw new InvalidOperationException("Encryption key missing from settings!");
 			_users = users ?? throw new ArgumentNullException(nameof(users));
 			_externalUsers = externalUsers ?? throw new ArgumentNullException(nameof(externalUsers));

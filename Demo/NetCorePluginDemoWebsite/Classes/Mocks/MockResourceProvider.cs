@@ -198,11 +198,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 			if (tags == null)
 				throw new ArgumentNullException(nameof(tags));
 
-			ResourceCategory resourceCategory = _resources.Find(x => x.Id == categoryId);
-
-			if (resourceCategory == null)
-				throw new InvalidOperationException();
-
+			ResourceCategory resourceCategory = _resources.Find(x => x.Id == categoryId) ?? throw new InvalidOperationException();
 			ResourceItem Result = new(_nextId++, categoryId, resourceType, userId,
 				userName, name, description, value, 0, 0, 0, false, tags);
 			resourceCategory.ResourceItems.Add(Result);

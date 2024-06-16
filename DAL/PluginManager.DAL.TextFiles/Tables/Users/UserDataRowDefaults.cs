@@ -35,11 +35,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 
 		public UserDataRowDefaults(ISettingsProvider settingsProvider)
 		{
-			SimpleDBSettings settings = settingsProvider.GetSettings<SimpleDBSettings>(nameof(SimpleDBSettings));
-
-			if (settings == null)
-				throw new InvalidOperationException();
-
+			SimpleDBSettings settings = settingsProvider.GetSettings<SimpleDBSettings>(nameof(SimpleDBSettings)) ?? throw new InvalidOperationException();
 			_encryptionKey = settings.EnycryptionKey;
 		}
 

@@ -86,11 +86,7 @@ namespace LoginPlugin.Controllers
 
 			TokenResponse facebookAccessToken = JsonSerializer.Deserialize<TokenResponse>(response, GetSerializerOptions());
 
-			TokenUserDetails userDetails = GetFacebookUserDetails(facebookAccessToken);
-
-			if (userDetails == null)
-				throw new InvalidOperationException(FacebookFailedToRetrieveLoginDetails);
-
+			TokenUserDetails userDetails = GetFacebookUserDetails(facebookAccessToken) ?? throw new InvalidOperationException(FacebookFailedToRetrieveLoginDetails);
 			userDetails.Provider = Facebook;
 			UserSession userSession = GetUserSession();
 
