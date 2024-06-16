@@ -67,7 +67,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
             Assert.AreEqual("System", sut.ParentMenuName());
             string ExpectedData = sut.Data();
 
-            Assert.IsTrue(sut.Data().StartsWith("{\r\n"));
+            Assert.IsTrue(sut.Data().StartsWith("{\n"));
         }
 
         [TestMethod]

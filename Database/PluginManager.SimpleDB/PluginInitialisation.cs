@@ -32,26 +32,43 @@ using SharedPluginFeatures;
 
 namespace SimpleDB
 {
+	/// <summary>
+	/// Plugin initialization class
+	/// </summary>
     public class PluginInitialisation : IPlugin, IInitialiseEvents
     {
         #region IPlugin Methods
 
+		/// <summary>
+		/// Configure services method
+		/// </summary>
+		/// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
 			// from interface but unused in this context
-			// from interface but unused in this context
 		}
 
+		/// <summary>
+		/// Finalise method
+		/// </summary>
 		public void Finalise()
         {
 			// from interface but unused in this context
 		}
 
+		/// <summary>
+		/// Initialise method
+		/// </summary>
+		/// <param name="logger"></param>
 		public void Initialise(ILogger logger)
         {
 			// from interface but unused in this context
 		}
 
+		/// <summary>
+		/// Retrieve the plugin version
+		/// </summary>
+		/// <returns></returns>
 		public ushort GetVersion()
         {
             return 1;
@@ -61,26 +78,46 @@ namespace SimpleDB
 
         #region IInitialiseEvents Methods
 
+		/// <summary>
+		/// Method called before configuration of the app
+		/// </summary>
+		/// <param name="app"></param>
         public void BeforeConfigure(in IApplicationBuilder app)
         {
 			// from interface but unused in this context
 		}
 
+		/// <summary>
+		/// Method called after the app has been configured
+		/// </summary>
+		/// <param name="app"></param>
 		public void AfterConfigure(in IApplicationBuilder app)
         {
 			// from interface but unused in this context
 		}
 
+		/// <summary>
+		/// Method called when the app is being configured
+		/// </summary>
+		/// <param name="app"></param>
 		public void Configure(in IApplicationBuilder app)
         {
 			// from interface but unused in this context
 		}
 
+		/// <summary>
+		/// Method called before services are configured
+		/// </summary>
+		/// <param name="services"></param>
 		public void BeforeConfigureServices(in IServiceCollection services)
         {
 			services.AddSimpleDB();
         }
 
+		/// <summary>
+		/// Method called after services are being configured
+		/// </summary>
+		/// <param name="services"></param>
         public void AfterConfigureServices(in IServiceCollection services)
         {
 			// from interface but unused in this context

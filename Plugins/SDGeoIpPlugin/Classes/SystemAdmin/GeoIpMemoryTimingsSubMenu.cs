@@ -31,13 +31,14 @@ using SharedPluginFeatures;
 
 namespace SieraDeltaGeoIp.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns Timings information for all time spent processing GeoIp requests from memory cache 
-    /// and can be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public class GeoIpMemoryTimingsSubMenu : SystemAdminSubMenu
+	/// <summary>
+	/// Returns Timings information for all time spent processing GeoIp requests from memory cache 
+	/// and can be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	[Obsolete("This package is no longer supported", true)]
+	public class GeoIpMemoryTimingsSubMenu : SystemAdminSubMenu
     {
         public override string Action()
         {

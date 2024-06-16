@@ -23,6 +23,8 @@
  *  04/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using AppSettings;
 
 using SharedPluginFeatures;
@@ -32,6 +34,7 @@ namespace SieraDeltaGeoIp.Plugin
 	/// <summary>
 	/// Contains GeoIp settings that are used to connect to MySql, MSSql or Firebird.
 	/// </summary>
+	[Obsolete("This package is no longer supported", true)]
 	public class GeoIpPluginSettings : IPluginSettings
 	{
 		#region Properties

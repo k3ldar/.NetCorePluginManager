@@ -5,6 +5,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
     <IsPackable>true</IsPackable>
+    <ValidateExecutableReferencesMatchSelfContained>false</ValidateExecutableReferencesMatchSelfContained>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -33,9 +34,14 @@
     <SignAssembly>$(SignAssembly)</SignAssembly>
     <AssemblyOriginatorKeyFile>$(AssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
     <PackageId>Web.$(AssemblyName)</PackageId>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
   </PropertyGroup>
+	
+  <ItemGroup>
+    <None Include="readme.md" Pack="true" PackagePath=""/>
+  </ItemGroup>	
 
-  <PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='$(FrameWorkLatestVersion)'">
     <DocumentationFile>$(XmlDocsPath)\Resources.Plugin.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -125,6 +131,13 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Views\Resources\ResourceItemSubmitted.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CodeSignAssembly)'=='true'">

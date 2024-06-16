@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>$(FrameWorkAllSupported)</TargetFrameworks>
+    <TargetFrameworks>$(FrameWorkWithNetStandard)</TargetFrameworks>
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <AssemblyName>Languages</AssemblyName>
@@ -37,9 +37,14 @@
     <NoWarn>$(NoWarn)</NoWarn>
     <SignAssembly>$(SignAssembly)</SignAssembly>
     <AssemblyOriginatorKeyFile>$(AssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
   </PropertyGroup>
+	
+  <ItemGroup>
+    <None Include="readme.md" Pack="true" PackagePath=""/>
+  </ItemGroup>	
 
-  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='$(FrameWorkLatestVersion)'">
     <DocumentationFile>$(XmlDocsPath)\Languages.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -60,6 +65,13 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CodeSignAssembly)'=='true'">

@@ -23,14 +23,17 @@
  *  04/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using PluginManager.Abstractions;
 
 namespace SieraDeltaGeoIp.Plugin
 {
-    /// <summary>
-    /// Implements IPluginVersion
-    /// </summary>
-    public class PluginVersion : IPluginVersion
+	/// <summary>
+	/// Implements IPluginVersion
+	/// </summary>
+	[Obsolete("This package is no longer supported", true)]
+	public class PluginVersion : IPluginVersion
     {
         /// <summary>
         /// Returns the current internal plugin version supported by SieraDeltaGeoIpPlugin

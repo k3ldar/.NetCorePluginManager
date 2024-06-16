@@ -36,6 +36,9 @@ namespace SimpleDB
         private long _created;
         private long _updated;
 
+		/// <summary>
+		/// Constructor
+		/// </summary>
         protected TableRowDefinition()
         {
             _id = Int64.MinValue;
@@ -61,9 +64,17 @@ namespace SimpleDB
             }
         }
 
+		/// <summary>
+		/// Date/time data was created
+		/// </summary>
+		/// <value>DateTime</value>
         [JsonIgnore]
         public DateTime Created => new(_created, DateTimeKind.Utc);
 
+		/// <summary>
+		/// Date/time data was created in ticks
+		/// </summary>
+		/// <value>long</value>
         public long CreatedTicks
         {
             get
@@ -80,9 +91,16 @@ namespace SimpleDB
             }
         }
 
+		/// <summary>
+		/// Date time data was last updated
+		/// </summary>
+		/// <value>DateTime</value>
         [JsonIgnore]
         public DateTime Updated => new(_updated, DateTimeKind.Utc);
 
+		/// <summary>
+		/// Ticks for when data was last updated
+		/// </summary>
         public long UpdatedTicks
         {
             get
@@ -121,6 +139,10 @@ namespace SimpleDB
         [JsonIgnore]
         public bool HasChanged { get; internal set; }
 
+		/// <summary>
+		/// Update called to indicate the data has potentially been updated/changed
+		/// </summary>
+		/// <exception cref="InvalidOperationException"></exception>
         protected void Update()
         {
             if (!Loaded || HasChanged)
@@ -133,6 +155,11 @@ namespace SimpleDB
             HasChanged = true;
         }
 
+		/// <summary>
+		/// Indicates observable data has changed
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
         protected void ObservableDataChanged(object sender, EventArgs e)
         {
             Update();

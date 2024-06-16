@@ -4,15 +4,18 @@
     <TargetFrameworks>$(FrameWorkAllSupported)</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Description>SimpleDB - Storage simplified, use your own classes to describe data which is then written and retrieved from storage.  Includes foriegn keys, unique indexes, before and after triggers for create, update and delete methods</Description>
-    <PackageReadmeFile>SimpleDB.md</PackageReadmeFile>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Simple DB - Storage simplified using C# classes</Title>
   </PropertyGroup>
-
+	
   <ItemGroup>
-    <Compile Remove="RowActivityArgs.cs" />
-  </ItemGroup>
+    <None Include="readme.md" Pack="true" PackagePath=""/>
+  </ItemGroup>	
 
+  <PropertyGroup Condition="'$(TargetFramework)'=='$(FrameWorkLatestVersion)'">
+    <DocumentationFile>$(XmlDocsPath)\SimpleDb.xml</DocumentationFile>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="SC.Shared.Library.Core" Version="$(SharedVer)" />
@@ -30,13 +33,6 @@
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>PluginManager.DAL.TextFiles.Tests</_Parameter1>
     </AssemblyAttribute>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\..\Docs\Package\SimpleDB.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
   </ItemGroup>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CodeSignAssembly)'=='true'">

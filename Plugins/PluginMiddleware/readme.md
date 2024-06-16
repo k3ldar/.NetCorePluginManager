@@ -1,0 +1,8 @@
+﻿This package is one of many packages that can be used with [Plugin Manager](https://www.nuget.org/packages/PluginManager) which can be used to extend any c#/.net based application (MVC, Winform, WPF, MAUI etc) by using a [Modular Approach](https://pluginmanager.website/docs/Document/A-Modular-Approach/).
+
+# Middleware Plugin Module
+The middleware module is a shared module which defines interfaces and classes that can be used by any plugin module. Specifically the middleware module provides access to dynamic data obtained through the business object layer (BOL) and ultimately the data access layer (DAL).
+
+The advantage of using a middlware layer is that the application does not have to have any knowledge about the BOL that is used, the interfaces and classes are specific to the website and plugin modules that are being loaded.
+
+The host application is responsible for implementing interfaces exposed using the middleware.

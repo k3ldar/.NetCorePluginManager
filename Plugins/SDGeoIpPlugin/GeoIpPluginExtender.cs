@@ -23,16 +23,19 @@
  *  04/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
 
 namespace SieraDeltaGeoIp.Plugin
 {
-    /// <summary>
-    /// SieraDelta Geo Ip service extender.
-    /// </summary>
-    public static class GeoIpPluginExtender
+	/// <summary>
+	/// SieraDelta Geo Ip service extender.
+	/// </summary>
+	[Obsolete("This package is no longer supported", true)]
+	public static class GeoIpPluginExtender
     {
         /// <summary>
         /// IApplicationBuilder extender method.

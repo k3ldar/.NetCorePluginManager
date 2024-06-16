@@ -32,10 +32,14 @@
     <NoWarn>$(NoWarn)</NoWarn>
     <SignAssembly>$(SignAssembly)</SignAssembly>
     <AssemblyOriginatorKeyFile>$(AssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
   </PropertyGroup>
+	
+  <ItemGroup>
+    <None Include="readme.md" Pack="true" PackagePath=""/>
+  </ItemGroup>	
 
-
-  <PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='$(FrameWorkLatestVersion)'">
     <DocumentationFile>$(XmlDocsPath)\UserSessionMiddleware.Plugin.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -55,6 +59,13 @@
     <ProjectReference Include="..\..\Languages\Languages.csproj" />
     <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
     <ProjectReference Include="..\PluginMiddleware\PluginMiddleware.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CodeSignAssembly)'=='true'">

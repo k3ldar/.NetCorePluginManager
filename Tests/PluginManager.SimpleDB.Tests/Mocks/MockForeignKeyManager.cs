@@ -33,7 +33,7 @@ namespace SimpleDB.Tests.Mocks
 	{
 		public List<string> RegisteredTables = new();
 
-		public void AddRelationShip(string table, string targetTable, string propertyName, string targetPropertyName, ForeignKeyAttributes foreignKeyAttributes)
+		public void AddRelationShip(string sourceTable, string targetTable, string propertyName, string targetPropertyName, ForeignKeyAttributes foreignKeyAttributes)
 		{
 			throw new NotImplementedException();
 		}

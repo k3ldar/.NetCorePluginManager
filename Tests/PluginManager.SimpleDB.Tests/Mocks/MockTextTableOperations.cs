@@ -95,7 +95,7 @@ namespace SimpleDB.Tests.Mocks
             throw new NotImplementedException();
         }
 
-		public void Insert(T records, InsertOptions insertOptions)
+		public void Insert(T record, InsertOptions insertOptions)
 		{
 			throw new NotImplementedException();
 		}

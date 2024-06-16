@@ -27,22 +27,43 @@ using System;
 
 namespace ProductPlugin.Models
 {
+	/// <summary>
+	/// Add stock model for adding stock for products
+	/// </summary>
 	public class ProductAddStockModel
 	{
+		/// <summary>
+		/// Default constructor
+		/// </summary>
 		public ProductAddStockModel()
 		{
 		}
 
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="id">Id of product</param>
+		/// <param name="productName">Name of product</param>
+		/// <exception cref="ArgumentNullException"></exception>
 		public ProductAddStockModel(int id, string productName)
 		{
 			Id = id;
 			ProductName = productName ?? throw new ArgumentNullException(nameof(productName));
 		}
 
+		/// <summary>
+		/// Id of product
+		/// </summary>
 		public int Id { get; set; }
 
+		/// <summary>
+		/// Name of product
+		/// </summary>
 		public string ProductName { get; set; }
 
+		/// <summary>
+		/// Quantity of stock to add
+		/// </summary>
 		public uint Quantity { get; set; }
 	}
 }

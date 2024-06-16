@@ -92,6 +92,11 @@
             Products which affect how ProductsPlugin is configured.
             </summary>
         </member>
+        <member name="P:ProductPlugin.ProductPluginSettings.SettingsName">
+            <summary>
+            Settings name
+            </summary>
+        </member>
         <member name="P:ProductPlugin.ProductPluginSettings.ProductsPerPage">
             <summary>
             Number of products to display on each page.
@@ -156,13 +161,14 @@
             Product Administration Controller
             </summary>
         </member>
-        <member name="M:ProductPlugin.Controllers.ProductAdminController.#ctor(Middleware.IProductProvider,PluginManager.Abstractions.ISettingsProvider,SharedPluginFeatures.IMemoryCache)">
+        <member name="M:ProductPlugin.Controllers.ProductAdminController.#ctor(Middleware.IProductProvider,PluginManager.Abstractions.ISettingsProvider,Middleware.IStockProvider,SharedPluginFeatures.IMemoryCache)">
             <summary>
             Constructor
             </summary>
             <param name="productProvider">IProductProvider instance</param>
             <param name="settingsProvider">ISettingsProvider instance</param>
-            <param name="memoryCache"></param>
+            <param name="stockProvider">Stock privider instance</param>
+            <param name="memoryCache">Memory cache instance</param>
         </member>
         <member name="M:ProductPlugin.Controllers.ProductAdminController.Index(System.Nullable{System.Int32})">
             <summary>
@@ -256,7 +262,7 @@
             </summary>
             <param name="modelData"></param>
         </member>
-        <member name="M:ProductPlugin.Models.EditProductModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Collections.Generic.List{Middleware.LookupListItem},System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean,System.Decimal,System.String,System.Boolean,System.Boolean,System.Int32)">
+        <member name="M:ProductPlugin.Models.EditProductModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Collections.Generic.List{Middleware.LookupListItem},System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean,System.Decimal,System.String,System.Boolean,System.Boolean,System.Boolean,System.Int32)">
             <summary>
             Constructor used for editing a product
             </summary>
@@ -274,6 +280,7 @@
             <param name="sku"></param>
             <param name="isDownload"></param>
             <param name="allowBackOrder"></param>
+            <param name="isVisible"></param>
             <param name="pageNumber"></param>
         </member>
         <member name="P:ProductPlugin.Models.EditProductModel.Id">
@@ -348,6 +355,11 @@
             </summary>
             <value>bool.  If true the item can be back ordered.</value>
         </member>
+        <member name="P:ProductPlugin.Models.EditProductModel.IsVisible">
+            <summary>
+            Indicates whether the product is visible or not
+            </summary>
+        </member>
         <member name="P:ProductPlugin.Models.EditProductModel.ProductGroups">
             <summary>
             List of existing product Groups
@@ -356,6 +368,39 @@
         <member name="P:ProductPlugin.Models.EditProductModel.PageNumber">
             <summary>
             Page in product list where the product belongs
+            </summary>
+        </member>
+        <member name="T:ProductPlugin.Models.ProductAddStockModel">
+            <summary>
+            Add stock model for adding stock for products
+            </summary>
+        </member>
+        <member name="M:ProductPlugin.Models.ProductAddStockModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ProductPlugin.Models.ProductAddStockModel.#ctor(System.Int32,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="id">Id of product</param>
+            <param name="productName">Name of product</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductAddStockModel.Id">
+            <summary>
+            Id of product
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductAddStockModel.ProductName">
+            <summary>
+            Name of product
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductAddStockModel.Quantity">
+            <summary>
+            Quantity of stock to add
             </summary>
         </member>
         <member name="P:ProductPlugin.Models.ProductCategoryProductModel.Sku">

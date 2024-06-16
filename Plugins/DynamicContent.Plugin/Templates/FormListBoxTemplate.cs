@@ -33,7 +33,7 @@ using Languages;
 using SharedPluginFeatures;
 using SharedPluginFeatures.DynamicContent;
 
-#pragma warning disable CS1591
+#pragma warning disable CS1591, S3237
 
 namespace DynamicContent.Plugin.Templates
 {
@@ -201,4 +201,4 @@ namespace DynamicContent.Plugin.Templates
     }
 }
 
-#pragma warning restore CS1591
+#pragma warning restore CS1591, S3237

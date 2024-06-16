@@ -30,7 +30,6 @@ using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 using PluginManager.Tests.Mocks;
-using Google.Protobuf.WellKnownTypes;
 
 namespace PluginManager.DAL.TextFiles.Tests
 {

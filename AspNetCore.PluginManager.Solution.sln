@@ -23,8 +23,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeoIpPlugin", "Plugins\GeoI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemAdmin.Plugin", "Plugins\SystemAdmin.Plugin\SystemAdmin.Plugin.csproj", "{BCD38860-C640-4012-B148-FCEFF568FB23}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SieraDeltaGeoIpPlugin", "Plugins\SDGeoIpPlugin\SieraDeltaGeoIpPlugin.csproj", "{7D05CB90-EA96-4CE9-A15D-11828DD68F9D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BadEgg.Plugin", "Plugins\BadEgg.Plugin\BadEgg.Plugin.csproj", "{5959741F-4BEA-45FD-ACBE-0B088A1AA50E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ErrorManager.Plugin", "Plugins\ErrorManager.Plugin\ErrorManager.Plugin.csproj", "{F401ED7C-DB39-49C1-87C0-813887343D84}"
@@ -167,10 +165,6 @@ Global
 		{BCD38860-C640-4012-B148-FCEFF568FB23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCD38860-C640-4012-B148-FCEFF568FB23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCD38860-C640-4012-B148-FCEFF568FB23}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7D05CB90-EA96-4CE9-A15D-11828DD68F9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D05CB90-EA96-4CE9-A15D-11828DD68F9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D05CB90-EA96-4CE9-A15D-11828DD68F9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D05CB90-EA96-4CE9-A15D-11828DD68F9D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5959741F-4BEA-45FD-ACBE-0B088A1AA50E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5959741F-4BEA-45FD-ACBE-0B088A1AA50E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5959741F-4BEA-45FD-ACBE-0B088A1AA50E}.Release|Any CPU.ActiveCfg = Release|Any CPU

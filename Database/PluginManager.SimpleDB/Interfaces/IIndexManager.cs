@@ -27,18 +27,44 @@ using SharedPluginFeatures.Interfaces;
 
 namespace SimpleDB
 {
+	/// <summary>
+	/// Index manager definition
+	/// </summary>
     public interface IIndexManager : IBatchUpdate
     {
+		/// <summary>
+		/// Names of properties/columns
+		/// </summary>
         List<string> PropertyNames { get; }
 
+		/// <summary>
+		/// Type of index
+		/// </summary>
         IndexType IndexType { get; }
 
+		/// <summary>
+		/// Determines whether the index already exists or not
+		/// </summary>
+		/// <param name="value">value to be checked</param>
+		/// <returns>bool</returns>
         bool Contains(object value);
 
+		/// <summary>
+		/// Adds a new index value to the table
+		/// </summary>
+		/// <param name="value"></param>
         void Add(object value);
 
+		/// <summary>
+		/// Adds a list of new data to the table
+		/// </summary>
+		/// <param name="items"></param>
         void Add(List<object> items);
 
+		/// <summary>
+		/// Removes an index value from the table
+		/// </summary>
+		/// <param name="value"></param>
         void Remove(object value);
     }
 }

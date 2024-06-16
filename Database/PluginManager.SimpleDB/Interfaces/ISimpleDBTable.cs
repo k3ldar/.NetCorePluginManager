@@ -87,7 +87,9 @@ namespace SimpleDB
 		/// </summary>
 		Dictionary<string, Timings> GetAllTimings { get; }
 
-
+		/// <summary>
+		/// Raises an event when an action is performed
+		/// </summary>
 		event SimpleDbEvent OnAction;
 	}
 }

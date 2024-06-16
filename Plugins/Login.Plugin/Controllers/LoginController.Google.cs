@@ -39,7 +39,7 @@ using Shared.Communication;
 
 using static Shared.Utilities;
 
-#pragma warning disable CS1591
+#pragma warning disable IDE0060, S1075, S6967
 
 namespace LoginPlugin.Controllers
 {
@@ -53,6 +53,11 @@ namespace LoginPlugin.Controllers
         private const string GoogleScope = "&scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile";
         private const string GoogleOAuthUri = "https://accounts.google.com/o/oauth2/auth";
 
+		/// <summary>
+		/// Google login action
+		/// </summary>
+		/// <param name="returnUrl"></param>
+		/// <returns></returns>
         [HttpPost]
         public IActionResult GoogleLogin(string returnUrl)
         {
@@ -69,6 +74,15 @@ namespace LoginPlugin.Controllers
             return Redirect(Googleurl);
         }
 
+		/// <summary>
+		/// Google login callback action
+		/// </summary>
+		/// <param name="code"></param>
+		/// <param name="scope"></param>
+		/// <param name="authuser"></param>
+		/// <param name="prompt"></param>
+		/// <returns></returns>
+		/// <exception cref="InvalidOperationException"></exception>
         public IActionResult GoogleCallback(string code, string scope, string authuser, string prompt)
         {
             NVPCodec parameters = new();
@@ -137,4 +151,4 @@ namespace LoginPlugin.Controllers
     }
 }
 
-#pragma warning restore CS1591
+#pragma warning disable IDE0060, S1075, S6967

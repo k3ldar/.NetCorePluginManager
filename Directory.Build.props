@@ -4,12 +4,13 @@
 
   <PropertyGroup>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
-    <NoWarn>1701;1702;8032;8981;S125</NoWarn>
+    <NoWarn>1701;1702;8032;8981;S125;S6967;S6964;S6670;S6934;S3267;</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>Shared.Key.pfx</AssemblyOriginatorKeyFile>
     <Description>Plugin Manager</Description>
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+	<WarningLevel>5</WarningLevel>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -30,6 +31,7 @@
   <PropertyGroup>
     <FrameWorkLatestVersion>net8.0</FrameWorkLatestVersion>
     <FrameWorkAllSupported>net8.0;net6.0;</FrameWorkAllSupported>
+	<FrameWorkWithNetStandard>$(FrameWorkAllSupported)netstandard2.0</FrameWorkWithNetStandard>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -38,7 +40,7 @@
   </PropertyGroup>
   
   <PropertyGroup>
-    <Version>5.6.1</Version>
+    <Version>5.6.2</Version>
     <LangVersion>latest</LangVersion>
     <Authors>Simon Carter (s1cart3r@gmail.com)</Authors>
     <Company>Simon Carter</Company>

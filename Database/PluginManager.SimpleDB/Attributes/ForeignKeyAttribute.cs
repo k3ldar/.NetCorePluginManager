@@ -55,12 +55,12 @@ namespace SimpleDB
         {
         }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="tableName">Name of table the foreign key is linked to</param>
-        /// <param name="allowDefault">Allows default value of type if foreign key does not exist</param>
-        public ForeignKeyAttribute(string tableName, ForeignKeyAttributes foreignKeyAttributes)
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="tableName">Name of table the foreign key is linked to</param>
+		/// <param name="foreignKeyAttributes">Foreign key attributes</param>
+		public ForeignKeyAttribute(string tableName, ForeignKeyAttributes foreignKeyAttributes)
             : this(tableName, "Id", foreignKeyAttributes)
         {
         }
