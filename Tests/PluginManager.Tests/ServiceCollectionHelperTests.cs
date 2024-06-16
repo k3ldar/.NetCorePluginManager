@@ -177,12 +177,14 @@ namespace PluginManager.Tests
 			private readonly IPluginClassesService _pluginClassesService;
 			private readonly IPluginHelperService _pluginHelperService;
 
+			[SuppressMessage("Major Code Smell", "S1144:Unused private types or members should be removed", Justification = "Having multiple constructors is part of the test")]
 			protected TestClassWithMultipleConstructors(ILogger logger, IPluginClassesService pluginClassesService)
 				: this(logger)
 			{
 				_pluginClassesService = pluginClassesService;
 			}
 
+			[SuppressMessage("Major Code Smell", "S1144:Unused private types or members should be removed", Justification = "Having multiple constructors is part of the test")]
 			public TestClassWithMultipleConstructors(ILogger logger, IPluginClassesService pluginClassesService, IPluginHelperService pluginHelperService)
 			{
 				_logger = logger ?? throw new ArgumentNullException(nameof(logger));
