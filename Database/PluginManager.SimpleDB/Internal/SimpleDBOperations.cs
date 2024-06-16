@@ -200,10 +200,10 @@ namespace SimpleDB.Internal
 		{
 			get
 			{
-				if (_tableName == null && _tableAttributes != null)
+				if (_tableAttributes != null)
 					return _tableAttributes.TableName;
 
-				return _tableName;
+				return null;
 			}
 		}
 

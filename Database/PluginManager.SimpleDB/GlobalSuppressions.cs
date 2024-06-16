@@ -14,3 +14,4 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Major Code Smell", "S3925:\"ISerializable\" should be implemented correctly", Justification = "Not required here", Scope = "type", Target = "~T:SimpleDB.UniqueIndexException")]
 [assembly: SuppressMessage("Major Code Smell", "S3925:\"ISerializable\" should be implemented correctly", Justification = "Not required here", Scope = "type", Target = "~T:SimpleDB.InvalidDataRowException")]
 [assembly: SuppressMessage("Major Code Smell", "S3925:\"ISerializable\" should be implemented correctly", Justification = "Not required", Scope = "type", Target = "~T:SimpleDB.ObservableDictionary`2")]
+[assembly: SuppressMessage("Critical Bug", "S4275:Getters and setters should access the expected fields", Justification = "This is by design to obtain just the table name without path data", Scope = "member", Target = "~P:SimpleDB.Internal.SimpleDBOperations`1.TableName")]

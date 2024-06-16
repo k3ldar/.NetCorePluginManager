@@ -412,7 +412,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 					while (i < 10)
 					{
-						System.Threading.Thread.Sleep(300);
+						Thread.Sleep(300);
 
 						if (sessionData.RecordCount > 0 && sessionPageData.RecordCount > 0 && referrer.RecordCount > 0 && yearlyStats.RecordCount > 0)
 							break;
