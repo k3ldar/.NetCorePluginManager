@@ -29,6 +29,8 @@ using System.Diagnostics.CodeAnalysis;
 using Middleware;
 using Middleware.Downloads;
 
+#pragma warning disable S2696
+
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
 	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
@@ -131,3 +133,5 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 		#endregion IDownloads
 	}
 }
+
+#pragma warning restore S2696

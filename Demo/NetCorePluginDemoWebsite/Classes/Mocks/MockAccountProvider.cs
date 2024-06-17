@@ -35,6 +35,8 @@ using Middleware.Accounts.Orders;
 
 using SharedPluginFeatures;
 
+#pragma warning disable S2696
+
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
 	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
@@ -334,3 +336,5 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 		#endregion Invoices
 	}
 }
+
+#pragma warning restore S2696
