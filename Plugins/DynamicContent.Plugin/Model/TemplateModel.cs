@@ -29,38 +29,38 @@ using System;
 
 namespace DynamicContent.Plugin.Model
 {
-    public sealed class TemplateModel
-    {
-        #region Constructors
+	public sealed class TemplateModel
+	{
+		#region Constructors
 
-        public TemplateModel(string templateId, string templateName, string templateImage)
-        {
-            if (String.IsNullOrEmpty(templateId))
-                throw new ArgumentNullException(nameof(templateId));
+		public TemplateModel(string templateId, string templateName, string templateImage)
+		{
+			if (String.IsNullOrEmpty(templateId))
+				throw new ArgumentNullException(nameof(templateId));
 
-            if (String.IsNullOrEmpty(templateName))
-                throw new ArgumentNullException(nameof(templateName));
+			if (String.IsNullOrEmpty(templateName))
+				throw new ArgumentNullException(nameof(templateName));
 
-            if (String.IsNullOrEmpty(templateImage))
-                throw new ArgumentNullException(nameof(templateImage));
+			if (String.IsNullOrEmpty(templateImage))
+				throw new ArgumentNullException(nameof(templateImage));
 
-            TemplateId = templateId;
-            TemplateName = templateName;
-            TemplateImage = templateImage;
-        }
+			TemplateId = templateId;
+			TemplateName = templateName;
+			TemplateImage = templateImage;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public string TemplateId { get; }
+		public string TemplateId { get; }
 
-        public string TemplateName { get; }
+		public string TemplateName { get; }
 
-        public string TemplateImage { get; }
+		public string TemplateImage { get; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

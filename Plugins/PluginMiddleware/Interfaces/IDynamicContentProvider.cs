@@ -30,72 +30,72 @@ using SharedPluginFeatures.DynamicContent;
 
 namespace Middleware.DynamicContent
 {
-    /// <summary>
-    /// Dynamic content provider for integrating with the DynamicContent.Plugin module.
-    /// 
-    /// This item must be implemented by the host application and made available via DI.
-    /// </summary>
-    public interface IDynamicContentProvider
-    {
-        /// <summary>
-        /// Creates a new custom page and returns the id of the new page
-        /// </summary>
-        /// <returns>int</returns>
-        long CreateCustomPage();
+	/// <summary>
+	/// Dynamic content provider for integrating with the DynamicContent.Plugin module.
+	/// 
+	/// This item must be implemented by the host application and made available via DI.
+	/// </summary>
+	public interface IDynamicContentProvider
+	{
+		/// <summary>
+		/// Creates a new custom page and returns the id of the new page
+		/// </summary>
+		/// <returns>int</returns>
+		long CreateCustomPage();
 
-        /// <summary>
-        /// Retrieves a list of custom pages
-        /// </summary>
-        /// <returns>List&lt;DynamicContentTemplate&gt;</returns>
-        List<LookupListItem> GetCustomPageList();
+		/// <summary>
+		/// Retrieves a list of custom pages
+		/// </summary>
+		/// <returns>List&lt;DynamicContentTemplate&gt;</returns>
+		List<LookupListItem> GetCustomPageList();
 
-        /// <summary>
-        /// Retrieves all custom pages
-        /// </summary>
-        /// <returns>List&lt;IDynamicContentPage&gt;</returns>
-        List<IDynamicContentPage> GetCustomPages();
+		/// <summary>
+		/// Retrieves all custom pages
+		/// </summary>
+		/// <returns>List&lt;IDynamicContentPage&gt;</returns>
+		List<IDynamicContentPage> GetCustomPages();
 
-        /// <summary>
-        /// Retrieves dynamic page content by id
-        /// </summary>
-        /// <param name="id">Id of page to find</param>
-        /// <returns>IDynamicContentPage</returns>
-        IDynamicContentPage GetCustomPage(long id);
+		/// <summary>
+		/// Retrieves dynamic page content by id
+		/// </summary>
+		/// <param name="id">Id of page to find</param>
+		/// <returns>IDynamicContentPage</returns>
+		IDynamicContentPage GetCustomPage(long id);
 
-        /// <summary>
-        /// Retrieves all dynamic content templates
-        /// </summary>
-        /// <returns>List&lt;DynamicContentTemplate&gt;</returns>
-        List<DynamicContentTemplate> Templates();
+		/// <summary>
+		/// Retrieves all dynamic content templates
+		/// </summary>
+		/// <returns>List&lt;DynamicContentTemplate&gt;</returns>
+		List<DynamicContentTemplate> Templates();
 
-        /// <summary>
-        /// Determines whether the page name already exists
-        /// </summary>
-        /// <param name="id">Id of current page</param>
-        /// <param name="pageName">Name of page to be validated.</param>
-        /// <returns>bool</returns>
-        bool PageNameExists(long id, string pageName);
+		/// <summary>
+		/// Determines whether the page name already exists
+		/// </summary>
+		/// <param name="id">Id of current page</param>
+		/// <param name="pageName">Name of page to be validated.</param>
+		/// <returns>bool</returns>
+		bool PageNameExists(long id, string pageName);
 
-        /// <summary>
-        /// Determines whether a route name already exists
-        /// </summary>
-        /// <param name="id">Id of current page</param>
-        /// <param name="routeName">Name of route to be validated.</param>
-        /// <returns></returns>
-        bool RouteNameExists(long id, string routeName);
+		/// <summary>
+		/// Determines whether a route name already exists
+		/// </summary>
+		/// <param name="id">Id of current page</param>
+		/// <param name="routeName">Name of route to be validated.</param>
+		/// <returns></returns>
+		bool RouteNameExists(long id, string routeName);
 
-        /// <summary>
-        /// Saves the dynamic content page
-        /// </summary>
-        /// <param name="dynamicContentPage">Dynamic content page to be saved</param>
-        /// <returns>bool</returns>
-        bool Save(IDynamicContentPage dynamicContentPage);
+		/// <summary>
+		/// Saves the dynamic content page
+		/// </summary>
+		/// <param name="dynamicContentPage">Dynamic content page to be saved</param>
+		/// <returns>bool</returns>
+		bool Save(IDynamicContentPage dynamicContentPage);
 
-        /// <summary>
-        /// Provides an opportunity for user input that is input via custom forms to be saved
-        /// </summary>
-        /// <param name="data">Form data to be saved</param>
-        /// <returns>bool</returns>
-        bool SaveUserInput(string data);
-    }
+		/// <summary>
+		/// Provides an opportunity for user input that is input via custom forms to be saved
+		/// </summary>
+		/// <param name="data">Form data to be saved</param>
+		/// <returns>bool</returns>
+		bool SaveUserInput(string data);
+	}
 }

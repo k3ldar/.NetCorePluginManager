@@ -33,154 +33,154 @@ using Languages;
 using SharedPluginFeatures;
 using SharedPluginFeatures.DynamicContent;
 
-#pragma warning disable CS1591,S3237
+#pragma warning disable CS1591, S3237
 
 namespace DynamicContent.Plugin.Templates
 {
-    public class FormCheckBoxTemplate : DynamicContentTemplate
-    {
-        #region Constructors
+	public class FormCheckBoxTemplate : DynamicContentTemplate
+	{
+		#region Constructors
 
-        public FormCheckBoxTemplate()
-        {
-            WidthType = DynamicContentWidthType.Columns;
-            Width = 12;
-            ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
-        }
+		public FormCheckBoxTemplate()
+		{
+			WidthType = DynamicContentWidthType.Columns;
+			Width = 12;
+			ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+			ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region DynamicContentTemplate Properties
+		#region DynamicContentTemplate Properties
 
-        public override string AssemblyQualifiedName => typeof(FormCheckBoxTemplate).AssemblyQualifiedName;
+		public override string AssemblyQualifiedName => typeof(FormCheckBoxTemplate).AssemblyQualifiedName;
 
-        public override string EditorAction
-        {
-            get
-            {
-                return $"/{Controllers.DynamicContentController.Name}/{nameof(Controllers.DynamicContentController.FormControlTemplateEditorRightAlign)}/";
-            }
-        }
+		public override string EditorAction
+		{
+			get
+			{
+				return $"/{Controllers.DynamicContentController.Name}/{nameof(Controllers.DynamicContentController.FormControlTemplateEditorRightAlign)}/";
+			}
+		}
 
-        public override string EditorInstructions => String.Empty;
+		public override string EditorInstructions => String.Empty;
 
-        public override string Name => LanguageStrings.TemplateNameFormCheckBox;
+		public override string Name => LanguageStrings.TemplateNameFormCheckBox;
 
-        public override DynamicContentTemplateType TemplateType => DynamicContentTemplateType.Input;
+		public override DynamicContentTemplateType TemplateType => DynamicContentTemplateType.Input;
 
-        public override int TemplateSortOrder => DefaultFormTemplateSortOrder;
+		public override int TemplateSortOrder => DefaultFormTemplateSortOrder;
 
-        public override Int32 SortOrder { get; set; }
+		public override Int32 SortOrder { get; set; }
 
-        public override DynamicContentHeightType HeightType
-        {
-            get
-            {
-                return DynamicContentHeightType.Automatic;
-            }
+		public override DynamicContentHeightType HeightType
+		{
+			get
+			{
+				return DynamicContentHeightType.Automatic;
+			}
 
-            set
-            {
-				// not used but required for interface
-            }
-        }
-
-        public override int Height
-        {
-            get
-            {
-                return -1;
-            }
-
-            set
-            {
+			set
+			{
 				// not used but required for interface
 			}
 		}
 
-        public override DynamicContentWidthType WidthType { get; set; }
+		public override int Height
+		{
+			get
+			{
+				return -1;
+			}
 
-        public override int Width { get; set; }
+			set
+			{
+				// not used but required for interface
+			}
+		}
 
-        public override string Data { get; set; }
+		public override DynamicContentWidthType WidthType { get; set; }
 
-        public override DateTime ActiveFrom { get; set; }
+		public override int Width { get; set; }
 
-        public override DateTime ActiveTo { get; set; }
+		public override string Data { get; set; }
 
-        #endregion DynamicContentTemplate Properties
+		public override DateTime ActiveFrom { get; set; }
 
-        #region DynamicContentTemplate Methods
+		public override DateTime ActiveTo { get; set; }
 
-        public override String Content()
-        {
-            return GenerateContent(false);
-        }
+		#endregion DynamicContentTemplate Properties
 
-        public override string EditorContent()
-        {
-            return GenerateContent(true);
-        }
+		#region DynamicContentTemplate Methods
 
-        public override DynamicContentTemplate Clone(string uniqueId)
-        {
-            if (String.IsNullOrEmpty(uniqueId))
-                uniqueId = Guid.NewGuid().ToString();
+		public override String Content()
+		{
+			return GenerateContent(false);
+		}
 
-            return new FormCheckBoxTemplate()
-            {
-                UniqueId = uniqueId
-            };
-        }
+		public override string EditorContent()
+		{
+			return GenerateContent(true);
+		}
 
-        #endregion DynamicContentTemplate Methods
+		public override DynamicContentTemplate Clone(string uniqueId)
+		{
+			if (String.IsNullOrEmpty(uniqueId))
+				uniqueId = Guid.NewGuid().ToString();
 
-        #region Private Methods
+			return new FormCheckBoxTemplate()
+			{
+				UniqueId = uniqueId
+			};
+		}
 
-        private string GenerateContent(bool isEditing)
-        {
-            StringBuilder Result = new(512);
+		#endregion DynamicContentTemplate Methods
 
-            HtmlStart(Result, isEditing);
+		#region Private Methods
 
-            Result.AppendFormat("<div{0}", RetrieveCssClassAndStyle("form-group"));
+		private string GenerateContent(bool isEditing)
+		{
+			StringBuilder Result = new(512);
 
-            if (isEditing)
-                Result.Append(" style=\"margin: 0 0 0 10px;min-height:32px;\"");
+			HtmlStart(Result, isEditing);
 
-            Result.Append('>');
+			Result.AppendFormat("<div{0}", RetrieveCssClassAndStyle("form-group"));
 
-            FormTemplateEditorModel formModel = new(Data, true);
-            string lblStyle = String.IsNullOrEmpty(formModel.LabelStyle) ? "" : $" style=\"{formModel.LabelStyle}\"";
+			if (isEditing)
+				Result.Append(" style=\"margin: 0 0 0 10px;min-height:32px;\"");
 
-            if (formModel.AlignTop && !String.IsNullOrEmpty(formModel.LabelText))
-            {
-                Result.AppendFormat("<label for=\"{0}\" class=\"form-check-label\"{1}>{2}</label>", formModel.ControlName, lblStyle, formModel.LabelText);
+			Result.Append('>');
 
-                if (formModel.AlignTop)
-                    Result.Append("<br />");
-            }
+			FormTemplateEditorModel formModel = new(Data, true);
+			string lblStyle = String.IsNullOrEmpty(formModel.LabelStyle) ? "" : $" style=\"{formModel.LabelStyle}\"";
 
-            string disabled = isEditing ? " disabled" : "";
-            string ctlStyle = String.IsNullOrEmpty(formModel.ControlStyle) ? "" : $" style=\"{formModel.ControlStyle}\"";
+			if (formModel.AlignTop && !String.IsNullOrEmpty(formModel.LabelText))
+			{
+				Result.AppendFormat("<label for=\"{0}\" class=\"form-check-label\"{1}>{2}</label>", formModel.ControlName, lblStyle, formModel.LabelText);
 
-            Result.AppendFormat("<input type=\"checkbox\" class=\"form-check-input\" id=\"{0}\" onclick=\"updateUC();\" onfocusout=\"updateUC();\"{1}{2}>", formModel.ControlName, ctlStyle, disabled);
+				if (formModel.AlignTop)
+					Result.Append("<br />");
+			}
 
-            if (!formModel.AlignTop && !String.IsNullOrEmpty(formModel.LabelText))
-            {
-                Result.AppendFormat("<label for=\"{0}\" class=\"form-check-label\"{1}>{2}</label>", formModel.ControlName, lblStyle, formModel.LabelText);
-            }
+			string disabled = isEditing ? " disabled" : "";
+			string ctlStyle = String.IsNullOrEmpty(formModel.ControlStyle) ? "" : $" style=\"{formModel.ControlStyle}\"";
 
-            Result.Append("</div>");
+			Result.AppendFormat("<input type=\"checkbox\" class=\"form-check-input\" id=\"{0}\" onclick=\"updateUC();\" onfocusout=\"updateUC();\"{1}{2}>", formModel.ControlName, ctlStyle, disabled);
 
-            HtmlEnd(Result);
+			if (!formModel.AlignTop && !String.IsNullOrEmpty(formModel.LabelText))
+			{
+				Result.AppendFormat("<label for=\"{0}\" class=\"form-check-label\"{1}>{2}</label>", formModel.ControlName, lblStyle, formModel.LabelText);
+			}
 
-            return Result.ToString();
-        }
+			Result.Append("</div>");
 
-        #endregion Private Methods
-    }
+			HtmlEnd(Result);
+
+			return Result.ToString();
+		}
+
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591, S3237

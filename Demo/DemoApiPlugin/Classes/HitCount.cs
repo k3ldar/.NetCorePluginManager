@@ -26,13 +26,13 @@
 
 namespace DemoApiPlugin
 {
-    public class HitCount
-    {
-        public HitCount()
-        {
-            Count = 0;
-        }
+	public class HitCount
+	{
+		public HitCount()
+		{
+			Count = 0;
+		}
 
-        public int Count { get; set; }
-    }
+		public int Count { get; set; }
+	}
 }

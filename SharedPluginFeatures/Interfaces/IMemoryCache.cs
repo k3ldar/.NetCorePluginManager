@@ -28,61 +28,61 @@ using Shared.Classes;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// MemoryCachePlugin implements an instance of IMemoryCache, and add the instance to the DI container.  
-    /// Plugins and other modules can obtain an instance of IMemoryCache which can be used to store and 
-    /// retrieve items easily from a designated cache.
-    /// </summary>
-    public interface IMemoryCache
-    {
-        #region Public Methods
+	/// <summary>
+	/// MemoryCachePlugin implements an instance of IMemoryCache, and add the instance to the DI container.  
+	/// Plugins and other modules can obtain an instance of IMemoryCache which can be used to store and 
+	/// retrieve items easily from a designated cache.
+	/// </summary>
+	public interface IMemoryCache
+	{
+		#region Public Methods
 
-        /// <summary>
-        /// The short cache is inteded to hold items for upto 5 minutes, after which items will expire.
-        /// 
-        /// This can be useful for storing short term items like price information etc, that could
-        /// change regularly.
-        /// 
-        /// There is no limit to the items that can be cached and cache retrieval is extremely quick.
-        /// </summary>
-        /// <returns>CacheManager instance</returns>
-        CacheManager GetShortCache();
+		/// <summary>
+		/// The short cache is inteded to hold items for upto 5 minutes, after which items will expire.
+		/// 
+		/// This can be useful for storing short term items like price information etc, that could
+		/// change regularly.
+		/// 
+		/// There is no limit to the items that can be cached and cache retrieval is extremely quick.
+		/// </summary>
+		/// <returns>CacheManager instance</returns>
+		CacheManager GetShortCache();
 
-        /// <summary>
-        /// The long cache is inteded to hold items for upto 2 hours, after which items will expire.
-        /// 
-        /// This can be useful for storing medium term items like product information etc, that doesn't
-        /// change too regularly but will help speed up requests when retrieving.
-        /// 
-        /// There is no limit to the items that can be cached and cache retrieval is extremely quick.
-        /// </summary>
-        /// <returns>CacheManager instance</returns>
-        CacheManager GetCache();
+		/// <summary>
+		/// The long cache is inteded to hold items for upto 2 hours, after which items will expire.
+		/// 
+		/// This can be useful for storing medium term items like product information etc, that doesn't
+		/// change too regularly but will help speed up requests when retrieving.
+		/// 
+		/// There is no limit to the items that can be cached and cache retrieval is extremely quick.
+		/// </summary>
+		/// <returns>CacheManager instance</returns>
+		CacheManager GetCache();
 
-        /// <summary>
-        /// The extending cache is intended to cache items for 2 hours, after which items will expire.
-        /// 
-        /// The difference between the extending cache and normal cache is that if an item is requested
-        /// the time until expire will be extended by a further 2 hours.
-        /// 
-        /// There is no limit to the items that can be cached and cache retrieval is extremely quick.
-        /// </summary>
-        /// <returns>CacheManager instance</returns>
-        CacheManager GetExtendingCache();
+		/// <summary>
+		/// The extending cache is intended to cache items for 2 hours, after which items will expire.
+		/// 
+		/// The difference between the extending cache and normal cache is that if an item is requested
+		/// the time until expire will be extended by a further 2 hours.
+		/// 
+		/// There is no limit to the items that can be cached and cache retrieval is extremely quick.
+		/// </summary>
+		/// <returns>CacheManager instance</returns>
+		CacheManager GetExtendingCache();
 
-        /// <summary>
-        /// The permanent cache holds items in memory indefinitely.
-        /// 
-        /// There is no limit to the items that can be cached and cache retrieval is extremely quick.
-        /// </summary>
-        /// <returns>CacheManager instance</returns>
-        CacheManager GetPermanentCache();
+		/// <summary>
+		/// The permanent cache holds items in memory indefinitely.
+		/// 
+		/// There is no limit to the items that can be cached and cache retrieval is extremely quick.
+		/// </summary>
+		/// <returns>CacheManager instance</returns>
+		CacheManager GetPermanentCache();
 
-        /// <summary>
-        /// Resets all caches, clears all items.
-        /// </summary>
-        void ResetCaches();
+		/// <summary>
+		/// Resets all caches, clears all items.
+		/// </summary>
+		void ResetCaches();
 
-        #endregion Public Methods
-    }
+		#endregion Public Methods
+	}
 }

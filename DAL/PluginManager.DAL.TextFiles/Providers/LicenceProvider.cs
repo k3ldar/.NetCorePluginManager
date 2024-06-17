@@ -27,135 +27,136 @@ using Middleware;
 using Middleware.Accounts.Licences;
 
 using PluginManager.DAL.TextFiles.Tables;
+
 using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
-    internal class LicenceProvider : ILicenceProvider
-    {
-        #region Private Members
+	internal class LicenceProvider : ILicenceProvider
+	{
+		#region Private Members
 
-        private readonly ISimpleDBOperations<UserDataRow> _users;
-        private readonly ISimpleDBOperations<LicenseDataRow> _licenses;
-        private readonly ISimpleDBOperations<LicenseTypeDataRow> _licenseTypes;
+		private readonly ISimpleDBOperations<UserDataRow> _users;
+		private readonly ISimpleDBOperations<LicenseDataRow> _licenses;
+		private readonly ISimpleDBOperations<LicenseTypeDataRow> _licenseTypes;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public LicenceProvider(ISimpleDBOperations<UserDataRow> users,
-           // ITextTableOperations<InvoiceDataRow> invoices,
-            ISimpleDBOperations<LicenseDataRow> addresses,
-            ISimpleDBOperations<LicenseTypeDataRow> orders)
-        {
-            _users = users ?? throw new ArgumentNullException(nameof(users));
-            _licenses = addresses ?? throw new ArgumentNullException(nameof(addresses));
-            _licenseTypes = orders ?? throw new ArgumentNullException(nameof(orders));
+		public LicenceProvider(ISimpleDBOperations<UserDataRow> users,
+			// ITextTableOperations<InvoiceDataRow> invoices,
+			ISimpleDBOperations<LicenseDataRow> addresses,
+			ISimpleDBOperations<LicenseTypeDataRow> orders)
+		{
+			_users = users ?? throw new ArgumentNullException(nameof(users));
+			_licenses = addresses ?? throw new ArgumentNullException(nameof(addresses));
+			_licenseTypes = orders ?? throw new ArgumentNullException(nameof(orders));
 
-        }
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Interface Methods
+		#region Public Interface Methods
 
-        public List<LicenceType> LicenceTypesGet()
-        {
-            List<LicenceType> Result = new();
-            IReadOnlyList<LicenseTypeDataRow> licenseTypes = _licenseTypes.Select();
+		public List<LicenceType> LicenceTypesGet()
+		{
+			List<LicenceType> Result = new();
+			IReadOnlyList<LicenseTypeDataRow> licenseTypes = _licenseTypes.Select();
 
-            foreach (LicenseTypeDataRow row in licenseTypes)
-            {
-                Result.Add(new LicenceType(row.Id, row.Description));
-            }
+			foreach (LicenseTypeDataRow row in licenseTypes)
+			{
+				Result.Add(new LicenceType(row.Id, row.Description));
+			}
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public List<Licence> LicencesGet(in Int64 userId)
-        {
-            List<Licence> Result = new();
+		public List<Licence> LicencesGet(in Int64 userId)
+		{
+			List<Licence> Result = new();
 
-            UserDataRow user =  _users.Select(userId);
+			UserDataRow user = _users.Select(userId);
 
-            if (user == null)
-                return Result;
+			if (user == null)
+				return Result;
 
-            List<LicenseTypeDataRow> licenseTypes = _licenseTypes.Select().ToList();
-            List<LicenseDataRow> userLicenses = _licenses.Select().Where(l => l.UserId.Equals(user.Id)).ToList();
+			List<LicenseTypeDataRow> licenseTypes = _licenseTypes.Select().ToList();
+			List<LicenseDataRow> userLicenses = _licenses.Select().Where(l => l.UserId.Equals(user.Id)).ToList();
 
-            userLicenses.ForEach(ul =>
-            {
-                LicenseTypeDataRow licenseTypeDataRow = licenseTypes.First(lt => lt.Id.Equals(ul.LicenseType));
-                Result.Add(new Licence(ul.Id, ul.UserId, new LicenceType(licenseTypeDataRow.Id, licenseTypeDataRow.Description), ul.StartDate, 
-                    ul.ExpireDate, ul.IsValid, ul.IsTrial, ul.UpdateCount, ul.InvoiceId, ul.DomainName, ul.EncryptedLicense));
-            });
+			userLicenses.ForEach(ul =>
+			{
+				LicenseTypeDataRow licenseTypeDataRow = licenseTypes.First(lt => lt.Id.Equals(ul.LicenseType));
+				Result.Add(new Licence(ul.Id, ul.UserId, new LicenceType(licenseTypeDataRow.Id, licenseTypeDataRow.Description), ul.StartDate,
+					ul.ExpireDate, ul.IsValid, ul.IsTrial, ul.UpdateCount, ul.InvoiceId, ul.DomainName, ul.EncryptedLicense));
+			});
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public bool LicenceUpdateDomain(in long userId, in Licence licence, in string domain)
-        {
-            if (licence == null || String.IsNullOrEmpty(domain))
-                return false;
+		public bool LicenceUpdateDomain(in long userId, in Licence licence, in string domain)
+		{
+			if (licence == null || String.IsNullOrEmpty(domain))
+				return false;
 
-            UserDataRow user = _users.Select(userId);
+			UserDataRow user = _users.Select(userId);
 
-            if (user == null)
-                return false;
+			if (user == null)
+				return false;
 
-            LicenseDataRow licenseDataRow = _licenses.Select(licence.Id);
+			LicenseDataRow licenseDataRow = _licenses.Select(licence.Id);
 
-            if (licenseDataRow == null)
-                return false;
+			if (licenseDataRow == null)
+				return false;
 
-            licenseDataRow.DomainName = domain;
-            licenseDataRow.UpdateCount++;
+			licenseDataRow.DomainName = domain;
+			licenseDataRow.UpdateCount++;
 
 
-            bool Result = licenseDataRow.HasChanged;
+			bool Result = licenseDataRow.HasChanged;
 
-            _licenses.Update(licenseDataRow);
+			_licenses.Update(licenseDataRow);
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public bool LicenceSendEmail(in long userId, in int licenceId)
-        {
+		public bool LicenceSendEmail(in long userId, in int licenceId)
+		{
 
-            throw new NotImplementedException();
-        }
+			throw new NotImplementedException();
+		}
 
-        public LicenceCreate LicenceTrialCreate(in Int64 userId, in LicenceType licenceType)
-        {
-            if (licenceType == null)
-                throw new ArgumentNullException(nameof(licenceType));
+		public LicenceCreate LicenceTrialCreate(in Int64 userId, in LicenceType licenceType)
+		{
+			if (licenceType == null)
+				throw new ArgumentNullException(nameof(licenceType));
 
-            UserDataRow user = _users.Select(userId);
+			UserDataRow user = _users.Select(userId);
 
-            if (user == null)
-               return LicenceCreate.Failed;
+			if (user == null)
+				return LicenceCreate.Failed;
 
-            long licenseTypeId = licenceType.Id;
+			long licenseTypeId = licenceType.Id;
 
-            if (_licenses.Select().Any(l => l.UserId.Equals(user.Id) && l.LicenseType.Equals(licenseTypeId) && l.IsTrial))
-                return LicenceCreate.Existing;
+			if (_licenses.Select().Any(l => l.UserId.Equals(user.Id) && l.LicenseType.Equals(licenseTypeId) && l.IsTrial))
+				return LicenceCreate.Existing;
 
-            LicenseDataRow licenseDataRow = new()
-            {
-                InvoiceId = 0,
-                UserId = userId,
-                LicenseType = licenceType.Id,
-                IsTrial = true,
-                IsValid = true,
-                StartDateTicks = DateTime.UtcNow.Ticks,
-                ExpireDateTicks = DateTime.UtcNow.AddDays(30).Ticks,                
-            };
+			LicenseDataRow licenseDataRow = new()
+			{
+				InvoiceId = 0,
+				UserId = userId,
+				LicenseType = licenceType.Id,
+				IsTrial = true,
+				IsValid = true,
+				StartDateTicks = DateTime.UtcNow.Ticks,
+				ExpireDateTicks = DateTime.UtcNow.AddDays(30).Ticks,
+			};
 
-            _licenses.Insert(licenseDataRow);
+			_licenses.Insert(licenseDataRow);
 
-            return LicenceCreate.Success;
-        }
+			return LicenceCreate.Success;
+		}
 
-        #endregion Public Interface Methods
-    }
+		#endregion Public Interface Methods
+	}
 }

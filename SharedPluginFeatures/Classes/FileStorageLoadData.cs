@@ -35,64 +35,64 @@ using Shared.Classes;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Default implementation of File storage for ILoadData
-    /// </summary>
-    public class FileStorageLoadData : ILoadData
-    {
-        private readonly object _lockObject = new();
-        private readonly ILogger _logger;
-        private readonly string _rootPath;
+	/// <summary>
+	/// Default implementation of File storage for ILoadData
+	/// </summary>
+	public class FileStorageLoadData : ILoadData
+	{
+		private readonly object _lockObject = new();
+		private readonly ILogger _logger;
+		private readonly string _rootPath;
 
-        #region Constructors
+		#region Constructors
 
-        public FileStorageLoadData(ILogger logger, string rootPath)
-        {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+		public FileStorageLoadData(ILogger logger, string rootPath)
+		{
+			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-            if (string.IsNullOrEmpty(rootPath))
-                throw new ArgumentNullException(nameof(rootPath));
+			if (string.IsNullOrEmpty(rootPath))
+				throw new ArgumentNullException(nameof(rootPath));
 
-            if (!Directory.Exists(rootPath))
-                throw new ArgumentException("Root path does not exists", nameof(rootPath));
+			if (!Directory.Exists(rootPath))
+				throw new ArgumentException("Root path does not exists", nameof(rootPath));
 
-            _rootPath = Path.Combine(rootPath, "Settings");
-        }
+			_rootPath = Path.Combine(rootPath, "Settings");
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Catch all ok as returns default value allowing callers to determine if success without throwing exception")]
-        public T Load<T>(in string location, in string name)
-        {
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                string basePath = Path.Combine(_rootPath, location);
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Catch all ok as returns default value allowing callers to determine if success without throwing exception")]
+		public T Load<T>(in string location, in string name)
+		{
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				string basePath = Path.Combine(_rootPath, location);
 
-                if (!Directory.Exists(basePath))
-                    Directory.CreateDirectory(basePath);
+				if (!Directory.Exists(basePath))
+					Directory.CreateDirectory(basePath);
 
-                string dataFile = Path.Combine(basePath, name);
+				string dataFile = Path.Combine(basePath, name);
 
-                if (!Path.HasExtension(dataFile))
-                    dataFile += ".dat";
+				if (!Path.HasExtension(dataFile))
+					dataFile += ".dat";
 
-                if (File.Exists(dataFile))
-                {
-                    try
-                    {
-                        return JsonSerializer.Deserialize<T>(File.ReadAllText(dataFile));
-                    }
-                    catch (Exception err)
-                    {
-                        _logger.AddToLog(PluginManager.LogLevel.Error, err);
-                    }
+				if (File.Exists(dataFile))
+				{
+					try
+					{
+						return JsonSerializer.Deserialize<T>(File.ReadAllText(dataFile));
+					}
+					catch (Exception err)
+					{
+						_logger.AddToLog(PluginManager.LogLevel.Error, err);
+					}
 
-                }
+				}
 
-                return default;
-            }
-        }
-    }
+				return default;
+			}
+		}
+	}
 }
 
 #pragma warning restore CS1591, CA1303

@@ -30,30 +30,30 @@ namespace SimpleDB
 	/// Provides foreign key functionality for SimpleDB
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-    public class ForeignKeyAttribute : Attribute
-    {
+	public class ForeignKeyAttribute : Attribute
+	{
 		private ForeignKeyAttribute(string tableName, string propertyName, ForeignKeyAttributes foreignKeyAttributes)
-        {
-            if (String.IsNullOrEmpty(tableName))
-                throw new ArgumentNullException(nameof(tableName));
+		{
+			if (String.IsNullOrEmpty(tableName))
+				throw new ArgumentNullException(nameof(tableName));
 
-            if (String.IsNullOrEmpty(propertyName))
-                throw new ArgumentNullException(nameof(propertyName));
+			if (String.IsNullOrEmpty(propertyName))
+				throw new ArgumentNullException(nameof(propertyName));
 
-            TableName = tableName;
-            PropertyName = propertyName;
-            Attributes = foreignKeyAttributes;
-        }
+			TableName = tableName;
+			PropertyName = propertyName;
+			Attributes = foreignKeyAttributes;
+		}
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <param name="tableName">Name of table the foreign key is linked to</param>
-        /// <exception cref="ArgumentNullException">Thrown if tableName is null or empty</exception>
-        public ForeignKeyAttribute(string tableName)
-            : this(tableName, "Id", ForeignKeyAttributes.None)
-        {
-        }
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		/// <param name="tableName">Name of table the foreign key is linked to</param>
+		/// <exception cref="ArgumentNullException">Thrown if tableName is null or empty</exception>
+		public ForeignKeyAttribute(string tableName)
+			: this(tableName, "Id", ForeignKeyAttributes.None)
+		{
+		}
 
 		/// <summary>
 		/// Constructor
@@ -61,23 +61,23 @@ namespace SimpleDB
 		/// <param name="tableName">Name of table the foreign key is linked to</param>
 		/// <param name="foreignKeyAttributes">Foreign key attributes</param>
 		public ForeignKeyAttribute(string tableName, ForeignKeyAttributes foreignKeyAttributes)
-            : this(tableName, "Id", foreignKeyAttributes)
-        {
-        }
+			: this(tableName, "Id", foreignKeyAttributes)
+		{
+		}
 
 		/// <summary>
 		/// Name of table the foreign key is linked to
 		/// </summary>
 		public string TableName { get; }
 
-        /// <summary>
-        /// Name of property on foreign key table
-        /// </summary>
-        public string PropertyName { get; }
+		/// <summary>
+		/// Name of property on foreign key table
+		/// </summary>
+		public string PropertyName { get; }
 
-        /// <summary>
-        /// Allows the foreign key value to be the default for the type of property the value is linked to
-        /// </summary>
-        public ForeignKeyAttributes Attributes { get; }
-    }
+		/// <summary>
+		/// Allows the foreign key value to be the default for the type of property the value is linked to
+		/// </summary>
+		public ForeignKeyAttributes Attributes { get; }
+	}
 }

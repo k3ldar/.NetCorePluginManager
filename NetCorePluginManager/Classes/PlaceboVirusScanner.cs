@@ -28,20 +28,20 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Internal
 {
-    internal sealed class PlaceboVirusScanner : IVirusScanner
-    {
-        public void ScanDirectory(in string directory)
-        {
+	internal sealed class PlaceboVirusScanner : IVirusScanner
+	{
+		public void ScanDirectory(in string directory)
+		{
 			// required by interface not used in demo
 		}
 
 		public void ScanFile(in string fileName)
-        {
+		{
 			// required by interface not used in demo
 		}
 
 		public void ScanFile(in string[] fileNames)
-        {
+		{
 			// required by interface not used in demo
 		}
 	}

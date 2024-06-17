@@ -26,30 +26,30 @@
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Interface for minification result
-    /// </summary>
-    public interface IMinifyResult
-    {
-        /// <summary>
-        /// Name of minification process.
-        /// </summary>
-        /// <value>string</value>
-        string ProcessName { get; }
+	/// <summary>
+	/// Interface for minification result
+	/// </summary>
+	public interface IMinifyResult
+	{
+		/// <summary>
+		/// Name of minification process.
+		/// </summary>
+		/// <value>string</value>
+		string ProcessName { get; }
 
-        /// <summary>
-        /// The length of the data at the start of the minification process.
-        /// </summary>
-        int StartLength { get; }
+		/// <summary>
+		/// The length of the data at the start of the minification process.
+		/// </summary>
+		int StartLength { get; }
 
-        /// <summary>
-        /// The length of the data at the end of the minification process.
-        /// </summary>
-        int EndLength { get; }
+		/// <summary>
+		/// The length of the data at the end of the minification process.
+		/// </summary>
+		int EndLength { get; }
 
-        /// <summary>
-        /// Time taken to minify the data.
-        /// </summary>
-        decimal TimeTaken { get; }
-    }
+		/// <summary>
+		/// Time taken to minify the data.
+		/// </summary>
+		decimal TimeTaken { get; }
+	}
 }

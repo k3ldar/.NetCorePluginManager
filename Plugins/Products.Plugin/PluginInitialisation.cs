@@ -41,31 +41,31 @@ using SharedPluginFeatures;
 
 namespace ProductPlugin
 {
-    /// <summary>
-    /// Implements IPlugin and IPluginVersion which allows the ProductsPlugin module to be
-    /// loaded as a plugin module
-    /// </summary>
-    public class PluginInitialisation : IPlugin, IInitialiseEvents, IClaimsService
+	/// <summary>
+	/// Implements IPlugin and IPluginVersion which allows the ProductsPlugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	public class PluginInitialisation : IPlugin, IInitialiseEvents, IClaimsService
 	{
-        #region IPlugin
+		#region IPlugin
 
-        public void ConfigureServices(IServiceCollection services)
-        {
+		public void ConfigureServices(IServiceCollection services)
+		{
 			// from interface but unused in this context
 		}
 
 		public void Finalise()
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public ushort GetVersion()
-        {
-            return 1;
-        }
+		{
+			return 1;
+		}
 
-        public void Initialise(ILogger logger)
-        {
+		public void Initialise(ILogger logger)
+		{
 			// from interface but unused in this context
 		}
 
@@ -74,45 +74,45 @@ namespace ProductPlugin
 		#region IInitialiseEvents Methods
 
 		public void AfterConfigure(in IApplicationBuilder app)
-        {
-            INotificationService notificationService = app.ApplicationServices.GetService<INotificationService>();
-            IImageProvider imageProvider = app.ApplicationServices.GetService<IImageProvider>();
-            ISettingsProvider settingsProvider = app.ApplicationServices.GetService<ISettingsProvider>();
+		{
+			INotificationService notificationService = app.ApplicationServices.GetService<INotificationService>();
+			IImageProvider imageProvider = app.ApplicationServices.GetService<IImageProvider>();
+			ISettingsProvider settingsProvider = app.ApplicationServices.GetService<ISettingsProvider>();
 
-            if (imageProvider != null)
-                notificationService.RegisterListener(new ImageUploadNotificationListener(imageProvider, settingsProvider));
-        }
+			if (imageProvider != null)
+				notificationService.RegisterListener(new ImageUploadNotificationListener(imageProvider, settingsProvider));
+		}
 
-        public void AfterConfigureServices(in IServiceCollection services)
-        {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
+		public void AfterConfigureServices(in IServiceCollection services)
+		{
+			if (services == null)
+				throw new ArgumentNullException(nameof(services));
 
-            services.AddAuthorization(options => 
-            {
-                options.AddPolicy(
-                    Constants.PolicyNameManageProducts,
-                    policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameAdministrator)
-                        .RequireClaim(Constants.ClaimNameManageProducts)
-                        .RequireClaim(Constants.ClaimNameUsername)
-                        .RequireClaim(Constants.ClaimNameUserId)
-                        .RequireClaim(Constants.ClaimNameUserEmail)
-                        .RequireClaim(Constants.ClaimNameStaff));
-            });
-        }
+			services.AddAuthorization(options =>
+			{
+				options.AddPolicy(
+					Constants.PolicyNameManageProducts,
+					policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameAdministrator)
+						.RequireClaim(Constants.ClaimNameManageProducts)
+						.RequireClaim(Constants.ClaimNameUsername)
+						.RequireClaim(Constants.ClaimNameUserId)
+						.RequireClaim(Constants.ClaimNameUserEmail)
+						.RequireClaim(Constants.ClaimNameStaff));
+			});
+		}
 
-        public void BeforeConfigure(in IApplicationBuilder app)
-        {
+		public void BeforeConfigure(in IApplicationBuilder app)
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeConfigureServices(in IServiceCollection services)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void Configure(in IApplicationBuilder app)
-        {
+		{
 			// from interface but unused in this context
 		}
 
@@ -123,7 +123,7 @@ namespace ProductPlugin
 		public List<string> GetClaims()
 		{
 			return new List<string>()
-			{ 
+			{
 				Constants.ClaimNameManageProducts,
 			};
 		}

@@ -28,54 +28,54 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Api authorization attribute used to verify the current user has the correct authorization for a route
-    /// </summary>
-    public sealed class ApiAuthorizationAttribute : ActionFilterAttribute
-    {
-        private readonly string _policyName;
+	/// <summary>
+	/// Api authorization attribute used to verify the current user has the correct authorization for a route
+	/// </summary>
+	public sealed class ApiAuthorizationAttribute : ActionFilterAttribute
+	{
+		private readonly string _policyName;
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public ApiAuthorizationAttribute()
-            : this(string.Empty)
-        {
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public ApiAuthorizationAttribute()
+			: this(string.Empty)
+		{
 
-        }
+		}
 
-        /// <summary>
-        /// Constructor validation of policy name to be used in the route for the current user
-        /// </summary>
-        /// <param name="policyName"></param>
-        public ApiAuthorizationAttribute(string policyName)
-        {
-            _policyName = policyName;
-        }
+		/// <summary>
+		/// Constructor validation of policy name to be used in the route for the current user
+		/// </summary>
+		/// <param name="policyName"></param>
+		public ApiAuthorizationAttribute(string policyName)
+		{
+			_policyName = policyName;
+		}
 
-        /// <summary>
-        /// Method used to execute authorization request
-        /// </summary>
-        /// <param name="context"></param>
-        public override void OnActionExecuting(ActionExecutingContext context)
-        {
-            IApiAuthorizationService apiAuthorizationService = context.HttpContext.RequestServices.GetService(typeof(IApiAuthorizationService)) as IApiAuthorizationService;
+		/// <summary>
+		/// Method used to execute authorization request
+		/// </summary>
+		/// <param name="context"></param>
+		public override void OnActionExecuting(ActionExecutingContext context)
+		{
+			IApiAuthorizationService apiAuthorizationService = context.HttpContext.RequestServices.GetService(typeof(IApiAuthorizationService)) as IApiAuthorizationService;
 
-            if (apiAuthorizationService == null)
-            {
-                context.HttpContext.Response.StatusCode = Constants.HtmlResponseMethodNotAllowed;
-                context.Result = new JsonResult(new { response = "Not allowed" });
-                return;
-            }
+			if (apiAuthorizationService == null)
+			{
+				context.HttpContext.Response.StatusCode = Constants.HtmlResponseMethodNotAllowed;
+				context.Result = new JsonResult(new { response = "Not allowed" });
+				return;
+			}
 
-            if (!apiAuthorizationService.ValidateApiRequest(context.HttpContext.Request, _policyName, out int responseCode))
-            {
-                context.HttpContext.Response.StatusCode = responseCode;
-                context.Result = new JsonResult(new { response = "Invalid Request" });
-                return;
-            }
+			if (!apiAuthorizationService.ValidateApiRequest(context.HttpContext.Request, _policyName, out int responseCode))
+			{
+				context.HttpContext.Response.StatusCode = responseCode;
+				context.Result = new JsonResult(new { response = "Invalid Request" });
+				return;
+			}
 
-            base.OnActionExecuting(context);
-        }
-    }
+			base.OnActionExecuting(context);
+		}
+	}
 }

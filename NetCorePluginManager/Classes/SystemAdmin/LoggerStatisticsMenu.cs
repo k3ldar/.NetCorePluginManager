@@ -39,176 +39,176 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns a list of the last 100 log entries that can be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu and ILogger
-    /// </summary>
-    public class LoggerStatisticsMenu : SystemAdminSubMenu, ILogger
-    {
-        #region Private Static Members
+	/// <summary>
+	/// Returns a list of the last 100 log entries that can be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu and ILogger
+	/// </summary>
+	public class LoggerStatisticsMenu : SystemAdminSubMenu, ILogger
+	{
+		#region Private Static Members
 
-        private const int MaxQueueLength = 100;
-        private static ILogger _logger;
-        private static readonly object _lockObject = new();
-        private static readonly Queue _queue = new(MaxQueueLength);
+		private const int MaxQueueLength = 100;
+		private static ILogger _logger;
+		private static readonly object _lockObject = new();
+		private static readonly Queue _queue = new(MaxQueueLength);
 
-        #endregion Private Static Members
+		#endregion Private Static Members
 
-        #region Internal Static Methods
+		#region Internal Static Methods
 
-        internal static void SetLogger(in ILogger logger)
-        {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        }
+		internal static void SetLogger(in ILogger logger)
+		{
+			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
+		}
 
-        internal static void ClearLogger()
-        {
-            _logger = null;
-        }
+		internal static void ClearLogger()
+		{
+			_logger = null;
+		}
 
-        #endregion Internal Static Methods
+		#endregion Internal Static Methods
 
-        #region SystemAdminSubMenu Methods
+		#region SystemAdminSubMenu Methods
 
-        public override string Action()
-        {
-            return String.Empty;
-        }
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        /// <summary>
-        /// Returns delimited data on current log data, this will only store the last 100 entries.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            StringBuilder Result = new("DateTime|Log Type|Message", MaxQueueLength * 100);
-            object[] queueItems;
+		/// <summary>
+		/// Returns delimited data on current log data, this will only store the last 100 entries.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			StringBuilder Result = new("DateTime|Log Type|Message", MaxQueueLength * 100);
+			object[] queueItems;
 
-            using (TimedLock.Lock(_lockObject))
-            {
-                queueItems = _queue.ToArray();
-            }
+			using (TimedLock.Lock(_lockObject))
+			{
+				queueItems = _queue.ToArray();
+			}
 
-            for (int i = 0; i < queueItems.Length - 1; i++)
-            {
-                LoggerQueueItem item = (LoggerQueueItem)queueItems[i];
+			for (int i = 0; i < queueItems.Length - 1; i++)
+			{
+				LoggerQueueItem item = (LoggerQueueItem)queueItems[i];
 
-                Result.Append($"\r{item.Date.ToString(Thread.CurrentThread.CurrentUICulture)}|");
-                Result.Append($"{item.Level.ToString()}|{item.Message}");
-            }
+				Result.Append($"\r{item.Date.ToString(Thread.CurrentThread.CurrentUICulture)}|");
+				Result.Append($"{item.Level.ToString()}|{item.Message}");
+			}
 
-            return Result.ToString();
-        }
+			return Result.ToString();
+		}
 
-        public override string Name()
-        {
-            return "Logs";
-        }
+		public override string Name()
+		{
+			return "Logs";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "System";
-        }
+		public override string ParentMenuName()
+		{
+			return "System";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
+		public override int SortOrder()
+		{
+			return 0;
+		}
 
-        public override string Image()
-        {
-            return String.Empty;
-        }
+		public override string Image()
+		{
+			return String.Empty;
+		}
 
-        #endregion SystemAdminSubMenu Methods
+		#endregion SystemAdminSubMenu Methods
 
-        #region ILogger Methods
+		#region ILogger Methods
 
-        public void AddToLog(in LogLevel logLevel, in string data)
-        {
-            AddToLog(logLevel, String.Empty, data);
-        }
+		public void AddToLog(in LogLevel logLevel, in string data)
+		{
+			AddToLog(logLevel, String.Empty, data);
+		}
 
-        public void AddToLog(in LogLevel logLevel, in Exception exception)
-        {
-            AddToLog(logLevel, exception, String.Empty);
-        }
+		public void AddToLog(in LogLevel logLevel, in Exception exception)
+		{
+			AddToLog(logLevel, exception, String.Empty);
+		}
 
-        public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
-        {
-            AddToLog(logLevel, String.Empty, exception, data);
-        }
+		public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
+		{
+			AddToLog(logLevel, String.Empty, exception, data);
+		}
 
-        public void AddToLog(in LogLevel logLevel, in string moduleName, in string data)
-        {
-            if (String.IsNullOrEmpty(data))
-                throw new ArgumentNullException(nameof(data));
+		public void AddToLog(in LogLevel logLevel, in string moduleName, in string data)
+		{
+			if (String.IsNullOrEmpty(data))
+				throw new ArgumentNullException(nameof(data));
 
-            using (TimedLock.Lock(_lockObject))
-            {
-                LoggerQueueItem loggerQueueItem = new(logLevel, data);
+			using (TimedLock.Lock(_lockObject))
+			{
+				LoggerQueueItem loggerQueueItem = new(logLevel, data);
 
-                if (_queue.Count == MaxQueueLength)
-                    _queue.Dequeue();
+				if (_queue.Count == MaxQueueLength)
+					_queue.Dequeue();
 
-                _queue.Enqueue(loggerQueueItem);
-            }
+				_queue.Enqueue(loggerQueueItem);
+			}
 
-            _logger?.AddToLog(logLevel, moduleName, data);
-        }
+			_logger?.AddToLog(logLevel, moduleName, data);
+		}
 
-        public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception)
-        {
-            AddToLog(logLevel, moduleName, exception, String.Empty);
-        }
+		public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception)
+		{
+			AddToLog(logLevel, moduleName, exception, String.Empty);
+		}
 
-        public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception, string data)
-        {
-            if (exception == null)
-                throw new ArgumentNullException(nameof(exception));
+		public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception, string data)
+		{
+			if (exception == null)
+				throw new ArgumentNullException(nameof(exception));
 
 #if TRACE
-            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");
+			System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");
 #endif
 
-            string message = exception.Message.Replace("\r", " ");
+			string message = exception.Message.Replace("\r", " ");
 
-            if (!String.IsNullOrEmpty(data))
-            {
-                message += $"\nData: {data}";
-            }
+			if (!String.IsNullOrEmpty(data))
+			{
+				message += $"\nData: {data}";
+			}
 
-            using (TimedLock.Lock(_lockObject))
-            {
-                LoggerQueueItem loggerQueueItem = new(logLevel, message);
+			using (TimedLock.Lock(_lockObject))
+			{
+				LoggerQueueItem loggerQueueItem = new(logLevel, message);
 
-                if (_queue.Count == MaxQueueLength)
-                    _queue.Dequeue();
+				if (_queue.Count == MaxQueueLength)
+					_queue.Dequeue();
 
-                _queue.Enqueue(loggerQueueItem);
-            }
+				_queue.Enqueue(loggerQueueItem);
+			}
 
-            _logger?.AddToLog(logLevel, moduleName, exception, data);
-        }
+			_logger?.AddToLog(logLevel, moduleName, exception, data);
+		}
 
-        #endregion ILogger Methods
-    }
+		#endregion ILogger Methods
+	}
 }
 
 #pragma warning restore CS1591

@@ -29,49 +29,49 @@ namespace UserAccount.Plugin.Models
 {
 #pragma warning disable CS1591
 
-    public class ViewDownloadViewItem : BaseModel
-    {
-        #region Constructors
+	public class ViewDownloadViewItem : BaseModel
+	{
+		#region Constructors
 
-        public ViewDownloadViewItem()
-        {
+		public ViewDownloadViewItem()
+		{
 
-        }
+		}
 
-        public ViewDownloadViewItem(in BaseModelData baseModelData,
-            in long id, in string name, in string description,
-            in string version, in string filename, in string icon, in string size)
-            : base(baseModelData)
-        {
-            Id = id;
-            Name = name;
-            Description = description;
-            Version = version;
-            Filename = filename;
-            Icon = icon;
-            Size = size;
-        }
+		public ViewDownloadViewItem(in BaseModelData baseModelData,
+			in long id, in string name, in string description,
+			in string version, in string filename, in string icon, in string size)
+			: base(baseModelData)
+		{
+			Id = id;
+			Name = name;
+			Description = description;
+			Version = version;
+			Filename = filename;
+			Icon = icon;
+			Size = size;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public long Id { get; set; }
+		public long Id { get; set; }
 
-        public string Name { get; set; }
+		public string Name { get; set; }
 
-        public string Description { get; set; }
+		public string Description { get; set; }
 
-        public string Version { get; set; }
+		public string Version { get; set; }
 
-        public string Filename { get; set; }
+		public string Filename { get; set; }
 
-        public string Icon { get; set; }
+		public string Icon { get; set; }
 
-        public string Size { get; set; }
+		public string Size { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 
 #pragma warning restore CS1591
 }

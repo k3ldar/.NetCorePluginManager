@@ -27,22 +27,22 @@ using System;
 
 namespace PluginManager.Abstractions
 {
-    /// <summary>
-    /// Interface managed by plugin manager which allows plugins to register threads for starting
-    /// after the plugin application has been initialised.
-    /// 
-    /// Registered threads must descend from ThreadManager class.
-    /// 
-    /// DI is used to obtain any required classes needed to instantiate the type
-    /// </summary>
-    public interface IThreadManagerServices
-    {
-        /// <summary>
-        /// Registers a ThreadManager class that will be instantiated and run once the plugin application manager
-        /// has finished loading.
-        /// </summary>
-        /// <param name="threadName">Name of thread to be created.  This must be a unique name</param>
-        /// <param name="type">Type of class, this must descend from ThreadManager</param>
-        void RegisterStartupThread(string threadName, Type type);
-    }
+	/// <summary>
+	/// Interface managed by plugin manager which allows plugins to register threads for starting
+	/// after the plugin application has been initialised.
+	/// 
+	/// Registered threads must descend from ThreadManager class.
+	/// 
+	/// DI is used to obtain any required classes needed to instantiate the type
+	/// </summary>
+	public interface IThreadManagerServices
+	{
+		/// <summary>
+		/// Registers a ThreadManager class that will be instantiated and run once the plugin application manager
+		/// has finished loading.
+		/// </summary>
+		/// <param name="threadName">Name of thread to be created.  This must be a unique name</param>
+		/// <param name="type">Type of class, this must descend from ThreadManager</param>
+		void RegisterStartupThread(string threadName, Type type);
+	}
 }

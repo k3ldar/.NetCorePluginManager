@@ -29,18 +29,18 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Models
 {
-    public class PermissionsModel : BaseModel
-    {
-        #region Constructors
+	public class PermissionsModel : BaseModel
+	{
+		#region Constructors
 
-        public PermissionsModel(in BaseModelData modelData)
-            : base(modelData)
-        {
+		public PermissionsModel(in BaseModelData modelData)
+			: base(modelData)
+		{
 
-        }
+		}
 
-        #endregion Constructors
-    }
+		#endregion Constructors
+	}
 }
 
 #pragma warning restore CS1591

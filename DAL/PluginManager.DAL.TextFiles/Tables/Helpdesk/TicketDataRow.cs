@@ -27,161 +27,161 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.DomainHelpdesk, Constants.TableNameTicket, CompressionType.Brotli)]
-    internal class TicketDataRow : TableRowDefinition
-    {
-        public const string IndexUserKey = "UserKey";
+	[Table(Constants.DomainHelpdesk, Constants.TableNameTicket, CompressionType.Brotli)]
+	internal class TicketDataRow : TableRowDefinition
+	{
+		public const string IndexUserKey = "UserKey";
 
-        private long _priority;
-        private long _department;
-        private long _status;
-        private string _key;
-        private string _subject;
-        private string _createdBy;
-        private string _createdByEmail;
-        private string _lastReplier;
-        private ObservableList<TicketMessageDataRow> _messages;
+		private long _priority;
+		private long _department;
+		private long _status;
+		private string _key;
+		private string _subject;
+		private string _createdBy;
+		private string _createdByEmail;
+		private string _lastReplier;
+		private ObservableList<TicketMessageDataRow> _messages;
 
-        public TicketDataRow()
-        {
-            _messages = new ObservableList<TicketMessageDataRow>();
-            _messages.Changed += ObservableDataChanged;
-        }
+		public TicketDataRow()
+		{
+			_messages = new ObservableList<TicketMessageDataRow>();
+			_messages.Changed += ObservableDataChanged;
+		}
 
-        [ForeignKey(Constants.TableNameTicketPriorities)]
-        public long Priority
-        {
-            get => _priority;
+		[ForeignKey(Constants.TableNameTicketPriorities)]
+		public long Priority
+		{
+			get => _priority;
 
-            set
-            {
-                if (_priority == value)
-                    return;
+			set
+			{
+				if (_priority == value)
+					return;
 
-                _priority = value;
-                Update();
-            }
-        }
+				_priority = value;
+				Update();
+			}
+		}
 
-        [ForeignKey(Constants.TableNameTicketDepartments)]
-        public long Department
-        {
-            get => _department;
+		[ForeignKey(Constants.TableNameTicketDepartments)]
+		public long Department
+		{
+			get => _department;
 
-            set
-            {
-                if (_department == value)
-                    return;
+			set
+			{
+				if (_department == value)
+					return;
 
-                _department = value;
-                Update();
-            }
-        }
+				_department = value;
+				Update();
+			}
+		}
 
-        [ForeignKey(Constants.TableNameTicketStatus)]
-        public long Status
-        {
-            get => _status;
+		[ForeignKey(Constants.TableNameTicketStatus)]
+		public long Status
+		{
+			get => _status;
 
-            set
-            {
-                if (_status == value)
-                    return;
+			set
+			{
+				if (_status == value)
+					return;
 
-                _status = value;
-                Update();
-            }
-        }
+				_status = value;
+				Update();
+			}
+		}
 
-        [UniqueIndex(IndexUserKey)]
-        public string Key
-        {
-            get => _key;
+		[UniqueIndex(IndexUserKey)]
+		public string Key
+		{
+			get => _key;
 
-            set
-            {
-                if (_key == value)
-                    return;
+			set
+			{
+				if (_key == value)
+					return;
 
-                _key = value;
-                Update();
-            }
-        }
+				_key = value;
+				Update();
+			}
+		}
 
-        public string Subject
-        {
-            get => _subject;
+		public string Subject
+		{
+			get => _subject;
 
-            set
-            {
-                if (_subject == value)
-                    return;
+			set
+			{
+				if (_subject == value)
+					return;
 
-                _subject = value;
-                Update();
-            }
-        }
+				_subject = value;
+				Update();
+			}
+		}
 
-        public string CreatedBy
-        {
-            get => _createdBy;
+		public string CreatedBy
+		{
+			get => _createdBy;
 
-            set
-            {
-                if (_createdBy == value)
-                    return;
+			set
+			{
+				if (_createdBy == value)
+					return;
 
-                _createdBy = value;
-                Update();
-            }
-        }
+				_createdBy = value;
+				Update();
+			}
+		}
 
-        [UniqueIndex(IndexUserKey)]
-        public string CreatedByEmail
-        {
-            get => _createdByEmail;
+		[UniqueIndex(IndexUserKey)]
+		public string CreatedByEmail
+		{
+			get => _createdByEmail;
 
-            set
-            {
-                if (_createdByEmail == value)
-                    return;
+			set
+			{
+				if (_createdByEmail == value)
+					return;
 
-                _createdByEmail = value;
-                Update();
-            }
-        }
+				_createdByEmail = value;
+				Update();
+			}
+		}
 
-        public string LastReplier
-        {
-            get => _lastReplier;
+		public string LastReplier
+		{
+			get => _lastReplier;
 
-            set
-            {
-                if (_lastReplier == value)
-                    return;
+			set
+			{
+				if (_lastReplier == value)
+					return;
 
-                _lastReplier = value;
-                Update();
-            }
-        }
+				_lastReplier = value;
+				Update();
+			}
+		}
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0016:Use 'throw' expression", Justification = "Validation required before removing changed event")]
-        public ObservableList<TicketMessageDataRow> Messages
-{
-            get => _messages;
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0016:Use 'throw' expression", Justification = "Validation required before removing changed event")]
+		public ObservableList<TicketMessageDataRow> Messages
+		{
+			get => _messages;
 
-            set
-            {
-                if (value == null)
-                    throw new InvalidOperationException();
+			set
+			{
+				if (value == null)
+					throw new InvalidOperationException();
 
-                if (_messages != null)
-                    _messages.Changed -= ObservableDataChanged;
+				if (_messages != null)
+					_messages.Changed -= ObservableDataChanged;
 
-                _messages = value;
-                _messages.Changed += ObservableDataChanged;
-                Update();
-            }
-        }
-    }
+				_messages = value;
+				_messages.Changed += ObservableDataChanged;
+				Update();
+			}
+		}
+	}
 }

@@ -29,32 +29,32 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Models
 {
-    public class ErrorViewModel : BaseModel
-    {
-        #region Constructors
+	public class ErrorViewModel : BaseModel
+	{
+		#region Constructors
 
-        public ErrorViewModel()
-        {
+		public ErrorViewModel()
+		{
 
-        }
+		}
 
-        public ErrorViewModel(in BaseModelData modelData,
-            string requestId)
-            : base(modelData)
-        {
-            RequestId = requestId;
-        }
+		public ErrorViewModel(in BaseModelData modelData,
+			string requestId)
+			: base(modelData)
+		{
+			RequestId = requestId;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public string RequestId { get; }
+		public string RequestId { get; }
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+		public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
-        #endregion Propertes
-    }
+		#endregion Propertes
+	}
 }
 
 #pragma warning restore CS1591

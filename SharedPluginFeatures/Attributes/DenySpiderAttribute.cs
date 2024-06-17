@@ -27,69 +27,69 @@ using System;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// The deny spider attribute is used on Controller Action methods to indicate that a spider should not use that particular route.
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
-    public sealed class DenySpiderAttribute : Attribute
-    {
-        #region Constructors
+	/// <summary>
+	/// The deny spider attribute is used on Controller Action methods to indicate that a spider should not use that particular route.
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
+	public sealed class DenySpiderAttribute : Attribute
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor, indicates that all user agents are denied.
-        /// </summary>
-        public DenySpiderAttribute()
-            : this("*")
-        {
+		/// <summary>
+		/// Default constructor, indicates that all user agents are denied.
+		/// </summary>
+		public DenySpiderAttribute()
+			: this("*")
+		{
 
-        }
+		}
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="userAgent">Specify the specific user agent that is to be denied access to the route.</param>
-        public DenySpiderAttribute(string userAgent)
-            : this(userAgent, String.Empty)
-        {
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="userAgent">Specify the specific user agent that is to be denied access to the route.</param>
+		public DenySpiderAttribute(string userAgent)
+			: this(userAgent, String.Empty)
+		{
 
-        }
+		}
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="userAgent">Specify the specific user agent that is to be denied access to the route.</param>
-        /// <param name="comment">Comment to be included in the automatically generated robots.txt file.</param>
-        /// <exception cref="ArgumentNullException">Raised if userAgent is null or empty.</exception>
-        public DenySpiderAttribute(string userAgent, string comment)
-        {
-            if (String.IsNullOrEmpty(userAgent))
-                throw new ArgumentNullException(nameof(userAgent));
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="userAgent">Specify the specific user agent that is to be denied access to the route.</param>
+		/// <param name="comment">Comment to be included in the automatically generated robots.txt file.</param>
+		/// <exception cref="ArgumentNullException">Raised if userAgent is null or empty.</exception>
+		public DenySpiderAttribute(string userAgent, string comment)
+		{
+			if (String.IsNullOrEmpty(userAgent))
+				throw new ArgumentNullException(nameof(userAgent));
 
-            UserAgent = userAgent;
-            Comment = comment;
-        }
+			UserAgent = userAgent;
+			Comment = comment;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// The user agent that is to be denied access to the route.
-        /// </summary>
-        /// <value>string</value>
-        public string UserAgent { get; private set; }
+		/// <summary>
+		/// The user agent that is to be denied access to the route.
+		/// </summary>
+		/// <value>string</value>
+		public string UserAgent { get; private set; }
 
-        /// <summary>
-        /// Optional comment that will appear in the robots.txt file.
-        /// </summary>
-        /// <value>string</value>
-        public string Comment { get; private set; }
+		/// <summary>
+		/// Optional comment that will appear in the robots.txt file.
+		/// </summary>
+		/// <value>string</value>
+		public string Comment { get; private set; }
 
-        /// <summary>
-        /// Route associated with the Deny attribute
-        /// </summary>
-        public string Route { get; set; }
+		/// <summary>
+		/// Route associated with the Deny attribute
+		/// </summary>
+		public string Route { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

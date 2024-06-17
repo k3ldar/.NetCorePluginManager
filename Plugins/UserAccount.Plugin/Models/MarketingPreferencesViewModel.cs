@@ -31,47 +31,47 @@ namespace UserAccount.Plugin.Models
 {
 #pragma warning disable CS1591
 
-    public sealed class MarketingPreferencesViewModel : BaseModel
-    {
-        #region Constructors
+	public sealed class MarketingPreferencesViewModel : BaseModel
+	{
+		#region Constructors
 
-        public MarketingPreferencesViewModel()
-        {
+		public MarketingPreferencesViewModel()
+		{
 
-        }
+		}
 
-        public MarketingPreferencesViewModel(in BaseModelData baseModelData)
-            : base(baseModelData)
-        {
+		public MarketingPreferencesViewModel(in BaseModelData baseModelData)
+			: base(baseModelData)
+		{
 
-        }
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        [Display(Name = nameof(Languages.LanguageStrings.AcceptOffersEmail))]
-        public bool EmailOffers { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.AcceptOffersEmail))]
+		public bool EmailOffers { get; set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.AcceptOffersTelephone))]
-        public bool TelephoneOffers { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.AcceptOffersTelephone))]
+		public bool TelephoneOffers { get; set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.AcceptOffersSMS))]
-        public bool SMSOffers { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.AcceptOffersSMS))]
+		public bool SMSOffers { get; set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.AcceptOffersPostal))]
-        public bool PostalOffers { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.AcceptOffersPostal))]
+		public bool PostalOffers { get; set; }
 
-        public bool ShowEmail { get; set; }
+		public bool ShowEmail { get; set; }
 
-        public bool ShowTelephone { get; set; }
+		public bool ShowTelephone { get; set; }
 
-        public bool ShowSMS { get; set; }
+		public bool ShowSMS { get; set; }
 
-        public bool ShowPostal { get; set; }
+		public bool ShowPostal { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 
 #pragma warning restore CS1591
 }

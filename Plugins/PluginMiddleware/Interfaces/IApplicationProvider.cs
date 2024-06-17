@@ -26,19 +26,19 @@
 
 namespace Middleware
 {
-    /// <summary>
-    /// Application provider interface provides application wide methods that can be used from
-    /// any plugin module within the website.
-    /// 
-    /// This item must be implemented by the host application and made available via DI.
-    /// </summary>
-    public interface IApplicationProvider
-    {
-        /// <summary>
-        /// Send an email to site administrators.
-        /// </summary>
-        /// <param name="subject">Subject of email.</param>
-        /// <param name="message">Message</param>
-        void Email(in string subject, in string message);
-    }
+	/// <summary>
+	/// Application provider interface provides application wide methods that can be used from
+	/// any plugin module within the website.
+	/// 
+	/// This item must be implemented by the host application and made available via DI.
+	/// </summary>
+	public interface IApplicationProvider
+	{
+		/// <summary>
+		/// Send an email to site administrators.
+		/// </summary>
+		/// <param name="subject">Subject of email.</param>
+		/// <param name="message">Message</param>
+		void Email(in string subject, in string message);
+	}
 }

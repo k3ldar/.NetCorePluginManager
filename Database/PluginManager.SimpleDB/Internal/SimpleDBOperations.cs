@@ -200,10 +200,10 @@ namespace SimpleDB.Internal
 		{
 			get
 			{
-				if (_tableName == null && _tableAttributes != null)
+				if (_tableAttributes != null)
 					return _tableAttributes.TableName;
 
-				return _tableName;
+				return null;
 			}
 		}
 
@@ -891,7 +891,7 @@ namespace SimpleDB.Internal
 					{
 						ForeignKeyUsage foreignKeyUsage = _foreignKeyManager.ValueInUse(TableName, index.Key, value, out string table, out string propertyName);
 
-						if (foreignKeyUsage == ForeignKeyUsage.Referenced && 
+						if (foreignKeyUsage == ForeignKeyUsage.Referenced &&
 							(foreignKeyUsage != ForeignKeyUsage.AllowDefault && foreignKeyUsage != ForeignKeyUsage.CascadeDelete))
 						{
 							throw new ForeignKeyException($"Foreign key value {keyValue} from table {TableName} is being used in Table: {table}; Property: {propertyName}");
@@ -912,7 +912,7 @@ namespace SimpleDB.Internal
 					ForeignKeyRelation foreignKeyRelation = foreignKey.Value;
 
 					if (!_foreignKeyManager.ValueExists(foreignKeyRelation.Name, keyValue) && !(foreignKeyRelation.Attributes == ForeignKeyAttributes.DefaultValue && keyValue.Equals(0)))
-							throw new ForeignKeyException($"Foreign key value {keyValue} does not exist in table {foreignKey.Value}; Table: {TableName}; Property: {foreignKey.Key}");
+						throw new ForeignKeyException($"Foreign key value {keyValue} does not exist in table {foreignKey.Value}; Table: {TableName}; Property: {foreignKey.Key}");
 				}
 			}
 		}
@@ -926,7 +926,7 @@ namespace SimpleDB.Internal
 				ForeignKeyRelation foreignKeyRelation = foreignKey.Value;
 
 				if (!_foreignKeyManager.ValueExists(foreignKeyRelation.Name, keyValue) && !(foreignKeyRelation.Attributes == ForeignKeyAttributes.DefaultValue && keyValue.Equals(0)))
-						throw new ForeignKeyException($"Foreign key value {keyValue} does not exist in table {foreignKey.Value}; Table: {TableName}; Property: {foreignKey.Key}");
+					throw new ForeignKeyException($"Foreign key value {keyValue} does not exist in table {foreignKey.Value}; Table: {TableName}; Property: {foreignKey.Key}");
 			}
 		}
 

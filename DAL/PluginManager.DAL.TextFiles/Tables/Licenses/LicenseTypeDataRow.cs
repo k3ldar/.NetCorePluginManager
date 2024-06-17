@@ -27,27 +27,27 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameLicenseTypes)]
-    internal class LicenseTypeDataRow : TableRowDefinition
-    {
-        private string _description;
+	[Table(Constants.TableNameLicenseTypes)]
+	internal class LicenseTypeDataRow : TableRowDefinition
+	{
+		private string _description;
 
-        [UniqueIndex]
-        public string Description
-        {
-            get
-            {
-                return _description;
-            }
+		[UniqueIndex]
+		public string Description
+		{
+			get
+			{
+				return _description;
+			}
 
-            set
-            {
-                if (_description == value)
-                    return;
+			set
+			{
+				if (_description == value)
+					return;
 
-                _description = value;
-                Update();
-            }
-        }
-    }
+				_description = value;
+				Update();
+			}
+		}
+	}
 }

@@ -27,48 +27,48 @@ using System;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// This attribute is used in conjunction with the UserSessionMiddleware.Plugin module and indicates that a user
-    /// must be logged in when attempting to gain access to the route.
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
-    public sealed class LoggedInAttribute : Attribute
-    {
-        #region Constructors
+	/// <summary>
+	/// This attribute is used in conjunction with the UserSessionMiddleware.Plugin module and indicates that a user
+	/// must be logged in when attempting to gain access to the route.
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
+	public sealed class LoggedInAttribute : Attribute
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor.
-        /// 
-        /// If used the login page is set to the default value of /Login/
-        /// </summary>
-        public LoggedInAttribute()
-        {
-            LoginPage = "/Login/";
-        }
+		/// <summary>
+		/// Default constructor.
+		/// 
+		/// If used the login page is set to the default value of /Login/
+		/// </summary>
+		public LoggedInAttribute()
+		{
+			LoginPage = "/Login/";
+		}
 
-        /// <summary>
-        /// Constructor
-        /// 
-        /// Allows the route to specify a route to the login page that will be used.
-        /// </summary>
-        /// <param name="loginPage">string.  Url of login page.</param>
-        public LoggedInAttribute(in string loginPage)
-        {
-            if (String.IsNullOrEmpty(loginPage))
-                throw new ArgumentNullException(nameof(loginPage));
+		/// <summary>
+		/// Constructor
+		/// 
+		/// Allows the route to specify a route to the login page that will be used.
+		/// </summary>
+		/// <param name="loginPage">string.  Url of login page.</param>
+		public LoggedInAttribute(in string loginPage)
+		{
+			if (String.IsNullOrEmpty(loginPage))
+				throw new ArgumentNullException(nameof(loginPage));
 
-            LoginPage = loginPage;
-        }
+			LoginPage = loginPage;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// The url of the page the user will be redirected to, in order to login and gain access to the route where the attribute was applied.
-        /// </summary>
-        public string LoginPage { get; private set; }
+		/// <summary>
+		/// The url of the page the user will be redirected to, in order to login and gain access to the route where the attribute was applied.
+		/// </summary>
+		public string LoginPage { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

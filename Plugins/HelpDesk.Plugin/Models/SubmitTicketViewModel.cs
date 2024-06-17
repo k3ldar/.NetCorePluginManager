@@ -35,61 +35,61 @@ using SharedPluginFeatures;
 
 namespace HelpdeskPlugin.Models
 {
-    public sealed class SubmitTicketViewModel : BaseModel
-    {
-        #region Constructors
+	public sealed class SubmitTicketViewModel : BaseModel
+	{
+		#region Constructors
 
-        public SubmitTicketViewModel()
-        {
+		public SubmitTicketViewModel()
+		{
 
-        }
+		}
 
-        public SubmitTicketViewModel(in BaseModelData modelData,
-            in List<LookupListItem> departments, in List<LookupListItem> priorities,
-            in string username, in string email, in string subject, in string message,
-            in bool readonlyUser)
-            : base(modelData)
-        {
-            Departments = departments ?? throw new ArgumentNullException(nameof(departments));
-            Priorities = priorities ?? throw new ArgumentNullException(nameof(priorities));
-            Username = username;
-            Email = email;
-            Subject = subject ?? String.Empty;
-            Message = message ?? String.Empty;
-            ReadonlyUser = readonlyUser;
-        }
+		public SubmitTicketViewModel(in BaseModelData modelData,
+			in List<LookupListItem> departments, in List<LookupListItem> priorities,
+			in string username, in string email, in string subject, in string message,
+			in bool readonlyUser)
+			: base(modelData)
+		{
+			Departments = departments ?? throw new ArgumentNullException(nameof(departments));
+			Priorities = priorities ?? throw new ArgumentNullException(nameof(priorities));
+			Username = username;
+			Email = email;
+			Subject = subject ?? String.Empty;
+			Message = message ?? String.Empty;
+			ReadonlyUser = readonlyUser;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public List<LookupListItem> Departments { get; private set; }
+		public List<LookupListItem> Departments { get; private set; }
 
-        public List<LookupListItem> Priorities { get; private set; }
+		public List<LookupListItem> Priorities { get; private set; }
 
-        public int Department { get; set; }
+		public int Department { get; set; }
 
-        public int Priority { get; set; }
+		public int Priority { get; set; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterFirstLastName))]
-        public string Username { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterFirstLastName))]
+		public string Username { get; set; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.InvalidEmailAddress))]
-        public string Email { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.InvalidEmailAddress))]
+		public string Email { get; set; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.SubjectInvalid))]
-        public string Subject { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.SubjectInvalid))]
+		public string Subject { get; set; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.SupportTicketMessageRequired))]
-        public string Message { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.SupportTicketMessageRequired))]
+		public string Message { get; set; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.CodePleaseEnter))]
-        public string CaptchaText { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.CodePleaseEnter))]
+		public string CaptchaText { get; set; }
 
-        public bool ReadonlyUser { get; set; }
+		public bool ReadonlyUser { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

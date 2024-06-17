@@ -34,61 +34,61 @@ using SharedPluginFeatures;
 
 namespace HelpdeskPlugin.Classes
 {
-    /// <summary>
-    /// Helpdesk sitemap provider, provides sitemap information for helpdesk items
-    /// </summary>
-    public class HelpdeskSitemapProvider : ISitemapProvider
-    {
-        #region Private Members
+	/// <summary>
+	/// Helpdesk sitemap provider, provides sitemap information for helpdesk items
+	/// </summary>
+	public class HelpdeskSitemapProvider : ISitemapProvider
+	{
+		#region Private Members
 
-        private readonly IHelpdeskProvider _helpdeskProvider;
+		private readonly IHelpdeskProvider _helpdeskProvider;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <param name="helpdeskProvider">IHelpdeskProvider instance</param>
-        public HelpdeskSitemapProvider(IHelpdeskProvider helpdeskProvider)
-        {
-            _helpdeskProvider = helpdeskProvider ?? throw new ArgumentNullException(nameof(helpdeskProvider));
-        }
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		/// <param name="helpdeskProvider">IHelpdeskProvider instance</param>
+		public HelpdeskSitemapProvider(IHelpdeskProvider helpdeskProvider)
+		{
+			_helpdeskProvider = helpdeskProvider ?? throw new ArgumentNullException(nameof(helpdeskProvider));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        /// <summary>
-        /// Retrieve a list of all helpdesk items that will be included in the sitemap
-        /// </summary>
-        /// <returns>List&lt;ISitemapItem&gt;</returns>
-        public List<SitemapItem> Items()
-        {
-            List<SitemapItem> Result = new();
+		/// <summary>
+		/// Retrieve a list of all helpdesk items that will be included in the sitemap
+		/// </summary>
+		/// <returns>List&lt;ISitemapItem&gt;</returns>
+		public List<SitemapItem> Items()
+		{
+			List<SitemapItem> Result = new();
 
-            Result.Add(new SitemapItem(
-                new Uri($"{HelpdeskController.Name}/{nameof(HelpdeskController.Feedback)}", UriKind.RelativeOrAbsolute),
-                    SitemapChangeFrequency.Weekly));
+			Result.Add(new SitemapItem(
+				new Uri($"{HelpdeskController.Name}/{nameof(HelpdeskController.Feedback)}", UriKind.RelativeOrAbsolute),
+					SitemapChangeFrequency.Weekly));
 
-            List<KnowledgeBaseGroup> faqGroups = _helpdeskProvider.GetKnowledgebaseGroups(0, null);
+			List<KnowledgeBaseGroup> faqGroups = _helpdeskProvider.GetKnowledgebaseGroups(0, null);
 
-            foreach (KnowledgeBaseGroup faqGroup in faqGroups)
-            {
-                AddFaqItem(Result, faqGroup);
-            }
+			foreach (KnowledgeBaseGroup faqGroup in faqGroups)
+			{
+				AddFaqItem(Result, faqGroup);
+			}
 
-            return Result;
-        }
+			return Result;
+		}
 
-        private void AddFaqItem(in List<SitemapItem> result, KnowledgeBaseGroup faqGroup)
-        {
-            Uri faqUrl = new($"{HelpdeskController.Name}/{nameof(HelpdeskController.FaQ)}/{faqGroup.Id}/{BaseModel.RouteFriendlyName(faqGroup.Name)}/",
-                UriKind.RelativeOrAbsolute);
+		private void AddFaqItem(in List<SitemapItem> result, KnowledgeBaseGroup faqGroup)
+		{
+			Uri faqUrl = new($"{HelpdeskController.Name}/{nameof(HelpdeskController.FaQ)}/{faqGroup.Id}/{BaseModel.RouteFriendlyName(faqGroup.Name)}/",
+				UriKind.RelativeOrAbsolute);
 
-            result.Add(new SitemapItem(faqUrl, SitemapChangeFrequency.Daily));
+			result.Add(new SitemapItem(faqUrl, SitemapChangeFrequency.Daily));
 
-            foreach (KnowledgeBaseGroup subGroup in _helpdeskProvider.GetKnowledgebaseGroups(0, faqGroup))
-                AddFaqItem(result, subGroup);
-        }
-    }
+			foreach (KnowledgeBaseGroup subGroup in _helpdeskProvider.GetKnowledgebaseGroups(0, faqGroup))
+				AddFaqItem(result, subGroup);
+		}
+	}
 }

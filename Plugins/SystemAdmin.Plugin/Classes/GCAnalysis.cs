@@ -36,96 +36,96 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Classes
 {
-    public sealed class GCAnalysis : ThreadManager
-    {
-        #region Private Members
+	public sealed class GCAnalysis : ThreadManager
+	{
+		#region Private Members
 
-        private static readonly object _lockObject = new();
-        private const int MaximumStatistics = 20;
-        private const int WaitForGCTimeout = 500;
-        private readonly Timings _timings = new();
-        private static readonly Queue<GCSnapshot> _gcStatistics = new(MaximumStatistics);
+		private static readonly object _lockObject = new();
+		private const int MaximumStatistics = 20;
+		private const int WaitForGCTimeout = 500;
+		private readonly Timings _timings = new();
+		private static readonly Queue<GCSnapshot> _gcStatistics = new(MaximumStatistics);
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public GCAnalysis()
-            : base(null, TimeSpan.FromSeconds(1), null, 500, 50, false)
-        {
-            GC.RegisterForFullGCNotification(10, 10);
-        }
+		public GCAnalysis()
+			: base(null, TimeSpan.FromSeconds(1), null, 500, 50, false)
+		{
+			GC.RegisterForFullGCNotification(10, 10);
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Overridden Methods
+		#region Overridden Methods
 
-        protected override bool Run(object parameters)
-        {
-            long memoryStart = 0;
-            long memoryFinish = 0;
-            bool completed = false;
+		protected override bool Run(object parameters)
+		{
+			long memoryStart = 0;
+			long memoryFinish = 0;
+			bool completed = false;
 
-            // Check for a notification of an approaching collection.
-            GCNotificationStatus status = GC.WaitForFullGCApproach(WaitForGCTimeout);
+			// Check for a notification of an approaching collection.
+			GCNotificationStatus status = GC.WaitForFullGCApproach(WaitForGCTimeout);
 
-            if (status == GCNotificationStatus.Succeeded)
-            {
-                Stopwatch stopwatch = new();
-                stopwatch.Start();
-                using (StopWatchTimer stopWatchTimer = StopWatchTimer.Initialise(_timings))
-                {
-                    memoryStart = GC.GetTotalMemory(false);
-                    GC.Collect(2, GCCollectionMode.Forced, false, true);
+			if (status == GCNotificationStatus.Succeeded)
+			{
+				Stopwatch stopwatch = new();
+				stopwatch.Start();
+				using (StopWatchTimer stopWatchTimer = StopWatchTimer.Initialise(_timings))
+				{
+					memoryStart = GC.GetTotalMemory(false);
+					GC.Collect(2, GCCollectionMode.Forced, false, true);
 
-                    status = GC.WaitForFullGCComplete();
+					status = GC.WaitForFullGCComplete();
 
-                    if (status == GCNotificationStatus.Succeeded)
-                    {
-                        memoryFinish = GC.GetTotalMemory(false);
-                        stopwatch.Stop();
-                        completed = true;
-                    }
-                }
+					if (status == GCNotificationStatus.Succeeded)
+					{
+						memoryFinish = GC.GetTotalMemory(false);
+						stopwatch.Stop();
+						completed = true;
+					}
+				}
 
-                if (completed)
-                {
-                    using (TimedLock tl = TimedLock.Lock(_lockObject))
-                    {
-                        if (_gcStatistics.Count == MaximumStatistics)
-                            _gcStatistics.Dequeue();
+				if (completed)
+				{
+					using (TimedLock tl = TimedLock.Lock(_lockObject))
+					{
+						if (_gcStatistics.Count == MaximumStatistics)
+							_gcStatistics.Dequeue();
 
-                        _gcStatistics.Enqueue(new GCSnapshot((double)stopwatch.ElapsedTicks / TimeSpan.TicksPerMillisecond, memoryStart - memoryFinish));
-                    }
-                }
-                else
-                {
-                    if (stopwatch.IsRunning)
-                        stopwatch.Stop();
-                }
-            }
-            else if (status == GCNotificationStatus.NotApplicable)
-            {
-                return false;
-            }
+						_gcStatistics.Enqueue(new GCSnapshot((double)stopwatch.ElapsedTicks / TimeSpan.TicksPerMillisecond, memoryStart - memoryFinish));
+					}
+				}
+				else
+				{
+					if (stopwatch.IsRunning)
+						stopwatch.Stop();
+				}
+			}
+			else if (status == GCNotificationStatus.NotApplicable)
+			{
+				return false;
+			}
 
-            return !HasCancelled();
-        }
+			return !HasCancelled();
+		}
 
-        #endregion Overridden Methods
+		#endregion Overridden Methods
 
-        #region Internal Methods
+		#region Internal Methods
 
-        internal static List<GCSnapshot> RetrieveGCData()
-        {
-            using (TimedLock tl = TimedLock.Lock(_lockObject))
-            {
-                return _gcStatistics.ToList();
-            }
-        }
+		internal static List<GCSnapshot> RetrieveGCData()
+		{
+			using (TimedLock tl = TimedLock.Lock(_lockObject))
+			{
+				return _gcStatistics.ToList();
+			}
+		}
 
-        #endregion Internal Methods
-    }
+		#endregion Internal Methods
+	}
 }
 
 #pragma warning restore CS1591

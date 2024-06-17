@@ -51,277 +51,277 @@ using static Shared.Utilities;
 
 namespace ProductPlugin.Controllers
 {
-    public partial class ProductController
-    {
-        #region Private Static Members
+	public partial class ProductController
+	{
+		#region Private Static Members
 
-        private static readonly object _lockObject = new();
+		private static readonly object _lockObject = new();
 
-        #endregion Private Static Members
+		#endregion Private Static Members
 
-        #region Public Action Methods
+		#region Public Action Methods
 
-        [HttpGet]
-        [Route("Product/Search/{searchId}/")]
-        [Route("Product/Search/")]
-        public IActionResult Search(string searchId)
-        {
-            return PartialView("/Views/Product/_ProductSearch.cshtml", GetSearchModel(searchId));
-        }
+		[HttpGet]
+		[Route("Product/Search/{searchId}/")]
+		[Route("Product/Search/")]
+		public IActionResult Search(string searchId)
+		{
+			return PartialView("/Views/Product/_ProductSearch.cshtml", GetSearchModel(searchId));
+		}
 
-        [HttpGet]
-        [Route("Product/SearchOptions/{searchId}")]
-        [Route("Product/SearchOptions/")]
-        public IActionResult SearchOptions(string searchId)
-        {
-            return PartialView("/Views/Product/_ProductSearchOption.cshtml", GetSearchModel(searchId));
-        }
+		[HttpGet]
+		[Route("Product/SearchOptions/{searchId}")]
+		[Route("Product/SearchOptions/")]
+		public IActionResult SearchOptions(string searchId)
+		{
+			return PartialView("/Views/Product/_ProductSearchOption.cshtml", GetSearchModel(searchId));
+		}
 
-        [HttpGet]
-        public IActionResult AdvancedSearch(ProductSearchViewModel model)
-        {
-            if (model == null || !ModelState.IsValid)
-            {
-                return Redirect($"/Search/Advanced/{LanguageStrings.Products}/");
-            }
+		[HttpGet]
+		public IActionResult AdvancedSearch(ProductSearchViewModel model)
+		{
+			if (model == null || !ModelState.IsValid)
+			{
+				return Redirect($"/Search/Advanced/{LanguageStrings.Products}/");
+			}
 
-            GetSearchId(model);
+			GetSearchId(model);
 
-            KeywordSearchProvider searchProvider = new(_productProvider);
+			KeywordSearchProvider searchProvider = new(_productProvider);
 
-            KeywordSearchOptions options = new(model.SearchText ?? String.Empty)
-            {
-                MaximumSearchResults = Constants.MaximumProducts
-            };
+			KeywordSearchOptions options = new(model.SearchText ?? String.Empty)
+			{
+				MaximumSearchResults = Constants.MaximumProducts
+			};
 
-            GetSearchId(model);
-            options.SearchName = model.SearchName;
+			GetSearchId(model);
+			options.SearchName = model.SearchName;
 
-            // add additional search options
-            foreach (CheckedViewItemModel item in model.ProductGroups)
-            {
-                if (item.Selected)
-                    options.Properties.Add(item.Name, KeywordSearchProvider.ProductGroup);
-            }
+			// add additional search options
+			foreach (CheckedViewItemModel item in model.ProductGroups)
+			{
+				if (item.Selected)
+					options.Properties.Add(item.Name, KeywordSearchProvider.ProductGroup);
+			}
 
-            List<ProductPriceInfo> prices = new();
-            List<ProductPriceInfo> priceGroups = GetPriceGroups();
+			List<ProductPriceInfo> prices = new();
+			List<ProductPriceInfo> priceGroups = GetPriceGroups();
 
-            foreach (CheckedViewItemModel item in model.Prices)
-            {
-                if (item.Selected)
-                {
-                    ProductPriceInfo priceGroup = priceGroups.Find(pg => pg.Text.Equals(item.Name));
+			foreach (CheckedViewItemModel item in model.Prices)
+			{
+				if (item.Selected)
+				{
+					ProductPriceInfo priceGroup = priceGroups.Find(pg => pg.Text.Equals(item.Name));
 
-                    if (priceGroup != null)
-                        prices.Add(priceGroup);
-                }
-            }
+					if (priceGroup != null)
+						prices.Add(priceGroup);
+				}
+			}
 
-            if (prices.Count == 0)
-            {
-                prices.AddRange(priceGroups);
-            }
+			if (prices.Count == 0)
+			{
+				prices.AddRange(priceGroups);
+			}
 
-            options.Properties.Add(KeywordSearchProvider.Price, prices);
+			options.Properties.Add(KeywordSearchProvider.Price, prices);
 
-            if (model.ContainsVideo)
-            {
-                options.Properties.Add(KeywordSearchProvider.ContainsVideo, true);
-            }
+			if (model.ContainsVideo)
+			{
+				options.Properties.Add(KeywordSearchProvider.ContainsVideo, true);
+			}
 
-            // perform the search, the results will be held in memory and shown on search page
-            DefaultSearchThread.KeywordSearch(searchProvider, options);
+			// perform the search, the results will be held in memory and shown on search page
+			DefaultSearchThread.KeywordSearch(searchProvider, options);
 
-            string cacheName = $"Product Search View Model {model.SearchName}";
-            _memoryCache.GetExtendingCache().Add(cacheName, new CacheItem(cacheName, model), true);
+			string cacheName = $"Product Search View Model {model.SearchName}";
+			_memoryCache.GetExtendingCache().Add(cacheName, new CacheItem(cacheName, model), true);
 
-            return Redirect($"/Search/Advanced/{LanguageStrings.Products}/{model.SearchName}/");
-        }
+			return Redirect($"/Search/Advanced/{LanguageStrings.Products}/{model.SearchName}/");
+		}
 
-        #endregion Public Action Methods
+		#endregion Public Action Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private List<string> GetProductGroups()
-        {
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                string cacheName = "Product Search Product Group Product Counts";
-                CacheItem cacheItem = _memoryCache.GetCache().Get(cacheName);
+		private List<string> GetProductGroups()
+		{
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				string cacheName = "Product Search Product Group Product Counts";
+				CacheItem cacheItem = _memoryCache.GetCache().Get(cacheName);
 
-                if (cacheItem == null)
-                {
-                    List<string> productGroups = new();
+				if (cacheItem == null)
+				{
+					List<string> productGroups = new();
 
-                    foreach (ProductGroup item in _productProvider.ProductGroupsGet())
-                        productGroups.Add(item.Description);
+					foreach (ProductGroup item in _productProvider.ProductGroupsGet())
+						productGroups.Add(item.Description);
 
-                    if (_settings.ShowProductCounts)
-                    {
-                        ThreadManager.ThreadStart(new ProductGroupProductCounts(_productProvider, productGroups),
-                            "Update product group product counts", System.Threading.ThreadPriority.Lowest);
-                    }
+					if (_settings.ShowProductCounts)
+					{
+						ThreadManager.ThreadStart(new ProductGroupProductCounts(_productProvider, productGroups),
+							"Update product group product counts", System.Threading.ThreadPriority.Lowest);
+					}
 
-                    cacheItem = new CacheItem(cacheName, productGroups);
-                    _memoryCache.GetCache().Add(cacheName, cacheItem, true);
-                }
+					cacheItem = new CacheItem(cacheName, productGroups);
+					_memoryCache.GetCache().Add(cacheName, cacheItem, true);
+				}
 
-                return (List<string>)cacheItem.Value;
-            }
-        }
+				return (List<string>)cacheItem.Value;
+			}
+		}
 
-        private int GetProductWithVideoCounts()
-        {
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                string cacheName = "Product Search Product With Video Product Counts";
-                CacheItem cacheItem = _memoryCache.GetCache().Get(cacheName);
+		private int GetProductWithVideoCounts()
+		{
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				string cacheName = "Product Search Product With Video Product Counts";
+				CacheItem cacheItem = _memoryCache.GetCache().Get(cacheName);
 
-                if (cacheItem == null)
-                {
-                    int videoCount = _productProvider.GetProducts(1, Constants.MaximumProducts)
-                        .Count(p => !String.IsNullOrEmpty(p.VideoLink));
-                    List<string> productGroups = new();
+				if (cacheItem == null)
+				{
+					int videoCount = _productProvider.GetProducts(1, Constants.MaximumProducts)
+						.Count(p => !String.IsNullOrEmpty(p.VideoLink));
+					List<string> productGroups = new();
 
-                    foreach (ProductGroup item in _productProvider.ProductGroupsGet())
-                        productGroups.Add(item.Description);
+					foreach (ProductGroup item in _productProvider.ProductGroupsGet())
+						productGroups.Add(item.Description);
 
-                    if (_settings.ShowProductCounts)
-                    {
-                        ThreadManager.ThreadStart(new ProductGroupProductCounts(_productProvider, productGroups),
-                            "Update product with video product counts", System.Threading.ThreadPriority.Lowest);
-                    }
+					if (_settings.ShowProductCounts)
+					{
+						ThreadManager.ThreadStart(new ProductGroupProductCounts(_productProvider, productGroups),
+							"Update product with video product counts", System.Threading.ThreadPriority.Lowest);
+					}
 
-                    cacheItem = new CacheItem(cacheName, videoCount);
-                    _memoryCache.GetCache().Add(cacheName, cacheItem, true);
-                }
+					cacheItem = new CacheItem(cacheName, videoCount);
+					_memoryCache.GetCache().Add(cacheName, cacheItem, true);
+				}
 
-                return (int)cacheItem.Value;
-            }
-        }
+				return (int)cacheItem.Value;
+			}
+		}
 
-        private List<ProductPriceInfo> GetPriceGroups()
-        {
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                CultureInfo culture = System.Threading.Thread.CurrentThread.CurrentUICulture;
-                string cacheName = $"Product Search Product Price Groups {culture.Name}";
-                CacheItem cacheItem = _memoryCache.GetCache().Get(cacheName);
+		private List<ProductPriceInfo> GetPriceGroups()
+		{
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				CultureInfo culture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+				string cacheName = $"Product Search Product Price Groups {culture.Name}";
+				CacheItem cacheItem = _memoryCache.GetCache().Get(cacheName);
 
-                if (cacheItem == null)
-                {
-                    List<ProductPriceInfo> priceGroups = new();
+				if (cacheItem == null)
+				{
+					List<ProductPriceInfo> priceGroups = new();
 
-                    string[] prices = _settings.PriceGroups.Split(';', StringSplitOptions.RemoveEmptyEntries);
-                    decimal lastValue = -1;
+					string[] prices = _settings.PriceGroups.Split(';', StringSplitOptions.RemoveEmptyEntries);
+					decimal lastValue = -1;
 
-                    for (int i = 0; i < prices.Length; i++)
-                    {
-                        string price = prices[i];
+					for (int i = 0; i < prices.Length; i++)
+					{
+						string price = prices[i];
 
-                        if (decimal.TryParse(price, out decimal value))
-                        {
-                            if (value < 0 || value < lastValue)
-                                throw new InvalidOperationException();
+						if (decimal.TryParse(price, out decimal value))
+						{
+							if (value < 0 || value < lastValue)
+								throw new InvalidOperationException();
 
-                            if (i == 0)
-                            {
-                                if (value == 0)
-                                    priceGroups.Add(new ProductPriceInfo(LanguageStrings.Free, 0, 0));
-                                else
-                                    priceGroups.Add(new ProductPriceInfo(
-                                        $"{FormatMoney(0, culture)} - {FormatMoney(value, culture)}", 0, value));
+							if (i == 0)
+							{
+								if (value == 0)
+									priceGroups.Add(new ProductPriceInfo(LanguageStrings.Free, 0, 0));
+								else
+									priceGroups.Add(new ProductPriceInfo(
+										$"{FormatMoney(0, culture)} - {FormatMoney(value, culture)}", 0, value));
 
-                                lastValue = value;
-                                continue;
-                            }
+								lastValue = value;
+								continue;
+							}
 
-                            if (lastValue == 0)
-                            {
-                                priceGroups.Add(new ProductPriceInfo(
-                                    $"{LanguageStrings.Under} {FormatMoney(value, culture)}", 0, value));
-                            }
-                            else
-                            {
-                                priceGroups.Add(new ProductPriceInfo(
-                                    $"{FormatMoney(lastValue, culture)} - {FormatMoney(value, culture)}", lastValue, value));
-                            }
+							if (lastValue == 0)
+							{
+								priceGroups.Add(new ProductPriceInfo(
+									$"{LanguageStrings.Under} {FormatMoney(value, culture)}", 0, value));
+							}
+							else
+							{
+								priceGroups.Add(new ProductPriceInfo(
+									$"{FormatMoney(lastValue, culture)} - {FormatMoney(value, culture)}", lastValue, value));
+							}
 
-                            if (i == prices.Length - 1)
-                            {
-                                priceGroups.Add(new ProductPriceInfo(
-                                    $"{LanguageStrings.Over} {FormatMoney(value, culture)}", value, Decimal.MaxValue));
-                            }
+							if (i == prices.Length - 1)
+							{
+								priceGroups.Add(new ProductPriceInfo(
+									$"{LanguageStrings.Over} {FormatMoney(value, culture)}", value, Decimal.MaxValue));
+							}
 
-                            lastValue = value;
-                        }
-                    }
+							lastValue = value;
+						}
+					}
 
-                    if (_settings.ShowProductCounts)
-                    {
-                        ThreadManager.ThreadStart(new PriceGroupProductCounts(_productProvider, priceGroups),
-                            $"Update price group product counts {culture.Name}", System.Threading.ThreadPriority.Lowest);
-                    }
+					if (_settings.ShowProductCounts)
+					{
+						ThreadManager.ThreadStart(new PriceGroupProductCounts(_productProvider, priceGroups),
+							$"Update price group product counts {culture.Name}", System.Threading.ThreadPriority.Lowest);
+					}
 
-                    cacheItem = new CacheItem(cacheName, priceGroups);
-                    _memoryCache.GetCache().Add(cacheName, cacheItem, true);
-                }
+					cacheItem = new CacheItem(cacheName, priceGroups);
+					_memoryCache.GetCache().Add(cacheName, cacheItem, true);
+				}
 
-                return (List<ProductPriceInfo>)cacheItem.Value;
-            }
-        }
+				return (List<ProductPriceInfo>)cacheItem.Value;
+			}
+		}
 
-        private ProductSearchViewModel GetSearchModel(string searchId)
-        {
-            if (!String.IsNullOrEmpty(searchId))
-            {
-                CacheItem cacheItem = _memoryCache.GetExtendingCache().Get($"Product Search View Model {searchId}");
+		private ProductSearchViewModel GetSearchModel(string searchId)
+		{
+			if (!String.IsNullOrEmpty(searchId))
+			{
+				CacheItem cacheItem = _memoryCache.GetExtendingCache().Get($"Product Search View Model {searchId}");
 
-                if (cacheItem != null)
-                {
-                    return (ProductSearchViewModel)cacheItem.Value;
-                }
-            }
+				if (cacheItem != null)
+				{
+					return (ProductSearchViewModel)cacheItem.Value;
+				}
+			}
 
-            ProductSearchViewModel Result = new();
+			ProductSearchViewModel Result = new();
 
-            foreach (string group in GetProductGroups())
-            {
-                Result.ProductGroups.Add(new CheckedViewItemModel(group, true));
-            }
+			foreach (string group in GetProductGroups())
+			{
+				Result.ProductGroups.Add(new CheckedViewItemModel(group, true));
+			}
 
-            foreach (ProductPriceInfo priceGroup in GetPriceGroups())
-            {
-                Result.Prices.Add(new CheckedViewItemModel(priceGroup.Text, true));
-            }
+			foreach (ProductPriceInfo priceGroup in GetPriceGroups())
+			{
+				Result.Prices.Add(new CheckedViewItemModel(priceGroup.Text, true));
+			}
 
-            Result.VideoProductCount = GetProductWithVideoCounts();
+			Result.VideoProductCount = GetProductWithVideoCounts();
 
-            GetSearchId(Result);
+			GetSearchId(Result);
 
-            return Result;
-        }
+			return Result;
+		}
 
-        private static void GetSearchId(in ProductSearchViewModel model)
-        {
-            // Use input string to calculate MD5 hash
-            using (MD5 md5 = MD5.Create())
-            {
-                byte[] inputBytes = Encoding.ASCII.GetBytes(JsonSerializer.Serialize(model));
-                byte[] hashBytes = md5.ComputeHash(inputBytes);
+		private static void GetSearchId(in ProductSearchViewModel model)
+		{
+			// Use input string to calculate MD5 hash
+			using (MD5 md5 = MD5.Create())
+			{
+				byte[] inputBytes = Encoding.ASCII.GetBytes(JsonSerializer.Serialize(model));
+				byte[] hashBytes = md5.ComputeHash(inputBytes);
 
-                // Convert the byte array to hexadecimal string
-                StringBuilder sb = new();
-                for (int i = 0; i < hashBytes.Length; i++)
-                {
-                    sb.Append(hashBytes[i].ToString("X2"));
-                }
+				// Convert the byte array to hexadecimal string
+				StringBuilder sb = new();
+				for (int i = 0; i < hashBytes.Length; i++)
+				{
+					sb.Append(hashBytes[i].ToString("X2"));
+				}
 
-                model.SearchName = $"P{sb.ToString()}";
-            }
-        }
+				model.SearchName = $"P{sb.ToString()}";
+			}
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }

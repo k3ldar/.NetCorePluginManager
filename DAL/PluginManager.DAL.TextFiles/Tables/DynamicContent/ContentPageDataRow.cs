@@ -27,98 +27,98 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.DomainDynamicContent, Constants.TableNameContentPage, CompressionType.None, CachingStrategy.Memory, WriteStrategy.Forced)]
-    internal class ContentPageDataRow : TableRowDefinition
-    {
-        private string _name;
-        private long _activeFromTicks;
-        private long _activeToTicks;
-        private string _routeName;
-        private string _backgroundColor;
-        private string _backgroundImage;
+	[Table(Constants.DomainDynamicContent, Constants.TableNameContentPage, CompressionType.None, CachingStrategy.Memory, WriteStrategy.Forced)]
+	internal class ContentPageDataRow : TableRowDefinition
+	{
+		private string _name;
+		private long _activeFromTicks;
+		private long _activeToTicks;
+		private string _routeName;
+		private string _backgroundColor;
+		private string _backgroundImage;
 
-        public string Name
-        {
-            get => _name;
+		public string Name
+		{
+			get => _name;
 
-            set
-            {
-                if (_name == value)
-                    return;
+			set
+			{
+				if (_name == value)
+					return;
 
-                _name = value;
-                Update();
-            }
-        }
+				_name = value;
+				Update();
+			}
+		}
 
-        public long ActiveFromTicks
-        {
-            get => _activeFromTicks;
+		public long ActiveFromTicks
+		{
+			get => _activeFromTicks;
 
-            set
-            {
-                if (_activeFromTicks == value)
-                    return;
+			set
+			{
+				if (_activeFromTicks == value)
+					return;
 
-                _activeFromTicks = value;
-                Update();
-            }
-        }
+				_activeFromTicks = value;
+				Update();
+			}
+		}
 
-        public long ActiveToticks
-        {
-            get => _activeToTicks;
+		public long ActiveToticks
+		{
+			get => _activeToTicks;
 
-            set
-            {
-                if (_activeToTicks == value)
-                    return;
+			set
+			{
+				if (_activeToTicks == value)
+					return;
 
-                _activeToTicks = value;
-                Update();
-            }
-        }
+				_activeToTicks = value;
+				Update();
+			}
+		}
 
-        public string RouteName
-        {
-            get => _routeName;
+		public string RouteName
+		{
+			get => _routeName;
 
-            set
-            {
-                if (_routeName == value)
-                    return;
+			set
+			{
+				if (_routeName == value)
+					return;
 
-                _routeName = value;
-                Update();
-            }
-        }
+				_routeName = value;
+				Update();
+			}
+		}
 
-        public string BackgroundColor
-        {
-            get => _backgroundColor;
+		public string BackgroundColor
+		{
+			get => _backgroundColor;
 
-            set
-            {
-                if (_backgroundColor == value)
-                    return;
+			set
+			{
+				if (_backgroundColor == value)
+					return;
 
-                _backgroundColor = value;
-                Update();
-            }
-        }
+				_backgroundColor = value;
+				Update();
+			}
+		}
 
-        public string BackgroundImage
-        {
-            get => _backgroundImage;
+		public string BackgroundImage
+		{
+			get => _backgroundImage;
 
-            set
-            {
-                if (_backgroundImage == value)
-                    return;
+			set
+			{
+				if (_backgroundImage == value)
+					return;
 
-                _backgroundImage = value;
-                Update();
-            }
-        }
-    }
+				_backgroundImage = value;
+				Update();
+			}
+		}
+	}
 }

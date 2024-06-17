@@ -27,39 +27,39 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.DomainDownloads, Constants.TableNameDownloadCategories)]
-    internal class DownloadCategoryDataRow : TableRowDefinition
-    {
-        private string _name;
-        private long _userId;
+	[Table(Constants.DomainDownloads, Constants.TableNameDownloadCategories)]
+	internal class DownloadCategoryDataRow : TableRowDefinition
+	{
+		private string _name;
+		private long _userId;
 
-        public string Name
-        {
-            get => _name;
+		public string Name
+		{
+			get => _name;
 
-            set
-            {
-                if (_name == value)
-                    return;
+			set
+			{
+				if (_name == value)
+					return;
 
-                _name = value;
-                Update();
-            }
-        }
+				_name = value;
+				Update();
+			}
+		}
 
-        [ForeignKey(Constants.TableNameUsers, ForeignKeyAttributes.DefaultValue)]
-        public long UserId
-        {
-            get => _userId;
+		[ForeignKey(Constants.TableNameUsers, ForeignKeyAttributes.DefaultValue)]
+		public long UserId
+		{
+			get => _userId;
 
-            set
-            {
-                if (value == _userId)
-                    return;
+			set
+			{
+				if (value == _userId)
+					return;
 
-                _userId = value;
-                Update();
-            }
-        }
-    }
+				_userId = value;
+				Update();
+			}
+		}
+	}
 }

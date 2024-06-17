@@ -170,16 +170,16 @@ namespace SimpleDB
 					simpleDBTable.OnAction -= SimpleDBTable_OnAction;
 					_tableLastAction.Remove(simpleDBTable);
 				}
-            }
-        }
+			}
+		}
 
 		public IReadOnlyDictionary<string, ISimpleDBTable> Tables
-        {
-            get
-            {
-                return new Dictionary<string, ISimpleDBTable>(_tables);
-            }
-        }
+		{
+			get
+			{
+				return new Dictionary<string, ISimpleDBTable>(_tables);
+			}
+		}
 
 		protected override bool Run(object parameters)
 		{

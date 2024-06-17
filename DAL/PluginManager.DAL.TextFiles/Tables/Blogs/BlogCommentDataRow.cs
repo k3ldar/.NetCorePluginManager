@@ -27,145 +27,145 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameBlogComments)]
-    internal sealed class BlogCommentDataRow : TableRowDefinition
-    {
-        private long _blogId;
-        private long? _parentComment;
-        private string _username;
-        private long _userId;
-        private bool _approved;
-        private string _comment;
-        private ObservableList<BlogCommentDataRow> _comments;
+	[Table(Constants.TableNameBlogComments)]
+	internal sealed class BlogCommentDataRow : TableRowDefinition
+	{
+		private long _blogId;
+		private long? _parentComment;
+		private string _username;
+		private long _userId;
+		private bool _approved;
+		private string _comment;
+		private ObservableList<BlogCommentDataRow> _comments;
 
-        #region Properties
+		#region Properties
 
-        [ForeignKey(Constants.TableNameBlogs)]
-        public long BlogId
-        {
-            get
-            {
-                return _blogId;
-            }
+		[ForeignKey(Constants.TableNameBlogs)]
+		public long BlogId
+		{
+			get
+			{
+				return _blogId;
+			}
 
-            set
-            {
-                if (_blogId == value)
-                    return;
+			set
+			{
+				if (_blogId == value)
+					return;
 
-                _blogId = value;
-                Update();
-            }
-        }
+				_blogId = value;
+				Update();
+			}
+		}
 
-        [ForeignKey(Constants.TableNameBlogComments)]
-        public long? ParentComment
-        {
-            get
-            {
-                return _parentComment;
-            }
+		[ForeignKey(Constants.TableNameBlogComments)]
+		public long? ParentComment
+		{
+			get
+			{
+				return _parentComment;
+			}
 
-            set
-            {
-                if (_parentComment == value)
-                    return;
+			set
+			{
+				if (_parentComment == value)
+					return;
 
-                _parentComment = value;
-                Update();
-            }
-        }
+				_parentComment = value;
+				Update();
+			}
+		}
 
-        public string Username
-        {
-            get
-            {
-                return _username;
-            }
+		public string Username
+		{
+			get
+			{
+				return _username;
+			}
 
-            set
-            {
-                if (_username == value)
-                    return;
+			set
+			{
+				if (_username == value)
+					return;
 
-                _username = value;
-                Update();
-            }
-        }
+				_username = value;
+				Update();
+			}
+		}
 
-        [ForeignKey(Constants.TableNameUsers)]
-        public long UserId
-        {
-            get
-            {
-                return _userId;
-            }
+		[ForeignKey(Constants.TableNameUsers)]
+		public long UserId
+		{
+			get
+			{
+				return _userId;
+			}
 
-            set
-            {
-                if (_userId == value)
-                    return;
+			set
+			{
+				if (_userId == value)
+					return;
 
-                _userId = value;
-                Update();
-            }
-        }
+				_userId = value;
+				Update();
+			}
+		}
 
-        public bool Approved
-        {
-            get
-            {
-                return _approved;
-            }
+		public bool Approved
+		{
+			get
+			{
+				return _approved;
+			}
 
-            set
-            {
-                if (_approved == value)
-                    return;
+			set
+			{
+				if (_approved == value)
+					return;
 
-                _approved = value;
-                Update();
-            }
-        }
+				_approved = value;
+				Update();
+			}
+		}
 
-        public string Comment
-        {
-            get
-            {
-                return _comment;
-            }
+		public string Comment
+		{
+			get
+			{
+				return _comment;
+			}
 
-            set
-            {
-                if (_comment == value)
-                    return;
+			set
+			{
+				if (_comment == value)
+					return;
 
-                _comment = value;
-                Update();
-            }
-        }
+				_comment = value;
+				Update();
+			}
+		}
 
-        public ObservableList<BlogCommentDataRow> Comments
-        {
-            get
-            {
-                return _comments;
-            }
+		public ObservableList<BlogCommentDataRow> Comments
+		{
+			get
+			{
+				return _comments;
+			}
 
-            set
-            {
-                if (value != null)
-                    value.Changed -= ObservableDataChanged;
+			set
+			{
+				if (value != null)
+					value.Changed -= ObservableDataChanged;
 
-                _comments = value;
+				_comments = value;
 
-                if (_comments != null)
-                    _comments.Changed += ObservableDataChanged;
+				if (_comments != null)
+					_comments.Changed += ObservableDataChanged;
 
-                Update();
-            }
-        }
+				Update();
+			}
+		}
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

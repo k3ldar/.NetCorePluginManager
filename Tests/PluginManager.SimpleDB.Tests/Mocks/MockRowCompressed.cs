@@ -26,19 +26,19 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace SimpleDB.Tests.Mocks
 {
-    [ExcludeFromCodeCoverage]
-    [Table("MockTable", CompressionType.Brotli, cachingStrategy: CachingStrategy.Memory)]
-    public class MockRowCompressed : TableRowDefinition
-    {
-        public MockRowCompressed()
-        {
+	[ExcludeFromCodeCoverage]
+	[Table("MockTable", CompressionType.Brotli, cachingStrategy: CachingStrategy.Memory)]
+	public class MockRowCompressed : TableRowDefinition
+	{
+		public MockRowCompressed()
+		{
 
-        }
+		}
 
-        public MockRowCompressed(int id)
-            : this()
-        {
-            Id = id;
-        }
-    }
+		public MockRowCompressed(int id)
+			: this()
+		{
+			Id = id;
+		}
+	}
 }

@@ -32,46 +32,46 @@ using SharedPluginFeatures;
 
 namespace LoginPlugin.Models
 {
-    public sealed class UpdatePasswordViewModel : BaseModel
-    {
-        #region Constructors
+	public sealed class UpdatePasswordViewModel : BaseModel
+	{
+		#region Constructors
 
-        public UpdatePasswordViewModel()
-        {
-            Username = String.Empty;
-        }
+		public UpdatePasswordViewModel()
+		{
+			Username = String.Empty;
+		}
 
-        public UpdatePasswordViewModel(in BaseModelData modelData)
-            : base(modelData)
-        {
-            Username = String.Empty;
-        }
+		public UpdatePasswordViewModel(in BaseModelData modelData)
+			: base(modelData)
+		{
+			Username = String.Empty;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterUserNameOrEmail))]
-        [Display(Name = nameof(Languages.LanguageStrings.Username))]
-        public string Username { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterUserNameOrEmail))]
+		[Display(Name = nameof(Languages.LanguageStrings.Username))]
+		public string Username { get; set; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterPassword))]
-        [StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
-        [Display(Name = nameof(Languages.LanguageStrings.CurrentPassword))]
-        public string CurrentPassword { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterPassword))]
+		[StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
+		[Display(Name = nameof(Languages.LanguageStrings.CurrentPassword))]
+		public string CurrentPassword { get; set; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterPassword))]
-        [StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
-        [Display(Name = nameof(Languages.LanguageStrings.NewPassword))]
-        public string NewPassword { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterPassword))]
+		[StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
+		[Display(Name = nameof(Languages.LanguageStrings.NewPassword))]
+		public string NewPassword { get; set; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PasswordDoesNotMatch))]
-        [StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
-        [Display(Name = nameof(Languages.LanguageStrings.ConfirmPassword))]
-        public string ConfirmNewPassword { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.PasswordDoesNotMatch))]
+		[StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
+		[Display(Name = nameof(Languages.LanguageStrings.ConfirmPassword))]
+		public string ConfirmNewPassword { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

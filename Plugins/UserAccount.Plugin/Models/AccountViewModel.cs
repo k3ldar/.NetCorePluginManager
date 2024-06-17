@@ -31,39 +31,39 @@ namespace UserAccount.Plugin.Models
 {
 #pragma warning disable CS1591
 
-    public class AccountViewModel : BaseModel
-    {
-        #region Constructors
+	public class AccountViewModel : BaseModel
+	{
+		#region Constructors
 
-        public AccountViewModel()
-        {
-            GrowlMessage = String.Empty;
-        }
+		public AccountViewModel()
+		{
+			GrowlMessage = String.Empty;
+		}
 
-        public AccountViewModel(in BaseModelData baseModelData,
-            AccountSettings accountSettings, string growl)
-            : this(baseModelData, accountSettings)
-        {
-            GrowlMessage = growl;
-        }
+		public AccountViewModel(in BaseModelData baseModelData,
+			AccountSettings accountSettings, string growl)
+			: this(baseModelData, accountSettings)
+		{
+			GrowlMessage = growl;
+		}
 
-        public AccountViewModel(in BaseModelData baseModelData,
-            AccountSettings accountSettings)
-            : base(baseModelData)
-        {
-            Settings = accountSettings ?? throw new ArgumentNullException(nameof(accountSettings));
-        }
+		public AccountViewModel(in BaseModelData baseModelData,
+			AccountSettings accountSettings)
+			: base(baseModelData)
+		{
+			Settings = accountSettings ?? throw new ArgumentNullException(nameof(accountSettings));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public AccountSettings Settings { get; private set; }
+		public AccountSettings Settings { get; private set; }
 
-        public string GrowlMessage { get; set; }
+		public string GrowlMessage { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 
 #pragma warning restore CS1591
 }

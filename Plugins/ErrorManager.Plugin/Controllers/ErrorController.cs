@@ -41,12 +41,12 @@ using static Shared.Utilities;
 
 namespace ErrorManager.Plugin.Controllers
 {
-    /// <summary>
-    /// Error Controller
-    /// </summary>
-    [DenySpider]
-    public class ErrorController : BaseController
-    {
+	/// <summary>
+	/// Error Controller
+	/// </summary>
+	[DenySpider]
+	public class ErrorController : BaseController
+	{
 		#region Private Members
 
 #if NET_CORE_3_X || NET_5_ABOVE
@@ -55,7 +55,7 @@ namespace ErrorManager.Plugin.Controllers
         private readonly IHostingEnvironment _hostingEnvironment;
 #endif
 
-        private readonly ISettingsProvider _settingsProvider;
+		private readonly ISettingsProvider _settingsProvider;
 
 		#endregion Private Members
 
@@ -63,10 +63,10 @@ namespace ErrorManager.Plugin.Controllers
 
 #if NET_CORE_3_X || NET_5_ABOVE
 		public ErrorController(IWebHostEnvironment hostingEnvironment, ISettingsProvider settingsProvider)
-        {
-            _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
-            _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
-        }
+		{
+			_hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
+			_settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
+		}
 #else
         public ErrorController(IHostingEnvironment hostingEnvironment, ISettingsProvider settingsProvider)
         {
@@ -76,111 +76,111 @@ namespace ErrorManager.Plugin.Controllers
 #endif
 
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Action Methods
+		#region Public Action Methods
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.Error))]
-        public IActionResult Index()
-        {
-            return View(new BaseModel(GetModelData()));
-        }
+		[Breadcrumb(nameof(Languages.LanguageStrings.Error))]
+		public IActionResult Index()
+		{
+			return View(new BaseModel(GetModelData()));
+		}
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.MissingLink))]
-        public IActionResult NotFound404()
-        {
-            Error404Model model;
+		[Breadcrumb(nameof(Languages.LanguageStrings.MissingLink))]
+		public IActionResult NotFound404()
+		{
+			Error404Model model;
 
-            ErrorManagerSettings settings = _settingsProvider.GetSettings<ErrorManagerSettings>(nameof(ErrorManager));
+			ErrorManagerSettings settings = _settingsProvider.GetSettings<ErrorManagerSettings>(nameof(ErrorManager));
 
-            if (settings.RandomQuotes)
-            {
-                // grab a random quote
-                Random rnd = new(Convert.ToInt32(DateTime.Now.ToString("Hmsffff")));
-                int quote = rnd.Next(settings.Count());
-                model = new Error404Model(GetModelData(),
-                    Languages.LanguageStrings.PageNotFound, settings.GetQuote(quote), GetImageFile(quote));
-            }
-            else
-            {
-                int index = 0;
+			if (settings.RandomQuotes)
+			{
+				// grab a random quote
+				Random rnd = new(Convert.ToInt32(DateTime.Now.ToString("Hmsffff")));
+				int quote = rnd.Next(settings.Count());
+				model = new Error404Model(GetModelData(),
+					Languages.LanguageStrings.PageNotFound, settings.GetQuote(quote), GetImageFile(quote));
+			}
+			else
+			{
+				int index = 0;
 
-                // sequential, save current state to cookie
-                if (CookieExists("Error404"))
-                {
-                    // get index from cookie
-                    string cookieValue = Decrypt(CookieValue("Error404"), settings.EncryptionKey);
-                    index = StrToInt(cookieValue, 0) + 1;
-                }
+				// sequential, save current state to cookie
+				if (CookieExists("Error404"))
+				{
+					// get index from cookie
+					string cookieValue = Decrypt(CookieValue("Error404"), settings.EncryptionKey);
+					index = StrToInt(cookieValue, 0) + 1;
+				}
 
-                if (index < 0 || index > settings.Count())
-                    index = 0;
+				if (index < 0 || index > settings.Count())
+					index = 0;
 
-                CookieAdd("Error404", Encrypt(Convert.ToString(index), settings.EncryptionKey), 
+				CookieAdd("Error404", Encrypt(Convert.ToString(index), settings.EncryptionKey),
 					Constants.SessionOnlyCookie, true);
 
-                model = new Error404Model(GetModelData(),
-                    Languages.LanguageStrings.PageNotFound, settings.GetQuote(index), GetImageFile(index));
-            }
+				model = new Error404Model(GetModelData(),
+					Languages.LanguageStrings.PageNotFound, settings.GetQuote(index), GetImageFile(index));
+			}
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.HighVolume))]
-        public IActionResult HighVolume()
-        {
-            return View(new BaseModel(GetModelData()));
-        }
+		[Breadcrumb(nameof(Languages.LanguageStrings.HighVolume))]
+		public IActionResult HighVolume()
+		{
+			return View(new BaseModel(GetModelData()));
+		}
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.NotAcceptable))]
-        public IActionResult NotAcceptable()
-        {
-            return View(new BaseModel(GetModelData()));
-        }
+		[Breadcrumb(nameof(Languages.LanguageStrings.NotAcceptable))]
+		public IActionResult NotAcceptable()
+		{
+			return View(new BaseModel(GetModelData()));
+		}
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.AccessDenied))]
-        public IActionResult AccessDenied()
-        {
-            return View(new BaseModel(GetModelData()));
-        }
+		[Breadcrumb(nameof(Languages.LanguageStrings.AccessDenied))]
+		public IActionResult AccessDenied()
+		{
+			return View(new BaseModel(GetModelData()));
+		}
 
 #if DEBUG
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "Debug Only")]
-        public IActionResult Raise(string s)
-        {
-            if (String.IsNullOrEmpty(s))
-                s = "Oopsies";
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "Debug Only")]
+		public IActionResult Raise(string s)
+		{
+			if (String.IsNullOrEmpty(s))
+				s = "Oopsies";
 
-            throw new Exception(s);
-        }
+			throw new Exception(s);
+		}
 #endif
-        #endregion Public Action Methods
+		#endregion Public Action Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private string GetImageFile(in int index)
-        {
-            string rootPath = $"{_hostingEnvironment.ContentRootPath}\\wwwroot\\images\\error\\";
+		private string GetImageFile(in int index)
+		{
+			string rootPath = $"{_hostingEnvironment.ContentRootPath}\\wwwroot\\images\\error\\";
 
-            if (Directory.Exists(rootPath))
-            {
-                string[] errorImageFiles = Directory.GetFiles(rootPath);
+			if (Directory.Exists(rootPath))
+			{
+				string[] errorImageFiles = Directory.GetFiles(rootPath);
 
-                foreach (string file in errorImageFiles)
-                {
-                    if (Path.GetFileName(file).StartsWith(index.ToString()))
-                        return $"/images/error/{Path.GetFileName(file)}";
-                }
+				foreach (string file in errorImageFiles)
+				{
+					if (Path.GetFileName(file).StartsWith(index.ToString()))
+						return $"/images/error/{Path.GetFileName(file)}";
+				}
 
-                if (System.IO.File.Exists(rootPath + "Default404.png"))
-                    return "/images/error/Default404.png";
-            }
+				if (System.IO.File.Exists(rootPath + "Default404.png"))
+					return "/images/error/Default404.png";
+			}
 
-            return String.Empty;
-        }
+			return String.Empty;
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591

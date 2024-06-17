@@ -31,52 +31,52 @@ using SharedPluginFeatures;
 
 namespace DynamicContent.Plugin.Model
 {
-    public sealed class EditTemplateModel
-    {
-        #region Constructors
+	public sealed class EditTemplateModel
+	{
+		#region Constructors
 
-        public EditTemplateModel()
-        {
-            ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
-        }
+		public EditTemplateModel()
+		{
+			ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+			ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public string CacheId { get; set; }
+		public string CacheId { get; set; }
 
-        public string UniqueId { get; set; }
+		public string UniqueId { get; set; }
 
-        public string EditorInstructions { get; set; }
+		public string EditorInstructions { get; set; }
 
-        public string TemplateEditor { get; set; }
+		public string TemplateEditor { get; set; }
 
-        public string Name { get; set; }
+		public string Name { get; set; }
 
-        public int SortOrder { get; set; }
+		public int SortOrder { get; set; }
 
-        public DynamicContentWidthType WidthType { get; set; }
+		public DynamicContentWidthType WidthType { get; set; }
 
-        public int Width { get; set; }
+		public int Width { get; set; }
 
-        public DynamicContentHeightType HeightType { get; set; }
+		public DynamicContentHeightType HeightType { get; set; }
 
-        public int Height { get; set; }
+		public int Height { get; set; }
 
-        public string Data { get; set; }
+		public string Data { get; set; }
 
-        public DateTime ActiveFrom { get; set; }
+		public DateTime ActiveFrom { get; set; }
 
-        public DateTime ActiveTo { get; set; }
+		public DateTime ActiveTo { get; set; }
 
-        public string CssClassName { get; set; }
+		public string CssClassName { get; set; }
 
-        public string CssStyle { get; set; }
+		public string CssStyle { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

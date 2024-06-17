@@ -27,40 +27,40 @@ using System;
 
 namespace Middleware.Search
 {
-    /// <summary>
-    /// Base options for completing searches
-    /// </summary>
-    public class BaseSearchOptions
-    {
-        #region Constructors
+	/// <summary>
+	/// Base options for completing searches
+	/// </summary>
+	public class BaseSearchOptions
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="isLoggedIn">Indicates that the search is being completed from a user who is logged in.</param>
-        /// <param name="searchTerm">The search term being sought.</param>
-        public BaseSearchOptions(in bool isLoggedIn, in string searchTerm)
-        {
-            IsLoggedIn = isLoggedIn;
-            SearchTerm = searchTerm ?? throw new ArgumentNullException(nameof(searchTerm));
-        }
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="isLoggedIn">Indicates that the search is being completed from a user who is logged in.</param>
+		/// <param name="searchTerm">The search term being sought.</param>
+		public BaseSearchOptions(in bool isLoggedIn, in string searchTerm)
+		{
+			IsLoggedIn = isLoggedIn;
+			SearchTerm = searchTerm ?? throw new ArgumentNullException(nameof(searchTerm));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Indicates whether the search is being made from a logged in user or not.
-        /// </summary>
-        /// <value>bool</value>
-        public bool IsLoggedIn { get; private set; }
+		/// <summary>
+		/// Indicates whether the search is being made from a logged in user or not.
+		/// </summary>
+		/// <value>bool</value>
+		public bool IsLoggedIn { get; private set; }
 
-        /// <summary>
-        /// The search term being searched
-        /// </summary>
-        /// <value>string</value>
-        public string SearchTerm { get; private set; }
+		/// <summary>
+		/// The search term being searched
+		/// </summary>
+		/// <value>string</value>
+		public string SearchTerm { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

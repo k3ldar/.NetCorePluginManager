@@ -29,8 +29,8 @@ namespace SimpleDB
 	/// <summary>
 	/// Foreign key manager interface
 	/// </summary>
-    public interface IForeignKeyManager
-    {
+	public interface IForeignKeyManager
+	{
 		/// <summary>
 		/// Adds a relationship between two tables
 		/// </summary>
@@ -45,13 +45,13 @@ namespace SimpleDB
 		/// Registers a table with foreign key manager
 		/// </summary>
 		/// <param name="table">Table</param>
-        void RegisterTable(ISimpleDBTable table);
+		void RegisterTable(ISimpleDBTable table);
 
 		/// <summary>
 		/// Unregisters a table
 		/// </summary>
 		/// <param name="table">Table</param>
-        void UnregisterTable(ISimpleDBTable table);
+		void UnregisterTable(ISimpleDBTable table);
 
 		/// <summary>
 		/// Validates whether a value that is or could be used for a foreign key exists
@@ -59,7 +59,7 @@ namespace SimpleDB
 		/// <param name="tableName">Name of table</param>
 		/// <param name="id">value</param>
 		/// <returns>bool</returns>
-        bool ValueExists(string tableName, long id);
+		bool ValueExists(string tableName, long id);
 
 		/// <summary>
 		/// Determines whether a value is being used or not
@@ -71,5 +71,5 @@ namespace SimpleDB
 		/// <param name="property"></param>
 		/// <returns>bool</returns>
 		ForeignKeyUsage ValueInUse(string tableName, string propertyName, long value, out string table, out string property);
-    }
+	}
 }

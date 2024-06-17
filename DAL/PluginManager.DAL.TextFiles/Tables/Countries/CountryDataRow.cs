@@ -27,153 +27,153 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameCountries, CompressionType.None, CachingStrategy.Memory)]
-    internal sealed class CountryDataRow : TableRowDefinition
-    {
-        private decimal _costMultiplier = 1.0m;
-        private decimal _taxRate = decimal.Zero;
-        private bool _allowVatRemoval = false;
-        private bool _showPriceData = true;
-        private int _sortOrder = 0;
-        private bool _visible = true;
-        private string _code;
-        private string _name;
+	[Table(Constants.TableNameCountries, CompressionType.None, CachingStrategy.Memory)]
+	internal sealed class CountryDataRow : TableRowDefinition
+	{
+		private decimal _costMultiplier = 1.0m;
+		private decimal _taxRate = decimal.Zero;
+		private bool _allowVatRemoval = false;
+		private bool _showPriceData = true;
+		private int _sortOrder = 0;
+		private bool _visible = true;
+		private string _code;
+		private string _name;
 
-        /// <summary>
-        /// Name of country.
-        /// </summary>
-        /// <value>string</value>
-        public string Name
-        {
-            get => _name;
+		/// <summary>
+		/// Name of country.
+		/// </summary>
+		/// <value>string</value>
+		public string Name
+		{
+			get => _name;
 
-            set
-            {
-                _name = value;
-                Update();
-            }
-        }
+			set
+			{
+				_name = value;
+				Update();
+			}
+		}
 
-        /// <summary>
-        /// Country code.
-        /// </summary>
-        /// <value>string</value>
-        [UniqueIndex(IndexType.Ascending)]
-        public string Code
-        {
-            get => _code;
+		/// <summary>
+		/// Country code.
+		/// </summary>
+		/// <value>string</value>
+		[UniqueIndex(IndexType.Ascending)]
+		public string Code
+		{
+			get => _code;
 
-            set
-            {
-                if (_code == value)
-                    return;
+			set
+			{
+				if (_code == value)
+					return;
 
-                _code = value;
-                Update();
-            }
-        }
+				_code = value;
+				Update();
+			}
+		}
 
-        /// <summary>
-        /// Indicates whether the country is visible or not.
-        /// </summary>
-        /// <value>bool</value>
-        public bool Visible
-        {
-            get => _visible;
+		/// <summary>
+		/// Indicates whether the country is visible or not.
+		/// </summary>
+		/// <value>bool</value>
+		public bool Visible
+		{
+			get => _visible;
 
-            set
-            {
-                if (_visible == value)
-                    return;
+			set
+			{
+				if (_visible == value)
+					return;
 
-                _visible = value;
-                Update();
-            }
-        }
+				_visible = value;
+				Update();
+			}
+		}
 
-        /// <summary>
-        /// Sort order
-        /// </summary>
-        public int SortOrder
-        {
-            get => _sortOrder;
+		/// <summary>
+		/// Sort order
+		/// </summary>
+		public int SortOrder
+		{
+			get => _sortOrder;
 
-            set
-            {
-                if (_sortOrder == value)
-                    return;
+			set
+			{
+				if (_sortOrder == value)
+					return;
 
-                _sortOrder = value;
-                Update();
-            }
-        }
+				_sortOrder = value;
+				Update();
+			}
+		}
 
-        /// <summary>
-        /// Indicates whether prices are shown for a country or not
-        /// </summary>
-        public bool ShowPriceData
-        {
-            get => _showPriceData;
+		/// <summary>
+		/// Indicates whether prices are shown for a country or not
+		/// </summary>
+		public bool ShowPriceData
+		{
+			get => _showPriceData;
 
-            set
-            {
-                if (_showPriceData == value)
-                    return;
+			set
+			{
+				if (_showPriceData == value)
+					return;
 
-                _showPriceData = value;
-                Update();
-            }
-        }
+				_showPriceData = value;
+				Update();
+			}
+		}
 
-        /// <summary>
-        /// Indicates that vat/tax should be removed for this country
-        /// </summary>
-        public bool AllowVatRemoval
-        {
-            get => _allowVatRemoval;
+		/// <summary>
+		/// Indicates that vat/tax should be removed for this country
+		/// </summary>
+		public bool AllowVatRemoval
+		{
+			get => _allowVatRemoval;
 
-            set
-            {
-                if (_allowVatRemoval == value)
-                    return;
+			set
+			{
+				if (_allowVatRemoval == value)
+					return;
 
-                _allowVatRemoval = value;
-                Update();
-            }
-        }
+				_allowVatRemoval = value;
+				Update();
+			}
+		}
 
-        /// <summary>
-        /// Tax rate applied to the country
-        /// </summary>
-        public decimal TaxRate
-        {
-            get => _taxRate;
+		/// <summary>
+		/// Tax rate applied to the country
+		/// </summary>
+		public decimal TaxRate
+		{
+			get => _taxRate;
 
-            set
-            {
-                if (_taxRate == value)
-                    return;
+			set
+			{
+				if (_taxRate == value)
+					return;
 
-                _taxRate = value;
-                Update();
-            }
-        }
+				_taxRate = value;
+				Update();
+			}
+		}
 
-        /// <summary>
-        /// Cost multiplier to enable charging different costs for different countries
-        /// </summary>
-        public decimal CostMultiplier
-        {
-            get => _costMultiplier;
+		/// <summary>
+		/// Cost multiplier to enable charging different costs for different countries
+		/// </summary>
+		public decimal CostMultiplier
+		{
+			get => _costMultiplier;
 
-            set
-            {
-                if (_costMultiplier == value)
-                    return;
+			set
+			{
+				if (_costMultiplier == value)
+					return;
 
-                _costMultiplier = value;
-                Update();
-            }
-        }
-    }
+				_costMultiplier = value;
+				Update();
+			}
+		}
+	}
 }

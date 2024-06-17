@@ -39,7 +39,7 @@ using SharedPluginFeatures;
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
 	public sealed class VisitsUserAgentSubMenu : SystemAdminSubMenu
-    {
+	{
 		#region Private Members
 
 		private readonly ISessionStatisticsProvider _sessionStatisticsProvider;
@@ -52,75 +52,75 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 			_sessionStatisticsProvider = sessionStatisticsProvider ?? throw new ArgumentNullException(nameof(sessionStatisticsProvider));
 
 			if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(SharedPluginFeatures.Constants.UserSessionConfiguration);
+			UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(SharedPluginFeatures.Constants.UserSessionConfiguration);
 
-            _enabled = settings.EnableDefaultSessionService;
-        }
+			_enabled = settings.EnableDefaultSessionService;
+		}
 
-        public override string Action()
-        {
-            return String.Empty;
-        }
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        /// <summary>
-        /// Returns last 30 days of daily user sessions.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            StringBuilder Result = new("Count|Bot|Agent");
-            List<SessionUserAgent> userAgents = _sessionStatisticsProvider.GetUserAgents();
+		/// <summary>
+		/// Returns last 30 days of daily user sessions.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			StringBuilder Result = new("Count|Bot|Agent");
+			List<SessionUserAgent> userAgents = _sessionStatisticsProvider.GetUserAgents();
 
-            foreach (SessionUserAgent item in userAgents)
-            {
-                Result.Append($"\r{item.Count}|{item.IsBot}|{item.UserAgent}");
-            }
+			foreach (SessionUserAgent item in userAgents)
+			{
+				Result.Append($"\r{item.Count}|{item.IsBot}|{item.UserAgent}");
+			}
 
-            return Result.ToString();
-        }
+			return Result.ToString();
+		}
 
-        public override string Image()
-        {
-            return String.Empty;
-        }
+		public override string Image()
+		{
+			return String.Empty;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override string Name()
-        {
-            return "User Agents";
-        }
+		public override string Name()
+		{
+			return "User Agents";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "System";
-        }
+		public override string ParentMenuName()
+		{
+			return "System";
+		}
 
-        public override int SortOrder()
-        {
-            return 200;
-        }
+		public override int SortOrder()
+		{
+			return 200;
+		}
 
-        public override Boolean Enabled()
-        {
-            return _enabled;
-        }
-    }
+		public override Boolean Enabled()
+		{
+			return _enabled;
+		}
+	}
 }
 
 #pragma warning restore CS1591

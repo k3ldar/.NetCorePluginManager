@@ -34,127 +34,127 @@ using PluginManager.Tests.Mocks;
 
 namespace PluginManager.Tests
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
-    public class PluginManagerConfigurationTests
-    {
-        [TestMethod]
-        public void Construct_EmptyConstructor_CreatesDefaultItems_Success()
-        {
-            PluginManagerConfiguration sut = new();
+	[TestClass]
+	[ExcludeFromCodeCoverage]
+	public class PluginManagerConfigurationTests
+	{
+		[TestMethod]
+		public void Construct_EmptyConstructor_CreatesDefaultItems_Success()
+		{
+			PluginManagerConfiguration sut = new();
 
-            Assert.IsNotNull(sut);
-            Assert.IsNotNull(sut.Logger);
-            Assert.IsNotNull(sut.LoadSettingsService);
-        }
+			Assert.IsNotNull(sut);
+			Assert.IsNotNull(sut.Logger);
+			Assert.IsNotNull(sut.LoadSettingsService);
+		}
 
-        [TestMethod]
-        public void Construct_CustomLogger_CreatesDefaultItems_Success()
-        {
-            MockLogger testLogger = new();
-            PluginManagerConfiguration sut = new(testLogger);
+		[TestMethod]
+		public void Construct_CustomLogger_CreatesDefaultItems_Success()
+		{
+			MockLogger testLogger = new();
+			PluginManagerConfiguration sut = new(testLogger);
 
-            Assert.IsNotNull(sut);
-            Assert.IsNotNull(sut.Logger);
-            Assert.IsNotNull(sut.LoadSettingsService);
+			Assert.IsNotNull(sut);
+			Assert.IsNotNull(sut.Logger);
+			Assert.IsNotNull(sut.LoadSettingsService);
 
-            Assert.AreEqual(testLogger, sut.Logger);
-        }
+			Assert.AreEqual(testLogger, sut.Logger);
+		}
 
-        [TestMethod]
-        public void Construct_CustomLoadSettings_CreatesDefaultItems_Success()
-        {
-            LoadSettingsService loadSettingsService = new();
+		[TestMethod]
+		public void Construct_CustomLoadSettings_CreatesDefaultItems_Success()
+		{
+			LoadSettingsService loadSettingsService = new();
 
-            PluginManagerConfiguration sut = new(loadSettingsService);
+			PluginManagerConfiguration sut = new(loadSettingsService);
 
-            Assert.IsNotNull(sut);
-            Assert.IsNotNull(sut.Logger);
-            Assert.IsNotNull(sut.LoadSettingsService);
+			Assert.IsNotNull(sut);
+			Assert.IsNotNull(sut.Logger);
+			Assert.IsNotNull(sut.LoadSettingsService);
 
-            Assert.AreEqual(loadSettingsService, sut.LoadSettingsService);
-        }
+			Assert.AreEqual(loadSettingsService, sut.LoadSettingsService);
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_InvalidParamLogger_Null_Throws_ArgumentNullException()
-        {
-            LoadSettingsService loadSettingsService = new();
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Construct_InvalidParamLogger_Null_Throws_ArgumentNullException()
+		{
+			LoadSettingsService loadSettingsService = new();
 
-            new PluginManagerConfiguration(null, loadSettingsService);
-        }
+			new PluginManagerConfiguration(null, loadSettingsService);
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_InvalidParamLoadSettingsService_Null_Throws_ArgumentNullException()
-        {
-            new PluginManagerConfiguration(new MockLogger(), null);
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Construct_InvalidParamLoadSettingsService_Null_Throws_ArgumentNullException()
+		{
+			new PluginManagerConfiguration(new MockLogger(), null);
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_InvalidServiceConfigurator_Null_Throws_ArgumentNullException()
-        {
-            new PluginManagerConfiguration(new MockLogger(), new LoadSettingsService(), null);
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Construct_InvalidServiceConfigurator_Null_Throws_ArgumentNullException()
+		{
+			new PluginManagerConfiguration(new MockLogger(), new LoadSettingsService(), null);
+		}
 
-        [TestMethod]
-        public void PathAndFileName_ContainDefaultSettings()
-        {
-            MockLogger testLogger = new();
-            LoadSettingsService loadSettingsService = new();
-            MockServiceConfigurator serviceConfigurator = new();
+		[TestMethod]
+		public void PathAndFileName_ContainDefaultSettings()
+		{
+			MockLogger testLogger = new();
+			LoadSettingsService loadSettingsService = new();
+			MockServiceConfigurator serviceConfigurator = new();
 
-            PluginManagerConfiguration sut = new(testLogger, loadSettingsService, serviceConfigurator);
+			PluginManagerConfiguration sut = new(testLogger, loadSettingsService, serviceConfigurator);
 
-            Assert.IsNotNull(sut);
-            Assert.IsNotNull(sut.Logger);
-            Assert.IsNotNull(sut.LoadSettingsService);
-            Assert.IsNotNull(sut.ServiceConfigurator);
+			Assert.IsNotNull(sut);
+			Assert.IsNotNull(sut.Logger);
+			Assert.IsNotNull(sut.LoadSettingsService);
+			Assert.IsNotNull(sut.ServiceConfigurator);
 
-            Assert.AreEqual(testLogger, sut.Logger);
-            Assert.AreEqual(loadSettingsService, sut.LoadSettingsService);
-            Assert.AreEqual(serviceConfigurator, sut.ServiceConfigurator);
+			Assert.AreEqual(testLogger, sut.Logger);
+			Assert.AreEqual(loadSettingsService, sut.LoadSettingsService);
+			Assert.AreEqual(serviceConfigurator, sut.ServiceConfigurator);
 
-            Assert.IsNotNull(sut.CurrentPath);
-            Assert.IsNotNull(sut.ConfigFileName);
-            Assert.IsFalse(String.IsNullOrEmpty(sut.CurrentPath));
-            Assert.IsFalse(String.IsNullOrEmpty(sut.ConfigFileName));
+			Assert.IsNotNull(sut.CurrentPath);
+			Assert.IsNotNull(sut.ConfigFileName);
+			Assert.IsFalse(String.IsNullOrEmpty(sut.CurrentPath));
+			Assert.IsFalse(String.IsNullOrEmpty(sut.ConfigFileName));
 
-            Assert.AreEqual(Path.Combine(sut.CurrentPath, sut.ConfigFileName), sut.ConfigurationFile);
-        }
+			Assert.AreEqual(Path.Combine(sut.CurrentPath, sut.ConfigFileName), sut.ConfigurationFile);
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void ReplaceLogger_InvalidLogger_NullThrows()
-        {
-            MockLogger testLogger = new();
-            PluginManagerConfiguration sut = new(testLogger);
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void ReplaceLogger_InvalidLogger_NullThrows()
+		{
+			MockLogger testLogger = new();
+			PluginManagerConfiguration sut = new(testLogger);
 
-            Assert.IsNotNull(sut);
-            Assert.IsNotNull(sut.Logger);
-            Assert.IsNotNull(sut.LoadSettingsService);
-            Assert.AreEqual(testLogger, sut.Logger);
+			Assert.IsNotNull(sut);
+			Assert.IsNotNull(sut.Logger);
+			Assert.IsNotNull(sut.LoadSettingsService);
+			Assert.AreEqual(testLogger, sut.Logger);
 
-            sut.ReplaceLogger(null);
-        }
+			sut.ReplaceLogger(null);
+		}
 
-        [TestMethod]
-        public void ReplaceLogger_CreatesDefaultItems_Success()
-        {
-            MockLogger testLogger = new();
-            PluginManagerConfiguration sut = new(testLogger);
+		[TestMethod]
+		public void ReplaceLogger_CreatesDefaultItems_Success()
+		{
+			MockLogger testLogger = new();
+			PluginManagerConfiguration sut = new(testLogger);
 
-            Assert.IsNotNull(sut);
-            Assert.IsNotNull(sut.Logger);
-            Assert.IsNotNull(sut.LoadSettingsService);
-            Assert.AreEqual(testLogger, sut.Logger);
+			Assert.IsNotNull(sut);
+			Assert.IsNotNull(sut.Logger);
+			Assert.IsNotNull(sut.LoadSettingsService);
+			Assert.AreEqual(testLogger, sut.Logger);
 
-            MockLogger replaceMentLogger = new();
-            sut.ReplaceLogger(replaceMentLogger);
+			MockLogger replaceMentLogger = new();
+			sut.ReplaceLogger(replaceMentLogger);
 
-            Assert.AreEqual(replaceMentLogger, sut.Logger);
-            Assert.AreNotEqual(testLogger, sut.Logger);
-        }
-    }
+			Assert.AreEqual(replaceMentLogger, sut.Logger);
+			Assert.AreNotEqual(testLogger, sut.Logger);
+		}
+	}
 }

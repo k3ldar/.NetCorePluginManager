@@ -27,15 +27,15 @@ using System.Collections.Generic;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// IClaimsService provides plugins the ability to define new claim names from within plugin modules.
-    /// </summary>
-    public interface IClaimsService
-    {
-        /// <summary>
-        /// Retrieves a list of claims provided by the plugin module.
-        /// </summary>
-        /// <returns>List&lt;string&gt;</returns>
-        List<string> GetClaims();
-    }
+	/// <summary>
+	/// IClaimsService provides plugins the ability to define new claim names from within plugin modules.
+	/// </summary>
+	public interface IClaimsService
+	{
+		/// <summary>
+		/// Retrieves a list of claims provided by the plugin module.
+		/// </summary>
+		/// <returns>List&lt;string&gt;</returns>
+		List<string> GetClaims();
+	}
 }

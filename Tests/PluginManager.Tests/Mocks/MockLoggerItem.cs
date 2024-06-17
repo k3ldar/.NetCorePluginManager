@@ -28,40 +28,40 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace PluginManager.Tests.Mocks
 {
-    [ExcludeFromCodeCoverage]
-    public sealed class MockLoggerItem
-    {
-        #region Constructors
+	[ExcludeFromCodeCoverage]
+	public sealed class MockLoggerItem
+	{
+		#region Constructors
 
-        public MockLoggerItem(in LogLevel logLevel, in string module, in string data)
-        {
-            IsException = false;
-            LogLevel = logLevel;
-            Module = module ?? String.Empty;
-            Data = data ?? String.Empty;
-        }
+		public MockLoggerItem(in LogLevel logLevel, in string module, in string data)
+		{
+			IsException = false;
+			LogLevel = logLevel;
+			Module = module ?? String.Empty;
+			Data = data ?? String.Empty;
+		}
 
-        public MockLoggerItem(in LogLevel logLevel, in string module, Exception error, in string data)
-            : this(logLevel, module, data)
-        {
-            IsException = true;
-            Error = error;
-        }
+		public MockLoggerItem(in LogLevel logLevel, in string module, Exception error, in string data)
+			: this(logLevel, module, data)
+		{
+			IsException = true;
+			Error = error;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public bool IsException { get; private set; }
+		public bool IsException { get; private set; }
 
-        public LogLevel LogLevel { get; private set; }
+		public LogLevel LogLevel { get; private set; }
 
-        public string Module { get; private set; }
+		public string Module { get; private set; }
 
-        public string Data { get; private set; }
+		public string Data { get; private set; }
 
-        public Exception Error { get; private set; }
+		public Exception Error { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

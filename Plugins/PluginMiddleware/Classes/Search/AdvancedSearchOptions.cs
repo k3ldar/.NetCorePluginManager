@@ -27,87 +27,87 @@ using System;
 
 namespace Middleware.Search
 {
-    /// <summary>
-    /// Options that can be provided by Keyword search providers for advanced searching
-    /// </summary>
-    public sealed class AdvancedSearchOptions
-    {
-        #region Constructors
+	/// <summary>
+	/// Options that can be provided by Keyword search providers for advanced searching
+	/// </summary>
+	public sealed class AdvancedSearchOptions
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="actionName">Name of the action used for advanced searching.</param>
-        /// <param name="controllerName">Name of the controller used for advanced searching.</param>
-        /// <param name="searchName">Route for default search options, to be displayed to center.</param>
-        /// <param name="searchOption">Route for Search options if required, to be displayed on left column.</param>
-        /// <param name="styleSheet">Optional style sheet that can be embedded on the search page for advanced searches.</param>
-        public AdvancedSearchOptions(in string actionName, in string controllerName,
-            in string searchName, in string searchOption, in string styleSheet)
-        {
-            if (String.IsNullOrEmpty(actionName))
-                throw new ArgumentNullException(nameof(actionName));
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="actionName">Name of the action used for advanced searching.</param>
+		/// <param name="controllerName">Name of the controller used for advanced searching.</param>
+		/// <param name="searchName">Route for default search options, to be displayed to center.</param>
+		/// <param name="searchOption">Route for Search options if required, to be displayed on left column.</param>
+		/// <param name="styleSheet">Optional style sheet that can be embedded on the search page for advanced searches.</param>
+		public AdvancedSearchOptions(in string actionName, in string controllerName,
+			in string searchName, in string searchOption, in string styleSheet)
+		{
+			if (String.IsNullOrEmpty(actionName))
+				throw new ArgumentNullException(nameof(actionName));
 
-            if (String.IsNullOrEmpty(controllerName))
-                throw new ArgumentNullException(nameof(controllerName));
+			if (String.IsNullOrEmpty(controllerName))
+				throw new ArgumentNullException(nameof(controllerName));
 
-            if (String.IsNullOrEmpty(searchName))
-                throw new ArgumentNullException(nameof(searchName));
+			if (String.IsNullOrEmpty(searchName))
+				throw new ArgumentNullException(nameof(searchName));
 
-            ActionName = actionName;
-            ControllerName = controllerName;
-            SearchName = searchName;
-            SearchOption = searchOption ?? String.Empty;
-            StyleSheet = styleSheet ?? String.Empty;
-        }
+			ActionName = actionName;
+			ControllerName = controllerName;
+			SearchName = searchName;
+			SearchOption = searchOption ?? String.Empty;
+			StyleSheet = styleSheet ?? String.Empty;
+		}
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="actionName">Name of the action used for advanced searching.</param>
-        /// <param name="controllerName">Name of the controller used for advanced searching.</param>
-        /// <param name="searchName">Route for default search options, to be displayed to center.</param>
-        public AdvancedSearchOptions(in string actionName, in string controllerName,
-            in string searchName)
-            : this(actionName, controllerName, String.Empty, searchName, String.Empty)
-        {
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="actionName">Name of the action used for advanced searching.</param>
+		/// <param name="controllerName">Name of the controller used for advanced searching.</param>
+		/// <param name="searchName">Route for default search options, to be displayed to center.</param>
+		public AdvancedSearchOptions(in string actionName, in string controllerName,
+			in string searchName)
+			: this(actionName, controllerName, String.Empty, searchName, String.Empty)
+		{
 
-        }
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Name of the action used for advanced searching.
-        /// </summary>
-        /// <value>string</value>
-        public string ActionName { get; private set; }
+		/// <summary>
+		/// Name of the action used for advanced searching.
+		/// </summary>
+		/// <value>string</value>
+		public string ActionName { get; private set; }
 
-        /// <summary>
-        /// Name of the controller used for advanced searching.
-        /// </summary>
-        /// <value>string</value>
-        public string ControllerName { get; private set; }
+		/// <summary>
+		/// Name of the controller used for advanced searching.
+		/// </summary>
+		/// <value>string</value>
+		public string ControllerName { get; private set; }
 
-        /// <summary>
-        /// Route for Search options if required, to be displayed on left column.
-        /// </summary>
-        /// <value>string</value>
-        public string SearchOption { get; private set; }
+		/// <summary>
+		/// Route for Search options if required, to be displayed on left column.
+		/// </summary>
+		/// <value>string</value>
+		public string SearchOption { get; private set; }
 
-        /// <summary>
-        /// Route for default search options, to be displayed to center.
-        /// </summary>
-        /// <value>string</value>
-        public string SearchName { get; private set; }
+		/// <summary>
+		/// Route for default search options, to be displayed to center.
+		/// </summary>
+		/// <value>string</value>
+		public string SearchName { get; private set; }
 
-        /// <summary>
-        /// Optional style sheet that can be embedded on the search page for advanced searches.
-        /// </summary>
-        /// <value>string</value>
-        public string StyleSheet { get; private set; }
+		/// <summary>
+		/// Optional style sheet that can be embedded on the search page for advanced searches.
+		/// </summary>
+		/// <value>string</value>
+		public string StyleSheet { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

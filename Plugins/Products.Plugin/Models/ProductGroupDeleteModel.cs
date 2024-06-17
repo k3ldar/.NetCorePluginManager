@@ -28,22 +28,22 @@
 
 namespace ProductPlugin.Models
 {
-    public class ProductGroupDeleteModel
-    {
-        public ProductGroupDeleteModel()
-        {
+	public class ProductGroupDeleteModel
+	{
+		public ProductGroupDeleteModel()
+		{
 
-        }
+		}
 
-        public ProductGroupDeleteModel(int id)
-        {
-            Id = id;
-        }
+		public ProductGroupDeleteModel(int id)
+		{
+			Id = id;
+		}
 
-        public string Confirmation { get; set; }
+		public string Confirmation { get; set; }
 
-        public int Id { get; set; }
-    }
+		public int Id { get; set; }
+	}
 }
 
 #pragma warning restore CS1591

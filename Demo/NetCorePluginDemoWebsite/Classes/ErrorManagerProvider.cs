@@ -27,16 +27,16 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    public class ErrorManagerProvider : IErrorManager
-    {
-        public void ErrorRaised(in ErrorInformation errorInformation)
-        {
+	public class ErrorManagerProvider : IErrorManager
+	{
+		public void ErrorRaised(in ErrorInformation errorInformation)
+		{
 			// not saving errors in demo mode, required for interface
-        }
+		}
 
-        public bool MissingPage(in string path, ref string replacePath)
-        {
-            return false;
-        }
-    }
+		public bool MissingPage(in string path, ref string replacePath)
+		{
+			return false;
+		}
+	}
 }

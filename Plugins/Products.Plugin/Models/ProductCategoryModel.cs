@@ -29,49 +29,49 @@ using System;
 
 namespace ProductPlugin.Models
 {
-    public class ProductCategoryModel : BaseProductModel
-    {
-        #region Constructors
+	public class ProductCategoryModel : BaseProductModel
+	{
+		#region Constructors
 
-        public ProductCategoryModel()
-        {
+		public ProductCategoryModel()
+		{
 
-        }
+		}
 
-        public ProductCategoryModel(in int id, in string description)
-        {
-            if (String.IsNullOrEmpty(description))
-                throw new ArgumentNullException(nameof(description));
+		public ProductCategoryModel(in int id, in string description)
+		{
+			if (String.IsNullOrEmpty(description))
+				throw new ArgumentNullException(nameof(description));
 
-            Id = id;
-            Description = description;
-        }
+			Id = id;
+			Description = description;
+		}
 
-        public ProductCategoryModel(in int id, in string description, in string url)
-            : this(id, description)
-        {
-            if (String.IsNullOrEmpty(url))
-            {
-                Url = $"/Products/{RouteText(Description)}/{id}/";
-            }
-            else
-            {
-                Url = url;
-            }
-        }
+		public ProductCategoryModel(in int id, in string description, in string url)
+			: this(id, description)
+		{
+			if (String.IsNullOrEmpty(url))
+			{
+				Url = $"/Products/{RouteText(Description)}/{id}/";
+			}
+			else
+			{
+				Url = url;
+			}
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public string Description { get; }
+		public string Description { get; }
 
-        public int Id { get; }
+		public int Id { get; }
 
-        public string Url { get; }
+		public string Url { get; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

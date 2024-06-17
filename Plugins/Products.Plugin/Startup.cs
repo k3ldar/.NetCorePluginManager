@@ -36,58 +36,58 @@ using Shared.Classes;
 
 namespace ProductPlugin
 {
-    public class Startup
-    {
-        /// <summary>
-        /// Default Constructor
-        /// </summary>
-        public Startup()
-        {
-            ThreadManager.Initialise();
+	public class Startup
+	{
+		/// <summary>
+		/// Default Constructor
+		/// </summary>
+		public Startup()
+		{
+			ThreadManager.Initialise();
 
-            if (!PluginManagerService.HasInitialised)
-                PluginManagerService.Initialise();
+			if (!PluginManagerService.HasInitialised)
+				PluginManagerService.Initialise();
 
-            PluginManagerService.UsePlugin(typeof(PluginInitialisation));
-        }
+			PluginManagerService.UsePlugin(typeof(PluginInitialisation));
+		}
 
-        /// <summary>
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        /// </summary>
-        /// <param name="services"></param>
-        public void ConfigureServices(IServiceCollection services)
-        {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
+		/// <summary>
+		/// This method gets called by the runtime. Use this method to add services to the container.
+		/// </summary>
+		/// <param name="services"></param>
+		public void ConfigureServices(IServiceCollection services)
+		{
+			if (services == null)
+				throw new ArgumentNullException(nameof(services));
 
-            PluginManagerService.ConfigureServices(services);
+			PluginManagerService.ConfigureServices(services);
 
-            services.AddMvc(
-                option => option.EnableEndpointRouting = false
-                )                
-                .ConfigurePluginManager();
-        }
+			services.AddMvc(
+				option => option.EnableEndpointRouting = false
+				)
+				.ConfigurePluginManager();
+		}
 
-        /// <summary>
-        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        /// </summary>
-        /// <param name="app"></param>
-        public void Configure(IApplicationBuilder app)
-        {
-            if (app == null)
-                throw new ArgumentNullException(nameof(app));
+		/// <summary>
+		/// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		/// </summary>
+		/// <param name="app"></param>
+		public void Configure(IApplicationBuilder app)
+		{
+			if (app == null)
+				throw new ArgumentNullException(nameof(app));
 
-            PluginManagerService.Configure(app);
+			PluginManagerService.Configure(app);
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Product}/{action=Index}/{id?}");
-            })
-            .UsePluginManager();
-        }
-    }
+			app.UseMvc(routes =>
+			{
+				routes.MapRoute(
+					name: "default",
+					template: "{controller=Product}/{action=Index}/{id?}");
+			})
+			.UsePluginManager();
+		}
+	}
 }
 
 #pragma warning restore CS1591

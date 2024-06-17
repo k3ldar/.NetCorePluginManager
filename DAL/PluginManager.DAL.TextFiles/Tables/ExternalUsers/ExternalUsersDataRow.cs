@@ -27,116 +27,116 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameExternalUsers, CompressionType.Brotli)]
-    internal sealed class ExternalUsersDataRow : TableRowDefinition
-    {
-        private string _userId;
-        private string _email;
-        private string _userName;
-        private string _provider;
-        private string _picture;
-        private string _token;
+	[Table(Constants.TableNameExternalUsers, CompressionType.Brotli)]
+	internal sealed class ExternalUsersDataRow : TableRowDefinition
+	{
+		private string _userId;
+		private string _email;
+		private string _userName;
+		private string _provider;
+		private string _picture;
+		private string _token;
 
-        public string UserId
-        {
-            get
-            {
-                return _userId;
-            }
+		public string UserId
+		{
+			get
+			{
+				return _userId;
+			}
 
-            set
-            {
-                if (_userId == value)
-                    return;
+			set
+			{
+				if (_userId == value)
+					return;
 
-                _userId = value;
-                Update();
-            }
-        }
+				_userId = value;
+				Update();
+			}
+		}
 
-        public string Email
-        {
-            get
-            {
-                return _email;
-            }
+		public string Email
+		{
+			get
+			{
+				return _email;
+			}
 
-            set
-            {
-                if (_email == value)
-                    return;
+			set
+			{
+				if (_email == value)
+					return;
 
-                _email = value;
-                Update();
-            }
-        }
+				_email = value;
+				Update();
+			}
+		}
 
-        public string UserName
-        {
-            get
-            {
-                return _userName;
-            }
+		public string UserName
+		{
+			get
+			{
+				return _userName;
+			}
 
-            set
-            {
-                if (_userName == value)
-                    return;
+			set
+			{
+				if (_userName == value)
+					return;
 
-                _userName = value;
-                Update();
-            }
-        }
+				_userName = value;
+				Update();
+			}
+		}
 
-        public string Provider
-        {
-            get
-            {
-                return _provider;
-            }
+		public string Provider
+		{
+			get
+			{
+				return _provider;
+			}
 
-            set
-            {
-                if (_provider == value)
-                    return;
+			set
+			{
+				if (_provider == value)
+					return;
 
-                _provider = value;
-                Update();
-            }
-        }
+				_provider = value;
+				Update();
+			}
+		}
 
-        public string Picture
-        {
-            get
-            {
-                return _picture;
-            }
+		public string Picture
+		{
+			get
+			{
+				return _picture;
+			}
 
-            set
-            {
-                if (_picture == value)
-                    return;
+			set
+			{
+				if (_picture == value)
+					return;
 
-                _picture = value;
-                Update();
-            }
-        }
+				_picture = value;
+				Update();
+			}
+		}
 
-        public string Token
-        {
-            get
-            {
-                return _token;
-            }
+		public string Token
+		{
+			get
+			{
+				return _token;
+			}
 
-            set
-            {
-                if (_token == value)
-                    return;
+			set
+			{
+				if (_token == value)
+					return;
 
-                _token = value;
-                Update();
-            }
-        }
-    }
+				_token = value;
+				Update();
+			}
+		}
+	}
 }

@@ -31,30 +31,30 @@ namespace UserAccount.Plugin.Models
 {
 #pragma warning disable CS1591
 
-    public sealed class CreateLicenceViewModel : BaseModel
-    {
-        #region Constructors
+	public sealed class CreateLicenceViewModel : BaseModel
+	{
+		#region Constructors
 
-        public CreateLicenceViewModel()
-        {
+		public CreateLicenceViewModel()
+		{
 
-        }
+		}
 
-        public CreateLicenceViewModel(in BaseModelData baseModelData)
-            : base(baseModelData)
-        {
+		public CreateLicenceViewModel(in BaseModelData baseModelData)
+			: base(baseModelData)
+		{
 
-        }
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        [Display(Name = nameof(Languages.LanguageStrings.LicenceType))]
-        public int LicenceType { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.LicenceType))]
+		public int LicenceType { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 
 #pragma warning restore CS1591
 }

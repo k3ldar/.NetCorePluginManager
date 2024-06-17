@@ -27,44 +27,44 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal class InvoiceDataRowTriggers : ITableTriggers<InvoiceDataRow>
-    {
-        public int Position => int.MinValue;
+	internal class InvoiceDataRowTriggers : ITableTriggers<InvoiceDataRow>
+	{
+		public int Position => int.MinValue;
 
-        public TriggerType TriggerTypes => TriggerType.BeforeDelete;
+		public TriggerType TriggerTypes => TriggerType.BeforeDelete;
 
-        public void AfterDelete(List<InvoiceDataRow> records)
-        {
+		public void AfterDelete(List<InvoiceDataRow> records)
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterInsert(List<InvoiceDataRow> records)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterUpdate(List<InvoiceDataRow> records)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeDelete(List<InvoiceDataRow> records)
-        {
-            throw new InvalidDataRowException(nameof(InvoiceDataRow), nameof(InvoiceDataRow.Id), "Invoices can not be deleted");
-        }
+		{
+			throw new InvalidDataRowException(nameof(InvoiceDataRow), nameof(InvoiceDataRow.Id), "Invoices can not be deleted");
+		}
 
-        public void BeforeInsert(List<InvoiceDataRow> records)
-        {
+		public void BeforeInsert(List<InvoiceDataRow> records)
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeUpdate(List<InvoiceDataRow> records)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeUpdate(InvoiceDataRow newRecord, InvoiceDataRow oldRecord)
-        {
+		{
 			// from interface but unused in this context
 		}
 	}

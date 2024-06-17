@@ -29,82 +29,82 @@ using System;
 
 namespace ProductPlugin.Models
 {
-    public class ProductCategoryProductModel : BaseProductModel
-    {
-        #region Constructors
+	public class ProductCategoryProductModel : BaseProductModel
+	{
+		#region Constructors
 
-        public ProductCategoryProductModel()
-        {
-        }
+		public ProductCategoryProductModel()
+		{
+		}
 
-        public ProductCategoryProductModel(in int id, in string name, in string image, in int productGroupId,
-            in bool newProduct, in bool bestSeller, in decimal lowestPrice, in string sku)
-        {
-            if (String.IsNullOrEmpty(name))
-                throw new ArgumentNullException(nameof(name));
+		public ProductCategoryProductModel(in int id, in string name, in string image, in int productGroupId,
+			in bool newProduct, in bool bestSeller, in decimal lowestPrice, in string sku)
+		{
+			if (String.IsNullOrEmpty(name))
+				throw new ArgumentNullException(nameof(name));
 
-            if (String.IsNullOrEmpty(sku))
-                throw new ArgumentNullException(nameof(sku));
+			if (String.IsNullOrEmpty(sku))
+				throw new ArgumentNullException(nameof(sku));
 
-            Id = id;
-            ProductGroupId = productGroupId;
-            Name = name;
-            Images = image;
-            NewProduct = newProduct;
-            BestSeller = bestSeller;
-            Sku = sku;
+			Id = id;
+			ProductGroupId = productGroupId;
+			Name = name;
+			Images = image;
+			NewProduct = newProduct;
+			BestSeller = bestSeller;
+			Sku = sku;
 
-            if (lowestPrice == 0)
-                Price = Languages.LanguageStrings.Free;
-            else
-                Price = $"{Languages.LanguageStrings.From} {lowestPrice.ToString("C", System.Threading.Thread.CurrentThread.CurrentUICulture)}";
-        }
+			if (lowestPrice == 0)
+				Price = Languages.LanguageStrings.Free;
+			else
+				Price = $"{Languages.LanguageStrings.From} {lowestPrice.ToString("C", System.Threading.Thread.CurrentThread.CurrentUICulture)}";
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Methods
+		#region Public Methods
 
-        public string GetRouteName()
-        {
-            return RouteFriendlyName(Name);
-        }
+		public string GetRouteName()
+		{
+			return RouteFriendlyName(Name);
+		}
 
-        #endregion Public Methods
+		#endregion Public Methods
 
-        #region Properties
+		#region Properties
 
-        public int Id { get; }
+		public int Id { get; }
 
-        public int ProductGroupId { get; }
+		public int ProductGroupId { get; }
 
-        public string Name { get; }
+		public string Name { get; }
 
-        public string Images { get; }
+		public string Images { get; }
 
-        public bool NewProduct { get; }
+		public bool NewProduct { get; }
 
-        public bool BestSeller { get; }
+		public bool BestSeller { get; }
 
-        public string Price { get; }
+		public string Price { get; }
 
-        public string Url
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(Name))
-                    return null;
+		public string Url
+		{
+			get
+			{
+				if (String.IsNullOrEmpty(Name))
+					return null;
 
-                return $"/Product/{Id}/{RouteFriendlyName(Name)}/";
-            }
-        }
+				return $"/Product/{Id}/{RouteFriendlyName(Name)}/";
+			}
+		}
 
-        /// <summary>
-        /// Unique product identifier
-        /// </summary>
-        public string Sku { get; }
+		/// <summary>
+		/// Unique product identifier
+		/// </summary>
+		public string Sku { get; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

@@ -27,17 +27,17 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal class ShoppingCartDataRowDefaults : ITableDefaults<ShoppingCartDataRow>
-    {
-        public long PrimarySequence => 0;
+	internal class ShoppingCartDataRowDefaults : ITableDefaults<ShoppingCartDataRow>
+	{
+		public long PrimarySequence => 0;
 
-        public long SecondarySequence => 0;
+		public long SecondarySequence => 0;
 
-        public ushort Version => 0;
+		public ushort Version => 0;
 
-        public List<ShoppingCartDataRow> InitialData(ushort version)
-        {
-            return null;
-        }
-    }
+		public List<ShoppingCartDataRow> InitialData(ushort version)
+		{
+			return null;
+		}
+	}
 }

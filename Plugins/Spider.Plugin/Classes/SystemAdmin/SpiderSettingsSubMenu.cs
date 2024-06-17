@@ -33,53 +33,53 @@ using Spider.Plugin.Controllers;
 
 namespace Spider.Plugin.Classes.SystemAdmin
 {
-    public class SpiderSettingsSubMenu : SystemAdminSubMenu
-    {
-        public override String Action()
-        {
-            return nameof(SpiderController.Index);
-        }
+	public class SpiderSettingsSubMenu : SystemAdminSubMenu
+	{
+		public override String Action()
+		{
+			return nameof(SpiderController.Index);
+		}
 
-        public override String Area()
-        {
-            return String.Empty;
-        }
+		public override String Area()
+		{
+			return String.Empty;
+		}
 
-        public override String Controller()
-        {
-            return SpiderController.Name;
-        }
+		public override String Controller()
+		{
+			return SpiderController.Name;
+		}
 
-        public override String Data()
-        {
-            return String.Empty;
-        }
+		public override String Data()
+		{
+			return String.Empty;
+		}
 
-        public override String Image()
-        {
-            return String.Empty;
-        }
+		public override String Image()
+		{
+			return String.Empty;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.PartialView;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.PartialView;
+		}
 
-        public override String Name()
-        {
-            return "Robots.txt";
-        }
+		public override String Name()
+		{
+			return "Robots.txt";
+		}
 
-        public override String ParentMenuName()
-        {
-            return "System";
-        }
+		public override String ParentMenuName()
+		{
+			return "System";
+		}
 
-        public override Int32 SortOrder()
-        {
-            return 0;
-        }
-    }
+		public override Int32 SortOrder()
+		{
+			return 0;
+		}
+	}
 }
 
 #pragma warning restore CS1591

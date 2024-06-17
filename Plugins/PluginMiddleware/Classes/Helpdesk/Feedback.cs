@@ -26,56 +26,56 @@
 
 namespace Middleware.Helpdesk
 {
-    /// <summary>
-    /// Feedback item used in HelpdeskPlugin module and IHelpdeskProvider interface.
-    /// </summary>
-    public sealed class Feedback
-    {
-        #region Constructors
+	/// <summary>
+	/// Feedback item used in HelpdeskPlugin module and IHelpdeskProvider interface.
+	/// </summary>
+	public sealed class Feedback
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="id">Unique id of feedback item.</param>
-        /// <param name="username">Username of user providing feedback.</param>
-        /// <param name="message">Feedback message provided.</param>
-        /// <param name="showOnWebsite">Indicates whether the feedback can be shown on a website</param>
-        public Feedback(in long id, in string username, in string message, in bool showOnWebsite)
-        {
-            Id = id;
-            Username = username;
-            Message = message;
-            ShowOnWebsite = showOnWebsite;
-        }
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="id">Unique id of feedback item.</param>
+		/// <param name="username">Username of user providing feedback.</param>
+		/// <param name="message">Feedback message provided.</param>
+		/// <param name="showOnWebsite">Indicates whether the feedback can be shown on a website</param>
+		public Feedback(in long id, in string username, in string message, in bool showOnWebsite)
+		{
+			Id = id;
+			Username = username;
+			Message = message;
+			ShowOnWebsite = showOnWebsite;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Unique id of feedback item.
-        /// </summary>
-        /// <value>long</value>
-        public long Id { get; private set; }
+		/// <summary>
+		/// Unique id of feedback item.
+		/// </summary>
+		/// <value>long</value>
+		public long Id { get; private set; }
 
-        /// <summary>
-        /// Username of user providing feedback.
-        /// </summary>
-        /// <value>string</value>
-        public string Username { get; private set; }
+		/// <summary>
+		/// Username of user providing feedback.
+		/// </summary>
+		/// <value>string</value>
+		public string Username { get; private set; }
 
-        /// <summary>
-        /// Feedback message provided.
-        /// </summary>
-        /// <value>string</value>
-        public string Message { get; private set; }
+		/// <summary>
+		/// Feedback message provided.
+		/// </summary>
+		/// <value>string</value>
+		public string Message { get; private set; }
 
-        /// <summary>
-        /// Indicates whether the feedback can be shown on a website.
-        /// </summary>
-        /// <value>bool</value>
-        public bool ShowOnWebsite { get; private set; }
+		/// <summary>
+		/// Indicates whether the feedback can be shown on a website.
+		/// </summary>
+		/// <value>bool</value>
+		public bool ShowOnWebsite { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

@@ -27,25 +27,25 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal class ProductGroupDataRowDefaults : ITableDefaults<ProductGroupDataRow>
-    {
-        public long PrimarySequence => 0;
+	internal class ProductGroupDataRowDefaults : ITableDefaults<ProductGroupDataRow>
+	{
+		public long PrimarySequence => 0;
 
-        public long SecondarySequence => 0;
+		public long SecondarySequence => 0;
 
-        public ushort Version => 1;
+		public ushort Version => 1;
 
-        public List<ProductGroupDataRow> InitialData(ushort version)
-        {
-            if (version == 1)
-            {
-                return new List<ProductGroupDataRow>()
-                {
-                    new() { Description = "Default Product Group", ShowOnWebsite = true },
-                };
-            }
+		public List<ProductGroupDataRow> InitialData(ushort version)
+		{
+			if (version == 1)
+			{
+				return new List<ProductGroupDataRow>()
+				{
+					new() { Description = "Default Product Group", ShowOnWebsite = true },
+				};
+			}
 
-            return null;
-        }
-    }
+			return null;
+		}
+	}
 }

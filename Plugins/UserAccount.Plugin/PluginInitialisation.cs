@@ -31,29 +31,29 @@ namespace UserAccount.Plugin
 {
 #pragma warning disable CS1591, IDE0060
 
-    /// <summary>
-    /// Implements IPlugin and IPluginVersion which allows the UserAccount.Plugin module to be
-    /// loaded as a plugin module
-    /// </summary>
-    public class PluginInitialisation : IPlugin
-    {
-        public void ConfigureServices(IServiceCollection services)
-        {
+	/// <summary>
+	/// Implements IPlugin and IPluginVersion which allows the UserAccount.Plugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	public class PluginInitialisation : IPlugin
+	{
+		public void ConfigureServices(IServiceCollection services)
+		{
 			// from interface but unused in this context
 		}
 
 		public void Finalise()
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public ushort GetVersion()
-        {
-            return 1;
-        }
+		{
+			return 1;
+		}
 
-        public void Initialise(ILogger logger)
-        {
+		public void Initialise(ILogger logger)
+		{
 			// from interface but unused in this context
 		}
 	}

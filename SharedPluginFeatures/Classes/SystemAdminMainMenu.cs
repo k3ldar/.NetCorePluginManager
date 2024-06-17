@@ -30,147 +30,147 @@ using System.Collections.Generic;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// container class for system wide menu items.
-    /// 
-    /// Although plugin modules can create as many instances of this type as they wish, it 
-    /// is down the host application to determine how or if they are used.
-    /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1036:Override methods on comparable types", Justification = "Not required for how this class is being implemented.")]
-    public class SystemAdminMainMenu : BaseCoreClass, IComparable<SystemAdminMainMenu>
-    {
-        #region Constructors
+	/// <summary>
+	/// container class for system wide menu items.
+	/// 
+	/// Although plugin modules can create as many instances of this type as they wish, it 
+	/// is down the host application to determine how or if they are used.
+	/// </summary>
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1036:Override methods on comparable types", Justification = "Not required for how this class is being implemented.")]
+	public class SystemAdminMainMenu : BaseCoreClass, IComparable<SystemAdminMainMenu>
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="name">Name of menu item</param>
-        /// <param name="uniqueId">Unique id given to the menu item to identify it.</param>
-        public SystemAdminMainMenu(in string name, in int uniqueId)
-        {
-            Name = name;
-            UniqueId = uniqueId;
-            ChildMenuItems = new List<SystemAdminSubMenu>();
-        }
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="name">Name of menu item</param>
+		/// <param name="uniqueId">Unique id given to the menu item to identify it.</param>
+		public SystemAdminMainMenu(in string name, in int uniqueId)
+		{
+			Name = name;
+			UniqueId = uniqueId;
+			ChildMenuItems = new List<SystemAdminSubMenu>();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Methods
+		#region Public Methods
 
-        /// <summary>
-        /// Area to be used for controller when generating a Url if required.
-        /// </summary>
-        /// <returns></returns>
-        public string Area()
-        {
-            return String.Empty;
-        }
+		/// <summary>
+		/// Area to be used for controller when generating a Url if required.
+		/// </summary>
+		/// <returns></returns>
+		public string Area()
+		{
+			return String.Empty;
+		}
 
-        /// <summary>
-        /// Controller to be called when the menu is clicked.
-        /// </summary>
-        /// <returns></returns>
-        public virtual string Controller()
-        {
-            return "SystemAdmin";
-        }
+		/// <summary>
+		/// Controller to be called when the menu is clicked.
+		/// </summary>
+		/// <returns></returns>
+		public virtual string Controller()
+		{
+			return "SystemAdmin";
+		}
 
-        /// <summary>
-        /// Action to be called when the menu is clicked.
-        /// </summary>
-        /// <returns></returns>
-        public virtual string Action()
-        {
-            return "Index";
-        }
+		/// <summary>
+		/// Action to be called when the menu is clicked.
+		/// </summary>
+		/// <returns></returns>
+		public virtual string Action()
+		{
+			return "Index";
+		}
 
-        /// <summary>
-        /// Back color used when drawing the menu item.
-        /// </summary>
-        /// <returns></returns>
-        public virtual string BackColor()
-        {
-            return "#707B7C";
-        }
+		/// <summary>
+		/// Back color used when drawing the menu item.
+		/// </summary>
+		/// <returns></returns>
+		public virtual string BackColor()
+		{
+			return "#707B7C";
+		}
 
-        /// <summary>
-        /// Forecolor used when drawing the menu item.
-        /// </summary>
-        /// <returns></returns>
-        public virtual string ForeColor()
-        {
-            return "white";
-        }
+		/// <summary>
+		/// Forecolor used when drawing the menu item.
+		/// </summary>
+		/// <returns></returns>
+		public virtual string ForeColor()
+		{
+			return "white";
+		}
 
-        #endregion Public virtual Methods
+		#endregion Public virtual Methods
 
-        #region IComparable Methods
+		#region IComparable Methods
 
-        /// <summary>
-        /// Compares SystemAdminMainMenu items to determine sort order.
-        /// </summary>
-        /// <param name="compareTo"></param>
-        /// <returns></returns>
-        public int CompareTo(SystemAdminMainMenu compareTo)
-        {
-            if (compareTo == null)
-                return 1;
+		/// <summary>
+		/// Compares SystemAdminMainMenu items to determine sort order.
+		/// </summary>
+		/// <param name="compareTo"></param>
+		/// <returns></returns>
+		public int CompareTo(SystemAdminMainMenu compareTo)
+		{
+			if (compareTo == null)
+				return 1;
 
-            int Result = SortOrder.CompareTo(compareTo.SortOrder);
+			int Result = SortOrder.CompareTo(compareTo.SortOrder);
 
-            if (Result == 0)
-                return String.Compare(Name, compareTo.Name, StringComparison.InvariantCultureIgnoreCase);
+			if (Result == 0)
+				return String.Compare(Name, compareTo.Name, StringComparison.InvariantCultureIgnoreCase);
 
-            return Result;
-        }
+			return Result;
+		}
 
-        #endregion IComparable
+		#endregion IComparable
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Child menu items within the menu.
-        /// </summary>
-        /// <value>List&lt;SystemAdminSubMenu&gt;</value>
-        public List<SystemAdminSubMenu> ChildMenuItems { get; }
+		/// <summary>
+		/// Child menu items within the menu.
+		/// </summary>
+		/// <value>List&lt;SystemAdminSubMenu&gt;</value>
+		public List<SystemAdminSubMenu> ChildMenuItems { get; }
 
-        /// <summary>
-        /// Unique id applied to the menu item.
-        /// </summary>
-        /// <value>int</value>
-        public int UniqueId { get; set; }
+		/// <summary>
+		/// Unique id applied to the menu item.
+		/// </summary>
+		/// <value>int</value>
+		public int UniqueId { get; set; }
 
-        /// <summary>
-        /// Name of the menu item.
-        /// </summary>
-        /// <value>string</value>
-        public string Name { get; private set; }
+		/// <summary>
+		/// Name of the menu item.
+		/// </summary>
+		/// <value>string</value>
+		public string Name { get; private set; }
 
-        /// <summary>
-        /// Sort order to be applied to the menu item.
-        /// </summary>
-        public int SortOrder { get; set; }
+		/// <summary>
+		/// Sort order to be applied to the menu item.
+		/// </summary>
+		public int SortOrder { get; set; }
 
-        /// <summary>
-        /// Type of menu
-        /// </summary>
-        /// <value>SystemAdminMenuType</value>
-        public Enums.SystemAdminMenuType MenuType { get; set; }
+		/// <summary>
+		/// Type of menu
+		/// </summary>
+		/// <value>SystemAdminMenuType</value>
+		public Enums.SystemAdminMenuType MenuType { get; set; }
 
-        /// <summary>
-        /// Data to be returned by the menu item.
-        /// </summary>
-        /// <value>string</value>
-        public string Data { get; set; }
+		/// <summary>
+		/// Data to be returned by the menu item.
+		/// </summary>
+		/// <value>string</value>
+		public string Data { get; set; }
 
-        /// <summary>
-        /// Image to be associated with the menu item.
-        /// </summary>
-        /// <value>string</value>
-        public string Image { get; set; }
+		/// <summary>
+		/// Image to be associated with the menu item.
+		/// </summary>
+		/// <value>string</value>
+		public string Image { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CA1822

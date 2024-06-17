@@ -36,94 +36,94 @@ using SharedPluginFeatures;
 
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns a list of all sales from the active user sessions and can 
-    /// be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class SalesByCountry : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	/// <summary>
+	/// Returns a list of all sales from the active user sessions and can 
+	/// be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public sealed class SalesByCountry : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override string Data()
-        {
-            StringBuilder Result = new("Country|Total Sales|Value\r");
-            List<UserSession> sessions = UserSessionManager.Clone;
-            List<SessionStatistics> statistics = new();
+		public override string Data()
+		{
+			StringBuilder Result = new("Country|Total Sales|Value\r");
+			List<UserSession> sessions = UserSessionManager.Clone;
+			List<SessionStatistics> statistics = new();
 
 
-            foreach (UserSession session in sessions)
-            {
-                if (session.CurrentSale <= 0)
-                    continue;
+			foreach (UserSession session in sessions)
+			{
+				if (session.CurrentSale <= 0)
+					continue;
 
-                string countryCode = String.IsNullOrEmpty(session.CountryCode) ? "ZZ" : session.CountryCode;
-                SessionStatistics stats = statistics.Find(s => s.IsBot == session.IsBot && s.CountryCode.Equals(countryCode));
+				string countryCode = String.IsNullOrEmpty(session.CountryCode) ? "ZZ" : session.CountryCode;
+				SessionStatistics stats = statistics.Find(s => s.IsBot == session.IsBot && s.CountryCode.Equals(countryCode));
 
-                if (stats == null)
-                {
-                    stats = new SessionStatistics(countryCode);
-                    statistics.Add(stats);
-                }
+				if (stats == null)
+				{
+					stats = new SessionStatistics(countryCode);
+					statistics.Add(stats);
+				}
 
-                stats.Count++;
-                stats.Value += session.CurrentSale;
-            }
+				stats.Count++;
+				stats.Value += session.CurrentSale;
+			}
 
-            foreach (SessionStatistics stats in statistics)
-            {
-                Result.Append(stats.CountryCode + "|");
-                Result.Append(stats.Count.ToString() + "|");
-                Result.Append(stats.Value.ToString("G") + "\r");
-            }
+			foreach (SessionStatistics stats in statistics)
+			{
+				Result.Append(stats.CountryCode + "|");
+				Result.Append(stats.Count.ToString() + "|");
+				Result.Append(stats.Value.ToString("G") + "\r");
+			}
 
-            return Result.ToString().Trim();
-        }
+			return Result.ToString().Trim();
+		}
 
-        public override string Name()
-        {
-            return "Sales by Country";
-        }
+		public override string Name()
+		{
+			return "Sales by Country";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "User Sessions";
-        }
+		public override string ParentMenuName()
+		{
+			return "User Sessions";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
+		public override int SortOrder()
+		{
+			return 0;
+		}
 
-        public override string Image()
-        {
-            return String.Empty;
-        }
+		public override string Image()
+		{
+			return String.Empty;
+		}
 
-        public override string BackColor()
-        {
-            return "#3498DB";
-        }
-    }
+		public override string BackColor()
+		{
+			return "#3498DB";
+		}
+	}
 }
 
 #pragma warning restore CS1591

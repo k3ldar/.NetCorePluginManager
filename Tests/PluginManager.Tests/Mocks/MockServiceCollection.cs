@@ -41,34 +41,34 @@ using PluginManager.Internal;
 
 namespace PluginManager.Tests.Mocks
 {
-    [ExcludeFromCodeCoverage]
-    public class MockServiceCollection : IServiceCollection
-    {
-        private readonly List<ServiceDescriptor> _serviceDescriptors;
-        private readonly NotificationService _notificationService;
+	[ExcludeFromCodeCoverage]
+	public class MockServiceCollection : IServiceCollection
+	{
+		private readonly List<ServiceDescriptor> _serviceDescriptors;
+		private readonly NotificationService _notificationService;
 
-        public MockServiceCollection(ServiceDescriptor[] serviceDescriptors = null)
-        {
-            _serviceDescriptors = new List<ServiceDescriptor>();
-           
-            if (serviceDescriptors != null)
-            {
-                foreach (ServiceDescriptor serviceDescriptor in serviceDescriptors)
-                {
-                    if (serviceDescriptor.ImplementationInstance != null &&
-                        serviceDescriptor.ImplementationInstance.GetType().Equals(typeof(NotificationService)))
-                    {
-                        _notificationService = serviceDescriptor.ImplementationInstance as NotificationService;
-                    }
+		public MockServiceCollection(ServiceDescriptor[] serviceDescriptors = null)
+		{
+			_serviceDescriptors = new List<ServiceDescriptor>();
 
-                    Add(serviceDescriptor);
-                }
-            }
+			if (serviceDescriptors != null)
+			{
+				foreach (ServiceDescriptor serviceDescriptor in serviceDescriptors)
+				{
+					if (serviceDescriptor.ImplementationInstance != null &&
+						serviceDescriptor.ImplementationInstance.GetType().Equals(typeof(NotificationService)))
+					{
+						_notificationService = serviceDescriptor.ImplementationInstance as NotificationService;
+					}
 
-            ServicesRegistered = 0;
-        }
+					Add(serviceDescriptor);
+				}
+			}
 
-        public int ServicesRegistered { get; set; }
+			ServicesRegistered = 0;
+		}
+
+		public int ServicesRegistered { get; set; }
 
 		public T GetServiceInstance<T>(ServiceLifetime serviceLifetime)
 		{
@@ -80,17 +80,17 @@ namespace PluginManager.Tests.Mocks
 			return (T)descriptor.ImplementationInstance;
 		}
 
-        public bool HasServiceRegistered<T>(ServiceLifetime serviceLifetime)
-        {
-            bool Result = _serviceDescriptors.Exists(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && sd.ServiceType.Equals(typeof(T)));
+		public bool HasServiceRegistered<T>(ServiceLifetime serviceLifetime)
+		{
+			bool Result = _serviceDescriptors.Exists(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && sd.ServiceType.Equals(typeof(T)));
 
-            if (!Result)
-            {
-                Result = _serviceDescriptors.Exists(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && GetNameWithoutGenericArity(sd.ServiceType).Equals(GetNameWithoutGenericArity(typeof(T))));
-            }
+			if (!Result)
+			{
+				Result = _serviceDescriptors.Exists(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && GetNameWithoutGenericArity(sd.ServiceType).Equals(GetNameWithoutGenericArity(typeof(T))));
+			}
 
-            return Result;
-        }
+			return Result;
+		}
 
 		public bool HasServiceRegistered(ServiceLifetime serviceLifetime, Type serviceType)
 		{
@@ -105,173 +105,173 @@ namespace PluginManager.Tests.Mocks
 		}
 
 		public bool HasListenerRegistered<T>()
-        {
-            if (_notificationService == null)
-                return false;
+		{
+			if (_notificationService == null)
+				return false;
 
-            return _notificationService.ListenerRegistered<T>();
-        }
+			return _notificationService.ListenerRegistered<T>();
+		}
 
-        public bool HasListenerRegisteredEvent<T>(string eventName)
-        {
-            if (_notificationService == null)
-                return false;
+		public bool HasListenerRegisteredEvent<T>(string eventName)
+		{
+			if (_notificationService == null)
+				return false;
 
-            return _notificationService.ListenerRegisteredEvent<T>(eventName);
-        }
+			return _notificationService.ListenerRegisteredEvent<T>(eventName);
+		}
 
-        public bool HasPolicyConfigured(string policyName, string[] requiredClaimNames)
-        {
-            List<ServiceDescriptor> configureOptions = _serviceDescriptors.Where(sd => sd.ServiceType != null && sd.ServiceType.Equals(typeof(IConfigureOptions<AuthorizationOptions>))).ToList();
+		public bool HasPolicyConfigured(string policyName, string[] requiredClaimNames)
+		{
+			List<ServiceDescriptor> configureOptions = _serviceDescriptors.Where(sd => sd.ServiceType != null && sd.ServiceType.Equals(typeof(IConfigureOptions<AuthorizationOptions>))).ToList();
 
-            if (configureOptions == null)
-                return false;
+			if (configureOptions == null)
+				return false;
 
-            foreach (ServiceDescriptor configureOption in configureOptions)
-            {
-                ConfigureNamedOptions<AuthorizationOptions> configureNamedOptions = (ConfigureNamedOptions<AuthorizationOptions>)configureOption.ImplementationInstance;
+			foreach (ServiceDescriptor configureOption in configureOptions)
+			{
+				ConfigureNamedOptions<AuthorizationOptions> configureNamedOptions = (ConfigureNamedOptions<AuthorizationOptions>)configureOption.ImplementationInstance;
 
-                AuthorizationOptions authorizationOptions = new();
-                configureNamedOptions.Action.Invoke(authorizationOptions);
+				AuthorizationOptions authorizationOptions = new();
+				configureNamedOptions.Action.Invoke(authorizationOptions);
 
-                AuthorizationPolicy authorizationPolicy = authorizationOptions.GetPolicy(policyName);
+				AuthorizationPolicy authorizationPolicy = authorizationOptions.GetPolicy(policyName);
 
-                if (authorizationPolicy == null)
-                    continue;
+				if (authorizationPolicy == null)
+					continue;
 
-                Assert.AreEqual(requiredClaimNames.Length, authorizationPolicy.Requirements.Count, "Policy claim count does not match expected claim count");
+				Assert.AreEqual(requiredClaimNames.Length, authorizationPolicy.Requirements.Count, "Policy claim count does not match expected claim count");
 
-                foreach (ClaimsAuthorizationRequirement requirement in authorizationPolicy.Requirements)
-                {
-                    if (!requiredClaimNames.Contains(requirement.ClaimType))
-                        continue;
-                }
+				foreach (ClaimsAuthorizationRequirement requirement in authorizationPolicy.Requirements)
+				{
+					if (!requiredClaimNames.Contains(requirement.ClaimType))
+						continue;
+				}
 
-                return true;
-            }
+				return true;
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        public bool HasMvcEndpointRouting()
-        {
-            List<ServiceDescriptor> configureOptions = _serviceDescriptors
-                .Where(sd => sd.ServiceType != null && sd.ImplementationInstance != null && sd.Lifetime == ServiceLifetime.Singleton && sd.ServiceType.Equals(typeof(IConfigureOptions<MvcOptions>)))
-                .ToList();
+		public bool HasMvcEndpointRouting()
+		{
+			List<ServiceDescriptor> configureOptions = _serviceDescriptors
+				.Where(sd => sd.ServiceType != null && sd.ImplementationInstance != null && sd.Lifetime == ServiceLifetime.Singleton && sd.ServiceType.Equals(typeof(IConfigureOptions<MvcOptions>)))
+				.ToList();
 
-            Assert.IsNotNull(configureOptions, "Could not find ServiceDescriptor for MvcOptions");
+			Assert.IsNotNull(configureOptions, "Could not find ServiceDescriptor for MvcOptions");
 
-            foreach (ServiceDescriptor configureOption in configureOptions)
-            {
-                ConfigureNamedOptions<MvcOptions> configureNamedOptions = (ConfigureNamedOptions<MvcOptions>)configureOption.ImplementationInstance;
+			foreach (ServiceDescriptor configureOption in configureOptions)
+			{
+				ConfigureNamedOptions<MvcOptions> configureNamedOptions = (ConfigureNamedOptions<MvcOptions>)configureOption.ImplementationInstance;
 
-                MvcOptions authorizationOptions = new();
-                configureNamedOptions.Action.Invoke(authorizationOptions);
+				MvcOptions authorizationOptions = new();
+				configureNamedOptions.Action.Invoke(authorizationOptions);
 
-                return authorizationOptions.EnableEndpointRouting;
-            }
+				return authorizationOptions.EnableEndpointRouting;
+			}
 
-            throw new InvalidOperationException("Could not find ServiceDescriptor for MvcOptions");
-        }
+			throw new InvalidOperationException("Could not find ServiceDescriptor for MvcOptions");
+		}
 
-        public bool HasMvcConfigured()
-        {
-            List<ServiceDescriptor> configureOptions = _serviceDescriptors
-                .Where(sd => sd.ServiceType != null && sd.Lifetime == ServiceLifetime.Singleton && sd.ServiceType.Equals(typeof(IActionInvokerFactory)))
-                .ToList();
+		public bool HasMvcConfigured()
+		{
+			List<ServiceDescriptor> configureOptions = _serviceDescriptors
+				.Where(sd => sd.ServiceType != null && sd.Lifetime == ServiceLifetime.Singleton && sd.ServiceType.Equals(typeof(IActionInvokerFactory)))
+				.ToList();
 
-            return configureOptions != null;
-        }
+			return configureOptions != null;
+		}
 
-        public bool HasSessionStateTempDataProvider()
-        {
-            List<ServiceDescriptor> configureOptions = _serviceDescriptors
-                .Where(sd => sd.ServiceType != null && sd.Lifetime == ServiceLifetime.Singleton && sd.ServiceType.Equals(typeof(IMvcBuilder)))
-                .ToList();
+		public bool HasSessionStateTempDataProvider()
+		{
+			List<ServiceDescriptor> configureOptions = _serviceDescriptors
+				.Where(sd => sd.ServiceType != null && sd.Lifetime == ServiceLifetime.Singleton && sd.ServiceType.Equals(typeof(IMvcBuilder)))
+				.ToList();
 
-            return configureOptions != null;
-        }
+			return configureOptions != null;
+		}
 
 
-        public bool HasConfigurationOptions(Type options, ServiceLifetime serviceLifetime)
-        {
-            List<ServiceDescriptor> configureOptions = _serviceDescriptors
-                .Where(sd => sd.ServiceType != null && sd.Lifetime == serviceLifetime && sd.ServiceType.Equals(options))
-                .ToList();
+		public bool HasConfigurationOptions(Type options, ServiceLifetime serviceLifetime)
+		{
+			List<ServiceDescriptor> configureOptions = _serviceDescriptors
+				.Where(sd => sd.ServiceType != null && sd.Lifetime == serviceLifetime && sd.ServiceType.Equals(options))
+				.ToList();
 
-            return configureOptions != null;
-        }
+			return configureOptions != null;
+		}
 
-        #region IServiceCollection 
+		#region IServiceCollection 
 
-        public ServiceDescriptor this[int index] { get => _serviceDescriptors[index]; set => throw new NotImplementedException(); }
+		public ServiceDescriptor this[int index] { get => _serviceDescriptors[index]; set => throw new NotImplementedException(); }
 
-        public int Count => _serviceDescriptors.Count;
+		public int Count => _serviceDescriptors.Count;
 
-        public bool IsReadOnly => false;
+		public bool IsReadOnly => false;
 
-        public void Add(ServiceDescriptor item)
-        {
-            _serviceDescriptors.Add(item);
-            ServicesRegistered++;
-        }
+		public void Add(ServiceDescriptor item)
+		{
+			_serviceDescriptors.Add(item);
+			ServicesRegistered++;
+		}
 
-        public void Clear()
-        {
-            throw new NotImplementedException();
-        }
+		public void Clear()
+		{
+			throw new NotImplementedException();
+		}
 
-        public bool Contains(ServiceDescriptor item)
-        {
-            throw new NotImplementedException();
-        }
+		public bool Contains(ServiceDescriptor item)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void CopyTo(ServiceDescriptor[] array, int arrayIndex)
-        {
-            _serviceDescriptors.CopyTo(array, arrayIndex);
-        }
+		public void CopyTo(ServiceDescriptor[] array, int arrayIndex)
+		{
+			_serviceDescriptors.CopyTo(array, arrayIndex);
+		}
 
-        public IEnumerator<ServiceDescriptor> GetEnumerator()
-        {
-            return _serviceDescriptors.GetEnumerator();
-        }
+		public IEnumerator<ServiceDescriptor> GetEnumerator()
+		{
+			return _serviceDescriptors.GetEnumerator();
+		}
 
-        public int IndexOf(ServiceDescriptor item)
-        {
-            throw new NotImplementedException();
-        }
+		public int IndexOf(ServiceDescriptor item)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void Insert(int index, ServiceDescriptor item)
-        {
-            throw new NotImplementedException();
-        }
+		public void Insert(int index, ServiceDescriptor item)
+		{
+			throw new NotImplementedException();
+		}
 
-        public bool Remove(ServiceDescriptor item)
-        {
-            return _serviceDescriptors.Remove(item);
-        }
+		public bool Remove(ServiceDescriptor item)
+		{
+			return _serviceDescriptors.Remove(item);
+		}
 
-        public void RemoveAt(int index)
-        {
-            _serviceDescriptors.RemoveAt(index);
-        }
+		public void RemoveAt(int index)
+		{
+			_serviceDescriptors.RemoveAt(index);
+		}
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			throw new NotImplementedException();
+		}
 
-        #endregion IServiceCollection
+		#endregion IServiceCollection
 
-        #region Private Methods
+		#region Private Methods
 
-        private string GetNameWithoutGenericArity(Type t)
-        {
-            string name = t.Name;
-            int index = name.IndexOf('`');
-            return index == -1 ? name : name.Substring(0, index);
-        }
+		private string GetNameWithoutGenericArity(Type t)
+		{
+			string name = t.Name;
+			int index = name.IndexOf('`');
+			return index == -1 ? name : name.Substring(0, index);
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }

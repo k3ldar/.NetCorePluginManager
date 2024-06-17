@@ -38,228 +38,228 @@ using Middleware.Classes.DynamicContent;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
-    internal class DynamicContentProvider : IDynamicContentProvider
-    {
-        #region Private Members
+	internal class DynamicContentProvider : IDynamicContentProvider
+	{
+		#region Private Members
 
-        private static List<DynamicContentTemplate> _templates;
-        
-        private readonly IPluginClassesService _pluginClassesService;
-        private readonly ISimpleDBOperations<ContentPageDataRow> _pageData;
-        private readonly ISimpleDBOperations<ContentPageItemDataRow> _pageItemsData;
+		private static List<DynamicContentTemplate> _templates;
 
-        #endregion Private Members
+		private readonly IPluginClassesService _pluginClassesService;
+		private readonly ISimpleDBOperations<ContentPageDataRow> _pageData;
+		private readonly ISimpleDBOperations<ContentPageItemDataRow> _pageItemsData;
 
-        #region Constructors
+		#endregion Private Members
 
-        public DynamicContentProvider(IPluginClassesService pluginClassesService, 
-            ISimpleDBOperations<ContentPageDataRow> pageData, 
+		#region Constructors
+
+		public DynamicContentProvider(IPluginClassesService pluginClassesService,
+			ISimpleDBOperations<ContentPageDataRow> pageData,
 			ISimpleDBOperations<ContentPageItemDataRow> pageItemsData)
-        {
-            _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
-            _pageData = pageData ?? throw new ArgumentNullException(nameof(pageData));
-            _pageItemsData = pageItemsData ?? throw new ArgumentNullException(nameof(pageItemsData));
-        }
+		{
+			_pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
+			_pageData = pageData ?? throw new ArgumentNullException(nameof(pageData));
+			_pageItemsData = pageItemsData ?? throw new ArgumentNullException(nameof(pageItemsData));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IDynamicContentProvider Members
+		#region IDynamicContentProvider Members
 
-        public long CreateCustomPage()
-        {
-            ContentPageDataRow newPage = new();
-            _pageData.Insert(newPage);
-            return newPage.Id;
-        }
+		public long CreateCustomPage()
+		{
+			ContentPageDataRow newPage = new();
+			_pageData.Insert(newPage);
+			return newPage.Id;
+		}
 
-        public List<LookupListItem> GetCustomPageList()
-        {
-            List<LookupListItem> Result = new();
+		public List<LookupListItem> GetCustomPageList()
+		{
+			List<LookupListItem> Result = new();
 
-            IReadOnlyList<ContentPageDataRow> pages = _pageData.Select();
+			IReadOnlyList<ContentPageDataRow> pages = _pageData.Select();
 
-            foreach (ContentPageDataRow page in pages)
-            {
-                Result.Add(new LookupListItem((int)page.Id, page.Name));
-            }
+			foreach (ContentPageDataRow page in pages)
+			{
+				Result.Add(new LookupListItem((int)page.Id, page.Name));
+			}
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public List<IDynamicContentPage> GetCustomPages()
-        {
-            List<IDynamicContentPage> Result = new();
+		public List<IDynamicContentPage> GetCustomPages()
+		{
+			List<IDynamicContentPage> Result = new();
 
-            IReadOnlyList<ContentPageDataRow> pages = _pageData.Select();
+			IReadOnlyList<ContentPageDataRow> pages = _pageData.Select();
 
-            foreach (ContentPageDataRow page in pages)
-            {
-                Result.Add(InternalGetCustomPage(page));
-            }
+			foreach (ContentPageDataRow page in pages)
+			{
+				Result.Add(InternalGetCustomPage(page));
+			}
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public IDynamicContentPage GetCustomPage(long id)
-        {
-            return InternalGetCustomPage(id);
-        }
+		public IDynamicContentPage GetCustomPage(long id)
+		{
+			return InternalGetCustomPage(id);
+		}
 
-        public List<DynamicContentTemplate> Templates()
-        {
-            if (_templates != null)
-                return _templates;
+		public List<DynamicContentTemplate> Templates()
+		{
+			if (_templates != null)
+				return _templates;
 
-            _templates = _pluginClassesService.GetPluginClasses<DynamicContentTemplate>();
-            return _templates;
-        }
+			_templates = _pluginClassesService.GetPluginClasses<DynamicContentTemplate>();
+			return _templates;
+		}
 
-        public bool PageNameExists(long id, string pageName)
-        {
-            return _pageData.Select().Any(p => p.Id != id && p.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase));
-        }
+		public bool PageNameExists(long id, string pageName)
+		{
+			return _pageData.Select().Any(p => p.Id != id && p.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase));
+		}
 
-        public bool RouteNameExists(long id, string routeName)
-        {
-            return _pageData.Select().Any(p => p.Id != id && p.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
-        }
+		public bool RouteNameExists(long id, string routeName)
+		{
+			return _pageData.Select().Any(p => p.Id != id && p.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
+		}
 
-        public bool Save(IDynamicContentPage dynamicContentPage)
-        {
-            ContentPageDataRow pageDataRow = _pageData.Select(dynamicContentPage.Id);
+		public bool Save(IDynamicContentPage dynamicContentPage)
+		{
+			ContentPageDataRow pageDataRow = _pageData.Select(dynamicContentPage.Id);
 
-            if (pageDataRow == null)
-                return false;
+			if (pageDataRow == null)
+				return false;
 
-            pageDataRow.Name = dynamicContentPage.Name;
-            pageDataRow.RouteName = dynamicContentPage.RouteName;
-            pageDataRow.BackgroundColor = dynamicContentPage.BackgroundColor;
-            pageDataRow.BackgroundImage = dynamicContentPage.BackgroundImage;
-            pageDataRow.ActiveFromTicks = dynamicContentPage.ActiveFrom.Ticks;
-            pageDataRow.ActiveToticks = dynamicContentPage.ActiveTo.Ticks;
-            _pageData.Update(pageDataRow);
+			pageDataRow.Name = dynamicContentPage.Name;
+			pageDataRow.RouteName = dynamicContentPage.RouteName;
+			pageDataRow.BackgroundColor = dynamicContentPage.BackgroundColor;
+			pageDataRow.BackgroundImage = dynamicContentPage.BackgroundImage;
+			pageDataRow.ActiveFromTicks = dynamicContentPage.ActiveFrom.Ticks;
+			pageDataRow.ActiveToticks = dynamicContentPage.ActiveTo.Ticks;
+			_pageData.Update(pageDataRow);
 
-            foreach (DynamicContentTemplate item in dynamicContentPage.Content)
-            {
-                ContentPageItemDataRow contentPageItem = new()
-                {
-                    UniqueId = item.UniqueId,
-                    AssemblyQualifiedName = item.AssemblyQualifiedName,
-                    ActiveFromTicks = item.ActiveFrom.Ticks,
-                    ActiveToTicks = item.ActiveTo.Ticks,
-                    Data = item.Data,
-                    Height = item.Height,
-                    HeightType = (byte)item.HeightType,
-                    Width = item.Width,
-                    WidthType = (byte)item.WidthType,
-                    SortOrder = item.SortOrder,
-                    PageId = pageDataRow.Id,
-                };
+			foreach (DynamicContentTemplate item in dynamicContentPage.Content)
+			{
+				ContentPageItemDataRow contentPageItem = new()
+				{
+					UniqueId = item.UniqueId,
+					AssemblyQualifiedName = item.AssemblyQualifiedName,
+					ActiveFromTicks = item.ActiveFrom.Ticks,
+					ActiveToTicks = item.ActiveTo.Ticks,
+					Data = item.Data,
+					Height = item.Height,
+					HeightType = (byte)item.HeightType,
+					Width = item.Width,
+					WidthType = (byte)item.WidthType,
+					SortOrder = item.SortOrder,
+					PageId = pageDataRow.Id,
+				};
 
-                _pageItemsData.InsertOrUpdate(contentPageItem);
+				_pageItemsData.InsertOrUpdate(contentPageItem);
 
-                item.Id = contentPageItem.Id;
-            }
+				item.Id = contentPageItem.Id;
+			}
 
-            return true;
-        }
+			return true;
+		}
 
-        public bool SaveUserInput(string data)
-        {
-            throw new NotImplementedException();
-        }
+		public bool SaveUserInput(string data)
+		{
+			throw new NotImplementedException();
+		}
 
-        #endregion IDynamicContentProvider Members
+		#endregion IDynamicContentProvider Members
 
-        #region Private Methods
+		#region Private Methods
 
-        private IDynamicContentPage InternalGetCustomPage(long id)
-        {
-            if (!_pageData.IdExists(id))
-                return null;
+		private IDynamicContentPage InternalGetCustomPage(long id)
+		{
+			if (!_pageData.IdExists(id))
+				return null;
 
-            ContentPageDataRow pageData = _pageData.Select(id);
+			ContentPageDataRow pageData = _pageData.Select(id);
 
-            if (pageData == null)
-                return null;
+			if (pageData == null)
+				return null;
 
-            return InternalGetCustomPage(pageData);
-        }
+			return InternalGetCustomPage(pageData);
+		}
 
-        private IDynamicContentPage InternalGetCustomPage(ContentPageDataRow pageData)
-        { 
-            DynamicContentPage Result = new()
-            {
-                Id = pageData.Id,
-                ActiveFrom = new DateTime(pageData.ActiveFromTicks, DateTimeKind.Utc),
-                ActiveTo = new DateTime(pageData.ActiveFromTicks, DateTimeKind.Utc),
-                BackgroundColor = pageData.BackgroundColor,
-                BackgroundImage = pageData.BackgroundImage,
-                Name = pageData.Name,
-                RouteName = pageData.RouteName,
-            };
+		private IDynamicContentPage InternalGetCustomPage(ContentPageDataRow pageData)
+		{
+			DynamicContentPage Result = new()
+			{
+				Id = pageData.Id,
+				ActiveFrom = new DateTime(pageData.ActiveFromTicks, DateTimeKind.Utc),
+				ActiveTo = new DateTime(pageData.ActiveFromTicks, DateTimeKind.Utc),
+				BackgroundColor = pageData.BackgroundColor,
+				BackgroundImage = pageData.BackgroundImage,
+				Name = pageData.Name,
+				RouteName = pageData.RouteName,
+			};
 
-            IEnumerable<ContentPageItemDataRow> pageItems = _pageItemsData.Select().Where(pi => pi.PageId.Equals(pageData.Id));
+			IEnumerable<ContentPageItemDataRow> pageItems = _pageItemsData.Select().Where(pi => pi.PageId.Equals(pageData.Id));
 
-            foreach (ContentPageItemDataRow page in pageItems)
-            {
-                string[] classParts = page.AssemblyQualifiedName.Split(",");
+			foreach (ContentPageItemDataRow page in pageItems)
+			{
+				string[] classParts = page.AssemblyQualifiedName.Split(",");
 
-                if (classParts.Length < 2)
-                    throw new InvalidOperationException();
+				if (classParts.Length < 2)
+					throw new InvalidOperationException();
 
-                DynamicContentTemplate pageItem = CreateTemplateItem(classParts[1].Trim(), classParts[0].Trim(), page.UniqueId, out bool templateClassFound);
-                pageItem.Id = page.Id;
-                pageItem.UniqueId = page.UniqueId;
-                pageItem.ActiveFrom = new DateTime(page.ActiveFromTicks, DateTimeKind.Utc);
-                pageItem.ActiveTo = new DateTime(page.ActiveToTicks, DateTimeKind.Utc);
-                string data = page.Data;
+				DynamicContentTemplate pageItem = CreateTemplateItem(classParts[1].Trim(), classParts[0].Trim(), page.UniqueId, out bool templateClassFound);
+				pageItem.Id = page.Id;
+				pageItem.UniqueId = page.UniqueId;
+				pageItem.ActiveFrom = new DateTime(page.ActiveFromTicks, DateTimeKind.Utc);
+				pageItem.ActiveTo = new DateTime(page.ActiveToTicks, DateTimeKind.Utc);
+				string data = page.Data;
 
-                if (templateClassFound)
-                    pageItem.Data = data;
-                else
-                    pageItem.Data = "<p>Content template not found</p>";
-                
-                pageItem.HeightType = (DynamicContentHeightType)page.HeightType;
-                pageItem.WidthType = (DynamicContentWidthType)page.WidthType;
-                pageItem.Height = page.Height;
-                pageItem.SortOrder = page.SortOrder;
-                pageItem.Width = page.Width;
-                Result.Content.Add(pageItem);
-            }
+				if (templateClassFound)
+					pageItem.Data = data;
+				else
+					pageItem.Data = "<p>Content template not found</p>";
 
-            return Result;
-        }
+				pageItem.HeightType = (DynamicContentHeightType)page.HeightType;
+				pageItem.WidthType = (DynamicContentWidthType)page.WidthType;
+				pageItem.Height = page.Height;
+				pageItem.SortOrder = page.SortOrder;
+				pageItem.Width = page.Width;
+				Result.Content.Add(pageItem);
+			}
 
-        private static DynamicContentTemplate CreateTemplateItem(string assemblyName, string className, string uniqueId, out bool templateClassFound)
-        {
-            DynamicContentTemplate baseInstance;
+			return Result;
+		}
 
-            try
-            {
-                Assembly classAssembly = Assembly.Load(assemblyName);
-                Type t = classAssembly.GetType(className);
+		private static DynamicContentTemplate CreateTemplateItem(string assemblyName, string className, string uniqueId, out bool templateClassFound)
+		{
+			DynamicContentTemplate baseInstance;
 
-                if (t == null)
-                {
-                    baseInstance = new GenericTextTemplate();
-                    templateClassFound = false;
-                }
-                else
-                {
-                    baseInstance = (DynamicContentTemplate)Activator.CreateInstance(t);
-                    templateClassFound = true;
-                }
-            }
-            catch
-            {
-                baseInstance = new GenericTextTemplate();
-                templateClassFound = false;
-            }
+			try
+			{
+				Assembly classAssembly = Assembly.Load(assemblyName);
+				Type t = classAssembly.GetType(className);
 
-            return baseInstance.Clone(uniqueId);
-        }
+				if (t == null)
+				{
+					baseInstance = new GenericTextTemplate();
+					templateClassFound = false;
+				}
+				else
+				{
+					baseInstance = (DynamicContentTemplate)Activator.CreateInstance(t);
+					templateClassFound = true;
+				}
+			}
+			catch
+			{
+				baseInstance = new GenericTextTemplate();
+				templateClassFound = false;
+			}
 
-        #endregion Private Methods
-    }
+			return baseInstance.Clone(uniqueId);
+		}
+
+		#endregion Private Methods
+	}
 }

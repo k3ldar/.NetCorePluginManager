@@ -34,46 +34,46 @@ namespace UserAccount.Plugin.Models
 {
 #pragma warning disable CS1591
 
-    public sealed class DeliveryAddressViewModel : BaseModel
-    {
-        #region Constructors
+	public sealed class DeliveryAddressViewModel : BaseModel
+	{
+		#region Constructors
 
-        public DeliveryAddressViewModel()
-        {
+		public DeliveryAddressViewModel()
+		{
 
-        }
+		}
 
-        public DeliveryAddressViewModel(in BaseModelData baseModelData)
-            : base(baseModelData)
-        {
+		public DeliveryAddressViewModel(in BaseModelData baseModelData)
+			: base(baseModelData)
+		{
 
-        }
+		}
 
-        public DeliveryAddressViewModel(in BaseModelData baseModelData,
-            in List<DeliveryAddress> addresses)
-            : this(baseModelData)
-        {
-            Addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
-        }
+		public DeliveryAddressViewModel(in BaseModelData baseModelData,
+			in List<DeliveryAddress> addresses)
+			: this(baseModelData)
+		{
+			Addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
+		}
 
-        public DeliveryAddressViewModel(in BaseModelData baseModelData,
-            in List<DeliveryAddress> addresses, in string growlMessage)
-            : this(baseModelData)
-        {
-            Addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
-            GrowlMessage = growlMessage ?? throw new ArgumentNullException(nameof(growlMessage));
-        }
+		public DeliveryAddressViewModel(in BaseModelData baseModelData,
+			in List<DeliveryAddress> addresses, in string growlMessage)
+			: this(baseModelData)
+		{
+			Addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
+			GrowlMessage = growlMessage ?? throw new ArgumentNullException(nameof(growlMessage));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public List<DeliveryAddress> Addresses { get; set; }
+		public List<DeliveryAddress> Addresses { get; set; }
 
-        public string GrowlMessage { get; set; }
+		public string GrowlMessage { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 
 #pragma warning restore CS1591
 }

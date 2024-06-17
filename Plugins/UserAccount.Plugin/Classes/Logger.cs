@@ -32,54 +32,54 @@ namespace UserAccount.Plugin.Classes
 {
 #pragma warning disable CS1591
 
-    public class Logger : ILogger
-    {
-        #region ILogger Methods
+	public class Logger : ILogger
+	{
+		#region ILogger Methods
 
-        public void AddToLog(in LogLevel logLevel, in string data)
-        {
+		public void AddToLog(in LogLevel logLevel, in string data)
+		{
 #if TRACE
-            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {data}");
+			System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {data}");
 #endif
-        }
+		}
 
-        public void AddToLog(in LogLevel logLevel, in Exception exception)
-        {
+		public void AddToLog(in LogLevel logLevel, in Exception exception)
+		{
 #if TRACE
-            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}");
+			System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}");
 #endif
-        }
+		}
 
-        public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
-        {
+		public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
+		{
 #if TRACE
-            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");
+			System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");
 #endif
-        }
+		}
 
-        public void AddToLog(in LogLevel logLevel, in string moduleName, in string data)
-        {
+		public void AddToLog(in LogLevel logLevel, in string moduleName, in string data)
+		{
 #if TRACE
-            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {data}");
+			System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {data}");
 #endif
-        }
+		}
 
-        public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception)
-        {
+		public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception)
+		{
 #if TRACE
-            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}");
+			System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}");
 #endif
-        }
+		}
 
-        public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception, string data)
-        {
+		public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception, string data)
+		{
 #if TRACE
-            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");
+			System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");
 #endif
-        }
+		}
 
-        #endregion ILogger Methods
-    }
+		#endregion ILogger Methods
+	}
 
 #pragma warning restore CS1591
 }

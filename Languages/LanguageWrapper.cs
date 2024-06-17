@@ -30,60 +30,60 @@ using System.IO;
 
 namespace Languages
 {
-    /// <summary>
-    /// Static class which returns a list of all languages that are installed within the language pack.
-    /// </summary>
-    public static class LanguageWrapper
-    {
-        private const string DefaultLanguageCultureName = "en-GB";
+	/// <summary>
+	/// Static class which returns a list of all languages that are installed within the language pack.
+	/// </summary>
+	public static class LanguageWrapper
+	{
+		private const string DefaultLanguageCultureName = "en-GB";
 
-        /// <summary>
-        /// Gets all installed language files, default culture is first in the list
-        /// </summary>
-        /// <param name="path">Path where search to begin</param>
-        /// <param name="defaultCulture">Default culture in use</param>
-        /// <returns>String array of installed languages</returns>
-        public static string[] GetInstalledLanguages(string path, CultureInfo defaultCulture)
-        {
-            string[] files = Directory.GetFiles(path, "Languages.resources*", SearchOption.AllDirectories);
+		/// <summary>
+		/// Gets all installed language files, default culture is first in the list
+		/// </summary>
+		/// <param name="path">Path where search to begin</param>
+		/// <param name="defaultCulture">Default culture in use</param>
+		/// <returns>String array of installed languages</returns>
+		public static string[] GetInstalledLanguages(string path, CultureInfo defaultCulture)
+		{
+			string[] files = Directory.GetFiles(path, "Languages.resources*", SearchOption.AllDirectories);
 
-            List<string> Result = new();
-            Result.Add(defaultCulture.Name);
+			List<string> Result = new();
+			Result.Add(defaultCulture.Name);
 
-            for (int i = 0; i < files.Length; i++)
-            {
-                string file = files[i].Replace(path, String.Empty);
-                file = file.Substring(0, file.LastIndexOf('\\'));
-                string language = file.Substring(file.LastIndexOf('\\') + 1);
+			for (int i = 0; i < files.Length; i++)
+			{
+				string file = files[i].Replace(path, String.Empty);
+				file = file.Substring(0, file.LastIndexOf('\\'));
+				string language = file.Substring(file.LastIndexOf('\\') + 1);
 
-                if (!Result.Contains(language))
-                    Result.Add(language);
-            }
+				if (!Result.Contains(language))
+					Result.Add(language);
+			}
 
-            if (!Result.Contains(DefaultLanguageCultureName))
-                Result.Add(DefaultLanguageCultureName);
+			if (!Result.Contains(DefaultLanguageCultureName))
+				Result.Add(DefaultLanguageCultureName);
 
-            Result.Sort();
+			Result.Sort();
 
-            int defaultCultureIndex = Result.IndexOf(defaultCulture.Name);
+			int defaultCultureIndex = Result.IndexOf(defaultCulture.Name);
 
-            if (defaultCultureIndex != 0)
-            {
-                Result.RemoveAt(defaultCultureIndex);
-                Result.Insert(0, defaultCulture.Name);
-            }
+			if (defaultCultureIndex != 0)
+			{
+				Result.RemoveAt(defaultCultureIndex);
+				Result.Insert(0, defaultCulture.Name);
+			}
 
-            return Result.ToArray();
-        }
+			return Result.ToArray();
+		}
 
-        /// <summary>
-        /// Gets all installed language files, default culture is en-GB
-        /// </summary>
-        /// <param name="path">Path where search to begin</param>
-        /// <returns>String array of installed languages</returns>
-        public static string[] GetInstalledLanguages(string path)
-        {
-            return GetInstalledLanguages(path, new CultureInfo(DefaultLanguageCultureName));
-        }
-    }
+		/// <summary>
+		/// Gets all installed language files, default culture is en-GB
+		/// </summary>
+		/// <param name="path">Path where search to begin</param>
+		/// <returns>String array of installed languages</returns>
+		public static string[] GetInstalledLanguages(string path)
+		{
+			return GetInstalledLanguages(path, new CultureInfo(DefaultLanguageCultureName));
+		}
+	}
 }

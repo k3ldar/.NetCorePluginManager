@@ -33,71 +33,71 @@ using SharedPluginFeatures;
 
 namespace ErrorManager.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns a list of pages that are missing (404) within ErrorManager.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public class ErrorMissingPages : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	/// <summary>
+	/// Returns a list of pages that are missing (404) within ErrorManager.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public class ErrorMissingPages : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        /// <summary>
-        /// Returns all missing pages processed by ErrorManager.Plugin.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            StringBuilder Result = new("Page|Count");
+		/// <summary>
+		/// Returns all missing pages processed by ErrorManager.Plugin.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			StringBuilder Result = new("Page|Count");
 
-            Dictionary<string, uint> missingPages = ErrorManagerMiddleware.GetMissingPages();
+			Dictionary<string, uint> missingPages = ErrorManagerMiddleware.GetMissingPages();
 
-            foreach (KeyValuePair<string, uint> item in missingPages)
-            {
-                Result.Append($"\r{item.Key}|{item.Value}");
-            }
+			foreach (KeyValuePair<string, uint> item in missingPages)
+			{
+				Result.Append($"\r{item.Key}|{item.Value}");
+			}
 
-            return Result.ToString();
-        }
+			return Result.ToString();
+		}
 
-        public override string Image()
-        {
-            return String.Empty;
-        }
+		public override string Image()
+		{
+			return String.Empty;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override string Name()
-        {
-            return "Missing Links";
-        }
+		public override string Name()
+		{
+			return "Missing Links";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "Errors";
-        }
+		public override string ParentMenuName()
+		{
+			return "Errors";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
-    }
+		public override int SortOrder()
+		{
+			return 0;
+		}
+	}
 }
 
 #pragma warning restore CS1591

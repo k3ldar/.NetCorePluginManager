@@ -27,37 +27,37 @@ using Shared.Classes;
 
 namespace Middleware
 {
-    /// <summary>
-    /// Provides an opportunity for the website to provide custom data which can be used as part
-    /// of the smoke test.
-    /// </summary>
-    public interface ISmokeTestProvider
-    {
-        /// <summary>
-        /// Indicates the test is about to start.
-        /// 
-        /// The result of this method can contain custom name value pairs, this can be used by the Smoke Test engine
-        /// when preparing tests to be run.
-        /// 
-        /// For example the following name value pair could be used to indicate a logged on user name and password:
-        /// 
-        /// LoggedOnUser=admin
-        /// LoggedOnUserPassword=qwerty123
-        /// 
-        /// When a test is being prepared, it will search for {LoggedOnUser} within the body, or form parameters and
-        /// the value will be replaced with admin and {LoggedOnUserPassword} will be searched for in the form parameters
-        /// or body and replaced with qwerty123
-        /// 
-        /// Ideally the test data should be created when this function is called and cleaned up using <seealso cref="SmokeTestEnd"/>.
-        /// 
-        /// Data can be created dynamically within a database or other storage mechanism to help test functionality of a website.
-        /// </summary>
-        /// <returns>NVPCodec instance containing name value pairs that will be returned to the Smoke Test Engine or null if not required.</returns>
-        NVPCodec SmokeTestStart();
+	/// <summary>
+	/// Provides an opportunity for the website to provide custom data which can be used as part
+	/// of the smoke test.
+	/// </summary>
+	public interface ISmokeTestProvider
+	{
+		/// <summary>
+		/// Indicates the test is about to start.
+		/// 
+		/// The result of this method can contain custom name value pairs, this can be used by the Smoke Test engine
+		/// when preparing tests to be run.
+		/// 
+		/// For example the following name value pair could be used to indicate a logged on user name and password:
+		/// 
+		/// LoggedOnUser=admin
+		/// LoggedOnUserPassword=qwerty123
+		/// 
+		/// When a test is being prepared, it will search for {LoggedOnUser} within the body, or form parameters and
+		/// the value will be replaced with admin and {LoggedOnUserPassword} will be searched for in the form parameters
+		/// or body and replaced with qwerty123
+		/// 
+		/// Ideally the test data should be created when this function is called and cleaned up using <seealso cref="SmokeTestEnd"/>.
+		/// 
+		/// Data can be created dynamically within a database or other storage mechanism to help test functionality of a website.
+		/// </summary>
+		/// <returns>NVPCodec instance containing name value pairs that will be returned to the Smoke Test Engine or null if not required.</returns>
+		NVPCodec SmokeTestStart();
 
-        /// <summary>
-        /// Indicates that the Smoke Test has finished and that all previously created data can be cleaned up and removed.
-        /// </summary>
-        void SmokeTestEnd();
-    }
+		/// <summary>
+		/// Indicates that the Smoke Test has finished and that all previously created data can be cleaned up and removed.
+		/// </summary>
+		void SmokeTestEnd();
+	}
 }

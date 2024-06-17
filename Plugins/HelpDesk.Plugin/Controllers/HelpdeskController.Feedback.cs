@@ -42,89 +42,89 @@ using static Shared.Utilities;
 
 namespace HelpdeskPlugin.Controllers
 {
-    public partial class HelpdeskController : BaseController
-    {
-        #region Public Action Methods
+	public partial class HelpdeskController : BaseController
+	{
+		#region Public Action Methods
 
-        [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.Feedback), Name, nameof(Index))]
-        public IActionResult Feedback()
-        {
-            if (!_settings.ShowFeedback)
-                return RedirectToAction(nameof(Index), Name);
+		[HttpGet]
+		[Breadcrumb(nameof(Languages.LanguageStrings.Feedback), Name, nameof(Index))]
+		public IActionResult Feedback()
+		{
+			if (!_settings.ShowFeedback)
+				return RedirectToAction(nameof(Index), Name);
 
-            List<FeedbackItemViewModel> feedback = new();
+			List<FeedbackItemViewModel> feedback = new();
 
-            foreach (Feedback item in _helpdeskProvider.GetFeedback(true))
-            {
-                string username = item.Username;
+			foreach (Feedback item in _helpdeskProvider.GetFeedback(true))
+			{
+				string username = item.Username;
 
-                if (String.IsNullOrEmpty(username))
-                    username = Languages.LanguageStrings.Unknown;
+				if (String.IsNullOrEmpty(username))
+					username = Languages.LanguageStrings.Unknown;
 
-                feedback.Add(new FeedbackItemViewModel(username, item.Message));
-            }
+				feedback.Add(new FeedbackItemViewModel(username, item.Message));
+			}
 
-            return View(new FeedbackViewModel(GetModelData(), feedback));
-        }
+			return View(new FeedbackViewModel(GetModelData(), feedback));
+		}
 
-        [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.LeaveFeedback), Name, nameof(Feedback))]
-        [DenySpider]
-        public IActionResult LeaveFeedback()
-        {
-            if (!_settings.ShowFeedback)
-                return RedirectToAction(nameof(Index), Name);
+		[HttpGet]
+		[Breadcrumb(nameof(Languages.LanguageStrings.LeaveFeedback), Name, nameof(Feedback))]
+		[DenySpider]
+		public IActionResult LeaveFeedback()
+		{
+			if (!_settings.ShowFeedback)
+				return RedirectToAction(nameof(Index), Name);
 
-            return View(GetFeedbackModel());
-        }
+			return View(GetFeedbackModel());
+		}
 
-        [HttpPost]
-        [BadEgg]
-        public IActionResult LeaveFeedback(LeaveFeedbackViewModel model)
-        {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+		[HttpPost]
+		[BadEgg]
+		public IActionResult LeaveFeedback(LeaveFeedbackViewModel model)
+		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
 
-            if (!_settings.ShowFeedback)
-                return RedirectToAction(nameof(Index), Name);
+			if (!_settings.ShowFeedback)
+				return RedirectToAction(nameof(Index), Name);
 
-            if (_settings.ShowCaptchaText)
-            {
-                HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);
+			if (_settings.ShowCaptchaText)
+			{
+				HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);
 
-                if (!model.CaptchaText.Equals(helpdeskCache.CaptchaText, StringComparison.CurrentCultureIgnoreCase))
-                    ModelState.AddModelError(nameof(model.CaptchaText), Languages.LanguageStrings.CodeNotValid);
-            }
+				if (!model.CaptchaText.Equals(helpdeskCache.CaptchaText, StringComparison.CurrentCultureIgnoreCase))
+					ModelState.AddModelError(nameof(model.CaptchaText), Languages.LanguageStrings.CodeNotValid);
+			}
 
-            if (ModelState.IsValid)
-            {
-                if (_helpdeskProvider.SubmitFeedback(UserId(), model.Name, model.Feedback))
-                {
-                    GrowlAdd(Languages.LanguageStrings.FeedbackSubmitted);
-                    return RedirectToAction(nameof(Index));
-                }
+			if (ModelState.IsValid)
+			{
+				if (_helpdeskProvider.SubmitFeedback(UserId(), model.Name, model.Feedback))
+				{
+					GrowlAdd(Languages.LanguageStrings.FeedbackSubmitted);
+					return RedirectToAction(nameof(Index));
+				}
 
-                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FeedbackFailed);
-            }
+				ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FeedbackFailed);
+			}
 
-            return View(GetFeedbackModel());
-        }
+			return View(GetFeedbackModel());
+		}
 
-        #endregion Public Action Methods
+		#endregion Public Action Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private LeaveFeedbackViewModel GetFeedbackModel()
-        {
-            HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);
-            helpdeskCache.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
+		private LeaveFeedbackViewModel GetFeedbackModel()
+		{
+			HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);
+			helpdeskCache.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
 
-            return new LeaveFeedbackViewModel(GetModelData(), _settings.ShowCaptchaText);
-        }
+			return new LeaveFeedbackViewModel(GetModelData(), _settings.ShowCaptchaText);
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591

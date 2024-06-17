@@ -30,37 +30,37 @@ using SharedPluginFeatures;
 
 namespace Breadcrumb.Plugin
 {
-    internal sealed class BreadcrumbRoute
-    {
-        #region Constructors
+	internal sealed class BreadcrumbRoute
+	{
+		#region Constructors
 
-        internal BreadcrumbRoute(in string route, in bool hasParams)
-        {
-            if (String.IsNullOrEmpty(route))
-                throw new ArgumentNullException(nameof(route));
+		internal BreadcrumbRoute(in string route, in bool hasParams)
+		{
+			if (String.IsNullOrEmpty(route))
+				throw new ArgumentNullException(nameof(route));
 
-            Route = route;
-            Breadcrumbs = new List<BreadcrumbItem>(4);
-            HasParameters = hasParams;
+			Route = route;
+			Breadcrumbs = new List<BreadcrumbItem>(4);
+			HasParameters = hasParams;
 
-            if (hasParams)
-                PartialRoute = $"{Route.ToLower()}/";
-            else
-                PartialRoute = route.ToLower();
-        }
+			if (hasParams)
+				PartialRoute = $"{Route.ToLower()}/";
+			else
+				PartialRoute = route.ToLower();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        internal string Route { get; private set; }
+		internal string Route { get; private set; }
 
-        internal string PartialRoute { get; set; }
+		internal string PartialRoute { get; set; }
 
-        internal List<BreadcrumbItem> Breadcrumbs { get; private set; }
+		internal List<BreadcrumbItem> Breadcrumbs { get; private set; }
 
-        internal bool HasParameters { get; private set; }
+		internal bool HasParameters { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

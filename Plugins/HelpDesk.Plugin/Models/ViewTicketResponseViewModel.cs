@@ -29,35 +29,35 @@ using System;
 
 namespace HelpdeskPlugin.Models
 {
-    public sealed class ViewTicketResponseViewModel
-    {
-        #region Constructors
+	public sealed class ViewTicketResponseViewModel
+	{
+		#region Constructors
 
-        public ViewTicketResponseViewModel(in DateTime dateCreated, in string userName, in string message)
-        {
-            if (String.IsNullOrEmpty(userName))
-                throw new ArgumentNullException(nameof(userName));
+		public ViewTicketResponseViewModel(in DateTime dateCreated, in string userName, in string message)
+		{
+			if (String.IsNullOrEmpty(userName))
+				throw new ArgumentNullException(nameof(userName));
 
-            if (String.IsNullOrEmpty(message))
-                throw new ArgumentNullException(nameof(message));
+			if (String.IsNullOrEmpty(message))
+				throw new ArgumentNullException(nameof(message));
 
-            DateCreated = dateCreated;
-            UserName = userName;
-            Message = message;
-        }
+			DateCreated = dateCreated;
+			UserName = userName;
+			Message = message;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public DateTime DateCreated { get; private set; }
+		public DateTime DateCreated { get; private set; }
 
-        public string UserName { get; private set; }
+		public string UserName { get; private set; }
 
-        public string Message { get; private set; }
+		public string Message { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

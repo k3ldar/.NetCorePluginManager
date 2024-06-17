@@ -32,170 +32,170 @@ using SharedPluginFeatures;
 
 namespace ProductPlugin.Models
 {
-    public sealed class ProductModel : BaseProductModel
-    {
-        #region Constructors
+	public sealed class ProductModel : BaseProductModel
+	{
+		#region Constructors
 
-        public ProductModel()
-        {
-        }
+		public ProductModel()
+		{
+		}
 
-        public ProductModel(in BaseModelData modelData,
-            in int id, in string name, in string[] images, in int productGroupId,
-            in bool newProduct, in bool bestSeller, in decimal lowestPrice, bool allowAddToBasket, string sku)
-            : base(modelData)
-        {
-            if (String.IsNullOrEmpty(name))
-                throw new ArgumentNullException(nameof(name));
+		public ProductModel(in BaseModelData modelData,
+			in int id, in string name, in string[] images, in int productGroupId,
+			in bool newProduct, in bool bestSeller, in decimal lowestPrice, bool allowAddToBasket, string sku)
+			: base(modelData)
+		{
+			if (String.IsNullOrEmpty(name))
+				throw new ArgumentNullException(nameof(name));
 
-            if (String.IsNullOrEmpty(sku))
-                throw new ArgumentNullException(nameof(sku));
+			if (String.IsNullOrEmpty(sku))
+				throw new ArgumentNullException(nameof(sku));
 
-            Id = id;
-            ProductGroupId = productGroupId;
-            Name = name;
-            Description = String.Empty;
-            Features = String.Empty;
-            VideoLink = String.Empty;
-            Images = images;
-            NewProduct = newProduct;
-            BestSeller = bestSeller;
-            Sku = sku;
+			Id = id;
+			ProductGroupId = productGroupId;
+			Name = name;
+			Description = String.Empty;
+			Features = String.Empty;
+			VideoLink = String.Empty;
+			Images = images;
+			NewProduct = newProduct;
+			BestSeller = bestSeller;
+			Sku = sku;
 
-            if (lowestPrice == 0)
-                RetailPrice = Languages.LanguageStrings.Free;
-            else
-                RetailPrice = lowestPrice.ToString("C", System.Threading.Thread.CurrentThread.CurrentUICulture);
+			if (lowestPrice == 0)
+				RetailPrice = Languages.LanguageStrings.Free;
+			else
+				RetailPrice = lowestPrice.ToString("C", System.Threading.Thread.CurrentThread.CurrentUICulture);
 
-            AllowAddToBasket = allowAddToBasket;
-        }
+			AllowAddToBasket = allowAddToBasket;
+		}
 
-        public ProductModel(in BaseModelData modelData,
-            in List<ProductCategoryModel> productCategories)
-            : base(modelData, productCategories)
-        {
+		public ProductModel(in BaseModelData modelData,
+			in List<ProductCategoryModel> productCategories)
+			: base(modelData, productCategories)
+		{
 
-        }
+		}
 
-        public ProductModel(in BaseModelData modelData,
-            in List<ProductCategoryModel> productCategories,
-            in int id, in int productGroupId, in string name, in string description, in string features,
-            in string videoLink, in string[] images, in decimal retailPrice, in string sku,
-            in bool newProduct, in bool bestSeller,
-            in bool allowAddToBasket, in uint stockAvailability)
-            : this(modelData, productCategories)
-        {
-            if (String.IsNullOrEmpty(name))
-                throw new ArgumentNullException(nameof(name));
+		public ProductModel(in BaseModelData modelData,
+			in List<ProductCategoryModel> productCategories,
+			in int id, in int productGroupId, in string name, in string description, in string features,
+			in string videoLink, in string[] images, in decimal retailPrice, in string sku,
+			in bool newProduct, in bool bestSeller,
+			in bool allowAddToBasket, in uint stockAvailability)
+			: this(modelData, productCategories)
+		{
+			if (String.IsNullOrEmpty(name))
+				throw new ArgumentNullException(nameof(name));
 
-            if (String.IsNullOrEmpty(description))
-                throw new ArgumentNullException(nameof(description));
+			if (String.IsNullOrEmpty(description))
+				throw new ArgumentNullException(nameof(description));
 
-            if (String.IsNullOrEmpty(sku))
-                throw new ArgumentNullException(nameof(sku));
+			if (String.IsNullOrEmpty(sku))
+				throw new ArgumentNullException(nameof(sku));
 
-            Id = id;
-            ProductGroupId = productGroupId;
-            Name = name;
-            Description = description;
-            Features = features;
-            VideoLink = videoLink;
-            Images = images;
-            StockAvailability = stockAvailability;
-            Sku = sku;
-            NewProduct = newProduct;
-            BestSeller = bestSeller;
+			Id = id;
+			ProductGroupId = productGroupId;
+			Name = name;
+			Description = description;
+			Features = features;
+			VideoLink = videoLink;
+			Images = images;
+			StockAvailability = stockAvailability;
+			Sku = sku;
+			NewProduct = newProduct;
+			BestSeller = bestSeller;
 
-            if (retailPrice == 0)
-                RetailPrice = Languages.LanguageStrings.Free;
-            else
-                RetailPrice = retailPrice.ToString("C", System.Threading.Thread.CurrentThread.CurrentUICulture);
+			if (retailPrice == 0)
+				RetailPrice = Languages.LanguageStrings.Free;
+			else
+				RetailPrice = retailPrice.ToString("C", System.Threading.Thread.CurrentThread.CurrentUICulture);
 
-            AllowAddToBasket = allowAddToBasket;
+			AllowAddToBasket = allowAddToBasket;
 
-            if (retailPrice > 0)
-                AddToCart = new AddToCartModel(id, retailPrice, 0, stockAvailability);
-        }
+			if (retailPrice > 0)
+				AddToCart = new AddToCartModel(id, retailPrice, 0, stockAvailability);
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Methods
+		#region Public Methods
 
-        public string GetRouteName()
-        {
-            return RouteFriendlyName(Name);
-        }
+		public string GetRouteName()
+		{
+			return RouteFriendlyName(Name);
+		}
 
-        public string GetVideoLink()
-        {
-            if (String.IsNullOrEmpty(VideoLink))
-                return String.Empty;
+		public string GetVideoLink()
+		{
+			if (String.IsNullOrEmpty(VideoLink))
+				return String.Empty;
 
-            string Result = VideoLink;
+			string Result = VideoLink;
 
-            if (Result.ToLower().StartsWith("https://www.facebook.com/video") ||
-                Result.ToLower().StartsWith("http://www.facebook.com/video"))
-            {
-                //its from facebook
-                string fbReference = Result.Replace("video.php?v=", "v/");
-                Result = String.Format("<object class=\"productVideo\" ><param name=\"allowfullscreen\" value=\"true\" /> " +
-                    "<param name=\"allowscriptaccess\" value=\"always\" /> <param name=\"movie\" value=\"{0}\" /> " +
-                    "<embed src=\"{0}\" type=\"application/x-shockwave-flash\" allowscriptaccess=\"always\" " +
-                    "allowfullscreen=\"true\" width=\"640\" height=\"390\"></embed></object>", fbReference);
-            }
-            else if (!Result.ToLower().StartsWith("http"))
-            {
-                //assume a you tube link here
-                Result = String.Format("<iframe class=\"productVideo\" src=\"https://www.youtube.com/embed/{0}\" frameborder=\"0\"></iframe>", Result);
-            }
+			if (Result.ToLower().StartsWith("https://www.facebook.com/video") ||
+				Result.ToLower().StartsWith("http://www.facebook.com/video"))
+			{
+				//its from facebook
+				string fbReference = Result.Replace("video.php?v=", "v/");
+				Result = String.Format("<object class=\"productVideo\" ><param name=\"allowfullscreen\" value=\"true\" /> " +
+					"<param name=\"allowscriptaccess\" value=\"always\" /> <param name=\"movie\" value=\"{0}\" /> " +
+					"<embed src=\"{0}\" type=\"application/x-shockwave-flash\" allowscriptaccess=\"always\" " +
+					"allowfullscreen=\"true\" width=\"640\" height=\"390\"></embed></object>", fbReference);
+			}
+			else if (!Result.ToLower().StartsWith("http"))
+			{
+				//assume a you tube link here
+				Result = String.Format("<iframe class=\"productVideo\" src=\"https://www.youtube.com/embed/{0}\" frameborder=\"0\"></iframe>", Result);
+			}
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public string[] FeatureList()
-        {
-            if (String.IsNullOrEmpty(Features))
-                return Array.Empty<string>();
+		public string[] FeatureList()
+		{
+			if (String.IsNullOrEmpty(Features))
+				return Array.Empty<string>();
 
-            string features = Features.Replace("\n", String.Empty);
-            return features.Split('\r', StringSplitOptions.RemoveEmptyEntries);
-        }
+			string features = Features.Replace("\n", String.Empty);
+			return features.Split('\r', StringSplitOptions.RemoveEmptyEntries);
+		}
 
-        #endregion Public Methods
+		#endregion Public Methods
 
-        #region Properties
+		#region Properties
 
-        public int Id { get; }
+		public int Id { get; }
 
-        public int ProductGroupId { get; }
+		public int ProductGroupId { get; }
 
-        public string Name { get; }
+		public string Name { get; }
 
-        public string Description { get; }
+		public string Description { get; }
 
-        public string Features { get; }
+		public string Features { get; }
 
-        public string VideoLink { get; }
+		public string VideoLink { get; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
-        public string[] Images { get; }
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
+		public string[] Images { get; }
 
-        public bool NewProduct { get; }
+		public bool NewProduct { get; }
 
-        public bool BestSeller { get; }
+		public bool BestSeller { get; }
 
-        public string RetailPrice { get; }
+		public string RetailPrice { get; }
 
-        public bool AllowAddToBasket { get; }
+		public bool AllowAddToBasket { get; }
 
-        public AddToCartModel AddToCart { get; }
+		public AddToCartModel AddToCart { get; }
 
-        public uint StockAvailability { get; }
+		public uint StockAvailability { get; }
 
-        public string Sku { get; }
+		public string Sku { get; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CA1721, CS1591

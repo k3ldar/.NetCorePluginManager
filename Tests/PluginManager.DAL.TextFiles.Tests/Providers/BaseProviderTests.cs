@@ -47,9 +47,9 @@ using PluginManager.DAL.TextFiles.Tables.Stock;
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
 	[ExcludeFromCodeCoverage]
-    public class BaseProviderTests
-    {
-        protected const string TestPathSettings = "{\"SimpleDBSettings\":{\"Path\":\"$$\"}}";
+	public class BaseProviderTests
+	{
+		protected const string TestPathSettings = "{\"SimpleDBSettings\":{\"Path\":\"$$\"}}";
 
 		protected BaseProviderTests()
 		{
@@ -57,24 +57,24 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 		}
 
 		protected static IProductProvider GetTestProductProvider(ServiceProvider provider, bool addProducts = true)
-        {
-            IProductProvider Result = provider.GetService<IProductProvider>();
-            Assert.IsNotNull(Result);
+		{
+			IProductProvider Result = provider.GetService<IProductProvider>();
+			Assert.IsNotNull(Result);
 
-            if (addProducts)
-            {
-                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 1", "", "", true, false, 1.99m, "sku1", false, true, true, out string errorMessage))
-                    throw new InvalidOperationException("product should have saved; Error: " + errorMessage);
+			if (addProducts)
+			{
+				if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 1", "", "", true, false, 1.99m, "sku1", false, true, true, out string errorMessage))
+					throw new InvalidOperationException("product should have saved; Error: " + errorMessage);
 
-                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 2", "", "", true, false, 2.99m, "sku2", false, true, true, out errorMessage))
-                    throw new InvalidOperationException("product should have saved; Error: " + errorMessage);
+				if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 2", "", "", true, false, 2.99m, "sku2", false, true, true, out errorMessage))
+					throw new InvalidOperationException("product should have saved; Error: " + errorMessage);
 
-                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 3", "", "", true, false, 3.99m, "sku3", false, true, true, out errorMessage))
-                    throw new InvalidOperationException("product should have saved; Error: " + errorMessage);
-            }
+				if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 3", "", "", true, false, 3.99m, "sku3", false, true, true, out errorMessage))
+					throw new InvalidOperationException("product should have saved; Error: " + errorMessage);
+			}
 
-            return Result;
-        }
+			return Result;
+		}
 
 		protected static ServiceCollection CreateDefaultServiceCollection(string directory, out MockPluginClassesService mockPluginClassesService)
 		{

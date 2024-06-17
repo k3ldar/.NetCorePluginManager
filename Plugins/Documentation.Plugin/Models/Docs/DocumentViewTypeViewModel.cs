@@ -32,135 +32,135 @@ using SharedPluginFeatures;
 
 namespace DocumentationPlugin.Models
 {
-    /// <summary>
-    /// Summary document for a documents type, method, field, constructor, property etc.
-    /// </summary>
-    public sealed class DocumentViewTypeViewModel : BaseModel
-    {
-        #region Constructors
+	/// <summary>
+	/// Summary document for a documents type, method, field, constructor, property etc.
+	/// </summary>
+	public sealed class DocumentViewTypeViewModel : BaseModel
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <param name="modelData">Base model data.</param>
-        /// <param name="title">Title of document</param>
-        /// <param name="allReferences">All references associated with the document.</param>
-        public DocumentViewTypeViewModel(in BaseModelData modelData,
-            in string title, in string allReferences)
-            : base(modelData)
-        {
-            if (String.IsNullOrEmpty(title))
-                throw new ArgumentNullException(nameof(title));
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		/// <param name="modelData">Base model data.</param>
+		/// <param name="title">Title of document</param>
+		/// <param name="allReferences">All references associated with the document.</param>
+		public DocumentViewTypeViewModel(in BaseModelData modelData,
+			in string title, in string allReferences)
+			: base(modelData)
+		{
+			if (String.IsNullOrEmpty(title))
+				throw new ArgumentNullException(nameof(title));
 
-            Title = title;
-            AllReferences = allReferences ?? String.Empty;
-        }
+			Title = title;
+			AllReferences = allReferences ?? String.Empty;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Title for type
-        /// </summary>
-        /// <value>string</value>
-        public string Title { get; private set; }
+		/// <summary>
+		/// Title for type
+		/// </summary>
+		/// <value>string</value>
+		public string Title { get; private set; }
 
-        /// <summary>
-        /// Short description for the type.
-        /// </summary>
-        /// <value>string</value>
-        public string ShortDescription { get; set; }
+		/// <summary>
+		/// Short description for the type.
+		/// </summary>
+		/// <value>string</value>
+		public string ShortDescription { get; set; }
 
-        /// <summary>
-        /// Long description of the type.
-        /// </summary>
-        /// <value>string</value>
-        public string LongDescription { get; set; }
+		/// <summary>
+		/// Long description of the type.
+		/// </summary>
+		/// <value>string</value>
+		public string LongDescription { get; set; }
 
-        /// <summary>
-        /// All references associated with type.
-        /// </summary>
-        /// <value>string</value>
-        public string AllReferences { get; private set; }
+		/// <summary>
+		/// All references associated with type.
+		/// </summary>
+		/// <value>string</value>
+		public string AllReferences { get; private set; }
 
-        /// <summary>
-        /// Determines whether strings are translated.
-        /// </summary>
-        /// <value>bool</value>
-        public bool TranslateStrings { get; set; }
+		/// <summary>
+		/// Determines whether strings are translated.
+		/// </summary>
+		/// <value>bool</value>
+		public bool TranslateStrings { get; set; }
 
-        /// <summary>
-        /// List of alternative references linked to this type.
-        /// </summary>
-        /// <value>Dictionary&lt;string, string&gt;</value>
-        public Dictionary<string, string> SeeAlso { get; set; }
+		/// <summary>
+		/// List of alternative references linked to this type.
+		/// </summary>
+		/// <value>Dictionary&lt;string, string&gt;</value>
+		public Dictionary<string, string> SeeAlso { get; set; }
 
-        /// <summary>
-        /// Namespace for the type.
-        /// </summary>
-        /// <value>string</value>
-        public string Namespace { get; set; }
+		/// <summary>
+		/// Namespace for the type.
+		/// </summary>
+		/// <value>string</value>
+		public string Namespace { get; set; }
 
-        /// <summary>
-        /// Name of assembly where the type belongs.
-        /// </summary>
-        /// <value>string</value>
-        public string Assembly { get; set; }
+		/// <summary>
+		/// Name of assembly where the type belongs.
+		/// </summary>
+		/// <value>string</value>
+		public string Assembly { get; set; }
 
-        /// <summary>
-        /// Class name that the type belongs to.
-        /// </summary>
-        /// <value>string</value>
-        public string ClassName { get; set; }
+		/// <summary>
+		/// Class name that the type belongs to.
+		/// </summary>
+		/// <value>string</value>
+		public string ClassName { get; set; }
 
-        /// <summary>
-        /// Name of type.
-        /// </summary>
-        /// <value>string</value>
-        public string TypeName { get; set; }
+		/// <summary>
+		/// Name of type.
+		/// </summary>
+		/// <value>string</value>
+		public string TypeName { get; set; }
 
-        /// <summary>
-        /// Example useage.
-        /// </summary>
-        /// <value>string</value>
-        public string ExampleUseage { get; set; }
+		/// <summary>
+		/// Example useage.
+		/// </summary>
+		/// <value>string</value>
+		public string ExampleUseage { get; set; }
 
-        /// <summary>
-        /// Value of type.
-        /// </summary>
-        /// <value>string</value>
-        public string Value { get; set; }
+		/// <summary>
+		/// Value of type.
+		/// </summary>
+		/// <value>string</value>
+		public string Value { get; set; }
 
-        /// <summary>
-        /// Value that is returned by the type.
-        /// </summary>
-        /// <value>string</value>
-        public string Returns { get; set; }
+		/// <summary>
+		/// Value that is returned by the type.
+		/// </summary>
+		/// <value>string</value>
+		public string Returns { get; set; }
 
-        /// <summary>
-        /// Any parameters that exist for the type.
-        /// </summary>
-        /// <value>List&lt;DocumentMethodParameter&gt;</value>
-        public List<DocumentMethodParameter> Parameters { get; set; }
+		/// <summary>
+		/// Any parameters that exist for the type.
+		/// </summary>
+		/// <value>List&lt;DocumentMethodParameter&gt;</value>
+		public List<DocumentMethodParameter> Parameters { get; set; }
 
-        /// <summary>
-        /// Document summary
-        /// </summary>
-        /// <value>string</value>
-        public string Summary { get; set; }
+		/// <summary>
+		/// Document summary
+		/// </summary>
+		/// <value>string</value>
+		public string Summary { get; set; }
 
-        /// <summary>
-        /// Any supplementary information regarding the class, type, method, constructor, property etc
-        /// </summary>
-        /// <value>string</value>
-        public string Remarks { get; set; }
+		/// <summary>
+		/// Any supplementary information regarding the class, type, method, constructor, property etc
+		/// </summary>
+		/// <value>string</value>
+		public string Remarks { get; set; }
 
-        /// <summary>
-        /// Preformatted exceptions for the relevant constructor, method or property
-        /// </summary>
-        public string Exceptions { get; set; }
+		/// <summary>
+		/// Preformatted exceptions for the relevant constructor, method or property
+		/// </summary>
+		public string Exceptions { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

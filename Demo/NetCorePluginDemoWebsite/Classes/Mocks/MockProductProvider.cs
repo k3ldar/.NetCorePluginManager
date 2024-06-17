@@ -33,33 +33,33 @@ using Middleware.Products;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
-    public class MockProductProvider : IProductProvider
-    {
-        #region IProductProvider Members
+	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
+	public class MockProductProvider : IProductProvider
+	{
+		#region IProductProvider Members
 
-        #region Product Groups
+		#region Product Groups
 
-        public ProductGroup ProductGroupGet(in int id)
-        {
-            int groupId = id;
-            return ProductGroupsGet().FirstOrDefault(pg => pg.Id == groupId);
-        }
+		public ProductGroup ProductGroupGet(in int id)
+		{
+			int groupId = id;
+			return ProductGroupsGet().FirstOrDefault(pg => pg.Id == groupId);
+		}
 
-        public List<ProductGroup> ProductGroupsGet()
-        {
-            return new List<ProductGroup>()
-            {
-                new(1, "Main Products", true, 1, "Checkout our main products", String.Empty),
-                new(2, "Other Products", true, 2, "Checkout our other products", String.Empty)
-            };
-        }
+		public List<ProductGroup> ProductGroupsGet()
+		{
+			return new List<ProductGroup>()
+			{
+				new(1, "Main Products", true, 1, "Checkout our main products", String.Empty),
+				new(2, "Other Products", true, 2, "Checkout our other products", String.Empty)
+			};
+		}
 
-        public bool ProductGroupDelete(in int id, out string errorMessage)
-        {
-            errorMessage = "Unable to delete in demo project";
-            return false;
-        }
+		public bool ProductGroupDelete(in int id, out string errorMessage)
+		{
+			errorMessage = "Unable to delete in demo project";
+			return false;
+		}
 
 		public int ProductCountForGroup(ProductGroup productGroup)
 		{
@@ -71,99 +71,99 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 		#region Products
 
 		public List<Product> GetProducts(in int page, in int pageSize)
-        {
-            if (page < 1)
-                throw new ArgumentOutOfRangeException(nameof(page));
+		{
+			if (page < 1)
+				throw new ArgumentOutOfRangeException(nameof(page));
 
-            if (pageSize < 1)
-                throw new ArgumentOutOfRangeException(nameof(pageSize));
+			if (pageSize < 1)
+				throw new ArgumentOutOfRangeException(nameof(pageSize));
 
-            List<Product> products = new List<Product>()
-            {
-                new(1, 1, "Product A & - &", "This is product a", "1 year guarantee", "", new string[] { "ProdA_1" }, 0, "ProdA", false, false, true),
-                new(2, 1, "Product B", "This is product b", "1 year guarantee", "", new string[] { "ProdB_1" }, 0, "ProdB", true, false, true),
-                new(3, 1, "Product C", "This is product c", "1 year guarantee", "E7Voso411Vs", new string[] { "ProdC_1" }, 1.99m, "ProdC", true, true, false, true, true),
-                new(4, 2, "Product D", "This is product d", "1 year guarantee", "", new string[] { "ProdD_1" }, 22.99m, "ProdD", false, true, true, true, true),
-                new(5, 2, "Product E", "This is product e", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdE_1" }, 0, "ProdE", false, false, true),
+			List<Product> products = new List<Product>()
+			{
+				new(1, 1, "Product A & - &", "This is product a", "1 year guarantee", "", new string[] { "ProdA_1" }, 0, "ProdA", false, false, true),
+				new(2, 1, "Product B", "This is product b", "1 year guarantee", "", new string[] { "ProdB_1" }, 0, "ProdB", true, false, true),
+				new(3, 1, "Product C", "This is product c", "1 year guarantee", "E7Voso411Vs", new string[] { "ProdC_1" }, 1.99m, "ProdC", true, true, false, true, true),
+				new(4, 2, "Product D", "This is product d", "1 year guarantee", "", new string[] { "ProdD_1" }, 22.99m, "ProdD", false, true, true, true, true),
+				new(5, 2, "Product E", "This is product e", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdE_1" }, 0, "ProdE", false, false, true),
 
 
-                new(6, 2, "Product F", "This is product f", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdF_1" }, 0, "ProdF", false, false, true, true, true),
-                new(7, 2, "Product G", "This is product g", "1 year guarantee", "", new string[] { "ProdG_1" }, 15.95m, "ProdG", false, false, true, false, true),
-                new(8, 2, "Product H", "This is product h", "1 year guarantee", "", new string[] { "ProdH_1" }, 1.99m, "ProdH", false, false, false, true, true),
-                new(9, 2, "Product I", "This is product i", "1 year guarantee", "", new string[] { "ProdI_1" }, 0, "ProdI", false, false, false, true, true),
+				new(6, 2, "Product F", "This is product f", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdF_1" }, 0, "ProdF", false, false, true, true, true),
+				new(7, 2, "Product G", "This is product g", "1 year guarantee", "", new string[] { "ProdG_1" }, 15.95m, "ProdG", false, false, true, false, true),
+				new(8, 2, "Product H", "This is product h", "1 year guarantee", "", new string[] { "ProdH_1" }, 1.99m, "ProdH", false, false, false, true, true),
+				new(9, 2, "Product I", "This is product i", "1 year guarantee", "", new string[] { "ProdI_1" }, 0, "ProdI", false, false, false, true, true),
 
 				new(10, 1, "Product Hidden", "This is product Hidden", "1 year guarantee", "", new string[] { "ProdI_1" }, 0, "ProdI", false, false, false, true, false)
 			}
 			.Where(p => p.IsVisible)
 			.ToList();
 
-            products[0].SetCurrentStockLevel(5);
+			products[0].SetCurrentStockLevel(5);
 
-            List<Product> Result = new();
+			List<Product> Result = new();
 
-            int start = (page * pageSize) - pageSize;
-            int end = (start + pageSize);
+			int start = (page * pageSize) - pageSize;
+			int end = (start + pageSize);
 
-            decimal pageCount = (decimal)products.Count / pageSize;
+			decimal pageCount = (decimal)products.Count / pageSize;
 
-            int pages = (int)Math.Truncate(pageCount);
+			int pages = (int)Math.Truncate(pageCount);
 
-            if (pageCount - pages > 0)
-                pages++;
+			if (pageCount - pages > 0)
+				pages++;
 
-            if (page > pages)
-                return Result;
+			if (page > pages)
+				return Result;
 
-            if (end > products.Count)
-                end = products.Count;
+			if (end > products.Count)
+				end = products.Count;
 
-            for (int i = start; i < end; i++)
-            {
-                Result.Add(products[i]);
-            }
+			for (int i = start; i < end; i++)
+			{
+				Result.Add(products[i]);
+			}
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public List<Product> GetProducts(in ProductGroup productGroup, in int page, in int pageSize)
-        {
+		public List<Product> GetProducts(in ProductGroup productGroup, in int page, in int pageSize)
+		{
 			int skip = (page - 1) * pageSize;
 			int take = pageSize;
-            ProductGroup prodGroup = productGroup;
+			ProductGroup prodGroup = productGroup;
 
 			List<Product> productsByGroup = GetProducts(1, 10000).Where(p => p.ProductGroupId == prodGroup.Id).ToList();
 
 			return productsByGroup.Skip(skip).Take(take).ToList();
-        }
+		}
 
-        public Product GetProduct(in int id)
-        {
-            int prodId = id;
-            return GetProducts(1, 10000).FirstOrDefault(p => p.Id == prodId);
-        }
+		public Product GetProduct(in int id)
+		{
+			int prodId = id;
+			return GetProducts(1, 10000).FirstOrDefault(p => p.Id == prodId);
+		}
 
-        public bool ProductGroupSave(in int id, in string description, in bool showOnWebsite, in int sortOrder, in string tagLine, in string url, out string errorMessage)
-        {
-            errorMessage = "Unable to save in demo project";
-            return false;
-        }
+		public bool ProductGroupSave(in int id, in string description, in bool showOnWebsite, in int sortOrder, in string tagLine, in string url, out string errorMessage)
+		{
+			errorMessage = "Unable to save in demo project";
+			return false;
+		}
 
-        public bool ProductSave(in int id, in int productGroupId, in string name, in string description, in string features, in string videoLink, in bool newProduct, in bool bestSeller, in decimal retailPrice, in string sku, in bool isDownload, in bool allowBackOrder, in bool isVisible, out string errorMessage)
-        {
-            errorMessage = "Unable to save in demo project";
-            return false;
-        }
+		public bool ProductSave(in int id, in int productGroupId, in string name, in string description, in string features, in string videoLink, in bool newProduct, in bool bestSeller, in decimal retailPrice, in string sku, in bool isDownload, in bool allowBackOrder, in bool isVisible, out string errorMessage)
+		{
+			errorMessage = "Unable to save in demo project";
+			return false;
+		}
 
-        public bool ProductDelete(in int id, out string errorMessage)
-        {
-            errorMessage = "Unable to delete in demo project";
-            return false;
-        }
+		public bool ProductDelete(in int id, out string errorMessage)
+		{
+			errorMessage = "Unable to delete in demo project";
+			return false;
+		}
 
-        public int ProductCount => 9;
+		public int ProductCount => 9;
 
-        #endregion Products
+		#endregion Products
 
-        #endregion IProductProvider Members
-    }
+		#endregion IProductProvider Members
+	}
 }

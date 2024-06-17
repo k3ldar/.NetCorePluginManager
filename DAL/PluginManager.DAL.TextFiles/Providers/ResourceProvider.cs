@@ -97,18 +97,18 @@ namespace PluginManager.DAL.TextFiles.Providers
 				return null;
 
 			ResourceItemUserResponseDataRow userResponse = _resourceResponses
-				.Select(ur => 
-					ur.UserId.Equals(user.Id) && 
+				.Select(ur =>
+					ur.UserId.Equals(user.Id) &&
 					ur.ResourceItemId.Equals(resourceItemDataRow.Id)
 				).FirstOrDefault();
 
 			if (userResponse == null)
 			{
-				userResponse = new ResourceItemUserResponseDataRow() 
-				{ 
+				userResponse = new ResourceItemUserResponseDataRow()
+				{
 					UserId = user.Id,
 					ResourceItemId = resourceItemDataRow.Id,
-					Like = like 
+					Like = like
 				};
 
 				if (like)
@@ -117,7 +117,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 					resourceItemDataRow.Dislikes++;
 			}
 			else
-			{ 
+			{
 				if (userResponse.Like != like)
 				{
 					if (like)
@@ -166,7 +166,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				throw new ArgumentNullException(nameof(userId));
 
 			ResourceCategoryDataRow newCategoryRow = new()
-			{ 
+			{
 				ParentCategoryId = parent,
 				Name = name,
 				Description = description,
@@ -184,11 +184,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (category == null)
 				throw new ArgumentNullException(nameof(category));
 
-			ResourceCategoryDataRow categoryRow = _resourceCategories.Select(category.Id);
-
-			if (categoryRow == null)
-				throw new ArgumentOutOfRangeException(nameof(category));
-
+			ResourceCategoryDataRow categoryRow = _resourceCategories.Select(category.Id) ?? throw new ArgumentOutOfRangeException(nameof(category));
 			UserDataRow userDataRow = _users.Select(userId);
 
 			if (userDataRow == null && userId != 0)
@@ -209,10 +205,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 			return ConvertResourceCategoryDataRowToResourceCategory(categoryRow);
 		}
 
-		public ResourceItem AddResourceItem(long categoryId, ResourceType resourceType, long userId, 
+		public ResourceItem AddResourceItem(long categoryId, ResourceType resourceType, long userId,
 			string userName, string name, string description, string value, bool approved, List<string> tags)
 		{
-			if (String.IsNullOrEmpty(userName)) 
+			if (String.IsNullOrEmpty(userName))
 				throw new ArgumentNullException(nameof(userName));
 
 			if (String.IsNullOrEmpty(name))
@@ -278,11 +274,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (resourceItem == null) throw
 				new ArgumentNullException(nameof(resourceItem));
 
-			ResourceItemDataRow resourceItemRow = _resourceItems.Select(resourceItem.Id);
-
-			if (resourceItemRow == null)
-				throw new ArgumentOutOfRangeException(nameof(resourceItem));
-
+			ResourceItemDataRow resourceItemRow = _resourceItems.Select(resourceItem.Id) ?? throw new ArgumentOutOfRangeException(nameof(resourceItem));
 			UserDataRow userDataRow = _users.Select(userId);
 
 			if (userDataRow == null && userId != 0)
@@ -310,7 +302,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 		{
 			if (resourceItem == null)
 				throw new ArgumentNullException(nameof(resourceItem));
-			
+
 			if (_users.Select(userId) == null)
 				return BookmarkActionResult.Unknown;
 
@@ -325,7 +317,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 					return BookmarkActionResult.QuotaExceeded;
 
 				_resourceBookmarks.Insert(new ResourceBookmarkDataRow()
-				{ 
+				{
 					UserId = userId,
 					ResourceId = resourceItem.Id,
 				});
@@ -343,7 +335,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			{
 				IReadOnlyList<ResourceBookmarkDataRow> userBookmarks = _resourceBookmarks.Select(rb => rb.UserId.Equals(userId));
 				IReadOnlyList<ResourceItemDataRow> resourceBookmarks = _resourceItems.Select(ri => userBookmarks.Any(ub => ub.Id.Equals(ri.Id)));
-				
+
 				return ConvertResourceItemDataRowsToResourceItemList(resourceBookmarks);
 			}
 
@@ -449,4 +441,4 @@ namespace PluginManager.DAL.TextFiles.Providers
 	}
 }
 
-#pragma warning restore CA1826 
+#pragma warning restore CA1826

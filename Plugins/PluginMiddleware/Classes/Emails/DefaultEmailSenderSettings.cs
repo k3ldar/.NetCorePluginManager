@@ -28,39 +28,39 @@ using AppSettings;
 
 namespace Middleware.Classes
 {
-    /// <summary>
-    /// Default email sender details
-    /// </summary>
-    public class DefaultEmailSenderSettings
-    {
-        /// <summary>
-        /// Email host server
-        /// </summary>
-        [SettingDefault("%EmailHost%")]
-        public string Host { get; set; }
+	/// <summary>
+	/// Default email sender details
+	/// </summary>
+	public class DefaultEmailSenderSettings
+	{
+		/// <summary>
+		/// Email host server
+		/// </summary>
+		[SettingDefault("%EmailHost%")]
+		public string Host { get; set; }
 
-        /// <summary>
-        /// Email server password
-        /// </summary>
-        [SettingDefault("%EmailUserPassword%")]
-        public string Password { get; set; }
+		/// <summary>
+		/// Email server password
+		/// </summary>
+		[SettingDefault("%EmailUserPassword%")]
+		public string Password { get; set; }
 
-        /// <summary>
-        /// Email server port
-        /// </summary>
-        [SettingDefault("%EmailPort%")]
-        public string Port { get; set; }
+		/// <summary>
+		/// Email server port
+		/// </summary>
+		[SettingDefault("%EmailPort%")]
+		public string Port { get; set; }
 
-        /// <summary>
-        /// Email uses ssl for sending emails
-        /// </summary>
-        [SettingDefault("%EmailSSL%")]
-        public string SSL { get; set; }
+		/// <summary>
+		/// Email uses ssl for sending emails
+		/// </summary>
+		[SettingDefault("%EmailSSL%")]
+		public string SSL { get; set; }
 
-        /// <summary>
-        /// Email account username
-        /// </summary>
-        [SettingDefault("%EmailUserName%")]
-        public string UserName { get; set; }
-    }
+		/// <summary>
+		/// Email account username
+		/// </summary>
+		[SettingDefault("%EmailUserName%")]
+		public string UserName { get; set; }
+	}
 }

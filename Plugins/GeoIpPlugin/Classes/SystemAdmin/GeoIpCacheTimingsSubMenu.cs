@@ -31,72 +31,72 @@ using SharedPluginFeatures;
 
 namespace GeoIp.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns Timings information for all time spent processing cached Geo Ip requests and can 
-    /// be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class GeoIpCacheTimingsSubMenu : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	/// <summary>
+	/// Returns Timings information for all time spent processing cached Geo Ip requests and can 
+	/// be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public sealed class GeoIpCacheTimingsSubMenu : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        /// <summary>
-        /// Returns Timings data in milliseconds for time spent processing by GeoIpPlugin cache requests.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            string Result = "Setting|Value";
+		/// <summary>
+		/// Returns Timings data in milliseconds for time spent processing by GeoIpPlugin cache requests.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			string Result = "Setting|Value";
 
-            Result += $"\rTotal Requests|{GeoIpService._timingsIpCache.Requests}";
-            Result += $"\rFastest ms|{GeoIpService._timingsIpCache.Fastest}";
-            Result += $"\rSlowest ms|{GeoIpService._timingsIpCache.Slowest}";
-            Result += $"\rAverage ms|{GeoIpService._timingsIpCache.Average}";
-            Result += $"\rTrimmed Avg ms|{GeoIpService._timingsIpCache.TrimmedAverage}";
-            Result += $"\rTotal ms|{GeoIpService._timingsIpCache.Total}";
+			Result += $"\rTotal Requests|{GeoIpService._timingsIpCache.Requests}";
+			Result += $"\rFastest ms|{GeoIpService._timingsIpCache.Fastest}";
+			Result += $"\rSlowest ms|{GeoIpService._timingsIpCache.Slowest}";
+			Result += $"\rAverage ms|{GeoIpService._timingsIpCache.Average}";
+			Result += $"\rTrimmed Avg ms|{GeoIpService._timingsIpCache.TrimmedAverage}";
+			Result += $"\rTotal ms|{GeoIpService._timingsIpCache.Total}";
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public override string Image()
-        {
-            return Constants.SystemImageStopWatch;
-        }
+		public override string Image()
+		{
+			return Constants.SystemImageStopWatch;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override string Name()
-        {
-            return "GeoIp Cache";
-        }
+		public override string Name()
+		{
+			return "GeoIp Cache";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "Timings";
-        }
+		public override string ParentMenuName()
+		{
+			return "Timings";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
-    }
+		public override int SortOrder()
+		{
+			return 0;
+		}
+	}
 }
 
 #pragma warning restore CS1591

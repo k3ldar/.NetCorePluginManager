@@ -27,44 +27,44 @@ using System;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// This class is used to contain basic breadcrumb data.
-    /// </summary>
-    public sealed class Breadcrumb
-    {
-        #region Constructors
+	/// <summary>
+	/// This class is used to contain basic breadcrumb data.
+	/// </summary>
+	public sealed class Breadcrumb
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="name">Name of the breadcrumb.</param>
-        /// <param name="route">Route that the breadcrumb is aligned to.</param>
-        public Breadcrumb(in string name, in string route)
-        {
-            if (String.IsNullOrEmpty(name))
-                throw new ArgumentNullException(nameof(name));
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="name">Name of the breadcrumb.</param>
+		/// <param name="route">Route that the breadcrumb is aligned to.</param>
+		public Breadcrumb(in string name, in string route)
+		{
+			if (String.IsNullOrEmpty(name))
+				throw new ArgumentNullException(nameof(name));
 
-            if (String.IsNullOrEmpty(route))
-                throw new ArgumentNullException(nameof(route));
+			if (String.IsNullOrEmpty(route))
+				throw new ArgumentNullException(nameof(route));
 
-            Name = name;
-            Route = route;
-        }
+			Name = name;
+			Route = route;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Name of the breadcrumb.
-        /// </summary>
-        public string Name { get; private set; }
+		/// <summary>
+		/// Name of the breadcrumb.
+		/// </summary>
+		public string Name { get; private set; }
 
-        /// <summary>
-        /// Route that the breadcrumb is aligned to.
-        /// </summary>
-        public string Route { get; private set; }
+		/// <summary>
+		/// Route that the breadcrumb is aligned to.
+		/// </summary>
+		public string Route { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

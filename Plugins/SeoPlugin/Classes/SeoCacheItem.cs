@@ -28,33 +28,33 @@ using System.Collections.Generic;
 
 namespace SeoPlugin
 {
-    internal sealed class SeoCacheItem
-    {
-        #region Constructors
+	internal sealed class SeoCacheItem
+	{
+		#region Constructors
 
-        internal SeoCacheItem(in string title, in string metaDescription, in string author, in List<string> keywords)
-        {
-            if (keywords == null)
-                throw new ArgumentNullException(nameof(keywords));
+		internal SeoCacheItem(in string title, in string metaDescription, in string author, in List<string> keywords)
+		{
+			if (keywords == null)
+				throw new ArgumentNullException(nameof(keywords));
 
-            Author = author ?? String.Empty;
+			Author = author ?? String.Empty;
 			Title = title ?? String.Empty;
-            Description = metaDescription ?? String.Empty;
-            Keywords = String.Join(",", keywords);
-        }
+			Description = metaDescription ?? String.Empty;
+			Keywords = String.Join(",", keywords);
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        internal string Author { get; private set; }
+		internal string Author { get; private set; }
 
-        internal string Title { get; private set; }
+		internal string Title { get; private set; }
 
-        internal string Description { get; private set; }
+		internal string Description { get; private set; }
 
-        internal string Keywords { get; private set; }
+		internal string Keywords { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

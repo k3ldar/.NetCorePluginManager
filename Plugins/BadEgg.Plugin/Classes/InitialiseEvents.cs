@@ -32,32 +32,32 @@ using SharedPluginFeatures;
 
 namespace BadEgg.Plugin.Classes
 {
-    public class InitialiseEvents : IInitialiseEvents
-    {
-        #region IInitialiseEvents Methods
+	public class InitialiseEvents : IInitialiseEvents
+	{
+		#region IInitialiseEvents Methods
 
-        public void AfterConfigure(in IApplicationBuilder app)
-        {
+		public void AfterConfigure(in IApplicationBuilder app)
+		{
 			// required by interface not used in this implementation
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
-        {
+		{
 			// required by interface not used in this implementation
 		}
 
 		public void BeforeConfigure(in IApplicationBuilder app)
-        {
-            app.UseBadEgg();
-        }
+		{
+			app.UseBadEgg();
+		}
 
-        public void BeforeConfigureServices(in IServiceCollection services)
-        {
+		public void BeforeConfigureServices(in IServiceCollection services)
+		{
 			// required by interface not used in this implementation
 		}
 
 		public void Configure(in IApplicationBuilder app)
-        {
+		{
 			// required by interface not used in this implementation
 		}
 

@@ -31,72 +31,72 @@ using SharedPluginFeatures;
 
 namespace WebSmokeTest.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns Timings information for all time spent processing smoke test requests and can 
-    /// be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class WebSmokeTestTimingsSubMenu : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	/// <summary>
+	/// Returns Timings information for all time spent processing smoke test requests and can 
+	/// be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public sealed class WebSmokeTestTimingsSubMenu : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        /// <summary>
-        /// Returns Timings data in milliseconds for time spent processing by WebSmokeTest.Plugin requests.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            string Result = "Setting|Value";
+		/// <summary>
+		/// Returns Timings data in milliseconds for time spent processing by WebSmokeTest.Plugin requests.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			string Result = "Setting|Value";
 
-            Result += $"\rTotal Requests|{WebSmokeTestMiddleware._timings.Requests}";
-            Result += $"\rFastest ms|{WebSmokeTestMiddleware._timings.Fastest}";
-            Result += $"\rSlowest ms|{WebSmokeTestMiddleware._timings.Slowest}";
-            Result += $"\rAverage ms|{WebSmokeTestMiddleware._timings.Average}";
-            Result += $"\rTrimmed Avg ms|{WebSmokeTestMiddleware._timings.TrimmedAverage}";
-            Result += $"\rTotal ms|{WebSmokeTestMiddleware._timings.Total}";
+			Result += $"\rTotal Requests|{WebSmokeTestMiddleware._timings.Requests}";
+			Result += $"\rFastest ms|{WebSmokeTestMiddleware._timings.Fastest}";
+			Result += $"\rSlowest ms|{WebSmokeTestMiddleware._timings.Slowest}";
+			Result += $"\rAverage ms|{WebSmokeTestMiddleware._timings.Average}";
+			Result += $"\rTrimmed Avg ms|{WebSmokeTestMiddleware._timings.TrimmedAverage}";
+			Result += $"\rTotal ms|{WebSmokeTestMiddleware._timings.Total}";
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public override string Image()
-        {
-            return Constants.SystemImageStopWatch;
-        }
+		public override string Image()
+		{
+			return Constants.SystemImageStopWatch;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override string Name()
-        {
-            return "WebSmokeTestSettings";
-        }
+		public override string Name()
+		{
+			return "WebSmokeTestSettings";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "Timings";
-        }
+		public override string ParentMenuName()
+		{
+			return "Timings";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
-    }
+		public override int SortOrder()
+		{
+			return 0;
+		}
+	}
 }
 
 #pragma warning restore CS1591

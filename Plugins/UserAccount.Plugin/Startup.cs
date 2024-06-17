@@ -33,63 +33,63 @@ namespace UserAccount.Plugin
 {
 #pragma warning disable CS1591
 
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+	public class Startup
+	{
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
 
-        public IConfiguration Configuration { get; }
+		public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            // Allow plugin manager to configure all services in each plugin
-            PluginManagerService.ConfigureServices(services);
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			// Allow plugin manager to configure all services in each plugin
+			PluginManagerService.ConfigureServices(services);
 
-            //services.Configure<CookiePolicyOptions>(options =>
-            //{
-            //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-            //    options.CheckConsentNeeded = context => true;
-            //    options.MinimumSameSitePolicy = SameSiteMode.None;
-            //});
+			//services.Configure<CookiePolicyOptions>(options =>
+			//{
+			//    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+			//    options.CheckConsentNeeded = context => true;
+			//    options.MinimumSameSitePolicy = SameSiteMode.None;
+			//});
 
-            services.AddDistributedMemoryCache();
+			services.AddDistributedMemoryCache();
 
-            //services.AddSession(options =>
-            //{
-            //    // Set a short timeout for easy testing.
-            //    options.IdleTimeout = TimeSpan.FromSeconds(10);
-            //    options.Cookie.HttpOnly = false;
-            //});
+			//services.AddSession(options =>
+			//{
+			//    // Set a short timeout for easy testing.
+			//    options.IdleTimeout = TimeSpan.FromSeconds(10);
+			//    options.Cookie.HttpOnly = false;
+			//});
 
 
-            services.AddMvc(
-                option => option.EnableEndpointRouting = false
-                )
-                .ConfigurePluginManager();
-        }
+			services.AddMvc(
+				option => option.EnableEndpointRouting = false
+				)
+				.ConfigurePluginManager();
+		}
 
-        public void Configure(IApplicationBuilder app)
-        {
-            // Allow plugin manager to configure options for all plugins
-            PluginManagerService.Configure(app);
+		public void Configure(IApplicationBuilder app)
+		{
+			// Allow plugin manager to configure options for all plugins
+			PluginManagerService.Configure(app);
 
-            //app.UseHsts();
-            //app.UseHttpsRedirection();
-            //app.UseStaticFiles();
-            //app.UseCookiePolicy();
-            //app.UseSession();
+			//app.UseHsts();
+			//app.UseHttpsRedirection();
+			//app.UseStaticFiles();
+			//app.UseCookiePolicy();
+			//app.UseSession();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Account}/{action=Index}/{id?}");
-            });
-        }
-    }
+			app.UseMvc(routes =>
+			{
+				routes.MapRoute(
+					name: "default",
+					template: "{controller=Account}/{action=Index}/{id?}");
+			});
+		}
+	}
 
 #pragma warning restore CS1591
 }

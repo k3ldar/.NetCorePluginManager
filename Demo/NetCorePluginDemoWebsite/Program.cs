@@ -40,73 +40,73 @@ using rp = Resources.Plugin;
 
 namespace AspNetCore.PluginManager.DemoWebsite
 {
-    [ExcludeFromCodeCoverage(Justification = "Code coverage not required for Main")]
-    public static class Program
-    {
-        public static void Main(string[] args)
-        {
-            ThreadManager.Initialise(new SharedLib.Win.WindowsCpuUsage());
-            ThreadManager.MaximumPoolSize = 500;
-            ThreadManager.MaximumRunningThreads = 50;
-            ThreadManager.ThreadCpuChangeNotification = 0;
+	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for Main")]
+	public static class Program
+	{
+		public static void Main(string[] args)
+		{
+			ThreadManager.Initialise(new SharedLib.Win.WindowsCpuUsage());
+			ThreadManager.MaximumPoolSize = 500;
+			ThreadManager.MaximumRunningThreads = 50;
+			ThreadManager.ThreadCpuChangeNotification = 0;
 
-            // add plugins which need to be loaded first in a specific order
-            PluginManagerService.UsePlugin(typeof(ApiAuthorization.Plugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(ErrorManager.Plugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(SystemAdmin.Plugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(BadEgg.Plugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(RestrictIp.Plugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(UserSessionMiddleware.Plugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(CacheControl.Plugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(MemoryCache.Plugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(Subdomain.Plugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(Spider.Plugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(SeoPlugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(Localization.Plugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(Breadcrumb.Plugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(WebSmokeTest.Plugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(GeoIp.Plugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(ImageManager.Plugin.PluginInitialisation));
+			// add plugins which need to be loaded first in a specific order
+			PluginManagerService.UsePlugin(typeof(ApiAuthorization.Plugin.PluginInitialisation));
+			PluginManagerService.UsePlugin(typeof(ErrorManager.Plugin.PluginInitialisation));
+			PluginManagerService.UsePlugin(typeof(SystemAdmin.Plugin.PluginInitialisation));
+			PluginManagerService.UsePlugin(typeof(BadEgg.Plugin.PluginInitialisation));
+			PluginManagerService.UsePlugin(typeof(RestrictIp.Plugin.PluginInitialisation));
+			PluginManagerService.UsePlugin(typeof(UserSessionMiddleware.Plugin.PluginInitialisation));
+			PluginManagerService.UsePlugin(typeof(CacheControl.Plugin.PluginInitialisation));
+			PluginManagerService.UsePlugin(typeof(MemoryCache.Plugin.PluginInitialisation));
+			PluginManagerService.UsePlugin(typeof(Subdomain.Plugin.PluginInitialisation));
+			PluginManagerService.UsePlugin(typeof(Spider.Plugin.PluginInitialisation));
+			PluginManagerService.UsePlugin(typeof(SeoPlugin.PluginInitialisation));
+			PluginManagerService.UsePlugin(typeof(Localization.Plugin.PluginInitialisation));
+			PluginManagerService.UsePlugin(typeof(Breadcrumb.Plugin.PluginInitialisation));
+			PluginManagerService.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
+			PluginManagerService.UsePlugin(typeof(WebSmokeTest.Plugin.PluginInitialisation));
+			PluginManagerService.UsePlugin(typeof(GeoIp.Plugin.PluginInitialisation));
+			PluginManagerService.UsePlugin(typeof(ImageManager.Plugin.PluginInitialisation));
 
-            PluginManagerConfiguration configuration = new()
+			PluginManagerConfiguration configuration = new()
 			{
-                ServiceConfigurator = new ServiceConfigurator()
-            };
+				ServiceConfigurator = new ServiceConfigurator()
+			};
 
-            // Initialise the plugin manager service
-            PluginManagerService.Initialise(configuration);
-            try
-            {
-                // Add generic plugins where load order does not matter
-                PluginManagerService.UsePlugin(typeof(DocumentationPlugin.PluginInitialisation));
-                PluginManagerService.UsePlugin(typeof(ProductPlugin.PluginInitialisation));
-                PluginManagerService.UsePlugin(typeof(ShoppingCartPlugin.PluginInitialisation));
-                PluginManagerService.UsePlugin(typeof(HelpdeskPlugin.PluginInitialisation));
-                PluginManagerService.UsePlugin(typeof(UserAccount.Plugin.PluginInitialisation));
-                PluginManagerService.UsePlugin(typeof(Sitemap.Plugin.PluginInitialisation));
-                PluginManagerService.UsePlugin(typeof(DownloadPlugin.PluginInitialisation));
-                PluginManagerService.UsePlugin(typeof(Company.Plugin.PluginInitialisation));
-                PluginManagerService.UsePlugin(typeof(Blog.Plugin.PluginInitialisation));
-                PluginManagerService.UsePlugin(typeof(DemoWebsitePlugin.Plugin.PluginInitialisation));
-                PluginManagerService.UsePlugin(typeof(DemoApiPlugin.PluginInitialisation));
-                PluginManagerService.UsePlugin(typeof(DynamicContent.Plugin.PluginInitialisation));
+			// Initialise the plugin manager service
+			PluginManagerService.Initialise(configuration);
+			try
+			{
+				// Add generic plugins where load order does not matter
+				PluginManagerService.UsePlugin(typeof(DocumentationPlugin.PluginInitialisation));
+				PluginManagerService.UsePlugin(typeof(ProductPlugin.PluginInitialisation));
+				PluginManagerService.UsePlugin(typeof(ShoppingCartPlugin.PluginInitialisation));
+				PluginManagerService.UsePlugin(typeof(HelpdeskPlugin.PluginInitialisation));
+				PluginManagerService.UsePlugin(typeof(UserAccount.Plugin.PluginInitialisation));
+				PluginManagerService.UsePlugin(typeof(Sitemap.Plugin.PluginInitialisation));
+				PluginManagerService.UsePlugin(typeof(DownloadPlugin.PluginInitialisation));
+				PluginManagerService.UsePlugin(typeof(Company.Plugin.PluginInitialisation));
+				PluginManagerService.UsePlugin(typeof(Blog.Plugin.PluginInitialisation));
+				PluginManagerService.UsePlugin(typeof(DemoWebsitePlugin.Plugin.PluginInitialisation));
+				PluginManagerService.UsePlugin(typeof(DemoApiPlugin.PluginInitialisation));
+				PluginManagerService.UsePlugin(typeof(DynamicContent.Plugin.PluginInitialisation));
 				PluginManagerService.UsePlugin(typeof(rp.PluginInitialisation));
 				PluginManagerService.UsePlugin(typeof(SearchPlugin.PluginInitialisation));
 
-                CreateWebHostBuilder(args).Build().Run();
-            }
-            finally
-            {
-                PluginManagerService.Finalise();
-            }
-        }
+				CreateWebHostBuilder(args).Build().Run();
+			}
+			finally
+			{
+				PluginManagerService.Finalise();
+			}
+		}
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseContentRoot(System.IO.Directory.GetCurrentDirectory())
-                .UseDefaultServiceProvider(options =>
-                    options.ValidateScopes = false);
-    }
+		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+			WebHost.CreateDefaultBuilder(args)
+				.UseStartup<Startup>()
+				.UseContentRoot(System.IO.Directory.GetCurrentDirectory())
+				.UseDefaultServiceProvider(options =>
+					options.ValidateScopes = false);
+	}
 }

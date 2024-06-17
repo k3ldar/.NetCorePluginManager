@@ -31,40 +31,40 @@ using SharedPluginFeatures;
 
 namespace HelpdeskPlugin.Models
 {
-    public sealed class LeaveFeedbackViewModel : BaseModel
-    {
-        #region Constructors
+	public sealed class LeaveFeedbackViewModel : BaseModel
+	{
+		#region Constructors
 
-        public LeaveFeedbackViewModel()
-        {
+		public LeaveFeedbackViewModel()
+		{
 
-        }
+		}
 
-        public LeaveFeedbackViewModel(in BaseModelData modelData,
-            in bool showCaptchaText)
-            : base(modelData)
-        {
-            ShowCaptchaText = showCaptchaText;
-        }
+		public LeaveFeedbackViewModel(in BaseModelData modelData,
+			in bool showCaptchaText)
+			: base(modelData)
+		{
+			ShowCaptchaText = showCaptchaText;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.FeedbackRequired))]
-        public string Feedback { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.FeedbackRequired))]
+		public string Feedback { get; set; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterFirstLastName))]
-        public string Name { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterFirstLastName))]
+		public string Name { get; set; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.CodeNotValid))]
-        [Display(Name = nameof(Languages.LanguageStrings.Code))]
-        public string CaptchaText { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.CodeNotValid))]
+		[Display(Name = nameof(Languages.LanguageStrings.Code))]
+		public string CaptchaText { get; set; }
 
-        public bool ShowCaptchaText { get; set; }
+		public bool ShowCaptchaText { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

@@ -27,50 +27,50 @@ using System.Collections.Generic;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// This class is implemented internallyby the SystemAdmin.Plugin and is used to manage
-    /// System Admin Menu Items.  An instance of this interface is not available for general
-    /// use by other modules.
-    /// </summary>
-    public interface ISystemAdminHelperService
-    {
-        /// <summary>
-        /// Retrieves a list of Main menu items.
-        /// </summary>
-        /// <returns>List&lt;SystemAdminMainMenu&gt;</returns>
-        List<SystemAdminMainMenu> GetSystemAdminMainMenu();
+	/// <summary>
+	/// This class is implemented internallyby the SystemAdmin.Plugin and is used to manage
+	/// System Admin Menu Items.  An instance of this interface is not available for general
+	/// use by other modules.
+	/// </summary>
+	public interface ISystemAdminHelperService
+	{
+		/// <summary>
+		/// Retrieves a list of Main menu items.
+		/// </summary>
+		/// <returns>List&lt;SystemAdminMainMenu&gt;</returns>
+		List<SystemAdminMainMenu> GetSystemAdminMainMenu();
 
-        /// <summary>
-        /// Retrieves a specific menu item by Id
-        /// </summary>
-        /// <param name="id">Id of menu item.</param>
-        /// <returns>SystemAdminMainMenu</returns>
-        SystemAdminMainMenu GetSystemAdminMainMenu(in int id);
+		/// <summary>
+		/// Retrieves a specific menu item by Id
+		/// </summary>
+		/// <param name="id">Id of menu item.</param>
+		/// <returns>SystemAdminMainMenu</returns>
+		SystemAdminMainMenu GetSystemAdminMainMenu(in int id);
 
-        /// <summary>
-        /// Retrieves the Default main menu.
-        /// </summary>
-        /// <returns>SystemAdminMainMenu</returns>
-        SystemAdminMainMenu GetSystemAdminDefaultMainMenu();
+		/// <summary>
+		/// Retrieves the Default main menu.
+		/// </summary>
+		/// <returns>SystemAdminMainMenu</returns>
+		SystemAdminMainMenu GetSystemAdminDefaultMainMenu();
 
-        /// <summary>
-        /// Retrieves all sub menu items.
-        /// </summary>
-        /// <returns>List&lt;SystemAdminSubMenu&gt;</returns>
-        List<SystemAdminSubMenu> GetSubMenuItems();
+		/// <summary>
+		/// Retrieves all sub menu items.
+		/// </summary>
+		/// <returns>List&lt;SystemAdminSubMenu&gt;</returns>
+		List<SystemAdminSubMenu> GetSubMenuItems();
 
-        /// <summary>
-        /// Retrieves all sub menus for a specific menu item.
-        /// </summary>
-        /// <param name="mainMenuName">Name of menu item.</param>
-        /// <returns>List&lt;SystemAdminSubMenu&gt;</returns>
-        List<SystemAdminSubMenu> GetSubMenuItems(in string mainMenuName);
+		/// <summary>
+		/// Retrieves all sub menus for a specific menu item.
+		/// </summary>
+		/// <param name="mainMenuName">Name of menu item.</param>
+		/// <returns>List&lt;SystemAdminSubMenu&gt;</returns>
+		List<SystemAdminSubMenu> GetSubMenuItems(in string mainMenuName);
 
-        /// <summary>
-        /// Retrieves a specific sub menu.
-        /// </summary>
-        /// <param name="id">Id of submenu</param>
-        /// <returns>SystemAdminSubMenu</returns>
-        SystemAdminSubMenu GetSubMenuItem(in int id);
-    }
+		/// <summary>
+		/// Retrieves a specific sub menu.
+		/// </summary>
+		/// <param name="id">Id of submenu</param>
+		/// <returns>SystemAdminSubMenu</returns>
+		SystemAdminSubMenu GetSubMenuItem(in int id);
+	}
 }

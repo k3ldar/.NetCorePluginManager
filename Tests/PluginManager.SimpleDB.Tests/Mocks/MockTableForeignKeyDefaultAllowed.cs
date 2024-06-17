@@ -27,35 +27,35 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace SimpleDB.Tests.Mocks
 {
-    [ExcludeFromCodeCoverage]
-    [Table("MockTableAddress", cachingStrategy: CachingStrategy.Memory)]
-    public class MockTableForeignKeyDefaultAllowed : TableRowDefinition
-    {
-        private long _userId;
+	[ExcludeFromCodeCoverage]
+	[Table("MockTableAddress", cachingStrategy: CachingStrategy.Memory)]
+	public class MockTableForeignKeyDefaultAllowed : TableRowDefinition
+	{
+		private long _userId;
 
-        public MockTableForeignKeyDefaultAllowed()
-        {
+		public MockTableForeignKeyDefaultAllowed()
+		{
 
-        }
+		}
 
-        public MockTableForeignKeyDefaultAllowed(long userId)
-        {
-            UserId = userId;
-            Description = $"Address {userId}";
-        }
+		public MockTableForeignKeyDefaultAllowed(long userId)
+		{
+			UserId = userId;
+			Description = $"Address {userId}";
+		}
 
-        [ForeignKey("MockTableUser", ForeignKeyAttributes.DefaultValue)]
-        public long UserId
-        {
-            get => _userId;
+		[ForeignKey("MockTableUser", ForeignKeyAttributes.DefaultValue)]
+		public long UserId
+		{
+			get => _userId;
 
-            set
-            {
-                _userId = value;
-                Update();
-            }
-        }
+			set
+			{
+				_userId = value;
+				Update();
+			}
+		}
 
-        public string Description { get; set; }
-    }
+		public string Description { get; set; }
+	}
 }

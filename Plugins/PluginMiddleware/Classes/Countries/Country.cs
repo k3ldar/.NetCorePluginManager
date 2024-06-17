@@ -26,56 +26,56 @@
 
 namespace Middleware
 {
-    /// <summary>
-    /// Country class designed to hold basic country data for viewing only.
-    /// </summary>
-    public sealed class Country
-    {
-        #region Constructors
+	/// <summary>
+	/// Country class designed to hold basic country data for viewing only.
+	/// </summary>
+	public sealed class Country
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor.
-        /// </summary>
-        public Country()
-        {
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		public Country()
+		{
 
-        }
+		}
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="name">Name of country.</param>
-        /// <param name="code">Country code.</param>
-        /// <param name="visible">Indicates whether the country is visible or not.</param>
-        public Country(in string name, in string code, in bool visible)
-        {
-            Name = name;
-            Code = code;
-            Visible = visible;
-        }
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="name">Name of country.</param>
+		/// <param name="code">Country code.</param>
+		/// <param name="visible">Indicates whether the country is visible or not.</param>
+		public Country(in string name, in string code, in bool visible)
+		{
+			Name = name;
+			Code = code;
+			Visible = visible;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Name of country.
-        /// </summary>
-        /// <value>string</value>
-        public string Name { get; set; }
+		/// <summary>
+		/// Name of country.
+		/// </summary>
+		/// <value>string</value>
+		public string Name { get; set; }
 
-        /// <summary>
-        /// Country code.
-        /// </summary>
-        /// <value>string</value>
-        public string Code { get; set; }
+		/// <summary>
+		/// Country code.
+		/// </summary>
+		/// <value>string</value>
+		public string Code { get; set; }
 
-        /// <summary>
-        /// Indicates whether the country is visible or not.
-        /// </summary>
-        /// <value>bool</value>
-        public bool Visible { get; set; }
+		/// <summary>
+		/// Indicates whether the country is visible or not.
+		/// </summary>
+		/// <value>bool</value>
+		public bool Visible { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

@@ -43,122 +43,122 @@ using SharedPluginFeatures;
 
 namespace HelpdeskPlugin.Controllers
 {
-    /// <summary>
-    /// Helpdesk controller, provides Helpdesk functionality for any website.
-    /// </summary>
-    [Subdomain(HelpdeskController.Name)]
-    public partial class HelpdeskController : BaseController
-    {
-        #region Constants 
+	/// <summary>
+	/// Helpdesk controller, provides Helpdesk functionality for any website.
+	/// </summary>
+	[Subdomain(HelpdeskController.Name)]
+	public partial class HelpdeskController : BaseController
+	{
+		#region Constants 
 
-        public const string Name = "Helpdesk";
+		public const string Name = "Helpdesk";
 
-        #endregion Constants
+		#endregion Constants
 
-        #region Private Members
+		#region Private Members
 
-        private static readonly CacheManager _helpdeskCache = new("Helpdesk Cache", new TimeSpan(0, 30, 0));
-        private readonly IHelpdeskProvider _helpdeskProvider;
-        private readonly HelpdeskSettings _settings;
+		private static readonly CacheManager _helpdeskCache = new("Helpdesk Cache", new TimeSpan(0, 30, 0));
+		private readonly IHelpdeskProvider _helpdeskProvider;
+		private readonly HelpdeskSettings _settings;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public HelpdeskController(IHelpdeskProvider helpdeskProvider, ISettingsProvider settingsProvider)
-        {
-            _helpdeskProvider = helpdeskProvider ?? throw new ArgumentNullException(nameof(helpdeskProvider));
+		public HelpdeskController(IHelpdeskProvider helpdeskProvider, ISettingsProvider settingsProvider)
+		{
+			_helpdeskProvider = helpdeskProvider ?? throw new ArgumentNullException(nameof(helpdeskProvider));
 
-            if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+			if (settingsProvider == null)
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            _settings = settingsProvider.GetSettings<HelpdeskSettings>(nameof(HelpdeskSettings));
-        }
+			_settings = settingsProvider.GetSettings<HelpdeskSettings>(nameof(HelpdeskSettings));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Controller Methods
+		#region Public Controller Methods
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.Helpdesk))]
-        public IActionResult Index()
-        {
-            IndexViewModel model = new(GetModelData(),
-                _settings.ShowTickets, _settings.ShowFaq, _settings.ShowFeedback, GrowlGet());
+		[Breadcrumb(nameof(Languages.LanguageStrings.Helpdesk))]
+		public IActionResult Index()
+		{
+			IndexViewModel model = new(GetModelData(),
+				_settings.ShowTickets, _settings.ShowFaq, _settings.ShowFeedback, GrowlGet());
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpGet]
-        [DenySpider]
-        public ActionResult GetCaptchaImage()
-        {
-            HelpdeskCacheItem loginCacheItem = GetCachedHelpdeskItem(false);
+		[HttpGet]
+		[DenySpider]
+		public ActionResult GetCaptchaImage()
+		{
+			HelpdeskCacheItem loginCacheItem = GetCachedHelpdeskItem(false);
 
-            if (loginCacheItem == null)
-                return StatusCode(Constants.HtmlResponseBadRequest);
+			if (loginCacheItem == null)
+				return StatusCode(Constants.HtmlResponseBadRequest);
 
-            CaptchaImage ci = new(loginCacheItem.CaptchaText, 240, 60, "Century Schoolbook");
-            try
-            {
-                // Write the image to the response stream in JPEG format.
-                using (MemoryStream ms = new())
-                {
-                    ci.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+			CaptchaImage ci = new(loginCacheItem.CaptchaText, 240, 60, "Century Schoolbook");
+			try
+			{
+				// Write the image to the response stream in JPEG format.
+				using (MemoryStream ms = new())
+				{
+					ci.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
 
-                    return File(ms.ToArray(), "image/png");
-                }
-            }
-            catch (Exception err)
-            {
-                if (!err.Message.Contains("Specified method is not supported."))
-                    throw;
-            }
-            finally
-            {
-                ci.Dispose();
-            }
+					return File(ms.ToArray(), "image/png");
+				}
+			}
+			catch (Exception err)
+			{
+				if (!err.Message.Contains("Specified method is not supported."))
+					throw;
+			}
+			finally
+			{
+				ci.Dispose();
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        #endregion Public Controller Methods
+		#endregion Public Controller Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private static string FormatTextForDisplay(string message)
-        {
-            message = Shared.Utilities.RemoveHTMLElements(message);
+		private static string FormatTextForDisplay(string message)
+		{
+			message = Shared.Utilities.RemoveHTMLElements(message);
 
-            message = message.Replace("\r", String.Empty);
-            message = message.Replace("\n", "<br />");
+			message = message.Replace("\r", String.Empty);
+			message = message.Replace("\n", "<br />");
 
-            return $"<p>{message}</p>";
-        }
+			return $"<p>{message}</p>";
+		}
 
-        private HelpdeskCacheItem GetCachedHelpdeskItem(bool createIfNotExist)
-        {
-            HelpdeskCacheItem Result = null;
+		private HelpdeskCacheItem GetCachedHelpdeskItem(bool createIfNotExist)
+		{
+			HelpdeskCacheItem Result = null;
 
-            string cacheId = GetSessionId();
+			string cacheId = GetSessionId();
 
-            CacheItem helpdeskCache = _helpdeskCache.Get(cacheId);
+			CacheItem helpdeskCache = _helpdeskCache.Get(cacheId);
 
-            if (helpdeskCache != null)
-            {
-                Result = (HelpdeskCacheItem)helpdeskCache.Value;
-            }
-            else if (createIfNotExist)
-            {
-                Result = new HelpdeskCacheItem();
-                helpdeskCache = new CacheItem(cacheId, Result);
-                _helpdeskCache.Add(cacheId, helpdeskCache);
-            }
+			if (helpdeskCache != null)
+			{
+				Result = (HelpdeskCacheItem)helpdeskCache.Value;
+			}
+			else if (createIfNotExist)
+			{
+				Result = new HelpdeskCacheItem();
+				helpdeskCache = new CacheItem(cacheId, Result);
+				_helpdeskCache.Add(cacheId, helpdeskCache);
+			}
 
-            return Result;
-        }
+			return Result;
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591, CA1416

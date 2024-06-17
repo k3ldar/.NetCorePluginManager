@@ -30,41 +30,41 @@ using Middleware;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
-    public class MockCountryLists : ICountryProvider
-    {
-        public Country CountryCreate(in string name, in string code, in bool visible)
-        {
-            return new Country(name, code, visible);
-        }
+	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
+	public class MockCountryLists : ICountryProvider
+	{
+		public Country CountryCreate(in string name, in string code, in bool visible)
+		{
+			return new Country(name, code, visible);
+		}
 
-        public bool CountryDelete(in Country country)
-        {
-            return false;
-        }
+		public bool CountryDelete(in Country country)
+		{
+			return false;
+		}
 
-        public bool CountryUpdate(in Country country)
-        {
-            return true;
-        }
+		public bool CountryUpdate(in Country country)
+		{
+			return true;
+		}
 
-        public List<Country> GetAllCountries()
-        {
-            return new List<Country>()
-            {
-                new("USA", "US", true),
-                new("England", "GB", true),
-                new("Unknown", "UK", false),
-            };
-        }
+		public List<Country> GetAllCountries()
+		{
+			return new List<Country>()
+			{
+				new("USA", "US", true),
+				new("England", "GB", true),
+				new("Unknown", "UK", false),
+			};
+		}
 
-        public List<Country> GetVisibleCountries()
-        {
-            return new List<Country>()
-            {
-                new("USA", "US", true),
-                new("England", "GB", true),
-            };
-        }
-    }
+		public List<Country> GetVisibleCountries()
+		{
+			return new List<Country>()
+			{
+				new("USA", "US", true),
+				new("England", "GB", true),
+			};
+		}
+	}
 }

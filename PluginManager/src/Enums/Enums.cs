@@ -31,92 +31,92 @@
 
 namespace PluginManager
 {
-    /// <summary>
-    /// Log Levels, defines the type of log entry being made by ILogger interface.
-    /// </summary>
-    public enum LogLevel
-    {
-        /// <summary>
-        /// Log entry is information only.
-        /// </summary>
-        Information = 1,
+	/// <summary>
+	/// Log Levels, defines the type of log entry being made by ILogger interface.
+	/// </summary>
+	public enum LogLevel
+	{
+		/// <summary>
+		/// Log entry is information only.
+		/// </summary>
+		Information = 1,
 
-        /// <summary>
-        /// Log entry is a warning condition.
-        /// </summary>
-        Warning = 2,
+		/// <summary>
+		/// Log entry is a warning condition.
+		/// </summary>
+		Warning = 2,
 
-        /// <summary>
-        /// Log entry represents an error that has occurred.
-        /// </summary>
-        Error = 3,
+		/// <summary>
+		/// Log entry represents an error that has occurred.
+		/// </summary>
+		Error = 3,
 
-        /// <summary>
-        /// Log entry is a critical error within the system.
-        /// </summary>
-        Critical = 4,
+		/// <summary>
+		/// Log entry is a critical error within the system.
+		/// </summary>
+		Critical = 4,
 
-        /// <summary>
-        /// Log entry is informing that a plugin module has been successfully loaded.
-        /// </summary>
-        PluginLoadSuccess = 5,
+		/// <summary>
+		/// Log entry is informing that a plugin module has been successfully loaded.
+		/// </summary>
+		PluginLoadSuccess = 5,
 
-        /// <summary>
-        /// Log entry is informing that a plugin module has failed to load.
-        /// </summary>
-        PluginLoadFailed = 6,
+		/// <summary>
+		/// Log entry is informing that a plugin module has failed to load.
+		/// </summary>
+		PluginLoadFailed = 6,
 
-        /// <summary>
-        /// Log entry is informing that a generic error occurred when loading a plugin module.
-        /// </summary>
-        PluginLoadError = 7,
+		/// <summary>
+		/// Log entry is informing that a generic error occurred when loading a plugin module.
+		/// </summary>
+		PluginLoadError = 7,
 
-        /// <summary>
-        /// Log entry is informing that there is a configuration error with a plugin module.
-        /// </summary>
-        PluginConfigureError = 8,
+		/// <summary>
+		/// Log entry is informing that there is a configuration error with a plugin module.
+		/// </summary>
+		PluginConfigureError = 8,
 
-        /// <summary>
-        /// Log entry informing that an Ip address has had restriction imposed upon it within the RestrictIp.Plugin module.
-        /// </summary>
-        IpRestricted = 9,
+		/// <summary>
+		/// Log entry informing that an Ip address has had restriction imposed upon it within the RestrictIp.Plugin module.
+		/// </summary>
+		IpRestricted = 9,
 
-        /// <summary>
-        /// Indicates that an error occurred within CacheControl.Plugin module.
-        /// </summary>
-        CacheControlError = 10,
+		/// <summary>
+		/// Indicates that an error occurred within CacheControl.Plugin module.
+		/// </summary>
+		CacheControlError = 10,
 
-        /// <summary>
-        /// The event was raised by the ThreadManager
-        /// </summary>
-        ThreadManager = 11,
+		/// <summary>
+		/// The event was raised by the ThreadManager
+		/// </summary>
+		ThreadManager = 11,
 
-        /// <summary>
-        /// Indicates that an error occurred when translating a string using Localization.Plugin.
-        /// 
-        /// This is usually an indication that a localized string is missing.
-        /// </summary>
-        Localization = 12,
-    }
+		/// <summary>
+		/// Indicates that an error occurred when translating a string using Localization.Plugin.
+		/// 
+		/// This is usually an indication that a localized string is missing.
+		/// </summary>
+		Localization = 12,
+	}
 
-    /// <summary>
-    /// Result enum for dynamically adding plugin modules using IPluginHelperService interface.
-    /// </summary>
-    public enum DynamicLoadResult
-    {
-        /// <summary>
-        /// Plugin module was dynamically added to the list of available plugins.
-        /// </summary>
-        Success,
+	/// <summary>
+	/// Result enum for dynamically adding plugin modules using IPluginHelperService interface.
+	/// </summary>
+	public enum DynamicLoadResult
+	{
+		/// <summary>
+		/// Plugin module was dynamically added to the list of available plugins.
+		/// </summary>
+		Success,
 
-        /// <summary>
-        /// Failed to load the module as an available plugin.
-        /// </summary>
-        Failed,
+		/// <summary>
+		/// Failed to load the module as an available plugin.
+		/// </summary>
+		Failed,
 
-        /// <summary>
-        /// The module was already loaded as a plugin module within the PluginManager.
-        /// </summary>
-        AlreadyLoaded
-    }
+		/// <summary>
+		/// The module was already loaded as a plugin module within the PluginManager.
+		/// </summary>
+		AlreadyLoaded
+	}
 }

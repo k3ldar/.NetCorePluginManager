@@ -27,142 +27,142 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameProducts, CompressionType.None, CachingStrategy.None)]
-    internal class ProductDataRow : TableRowDefinition
-    {
-        private int _productGroupId;
-        private string _name;
-        private string _description;
-        private string _features;
-        private string _videoLink;
-        private bool _newProduct;
-        private bool _bestSeller;
+	[Table(Constants.TableNameProducts, CompressionType.None, CachingStrategy.None)]
+	internal class ProductDataRow : TableRowDefinition
+	{
+		private int _productGroupId;
+		private string _name;
+		private string _description;
+		private string _features;
+		private string _videoLink;
+		private bool _newProduct;
+		private bool _bestSeller;
 		private bool _isVisible;
-        private decimal _retailPrice;
-        private string _sku;
-        private bool _isDownload;
-        private bool _allowBackorder;
-        private uint _stockAvailability;
+		private decimal _retailPrice;
+		private string _sku;
+		private bool _isDownload;
+		private bool _allowBackorder;
+		private uint _stockAvailability;
 
-        [ForeignKey(Constants.TableNameProductGroups)]
-        public int ProductGroupId
-        {
-            get
-            {
-                return _productGroupId;
-            }
+		[ForeignKey(Constants.TableNameProductGroups)]
+		public int ProductGroupId
+		{
+			get
+			{
+				return _productGroupId;
+			}
 
-            set
-            {
-                if (_productGroupId == value)
-                    return;
+			set
+			{
+				if (_productGroupId == value)
+					return;
 
-                _productGroupId = value;
-                Update();
-            }
-        }
+				_productGroupId = value;
+				Update();
+			}
+		}
 
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
+		public string Name
+		{
+			get
+			{
+				return _name;
+			}
 
-            set
-            {
-                if (_name == value)
-                    return;
+			set
+			{
+				if (_name == value)
+					return;
 
-                _name = value;
-                Update();
-            }
-        }
+				_name = value;
+				Update();
+			}
+		}
 
-        public string Description
-        {
-            get
-            {
-                return _description;
-            }
+		public string Description
+		{
+			get
+			{
+				return _description;
+			}
 
-            set
-            {
-                if (_description == value)
-                    return;
+			set
+			{
+				if (_description == value)
+					return;
 
-                _description = value;
-                Update();
-            }
-        }
+				_description = value;
+				Update();
+			}
+		}
 
-        public string Features
-        {
-            get
-            {
-                return _features;
-            }
+		public string Features
+		{
+			get
+			{
+				return _features;
+			}
 
-            set
-            {
-                if (_features == value)
-                    return;
+			set
+			{
+				if (_features == value)
+					return;
 
-                _features = value;
-                Update();
-            }
-        }
+				_features = value;
+				Update();
+			}
+		}
 
-        public string VideoLink
-        {
-            get
-            {
-                return _videoLink;
-            }
+		public string VideoLink
+		{
+			get
+			{
+				return _videoLink;
+			}
 
-            set
-            {
-                if (_videoLink == value)
-                    return;
+			set
+			{
+				if (_videoLink == value)
+					return;
 
-                _videoLink = value;
-                Update();
-            }
-        }
+				_videoLink = value;
+				Update();
+			}
+		}
 
-        public bool NewProduct
-        {
-            get
-            {
-                return _newProduct;
-            }
+		public bool NewProduct
+		{
+			get
+			{
+				return _newProduct;
+			}
 
-            set
-            {
-                if (_newProduct == value)
-                    return;
+			set
+			{
+				if (_newProduct == value)
+					return;
 
-                _newProduct = value;
-                Update();
-            }
-        }
+				_newProduct = value;
+				Update();
+			}
+		}
 
-        public bool BestSeller
-        {
-            get
-            {
-                return _bestSeller;
-            }
+		public bool BestSeller
+		{
+			get
+			{
+				return _bestSeller;
+			}
 
-            set
-            {
-                if (_bestSeller == value)
-                    return;
+			set
+			{
+				if (_bestSeller == value)
+					return;
 
-                _bestSeller = value;
-                Update();
-            }
-        }
+				_bestSeller = value;
+				Update();
+			}
+		}
 
 		public bool IsVisible
 		{
@@ -182,89 +182,89 @@ namespace PluginManager.DAL.TextFiles.Tables
 		}
 
 		public decimal RetailPrice
-        {
-            get
-            {
-                return _retailPrice;
-            }
+		{
+			get
+			{
+				return _retailPrice;
+			}
 
-            set
-            {
-                if (_retailPrice == value)
-                    return;
+			set
+			{
+				if (_retailPrice == value)
+					return;
 
-                _retailPrice = value;
-                Update();
-            }
-        }
+				_retailPrice = value;
+				Update();
+			}
+		}
 
-        [UniqueIndex]
-        public string Sku
-        {
-            get
-            {
-                return _sku;
-            }
+		[UniqueIndex]
+		public string Sku
+		{
+			get
+			{
+				return _sku;
+			}
 
-            set
-            {
-                if (_sku == value)
-                    return;
+			set
+			{
+				if (_sku == value)
+					return;
 
-                _sku = value;
-                Update();
-            }
-        }
+				_sku = value;
+				Update();
+			}
+		}
 
-        public bool IsDownload
-        {
-            get
-            {
-                return _isDownload;
-            }
+		public bool IsDownload
+		{
+			get
+			{
+				return _isDownload;
+			}
 
-            set
-            {
-                if (_isDownload == value)
-                    return;
+			set
+			{
+				if (_isDownload == value)
+					return;
 
-                _isDownload = value;
-                Update();
-            }
-        }
+				_isDownload = value;
+				Update();
+			}
+		}
 
-        public bool AllowBackorder
-        {
-            get
-            {
-                return _allowBackorder;
-            }
+		public bool AllowBackorder
+		{
+			get
+			{
+				return _allowBackorder;
+			}
 
-            set
-            {
-                if (_allowBackorder == value)
-                    return;
+			set
+			{
+				if (_allowBackorder == value)
+					return;
 
-                _allowBackorder = value;
-                Update();
-            }
-        }
+				_allowBackorder = value;
+				Update();
+			}
+		}
 
-        public uint StockAvailability
-        {
-            get
-            {
-                return _stockAvailability;
-            }
+		public uint StockAvailability
+		{
+			get
+			{
+				return _stockAvailability;
+			}
 
-            set
-            {
-                if (_stockAvailability == value)
-                    return;
+			set
+			{
+				if (_stockAvailability == value)
+					return;
 
-                _stockAvailability = value;
-                Update();
-            }
-        }
-    }
+				_stockAvailability = value;
+				Update();
+			}
+		}
+	}
 }

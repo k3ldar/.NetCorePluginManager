@@ -27,23 +27,23 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.DomainHelpdesk, Constants.TableNameTicketStatus, CompressionType.None, CachingStrategy.Memory)]
-    internal class TicketStatusDataRow : TableRowDefinition
-    {
-        private string _description;
+	[Table(Constants.DomainHelpdesk, Constants.TableNameTicketStatus, CompressionType.None, CachingStrategy.Memory)]
+	internal class TicketStatusDataRow : TableRowDefinition
+	{
+		private string _description;
 
-        public string Description
-        {
-            get => _description;
+		public string Description
+		{
+			get => _description;
 
-            set
-            {
-                if (_description == value)
-                    return;
+			set
+			{
+				if (_description == value)
+					return;
 
-                _description = value;
-                Update();
-            }
-        }
-    }
+				_description = value;
+				Update();
+			}
+		}
+	}
 }

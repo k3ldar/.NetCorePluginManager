@@ -28,102 +28,102 @@ using System.Collections.Generic;
 
 namespace Middleware.Blog
 {
-    /// <summary>
-    /// Comment made by a user for a blog entry
-    /// </summary>
-    public sealed class BlogComment
-    {
-        #region Constructors
+	/// <summary>
+	/// Comment made by a user for a blog entry
+	/// </summary>
+	public sealed class BlogComment
+	{
+		#region Constructors
 
 		/// <summary>
 		/// Constructor
 		/// </summary>
-        public BlogComment()
-        {
+		public BlogComment()
+		{
 
-        }
+		}
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <param name="id">Unique id of the comment.</param>
-        /// <param name="parentComment">Parent comment id, if nested.</param>
-        /// <param name="dateTime">Date and time comment made.</param>
-        /// <param name="userId">Id of user making the comment.</param>
-        /// <param name="userName">Name of person making the comment.</param>
-        /// <param name="approved">Determines whether the comment is approved for display.</param>
-        /// <param name="comment">Comment made by another user.</param>
-        public BlogComment(in int id, in int? parentComment, in DateTime dateTime, in long userId,
-            in string userName, in bool approved, in string comment)
-        {
-            if (String.IsNullOrEmpty(userName))
-                throw new ArgumentNullException(nameof(userName));
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		/// <param name="id">Unique id of the comment.</param>
+		/// <param name="parentComment">Parent comment id, if nested.</param>
+		/// <param name="dateTime">Date and time comment made.</param>
+		/// <param name="userId">Id of user making the comment.</param>
+		/// <param name="userName">Name of person making the comment.</param>
+		/// <param name="approved">Determines whether the comment is approved for display.</param>
+		/// <param name="comment">Comment made by another user.</param>
+		public BlogComment(in int id, in int? parentComment, in DateTime dateTime, in long userId,
+			in string userName, in bool approved, in string comment)
+		{
+			if (String.IsNullOrEmpty(userName))
+				throw new ArgumentNullException(nameof(userName));
 
-            if (String.IsNullOrEmpty(comment))
-                throw new ArgumentNullException(nameof(comment));
+			if (String.IsNullOrEmpty(comment))
+				throw new ArgumentNullException(nameof(comment));
 
-            Comments = new List<BlogComment>();
+			Comments = new List<BlogComment>();
 
-            Id = id;
-            ParentComment = parentComment;
-            DateTime = dateTime;
-            UserId = userId;
-            Username = userName;
-            Approved = approved;
-            Comment = comment;
-        }
+			Id = id;
+			ParentComment = parentComment;
+			DateTime = dateTime;
+			UserId = userId;
+			Username = userName;
+			Approved = approved;
+			Comment = comment;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Unique id for the comment.
-        /// </summary>
-        /// <value>int</value>
-        public int Id { get; set; }
+		/// <summary>
+		/// Unique id for the comment.
+		/// </summary>
+		/// <value>int</value>
+		public int Id { get; set; }
 
-        /// <summary>
-        /// Id of the parent comment.  Allows for nesting comments.
-        /// </summary>
-        /// <value>int?</value>
-        public int? ParentComment { get; set; }
+		/// <summary>
+		/// Id of the parent comment.  Allows for nesting comments.
+		/// </summary>
+		/// <value>int?</value>
+		public int? ParentComment { get; set; }
 
-        /// <summary>
-        /// Date/Time the comment was made.
-        /// </summary>
-        /// <value>DateTime</value>
-        public DateTime DateTime { get; set; }
+		/// <summary>
+		/// Date/Time the comment was made.
+		/// </summary>
+		/// <value>DateTime</value>
+		public DateTime DateTime { get; set; }
 
-        /// <summary>
-        /// Name of user making the comment.
-        /// </summary>
-        /// <value>string</value>
-        public string Username { get; set; }
+		/// <summary>
+		/// Name of user making the comment.
+		/// </summary>
+		/// <value>string</value>
+		public string Username { get; set; }
 
-        /// <summary>
-        /// Unique user id of user making the comment.
-        /// </summary>
-        /// <value>long</value>
-        public long UserId { get; set; }
+		/// <summary>
+		/// Unique user id of user making the comment.
+		/// </summary>
+		/// <value>long</value>
+		public long UserId { get; set; }
 
-        /// <summary>
-        /// Provides an option for comments to be reviewed prior to being displayed.
-        /// </summary>
-        /// <value>bool</value>
-        public bool Approved { get; set; }
+		/// <summary>
+		/// Provides an option for comments to be reviewed prior to being displayed.
+		/// </summary>
+		/// <value>bool</value>
+		public bool Approved { get; set; }
 
-        /// <summary>
-        /// Comment made by a user.
-        /// </summary>
-        /// <value>string</value>
-        public string Comment { get; set; }
+		/// <summary>
+		/// Comment made by a user.
+		/// </summary>
+		/// <value>string</value>
+		public string Comment { get; set; }
 
-        /// <summary>
-        /// List of sub comments for the comment
-        /// </summary>
-        public List<BlogComment> Comments { get; set; }
+		/// <summary>
+		/// List of sub comments for the comment
+		/// </summary>
+		public List<BlogComment> Comments { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

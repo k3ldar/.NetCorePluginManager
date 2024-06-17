@@ -31,113 +31,113 @@ using SharedPluginFeatures;
 
 namespace DynamicContent.Plugin.Model
 {
-    public sealed class FormTemplateEditorModel
-    {
-        #region Private Members
+	public sealed class FormTemplateEditorModel
+	{
+		#region Private Members
 
-        private string _data;
+		private string _data;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public FormTemplateEditorModel(string data, bool allowAlignRight)
-        {
-            UpdateTemplateEditorModel(data);
+		public FormTemplateEditorModel(string data, bool allowAlignRight)
+		{
+			UpdateTemplateEditorModel(data);
 
-            if (allowAlignRight)
-            {
-                AlignLeftText = Languages.LanguageStrings.AppTextAlignmentRight;
-                AutoWidth = false;
-            }
-            else
-            {
-                AlignLeftText = Languages.LanguageStrings.AppTextAlignmentLeft;
-                AutoWidth = true;
-            }
-        }
+			if (allowAlignRight)
+			{
+				AlignLeftText = Languages.LanguageStrings.AppTextAlignmentRight;
+				AutoWidth = false;
+			}
+			else
+			{
+				AlignLeftText = Languages.LanguageStrings.AppTextAlignmentLeft;
+				AutoWidth = true;
+			}
+		}
 
-        public FormTemplateEditorModel(string data)
-            : this(data, false)
-        {
+		public FormTemplateEditorModel(string data)
+			: this(data, false)
+		{
 
-        }
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public string ControlName { get; private set; }
+		public string ControlName { get; private set; }
 
-        public string LabelText { get; private set; }
+		public string LabelText { get; private set; }
 
-        public string AlignLeftText { get; }
+		public string AlignLeftText { get; }
 
-        public bool AlignTop { get; private set; }
+		public bool AlignTop { get; private set; }
 
-        public string LabelStyle { get; private set; }
+		public string LabelStyle { get; private set; }
 
-        public string ControlStyle { get; private set; }
+		public string ControlStyle { get; private set; }
 
-        public string[] Options { get; private set; }
+		public string[] Options { get; private set; }
 
-        public string Data
-        {
-            get
-            {
-                return _data;
-            }
+		public string Data
+		{
+			get
+			{
+				return _data;
+			}
 
-            set
-            {
-                UpdateTemplateEditorModel(value);
-            }
-        }
+			set
+			{
+				UpdateTemplateEditorModel(value);
+			}
+		}
 
-        public bool AutoWidth { get; }
+		public bool AutoWidth { get; }
 
-        #endregion Properties
+		#endregion Properties
 
-        #region Private Methods
+		#region Private Methods
 
-        private void UpdateTemplateEditorModel(string data)
-        {
-            if (String.IsNullOrEmpty(data))
-                data = Constants.PipeString;
+		private void UpdateTemplateEditorModel(string data)
+		{
+			if (String.IsNullOrEmpty(data))
+				data = Constants.PipeString;
 
-            string[] parts = data.Split(Constants.PipeChar, StringSplitOptions.None);
+			string[] parts = data.Split(Constants.PipeChar, StringSplitOptions.None);
 
-            if (parts.Length > 0)
-                ControlName = HtmlHelper.RouteFriendlyName(parts[0]);
+			if (parts.Length > 0)
+				ControlName = HtmlHelper.RouteFriendlyName(parts[0]);
 
-            if (parts.Length > 1)
-                LabelText = parts[1];
-            else
-                LabelText = String.Empty;
+			if (parts.Length > 1)
+				LabelText = parts[1];
+			else
+				LabelText = String.Empty;
 
-            if (parts.Length > 2)
-                AlignTop = parts[2].Equals(Boolean.TrueString, StringComparison.InvariantCultureIgnoreCase);
+			if (parts.Length > 2)
+				AlignTop = parts[2].Equals(Boolean.TrueString, StringComparison.InvariantCultureIgnoreCase);
 
-            if (parts.Length > 3)
-                LabelStyle = parts[3];
-            else
-                LabelStyle = String.Empty;
+			if (parts.Length > 3)
+				LabelStyle = parts[3];
+			else
+				LabelStyle = String.Empty;
 
-            if (parts.Length > 4)
-                ControlStyle = parts[4];
-            else
-                ControlStyle = String.Empty;
+			if (parts.Length > 4)
+				ControlStyle = parts[4];
+			else
+				ControlStyle = String.Empty;
 
-            if (parts.Length > 5)
-                Options = parts[5].Split(";", StringSplitOptions.RemoveEmptyEntries);
-            else
-                Options = Array.Empty<string>();
+			if (parts.Length > 5)
+				Options = parts[5].Split(";", StringSplitOptions.RemoveEmptyEntries);
+			else
+				Options = Array.Empty<string>();
 
-            _data = data;
-        }
+			_data = data;
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591

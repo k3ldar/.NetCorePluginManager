@@ -34,37 +34,37 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace SharedPluginFeatures
 {
-    [AttributeUsage(AttributeTargets.Method)]
-    public class AjaxOnlyAttribute : ActionFilterAttribute
-    {
-        public override void OnActionExecuting(ActionExecutingContext context)
-        {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
+	[AttributeUsage(AttributeTargets.Method)]
+	public class AjaxOnlyAttribute : ActionFilterAttribute
+	{
+		public override void OnActionExecuting(ActionExecutingContext context)
+		{
+			if (context == null)
+				throw new ArgumentNullException(nameof(context));
 
-            if (!IsAjaxRequest(context.HttpContext.Request))
-            {
-                context.HttpContext.Response.StatusCode = 404;
-                context.Result = new StatusCodeResult(404);
-            }
-            else
-            {
-                base.OnActionExecuting(context);
-            }
-        }
+			if (!IsAjaxRequest(context.HttpContext.Request))
+			{
+				context.HttpContext.Response.StatusCode = 404;
+				context.Result = new StatusCodeResult(404);
+			}
+			else
+			{
+				base.OnActionExecuting(context);
+			}
+		}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool IsAjaxRequest(HttpRequest request)
-        {
-            if (request.Headers != null && request.Headers.ContainsKey("X-Requested-With"))
-            {
-                string requestedWith = request.Headers["X-Requested-With"];
-                return requestedWith.Equals("XmlHttpRequest", StringComparison.OrdinalIgnoreCase);
-            }
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private static bool IsAjaxRequest(HttpRequest request)
+		{
+			if (request.Headers != null && request.Headers.ContainsKey("X-Requested-With"))
+			{
+				string requestedWith = request.Headers["X-Requested-With"];
+				return requestedWith.Equals("XmlHttpRequest", StringComparison.OrdinalIgnoreCase);
+			}
 
-            return false;
-        }
-    }
+			return false;
+		}
+	}
 }
 
 #pragma warning restore CS1591

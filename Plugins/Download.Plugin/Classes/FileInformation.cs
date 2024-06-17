@@ -27,14 +27,14 @@
 
 namespace DownloadPlugin.Classes
 {
-    internal class FileInformation
-    {
-        #region Properties
+	internal class FileInformation
+	{
+		#region Properties
 
-        internal string Size { get; set; }
+		internal string Size { get; set; }
 
-        internal string Version { get; set; }
+		internal string Version { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

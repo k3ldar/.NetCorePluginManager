@@ -34,132 +34,132 @@ using SharedPluginFeatures;
 
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns a list of active user sessions, including longitude and latitude for
-    /// display on a map, this data can be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class CurrentUserLocationMenu : SystemAdminSubMenu
-    {
-        #region Overridden Methods
+	/// <summary>
+	/// Returns a list of active user sessions, including longitude and latitude for
+	/// display on a map, this data can be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public sealed class CurrentUserLocationMenu : SystemAdminSubMenu
+	{
+		#region Overridden Methods
 
-        public override string Action()
-        {
-            return String.Empty;
-        }
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Map;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Map;
+		}
 
-        public override string Data()
-        {
-            return GetUserMapData();
-        }
+		public override string Data()
+		{
+			return GetUserMapData();
+		}
 
-        public override string Name()
-        {
-            return "Map of Visitors";
-        }
+		public override string Name()
+		{
+			return "Map of Visitors";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "User Sessions";
-        }
+		public override string ParentMenuName()
+		{
+			return "User Sessions";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
+		public override int SortOrder()
+		{
+			return 0;
+		}
 
-        public override string Image()
-        {
-            return String.Empty;
-        }
+		public override string Image()
+		{
+			return String.Empty;
+		}
 
-        public override string BackColor()
-        {
-            return "#3498DB";
-        }
+		public override string BackColor()
+		{
+			return "#3498DB";
+		}
 
-        #endregion Overridden Methods
+		#endregion Overridden Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private static string GetUserMapData()
-        {
+		private static string GetUserMapData()
+		{
 			StringBuilder data = new();
 
-            foreach (UserSession session in UserSessionManager.Clone)
-            {
-                data.AppendFormat("['{0}<br />User: {3}<br />Converted: {4}<br />Mobile: {5}<br />Referrer: {6}" +
-                    "<br />Country: {9}<br />City: {10}<br />Total Pages: {11}<br />Total Time: {12} (s)', {1}, {2}, {7}, {8}, {13}, '{14}'],",
-                    session.IPAddress,
-                    session.Latitude,
-                    session.Longitude,
-                    String.IsNullOrEmpty(session.UserName) ? "Unknown" : session.UserName,
-                    session.CurrentSale > 0.00m ? "Yes" : "No",
-                    session.IsMobileDevice ? "Yes" : "No",
-                    session.Referal.ToString(),
-                    session.IsBot ? 1 : 2, // 7 bot
-                    session.CurrentSale > 0.00m ? 1 : 2, // 8 sale
-                    session.CountryCode,
-                    session.CityName,
-                    session.Pages.Count,
-                    session.TotalTime,
-                    session.Bounced ? 1 : 2,
-                    GetImageName(session));
-            }
+			foreach (UserSession session in UserSessionManager.Clone)
+			{
+				data.AppendFormat("['{0}<br />User: {3}<br />Converted: {4}<br />Mobile: {5}<br />Referrer: {6}" +
+					"<br />Country: {9}<br />City: {10}<br />Total Pages: {11}<br />Total Time: {12} (s)', {1}, {2}, {7}, {8}, {13}, '{14}'],",
+					session.IPAddress,
+					session.Latitude,
+					session.Longitude,
+					String.IsNullOrEmpty(session.UserName) ? "Unknown" : session.UserName,
+					session.CurrentSale > 0.00m ? "Yes" : "No",
+					session.IsMobileDevice ? "Yes" : "No",
+					session.Referal.ToString(),
+					session.IsBot ? 1 : 2, // 7 bot
+					session.CurrentSale > 0.00m ? 1 : 2, // 8 sale
+					session.CountryCode,
+					session.CityName,
+					session.Pages.Count,
+					session.TotalTime,
+					session.Bounced ? 1 : 2,
+					GetImageName(session));
+			}
 
 			string Result = data.ToString();
 
 			if (Result.EndsWith(','))
 				Result = Result[..^1];
 
-            return Result;
-        }
+			return Result;
+		}
 
-        private static string GetImageName(UserSession session)
-        {
-            if (session.IsBot)
-                return "orange";
+		private static string GetImageName(UserSession session)
+		{
+			if (session.IsBot)
+				return "orange";
 
-            if (session.Bounced)
-                return "yellow";
+			if (session.Bounced)
+				return "yellow";
 
-            if (session.CurrentSale > 0.00m)
-            {
-                if (session.IsMobileDevice)
-                    return "grn-pushpin";
-                else
-                    return "blue-pushpin";
-            }
+			if (session.CurrentSale > 0.00m)
+			{
+				if (session.IsMobileDevice)
+					return "grn-pushpin";
+				else
+					return "blue-pushpin";
+			}
 
-            if (!String.IsNullOrEmpty(session.UserEmail))
-            {
-                if (session.IsMobileDevice)
-                    return "green-dot";
-                else
-                    return "green";
-            }
+			if (!String.IsNullOrEmpty(session.UserEmail))
+			{
+				if (session.IsMobileDevice)
+					return "green-dot";
+				else
+					return "green";
+			}
 
-            return "blue";
-        }
+			return "blue";
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591

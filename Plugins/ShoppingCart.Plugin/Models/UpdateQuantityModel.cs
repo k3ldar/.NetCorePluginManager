@@ -28,31 +28,31 @@
 
 namespace ShoppingCartPlugin.Models
 {
-    public sealed class UpdateQuantityModel
-    {
-        #region Constructors
+	public sealed class UpdateQuantityModel
+	{
+		#region Constructors
 
-        public UpdateQuantityModel()
-        {
+		public UpdateQuantityModel()
+		{
 
-        }
+		}
 
-        public UpdateQuantityModel(in int productId, in int quantity)
-        {
-            ProductId = productId;
-            Quantity = quantity;
-        }
+		public UpdateQuantityModel(in int productId, in int quantity)
+		{
+			ProductId = productId;
+			Quantity = quantity;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public int ProductId { get; set; }
+		public int ProductId { get; set; }
 
-        public int Quantity { get; set; }
+		public int Quantity { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

@@ -33,114 +33,114 @@ using PluginManager.Abstractions;
 
 namespace PluginManager.Tests.Mocks
 {
-    [ExcludeFromCodeCoverage]
-    internal class MockPluginManager : BasePluginManager
-    {
-        internal MockPluginManager()
-            : base(new PluginManagerConfiguration(), new PluginSettings())
-        {
+	[ExcludeFromCodeCoverage]
+	internal class MockPluginManager : BasePluginManager
+	{
+		internal MockPluginManager()
+			: base(new PluginManagerConfiguration(), new PluginSettings())
+		{
 
-        }
+		}
 
-        internal MockPluginManager(ILogger logger)
-            : base(new PluginManagerConfiguration(logger), new PluginSettings())
-        {
+		internal MockPluginManager(ILogger logger)
+			: base(new PluginManagerConfiguration(logger), new PluginSettings())
+		{
 
-        }
+		}
 
-        internal MockPluginManager(in PluginManagerConfiguration configuration, in PluginSettings pluginSettings)
-            : base(configuration, pluginSettings)
-        {
+		internal MockPluginManager(in PluginManagerConfiguration configuration, in PluginSettings pluginSettings)
+			: base(configuration, pluginSettings)
+		{
 
-        }
+		}
 
-        internal IServiceProvider GetServiceProvider()
-        {
-            return base.ServiceProvider;
-        }
+		internal IServiceProvider GetServiceProvider()
+		{
+			return base.ServiceProvider;
+		}
 
-        internal string Path()
-        {
-            return RootPath;
-        }
+		internal string Path()
+		{
+			return RootPath;
+		}
 
-        internal IServiceConfigurator GetServiceConfigurator()
-        {
+		internal IServiceConfigurator GetServiceConfigurator()
+		{
 
-            return ServiceConfigurator;
-        }
+			return ServiceConfigurator;
+		}
 
-        internal void TestSetServiceConfigurator(IServiceConfigurator serviceConfigurator)
-        {
-            SetServiceConfigurator(serviceConfigurator);
-        }
+		internal void TestSetServiceConfigurator(IServiceConfigurator serviceConfigurator)
+		{
+			SetServiceConfigurator(serviceConfigurator);
+		}
 
-        protected override bool CanExtractResource(in string resourceName)
-        {
-            return TestCanExtractResources;
-        }
+		protected override bool CanExtractResource(in string resourceName)
+		{
+			return TestCanExtractResources;
+		}
 
-        protected override void ModifyPluginResourceName(ref string resourceName)
-        {
+		protected override void ModifyPluginResourceName(ref string resourceName)
+		{
 
-        }
+		}
 
-        protected override void PluginConfigured(in IPluginModule pluginModule)
-        {
+		protected override void PluginConfigured(in IPluginModule pluginModule)
+		{
 
-        }
+		}
 
-        protected override void PluginInitialised(in IPluginModule pluginModule)
-        {
+		protected override void PluginInitialised(in IPluginModule pluginModule)
+		{
 
-        }
+		}
 
-        protected override void PluginLoaded(in Assembly pluginFile)
-        {
+		protected override void PluginLoaded(in Assembly pluginFile)
+		{
 
-        }
+		}
 
-        protected override void PluginLoading(in Assembly pluginFile)
-        {
+		protected override void PluginLoading(in Assembly pluginFile)
+		{
 
-        }
+		}
 
-        protected override void PostConfigurePluginServices(in IServiceCollection serviceProvider)
-        {
+		protected override void PostConfigurePluginServices(in IServiceCollection serviceProvider)
+		{
 
-        }
+		}
 
-        protected override void PreConfigurePluginServices(in IServiceCollection serviceProvider)
-        {
+		protected override void PreConfigurePluginServices(in IServiceCollection serviceProvider)
+		{
 
-        }
+		}
 
-        protected override void ServiceConfigurationComplete(in IServiceCollection serviceCollection)
-        {
+		protected override void ServiceConfigurationComplete(in IServiceCollection serviceCollection)
+		{
 
-        }
+		}
 
-        internal void RegisterServiceConfigurator(MockServiceConfigurator serviceConfigurator)
-        {
-            base.SetServiceConfigurator(serviceConfigurator as IServiceConfigurator);
-        }
+		internal void RegisterServiceConfigurator(MockServiceConfigurator serviceConfigurator)
+		{
+			base.SetServiceConfigurator(serviceConfigurator as IServiceConfigurator);
+		}
 
-        internal void TestDispose(bool disposing)
-        {
-            Dispose(disposing);
-        }
+		internal void TestDispose(bool disposing)
+		{
+			Dispose(disposing);
+		}
 
-        internal bool TestAddPluginModule(in string assemblyName, IPluginModule pluginModule)
-        {
-            return base.AddPluginModule(assemblyName, pluginModule);
-        }
+		internal bool TestAddPluginModule(in string assemblyName, IPluginModule pluginModule)
+		{
+			return base.AddPluginModule(assemblyName, pluginModule);
+		}
 
-        internal bool ContainsRegisteredStartupThread(string threadName, Type type)
-        {
-            return RegisteredStartupThreads.ContainsKey(threadName) &&
-                RegisteredStartupThreads[threadName].IsEquivalentTo(type);
-        }
+		internal bool ContainsRegisteredStartupThread(string threadName, Type type)
+		{
+			return RegisteredStartupThreads.ContainsKey(threadName) &&
+				RegisteredStartupThreads[threadName].IsEquivalentTo(type);
+		}
 
-        internal bool TestCanExtractResources { get; set; }
-    }
+		internal bool TestCanExtractResources { get; set; }
+	}
 }

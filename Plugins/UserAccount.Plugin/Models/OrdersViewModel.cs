@@ -34,29 +34,29 @@ namespace UserAccount.Plugin.Models
 {
 #pragma warning disable CS1591
 
-    public sealed class OrdersViewModel : BaseModel
-    {
-        #region Constructors
+	public sealed class OrdersViewModel : BaseModel
+	{
+		#region Constructors
 
-        public OrdersViewModel()
-        {
-            Orders = new List<Order>();
-        }
+		public OrdersViewModel()
+		{
+			Orders = new List<Order>();
+		}
 
-        public OrdersViewModel(in BaseModelData baseModelData, in List<Order> orders)
-            : base(baseModelData)
-        {
-            Orders = orders ?? throw new ArgumentNullException(nameof(orders));
-        }
+		public OrdersViewModel(in BaseModelData baseModelData, in List<Order> orders)
+			: base(baseModelData)
+		{
+			Orders = orders ?? throw new ArgumentNullException(nameof(orders));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public List<Order> Orders { get; private set; }
+		public List<Order> Orders { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 
 #pragma warning restore CS1591
 }

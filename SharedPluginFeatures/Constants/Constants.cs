@@ -27,205 +27,205 @@
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Constant values shared between all plugin modules and the AspNetCore.PluginManager
-    /// </summary>
-    public static class Constants
-    {
-        /// <summary>
-        /// Name of web smoke test cache manager
-        /// </summary>
-        public const string CacheManagerWebSmokeTest = "Web Smoke Test Cache";
+	/// <summary>
+	/// Constant values shared between all plugin modules and the AspNetCore.PluginManager
+	/// </summary>
+	public static class Constants
+	{
+		/// <summary>
+		/// Name of web smoke test cache manager
+		/// </summary>
+		public const string CacheManagerWebSmokeTest = "Web Smoke Test Cache";
 
-        /// <summary>
-        /// Name of login cache manager
-        /// </summary>
-        public const string CacheManagerLogin = "Login Cache";
+		/// <summary>
+		/// Name of login cache manager
+		/// </summary>
+		public const string CacheManagerLogin = "Login Cache";
 
-        /// <summary>
-        /// Name of error manager cache
-        /// </summary>
-        public const string CacheManagerErrorManager = "Error Manager Cache";
+		/// <summary>
+		/// Name of error manager cache
+		/// </summary>
+		public const string CacheManagerErrorManager = "Error Manager Cache";
 
-        /// <summary>
-        /// Name of download cache
-        /// </summary>
-        public const string CacheManagerDownload = "Download Cache";
+		/// <summary>
+		/// Name of download cache
+		/// </summary>
+		public const string CacheManagerDownload = "Download Cache";
 
-        /// <summary>
-        /// Name of helpdesk cache
-        /// </summary>
-        public const string CacheManagerHelpdesk = "Helpdesk Cache";
+		/// <summary>
+		/// Name of helpdesk cache
+		/// </summary>
+		public const string CacheManagerHelpdesk = "Helpdesk Cache";
 
-        /// <summary>
-        /// Name of image manager cache
-        /// </summary>
-        public const string CacheManagerImageManager = "Image Manager Cache";
+		/// <summary>
+		/// Name of image manager cache
+		/// </summary>
+		public const string CacheManagerImageManager = "Image Manager Cache";
 
-        /// <summary>
-        /// Name of create account cache
-        /// </summary>
-        public const string CacheManagerCreateAccount = "Create Account Cache";
+		/// <summary>
+		/// Name of create account cache
+		/// </summary>
+		public const string CacheManagerCreateAccount = "Create Account Cache";
 
-        /// <summary>
-        /// Authorization header name
-        /// </summary>
-        public const string HeaderAuthorizationName = "Authorization";
+		/// <summary>
+		/// Authorization header name
+		/// </summary>
+		public const string HeaderAuthorizationName = "Authorization";
 
-        /// <summary>
-        /// Minimum password length, default to 8 characters
-        /// </summary>
-        public const int MinimumPasswordLength = 8;
+		/// <summary>
+		/// Minimum password length, default to 8 characters
+		/// </summary>
+		public const int MinimumPasswordLength = 8;
 
-        /// <summary>
-        /// Maximum password length, default to 40 characters
-        /// </summary>
-        public const int MaximumPasswordLength = 40;
+		/// <summary>
+		/// Maximum password length, default to 40 characters
+		/// </summary>
+		public const int MaximumPasswordLength = 40;
 
 		/// <summary>
 		/// Minimum key length
 		/// </summary>
-        public const int MinimumKeyLength = 20;
+		public const int MinimumKeyLength = 20;
 
 		/// <summary>
 		/// Maximum key length
 		/// </summary>
-        public const int MaximumKeyLength = 60;
+		public const int MaximumKeyLength = 60;
 
-        /// <summary>
-        /// Name of UserSession that is injected into the request pipeline
-        /// </summary>
-        public const string UserSession = "UserSession";
+		/// <summary>
+		/// Name of UserSession that is injected into the request pipeline
+		/// </summary>
+		public const string UserSession = "UserSession";
 
-        /// <summary>
-        /// Name of culture used by the user and injected into the request pipeline by Localization.Plugin module.
-        /// </summary>
-        public const string UserCulture = "UserCulture";
+		/// <summary>
+		/// Name of culture used by the user and injected into the request pipeline by Localization.Plugin module.
+		/// </summary>
+		public const string UserCulture = "UserCulture";
 
-        /// <summary>
-        /// Name of the breadcrumbs injected into the request pipeline by UserSessionMiddleware.Plugin module.
-        /// </summary>
-        public const string Breadcrumbs = "Breadcrumbs";
+		/// <summary>
+		/// Name of the breadcrumbs injected into the request pipeline by UserSessionMiddleware.Plugin module.
+		/// </summary>
+		public const string Breadcrumbs = "Breadcrumbs";
 
-        /// <summary>
-        /// Name of the ShoppingCart item injected into the request pipeline by ShoppingCart.Plugin module.
-        /// </summary>
-        public const string ShoppingCart = "ShoppingCart";
+		/// <summary>
+		/// Name of the ShoppingCart item injected into the request pipeline by ShoppingCart.Plugin module.
+		/// </summary>
+		public const string ShoppingCart = "ShoppingCart";
 
-        /// <summary>
-        /// Name of the ShoppingCartSummary item injected into the request pipeline by ShoppingCart.Plugin module.
-        /// </summary>
-        public const string BasketSummary = "BasketSummary";
+		/// <summary>
+		/// Name of the ShoppingCartSummary item injected into the request pipeline by ShoppingCart.Plugin module.
+		/// </summary>
+		public const string BasketSummary = "BasketSummary";
 
-        /// <summary>
-        /// Default tax rate used by ShoppingCart.Plugin module.
-        /// </summary>
-        public const string DefaultTaxRate = "DefaultTaxRate";
+		/// <summary>
+		/// Default tax rate used by ShoppingCart.Plugin module.
+		/// </summary>
+		public const string DefaultTaxRate = "DefaultTaxRate";
 
-        /// <summary>
-        /// Name of the title of the document injected into the request pipline by SeoPlugin module.
-        /// </summary>
-        public const string SeoTitle = "SeoTitle";
+		/// <summary>
+		/// Name of the title of the document injected into the request pipline by SeoPlugin module.
+		/// </summary>
+		public const string SeoTitle = "SeoTitle";
 
-        /// <summary>
-        /// Name of the meta description of the document injected into the request pipline by SeoPlugin module.
-        /// </summary>
-        public const string SeoMetaDescription = "SeoMetaDescription";
+		/// <summary>
+		/// Name of the meta description of the document injected into the request pipline by SeoPlugin module.
+		/// </summary>
+		public const string SeoMetaDescription = "SeoMetaDescription";
 
-        /// <summary>
-        /// Name of the meta keywords of the document injected into the request pipline by SeoPlugin module.
-        /// </summary>
-        public const string SeoMetaKeywords = "SeoTags";
+		/// <summary>
+		/// Name of the meta keywords of the document injected into the request pipline by SeoPlugin module.
+		/// </summary>
+		public const string SeoMetaKeywords = "SeoTags";
 
-        /// <summary>
-        /// Name of the author of the document injected into the request pipline by SeoPlugin module.
-        /// </summary>
-        public const string SeoMetaAuthor = "SeoAuthor";
+		/// <summary>
+		/// Name of the author of the document injected into the request pipline by SeoPlugin module.
+		/// </summary>
+		public const string SeoMetaAuthor = "SeoAuthor";
 
-        /// <summary>
-        /// Default name of session cookie if no value is specified when the application is initialised.
-        /// </summary>
-        public const string DefaultSessionCookie = "user_session";
+		/// <summary>
+		/// Default name of session cookie if no value is specified when the application is initialised.
+		/// </summary>
+		public const string DefaultSessionCookie = "user_session";
 
-        /// <summary>
-        /// Default name of user cookie consent
-        /// </summary>
-        public const string UserConsentCookie = "UserCookieConsent";
+		/// <summary>
+		/// Default name of user cookie consent
+		/// </summary>
+		public const string UserConsentCookie = "UserCookieConsent";
 
-        /// <summary>
-        /// Name of the user session configuration setting.
-        /// </summary>
-        public const string UserSessionConfiguration = "UserSessionConfiguration";
+		/// <summary>
+		/// Name of the user session configuration setting.
+		/// </summary>
+		public const string UserSessionConfiguration = "UserSessionConfiguration";
 
-        /// <summary>
-        /// Default static file extensions
-        /// </summary>
-        public const string StaticFileExtensions = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;.map;";
+		/// <summary>
+		/// Default static file extensions
+		/// </summary>
+		public const string StaticFileExtensions = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;.map;";
 
-        /// <summary>
-        /// File Extension for a compiled view assembly.
-        /// </summary>
-        public const string ViewsFileExtension = ".Views.dll";
+		/// <summary>
+		/// File Extension for a compiled view assembly.
+		/// </summary>
+		public const string ViewsFileExtension = ".Views.dll";
 
-        /// <summary>
-        /// Page referrer constant
-        /// </summary>
-        public const string PageReferrer = "Referer";
+		/// <summary>
+		/// Page referrer constant
+		/// </summary>
+		public const string PageReferrer = "Referer";
 
-        /// <summary>
-        /// User agent constant
-        /// </summary>
-        public const string UserAgent = "User-Agent";
+		/// <summary>
+		/// User agent constant
+		/// </summary>
+		public const string UserAgent = "User-Agent";
 
-        /// <summary>
-        /// Forward slash (/) constant
-        /// </summary>
-        public const string ForwardSlash = "/";
+		/// <summary>
+		/// Forward slash (/) constant
+		/// </summary>
+		public const string ForwardSlash = "/";
 
-        /// <summary>
-        /// Forward slash (/) char constant.
-        /// </summary>
-        public const char ForwardSlashChar = '/';
+		/// <summary>
+		/// Forward slash (/) char constant.
+		/// </summary>
+		public const char ForwardSlashChar = '/';
 
-        /// <summary>
-        /// Pipe character (|) char constant
-        /// </summary>
-        public const char PipeChar = '|';
+		/// <summary>
+		/// Pipe character (|) char constant
+		/// </summary>
+		public const char PipeChar = '|';
 
-        /// <summary>
-        /// Pipe character (|) string constant
-        /// </summary>
-        public const string PipeString = "|";
+		/// <summary>
+		/// Pipe character (|) string constant
+		/// </summary>
+		public const string PipeString = "|";
 
-        /// <summary>
-        /// Asterix (*) char
-        /// </summary>
-        public const char Asterix = '*';
+		/// <summary>
+		/// Asterix (*) char
+		/// </summary>
+		public const char Asterix = '*';
 
-        /// <summary>
-        /// Dash (-) char constant.
-        /// </summary>
-        public const char Dash = '-';
+		/// <summary>
+		/// Dash (-) char constant.
+		/// </summary>
+		public const char Dash = '-';
 
-        /// <summary>
-        /// Underscore (_) char constant
-        /// </summary>
-        public const char Underscore = '_';
+		/// <summary>
+		/// Underscore (_) char constant
+		/// </summary>
+		public const char Underscore = '_';
 
-        /// <summary>
-        /// Ampersand (&amp;) char constant
-        /// </summary>
-        public const char AmpersandChar = '&';
+		/// <summary>
+		/// Ampersand (&amp;) char constant
+		/// </summary>
+		public const char AmpersandChar = '&';
 
 		/// <summary>
 		/// New line char constant
 		/// </summary>
 		public const char NewLineChar = '\r';
 
-        /// <summary>
-        /// Equals (=) char constant
-        /// </summary>
-        public const char EqualsChar = '=';
+		/// <summary>
+		/// Equals (=) char constant
+		/// </summary>
+		public const char EqualsChar = '=';
 
 		/// <summary>
 		/// Colon (:) char constant
@@ -247,15 +247,15 @@ namespace SharedPluginFeatures
 		/// </summary>
 		public const string PluginSettingBreadcrumb = "Breadcrumb.Plugin";
 
-        /// <summary>
-        /// Api authorization settings name
-        /// </summary>
-        public const string PluginSettingApiAuthorization = "ApiAuthorization";
+		/// <summary>
+		/// Api authorization settings name
+		/// </summary>
+		public const string PluginSettingApiAuthorization = "ApiAuthorization";
 
-        /// <summary>
-        /// Spider settings name
-        /// </summary>
-        public const string SpiderSettings = "Spider.Plugin";
+		/// <summary>
+		/// Spider settings name
+		/// </summary>
+		public const string SpiderSettings = "Spider.Plugin";
 
 		/// <summary>
 		/// Memory cache settings name
@@ -267,130 +267,130 @@ namespace SharedPluginFeatures
 		/// </summary>
 		public const string PluginNameUserSession = "UserSessionMiddleware.Plugin.dll";
 
-        /// <summary>
-        /// Name of the Localization.Plugin module which controlls all localization requests.
-        /// </summary>
-        public const string PluginNameLocalization = "Localization.Plugin.dll";
+		/// <summary>
+		/// Name of the Localization.Plugin module which controlls all localization requests.
+		/// </summary>
+		public const string PluginNameLocalization = "Localization.Plugin.dll";
 
-        /// <summary>
-        /// Name of ShoppingCart.Plugin, this can be used in conjunction with IPluginHelperService when determining whether the shopping cart plugin is loaded.
-        /// </summary>
-        public const string PluginNameShoppingCart = "ShoppingCartPlugin.dll";
+		/// <summary>
+		/// Name of ShoppingCart.Plugin, this can be used in conjunction with IPluginHelperService when determining whether the shopping cart plugin is loaded.
+		/// </summary>
+		public const string PluginNameShoppingCart = "ShoppingCartPlugin.dll";
 
-        /// <summary>
-        /// Exception text used to raise an exception if the user session service is not found or configured.
-        /// </summary>
-        public const string UserSessionServiceNotFound = "UserSessionService not found";
+		/// <summary>
+		/// Exception text used to raise an exception if the user session service is not found or configured.
+		/// </summary>
+		public const string UserSessionServiceNotFound = "UserSessionService not found";
 
-        /// <summary>
-        /// Exception text used to raise an exception should the breadcrumb route match its parent route.
-        /// </summary>
-        public const string BreadcrumbRoutEqualsParentRoute = "Parent route matches route; Route: {0}; Parent Route {1}";
+		/// <summary>
+		/// Exception text used to raise an exception should the breadcrumb route match its parent route.
+		/// </summary>
+		public const string BreadcrumbRoutEqualsParentRoute = "Parent route matches route; Route: {0}; Parent Route {1}";
 
-        /// <summary>
-        /// Exception text used to raise an exception if their is a problem recursively obtaining breadcrumb results for a route.
-        /// </summary>
-        public const string TooManyBreadcrumbs = "Breadcrumb recursion, check parent route values";
+		/// <summary>
+		/// Exception text used to raise an exception if their is a problem recursively obtaining breadcrumb results for a route.
+		/// </summary>
+		public const string TooManyBreadcrumbs = "Breadcrumb recursion, check parent route values";
 
-        /// <summary>
-        /// Exception message used when registering a INotificationListener with the INotificationService message notifications, when the event name has not been registered.
-        /// </summary>
-        public const string EventNameNotRegistered = "Event name has not been registered";
+		/// <summary>
+		/// Exception message used when registering a INotificationListener with the INotificationService message notifications, when the event name has not been registered.
+		/// </summary>
+		public const string EventNameNotRegistered = "Event name has not been registered";
 
-        /// <summary>
-        /// Exception message used when attempting to view an invalid class type
-        /// </summary>
-        public const string InvalidTypeName = "Invalid type name";
+		/// <summary>
+		/// Exception message used when attempting to view an invalid class type
+		/// </summary>
+		public const string InvalidTypeName = "Invalid type name";
 
-        /// <summary>
-        /// Default currency code used when no currency code is supplied
-        /// </summary>
-        public const string CurrencyCodeDefault = "GBP";
+		/// <summary>
+		/// Default currency code used when no currency code is supplied
+		/// </summary>
+		public const string CurrencyCodeDefault = "GBP";
 
-        /// <summary>
-        /// Name of the documentation file cache
-        /// </summary>
-        public const string DocumentationFileCache = "DocumentationFileCache";
+		/// <summary>
+		/// Name of the documentation file cache
+		/// </summary>
+		public const string DocumentationFileCache = "DocumentationFileCache";
 
-        /// <summary>
-        /// Name of the documentation list cache
-        /// </summary>
-        public const string DocumentationListCache = "DocumentationListCache";
+		/// <summary>
+		/// Name of the documentation list cache
+		/// </summary>
+		public const string DocumentationListCache = "DocumentationListCache";
 
-        /// <summary>
-        /// Notification event name for obtaining GeoIp load times.
-        /// </summary>
-        public const string NotificationEventGeoIpLoadTime = "GeoIpLoadTime";
+		/// <summary>
+		/// Notification event name for obtaining GeoIp load times.
+		/// </summary>
+		public const string NotificationEventGeoIpLoadTime = "GeoIpLoadTime";
 
-        /// <summary>
-        /// Notification event name for obtaining GeoIp record count.
-        /// </summary>
-        public const string NotificationEventGeoIpRecordCount = "GeoIpRecordCount";
+		/// <summary>
+		/// Notification event name for obtaining GeoIp record count.
+		/// </summary>
+		public const string NotificationEventGeoIpRecordCount = "GeoIpRecordCount";
 
-        /// <summary>
-        /// Notification event name for uploading an image.
-        /// </summary>
-        public const string NotificationEventImageUploaded = "ImageUploadedEvent";
+		/// <summary>
+		/// Notification event name for uploading an image.
+		/// </summary>
+		public const string NotificationEventImageUploaded = "ImageUploadedEvent";
 
-        /// <summary>
-        /// Notification event name for image upload options.
-        /// </summary>
-        public const string NotificationEventImageUploadOptions = "ImageUploadOptions";
+		/// <summary>
+		/// Notification event name for image upload options.
+		/// </summary>
+		public const string NotificationEventImageUploadOptions = "ImageUploadOptions";
 
-        /// <summary>
-        /// Notification event name for dynamic content updated.
-        /// </summary>
-        public const string NotificationEventDynamicContentUpdated = "DynamicContentUpdated";
+		/// <summary>
+		/// Notification event name for dynamic content updated.
+		/// </summary>
+		public const string NotificationEventDynamicContentUpdated = "DynamicContentUpdated";
 
-        /// <summary>
-        /// Name of sitemap listener
-        /// </summary>
-        public const string NotificationSitemapNames = "Sitemap Names";
+		/// <summary>
+		/// Name of sitemap listener
+		/// </summary>
+		public const string NotificationSitemapNames = "Sitemap Names";
 
-        /// <summary>
-        /// Name of the default cache manager.
-        /// </summary>
-        public const string CacheNameDefault = "Internal Default Cache Manager";
+		/// <summary>
+		/// Name of the default cache manager.
+		/// </summary>
+		public const string CacheNameDefault = "Internal Default Cache Manager";
 
-        /// <summary>
-        /// Name of the short cache manager.
-        /// </summary>
-        public const string CacheNameShort = "Internal Short Cache Manager";
+		/// <summary>
+		/// Name of the short cache manager.
+		/// </summary>
+		public const string CacheNameShort = "Internal Short Cache Manager";
 
-        /// <summary>
-        /// Name of the extending cache manager.
-        /// </summary>
-        public const string CacheNameExtending = "Extending Cache Manager";
+		/// <summary>
+		/// Name of the extending cache manager.
+		/// </summary>
+		public const string CacheNameExtending = "Extending Cache Manager";
 
-        /// <summary>
-        /// Name of the permanent cache manager.
-        /// </summary>
-        public const string CacheNamePermanent = "Permanent Cache Manager";
+		/// <summary>
+		/// Name of the permanent cache manager.
+		/// </summary>
+		public const string CacheNamePermanent = "Permanent Cache Manager";
 
-        /// <summary>
-        /// Name of the permanent cache manager.
-        /// </summary>
-        public const string CacheNameDynamicContent = "Dynamic Content Cache Manager";
+		/// <summary>
+		/// Name of the permanent cache manager.
+		/// </summary>
+		public const string CacheNameDynamicContent = "Dynamic Content Cache Manager";
 
-        /// <summary>
-        /// Name of the Sitemap  cache
-        /// </summary>
-        public const string CacheSitemaps = "Sitemap Cache";
+		/// <summary>
+		/// Name of the Sitemap  cache
+		/// </summary>
+		public const string CacheSitemaps = "Sitemap Cache";
 
-        /// <summary>
-        /// Filename of the base sitemap name
-        /// </summary>
-        public const string BaseSitemap = "sitemap.xml";
+		/// <summary>
+		/// Filename of the base sitemap name
+		/// </summary>
+		public const string BaseSitemap = "sitemap.xml";
 
-        /// <summary>
-        /// Name of the url to return to in the event of a 403 error.
-        /// </summary>
-        public const string ReturnUrl = "ReturnUrl";
+		/// <summary>
+		/// Name of the url to return to in the event of a 403 error.
+		/// </summary>
+		public const string ReturnUrl = "ReturnUrl";
 
-        /// <summary>
-        /// Name of the thread that loads default documentation
-        /// </summary>
-        public const string DocumentationLoadThread = "Documentation load thread";
+		/// <summary>
+		/// Name of the thread that loads default documentation
+		/// </summary>
+		public const string DocumentationLoadThread = "Documentation load thread";
 
 		/// <summary>
 		/// Name of thread used to import emails into the helpdesk
@@ -402,60 +402,60 @@ namespace SharedPluginFeatures
 		/// </summary>
 		public static readonly string[] ForwardForHeader = new string[] { "HTTP_X_FORWARDED_FOR", "X-Forwarded-For", "http-X-Forwarded-For", "X-Real-IP" };
 
-        /// <summary>
-        /// Hex value for color white 
-        /// </summary>
-        public const string ColorWhiteHex = "#FFFFFF";
+		/// <summary>
+		/// Hex value for color white 
+		/// </summary>
+		public const string ColorWhiteHex = "#FFFFFF";
 
-        /// <summary>
-        /// Name of the folder that will contain copies of the plugin that will be loaded.
-        /// </summary>
-        public const string TempPluginPath = "PluginModules";
+		/// <summary>
+		/// Name of the folder that will contain copies of the plugin that will be loaded.
+		/// </summary>
+		public const string TempPluginPath = "PluginModules";
 
-        /// <summary>
-        /// Internally used Pagination Start
-        /// </summary>
-        public const string PaginationStart = "<ul class=\"pagination\">";
+		/// <summary>
+		/// Internally used Pagination Start
+		/// </summary>
+		public const string PaginationStart = "<ul class=\"pagination\">";
 
-        /// <summary>
-        /// Internally used Pagination End
-        /// </summary>
-        public const string PaginationEnd = "</ul>";
+		/// <summary>
+		/// Internally used Pagination End
+		/// </summary>
+		public const string PaginationEnd = "</ul>";
 
-        /// <summary>
-        /// Internally used Pagination Previous Disabled
-        /// </summary>
-        public const string PaginationPrevDisabled = "<li class=\"page-item disabled\"><a class=\"page-link\" href=\"javascript: void(0)\">&laquo; {0}</a></li>";
+		/// <summary>
+		/// Internally used Pagination Previous Disabled
+		/// </summary>
+		public const string PaginationPrevDisabled = "<li class=\"page-item disabled\"><a class=\"page-link\" href=\"javascript: void(0)\">&laquo; {0}</a></li>";
 
-        /// <summary>
-        /// Internally used Pagination Previous Enabled
-        /// </summary>
-        public const string PaginationPrevEnabled = "<li class=\"page-item\"><a class=\"page-link\" href=\"{0}Page/{1}/{2}\">&laquo; {3}</a></li>";
+		/// <summary>
+		/// Internally used Pagination Previous Enabled
+		/// </summary>
+		public const string PaginationPrevEnabled = "<li class=\"page-item\"><a class=\"page-link\" href=\"{0}Page/{1}/{2}\">&laquo; {3}</a></li>";
 
-        /// <summary>
-        /// Internally used Pagination Next Disabled
-        /// </summary>
-        public const string PaginationNextDisabled = "<li class=\"page-item disabled\"><a class=\"page-link\" href=\"javascript: void(0)\">{0} &raquo;</a></li>";
+		/// <summary>
+		/// Internally used Pagination Next Disabled
+		/// </summary>
+		public const string PaginationNextDisabled = "<li class=\"page-item disabled\"><a class=\"page-link\" href=\"javascript: void(0)\">{0} &raquo;</a></li>";
 
-        /// <summary>
-        /// Internally used Pagination Next Enabled
-        /// </summary>
-        public const string PaginationNext = "<li class=\"page-item\"><a class=\"page-link\" href=\"{0}Page/{1}/{2}\">{3} &raquo;</a></li>";
+		/// <summary>
+		/// Internally used Pagination Next Enabled
+		/// </summary>
+		public const string PaginationNext = "<li class=\"page-item\"><a class=\"page-link\" href=\"{0}Page/{1}/{2}\">{3} &raquo;</a></li>";
 
-        /// <summary>
-        /// Internally used Pagination Active Page
-        /// </summary>
-        public const string PaginationPageActive = "<li class=\"page-item active\"><a class=\"page-link\" href=\"{0}Page/{1}/{2}\">{1}</a></li>";
+		/// <summary>
+		/// Internally used Pagination Active Page
+		/// </summary>
+		public const string PaginationPageActive = "<li class=\"page-item active\"><a class=\"page-link\" href=\"{0}Page/{1}/{2}\">{1}</a></li>";
 
-        /// <summary>
-        /// Internally used Pagination Page
-        /// </summary>
-        public const string PaginationPage = "<li class=\"page-item\"><a class=\"page-link\" href=\"{0}Page/{1}/{2}\">{1}</a></li>";
+		/// <summary>
+		/// Internally used Pagination Page
+		/// </summary>
+		public const string PaginationPage = "<li class=\"page-item\"><a class=\"page-link\" href=\"{0}Page/{1}/{2}\">{1}</a></li>";
 
-        /// <summary>
-        /// Date format for W3C string conversioni
-        /// </summary>
-        public const string W3CDateFormat = "yyyy-MM-ddTHH:mm:ss.fffffffzzz";
+		/// <summary>
+		/// Date format for W3C string conversioni
+		/// </summary>
+		public const string W3CDateFormat = "yyyy-MM-ddTHH:mm:ss.fffffffzzz";
 
 		/// <summary>
 		/// Name of policy for system settings
@@ -467,49 +467,49 @@ namespace SharedPluginFeatures
 		/// </summary>
 		public const string PolicyNameBlogCreate = "BlogCreate";
 
-        /// <summary>
-        /// Name of Policy for responding to blogs
-        /// </summary>
-        public const string PolicyNameBlogRespond = "BlogRespond";
+		/// <summary>
+		/// Name of Policy for responding to blogs
+		/// </summary>
+		public const string PolicyNameBlogRespond = "BlogRespond";
 
-        /// <summary>
-        /// Name of Policy for altering Seo data on pages
-        /// </summary>
-        public const string PolicyNameAlterSeoData = "AlterSeo";
+		/// <summary>
+		/// Name of Policy for altering Seo data on pages
+		/// </summary>
+		public const string PolicyNameAlterSeoData = "AlterSeo";
 
-        /// <summary>
-        /// Name of Policy for managing user permissions and claims
-        /// </summary>
-        public const string PolicyNameManagePermissions = "ManagePermissions";
+		/// <summary>
+		/// Name of Policy for managing user permissions and claims
+		/// </summary>
+		public const string PolicyNameManagePermissions = "ManagePermissions";
 
-        /// <summary>
-        /// Name of policy for members of staff
-        /// </summary>
-        public const string PolicyNameStaff = "MemberOfStaff";
+		/// <summary>
+		/// Name of policy for members of staff
+		/// </summary>
+		public const string PolicyNameStaff = "MemberOfStaff";
 
-        /// <summary>
-        /// Name of policy for viewing images within image manager
-        /// </summary>
-        public const string PolicyNameViewImageManager = "ImageManager";
+		/// <summary>
+		/// Name of policy for viewing images within image manager
+		/// </summary>
+		public const string PolicyNameViewImageManager = "ImageManager";
 
-        /// <summary>
-        /// Name of policy for managing images within image manager
-        /// </summary>
-        public const string PolicyNameImageManagerManage = "ImageManagerManage";
-        /// <summary>
-        /// User can edit dynamic content
-        /// </summary>
-        public const string PolicyNameContentEditor = "ContentEditor";
+		/// <summary>
+		/// Name of policy for managing images within image manager
+		/// </summary>
+		public const string PolicyNameImageManagerManage = "ImageManagerManage";
+		/// <summary>
+		/// User can edit dynamic content
+		/// </summary>
+		public const string PolicyNameContentEditor = "ContentEditor";
 
-        /// <summary>
-        /// Name of policy for Api authorization
-        /// </summary>
-        public const string PolicyNameApiAuthorization = "ApiAuthorization";
+		/// <summary>
+		/// Name of policy for Api authorization
+		/// </summary>
+		public const string PolicyNameApiAuthorization = "ApiAuthorization";
 
-        /// <summary>
-        /// Name of policy for managing products
-        /// </summary>
-        public const string PolicyNameManageProducts = "ManageProducts";
+		/// <summary>
+		/// Name of policy for managing products
+		/// </summary>
+		public const string PolicyNameManageProducts = "ManageProducts";
 
 		/// <summary>
 		/// Name of policy for adding resources
@@ -525,10 +525,10 @@ namespace SharedPluginFeatures
 		/// Claim name for allowing user to manage content
 		/// </summary>
 		public const string ClaimNameManageContent = "ManageContent";
-        /// <summary>
-        /// Claim name for administrators
-        /// </summary>
-        public const string ClaimNameAdministrator = "Administrator";
+		/// <summary>
+		/// Claim name for administrators
+		/// </summary>
+		public const string ClaimNameAdministrator = "Administrator";
 
 		/// <summary>
 		/// Claim name for managing system settings
@@ -540,50 +540,50 @@ namespace SharedPluginFeatures
 		/// </summary>
 		public const string ClaimNameStaff = "StaffMember";
 
-        /// <summary>
-        /// Name of claim for managing Seo data
-        /// </summary>
-        public const string ClaimNameManageSeo = "ManageSeo";
+		/// <summary>
+		/// Name of claim for managing Seo data
+		/// </summary>
+		public const string ClaimNameManageSeo = "ManageSeo";
 
-        /// <summary>
-        /// Name of claim for creating blogs
-        /// </summary>
-        public const string ClaimNameCreateBlog = "CanCreateBlog";
+		/// <summary>
+		/// Name of claim for creating blogs
+		/// </summary>
+		public const string ClaimNameCreateBlog = "CanCreateBlog";
 
-        /// <summary>
-        /// Name of claim for user name
-        /// </summary>
-        public const string ClaimNameUsername = "Name";
+		/// <summary>
+		/// Name of claim for user name
+		/// </summary>
+		public const string ClaimNameUsername = "Name";
 
-        /// <summary>
-        /// Name of claim for user email
-        /// </summary>
-        public const string ClaimNameUserEmail = "Email";
+		/// <summary>
+		/// Name of claim for user email
+		/// </summary>
+		public const string ClaimNameUserEmail = "Email";
 
-        /// <summary>
-        /// Name of claim for user id
-        /// </summary>
-        public const string ClaimNameUserId = "UserId";
+		/// <summary>
+		/// Name of claim for user id
+		/// </summary>
+		public const string ClaimNameUserId = "UserId";
 
-        /// <summary>
-        /// Name of claim for managing user permissions
-        /// </summary>
-        public const string ClaimNameUserPermissions = "UserPermissions";
+		/// <summary>
+		/// Name of claim for managing user permissions
+		/// </summary>
+		public const string ClaimNameUserPermissions = "UserPermissions";
 
-        /// <summary>
-        /// Name of claim for viewing image manager images
-        /// </summary>
-        public const string ClaimNameViewImageManager = "ViewImageManager";
+		/// <summary>
+		/// Name of claim for viewing image manager images
+		/// </summary>
+		public const string ClaimNameViewImageManager = "ViewImageManager";
 
-        /// <summary>
-        /// Name of claim for managing images (add/delete etc) within image manager
-        /// </summary>
-        public const string ClaimNameManageImages = "ManageImages";
+		/// <summary>
+		/// Name of claim for managing images (add/delete etc) within image manager
+		/// </summary>
+		public const string ClaimNameManageImages = "ManageImages";
 
-        /// <summary>
-        /// Name of claim for managing products
-        /// </summary>
-        public const string ClaimNameManageProducts = "ManageProducts";
+		/// <summary>
+		/// Name of claim for managing products
+		/// </summary>
+		public const string ClaimNameManageProducts = "ManageProducts";
 
 		/// <summary>
 		/// Name of claim for adding resources
@@ -595,185 +595,185 @@ namespace SharedPluginFeatures
 		/// </summary>
 		public const string ClaimNameManageResources = "ManageResources";
 
-        /// <summary>
-        /// Name of claim identity for user claims
-        /// </summary>
-        public const string ClaimIdentityUser = "User";
+		/// <summary>
+		/// Name of claim identity for user claims
+		/// </summary>
+		public const string ClaimIdentityUser = "User";
 
-        /// <summary>
-        /// Name of claim identity for blog claims
-        /// </summary>
-        public const string ClaimIdentityBlog = "Blog";
+		/// <summary>
+		/// Name of claim identity for blog claims
+		/// </summary>
+		public const string ClaimIdentityBlog = "Blog";
 
-        /// <summary>
-        /// Name of claim identity for website
-        /// </summary>
-        public const string ClaimIdentityWebsite = "Website";
+		/// <summary>
+		/// Name of claim identity for website
+		/// </summary>
+		public const string ClaimIdentityWebsite = "Website";
 
 		/// <summary>
 		/// Name of claim identity for application provided claims
 		/// </summary>
 		public const string ClaimIdentityApplication = "Application";
 
-        /// <summary>
-        /// Name of the minification thread.
-        /// </summary>
-        public const string MinificationThread = "Minification Engine";
+		/// <summary>
+		/// Name of the minification thread.
+		/// </summary>
+		public const string MinificationThread = "Minification Engine";
 
-        /// <summary>
-        /// Name of the event used to find extra files that need to be minimised.
-        /// </summary>
-        public const string NotificationEventMinifyFiles = "MinificationFiles";
+		/// <summary>
+		/// Name of the event used to find extra files that need to be minimised.
+		/// </summary>
+		public const string NotificationEventMinifyFiles = "MinificationFiles";
 
-        /// <summary>
-        /// Maximum number of products that can be returned during a search.
-        /// </summary>
-        public const int MaximumProducts = 50000000;
+		/// <summary>
+		/// Maximum number of products that can be returned during a search.
+		/// </summary>
+		public const int MaximumProducts = 50000000;
 
-        /// <summary>
-        /// Name of thread used for Bad Egg validation
-        /// </summary>
-        public const string BadEggValidationThread = "Bad Egg Validation";
+		/// <summary>
+		/// Name of thread used for Bad Egg validation
+		/// </summary>
+		public const string BadEggValidationThread = "Bad Egg Validation";
 
-        /// <summary>
-        /// Header name for ignoring BadEgg validation
-        /// </summary>
-        public const string BadEggValidationIgnoreHeaderName = "BadEggCode";
+		/// <summary>
+		/// Header name for ignoring BadEgg validation
+		/// </summary>
+		public const string BadEggValidationIgnoreHeaderName = "BadEggCode";
 
-        /// <summary>
-        /// Name of bad egg settings as found within appsettings.json
-        /// </summary>
-        public const string BadEggSettingsName = "BadEgg.Plugin";
+		/// <summary>
+		/// Name of bad egg settings as found within appsettings.json
+		/// </summary>
+		public const string BadEggSettingsName = "BadEgg.Plugin";
 
-        /// <summary>
-        /// Name of bad egg settings as found within appsettings.json
-        /// </summary>
-        public const string ApiAuthorizationSettingsName = "ApiAuthorization";
+		/// <summary>
+		/// Name of bad egg settings as found within appsettings.json
+		/// </summary>
+		public const string ApiAuthorizationSettingsName = "ApiAuthorization";
 
-        /// <summary>
-        /// Bad egg image for use in system admin
-        /// </summary>
-        public const string SystemImageBadEgg = "badegg";
+		/// <summary>
+		/// Bad egg image for use in system admin
+		/// </summary>
+		public const string SystemImageBadEgg = "badegg";
 
-        /// <summary>
-        /// Stopwatch image for use in system admin
-        /// </summary>
-        public const string SystemImageStopWatch = "stopwatch";
+		/// <summary>
+		/// Stopwatch image for use in system admin
+		/// </summary>
+		public const string SystemImageStopWatch = "stopwatch";
 
-        /// <summary>
-        /// Uptime image within system admin
-        /// </summary>
-        public const string SystemImageUptime = "uptime";
+		/// <summary>
+		/// Uptime image within system admin
+		/// </summary>
+		public const string SystemImageUptime = "uptime";
 
-        /// <summary>
-        /// Stopwatch image to be system admin
-        /// </summary>
-        public const string SystemImageChart = "chart";
+		/// <summary>
+		/// Stopwatch image to be system admin
+		/// </summary>
+		public const string SystemImageChart = "chart";
 
-        /// <summary>
-        /// Webnet 77 data file name
-        /// </summary>
-        public const string Webnet77CsvDataFileName = "IpToCountry.csv";
+		/// <summary>
+		/// Webnet 77 data file name
+		/// </summary>
+		public const string Webnet77CsvDataFileName = "IpToCountry.csv";
 
-        /// <summary>
-        /// .zip file extension
-        /// </summary>
-        public const string FileExtensionZip = ".zip";
+		/// <summary>
+		/// .zip file extension
+		/// </summary>
+		public const string FileExtensionZip = ".zip";
 
-        /// <summary>
-        /// .dat file extension
-        /// </summary>
-        public const string FileExtensionDat = ".dat";
+		/// <summary>
+		/// .dat file extension
+		/// </summary>
+		public const string FileExtensionDat = ".dat";
 
-        /// <summary>
-        /// .apng file extension
-        /// </summary>
-        public const string FileExtensionApng = ".apng";
+		/// <summary>
+		/// .apng file extension
+		/// </summary>
+		public const string FileExtensionApng = ".apng";
 
-        /// <summary>
-        /// .avif file extension
-        /// </summary>
-        public const string FileExtensionAvif = ".avif";
+		/// <summary>
+		/// .avif file extension
+		/// </summary>
+		public const string FileExtensionAvif = ".avif";
 
-        /// <summary>
-        /// .gif file extension
-        /// </summary>
-        public const string FileExtensionGif = ".gif";
+		/// <summary>
+		/// .gif file extension
+		/// </summary>
+		public const string FileExtensionGif = ".gif";
 
-        /// <summary>
-        /// .jpeg file extension
-        /// </summary>
-        public const string FileExtensionJpeg = ".jpeg";
+		/// <summary>
+		/// .jpeg file extension
+		/// </summary>
+		public const string FileExtensionJpeg = ".jpeg";
 
-        /// <summary>
-        /// .jpg file extension
-        /// </summary>
-        public const string FileExtensionJpg = ".jpg";
+		/// <summary>
+		/// .jpg file extension
+		/// </summary>
+		public const string FileExtensionJpg = ".jpg";
 
-        /// <summary>
-        /// .png file extension
-        /// </summary>
-        public const string FileExtensionPng = ".png";
+		/// <summary>
+		/// .png file extension
+		/// </summary>
+		public const string FileExtensionPng = ".png";
 
-        /// <summary>
-        /// .svg file extension
-        /// </summary>
-        public const string FileExtensionSvg = ".svg";
+		/// <summary>
+		/// .svg file extension
+		/// </summary>
+		public const string FileExtensionSvg = ".svg";
 
-        /// <summary>
-        /// .webp file extension
-        /// </summary>
-        public const string FileExtensionWebP = ".webp";
+		/// <summary>
+		/// .webp file extension
+		/// </summary>
+		public const string FileExtensionWebP = ".webp";
 
-        /// <summary>
-        /// .tmp file extension
-        /// </summary>
-        public const string FileExtensionTmp = ".tmp";
+		/// <summary>
+		/// .tmp file extension
+		/// </summary>
+		public const string FileExtensionTmp = ".tmp";
 
-        /// <summary>
-        /// Content type for application/json
-        /// </summary>
-        public const string ContentTypeApplicationJson = "application/json";
+		/// <summary>
+		/// Content type for application/json
+		/// </summary>
+		public const string ContentTypeApplicationJson = "application/json";
 
-        /// <summary>
-        /// Successful html response code
-        /// </summary>
-        public const int HtmlResponseSuccess = 200;
+		/// <summary>
+		/// Successful html response code
+		/// </summary>
+		public const int HtmlResponseSuccess = 200;
 
-        /// <summary>
-        /// Temporarily moved html response code
-        /// </summary>
-        public const int HtmlResponseMovedTemporarily = 302;
+		/// <summary>
+		/// Temporarily moved html response code
+		/// </summary>
+		public const int HtmlResponseMovedTemporarily = 302;
 
-        /// <summary>
-        /// Bad request response code
-        /// </summary>
-        public const int HtmlResponseBadRequest = 400;
+		/// <summary>
+		/// Bad request response code
+		/// </summary>
+		public const int HtmlResponseBadRequest = 400;
 
-        /// <summary>
-        /// Unauthorized reesponse code
-        /// </summary>
-        public const int HtmlResponseUnauthorized = 401;
+		/// <summary>
+		/// Unauthorized reesponse code
+		/// </summary>
+		public const int HtmlResponseUnauthorized = 401;
 
-        /// <summary>
-        /// Bad request response code
-        /// </summary>
-        public const int HtmlResponseNotFound = 404;
+		/// <summary>
+		/// Bad request response code
+		/// </summary>
+		public const int HtmlResponseNotFound = 404;
 
-        /// <summary>
-        /// Method not allowed response code
-        /// </summary>
-        public const int HtmlResponseMethodNotAllowed = 405;
+		/// <summary>
+		/// Method not allowed response code
+		/// </summary>
+		public const int HtmlResponseMethodNotAllowed = 405;
 
-        /// <summary>
-        /// Method failure response code
-        /// </summary>
-        public const int HtmlResponseMethodFailure = 420;
+		/// <summary>
+		/// Method failure response code
+		/// </summary>
+		public const int HtmlResponseMethodFailure = 420;
 
-        /// <summary>
-        /// Name of product image folder
-        /// </summary>
-        public const string ProductImageFolderName = "Products";
+		/// <summary>
+		/// Name of product image folder
+		/// </summary>
+		public const string ProductImageFolderName = "Products";
 
 		/// <summary>
 		/// Path for previous directory
@@ -784,5 +784,5 @@ namespace SharedPluginFeatures
 		/// Value applied for days for session only cookie
 		/// </summary>
 		public const int SessionOnlyCookie = 0;
-    }
+	}
 }

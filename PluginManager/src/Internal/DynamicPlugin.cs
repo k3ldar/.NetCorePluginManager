@@ -32,27 +32,27 @@ using PluginManager.Abstractions;
 
 namespace PluginManager.Internal
 {
-    internal class DynamicPlugin : IPlugin
-    {
-        #region IPlugin Methods
+	internal class DynamicPlugin : IPlugin
+	{
+		#region IPlugin Methods
 
-        public void ConfigureServices(IServiceCollection services)
-        {
+		public void ConfigureServices(IServiceCollection services)
+		{
 			// required by interface not used in this implementation
 		}
 
 		public void Finalise()
-        {
+		{
 			// required by interface not used in this implementation
 		}
 
 		public ushort GetVersion()
-        {
-            return 1;
-        }
+		{
+			return 1;
+		}
 
-        public void Initialise(ILogger logger)
-        {
+		public void Initialise(ILogger logger)
+		{
 			// required by interface not used in this implementation
 		}
 

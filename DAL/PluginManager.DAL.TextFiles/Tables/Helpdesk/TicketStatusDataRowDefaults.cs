@@ -27,27 +27,27 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal class TicketStatusDataRowDefaults : ITableDefaults<TicketStatusDataRow>
-    {
-        public long PrimarySequence => 0;
+	internal class TicketStatusDataRowDefaults : ITableDefaults<TicketStatusDataRow>
+	{
+		public long PrimarySequence => 0;
 
-        public long SecondarySequence => 0;
+		public long SecondarySequence => 0;
 
-        public ushort Version => 1;
+		public ushort Version => 1;
 
-        public List<TicketStatusDataRow> InitialData(ushort version)
-        {
-            if (version == 1)
-            {
-                return new List<TicketStatusDataRow>()
-                {
-                    new() { Description = "Closed" },
-                    new() { Description = "Open" },
-                    new() { Description = "On Hold" }
-                };
-            }
+		public List<TicketStatusDataRow> InitialData(ushort version)
+		{
+			if (version == 1)
+			{
+				return new List<TicketStatusDataRow>()
+				{
+					new() { Description = "Closed" },
+					new() { Description = "Open" },
+					new() { Description = "On Hold" }
+				};
+			}
 
-            return null;
-        }
-    }
+			return null;
+		}
+	}
 }

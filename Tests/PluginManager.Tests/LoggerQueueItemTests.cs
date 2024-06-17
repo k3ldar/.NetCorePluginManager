@@ -30,33 +30,33 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace PluginManager.Tests
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
-    public class LoggerQueueItemTests
-    {
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_InvalidParam_Message_Null_Throws_ArgumentNullException()
-        {
-            new LoggerQueueItem(LogLevel.Error, null);
-        }
+	[TestClass]
+	[ExcludeFromCodeCoverage]
+	public class LoggerQueueItemTests
+	{
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Construct_InvalidParam_Message_Null_Throws_ArgumentNullException()
+		{
+			new LoggerQueueItem(LogLevel.Error, null);
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_InvalidParam_Message_EmptyString_Throws_ArgumentNullException()
-        {
-            new LoggerQueueItem(LogLevel.Error, "");
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Construct_InvalidParam_Message_EmptyString_Throws_ArgumentNullException()
+		{
+			new LoggerQueueItem(LogLevel.Error, "");
+		}
 
-        [TestMethod]
-        public void Construct_ValidLoggerQueueItem_Success()
-        {
-            DateTime createDate = DateTime.Now;
-            LoggerQueueItem sut = new(LogLevel.Error, "some data");
+		[TestMethod]
+		public void Construct_ValidLoggerQueueItem_Success()
+		{
+			DateTime createDate = DateTime.Now;
+			LoggerQueueItem sut = new(LogLevel.Error, "some data");
 
-            Assert.IsTrue(sut.Date.Ticks >= createDate.Ticks);
-            Assert.AreEqual(LogLevel.Error, sut.Level);
-            Assert.AreEqual("some data", sut.Message);
-        }
-    }
+			Assert.IsTrue(sut.Date.Ticks >= createDate.Ticks);
+			Assert.AreEqual(LogLevel.Error, sut.Level);
+			Assert.AreEqual("some data", sut.Message);
+		}
+	}
 }

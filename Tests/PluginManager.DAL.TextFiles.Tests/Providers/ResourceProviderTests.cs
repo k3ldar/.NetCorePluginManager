@@ -55,7 +55,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 	public class ResourceProviderTests : BaseProviderTests
 	{
 		[TestInitialize]
-		public void Setup() 
+		public void Setup()
 		{
 			ThreadManager.Initialise();
 		}
@@ -714,7 +714,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					resourceCategories.Insert(new ResourceCategoryDataRow()
 					{
 						Description = "description",
-						Name = "test",						
+						Name = "test",
 					});
 
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
@@ -1062,7 +1062,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 							Description = $"test resource {i}",
 							ForeColor = "black",
 							BackColor = "white",
-							ParentCategoryId = i < 5 ? 0 :  i < 8 ? 2 : 3,
+							ParentCategoryId = i < 5 ? 0 : i < 8 ? 2 : 3,
 							IsVisible = true,
 						});
 					}

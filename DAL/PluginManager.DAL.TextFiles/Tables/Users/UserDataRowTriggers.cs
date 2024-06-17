@@ -29,43 +29,43 @@ using SimpleDB;
 namespace PluginManager.DAL.TextFiles.Tables
 {
 	internal class UserDataRowTriggers : ITableTriggers<UserDataRow>
-    {
-        public int Position => 0;
+	{
+		public int Position => 0;
 
-        public TriggerType TriggerTypes => TriggerType.BeforeInsert;
+		public TriggerType TriggerTypes => TriggerType.BeforeInsert;
 
-        public void AfterDelete(List<UserDataRow> records)
-        {
+		public void AfterDelete(List<UserDataRow> records)
+		{
 			// from interface but unused in this context
-        }
+		}
 
 		public void AfterInsert(List<UserDataRow> records)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterUpdate(List<UserDataRow> records)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeDelete(List<UserDataRow> records)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeInsert(List<UserDataRow> records)
-        {
-            records.ForEach(r => r.PasswordExpire = DateTime.Now.AddYears(1));
-        }
+		{
+			records.ForEach(r => r.PasswordExpire = DateTime.Now.AddYears(1));
+		}
 
-        public void BeforeUpdate(List<UserDataRow> records)
-        {
+		public void BeforeUpdate(List<UserDataRow> records)
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeUpdate(UserDataRow newRecord, UserDataRow oldRecord)
-        {
+		{
 			// from interface but unused in this context
 		}
 	}

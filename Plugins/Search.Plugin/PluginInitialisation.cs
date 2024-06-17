@@ -39,36 +39,36 @@ using SharedPluginFeatures;
 
 namespace SearchPlugin
 {
-    /// <summary>
-    /// Implements IPlugin and IPluginVersion which allows the Search.Plugin module to be
-    /// loaded as a plugin module
-    /// </summary>
-    public class PluginInitialisation : IPlugin, IInitialiseEvents
-    {
-        #region IInitialiseEvents Methods
+	/// <summary>
+	/// Implements IPlugin and IPluginVersion which allows the Search.Plugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	public class PluginInitialisation : IPlugin, IInitialiseEvents
+	{
+		#region IInitialiseEvents Methods
 
-        public void AfterConfigure(in IApplicationBuilder app)
-        {
+		public void AfterConfigure(in IApplicationBuilder app)
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
-        {
-            services.TryAddSingleton<ISearchProvider, DefaultSearchProvider>();
-        }
+		{
+			services.TryAddSingleton<ISearchProvider, DefaultSearchProvider>();
+		}
 
-        public void BeforeConfigure(in IApplicationBuilder app)
-        {
+		public void BeforeConfigure(in IApplicationBuilder app)
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeConfigureServices(in IServiceCollection services)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void Configure(in IApplicationBuilder app)
-        {
+		{
 			// from interface but unused in this context
 		}
 
@@ -77,22 +77,22 @@ namespace SearchPlugin
 		#region IPlugin Methods
 
 		public void ConfigureServices(IServiceCollection services)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void Finalise()
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public ushort GetVersion()
-        {
-            return 1;
-        }
+		{
+			return 1;
+		}
 
-        public void Initialise(ILogger logger)
-        {
+		public void Initialise(ILogger logger)
+		{
 			// from interface but unused in this context
 		}
 

@@ -42,391 +42,391 @@ using System.Globalization;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
-    internal sealed class ShoppingCartProvider : IShoppingCartProvider, IShoppingCartService, IDisposable
-    {
-        #region Private Members
+	internal sealed class ShoppingCartProvider : IShoppingCartProvider, IShoppingCartService, IDisposable
+	{
+		#region Private Members
 
-        private static readonly CacheManager _cartCacheManager = new("Shopping Carts", new TimeSpan(0, 20, 0), true);
-        private bool _cartHookedUp;
-        private readonly IAccountProvider _accountProvider;
-        private readonly string _encryptionKey;
-        private readonly decimal _defaultTaxRate;
-        private readonly string _defaultCurrency;
-        private readonly ISimpleDBOperations<ShoppingCartDataRow> _shoppingCartData;
-        private readonly ISimpleDBOperations<ShoppingCartItemDataRow> _shoppingCartItemData;
-        private readonly ISimpleDBOperations<OrderDataRow> _orderData;
-        private readonly ISimpleDBOperations<OrderItemDataRow> _orderItemsData;
-        private readonly ISimpleDBOperations<VoucherDataRow> _voucherData;
-				private readonly object _lockObject = new();
+		private static readonly CacheManager _cartCacheManager = new("Shopping Carts", new TimeSpan(0, 20, 0), true);
+		private bool _cartHookedUp;
+		private readonly IAccountProvider _accountProvider;
+		private readonly string _encryptionKey;
+		private readonly decimal _defaultTaxRate;
+		private readonly string _defaultCurrency;
+		private readonly ISimpleDBOperations<ShoppingCartDataRow> _shoppingCartData;
+		private readonly ISimpleDBOperations<ShoppingCartItemDataRow> _shoppingCartItemData;
+		private readonly ISimpleDBOperations<OrderDataRow> _orderData;
+		private readonly ISimpleDBOperations<OrderItemDataRow> _orderItemsData;
+		private readonly ISimpleDBOperations<VoucherDataRow> _voucherData;
+		private readonly object _lockObject = new();
 
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public ShoppingCartProvider(ISimpleDBOperations<ShoppingCartDataRow> shoppingCartData,
-            ISimpleDBOperations<ShoppingCartItemDataRow> shoppingCartItemData, 
-            ISimpleDBOperations<OrderDataRow> orderData, ISimpleDBOperations<OrderItemDataRow> orderItemsData,
-            ISimpleDBOperations<VoucherDataRow> voucherData, IAccountProvider accountProvider, 
+		public ShoppingCartProvider(ISimpleDBOperations<ShoppingCartDataRow> shoppingCartData,
+			ISimpleDBOperations<ShoppingCartItemDataRow> shoppingCartItemData,
+			ISimpleDBOperations<OrderDataRow> orderData, ISimpleDBOperations<OrderItemDataRow> orderItemsData,
+			ISimpleDBOperations<VoucherDataRow> voucherData, IAccountProvider accountProvider,
 						IApplicationSettingsProvider settingsProvider)
-        {
-            _shoppingCartData = shoppingCartData ?? throw new ArgumentNullException(nameof(shoppingCartData));
-            _shoppingCartItemData = shoppingCartItemData ?? throw new ArgumentNullException(nameof(shoppingCartItemData));
-            _accountProvider = accountProvider ?? throw new ArgumentNullException(nameof(accountProvider));
-            _orderData = orderData ?? throw new ArgumentNullException(nameof(orderData));
-            _orderItemsData = orderItemsData ?? throw new ArgumentNullException(nameof(orderItemsData));
-            _voucherData = voucherData ?? throw new ArgumentNullException(nameof(voucherData));
+		{
+			_shoppingCartData = shoppingCartData ?? throw new ArgumentNullException(nameof(shoppingCartData));
+			_shoppingCartItemData = shoppingCartItemData ?? throw new ArgumentNullException(nameof(shoppingCartItemData));
+			_accountProvider = accountProvider ?? throw new ArgumentNullException(nameof(accountProvider));
+			_orderData = orderData ?? throw new ArgumentNullException(nameof(orderData));
+			_orderItemsData = orderItemsData ?? throw new ArgumentNullException(nameof(orderItemsData));
+			_voucherData = voucherData ?? throw new ArgumentNullException(nameof(voucherData));
 
-            if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+			if (settingsProvider == null)
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            _encryptionKey = settingsProvider.RetrieveSetting("ShoppingCartEncryption");
-            _defaultTaxRate = settingsProvider.RetrieveSetting<decimal>("DefaultTaxRate");
-            _defaultCurrency = settingsProvider.RetrieveSetting("DefaultCurrency");
+			_encryptionKey = settingsProvider.RetrieveSetting("ShoppingCartEncryption");
+			_defaultTaxRate = settingsProvider.RetrieveSetting<decimal>("DefaultTaxRate");
+			_defaultCurrency = settingsProvider.RetrieveSetting("DefaultCurrency");
 
-            if (String.IsNullOrEmpty(_encryptionKey))
-                throw new InvalidOperationException("Encryption key for shopping cart can not be null or empty");
+			if (String.IsNullOrEmpty(_encryptionKey))
+				throw new InvalidOperationException("Encryption key for shopping cart can not be null or empty");
 
-            lock (_lockObject)
-            {
-                if (!_cartHookedUp)
-                {
-                    _cartCacheManager.ItemNotFound += cartCacheManager_ItemNotFound;
-                    _cartHookedUp = true;
-                }
-            }
-        }
+			lock (_lockObject)
+			{
+				if (!_cartHookedUp)
+				{
+					_cartCacheManager.ItemNotFound += cartCacheManager_ItemNotFound;
+					_cartHookedUp = true;
+				}
+			}
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IShoppingCartProvider Methds
+		#region IShoppingCartProvider Methds
 
-        public long AddToCart(in UserSession userSession, in ShoppingCartSummary shoppingCart,
-            in Product product, in int count)
-        {
-            if (userSession == null)
-                throw new ArgumentNullException(nameof(userSession));
+		public long AddToCart(in UserSession userSession, in ShoppingCartSummary shoppingCart,
+			in Product product, in int count)
+		{
+			if (userSession == null)
+				throw new ArgumentNullException(nameof(userSession));
 
-            if (shoppingCart == null)
-                throw new ArgumentNullException(nameof(shoppingCart));
+			if (shoppingCart == null)
+				throw new ArgumentNullException(nameof(shoppingCart));
 
-            if (product == null)
-                throw new ArgumentNullException(nameof(product));
+			if (product == null)
+				throw new ArgumentNullException(nameof(product));
 
-            if (count < 1)
-                throw new ArgumentOutOfRangeException(nameof(count));
+			if (count < 1)
+				throw new ArgumentOutOfRangeException(nameof(count));
 
-            decimal cost = product.RetailPrice;
+			decimal cost = product.RetailPrice;
 
-            if (cost < 0)
-                throw new InvalidOperationException($"{nameof(cost)} value must be greater than zero");
+			if (cost < 0)
+				throw new InvalidOperationException($"{nameof(cost)} value must be greater than zero");
 
-            ShoppingCartDetail cartDetail = null;
+			ShoppingCartDetail cartDetail = null;
 
-            string cacheName = $"Cart {shoppingCart.Id}";
+			string cacheName = $"Cart {shoppingCart.Id}";
 
-            CacheItem basket = _cartCacheManager.Get(cacheName);
+			CacheItem basket = _cartCacheManager.Get(cacheName);
 
-            if (basket == null)
-            {
-                if (shoppingCart.Id == 0)
-                {
-                    ShoppingCartDataRow cartDataRow = CreateNewShoppingCart(-1);
+			if (basket == null)
+			{
+				if (shoppingCart.Id == 0)
+				{
+					ShoppingCartDataRow cartDataRow = CreateNewShoppingCart(-1);
 
-                    // create a new cart
-                    shoppingCart.ResetShoppingCartId(cartDataRow.Id);
+					// create a new cart
+					shoppingCart.ResetShoppingCartId(cartDataRow.Id);
 
-                    cartDetail = new ShoppingCartDetail(shoppingCart.Id,
-                        0, 0, _defaultTaxRate, 0, 0, shoppingCart.Culture, String.Empty,
-                        new List<ShoppingCartItem>(), false, _defaultCurrency);
-                }
+					cartDetail = new ShoppingCartDetail(shoppingCart.Id,
+						0, 0, _defaultTaxRate, 0, 0, shoppingCart.Culture, String.Empty,
+						new List<ShoppingCartItem>(), false, _defaultCurrency);
+				}
 
-                basket = new CacheItem(cacheName, cartDetail);
-                _cartCacheManager.Add(cacheName, basket, true);
-            }
+				basket = new CacheItem(cacheName, cartDetail);
+				_cartCacheManager.Add(cacheName, basket, true);
+			}
 
-            if (userSession.UserBasketId != shoppingCart.Id)
-                userSession.UserBasketId = shoppingCart.Id;
+			if (userSession.UserBasketId != shoppingCart.Id)
+				userSession.UserBasketId = shoppingCart.Id;
 
-            if (shoppingCart.Id == 0 || userSession.UserBasketId != shoppingCart.Id)
-                shoppingCart.ResetShoppingCartId(userSession.UserBasketId);
+			if (shoppingCart.Id == 0 || userSession.UserBasketId != shoppingCart.Id)
+				shoppingCart.ResetShoppingCartId(userSession.UserBasketId);
 
-            ShoppingCartDetail cart = basket.Value as ShoppingCartDetail;
+			ShoppingCartDetail cart = basket.Value as ShoppingCartDetail;
 
-            _shoppingCartItemData.Insert(new ShoppingCartItemDataRow()
-            {
-                ProductId = product.Id,
-                ShoppingCartId = shoppingCart.Id,
-                ItemCost = product.RetailPrice,
-                Description = product.Description,
-                CanBackOrder = product.AllowBackorder,
-                IsDownload = product.IsDownload,
-                ItemCount = count,
-                SKU = product.Sku,
-                Name = product.Name,
-            });
+			_shoppingCartItemData.Insert(new ShoppingCartItemDataRow()
+			{
+				ProductId = product.Id,
+				ShoppingCartId = shoppingCart.Id,
+				ItemCost = product.RetailPrice,
+				Description = product.Description,
+				CanBackOrder = product.AllowBackorder,
+				IsDownload = product.IsDownload,
+				ItemCount = count,
+				SKU = product.Sku,
+				Name = product.Name,
+			});
 
-            cart.Add(product, count);
+			cart.Add(product, count);
 
-            ShoppingCartDataRow shoppingCartData = _shoppingCartData.Select(userSession.UserBasketId);
-            shoppingCartData.CouponCode = cart.CouponCode;
-            shoppingCartData.Culture = cart.Culture.Name;
-            shoppingCartData.Discount = cart.Discount;
-            shoppingCartData.DiscountRate = cart.DiscountRate;
-            shoppingCartData.TaxRate = cart.TaxRate;
-            shoppingCartData.Tax = cart.Tax;
-            shoppingCartData.RequiresShipping = cart.RequiresShipping;
-            shoppingCartData.Shipping = cart.Shipping;
-            shoppingCartData.SubTotal = cart.SubTotal;
-            shoppingCartData.Total = cart.Total;
-            shoppingCartData.TotalItems = cart.TotalItems;
+			ShoppingCartDataRow shoppingCartData = _shoppingCartData.Select(userSession.UserBasketId);
+			shoppingCartData.CouponCode = cart.CouponCode;
+			shoppingCartData.Culture = cart.Culture.Name;
+			shoppingCartData.Discount = cart.Discount;
+			shoppingCartData.DiscountRate = cart.DiscountRate;
+			shoppingCartData.TaxRate = cart.TaxRate;
+			shoppingCartData.Tax = cart.Tax;
+			shoppingCartData.RequiresShipping = cart.RequiresShipping;
+			shoppingCartData.Shipping = cart.Shipping;
+			shoppingCartData.SubTotal = cart.SubTotal;
+			shoppingCartData.Total = cart.Total;
+			shoppingCartData.TotalItems = cart.TotalItems;
 
-            _shoppingCartData.Update(shoppingCartData);
+			_shoppingCartData.Update(shoppingCartData);
 
-            return userSession.UserBasketId;
-        }
+			return userSession.UserBasketId;
+		}
 
-        public ShoppingCartDetail GetDetail(in long shoppingCartId)
-        {
-            if (shoppingCartId == 0)
-                throw new ArgumentOutOfRangeException(nameof(shoppingCartId));
+		public ShoppingCartDetail GetDetail(in long shoppingCartId)
+		{
+			if (shoppingCartId == 0)
+				throw new ArgumentOutOfRangeException(nameof(shoppingCartId));
 
-            string basketCache = $"Cart {shoppingCartId}";
+			string basketCache = $"Cart {shoppingCartId}";
 
-            CacheItem cacheItem = _cartCacheManager.Get(basketCache);
+			CacheItem cacheItem = _cartCacheManager.Get(basketCache);
 
-            if (cacheItem == null)
-            {
-                _ = CreateNewShoppingCart(shoppingCartId);
+			if (cacheItem == null)
+			{
+				_ = CreateNewShoppingCart(shoppingCartId);
 
-                ShoppingCartDetail cartDetail = new(shoppingCartId, 0,
-                    0, _defaultTaxRate, 0, 0, Thread.CurrentThread.CurrentUICulture,
-                    "", new List<ShoppingCartItem>(), false, _defaultCurrency);
-                cacheItem = new CacheItem(basketCache, cartDetail);
-                _cartCacheManager.Add(basketCache, cacheItem, true);
-            }
+				ShoppingCartDetail cartDetail = new(shoppingCartId, 0,
+					0, _defaultTaxRate, 0, 0, Thread.CurrentThread.CurrentUICulture,
+					"", new List<ShoppingCartItem>(), false, _defaultCurrency);
+				cacheItem = new CacheItem(basketCache, cartDetail);
+				_cartCacheManager.Add(basketCache, cacheItem, true);
+			}
 
-            return (ShoppingCartDetail)cacheItem.Value;
-        }
+			return (ShoppingCartDetail)cacheItem.Value;
+		}
 
-        public bool ValidateVoucher(in ShoppingCartSummary cartSummary, in string voucher, in long userId)
-        {
-            if (cartSummary == null)
-                throw new ArgumentNullException(nameof(cartSummary));
+		public bool ValidateVoucher(in ShoppingCartSummary cartSummary, in string voucher, in long userId)
+		{
+			if (cartSummary == null)
+				throw new ArgumentNullException(nameof(cartSummary));
 
-            string voucherName = voucher;
-            long user = userId;
-            VoucherDataRow voucherDataRow = _voucherData.Select()
+			string voucherName = voucher;
+			long user = userId;
+			VoucherDataRow voucherDataRow = _voucherData.Select()
 				.FirstOrDefault(v => v.Name.Equals(voucherName, StringComparison.InvariantCultureIgnoreCase) &&
 					(v.UserId.Equals(0) || v.UserId.Equals(user)));
 
-            if (voucherDataRow == null)
-                return false;
+			if (voucherDataRow == null)
+				return false;
 
-            if (!voucherDataRow.IsValid(userId))
-                return false;
+			if (!voucherDataRow.IsValid(userId))
+				return false;
 
-            ShoppingCartDetail cartDetail = GetDetail(cartSummary.Id);
-            cartDetail.ClearVoucherData();
+			ShoppingCartDetail cartDetail = GetDetail(cartSummary.Id);
+			cartDetail.ClearVoucherData();
 
-            if (voucherDataRow.ProductId == 0)
-            {
-                // voucher applied to entire shopping cart
-                cartDetail.UpdateDiscount(voucherDataRow.Name, (DiscountType)voucherDataRow.DiscountType, voucherDataRow.DiscountRate);
+			if (voucherDataRow.ProductId == 0)
+			{
+				// voucher applied to entire shopping cart
+				cartDetail.UpdateDiscount(voucherDataRow.Name, (DiscountType)voucherDataRow.DiscountType, voucherDataRow.DiscountRate);
 
-                ShoppingCartDataRow cartData = _shoppingCartData.Select(cartDetail.Id);
-                cartData.DiscountRate = voucherDataRow.DiscountRate;
-                cartData.DiscountType = voucherDataRow.DiscountType;
-                cartData.Discount = cartDetail.Discount;
-                _shoppingCartData.Update(cartData);
-            }
-            else
-            {
-                // voucher applied to individual products
-                List<ShoppingCartItem> cartItems = cartDetail.Items.Where(i => i.Id.Equals(voucherDataRow.ProductId)).ToList();
+				ShoppingCartDataRow cartData = _shoppingCartData.Select(cartDetail.Id);
+				cartData.DiscountRate = voucherDataRow.DiscountRate;
+				cartData.DiscountType = voucherDataRow.DiscountType;
+				cartData.Discount = cartDetail.Discount;
+				_shoppingCartData.Update(cartData);
+			}
+			else
+			{
+				// voucher applied to individual products
+				List<ShoppingCartItem> cartItems = cartDetail.Items.Where(i => i.Id.Equals(voucherDataRow.ProductId)).ToList();
 
-                if (cartItems.Count == 0)
-                    return false;
+				if (cartItems.Count == 0)
+					return false;
 
-                foreach (ShoppingCartItem item in cartItems)
-                {
-                    item.UpdateDiscountCode(voucherDataRow.Name, (DiscountType)voucherDataRow.DiscountType,
-                        voucherDataRow.DiscountRate, voucherDataRow.MaxProductsToDiscount);
+				foreach (ShoppingCartItem item in cartItems)
+				{
+					item.UpdateDiscountCode(voucherDataRow.Name, (DiscountType)voucherDataRow.DiscountType,
+						voucherDataRow.DiscountRate, voucherDataRow.MaxProductsToDiscount);
 
-                    ShoppingCartItemDataRow cartItem = _shoppingCartItemData.Select(item.Id);
-                    cartItem.DiscountRate = voucherDataRow.DiscountRate;
-                    cartItem.DiscountType = (int)item.DiscountType;
-                    _shoppingCartItemData.Update(cartItem);
-                }
-            }
+					ShoppingCartItemDataRow cartItem = _shoppingCartItemData.Select(item.Id);
+					cartItem.DiscountRate = voucherDataRow.DiscountRate;
+					cartItem.DiscountType = (int)item.DiscountType;
+					_shoppingCartItemData.Update(cartItem);
+				}
+			}
 
-            return true;
-        }
+			return true;
+		}
 
-        public bool ConvertToOrder(in ShoppingCartSummary cartSummary, in long userId, out Order order)
-        {
-            if (cartSummary == null)
-                throw new ArgumentNullException(nameof(cartSummary));
+		public bool ConvertToOrder(in ShoppingCartSummary cartSummary, in long userId, out Order order)
+		{
+			if (cartSummary == null)
+				throw new ArgumentNullException(nameof(cartSummary));
 
-            if (userId < 0)
-                throw new ArgumentOutOfRangeException(nameof(userId));
+			if (userId < 0)
+				throw new ArgumentOutOfRangeException(nameof(userId));
 
-            order = null;
+			order = null;
 
-            ShoppingCartDetail cartDetail = GetDetail(cartSummary.Id);
+			ShoppingCartDetail cartDetail = GetDetail(cartSummary.Id);
 
-            DeliveryAddress shippingAddress = _accountProvider.GetDeliveryAddress(userId, cartDetail.DeliveryAddressId);
+			DeliveryAddress shippingAddress = _accountProvider.GetDeliveryAddress(userId, cartDetail.DeliveryAddressId);
 
-            if (shippingAddress == null)
-                return false;
+			if (shippingAddress == null)
+				return false;
 
-            cartDetail.SetDeliveryAddress(shippingAddress);
+			cartDetail.SetDeliveryAddress(shippingAddress);
 
-            List<OrderItem> items = new();
+			List<OrderItem> items = new();
 
-            OrderDataRow orderData = new()
-            {
-                UserId = userId,
-                Culture = cartSummary.Culture.Name,
-                Postage = cartSummary.Shipping,
-                ProcessStatus = (int)ProcessStatus.PaymentPending,
-                DeliveryAddress = shippingAddress.Id
-            };
-            _orderData.Insert(orderData);
+			OrderDataRow orderData = new()
+			{
+				UserId = userId,
+				Culture = cartSummary.Culture.Name,
+				Postage = cartSummary.Shipping,
+				ProcessStatus = (int)ProcessStatus.PaymentPending,
+				DeliveryAddress = shippingAddress.Id
+			};
+			_orderData.Insert(orderData);
 
-            foreach (ShoppingCartItem item in cartDetail.Items)
-            {
-                _orderItemsData.Insert(new OrderItemDataRow() 
-                { 
-                    OrderId = orderData.Id,
-                    Description = item.Description,
-                    TaxRate = item.TaxRate,
-                    Price = item.ItemCost,
-                    Quantity = item.ItemCount,
-                    Discount = item.DiscountRate,
-                    DiscountType = (int)item.DiscountType,
-                    ItemStatus = (int)ItemStatus.Received,
-                });
-                
-                items.Add(new OrderItem(item.Id, item.Name, item.ItemCost, cartSummary.TaxRate, item.ItemCount,
-                    ItemStatus.Received, item.DiscountType, item.DiscountRate));
-            }
+			foreach (ShoppingCartItem item in cartDetail.Items)
+			{
+				_orderItemsData.Insert(new OrderItemDataRow()
+				{
+					OrderId = orderData.Id,
+					Description = item.Description,
+					TaxRate = item.TaxRate,
+					Price = item.ItemCost,
+					Quantity = item.ItemCount,
+					Discount = item.DiscountRate,
+					DiscountType = (int)item.DiscountType,
+					ItemStatus = (int)ItemStatus.Received,
+				});
 
-            order = new Order(orderData.Id, orderData.Created, orderData.Postage, new CultureInfo(orderData.Culture),
-                (ProcessStatus)orderData.ProcessStatus, shippingAddress, items);
+				items.Add(new OrderItem(item.Id, item.Name, item.ItemCost, cartSummary.TaxRate, item.ItemCount,
+					ItemStatus.Received, item.DiscountType, item.DiscountRate));
+			}
 
-            _shoppingCartItemData.Delete(_shoppingCartItemData.Select().Where(sci => sci.ShoppingCartId.Equals(cartDetail.Id)).ToList());
-            cartDetail.Clear();
+			order = new Order(orderData.Id, orderData.Created, orderData.Postage, new CultureInfo(orderData.Culture),
+				(ProcessStatus)orderData.ProcessStatus, shippingAddress, items);
 
-            return true;
-        }
+			_shoppingCartItemData.Delete(_shoppingCartItemData.Select().Where(sci => sci.ShoppingCartId.Equals(cartDetail.Id)).ToList());
+			cartDetail.Clear();
 
-        #endregion IShoppingCartProvider Methods
+			return true;
+		}
 
-        #region IDisposable Methods
+		#endregion IShoppingCartProvider Methods
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "uses flag")]
-        public void Dispose()
-        {
-            if (_cartHookedUp)
-            {
-                _cartCacheManager.ItemNotFound -= cartCacheManager_ItemNotFound;
-                _cartHookedUp = false;
-            }
+		#region IDisposable Methods
 
-            GC.SuppressFinalize(this);
-        }
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "uses flag")]
+		public void Dispose()
+		{
+			if (_cartHookedUp)
+			{
+				_cartCacheManager.ItemNotFound -= cartCacheManager_ItemNotFound;
+				_cartHookedUp = false;
+			}
 
-        #endregion IDisposable Methods
+			GC.SuppressFinalize(this);
+		}
 
-        #region IShoppingCartService Methods
+		#endregion IDisposable Methods
 
-        public ShoppingCartSummary GetSummary(in long shoppingCartId)
-        {
-            return GetDetail(shoppingCartId);
-        }
+		#region IShoppingCartService Methods
 
-        public string GetEncryptionKey()
-        {
-            return _encryptionKey;
-        }
+		public ShoppingCartSummary GetSummary(in long shoppingCartId)
+		{
+			return GetDetail(shoppingCartId);
+		}
 
-        #endregion IShoppingCartService Methods
+		public string GetEncryptionKey()
+		{
+			return _encryptionKey;
+		}
 
-        #region Internal Methods
+		#endregion IShoppingCartService Methods
 
-        internal static void ClearCache()
-        {
-            _cartCacheManager.Clear();
-        }
+		#region Internal Methods
 
-        #endregion Internal Methods
+		internal static void ClearCache()
+		{
+			_cartCacheManager.Clear();
+		}
 
-        #region Private Methods
+		#endregion Internal Methods
 
-        private ShoppingCartDataRow CreateNewShoppingCart(long id)
-        {
-            ShoppingCartDataRow cartDataRow = new()
-            {
-                Id = id,
-                Culture = Thread.CurrentThread.CurrentUICulture.Name,
-                CouponCode = "",
-                CurrencyCode = _defaultCurrency,
-                RequiresShipping = false,
-                Shipping = 0,
-                SubTotal = 0,
-                Tax = 0,
-                TaxRate = _defaultTaxRate,
-                Total = 0,
-                TotalItems = 0,
-            };
+		#region Private Methods
 
-            _shoppingCartData.Insert(cartDataRow, new InsertOptions(id < 0));
-            return cartDataRow;
-        }
+		private ShoppingCartDataRow CreateNewShoppingCart(long id)
+		{
+			ShoppingCartDataRow cartDataRow = new()
+			{
+				Id = id,
+				Culture = Thread.CurrentThread.CurrentUICulture.Name,
+				CouponCode = "",
+				CurrencyCode = _defaultCurrency,
+				RequiresShipping = false,
+				Shipping = 0,
+				SubTotal = 0,
+				Tax = 0,
+				TaxRate = _defaultTaxRate,
+				Total = 0,
+				TotalItems = 0,
+			};
 
-        private void cartCacheManager_ItemNotFound(object sender, Shared.CacheItemNotFoundArgs e)
-        {
-            if (!Int64.TryParse(e.Name.AsSpan(5), out long cartId))
-                return;
+			_shoppingCartData.Insert(cartDataRow, new InsertOptions(id < 0));
+			return cartDataRow;
+		}
 
-            ShoppingCartDataRow cart = _shoppingCartData.Select(cartId);
+		private void cartCacheManager_ItemNotFound(object sender, Shared.CacheItemNotFoundArgs e)
+		{
+			if (!Int64.TryParse(e.Name.AsSpan(5), out long cartId))
+				return;
 
-            if (cart == null)
-                return;
+			ShoppingCartDataRow cart = _shoppingCartData.Select(cartId);
 
-            ShoppingCartDetail cartDetail = ConvertShoppingCartDataRowToShoppingCartDetail(cart);
+			if (cart == null)
+				return;
 
-            e.CachedItem = new CacheItem(e.Name, cartDetail);
-        }
+			ShoppingCartDetail cartDetail = ConvertShoppingCartDataRowToShoppingCartDetail(cart);
 
-        private ShoppingCartDetail ConvertShoppingCartDataRowToShoppingCartDetail(ShoppingCartDataRow shoppingCartData)
-        {
-            if (shoppingCartData == null)
-                return null;
+			e.CachedItem = new CacheItem(e.Name, cartDetail);
+		}
 
-            List<ShoppingCartItem> shoppingCartItems = ConvertShoppingCartItemsDataRowToShoppingCartItems(
-                _shoppingCartItemData.Select().Where(item => item.ShoppingCartId.Equals(shoppingCartData.Id)).ToList());
+		private ShoppingCartDetail ConvertShoppingCartDataRowToShoppingCartDetail(ShoppingCartDataRow shoppingCartData)
+		{
+			if (shoppingCartData == null)
+				return null;
 
-            return new ShoppingCartDetail(shoppingCartData.Id, shoppingCartData.TotalItems, shoppingCartData.Total,
-                shoppingCartData.TaxRate, shoppingCartData.Shipping, shoppingCartData.Discount, new CultureInfo(shoppingCartData.Culture),
-                shoppingCartData.CouponCode, shoppingCartItems, shoppingCartData.RequiresShipping, shoppingCartData.CurrencyCode);
-        }
+			List<ShoppingCartItem> shoppingCartItems = ConvertShoppingCartItemsDataRowToShoppingCartItems(
+				_shoppingCartItemData.Select().Where(item => item.ShoppingCartId.Equals(shoppingCartData.Id)).ToList());
 
-        private static List<ShoppingCartItem> ConvertShoppingCartItemsDataRowToShoppingCartItems(List<ShoppingCartItemDataRow> shoppingCartItems)
-        {
-            List<ShoppingCartItem> Result = new();
+			return new ShoppingCartDetail(shoppingCartData.Id, shoppingCartData.TotalItems, shoppingCartData.Total,
+				shoppingCartData.TaxRate, shoppingCartData.Shipping, shoppingCartData.Discount, new CultureInfo(shoppingCartData.Culture),
+				shoppingCartData.CouponCode, shoppingCartItems, shoppingCartData.RequiresShipping, shoppingCartData.CurrencyCode);
+		}
 
-            if (shoppingCartItems == null)
-                return Result;
+		private static List<ShoppingCartItem> ConvertShoppingCartItemsDataRowToShoppingCartItems(List<ShoppingCartItemDataRow> shoppingCartItems)
+		{
+			List<ShoppingCartItem> Result = new();
 
-            shoppingCartItems.ForEach(item => Result.Add(new ShoppingCartItem((int)item.Id, item.ItemCount, item.ProductId, item.ItemCost, item.Name, 
-                item.Description, item.SKU, new string[] { "NoImage" }, item.IsDownload, item.CanBackOrder, item.Size, 
-                (DiscountType)item.DiscountType, item.DiscountRate)));
+			if (shoppingCartItems == null)
+				return Result;
 
-            return Result;
-        }
+			shoppingCartItems.ForEach(item => Result.Add(new ShoppingCartItem((int)item.Id, item.ItemCount, item.ProductId, item.ItemCost, item.Name,
+				item.Description, item.SKU, new string[] { "NoImage" }, item.IsDownload, item.CanBackOrder, item.Size,
+				(DiscountType)item.DiscountType, item.DiscountRate)));
 
-        #endregion Private Methods
-    }
+			return Result;
+		}
+
+		#endregion Private Methods
+	}
 }

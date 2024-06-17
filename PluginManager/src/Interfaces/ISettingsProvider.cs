@@ -30,36 +30,36 @@
 
 namespace PluginManager.Abstractions
 {
-    /// <summary>
-    /// This interface can be used by all plugin modules to load setting and configuration data.
-    /// 
-    /// The default implementation which is loaded if no other plugin registers an instance uses 
-    /// appsettings.json to store configuration data to be used by Plugins.
-    /// 
-    /// An instance of this interface is available via the DI container, any custom implementations
-    /// must be configured to be used in the DI contaner when being initialised.
-    /// </summary>
-    /// <remarks>
-    /// This class can be customised by the host application, if no implementation is provided then
-    /// a default implementation is provided.
-    /// </remarks>
-    public interface ISettingsProvider
-    {
-        /// <summary>
-        /// Retrieves settings for Class T
-        /// </summary>
-        /// <typeparam name="T">Class who's settings are being requested.</typeparam>
-        /// <param name="storage">Name of storage to be used.</param>
-        /// <param name="sectionName">Name of configuration data required.</param>
-        /// <returns>Instance of type T initialised with the required settings.</returns>
-        T GetSettings<T>(in string storage, in string sectionName);
+	/// <summary>
+	/// This interface can be used by all plugin modules to load setting and configuration data.
+	/// 
+	/// The default implementation which is loaded if no other plugin registers an instance uses 
+	/// appsettings.json to store configuration data to be used by Plugins.
+	/// 
+	/// An instance of this interface is available via the DI container, any custom implementations
+	/// must be configured to be used in the DI contaner when being initialised.
+	/// </summary>
+	/// <remarks>
+	/// This class can be customised by the host application, if no implementation is provided then
+	/// a default implementation is provided.
+	/// </remarks>
+	public interface ISettingsProvider
+	{
+		/// <summary>
+		/// Retrieves settings for Class T
+		/// </summary>
+		/// <typeparam name="T">Class who's settings are being requested.</typeparam>
+		/// <param name="storage">Name of storage to be used.</param>
+		/// <param name="sectionName">Name of configuration data required.</param>
+		/// <returns>Instance of type T initialised with the required settings.</returns>
+		T GetSettings<T>(in string storage, in string sectionName);
 
-        /// <summary>
-        /// Retrieves settings for Class T
-        /// </summary>
-        /// <typeparam name="T">Class who's settings are being requested.</typeparam>
-        /// <param name="sectionName">Name of configuration data required.</param>
-        /// <returns>Instance of type T initialised with the required settings.</returns>
-        T GetSettings<T>(in string sectionName);
-    }
+		/// <summary>
+		/// Retrieves settings for Class T
+		/// </summary>
+		/// <typeparam name="T">Class who's settings are being requested.</typeparam>
+		/// <param name="sectionName">Name of configuration data required.</param>
+		/// <returns>Instance of type T initialised with the required settings.</returns>
+		T GetSettings<T>(in string sectionName);
+	}
 }

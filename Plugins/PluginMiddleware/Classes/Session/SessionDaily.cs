@@ -28,31 +28,31 @@ using System;
 
 namespace Middleware.SessionData
 {
-    /// <summary>
-    /// Daily visitor statistics
-    /// </summary>
-    public sealed class SessionDaily : SessionBaseData
-    {
-        #region Constructors
+	/// <summary>
+	/// Daily visitor statistics
+	/// </summary>
+	public sealed class SessionDaily : SessionBaseData
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public SessionDaily()
-            : base()
-        {
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public SessionDaily()
+			: base()
+		{
 
-        }
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Date of Visit
-        /// </summary>
-        public DateTime Date { get; set; }
+		/// <summary>
+		/// Date of Visit
+		/// </summary>
+		public DateTime Date { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

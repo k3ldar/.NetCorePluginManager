@@ -30,35 +30,35 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HelpdeskPlugin.Models
 {
-    public sealed class TicketResponseViewModel
-    {
-        #region Constructors
+	public sealed class TicketResponseViewModel
+	{
+		#region Constructors
 
-        public TicketResponseViewModel()
-        {
+		public TicketResponseViewModel()
+		{
 
-        }
+		}
 
-        public TicketResponseViewModel(long id, string name)
-        {
-            Id = id;
-            Name = name ?? String.Empty;
-        }
+		public TicketResponseViewModel(long id, string name)
+		{
+			Id = id;
+			Name = name ?? String.Empty;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public long Id { get; set; }
+		public long Id { get; set; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterFirstLastName))]
-        public string Name { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterFirstLastName))]
+		public string Name { get; set; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.SupportTicketMessageRequired))]
-        public string Message { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.SupportTicketMessageRequired))]
+		public string Message { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

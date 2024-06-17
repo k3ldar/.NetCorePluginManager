@@ -33,19 +33,19 @@ using SharedPluginFeatures;
 
 namespace ProductPlugin.Models
 {
-    /// <summary>
-    /// View model for product group admin
-    /// </summary>
-    public sealed class ProductGroupListModel : BaseModel
-    {
-        public ProductGroupListModel(BaseModelData modelData)
-            : base (modelData)
-        {
-            Groups = new List<LookupListItem>();
-        }
+	/// <summary>
+	/// View model for product group admin
+	/// </summary>
+	public sealed class ProductGroupListModel : BaseModel
+	{
+		public ProductGroupListModel(BaseModelData modelData)
+			: base(modelData)
+		{
+			Groups = new List<LookupListItem>();
+		}
 
-        public List<LookupListItem> Groups { get; }
-    }
+		public List<LookupListItem> Groups { get; }
+	}
 }
 
 #pragma warning restore CS1591

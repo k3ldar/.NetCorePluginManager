@@ -33,194 +33,189 @@ using SharedPluginFeatures;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
-    internal sealed class BlogProvider : IBlogProvider
-    {
-        #region Private Members
+	internal sealed class BlogProvider : IBlogProvider
+	{
+		#region Private Members
 
-        private const int MaxRecursionDepth = 20;
+		private const int MaxRecursionDepth = 20;
 
-        private readonly ISimpleDBOperations<BlogDataRow> _blogs;
-        private readonly ISimpleDBOperations<BlogCommentDataRow> _blogComments;
+		private readonly ISimpleDBOperations<BlogDataRow> _blogs;
+		private readonly ISimpleDBOperations<BlogCommentDataRow> _blogComments;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public BlogProvider(ISimpleDBOperations<BlogDataRow> blogs, ISimpleDBOperations<BlogCommentDataRow> blogComments)
-        {
-            _blogs = blogs ?? throw new ArgumentNullException(nameof(blogs));
-            _blogComments = blogComments ?? throw new ArgumentNullException(nameof(blogComments));
-        }
+		public BlogProvider(ISimpleDBOperations<BlogDataRow> blogs, ISimpleDBOperations<BlogCommentDataRow> blogComments)
+		{
+			_blogs = blogs ?? throw new ArgumentNullException(nameof(blogs));
+			_blogComments = blogComments ?? throw new ArgumentNullException(nameof(blogComments));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IBlogProvider Methods
+		#region IBlogProvider Methods
 
-        public List<BlogItem> GetRecentPosts(in int recentCount, in bool publishedOnly)
-        {
-            List<BlogDataRow> blogs;
-            
-            if (publishedOnly)
-                blogs = _blogs.Select().Where(b => b.Published).OrderByDescending(b => b.PublishDateTime).Take(recentCount).ToList();
-            else
-                blogs = _blogs.Select().OrderByDescending(b => b.PublishDateTime).Take(recentCount).ToList();
+		public List<BlogItem> GetRecentPosts(in int recentCount, in bool publishedOnly)
+		{
+			List<BlogDataRow> blogs;
 
-            return ConvertTableBlogToBlogItem(blogs);
-        }
+			if (publishedOnly)
+				blogs = _blogs.Select().Where(b => b.Published).OrderByDescending(b => b.PublishDateTime).Take(recentCount).ToList();
+			else
+				blogs = _blogs.Select().OrderByDescending(b => b.PublishDateTime).Take(recentCount).ToList();
 
-        public List<BlogItem> Search(in string tagName)
-        {
-            if (String.IsNullOrEmpty(tagName))
-                throw new ArgumentNullException(nameof(tagName));
+			return ConvertTableBlogToBlogItem(blogs);
+		}
 
-            string[] tags = tagName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+		public List<BlogItem> Search(in string tagName)
+		{
+			if (String.IsNullOrEmpty(tagName))
+				throw new ArgumentNullException(nameof(tagName));
 
-            if (tags.Length == 0)
-                throw new ArgumentNullException(nameof(tagName));
+			string[] tags = tagName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-            return ConvertTableBlogToBlogItem(_blogs.Select().Where(b => BlogHasTag(b, tags)).ToList());
-        }
+			if (tags.Length == 0)
+				throw new ArgumentNullException(nameof(tagName));
 
-        public BlogItem GetBlog(in int id)
-        {
-            int blogId = id;
+			return ConvertTableBlogToBlogItem(_blogs.Select().Where(b => BlogHasTag(b, tags)).ToList());
+		}
 
-            return ConvertTableBlogToBlogItem(_blogs.Select(blogId));
-        }
+		public BlogItem GetBlog(in int id)
+		{
+			int blogId = id;
 
-        public List<BlogItem> GetMyBlogs(in long userId)
-        {
-            long user = userId;
-            return ConvertTableBlogToBlogItem(_blogs.Select().Where(b => b.UserId == user).OrderBy(o => o.Created).ToList());
-        }
+			return ConvertTableBlogToBlogItem(_blogs.Select(blogId));
+		}
 
-        public BlogItem SaveBlog(in BlogItem blogItem)
-        {
-            if (blogItem == null)
-                throw new ArgumentNullException(nameof(blogItem));
+		public List<BlogItem> GetMyBlogs(in long userId)
+		{
+			long user = userId;
+			return ConvertTableBlogToBlogItem(_blogs.Select().Where(b => b.UserId == user).OrderBy(o => o.Created).ToList());
+		}
 
-            BlogDataRow tableBlog = _blogs.Select(blogItem.Id);
+		public BlogItem SaveBlog(in BlogItem blogItem)
+		{
+			if (blogItem == null)
+				throw new ArgumentNullException(nameof(blogItem));
 
-            if (tableBlog == null)
-                tableBlog = new BlogDataRow();
-            
-            tableBlog.UserId = blogItem.UserId;
-            tableBlog.Title = blogItem.Title;
-            tableBlog.Excerpt = blogItem.Excerpt;
-            tableBlog.BlogText = blogItem.BlogText;
-            tableBlog.Username = blogItem.Username;
-            tableBlog.Published = blogItem.Published;
-            tableBlog.PublishDateTime = blogItem.PublishDateTime;
+			BlogDataRow tableBlog = _blogs.Select(blogItem.Id);
 
-            _blogs.InsertOrUpdate(tableBlog);
+			tableBlog ??= new BlogDataRow();
 
-            return ConvertTableBlogToBlogItem(_blogs.Select(tableBlog.Id));
-        }
+			tableBlog.UserId = blogItem.UserId;
+			tableBlog.Title = blogItem.Title;
+			tableBlog.Excerpt = blogItem.Excerpt;
+			tableBlog.BlogText = blogItem.BlogText;
+			tableBlog.Username = blogItem.Username;
+			tableBlog.Published = blogItem.Published;
+			tableBlog.PublishDateTime = blogItem.PublishDateTime;
 
-        public void AddComment(in BlogItem blogItem, in BlogComment parentComment, in long userId,
-            in string userName, in string comment)
-        {
-            if (blogItem == null)
-                throw new ArgumentNullException(nameof(blogItem));
+			_blogs.InsertOrUpdate(tableBlog);
 
-            if (String.IsNullOrEmpty(comment))
-                throw new ArgumentNullException(nameof(comment));
+			return ConvertTableBlogToBlogItem(_blogs.Select(tableBlog.Id));
+		}
 
-            TimeSpan span = DateTime.Now - new DateTime(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            BlogComment blogComment = new(Convert.ToInt32(span.TotalSeconds), parentComment?.Id, DateTime.Now, userId, userName, true, comment);
+		public void AddComment(in BlogItem blogItem, in BlogComment parentComment, in long userId,
+			in string userName, in string comment)
+		{
+			if (blogItem == null)
+				throw new ArgumentNullException(nameof(blogItem));
 
-            if (parentComment == null)
-                blogItem.Comments.Add(blogComment);
-            else
-                parentComment.Comments.Add(blogComment);
+			if (String.IsNullOrEmpty(comment))
+				throw new ArgumentNullException(nameof(comment));
 
-            BlogDataRow tableBlog = _blogs.Select(blogItem.Id);
+			TimeSpan span = DateTime.Now - new DateTime(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+			BlogComment blogComment = new(Convert.ToInt32(span.TotalSeconds), parentComment?.Id, DateTime.Now, userId, userName, true, comment);
 
-            if (tableBlog == null)
-                throw new InvalidOperationException("Blog not found");
+			if (parentComment == null)
+				blogItem.Comments.Add(blogComment);
+			else
+				parentComment.Comments.Add(blogComment);
 
-            BlogCommentDataRow blogCommentDataRow = new()
-            {
-                BlogId = blogItem.Id,
-                ParentComment = parentComment?.Id,
-                Username = userName,
-                UserId = userId,
-                Approved = blogComment.Approved,
-                Comment = blogComment.Comment,
-            };
+			_ = _blogs.Select(blogItem.Id) ?? throw new InvalidOperationException("Blog not found");
+			BlogCommentDataRow blogCommentDataRow = new()
+			{
+				BlogId = blogItem.Id,
+				ParentComment = parentComment?.Id,
+				Username = userName,
+				UserId = userId,
+				Approved = blogComment.Approved,
+				Comment = blogComment.Comment,
+			};
 
-            _blogComments.Insert(blogCommentDataRow);
-        }
+			_blogComments.Insert(blogCommentDataRow);
+		}
 
-        #endregion IBlogProvider Methods
+		#endregion IBlogProvider Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private static bool BlogHasTag(BlogDataRow tableBlog, string[] tags)
-        {
-            foreach (string searchTag in tags)
-            {
-                foreach (string tag in tableBlog.Tags)
-                {
-                    if (tag.Equals(searchTag, StringComparison.InvariantCultureIgnoreCase))
-                        return true;
-                }
-            }
+		private static bool BlogHasTag(BlogDataRow tableBlog, string[] tags)
+		{
+			foreach (string searchTag in tags)
+			{
+				foreach (string tag in tableBlog.Tags)
+				{
+					if (tag.Equals(searchTag, StringComparison.InvariantCultureIgnoreCase))
+						return true;
+				}
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        private List<BlogItem> ConvertTableBlogToBlogItem(List<BlogDataRow> tableBlogs)
-        {
-            List<BlogItem> Result = new();
+		private List<BlogItem> ConvertTableBlogToBlogItem(List<BlogDataRow> tableBlogs)
+		{
+			List<BlogItem> Result = new();
 
-            tableBlogs.ForEach(blog => Result.Add(ConvertTableBlogToBlogItem(blog)));
+			tableBlogs.ForEach(blog => Result.Add(ConvertTableBlogToBlogItem(blog)));
 
-            return Result;
-        }
+			return Result;
+		}
 
-        private BlogItem ConvertTableBlogToBlogItem(BlogDataRow blog)
-        {
-            if (blog == null)
-                return null;
+		private BlogItem ConvertTableBlogToBlogItem(BlogDataRow blog)
+		{
+			if (blog == null)
+				return null;
 
-            BlogItem Result = new(Convert.ToInt32(blog.Id), blog.UserId, blog.Title, blog.Excerpt, blog.BlogText, blog.Username, blog.Published,
-                    blog.PublishDateTime, blog.Created, blog.Updated, blog.Tags, new List<BlogComment>());
+			BlogItem Result = new(Convert.ToInt32(blog.Id), blog.UserId, blog.Title, blog.Excerpt, blog.BlogText, blog.Username, blog.Published,
+					blog.PublishDateTime, blog.Created, blog.Updated, blog.Tags, new List<BlogComment>());
 
-            List<BlogCommentDataRow> comments = _blogComments.Select().Where(bc => bc.BlogId.Equals(blog.Id)).ToList();
+			List<BlogCommentDataRow> comments = _blogComments.Select().Where(bc => bc.BlogId.Equals(blog.Id)).ToList();
 
-            if (comments.Count > 0)
-            {
-                List<BlogCommentDataRow> rootComments = comments.Where(rc => !rc.ParentComment.HasValue).ToList();
-                rootComments.ForEach(rc => Result.Comments.Add(CreateBlogComment(rc, null)));
+			if (comments.Count > 0)
+			{
+				List<BlogCommentDataRow> rootComments = comments.Where(rc => !rc.ParentComment.HasValue).ToList();
+				rootComments.ForEach(rc => Result.Comments.Add(CreateBlogComment(rc, null)));
 
-                Result.Comments.ForEach(c => RecursivlyAddCommentsToBlog(0, comments, Result, c));
-            }
+				Result.Comments.ForEach(c => RecursivlyAddCommentsToBlog(0, comments, Result, c));
+			}
 
-            return Result;
-        }
+			return Result;
+		}
 
-        private void RecursivlyAddCommentsToBlog(int depth, List<BlogCommentDataRow> comments, BlogItem blogItem, BlogComment parentComment)
-        {
-            if (depth > MaxRecursionDepth)
-                return;
+		private static void RecursivlyAddCommentsToBlog(int depth, List<BlogCommentDataRow> comments, BlogItem blogItem, BlogComment parentComment)
+		{
+			if (depth > MaxRecursionDepth)
+				return;
 
-            List<BlogCommentDataRow> blogComments = comments.Where(c => c.ParentComment.HasValue && c.ParentComment.Value.Equals(parentComment.Id)).ToList();
+			List<BlogCommentDataRow> blogComments = comments.Where(c => c.ParentComment.HasValue && c.ParentComment.Value.Equals(parentComment.Id)).ToList();
 
-            foreach (BlogCommentDataRow comment in blogComments)
-            {
-                BlogComment blogComment = CreateBlogComment(comment, parentComment.Id);
-                parentComment.Comments.Add(blogComment);
-                RecursivlyAddCommentsToBlog(++depth, comments, blogItem, blogComment);
-            }
-        }
+			foreach (BlogCommentDataRow comment in blogComments)
+			{
+				BlogComment blogComment = CreateBlogComment(comment, parentComment.Id);
+				parentComment.Comments.Add(blogComment);
+				RecursivlyAddCommentsToBlog(++depth, comments, blogItem, blogComment);
+			}
+		}
 
-        private static BlogComment CreateBlogComment(BlogCommentDataRow comment, int? parentId)
-        {
-            return new BlogComment((int)comment.Id, parentId, comment.Created,
-                    comment.UserId, comment.Username, comment.Approved, comment.Comment);
-        }
+		private static BlogComment CreateBlogComment(BlogCommentDataRow comment, int? parentId)
+		{
+			return new BlogComment((int)comment.Id, parentId, comment.Created,
+					comment.UserId, comment.Username, comment.Approved, comment.Comment);
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }

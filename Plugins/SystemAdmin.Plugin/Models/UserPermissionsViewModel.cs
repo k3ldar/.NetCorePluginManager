@@ -30,37 +30,37 @@ using System.Collections.Generic;
 
 namespace SystemAdmin.Plugin.Models
 {
-    public class UserPermissionsViewModel
-    {
-        #region Constructors
+	public class UserPermissionsViewModel
+	{
+		#region Constructors
 
-        public UserPermissionsViewModel()
-        {
-            SelectedClaims = String.Empty;
-        }
+		public UserPermissionsViewModel()
+		{
+			SelectedClaims = String.Empty;
+		}
 
-        public UserPermissionsViewModel(in long userId, in List<string> userClaims, in List<string> systemClaims)
-        {
-            UserId = userId;
-            UserClaims = userClaims ?? throw new ArgumentNullException(nameof(userClaims));
-            SystemClaims = systemClaims ?? throw new ArgumentNullException(nameof(systemClaims));
-            SelectedClaims = String.Join(';', userClaims);
-        }
+		public UserPermissionsViewModel(in long userId, in List<string> userClaims, in List<string> systemClaims)
+		{
+			UserId = userId;
+			UserClaims = userClaims ?? throw new ArgumentNullException(nameof(userClaims));
+			SystemClaims = systemClaims ?? throw new ArgumentNullException(nameof(systemClaims));
+			SelectedClaims = String.Join(';', userClaims);
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public long UserId { get; set; }
+		public long UserId { get; set; }
 
-        public List<string> UserClaims { get; set; }
+		public List<string> UserClaims { get; set; }
 
-        public List<string> SystemClaims { get; set; }
+		public List<string> SystemClaims { get; set; }
 
-        public string SelectedClaims { get; set; }
+		public string SelectedClaims { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

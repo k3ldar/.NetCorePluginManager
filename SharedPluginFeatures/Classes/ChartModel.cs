@@ -29,21 +29,21 @@ using System.Text.Json.Serialization;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Class used to generate chart data which is displayed within System Admin
-    /// </summary>
-    public sealed class ChartModel
-    {
-        #region Constructors
+	/// <summary>
+	/// Class used to generate chart data which is displayed within System Admin
+	/// </summary>
+	public sealed class ChartModel
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default Constructor
-        /// </summary>
-        public ChartModel()
-        {
-            DataNames = new List<KeyValuePair<ChartDataType, string>>();
-            DataValues = new Dictionary<string, List<decimal>>();
-        }
+		/// <summary>
+		/// Default Constructor
+		/// </summary>
+		public ChartModel()
+		{
+			DataNames = new List<KeyValuePair<ChartDataType, string>>();
+			DataValues = new Dictionary<string, List<decimal>>();
+		}
 
 		#endregion Constructors
 
@@ -52,7 +52,7 @@ namespace SharedPluginFeatures
 		/// <summary>
 		/// Title of the chart
 		/// </summary>
-        public string ChartTitle { get; set; }
+		public string ChartTitle { get; set; }
 
 		/// <summary>
 		/// Names of the data types being displayed
@@ -64,6 +64,6 @@ namespace SharedPluginFeatures
 		/// </summary>
 		public Dictionary<string, List<decimal>> DataValues { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

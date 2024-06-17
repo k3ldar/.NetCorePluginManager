@@ -38,44 +38,44 @@ using SharedPluginFeatures;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
-    internal class AccountProvider : IAccountProvider
-    {
-        #region Private Members
+	internal class AccountProvider : IAccountProvider
+	{
+		#region Private Members
 
-        private readonly ISimpleDBOperations<UserDataRow> _users;
-        private readonly ISimpleDBOperations<AddressDataRow> _addresses;
-        private readonly ISimpleDBOperations<OrderDataRow> _orders;
-        private readonly ISimpleDBOperations<OrderItemDataRow> _ordersItems;
-        private readonly ISimpleDBOperations<InvoiceDataRow> _invoices;
-        private readonly ISimpleDBOperations<InvoiceItemDataRow> _invoiceItems;
+		private readonly ISimpleDBOperations<UserDataRow> _users;
+		private readonly ISimpleDBOperations<AddressDataRow> _addresses;
+		private readonly ISimpleDBOperations<OrderDataRow> _orders;
+		private readonly ISimpleDBOperations<OrderItemDataRow> _ordersItems;
+		private readonly ISimpleDBOperations<InvoiceDataRow> _invoices;
+		private readonly ISimpleDBOperations<InvoiceItemDataRow> _invoiceItems;
 		private readonly AddressOptions _addressOptions;
-        private readonly string _encryptionKey;
+		private readonly string _encryptionKey;
 
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public AccountProvider(ISimpleDBOperations<UserDataRow> users, 
-            ISimpleDBOperations<AddressDataRow> addresses, 
-            ISimpleDBOperations<OrderDataRow> orders,
-            ISimpleDBOperations<OrderItemDataRow> orderItems,
-            ISimpleDBOperations<InvoiceDataRow> invoices,
-            ISimpleDBOperations<InvoiceItemDataRow> invoiceItems,
+		public AccountProvider(ISimpleDBOperations<UserDataRow> users,
+			ISimpleDBOperations<AddressDataRow> addresses,
+			ISimpleDBOperations<OrderDataRow> orders,
+			ISimpleDBOperations<OrderItemDataRow> orderItems,
+			ISimpleDBOperations<InvoiceDataRow> invoices,
+			ISimpleDBOperations<InvoiceItemDataRow> invoiceItems,
 			ISimpleDBOperations<SettingsDataRow> settingsData,
-            ISettingsProvider settingsProvider)
-        {
-            if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+			ISettingsProvider settingsProvider)
+		{
+			if (settingsProvider == null)
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            SimpleDBSettings settings = settingsProvider.GetSettings<SimpleDBSettings>(nameof(SimpleDBSettings)) ?? throw new InvalidOperationException();
+			SimpleDBSettings settings = settingsProvider.GetSettings<SimpleDBSettings>(nameof(SimpleDBSettings)) ?? throw new InvalidOperationException();
 			_encryptionKey = settings.EnycryptionKey;
-            _users = users ?? throw new ArgumentNullException(nameof(users));
-            _addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
-            _orders = orders ?? throw new ArgumentNullException(nameof(orders));
-            _ordersItems = orderItems ?? throw new ArgumentNullException(nameof(orderItems));
-            _invoices = invoices ?? throw new ArgumentNullException(nameof(invoices));
-            _invoiceItems = invoiceItems ?? throw new ArgumentNullException(nameof(invoiceItems));
+			_users = users ?? throw new ArgumentNullException(nameof(users));
+			_addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
+			_orders = orders ?? throw new ArgumentNullException(nameof(orders));
+			_ordersItems = orderItems ?? throw new ArgumentNullException(nameof(orderItems));
+			_invoices = invoices ?? throw new ArgumentNullException(nameof(invoices));
+			_invoiceItems = invoiceItems ?? throw new ArgumentNullException(nameof(invoiceItems));
 
 			SettingsDataRow addressOptions = settingsData.Select().FirstOrDefault(n => n.Name.Equals("AddressOptions"));
 			long addressValue = 0;
@@ -84,555 +84,551 @@ namespace PluginManager.DAL.TextFiles.Providers
 				Int64.TryParse(addressOptions.Value, out addressValue);
 
 			_addressOptions = (AddressOptions)addressValue;
-        }
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Change Password
+		#region Change Password
 
-        public bool ChangePassword(in long userId, in string newPassword)
-        {
-            if (String.IsNullOrEmpty(newPassword))
-                throw new ArgumentNullException(nameof(newPassword));
+		public bool ChangePassword(in long userId, in string newPassword)
+		{
+			if (String.IsNullOrEmpty(newPassword))
+				throw new ArgumentNullException(nameof(newPassword));
 
-            UserDataRow user = _users.Select(userId) ?? throw new ArgumentException("user not found", nameof(userId));
+			UserDataRow user = _users.Select(userId) ?? throw new ArgumentException("user not found", nameof(userId));
 			user.Password = Shared.Utilities.Encrypt(newPassword, _encryptionKey);
-            _users.Update(user);
-            return true;
-        }
+			_users.Update(user);
+			return true;
+		}
 
-        #endregion Change Password
+		#endregion Change Password
 
-        #region Address Options
+		#region Address Options
 
-        public AddressOptions GetAddressOptions(in AddressOption addressOption)
-        {
-            return _addressOptions;
-        }
+		public AddressOptions GetAddressOptions(in AddressOption addressOption)
+		{
+			return _addressOptions;
+		}
 
-        #endregion Address Options
+		#endregion Address Options
 
-        #region User Contact Details
+		#region User Contact Details
 
-        public bool GetUserAccountDetails(in Int64 userId, out string firstName, out string lastName, out string email, out bool emailConfirmed,
-            out string telephone, out bool telephoneConfirmed)
-        {
-            UserDataRow user = _users.Select(userId);
+		public bool GetUserAccountDetails(in Int64 userId, out string firstName, out string lastName, out string email, out bool emailConfirmed,
+			out string telephone, out bool telephoneConfirmed)
+		{
+			UserDataRow user = _users.Select(userId);
 
-            firstName = user?.FirstName;
-            lastName = user?.Surname;
-            email = user?.Email;
-            emailConfirmed = user != null && user.EmailConfirmed;
-            telephone = user?.Telephone;
-            telephoneConfirmed = user != null && user.TelephoneConfirmed;
+			firstName = user?.FirstName;
+			lastName = user?.Surname;
+			email = user?.Email;
+			emailConfirmed = user != null && user.EmailConfirmed;
+			telephone = user?.Telephone;
+			telephoneConfirmed = user != null && user.TelephoneConfirmed;
 
-            return user != null;
-        }
+			return user != null;
+		}
 
-        public bool SetUserAccountDetails(in Int64 userId, in string firstName, in string lastName, in string email, in string telephone)
-        {
-            UserDataRow user = _users.Select(userId);
+		public bool SetUserAccountDetails(in Int64 userId, in string firstName, in string lastName, in string email, in string telephone)
+		{
+			UserDataRow user = _users.Select(userId);
 
-            if (user == null)
-                return false;
+			if (user == null)
+				return false;
 
-            user.FirstName = firstName;
-            user.Surname = lastName;
-            user.Email = email;
-            user.EmailConfirmed = false;
-            user.EmailConfirmCode = GenerateRandomNumber().ToString();
-            user.Telephone = telephone;
-            user.TelephoneConfirmCode = GenerateRandomNumber().ToString();
-            user.TelephoneConfirmed = false;
+			user.FirstName = firstName;
+			user.Surname = lastName;
+			user.Email = email;
+			user.EmailConfirmed = false;
+			user.EmailConfirmCode = GenerateRandomNumber().ToString();
+			user.Telephone = telephone;
+			user.TelephoneConfirmCode = GenerateRandomNumber().ToString();
+			user.TelephoneConfirmed = false;
 
-            _users.Update(user);
-            return true;
-        }
+			_users.Update(user);
+			return true;
+		}
 
-        public bool ConfirmEmailAddress(in Int64 userId, in string confirmationCode)
-        {
-            if (String.IsNullOrEmpty(confirmationCode))
-                throw new ArgumentNullException(nameof(confirmationCode));
+		public bool ConfirmEmailAddress(in Int64 userId, in string confirmationCode)
+		{
+			if (String.IsNullOrEmpty(confirmationCode))
+				throw new ArgumentNullException(nameof(confirmationCode));
 
-            UserDataRow user = _users.Select(userId);
+			UserDataRow user = _users.Select(userId);
 
-            if (user == null)
-                return false;
+			if (user == null)
+				return false;
 
-            user.EmailConfirmed = user.EmailConfirmCode.Equals(confirmationCode);
+			user.EmailConfirmed = user.EmailConfirmCode.Equals(confirmationCode);
 
-            if (user.EmailConfirmed)
-            {
-                user.EmailConfirmCode = String.Empty;
-                _users.Update(user);
-            }
-
-            return user.EmailConfirmed;
-        }
-
-        public bool ConfirmTelephoneNumber(in Int64 userId, in string confirmationCode)
-        {
-            if (String.IsNullOrEmpty(confirmationCode))
-                throw new ArgumentNullException(nameof(confirmationCode));
-
-            UserDataRow user = _users.Select(userId);
-
-            if (user == null)
-                return false;
-
-            user.TelephoneConfirmed = user.TelephoneConfirmCode.Equals(confirmationCode);
-
-            if (user.TelephoneConfirmed)
-            {
-                user.TelephoneConfirmCode = String.Empty;
-                _users.Update(user);
-            }
-
-            return user.TelephoneConfirmed;
-        }
-
-        #endregion User Contact Details
-
-        #region Account Creation/Deletion
-
-        public bool CreateAccount(in string email, in string firstName, in string surname, in string password,
-            in string telephone, in string businessName, in string addressLine1, in string addressLine2,
-            in string addressLine3, in string city, in string county, in string postcode, in string countryCode,
-            out long userId)
-        {
-            UserDataRow newUser = new()
+			if (user.EmailConfirmed)
 			{
-                Email = email,
-                FirstName = firstName,
-                Surname = surname,
-                Password = Shared.Utilities.Encrypt(password, _encryptionKey),
-                Telephone = telephone,
-                BusinessName = businessName,
-                AddressLine1 = addressLine1,
-                AddressLine2 = addressLine2,
-                AddressLine3 = addressLine3,
-                City = city,
-                County = county,
-                Postcode = postcode,
-                CountryCode = countryCode,
-                EmailConfirmCode = GenerateRandomNumber().ToString(),
-                TelephoneConfirmCode = GenerateRandomNumber().ToString()
-            };
+				user.EmailConfirmCode = String.Empty;
+				_users.Update(user);
+			}
 
-            _users.Insert(newUser);
+			return user.EmailConfirmed;
+		}
 
-            userId = newUser.Id;
-            return true;
-        }
+		public bool ConfirmTelephoneNumber(in Int64 userId, in string confirmationCode)
+		{
+			if (String.IsNullOrEmpty(confirmationCode))
+				throw new ArgumentNullException(nameof(confirmationCode));
 
-        /// <summary>
-        /// Delete's a user account
-        /// </summary>
-        /// <param name="userId">Unique user id for the new user account.</param>
-        /// <returns>bool.  True if the account was deleted, otherwise false.</returns>
-        public bool DeleteAccount(in Int64 userId)
-        {
-            UserDataRow user = _users.Select(userId);
+			UserDataRow user = _users.Select(userId);
 
-            if (user == null)
-                return false;
+			if (user == null)
+				return false;
 
-            _users.Delete(user);
-            return true;
-        }
+			user.TelephoneConfirmed = user.TelephoneConfirmCode.Equals(confirmationCode);
 
-        #endregion Account Creation/Deletion
+			if (user.TelephoneConfirmed)
+			{
+				user.TelephoneConfirmCode = String.Empty;
+				_users.Update(user);
+			}
 
-        #region Account Lock/Unlock
+			return user.TelephoneConfirmed;
+		}
 
-        /// <summary>
-        /// Locks a user account, preventing access to the system
-        /// </summary>
-        /// <param name="userId">Unique user id for the new user account.</param>
-        /// <returns>bool.  True if the account was locked, otherwise false.</returns>
-        public bool AccountLock(in Int64 userId)
-        {
-            UserDataRow user = _users.Select(userId);
+		#endregion User Contact Details
 
-            if (user == null)
-                return false;
+		#region Account Creation/Deletion
 
-            if (user.Locked)
-                return false;
+		public bool CreateAccount(in string email, in string firstName, in string surname, in string password,
+			in string telephone, in string businessName, in string addressLine1, in string addressLine2,
+			in string addressLine3, in string city, in string county, in string postcode, in string countryCode,
+			out long userId)
+		{
+			UserDataRow newUser = new()
+			{
+				Email = email,
+				FirstName = firstName,
+				Surname = surname,
+				Password = Shared.Utilities.Encrypt(password, _encryptionKey),
+				Telephone = telephone,
+				BusinessName = businessName,
+				AddressLine1 = addressLine1,
+				AddressLine2 = addressLine2,
+				AddressLine3 = addressLine3,
+				City = city,
+				County = county,
+				Postcode = postcode,
+				CountryCode = countryCode,
+				EmailConfirmCode = GenerateRandomNumber().ToString(),
+				TelephoneConfirmCode = GenerateRandomNumber().ToString()
+			};
 
-            user.UnlockCode = Shared.Utilities.GetRandomPassword(8);
-            _users.Update(user);
+			_users.Insert(newUser);
 
-            return true;
-        }
+			userId = newUser.Id;
+			return true;
+		}
 
-        /// <summary>
-        /// Unlocks a user account enabling access to the system
-        /// </summary>
-        /// <param name="userId">Unique user id for the new user account.</param>
-        /// <returns>bool.  True if the account was unlocked, otherwise false.</returns>
-        public bool AccountUnlock(in Int64 userId)
-        {
-            UserDataRow user = _users.Select(userId);
+		/// <summary>
+		/// Delete's a user account
+		/// </summary>
+		/// <param name="userId">Unique user id for the new user account.</param>
+		/// <returns>bool.  True if the account was deleted, otherwise false.</returns>
+		public bool DeleteAccount(in Int64 userId)
+		{
+			UserDataRow user = _users.Select(userId);
 
-            if (user == null)
-                return false;
+			if (user == null)
+				return false;
 
-            if (!user.Locked)
-                return false;
+			_users.Delete(user);
+			return true;
+		}
 
-            user.UnlockCode = String.Empty;
-            _users.Update(user);
+		#endregion Account Creation/Deletion
 
-            return true;
-        }
+		#region Account Lock/Unlock
 
-        #endregion Account Lock/Unlock
+		/// <summary>
+		/// Locks a user account, preventing access to the system
+		/// </summary>
+		/// <param name="userId">Unique user id for the new user account.</param>
+		/// <returns>bool.  True if the account was locked, otherwise false.</returns>
+		public bool AccountLock(in Int64 userId)
+		{
+			UserDataRow user = _users.Select(userId);
 
-        #region Billing Address
+			if (user == null)
+				return false;
 
-        public bool SetBillingAddress(in long userId, in Address billingAddress)
-        {
-            if (billingAddress == null)
-                throw new ArgumentNullException(nameof(billingAddress));
+			if (user.Locked)
+				return false;
 
-            UserDataRow user = _users.Select(userId);
+			user.UnlockCode = Shared.Utilities.GetRandomPassword(8);
+			_users.Update(user);
 
-            if (user == null)
-                return false;
+			return true;
+		}
 
-            long billingAddressId = billingAddress.Id;
+		/// <summary>
+		/// Unlocks a user account enabling access to the system
+		/// </summary>
+		/// <param name="userId">Unique user id for the new user account.</param>
+		/// <returns>bool.  True if the account was unlocked, otherwise false.</returns>
+		public bool AccountUnlock(in Int64 userId)
+		{
+			UserDataRow user = _users.Select(userId);
 
-            AddressDataRow userAddresses = _addresses.Select().FirstOrDefault(a => a.UserId == user.Id && a.Id.Equals(billingAddressId));
+			if (user == null)
+				return false;
 
-            if (userAddresses == null)
-            {
-                userAddresses = new AddressDataRow()
-                {
-                    AddressLine1 = billingAddress.AddressLine1,
-                    AddressLine2 = billingAddress.AddressLine2,
-                    AddressLine3 = billingAddress.AddressLine3,
-                    BusinessName = billingAddress.BusinessName,
-                    City = billingAddress.City,
-                    Country = billingAddress.Country,
-                    County = billingAddress.County,
-                    Postcode = billingAddress.Postcode,
-                    IsDelivery = false,
-                    UserId = userId,
-                };
+			if (!user.Locked)
+				return false;
 
-                _addresses.Insert(userAddresses);
-            }
-            else
-            {
-                userAddresses.AddressLine1 = billingAddress.AddressLine1;
-                userAddresses.AddressLine2 = billingAddress.AddressLine2;
-                userAddresses.AddressLine3 = billingAddress.AddressLine3;
-                userAddresses.BusinessName = billingAddress.BusinessName;
-                userAddresses.City = billingAddress.City;
-                userAddresses.Country = billingAddress.Country;
-                userAddresses.County = billingAddress.County;
-                userAddresses.Postcode = billingAddress.Postcode;
-                userAddresses.IsDelivery = false;
-                userAddresses.UserId = userId;
-                _addresses.Update(userAddresses);
-            }
+			user.UnlockCode = String.Empty;
+			_users.Update(user);
 
-            return true;
-        }
+			return true;
+		}
 
-        public Address GetBillingAddress(in long userId)
-        {
-            UserDataRow user = _users.Select(userId);
+		#endregion Account Lock/Unlock
 
-            if (user == null)
-                return null;
+		#region Billing Address
 
-            AddressDataRow userAddresses = _addresses.Select().FirstOrDefault(a => a.UserId == user.Id && !a.IsDelivery);
+		public bool SetBillingAddress(in long userId, in Address billingAddress)
+		{
+			if (billingAddress == null)
+				throw new ArgumentNullException(nameof(billingAddress));
 
-			if (userAddresses == null) 
+			UserDataRow user = _users.Select(userId);
+
+			if (user == null)
+				return false;
+
+			long billingAddressId = billingAddress.Id;
+
+			AddressDataRow userAddresses = _addresses.Select().FirstOrDefault(a => a.UserId == user.Id && a.Id.Equals(billingAddressId));
+
+			if (userAddresses == null)
+			{
+				userAddresses = new AddressDataRow()
+				{
+					AddressLine1 = billingAddress.AddressLine1,
+					AddressLine2 = billingAddress.AddressLine2,
+					AddressLine3 = billingAddress.AddressLine3,
+					BusinessName = billingAddress.BusinessName,
+					City = billingAddress.City,
+					Country = billingAddress.Country,
+					County = billingAddress.County,
+					Postcode = billingAddress.Postcode,
+					IsDelivery = false,
+					UserId = userId,
+				};
+
+				_addresses.Insert(userAddresses);
+			}
+			else
+			{
+				userAddresses.AddressLine1 = billingAddress.AddressLine1;
+				userAddresses.AddressLine2 = billingAddress.AddressLine2;
+				userAddresses.AddressLine3 = billingAddress.AddressLine3;
+				userAddresses.BusinessName = billingAddress.BusinessName;
+				userAddresses.City = billingAddress.City;
+				userAddresses.Country = billingAddress.Country;
+				userAddresses.County = billingAddress.County;
+				userAddresses.Postcode = billingAddress.Postcode;
+				userAddresses.IsDelivery = false;
+				userAddresses.UserId = userId;
+				_addresses.Update(userAddresses);
+			}
+
+			return true;
+		}
+
+		public Address GetBillingAddress(in long userId)
+		{
+			UserDataRow user = _users.Select(userId);
+
+			if (user == null)
 				return null;
 
-            return new Address(Convert.ToInt32(userAddresses.Id), userAddresses.BusinessName,
-                userAddresses.AddressLine1, userAddresses.AddressLine2, userAddresses.AddressLine3,
-                userAddresses.City, userAddresses.County, userAddresses.Postcode, userAddresses.Country);
-        }
+			AddressDataRow userAddresses = _addresses.Select().FirstOrDefault(a => a.UserId == user.Id && !a.IsDelivery);
+
+			if (userAddresses == null)
+				return null;
 
-        #endregion Billing Address
+			return new Address(Convert.ToInt32(userAddresses.Id), userAddresses.BusinessName,
+				userAddresses.AddressLine1, userAddresses.AddressLine2, userAddresses.AddressLine3,
+				userAddresses.City, userAddresses.County, userAddresses.Postcode, userAddresses.Country);
+		}
 
-        #region Delivery Address
+		#endregion Billing Address
 
-        public bool SetDeliveryAddress(in long userId, in DeliveryAddress deliveryAddress)
-        {
-            UserDataRow user = _users.Select(userId);
+		#region Delivery Address
 
-            if (user == null)
-                return false;
+		public bool SetDeliveryAddress(in long userId, in DeliveryAddress deliveryAddress)
+		{
+			UserDataRow user = _users.Select(userId);
 
-            AddressDataRow addressDataRow = _addresses.Select(deliveryAddress.Id);
+			if (user == null)
+				return false;
 
-            if (addressDataRow == null)
-                return false;
+			AddressDataRow addressDataRow = _addresses.Select(deliveryAddress.Id);
 
-            addressDataRow.BusinessName = deliveryAddress.BusinessName;
-            addressDataRow.AddressLine1 = deliveryAddress.AddressLine1;
-            addressDataRow.AddressLine2 = deliveryAddress.AddressLine2;
-            addressDataRow.AddressLine3 = deliveryAddress.AddressLine3;
-            addressDataRow.City = deliveryAddress.City;
-            addressDataRow.County = deliveryAddress.County;
-            addressDataRow.Postcode = deliveryAddress.Postcode;
-            addressDataRow.Country = deliveryAddress.Country;
-            addressDataRow.PostageCost = deliveryAddress.PostageCost;
-            addressDataRow.IsDelivery = true;
+			if (addressDataRow == null)
+				return false;
 
-            if (!addressDataRow.HasChanged)
-                return false;
+			addressDataRow.BusinessName = deliveryAddress.BusinessName;
+			addressDataRow.AddressLine1 = deliveryAddress.AddressLine1;
+			addressDataRow.AddressLine2 = deliveryAddress.AddressLine2;
+			addressDataRow.AddressLine3 = deliveryAddress.AddressLine3;
+			addressDataRow.City = deliveryAddress.City;
+			addressDataRow.County = deliveryAddress.County;
+			addressDataRow.Postcode = deliveryAddress.Postcode;
+			addressDataRow.Country = deliveryAddress.Country;
+			addressDataRow.PostageCost = deliveryAddress.PostageCost;
+			addressDataRow.IsDelivery = true;
 
-            _addresses.Update(addressDataRow);
-            return true;
-        }
+			if (!addressDataRow.HasChanged)
+				return false;
 
-        public List<DeliveryAddress> GetDeliveryAddresses(in long userId)
-        {
-            List<DeliveryAddress> Result = new();
-            UserDataRow user = _users.Select(userId);
+			_addresses.Update(addressDataRow);
+			return true;
+		}
 
-            if (user == null)
-                return Result;
+		public List<DeliveryAddress> GetDeliveryAddresses(in long userId)
+		{
+			List<DeliveryAddress> Result = new();
+			UserDataRow user = _users.Select(userId);
 
-            long userAddressId = userId;
-            List<AddressDataRow> userAddresses = _addresses.Select().Where(a => a.UserId.Equals(userAddressId)).ToList();
+			if (user == null)
+				return Result;
 
-            userAddresses.ForEach(ua => Result.Add(ConvertToDeliveryAddress(ua)));
+			long userAddressId = userId;
+			List<AddressDataRow> userAddresses = _addresses.Select().Where(a => a.UserId.Equals(userAddressId)).ToList();
 
-            return Result;
-        }
+			userAddresses.ForEach(ua => Result.Add(ConvertToDeliveryAddress(ua)));
 
-        public bool AddDeliveryAddress(in Int64 userId, in DeliveryAddress deliveryAddress)
-        {
-            UserDataRow user = _users.Select(userId);
+			return Result;
+		}
 
-            if (user == null)
-                return false;
+		public bool AddDeliveryAddress(in Int64 userId, in DeliveryAddress deliveryAddress)
+		{
+			UserDataRow user = _users.Select(userId);
 
-            AddressDataRow newAddress = new()
-            {
-                AddressLine1 = deliveryAddress.AddressLine1,
-                AddressLine2 = deliveryAddress.AddressLine2,
-                AddressLine3 = deliveryAddress.AddressLine3,
-                BusinessName = deliveryAddress.BusinessName,
-                City = deliveryAddress.City,
-                Country = deliveryAddress.Country,
-                County = deliveryAddress.County,
-                IsDelivery = true,
-                PostageCost = deliveryAddress.PostageCost,
-                Postcode = deliveryAddress.Postcode,
-                UserId = userId,
-            };
+			if (user == null)
+				return false;
 
-            _addresses.Insert(newAddress);
+			AddressDataRow newAddress = new()
+			{
+				AddressLine1 = deliveryAddress.AddressLine1,
+				AddressLine2 = deliveryAddress.AddressLine2,
+				AddressLine3 = deliveryAddress.AddressLine3,
+				BusinessName = deliveryAddress.BusinessName,
+				City = deliveryAddress.City,
+				Country = deliveryAddress.Country,
+				County = deliveryAddress.County,
+				IsDelivery = true,
+				PostageCost = deliveryAddress.PostageCost,
+				Postcode = deliveryAddress.Postcode,
+				UserId = userId,
+			};
 
-            deliveryAddress.Id = newAddress.Id;
-            return true;
-        }
+			_addresses.Insert(newAddress);
 
-        public DeliveryAddress GetDeliveryAddress(in Int64 userId, in long deliveryAddressId)
-        {
-            UserDataRow user = _users.Select(userId);
+			deliveryAddress.Id = newAddress.Id;
+			return true;
+		}
 
-            if (user == null)
-                return null;
+		public DeliveryAddress GetDeliveryAddress(in Int64 userId, in long deliveryAddressId)
+		{
+			UserDataRow user = _users.Select(userId);
 
-            return ConvertToDeliveryAddress(_addresses.Select(deliveryAddressId));
-        }
+			if (user == null)
+				return null;
 
-        public bool DeleteDeliveryAddress(in long userId, in DeliveryAddress deliveryAddress)
-        {
-            if (deliveryAddress == null)
-                return false;
+			return ConvertToDeliveryAddress(_addresses.Select(deliveryAddressId));
+		}
 
-            UserDataRow user = _users.Select(userId);
+		public bool DeleteDeliveryAddress(in long userId, in DeliveryAddress deliveryAddress)
+		{
+			if (deliveryAddress == null)
+				return false;
 
-            if (user == null)
-                return false;
+			UserDataRow user = _users.Select(userId);
 
-            AddressDataRow addressDataRow = _addresses.Select(deliveryAddress.Id);
+			if (user == null)
+				return false;
 
-            if (addressDataRow == null)
-                return false;
+			AddressDataRow addressDataRow = _addresses.Select(deliveryAddress.Id);
 
-            _addresses.Delete(addressDataRow);
+			if (addressDataRow == null)
+				return false;
 
-            return !_addresses.IdExists(deliveryAddress.Id);
-        }
+			_addresses.Delete(addressDataRow);
 
-        #endregion Delivery Address
+			return !_addresses.IdExists(deliveryAddress.Id);
+		}
 
-        #region Marketing Preferences
+		#endregion Delivery Address
 
-        public MarketingOptions GetMarketingOptions()
-        {
-            return MarketingOptions.ShowEmail |
-                MarketingOptions.ShowPostal |
-                MarketingOptions.ShowSMS |
-                MarketingOptions.ShowTelephone;
-        }
+		#region Marketing Preferences
 
-        public Marketing GetMarketingPreferences(in Int64 userId)
-        {
-            UserDataRow user = _users.Select(userId);
+		public MarketingOptions GetMarketingOptions()
+		{
+			return MarketingOptions.ShowEmail |
+				MarketingOptions.ShowPostal |
+				MarketingOptions.ShowSMS |
+				MarketingOptions.ShowTelephone;
+		}
 
-            if (user == null)
-                return null;
+		public Marketing GetMarketingPreferences(in Int64 userId)
+		{
+			UserDataRow user = _users.Select(userId);
 
-            return new Marketing(user.MarketingEmail, user.MarketingTelephone, user.MarketingSms, user.MarketingPostal);
-        }
+			if (user == null)
+				return null;
 
-        public bool SetMarketingPreferences(in Int64 userId, in Marketing marketing)
-        {
-            UserDataRow user = _users.Select(userId);
+			return new Marketing(user.MarketingEmail, user.MarketingTelephone, user.MarketingSms, user.MarketingPostal);
+		}
 
-            if (user == null)
-                return false;
+		public bool SetMarketingPreferences(in Int64 userId, in Marketing marketing)
+		{
+			UserDataRow user = _users.Select(userId);
 
-            user.MarketingEmail = marketing.EmailOffers;
-            user.MarketingPostal = marketing.PostalOffers;
-            user.MarketingSms = marketing.SMSOffers;
-            user.MarketingTelephone = marketing.TelephoneOffers;
+			if (user == null)
+				return false;
 
-            _users.Update(user);
-            return true;
-        }
+			user.MarketingEmail = marketing.EmailOffers;
+			user.MarketingPostal = marketing.PostalOffers;
+			user.MarketingSms = marketing.SMSOffers;
+			user.MarketingTelephone = marketing.TelephoneOffers;
 
-        #endregion Marketing Preferences
+			_users.Update(user);
+			return true;
+		}
 
-        #region Orders
+		#endregion Marketing Preferences
 
-        public List<Order> OrdersGet(in Int64 userId)
-        {
-            List<Order> Result = new();
+		#region Orders
 
-            UserDataRow user = _users.Select(userId);
+		public List<Order> OrdersGet(in Int64 userId)
+		{
+			List<Order> Result = new();
 
-            if (user == null)
-                return Result;
+			UserDataRow user = _users.Select(userId);
 
-            List<OrderDataRow> userOrders = _orders.Select().Where(o => o.UserId == user.Id).ToList();
+			if (user == null)
+				return Result;
 
-            userOrders.ForEach(o =>
-            {
-                List<OrderItem> orderItems = new();
+			List<OrderDataRow> userOrders = _orders.Select().Where(o => o.UserId == user.Id).ToList();
 
-                List<OrderItemDataRow> userOrderItems = _ordersItems.Select().Where(oi => oi.OrderId.Equals(o.Id)).ToList();
+			userOrders.ForEach(o =>
+			{
+				List<OrderItem> orderItems = new();
 
-                userOrderItems.ForEach(oi => orderItems.Add(new OrderItem(oi.Id, oi.Description, oi.Price, oi.TaxRate, oi.Quantity, (ItemStatus)oi.ItemStatus, (DiscountType)oi.DiscountType, oi.Discount)));
+				List<OrderItemDataRow> userOrderItems = _ordersItems.Select().Where(oi => oi.OrderId.Equals(o.Id)).ToList();
 
-                Result.Add(new Order(o.Id, o.Created, o.Postage, new CultureInfo(o.Culture), (ProcessStatus)o.ProcessStatus, GetDeliveryAddress(user.Id, o.DeliveryAddress), orderItems));
-            });
+				userOrderItems.ForEach(oi => orderItems.Add(new OrderItem(oi.Id, oi.Description, oi.Price, oi.TaxRate, oi.Quantity, (ItemStatus)oi.ItemStatus, (DiscountType)oi.DiscountType, oi.Discount)));
 
-            return Result;
-        }
+				Result.Add(new Order(o.Id, o.Created, o.Postage, new CultureInfo(o.Culture), (ProcessStatus)o.ProcessStatus, GetDeliveryAddress(user.Id, o.DeliveryAddress), orderItems));
+			});
 
-        public void OrderPaid(in Order order, in PaymentStatus paymentStatus, in string message)
-        {
-            if (order == null)
-                throw new ArgumentNullException(nameof(order));
+			return Result;
+		}
 
-            if (String.IsNullOrEmpty(message))
-                throw new ArgumentNullException(nameof(message));
+		public void OrderPaid(in Order order, in PaymentStatus paymentStatus, in string message)
+		{
+			if (order == null)
+				throw new ArgumentNullException(nameof(order));
 
-            if (paymentStatus == PaymentStatus.Unpaid)
-                throw new ArgumentOutOfRangeException(nameof(paymentStatus));
+			if (String.IsNullOrEmpty(message))
+				throw new ArgumentNullException(nameof(message));
 
-            OrderDataRow orderDataRow = _orders.Select(order.Id);
+			if (paymentStatus == PaymentStatus.Unpaid)
+				throw new ArgumentOutOfRangeException(nameof(paymentStatus));
 
-            if (orderDataRow == null)
-                throw new InvalidOperationException("Order could not be found!");
+			OrderDataRow orderDataRow = _orders.Select(order.Id) ?? throw new InvalidOperationException("Order could not be found!");
+			long userId = orderDataRow.UserId;
 
-            long userId = orderDataRow.UserId;
+			InvoiceDataRow newInvoice = new()
+			{
+				UserId = userId,
+				DeliveryAddress = orderDataRow.DeliveryAddress,
+				OrderId = orderDataRow.Id,
+				Postage = orderDataRow.Postage,
+				Culture = orderDataRow.Culture,
+				PaymentStatus = (int)paymentStatus,
+				ProcessStatus = orderDataRow.ProcessStatus,
+			};
 
-            InvoiceDataRow newInvoice = new()
-            {
-                UserId = userId,
-                DeliveryAddress = orderDataRow.DeliveryAddress,
-                OrderId = orderDataRow.Id,
-                Postage = orderDataRow.Postage,
-                Culture = orderDataRow.Culture,
-                PaymentStatus = (int)paymentStatus,
-                ProcessStatus = orderDataRow.ProcessStatus,
-            };
+			_invoices.Insert(newInvoice);
 
-            _invoices.Insert(newInvoice);
+			List<InvoiceItemDataRow> invoiceItems = new();
+			List<OrderItemDataRow> orderItems = _ordersItems.Select().Where(oi => oi.OrderId.Equals(orderDataRow.Id)).ToList();
 
-            List<InvoiceItemDataRow> invoiceItems = new();
-            List<OrderItemDataRow> orderItems = _ordersItems.Select().Where(oi => oi.OrderId.Equals(orderDataRow.Id)).ToList();
+			orderItems.ForEach(oi =>
+			{
+				invoiceItems.Add(new InvoiceItemDataRow()
+				{
+					InvoiceId = newInvoice.Id,
+					OrderItemId = oi.Id,
+					Description = oi.Description,
+					TaxRate = oi.TaxRate,
+					Price = oi.Price,
+					Quantity = oi.Quantity,
+					Discount = oi.Discount,
+					DiscountType = oi.DiscountType,
+					ItemStatus = oi.ItemStatus,
+				});
+			});
 
-            orderItems.ForEach(oi =>
-            {
-                invoiceItems.Add(new InvoiceItemDataRow()
-                {
-                    InvoiceId = newInvoice.Id,
-                    OrderItemId = oi.Id,
-                    Description = oi.Description,
-                    TaxRate = oi.TaxRate,
-                    Price = oi.Price,
-                    Quantity = oi.Quantity,
-                    Discount = oi.Discount,
-                    DiscountType = oi.DiscountType,
-                    ItemStatus = oi.ItemStatus,
-                });
-            });
+			_invoiceItems.Insert(invoiceItems);
+		}
 
-            _invoiceItems.Insert(invoiceItems);
-        }
+		#endregion Orders
 
-        #endregion Orders
+		#region Invoices
 
-        #region Invoices
+		public List<Invoice> InvoicesGet(in Int64 userId)
+		{
+			List<Invoice> Result = new();
+			UserDataRow user = _users.Select(userId);
 
-        public List<Invoice> InvoicesGet(in Int64 userId)
-        {
-            List<Invoice> Result = new();
-            UserDataRow user = _users.Select(userId);
+			if (user == null)
+				return Result;
 
-            if (user == null)
-                return Result;
+			List<InvoiceDataRow> userInvoices = _invoices.Select().Where(o => o.UserId == user.Id).ToList();
 
-            List<InvoiceDataRow> userInvoices = _invoices.Select().Where(o => o.UserId == user.Id).ToList();
+			userInvoices.ForEach(i =>
+			{
+				List<InvoiceItem> invoiceItems = new();
 
-            userInvoices.ForEach(i =>
-            {
-                List<InvoiceItem> invoiceItems = new();
+				List<InvoiceItemDataRow> userOrderItems = _invoiceItems.Select().Where(ii => ii.InvoiceId.Equals(i.Id)).ToList();
 
-                List<InvoiceItemDataRow> userOrderItems = _invoiceItems.Select().Where(ii => ii.InvoiceId.Equals(i.Id)).ToList();
+				userOrderItems.ForEach(ii => invoiceItems.Add(new InvoiceItem(ii.Id, ii.Description, ii.Price, ii.TaxRate, ii.Quantity, (ItemStatus)ii.ItemStatus, (DiscountType)ii.DiscountType, ii.Discount)));
 
-                userOrderItems.ForEach(ii => invoiceItems.Add(new InvoiceItem(ii.Id, ii.Description, ii.Price, ii.TaxRate, ii.Quantity, (ItemStatus)ii.ItemStatus, (DiscountType)ii.DiscountType, ii.Discount)));
+				Result.Add(new Invoice(i.Id, i.Created, i.Postage, new CultureInfo(i.Culture), (ProcessStatus)i.ProcessStatus, (PaymentStatus)i.PaymentStatus, GetDeliveryAddress(user.Id, i.DeliveryAddress), invoiceItems));
+			});
 
-                Result.Add(new Invoice(i.Id, i.Created, i.Postage, new CultureInfo(i.Culture), (ProcessStatus)i.ProcessStatus, (PaymentStatus)i.PaymentStatus, GetDeliveryAddress(user.Id, i.DeliveryAddress), invoiceItems));
-            });
+			return Result;
+		}
 
-            return Result;
-        }
+		#endregion Invoices
 
-        #endregion Invoices
+		#region Private Methods
 
-        #region Private Methods
+		private static DeliveryAddress ConvertToDeliveryAddress(AddressDataRow address)
+		{
+			if (address == null)
+				return null;
 
-        private static DeliveryAddress ConvertToDeliveryAddress(AddressDataRow address)
-        {
-            if (address == null)
-                return null;
+			return new DeliveryAddress(address.Id, address.BusinessName, address.AddressLine1, address.AddressLine2,
+				address.AddressLine3, address.City, address.County, address.Country, address.Postcode, address.PostageCost);
+		}
 
-            return new DeliveryAddress(address.Id, address.BusinessName, address.AddressLine1, address.AddressLine2, 
-                address.AddressLine3, address.City, address.County, address.Country, address.Postcode, address.PostageCost);
-        }
+		private static int GenerateRandomNumber()
+		{
+			Random random = new(Convert.ToInt32(DateTime.Now.ToString("Hmsffff")));
+			return random.Next(100000, 999999);
+		}
 
-        private static int GenerateRandomNumber()
-        {
-            Random random = new(Convert.ToInt32(DateTime.Now.ToString("Hmsffff")));
-            return random.Next(100000, 999999);
-        }
-
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }

@@ -29,145 +29,145 @@ using System.Collections.Generic;
 
 namespace Middleware.SessionData
 {
-    /// <summary>
-    /// Base session data for Hourly, Daily, Weekly Monthly and Yearly
-    /// </summary>
-    public class SessionBaseData
-    {
-        #region Constructors
+	/// <summary>
+	/// Base session data for Hourly, Daily, Weekly Monthly and Yearly
+	/// </summary>
+	public class SessionBaseData
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public SessionBaseData()
-        {
-            CountryData = new Dictionary<string, uint>();
-            UserAgents = new List<SessionUserAgent>();
-        }
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public SessionBaseData()
+		{
+			CountryData = new Dictionary<string, uint>();
+			UserAgents = new List<SessionUserAgent>();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Total number of visits
-        /// </summary>
-        /// <value>uint</value>
-        public uint TotalVisits { get; set; }
+		/// <summary>
+		/// Total number of visits
+		/// </summary>
+		/// <value>uint</value>
+		public uint TotalVisits { get; set; }
 
-        /// <summary>
-        /// Total number of human visits
-        /// </summary>
-        /// <value>uint</value>
-        public uint HumanVisits { get; set; }
+		/// <summary>
+		/// Total number of human visits
+		/// </summary>
+		/// <value>uint</value>
+		public uint HumanVisits { get; set; }
 
-        /// <summary>
-        /// Total number of visits from a mobile device
-        /// </summary>
-        /// <value>uint</value>
-        public uint MobileVisits { get; set; }
+		/// <summary>
+		/// Total number of visits from a mobile device
+		/// </summary>
+		/// <value>uint</value>
+		public uint MobileVisits { get; set; }
 
-        /// <summary>
-        /// Total number of visits from a Bot
-        /// </summary>
-        /// <value>uint</value>
-        public uint BotVisits { get; set; }
+		/// <summary>
+		/// Total number of visits from a Bot
+		/// </summary>
+		/// <value>uint</value>
+		public uint BotVisits { get; set; }
 
-        /// <summary>
-        /// Total number of human visitors who have bounced
-        /// </summary>
-        /// <value>uint</value>
-        public uint Bounced { get; set; }
+		/// <summary>
+		/// Total number of human visitors who have bounced
+		/// </summary>
+		/// <value>uint</value>
+		public uint Bounced { get; set; }
 
-        /// <summary>
-        /// Total number of pages viewed
-        /// </summary>
-        public uint TotalPages { get; set; }
+		/// <summary>
+		/// Total number of pages viewed
+		/// </summary>
+		public uint TotalPages { get; set; }
 
-        /// <summary>
-        /// Total cost of all sales
-        /// </summary>
-        /// <value>decimal</value>
-        public decimal TotalSales { get; set; }
+		/// <summary>
+		/// Total cost of all sales
+		/// </summary>
+		/// <value>decimal</value>
+		public decimal TotalSales { get; set; }
 
-        /// <summary>
-        /// Number of conversions from visits to sales
-        /// </summary>
-        /// <value>uint</value>
-        public uint Conversions { get; set; }
+		/// <summary>
+		/// Number of conversions from visits to sales
+		/// </summary>
+		/// <value>uint</value>
+		public uint Conversions { get; set; }
 
-        /// <summary>
-        /// Number of daily conversions from visits to sales on mobile devices
-        /// </summary>
-        /// <value>uint</value>
-        public uint MobileConversions { get; set; }
+		/// <summary>
+		/// Number of daily conversions from visits to sales on mobile devices
+		/// </summary>
+		/// <value>uint</value>
+		public uint MobileConversions { get; set; }
 
-        /// <summary>
-        /// Unknown referrer count
-        /// </summary>
-        /// <value>uint</value>
-        public uint ReferrerUnknown { get; set; }
+		/// <summary>
+		/// Unknown referrer count
+		/// </summary>
+		/// <value>uint</value>
+		public uint ReferrerUnknown { get; set; }
 
-        /// <summary>
-        /// Direct referrer count
-        /// </summary>
-        /// <value>uint</value>
-        public uint ReferDirect { get; set; }
+		/// <summary>
+		/// Direct referrer count
+		/// </summary>
+		/// <value>uint</value>
+		public uint ReferDirect { get; set; }
 
-        /// <summary>
-        /// Organic referrer count
-        /// </summary>
-        /// <value>uint</value>
-        public uint ReferOrganic { get; set; }
+		/// <summary>
+		/// Organic referrer count
+		/// </summary>
+		/// <value>uint</value>
+		public uint ReferOrganic { get; set; }
 
-        /// <summary>
-        /// Bing referrer count
-        /// </summary>
-        /// <value>uint</value>
-        public uint ReferBing { get; set; }
+		/// <summary>
+		/// Bing referrer count
+		/// </summary>
+		/// <value>uint</value>
+		public uint ReferBing { get; set; }
 
-        /// <summary>
-        /// Google referrer count
-        /// </summary>
-        /// <value>uint</value>
-        public uint ReferGoogle { get; set; }
+		/// <summary>
+		/// Google referrer count
+		/// </summary>
+		/// <value>uint</value>
+		public uint ReferGoogle { get; set; }
 
-        /// <summary>
-        /// Yahoo referrer count
-        /// </summary>
-        /// <value>uint</value>
-        public uint ReferYahoo { get; set; }
+		/// <summary>
+		/// Yahoo referrer count
+		/// </summary>
+		/// <value>uint</value>
+		public uint ReferYahoo { get; set; }
 
-        /// <summary>
-        /// Facebook referrer count
-        /// </summary>
-        /// <value>uint</value>
-        public uint ReferFacebook { get; set; }
+		/// <summary>
+		/// Facebook referrer count
+		/// </summary>
+		/// <value>uint</value>
+		public uint ReferFacebook { get; set; }
 
-        /// <summary>
-        /// Twitter referrer count
-        /// </summary>
-        /// <value>uint</value>
-        public uint ReferTwitter { get; set; }
+		/// <summary>
+		/// Twitter referrer count
+		/// </summary>
+		/// <value>uint</value>
+		public uint ReferTwitter { get; set; }
 
-        /// <summary>
-        /// Other referrer count
-        /// </summary>
-        /// <value>uint</value>
-        public uint ReferOther { get; set; }
+		/// <summary>
+		/// Other referrer count
+		/// </summary>
+		/// <value>uint</value>
+		public uint ReferOther { get; set; }
 
-        /// <summary>
-        /// Counts by country for the specified period
-        /// </summary>
-        /// <value>Dictionary&lt;string, uint&gt;</value>
-        public Dictionary<string, uint> CountryData { get; set; }
+		/// <summary>
+		/// Counts by country for the specified period
+		/// </summary>
+		/// <value>Dictionary&lt;string, uint&gt;</value>
+		public Dictionary<string, uint> CountryData { get; set; }
 
-        /// <summary>
-        /// Counts by user agent for the specified period
-        /// </summary>
-        /// <value>List&lt;string, uint&gt;</value>
-        public List<SessionUserAgent> UserAgents { get; set; }
+		/// <summary>
+		/// Counts by user agent for the specified period
+		/// </summary>
+		/// <value>List&lt;string, uint&gt;</value>
+		public List<SessionUserAgent> UserAgents { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

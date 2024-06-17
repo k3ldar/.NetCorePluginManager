@@ -28,202 +28,202 @@ using System.Globalization;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Shopping cart summary, used if the website is implementing a shopping cart and data needs to be displayed on each page.
-    /// </summary>
-    public class ShoppingCartSummary
-    {
-        #region Constructors
+	/// <summary>
+	/// Shopping cart summary, used if the website is implementing a shopping cart and data needs to be displayed on each page.
+	/// </summary>
+	public class ShoppingCartSummary
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="id">Unique id for shopping cart.</param>
-        /// <param name="totalItems">Total number of items in the shopping cart.</param>
-        /// <param name="subTotal">Sub total value of the shopping cart.</param>
-        /// <param name="discountRate">Discount applied to the shopping cart.</param>
-        /// <param name="shipping">Shipping rate applied to the shopping cart.</param>
-        /// <param name="taxRate">Tax rate applied to the shopping cart.</param>
-        /// <param name="culture">Culture used by the shopping cart.</param>
-        /// <param name="currencyCode">Currency code used by the shopping cart.</param>
-        public ShoppingCartSummary(in long id, in int totalItems, in decimal subTotal,
-            in decimal discountRate, in decimal shipping, in decimal taxRate,
-            in CultureInfo culture, in string currencyCode)
-        {
-            Id = id;
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="id">Unique id for shopping cart.</param>
+		/// <param name="totalItems">Total number of items in the shopping cart.</param>
+		/// <param name="subTotal">Sub total value of the shopping cart.</param>
+		/// <param name="discountRate">Discount applied to the shopping cart.</param>
+		/// <param name="shipping">Shipping rate applied to the shopping cart.</param>
+		/// <param name="taxRate">Tax rate applied to the shopping cart.</param>
+		/// <param name="culture">Culture used by the shopping cart.</param>
+		/// <param name="currencyCode">Currency code used by the shopping cart.</param>
+		public ShoppingCartSummary(in long id, in int totalItems, in decimal subTotal,
+			in decimal discountRate, in decimal shipping, in decimal taxRate,
+			in CultureInfo culture, in string currencyCode)
+		{
+			Id = id;
 
-            if (totalItems < 0)
-                throw new ArgumentOutOfRangeException(nameof(totalItems));
+			if (totalItems < 0)
+				throw new ArgumentOutOfRangeException(nameof(totalItems));
 
-            if (subTotal < 0)
-                throw new ArgumentOutOfRangeException(nameof(subTotal));
+			if (subTotal < 0)
+				throw new ArgumentOutOfRangeException(nameof(subTotal));
 
-            if (discountRate < 0 || discountRate > 100)
-                throw new ArgumentOutOfRangeException(nameof(discountRate));
+			if (discountRate < 0 || discountRate > 100)
+				throw new ArgumentOutOfRangeException(nameof(discountRate));
 
-            if (String.IsNullOrEmpty(currencyCode) || currencyCode.Length != 3)
-                throw new ArgumentOutOfRangeException(nameof(currencyCode));
+			if (String.IsNullOrEmpty(currencyCode) || currencyCode.Length != 3)
+				throw new ArgumentOutOfRangeException(nameof(currencyCode));
 
-            TotalItems = totalItems;
-            SubTotal = subTotal;
-            DiscountRate = discountRate;
-            Shipping = shipping;
-            TaxRate = taxRate;
-            Culture = culture ?? throw new ArgumentNullException(nameof(culture));
-            CurrencyCode = currencyCode;
+			TotalItems = totalItems;
+			SubTotal = subTotal;
+			DiscountRate = discountRate;
+			Shipping = shipping;
+			TaxRate = taxRate;
+			Culture = culture ?? throw new ArgumentNullException(nameof(culture));
+			CurrencyCode = currencyCode;
 
-            ResetTotalCost(subTotal);
-        }
+			ResetTotalCost(subTotal);
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Methods
+		#region Public Methods
 
-        /// <summary>
-        /// Resets the unique id associated with the shopping cart.
-        /// </summary>
-        /// <param name="id">Unique id for the cart.</param>
-        public void ResetShoppingCartId(in long id)
-        {
-            if (Id != 0)
-                throw new InvalidOperationException();
+		/// <summary>
+		/// Resets the unique id associated with the shopping cart.
+		/// </summary>
+		/// <param name="id">Unique id for the cart.</param>
+		public void ResetShoppingCartId(in long id)
+		{
+			if (Id != 0)
+				throw new InvalidOperationException();
 
-            Id = id;
-        }
+			Id = id;
+		}
 
-        #endregion Public Methods
+		#endregion Public Methods
 
-        #region Protected Methods
+		#region Protected Methods
 
-        /// <summary>
-        /// Resets the total number of items within the cart.
-        /// </summary>
-        /// <param name="totalItems">Total number of items within the cart.</param>
-        protected void ResetTotalItems(in int totalItems)
-        {
-            if (totalItems < 0)
-                throw new InvalidOperationException();
+		/// <summary>
+		/// Resets the total number of items within the cart.
+		/// </summary>
+		/// <param name="totalItems">Total number of items within the cart.</param>
+		protected void ResetTotalItems(in int totalItems)
+		{
+			if (totalItems < 0)
+				throw new InvalidOperationException();
 
-            TotalItems = totalItems;
-        }
+			TotalItems = totalItems;
+		}
 
-        /// <summary>
-        /// Forces the shipping value to be reset within the shopping cart.
-        /// </summary>
-        /// <param name="shipping">Shipping charges which will apply.</param>
-        protected void ResetShipping(in decimal shipping)
-        {
-            Shipping = shipping;
-            ResetTotalCost(SubTotal);
-        }
+		/// <summary>
+		/// Forces the shipping value to be reset within the shopping cart.
+		/// </summary>
+		/// <param name="shipping">Shipping charges which will apply.</param>
+		protected void ResetShipping(in decimal shipping)
+		{
+			Shipping = shipping;
+			ResetTotalCost(SubTotal);
+		}
 
-        /// <summary>
-        /// Forces the total costs for the cart to be reset.
-        /// </summary>
-        /// <param name="cost">New cost to be applied to the shopping cart.</param>
-        protected void ResetTotalCost(in decimal cost)
-        {
-            if (cost < 0)
-                throw new InvalidOperationException();
+		/// <summary>
+		/// Forces the total costs for the cart to be reset.
+		/// </summary>
+		/// <param name="cost">New cost to be applied to the shopping cart.</param>
+		protected void ResetTotalCost(in decimal cost)
+		{
+			if (cost < 0)
+				throw new InvalidOperationException();
 
-            SubTotal = cost;
+			SubTotal = cost;
 
-            decimal total = SubTotal + Shipping;
+			decimal total = SubTotal + Shipping;
 
-            if (DiscountRate > 0 && total > 0)
-            {
-                switch (DiscountType)
-                {
-                    case DiscountType.None:
-                        Discount = 0;
-                        break;
-                    case DiscountType.PercentageTotal:
-                        Discount = Shared.Utilities.BankersRounding(total / 100 * DiscountRate, 2);
-                        break;
-                }
-            }
+			if (DiscountRate > 0 && total > 0)
+			{
+				switch (DiscountType)
+				{
+					case DiscountType.None:
+						Discount = 0;
+						break;
+					case DiscountType.PercentageTotal:
+						Discount = Shared.Utilities.BankersRounding(total / 100 * DiscountRate, 2);
+						break;
+				}
+			}
 
-            Total = total - Discount;
-            Tax = Shared.Utilities.BankersRounding(Shared.Utilities.VATCalculatePaid(Total, TaxRate), 2);
-        }
+			Total = total - Discount;
+			Tax = Shared.Utilities.BankersRounding(Shared.Utilities.VATCalculatePaid(Total, TaxRate), 2);
+		}
 
-        /// <summary>
-        /// Forces the total costs for the cart to be reset.
-        /// </summary>
-        /// <param name="cost">New cost to be applied to the shopping cart.</param>
-        /// <param name="cultureInfo">Culture to be applied to the shopping cart.</param>
-        protected void ResetTotalCost(in decimal cost, in CultureInfo cultureInfo)
-        {
-            if (cultureInfo == null)
-                throw new ArgumentNullException(nameof(cultureInfo));
+		/// <summary>
+		/// Forces the total costs for the cart to be reset.
+		/// </summary>
+		/// <param name="cost">New cost to be applied to the shopping cart.</param>
+		/// <param name="cultureInfo">Culture to be applied to the shopping cart.</param>
+		protected void ResetTotalCost(in decimal cost, in CultureInfo cultureInfo)
+		{
+			if (cultureInfo == null)
+				throw new ArgumentNullException(nameof(cultureInfo));
 
-            ResetTotalCost(cost);
-        }
+			ResetTotalCost(cost);
+		}
 
-        #endregion Protected Methods
+		#endregion Protected Methods
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Unique id representing the shopping cart.
-        /// </summary>
-        public long Id { get; private set; }
+		/// <summary>
+		/// Unique id representing the shopping cart.
+		/// </summary>
+		public long Id { get; private set; }
 
-        /// <summary>
-        /// Total number of items within the shopping cart.
-        /// </summary>
-        public int TotalItems { get; private set; }
+		/// <summary>
+		/// Total number of items within the shopping cart.
+		/// </summary>
+		public int TotalItems { get; private set; }
 
-        /// <summary>
-        /// Sub total of the shopping cart.
-        /// </summary>
-        public decimal SubTotal { get; private set; }
+		/// <summary>
+		/// Sub total of the shopping cart.
+		/// </summary>
+		public decimal SubTotal { get; private set; }
 
-        /// <summary>
-        /// Rate at which discount has been applied to the shopping cart.
-        /// </summary>
-        public decimal DiscountRate { get; protected set; }
+		/// <summary>
+		/// Rate at which discount has been applied to the shopping cart.
+		/// </summary>
+		public decimal DiscountRate { get; protected set; }
 
-        /// <summary>
-        /// Type of discount applied to the shopping cart
-        /// </summary>
-        public DiscountType DiscountType { get; protected set; }
+		/// <summary>
+		/// Type of discount applied to the shopping cart
+		/// </summary>
+		public DiscountType DiscountType { get; protected set; }
 
-        /// <summary>
-        /// Total discount value applied to the shopping cart.
-        /// </summary>
-        public decimal Discount { get; private set; }
+		/// <summary>
+		/// Total discount value applied to the shopping cart.
+		/// </summary>
+		public decimal Discount { get; private set; }
 
-        /// <summary>
-        /// Rate at which tax has been applied to the shopping cart.
-        /// </summary>
-        public decimal TaxRate { get; private set; }
+		/// <summary>
+		/// Rate at which tax has been applied to the shopping cart.
+		/// </summary>
+		public decimal TaxRate { get; private set; }
 
-        /// <summary>
-        /// Total tax applied to the shopping cart.
-        /// </summary>
-        public decimal Tax { get; private set; }
+		/// <summary>
+		/// Total tax applied to the shopping cart.
+		/// </summary>
+		public decimal Tax { get; private set; }
 
-        /// <summary>
-        /// Total cost of shipping for the cart.
-        /// </summary>
-        public decimal Shipping { get; private set; }
+		/// <summary>
+		/// Total cost of shipping for the cart.
+		/// </summary>
+		public decimal Shipping { get; private set; }
 
-        /// <summary>
-        /// Total value of the shopping cart.
-        /// </summary>
-        public decimal Total { get; private set; }
+		/// <summary>
+		/// Total value of the shopping cart.
+		/// </summary>
+		public decimal Total { get; private set; }
 
-        /// <summary>
-        /// The culture to be used for the shopping cart.
-        /// </summary>
-        public CultureInfo Culture { get; private set; }
+		/// <summary>
+		/// The culture to be used for the shopping cart.
+		/// </summary>
+		public CultureInfo Culture { get; private set; }
 
-        /// <summary>
-        /// Three letter code depicting the currency used for the cart.
-        /// </summary>
-        public string CurrencyCode { get; private set; }
+		/// <summary>
+		/// Three letter code depicting the currency used for the cart.
+		/// </summary>
+		public string CurrencyCode { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

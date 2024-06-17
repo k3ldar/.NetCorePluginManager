@@ -211,8 +211,8 @@ namespace PluginManager.DAL.TextFiles.Providers
 			string session = userSessionId;
 			SessionDataRow sessionData = null;
 
-			using (TimedLock sessionLock = TimedLock.Lock(_sesionDataLock)) 
-				sessionData =  _sessionData.Select().FirstOrDefault(s => s.SessionId.Equals(session));
+			using (TimedLock sessionLock = TimedLock.Lock(_sesionDataLock))
+				sessionData = _sessionData.Select().FirstOrDefault(s => s.SessionId.Equals(session));
 
 			if (sessionData == null)
 				return;
@@ -246,7 +246,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			string sessionId = userSession.SessionID;
 			SessionDataRow currentSessionData = null;
 
-			using (TimedLock sessionLock = TimedLock.Lock(_sesionDataLock)) 
+			using (TimedLock sessionLock = TimedLock.Lock(_sesionDataLock))
 				currentSessionData = _sessionData.Select(userSession.InternalSessionID) ?? _sessionData.Select().FirstOrDefault(s => s.SessionId.Equals(sessionId));
 
 			if (currentSessionData == null)
@@ -413,24 +413,24 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 					SessionDataRow sessionData = null;
 
-					using (TimedLock sessionLock = TimedLock.Lock(_sesionDataLock)) 
+					using (TimedLock sessionLock = TimedLock.Lock(_sesionDataLock))
 						sessionData = _sessionData.Select(session.InternalSessionID);
 
 					sessionData ??= new SessionDataRow()
-						{
-							CountryCode = session.CountryCode,
-							HostName = session.HostName,
-							InitialReferrer = session.InitialReferrer,
-							IpAddress = session.IPAddress,
-							IsBrowserMobile = session.IsBrowserMobile,
-							IsMobile = session.IsMobileDevice,
-							MobileManufacturer = session.MobileManufacturer,
-							MobileModel = session.MobileModel,
-							MobileRedirect = session.MobileRedirect,
-							ReferralType = (int)session.Referal,
-							SessionId = session.SessionID,
-							UserAgent = session.UserAgent,
-						};
+					{
+						CountryCode = session.CountryCode,
+						HostName = session.HostName,
+						InitialReferrer = session.InitialReferrer,
+						IpAddress = session.IPAddress,
+						IsBrowserMobile = session.IsBrowserMobile,
+						IsMobile = session.IsMobileDevice,
+						MobileManufacturer = session.MobileManufacturer,
+						MobileModel = session.MobileModel,
+						MobileRedirect = session.MobileRedirect,
+						ReferralType = (int)session.Referal,
+						SessionId = session.SessionID,
+						UserAgent = session.UserAgent,
+					};
 
 					sessionData.UserId = session.UserID;
 					sessionData.IsBot = session.IsBot;
@@ -497,10 +497,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 				InitialReferralsDataRow referrer = _initialRefererData.Select().FirstOrDefault(rd => rd.Hash.Equals(pageHash));
 
 				referrer ??= new InitialReferralsDataRow()
-					{
-						Hash = pageHash,
-						Url = session.Pages[0].URL,
-					};
+				{
+					Hash = pageHash,
+					Url = session.Pages[0].URL,
+				};
 
 				referrer.Usage++;
 
@@ -521,17 +521,17 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 				SessionStatsHourlyDataRow hourly = null;
 
-				using (TimedLock sessionLock = TimedLock.Lock(_sesionDataLock)) 
+				using (TimedLock sessionLock = TimedLock.Lock(_sesionDataLock))
 					hourly = _sessionDataHourly.Select()
 					.FirstOrDefault(h => h.IsBot.Equals(session.IsBot) && h.Date.Date.Equals(currentDate.Date) && h.Hour == hour && h.Quarter == quarter);
 
 				hourly ??= new SessionStatsHourlyDataRow()
-					{
-						IsBot = session.IsBot,
-						DateTicks = currentDate.Date.Ticks,
-						Hour = hour,
-						Quarter = quarter,
-					};
+				{
+					IsBot = session.IsBot,
+					DateTicks = currentDate.Date.Ticks,
+					Hour = hour,
+					Quarter = quarter,
+				};
 
 				UserSessionService.UpdateSessionData(session, hourly);
 				_sessionDataHourly.InsertOrUpdate(hourly);
@@ -551,10 +551,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 					.FirstOrDefault(d => d.IsBot.Equals(session.IsBot) && d.Date.Date.Equals(sessionDate.Date));
 
 				daily ??= new SessionStatsDailyDataRow()
-					{
-						IsBot = session.IsBot,
-						DateTicks = sessionDate.Date.Ticks,
-					};
+				{
+					IsBot = session.IsBot,
+					DateTicks = sessionDate.Date.Ticks,
+				};
 
 				UserSessionService.UpdateSessionData(session, daily);
 				_sessionDataDaily.InsertOrUpdate(daily);
@@ -580,11 +580,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 					.FirstOrDefault(w => w.IsBot.Equals(session.IsBot) && w.Week.Equals(week) && w.Year == sessionDate.Year);
 
 				weekly ??= new SessionStatsWeeklyDataRow()
-					{
-						IsBot = session.IsBot,
-						Year = sessionDate.Year,
-						Week = week,
-					};
+				{
+					IsBot = session.IsBot,
+					Year = sessionDate.Year,
+					Week = week,
+				};
 
 				UserSessionService.UpdateSessionData(session, weekly);
 				_sessionDataWeekly.InsertOrUpdate(weekly);
@@ -604,11 +604,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 					.FirstOrDefault(m => m.IsBot.Equals(session.IsBot) && m.Month.Equals(sessionDate.Month) && m.Year == sessionDate.Year);
 
 				monthly ??= new SessionStatsMonthlyDataRow()
-					{
-						IsBot = session.IsBot,
-						Month = sessionDate.Month,
-						Year = sessionDate.Year,
-					};
+				{
+					IsBot = session.IsBot,
+					Month = sessionDate.Month,
+					Year = sessionDate.Year,
+				};
 
 				UserSessionService.UpdateSessionData(session, monthly);
 				_sessionDataMonthly.InsertOrUpdate(monthly);
@@ -628,10 +628,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 					.FirstOrDefault(y => y.IsBot.Equals(session.IsBot) && y.Year.Equals(sessionDate.Year));
 
 				yearly ??= new SessionStatsYearlyDataRow()
-					{
-						IsBot = session.IsBot,
-						Year = sessionDate.Year,
-					};
+				{
+					IsBot = session.IsBot,
+					Year = sessionDate.Year,
+				};
 
 				UserSessionService.UpdateSessionData(session, yearly);
 				_sessionDataYearly.InsertOrUpdate(yearly);

@@ -38,27 +38,27 @@ using SystemAdmin.Plugin.Models;
 
 namespace SystemAdmin.Plugin.Controllers
 {
-    public partial class SystemAdminController
-    {
-        [HttpGet]
-        [Authorize(Policy = Constants.PolicyNameAlterSeoData)]
-        [Route("SystemAdmin/SeoData/{routeName}/")]
-        public IActionResult SeoData(string routeName)
-        {
-            if (String.IsNullOrEmpty(routeName))
-                return new StatusCodeResult(Constants.HtmlResponseBadRequest);
+	public partial class SystemAdminController
+	{
+		[HttpGet]
+		[Authorize(Policy = Constants.PolicyNameAlterSeoData)]
+		[Route("SystemAdmin/SeoData/{routeName}/")]
+		public IActionResult SeoData(string routeName)
+		{
+			if (String.IsNullOrEmpty(routeName))
+				return new StatusCodeResult(Constants.HtmlResponseBadRequest);
 
-            string seoRoute = System.Net.WebUtility.UrlDecode(routeName);
-            SeoDataModel model = new(seoRoute);
+			string seoRoute = System.Net.WebUtility.UrlDecode(routeName);
+			SeoDataModel model = new(seoRoute);
 
-            if (_seoProvider.GetSeoDataForRoute(seoRoute, out string title, out string metaDescription,
-                out string author, out List<string> keywords))
-            {
-                model.SeoAuthor = author;
-                model.SeoMetaDescription = metaDescription;
-                model.SeoTitle = title;
-                model.SeoTags = String.Join(' ', keywords);
-            }
+			if (_seoProvider.GetSeoDataForRoute(seoRoute, out string title, out string metaDescription,
+				out string author, out List<string> keywords))
+			{
+				model.SeoAuthor = author;
+				model.SeoMetaDescription = metaDescription;
+				model.SeoTitle = title;
+				model.SeoTags = String.Join(' ', keywords);
+			}
 			else
 			{
 				if (IsUserLoggedIn())
@@ -67,45 +67,44 @@ namespace SystemAdmin.Plugin.Controllers
 				}
 			}
 
-            return PartialView("_SeoUpdate", model);
-        }
+			return PartialView("_SeoUpdate", model);
+		}
 
-        [HttpPost]
-        [Authorize(Policy = Constants.PolicyNameAlterSeoData)]
-        public IActionResult SeoUpdateData(SeoDataModel model)
-        {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+		[HttpPost]
+		[Authorize(Policy = Constants.PolicyNameAlterSeoData)]
+		public IActionResult SeoUpdateData(SeoDataModel model)
+		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
 
-            if (!_seoProvider.GetSeoDataForRoute(model.SeoUrl, out string title, out string metaDescription, out string author, out List<string> keywords))
-            {
-                keywords = new List<string>();
-            }
+			if (!_seoProvider.GetSeoDataForRoute(model.SeoUrl, out string title, out string metaDescription, out string author, out List<string> keywords))
+			{
+				keywords = new List<string>();
+			}
 
-            if (!author.Equals(model.SeoAuthor))
-                _seoProvider.UpdateAuthor(ValidateUserInput(model.SeoUrl, ValidationType.RouteName), ValidateUserInput(model.SeoAuthor, ValidationType.Name));
+			if (!author.Equals(model.SeoAuthor))
+				_seoProvider.UpdateAuthor(ValidateUserInput(model.SeoUrl, ValidationType.RouteName), ValidateUserInput(model.SeoAuthor, ValidationType.Name));
 
-            if (!metaDescription.Equals(model.SeoMetaDescription))
-                _seoProvider.UpdateDescription(model.SeoUrl, model.SeoMetaDescription);
+			if (!metaDescription.Equals(model.SeoMetaDescription))
+				_seoProvider.UpdateDescription(model.SeoUrl, model.SeoMetaDescription);
 
-            if (!title.Equals(model.SeoTitle))
-                _seoProvider.UpdateTitle(model.SeoUrl, model.SeoTitle);
+			if (!title.Equals(model.SeoTitle))
+				_seoProvider.UpdateTitle(model.SeoUrl, model.SeoTitle);
 
-            _seoProvider.RemoveKeywords(model.SeoUrl, keywords);
+			_seoProvider.RemoveKeywords(model.SeoUrl, keywords);
 
-			if (model.SeoTags == null)
-				model.SeoTags = String.Empty;
+			model.SeoTags ??= String.Empty;
 
-            _seoProvider.AddKeywords(model.SeoUrl, model.SeoTags.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList());
+			_seoProvider.AddKeywords(model.SeoUrl, model.SeoTags.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList());
 
-			
+
 
 			if (IsUriLocalToHost(model.SeoUrl))
 				return Redirect(model.SeoUrl);
 
 			return RedirectToAction(nameof(Index));
-        }
-    }
+		}
+	}
 }
 
 #pragma warning restore CS1591

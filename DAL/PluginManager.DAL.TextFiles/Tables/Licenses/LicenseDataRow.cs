@@ -27,165 +27,165 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameLicenses)]
-    internal class LicenseDataRow : TableRowDefinition
-    {
-        private long _userId;
-        private long _licenseType;
-        private long _startDateTicks;
-        private long _expireDateTicks;
-        private bool _isValid;
-        private bool _isTrial;
-        private byte _updateCount;
-        private long _invoiceId;
-        private string _domainName;
-        private string _encryptedLicense;
+	[Table(Constants.TableNameLicenses)]
+	internal class LicenseDataRow : TableRowDefinition
+	{
+		private long _userId;
+		private long _licenseType;
+		private long _startDateTicks;
+		private long _expireDateTicks;
+		private bool _isValid;
+		private bool _isTrial;
+		private byte _updateCount;
+		private long _invoiceId;
+		private string _domainName;
+		private string _encryptedLicense;
 
-        [ForeignKey(Constants.TableNameUsers)]
-        public long UserId
-        {
-            get => _userId; 
+		[ForeignKey(Constants.TableNameUsers)]
+		public long UserId
+		{
+			get => _userId;
 
-            set
-            {
-                if (_userId == value)
-                    return;
+			set
+			{
+				if (_userId == value)
+					return;
 
-                _userId = value;
-                Update();
-            }
-        }
+				_userId = value;
+				Update();
+			}
+		}
 
-        [ForeignKey(Constants.TableNameLicenseTypes)]
-        public long LicenseType
-        {
-            get => _licenseType;
+		[ForeignKey(Constants.TableNameLicenseTypes)]
+		public long LicenseType
+		{
+			get => _licenseType;
 
-            set
-            {
-                if (_licenseType == value)
-                    return;
+			set
+			{
+				if (_licenseType == value)
+					return;
 
-                _licenseType = value;
-                Update();
-            }
-        }
+				_licenseType = value;
+				Update();
+			}
+		}
 
-        public long StartDateTicks
-        {
-            get => _startDateTicks;
+		public long StartDateTicks
+		{
+			get => _startDateTicks;
 
-            set
-            {
-                if (_startDateTicks == value)
-                    return;
+			set
+			{
+				if (_startDateTicks == value)
+					return;
 
-                _startDateTicks = value;
-                Update();
-            }
-        }
+				_startDateTicks = value;
+				Update();
+			}
+		}
 
-        public long ExpireDateTicks
-        {
-            get => _expireDateTicks;
+		public long ExpireDateTicks
+		{
+			get => _expireDateTicks;
 
-            set
-            {
-                if (_expireDateTicks == value)
-                    return;
+			set
+			{
+				if (_expireDateTicks == value)
+					return;
 
-                _expireDateTicks = value;
-                Update();
-            }
-        }
+				_expireDateTicks = value;
+				Update();
+			}
+		}
 
-        public bool IsValid
-        {
-            get => _isValid;
+		public bool IsValid
+		{
+			get => _isValid;
 
-            set
-            {
-                if (_isValid == value)
-                    return;
+			set
+			{
+				if (_isValid == value)
+					return;
 
-                _isValid = value;
-                Update();
-            }
-        }
+				_isValid = value;
+				Update();
+			}
+		}
 
-        public bool IsTrial
-        {
-            get => _isTrial;
+		public bool IsTrial
+		{
+			get => _isTrial;
 
-            set
-            {
-                if (_isTrial == value)
-                    return;
+			set
+			{
+				if (_isTrial == value)
+					return;
 
-                _isTrial = value;
-                Update();
-            }
-        }
+				_isTrial = value;
+				Update();
+			}
+		}
 
-        public byte UpdateCount
-        {
-            get => _updateCount;
+		public byte UpdateCount
+		{
+			get => _updateCount;
 
-            set
-            {
-                if (_updateCount == value)
-                    return;
+			set
+			{
+				if (_updateCount == value)
+					return;
 
-                _updateCount = value;
-                Update();
-            }
-        }
+				_updateCount = value;
+				Update();
+			}
+		}
 
-        [ForeignKey(Constants.TableNameInvoices, ForeignKeyAttributes.DefaultValue)]
-        public long InvoiceId
-        {
-            get => _invoiceId;
+		[ForeignKey(Constants.TableNameInvoices, ForeignKeyAttributes.DefaultValue)]
+		public long InvoiceId
+		{
+			get => _invoiceId;
 
-            set
-            {
-                if (_invoiceId == value)
-                    return;
+			set
+			{
+				if (_invoiceId == value)
+					return;
 
-                _invoiceId = value;
-                Update();
-            }
-        }
+				_invoiceId = value;
+				Update();
+			}
+		}
 
-        public string DomainName
-        {
-            get => _domainName;
+		public string DomainName
+		{
+			get => _domainName;
 
-            set
-            {
-                if (_domainName == value)
-                    return;
+			set
+			{
+				if (_domainName == value)
+					return;
 
-                _domainName = value;
-                Update();
-            }
-        }
+				_domainName = value;
+				Update();
+			}
+		}
 
-        public string EncryptedLicense
-        {
-            get => _encryptedLicense;
+		public string EncryptedLicense
+		{
+			get => _encryptedLicense;
 
-            set
-            {
-                if (_encryptedLicense == value)
-                    return;
+			set
+			{
+				if (_encryptedLicense == value)
+					return;
 
-                _encryptedLicense = value;
-                Update();
-            }
-        }
+				_encryptedLicense = value;
+				Update();
+			}
+		}
 
-        public DateTime StartDate => new(_startDateTicks, DateTimeKind.Utc);
+		public DateTime StartDate => new(_startDateTicks, DateTimeKind.Utc);
 
-        public DateTime ExpireDate => new(_expireDateTicks, DateTimeKind.Utc);
-    }
+		public DateTime ExpireDate => new(_expireDateTicks, DateTimeKind.Utc);
+	}
 }

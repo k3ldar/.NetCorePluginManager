@@ -33,41 +33,41 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Models
 {
-    public sealed class TextExViewModel : BaseModel
-    {
-        #region Constructors
+	public sealed class TextExViewModel : BaseModel
+	{
+		#region Constructors
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "OK in this context")]
-        public TextExViewModel(in BaseModelData modelData,
-            in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu)
-            : base(modelData)
-        {
-            if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "OK in this context")]
+		public TextExViewModel(in BaseModelData modelData,
+			in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu)
+			: base(modelData)
+		{
+			if (settingsProvider == null)
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            if (subMenu == null)
-                throw new ArgumentNullException(nameof(subMenu));
+			if (subMenu == null)
+				throw new ArgumentNullException(nameof(subMenu));
 
-            Title = subMenu.Name();
+			Title = subMenu.Name();
 
-            SystemAdminSettings settings = settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
+			SystemAdminSettings settings = settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
 
-            if (!settings.EnableFormattedText)
-                Text = "Formatted Text is not enabed";
-            else
-                Text = subMenu.Data();
-        }
+			if (!settings.EnableFormattedText)
+				Text = "Formatted Text is not enabed";
+			else
+				Text = subMenu.Data();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Properties
+		#region Public Properties
 
-        public string Title { get; }
+		public string Title { get; }
 
-        public string Text { get; }
+		public string Text { get; }
 
-        #endregion Public Properties
-    }
+		#endregion Public Properties
+	}
 }
 
 #pragma warning restore CS1591

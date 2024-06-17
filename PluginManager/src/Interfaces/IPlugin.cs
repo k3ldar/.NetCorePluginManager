@@ -31,35 +31,35 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace PluginManager.Abstractions
 {
-    /// <summary>
-    /// This interface should be implemented by each plugin module, without this interface being 
-    /// implemented AspNetCore.PluginManager would not automatically load it when the appliction
-    /// starts.
-    /// 
-    /// This class will be called by the Plugin Manager and will provide an opportunity for the 
-    /// plugin to configure its services and application requirements within the MVC application.
-    /// </summary>
-    public interface IPlugin : IPluginVersion
-    {
-        /// <summary>
-        /// Notifies the plugin that the plugin module is being initialised.
-        /// </summary>
-        /// <param name="logger">ILogger instance used to hold log data, should the plugin
-        /// need to log any intialisation data.  Each plugin should store this instance
-        /// for later use if logging is a requirement.</param>
-        void Initialise(ILogger logger);
+	/// <summary>
+	/// This interface should be implemented by each plugin module, without this interface being 
+	/// implemented AspNetCore.PluginManager would not automatically load it when the appliction
+	/// starts.
+	/// 
+	/// This class will be called by the Plugin Manager and will provide an opportunity for the 
+	/// plugin to configure its services and application requirements within the MVC application.
+	/// </summary>
+	public interface IPlugin : IPluginVersion
+	{
+		/// <summary>
+		/// Notifies the plugin that the plugin module is being initialised.
+		/// </summary>
+		/// <param name="logger">ILogger instance used to hold log data, should the plugin
+		/// need to log any intialisation data.  Each plugin should store this instance
+		/// for later use if logging is a requirement.</param>
+		void Initialise(ILogger logger);
 
-        /// <summary>
-        /// Notifies the plugin module that it is being closed and removed and it should
-        /// uninitialise any resources that it has used.
-        /// </summary>
-        void Finalise();
+		/// <summary>
+		/// Notifies the plugin module that it is being closed and removed and it should
+		/// uninitialise any resources that it has used.
+		/// </summary>
+		void Finalise();
 
-        /// <summary>
-        /// Provides the plugin module with an opportunity to register any services
-        /// that it provides.
-        /// </summary>
-        /// <param name="services">IServiceCollection instance where further services can be registerd.</param>
-        void ConfigureServices(IServiceCollection services);
-    }
+		/// <summary>
+		/// Provides the plugin module with an opportunity to register any services
+		/// that it provides.
+		/// </summary>
+		/// <param name="services">IServiceCollection instance where further services can be registerd.</param>
+		void ConfigureServices(IServiceCollection services);
+	}
 }

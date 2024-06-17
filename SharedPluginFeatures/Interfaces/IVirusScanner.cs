@@ -26,27 +26,27 @@
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Interface for antivirus scanning of files or directories
-    /// </summary>
-    public interface IVirusScanner
-    {
-        /// <summary>
-        /// Forces a scan of the directory specified, if it exists.
-        /// </summary>
-        /// <param name="directory">Name of directory that will be scanned.</param>
-        void ScanDirectory(in string directory);
+	/// <summary>
+	/// Interface for antivirus scanning of files or directories
+	/// </summary>
+	public interface IVirusScanner
+	{
+		/// <summary>
+		/// Forces a scan of the directory specified, if it exists.
+		/// </summary>
+		/// <param name="directory">Name of directory that will be scanned.</param>
+		void ScanDirectory(in string directory);
 
-        /// <summary>
-        /// Forces a scan of an individual file
-        /// </summary>
-        /// <param name="fileName">Name of file to be scanned, must include the full path to the file</param>
-        void ScanFile(in string fileName);
+		/// <summary>
+		/// Forces a scan of an individual file
+		/// </summary>
+		/// <param name="fileName">Name of file to be scanned, must include the full path to the file</param>
+		void ScanFile(in string fileName);
 
-        /// <summary>
-        /// Forces a scan of an array of files
-        /// </summary>
-        /// <param name="fileNames">Name of files to be scanned, must include the full path to the file</param>
-        void ScanFile(in string[] fileNames);
-    }
+		/// <summary>
+		/// Forces a scan of an array of files
+		/// </summary>
+		/// <param name="fileNames">Name of files to be scanned, must include the full path to the file</param>
+		void ScanFile(in string[] fileNames);
+	}
 }

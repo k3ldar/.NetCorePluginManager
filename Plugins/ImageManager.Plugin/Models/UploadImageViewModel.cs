@@ -30,65 +30,65 @@ using SharedPluginFeatures;
 
 namespace ImageManager.Plugin.Models
 {
-    /// <summary>
-    /// View model for uploading images
-    /// </summary>
-    public class UploadImageViewModel : BaseModel
-    {
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public UploadImageViewModel()
-            : base()
-        {
-            Files = new List<IFormFile>();
-        }
+	/// <summary>
+	/// View model for uploading images
+	/// </summary>
+	public class UploadImageViewModel : BaseModel
+	{
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public UploadImageViewModel()
+			: base()
+		{
+			Files = new List<IFormFile>();
+		}
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="modelData">Valid BaseModelData instance</param>
-        /// <exception cref="ArgumentNullException">Thrown if modelData is null</exception>
-        public UploadImageViewModel(BaseModelData modelData)
-            : base(modelData)
-        {
-            Files = new List<IFormFile>();
-        }
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="modelData">Valid BaseModelData instance</param>
+		/// <exception cref="ArgumentNullException">Thrown if modelData is null</exception>
+		public UploadImageViewModel(BaseModelData modelData)
+			: base(modelData)
+		{
+			Files = new List<IFormFile>();
+		}
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="modelData">Valid BaseModelData instance</param>
-        /// <param name="groupName">Name of group for uploaded images</param>
-        /// <param name="subgroupName">Name of subgroup for uploaded images</param>
-        /// <exception cref="ArgumentNullException">Thrown if modelData is null</exception>
-        /// <exception cref="ArgumentNullException">Thrown if groupName is null or empty</exception>
-        public UploadImageViewModel(BaseModelData modelData, string groupName, string subgroupName)
-            : this(modelData)
-        {
-            if (String.IsNullOrEmpty(groupName))
-                throw new ArgumentNullException(nameof(groupName));
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="modelData">Valid BaseModelData instance</param>
+		/// <param name="groupName">Name of group for uploaded images</param>
+		/// <param name="subgroupName">Name of subgroup for uploaded images</param>
+		/// <exception cref="ArgumentNullException">Thrown if modelData is null</exception>
+		/// <exception cref="ArgumentNullException">Thrown if groupName is null or empty</exception>
+		public UploadImageViewModel(BaseModelData modelData, string groupName, string subgroupName)
+			: this(modelData)
+		{
+			if (String.IsNullOrEmpty(groupName))
+				throw new ArgumentNullException(nameof(groupName));
 
-            GroupName = groupName;
-            SubgroupName = subgroupName;
-        }
+			GroupName = groupName;
+			SubgroupName = subgroupName;
+		}
 
-        /// <summary>
-        /// List of files to be uploaded
-        /// </summary>
-        /// <value>List&lt;IFormFile&gt;</value>
-        public List<IFormFile> Files { get; set; }
+		/// <summary>
+		/// List of files to be uploaded
+		/// </summary>
+		/// <value>List&lt;IFormFile&gt;</value>
+		public List<IFormFile> Files { get; set; }
 
-        /// <summary>
-        /// Name of group where image is being uploaded to
-        /// </summary>
-        /// <value>string</value>
-        public string GroupName { get; set; }
+		/// <summary>
+		/// Name of group where image is being uploaded to
+		/// </summary>
+		/// <value>string</value>
+		public string GroupName { get; set; }
 
-        /// <summary>
-        /// Name of subgroup where image is being uploaded to
-        /// </summary>
-        /// <value>string</value>
-        public string SubgroupName { get; set; }
-    }
+		/// <summary>
+		/// Name of subgroup where image is being uploaded to
+		/// </summary>
+		/// <value>string</value>
+		public string SubgroupName { get; set; }
+	}
 }

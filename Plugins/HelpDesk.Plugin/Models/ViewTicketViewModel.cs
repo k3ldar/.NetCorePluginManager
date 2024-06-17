@@ -32,83 +32,83 @@ using SharedPluginFeatures;
 
 namespace HelpdeskPlugin.Models
 {
-    public sealed class ViewTicketViewModel : BaseModel
-    {
-        #region Constructors
+	public sealed class ViewTicketViewModel : BaseModel
+	{
+		#region Constructors
 
-        public ViewTicketViewModel(in BaseModelData modelData,
-            in long id, in string priority, in string department,
-            in string status, in string key,
-            in string subject, in DateTime dateCreated, in DateTime dateLastUpdated,
-            in string createdBy, in string lastReplier,
-            in List<ViewTicketResponseViewModel> messages)
-            : base(modelData)
-        {
-            if (String.IsNullOrEmpty(key))
-                throw new ArgumentNullException(nameof(key));
+		public ViewTicketViewModel(in BaseModelData modelData,
+			in long id, in string priority, in string department,
+			in string status, in string key,
+			in string subject, in DateTime dateCreated, in DateTime dateLastUpdated,
+			in string createdBy, in string lastReplier,
+			in List<ViewTicketResponseViewModel> messages)
+			: base(modelData)
+		{
+			if (String.IsNullOrEmpty(key))
+				throw new ArgumentNullException(nameof(key));
 
-            if (String.IsNullOrEmpty(subject))
-                throw new ArgumentNullException(nameof(subject));
+			if (String.IsNullOrEmpty(subject))
+				throw new ArgumentNullException(nameof(subject));
 
-            if (String.IsNullOrEmpty(createdBy))
-                throw new ArgumentNullException(nameof(createdBy));
+			if (String.IsNullOrEmpty(createdBy))
+				throw new ArgumentNullException(nameof(createdBy));
 
-            if (String.IsNullOrEmpty(lastReplier))
-                throw new ArgumentNullException(nameof(lastReplier));
+			if (String.IsNullOrEmpty(lastReplier))
+				throw new ArgumentNullException(nameof(lastReplier));
 
-            if (String.IsNullOrEmpty(priority))
-                throw new ArgumentNullException(nameof(priority));
+			if (String.IsNullOrEmpty(priority))
+				throw new ArgumentNullException(nameof(priority));
 
-            if (String.IsNullOrEmpty(status))
-                throw new ArgumentNullException(nameof(status));
+			if (String.IsNullOrEmpty(status))
+				throw new ArgumentNullException(nameof(status));
 
-            if (String.IsNullOrEmpty(department))
-                throw new ArgumentNullException(nameof(department));
+			if (String.IsNullOrEmpty(department))
+				throw new ArgumentNullException(nameof(department));
 
-            Id = id;
-            Priority = priority;
-            Department = department;
-            Status = status;
-            Key = key;
-            Subject = subject;
-            DateCreated = dateCreated;
-            DateLastUpdated = dateLastUpdated;
-            CreatedBy = createdBy;
-            LastReplier = lastReplier;
-            Messages = messages ?? throw new ArgumentNullException(nameof(messages));
+			Id = id;
+			Priority = priority;
+			Department = department;
+			Status = status;
+			Key = key;
+			Subject = subject;
+			DateCreated = dateCreated;
+			DateLastUpdated = dateLastUpdated;
+			CreatedBy = createdBy;
+			LastReplier = lastReplier;
+			Messages = messages ?? throw new ArgumentNullException(nameof(messages));
 
-            TicketResponse = new TicketResponseViewModel(id, createdBy);
-        }
+			TicketResponse = new TicketResponseViewModel(id, createdBy);
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public long Id { get; private set; }
+		public long Id { get; private set; }
 
-        public string Priority { get; private set; }
+		public string Priority { get; private set; }
 
-        public string Department { get; private set; }
+		public string Department { get; private set; }
 
-        public string Status { get; private set; }
+		public string Status { get; private set; }
 
-        public string Key { get; private set; }
+		public string Key { get; private set; }
 
-        public string Subject { get; private set; }
+		public string Subject { get; private set; }
 
-        public DateTime DateCreated { get; private set; }
+		public DateTime DateCreated { get; private set; }
 
-        public DateTime DateLastUpdated { get; private set; }
+		public DateTime DateLastUpdated { get; private set; }
 
-        public string CreatedBy { get; private set; }
+		public string CreatedBy { get; private set; }
 
-        public string LastReplier { get; private set; }
+		public string LastReplier { get; private set; }
 
-        public List<ViewTicketResponseViewModel> Messages { get; private set; }
+		public List<ViewTicketResponseViewModel> Messages { get; private set; }
 
-        public TicketResponseViewModel TicketResponse { get; private set; }
+		public TicketResponseViewModel TicketResponse { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 #pragma warning restore CS1591

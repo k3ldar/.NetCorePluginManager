@@ -27,22 +27,22 @@ using Microsoft.AspNetCore.Builder;
 
 namespace ErrorManager.Plugin
 {
-    /// <summary>
-    /// Error manager middleware extender.
-    /// </summary>
-    public static class ErrorManagerMiddlewareExtender
-    {
-        /// <summary>
-        /// IApplicationBuilder extender method.
-        /// 
-        /// Allows easy use of registering ErrorManager.Plugin
-        /// </summary>
-        /// <param name="builder">IApplicationBuilder instance</param>
-        /// <returns>IApplicationBuilder</returns>
-        /// <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseErrorManager</span>();</pre></example>
-        public static IApplicationBuilder UseErrorManager(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<ErrorManagerMiddleware>();
-        }
-    }
+	/// <summary>
+	/// Error manager middleware extender.
+	/// </summary>
+	public static class ErrorManagerMiddlewareExtender
+	{
+		/// <summary>
+		/// IApplicationBuilder extender method.
+		/// 
+		/// Allows easy use of registering ErrorManager.Plugin
+		/// </summary>
+		/// <param name="builder">IApplicationBuilder instance</param>
+		/// <returns>IApplicationBuilder</returns>
+		/// <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseErrorManager</span>();</pre></example>
+		public static IApplicationBuilder UseErrorManager(this IApplicationBuilder builder)
+		{
+			return builder.UseMiddleware<ErrorManagerMiddleware>();
+		}
+	}
 }

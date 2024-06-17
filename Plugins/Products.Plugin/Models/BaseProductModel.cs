@@ -32,36 +32,36 @@ using SharedPluginFeatures;
 
 namespace ProductPlugin.Models
 {
-    public class BaseProductModel : BaseModel
-    {
-        #region Constructors
+	public class BaseProductModel : BaseModel
+	{
+		#region Constructors
 
-        public BaseProductModel()
-        {
+		public BaseProductModel()
+		{
 
-        }
+		}
 
-        public BaseProductModel(in BaseModelData modelData)
-            : base(modelData)
-        {
+		public BaseProductModel(in BaseModelData modelData)
+			: base(modelData)
+		{
 
-        }
+		}
 
-        public BaseProductModel(in BaseModelData modelData,
-            in List<ProductCategoryModel> productCategoryModels)
-            : base(modelData)
-        {
-            ProductCategories = productCategoryModels ?? throw new ArgumentNullException(nameof(productCategoryModels));
-        }
+		public BaseProductModel(in BaseModelData modelData,
+			in List<ProductCategoryModel> productCategoryModels)
+			: base(modelData)
+		{
+			ProductCategories = productCategoryModels ?? throw new ArgumentNullException(nameof(productCategoryModels));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public List<ProductCategoryModel> ProductCategories { get; private set; }
+		public List<ProductCategoryModel> ProductCategories { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

@@ -26,49 +26,49 @@
 
 namespace Middleware.Users
 {
-    /// <summary>
-    /// Class used to return results for user searches.
-    /// </summary>
-    public sealed class SearchUser
-    {
-        /// <summary>
-        /// Default Constructor
-        /// </summary>
-        public SearchUser()
-        {
+	/// <summary>
+	/// Class used to return results for user searches.
+	/// </summary>
+	public sealed class SearchUser
+	{
+		/// <summary>
+		/// Default Constructor
+		/// </summary>
+		public SearchUser()
+		{
 
-        }
+		}
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="id">Id of user.</param>
-        /// <param name="name">Name of user.</param>
-        /// <param name="email">Email address for user.</param>
-        public SearchUser(in long id, in string name, in string email)
-        {
-            Id = id;
-            Name = name;
-            Email = email;
-        }
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="id">Id of user.</param>
+		/// <param name="name">Name of user.</param>
+		/// <param name="email">Email address for user.</param>
+		public SearchUser(in long id, in string name, in string email)
+		{
+			Id = id;
+			Name = name;
+			Email = email;
+		}
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Unique id for the user.
-        /// </summary>
-        public long Id { get; set; }
+		/// <summary>
+		/// Unique id for the user.
+		/// </summary>
+		public long Id { get; set; }
 
-        /// <summary>
-        /// Name of the user.
-        /// </summary>
-        public string Name { get; set; }
+		/// <summary>
+		/// Name of the user.
+		/// </summary>
+		public string Name { get; set; }
 
-        /// <summary>
-        /// Email for the user.
-        /// </summary>
-        public string Email { get; set; }
+		/// <summary>
+		/// Email for the user.
+		/// </summary>
+		public string Email { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

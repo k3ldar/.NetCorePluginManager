@@ -142,7 +142,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 		#region Private Methods
 
 		private static List<T> CopySessionData<T, D>(IEnumerable<D> baseData, bool isBot)
-			where T : SessionBaseData 
+			where T : SessionBaseData
 			where D : SessionStatsBaseData
 		{
 			List<T> Result = new();
@@ -184,7 +184,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				{
 					resultDataRow.CountryData.Add(key, data.CountryData[key]);
 				}
-				
+
 				if (resultDataRow is SessionDaily sessionDaily)
 				{
 					sessionDaily.Date = ((SessionStatsDailyDataRow)data).Date;

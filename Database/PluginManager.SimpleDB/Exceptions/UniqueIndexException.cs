@@ -31,33 +31,33 @@ namespace SimpleDB
 	/// <summary>
 	/// Exception raised when a record with a unique index is inserted twice
 	/// </summary>
-    [Serializable]
-    public class UniqueIndexException : Exception
-    {
+	[Serializable]
+	public class UniqueIndexException : Exception
+	{
 		/// <summary>
 		/// Default constructor
 		/// </summary>
-        public UniqueIndexException()
-        {
-        }
+		public UniqueIndexException()
+		{
+		}
 
 		/// <summary>
 		/// Constructor
 		/// </summary>
 		/// <param name="message">Message description</param>
-        public UniqueIndexException(string message) 
-            : base(message)
-        {
-        }
+		public UniqueIndexException(string message)
+			: base(message)
+		{
+		}
 
 		/// <summary>
 		/// Constructor
 		/// </summary>
 		/// <param name="message">Message description</param>
 		/// <param name="innerException">Inner Exception</param>
-        public UniqueIndexException(string message, Exception innerException) 
-            : base(message, innerException)
-        {
-        }
-    }
+		public UniqueIndexException(string message, Exception innerException)
+			: base(message, innerException)
+		{
+		}
+	}
 }

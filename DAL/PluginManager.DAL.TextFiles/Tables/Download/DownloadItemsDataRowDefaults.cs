@@ -27,17 +27,17 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal class DownloadItemsDataRowDefaults : ITableDefaults<DownloadItemsDataRow>
-    {
-        public long PrimarySequence => 0;
+	internal class DownloadItemsDataRowDefaults : ITableDefaults<DownloadItemsDataRow>
+	{
+		public long PrimarySequence => 0;
 
-        public long SecondarySequence => 0;
+		public long SecondarySequence => 0;
 
-        public ushort Version => 1;
+		public ushort Version => 1;
 
-        public List<DownloadItemsDataRow> InitialData(ushort version)
-        {
-            return null;
-        }
-    }
+		public List<DownloadItemsDataRow> InitialData(ushort version)
+		{
+			return null;
+		}
+	}
 }

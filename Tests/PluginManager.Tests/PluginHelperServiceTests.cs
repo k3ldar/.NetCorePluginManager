@@ -35,140 +35,140 @@ using PluginManager.Tests.Mocks;
 
 namespace PluginManager.Tests
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
+	[TestClass]
+	[ExcludeFromCodeCoverage]
 	[DoNotParallelize]
 	public class PluginHelperServiceTests
-    {
-        #region Private Members
+	{
+		#region Private Members
 
 
-        #endregion Private Members
+		#endregion Private Members
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void PluginServices_AddAssembly_NullPluginManager_Throws_ArgumentNullException()
-        {
-            using (MockPluginManager pluginManager = new())
-            {
-                IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
-                pluginServices.AddAssembly(null);
-            }
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void PluginServices_AddAssembly_NullPluginManager_Throws_ArgumentNullException()
+		{
+			using (MockPluginManager pluginManager = new())
+			{
+				IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
+				pluginServices.AddAssembly(null);
+			}
+		}
 
-        [TestMethod]
-        public void PluginServices_TestAddAssembly()
-        {
-            using (MockPluginManager pluginManager = new())
-            {
-                IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
+		[TestMethod]
+		public void PluginServices_TestAddAssembly()
+		{
+			using (MockPluginManager pluginManager = new())
+			{
+				IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
 
-                Assert.IsNotNull(pluginServices);
+				Assert.IsNotNull(pluginServices);
 
-                Assembly current = Assembly.GetExecutingAssembly();
+				Assembly current = Assembly.GetExecutingAssembly();
 
-                DynamicLoadResult loadResult = pluginServices.AddAssembly(current);
+				DynamicLoadResult loadResult = pluginServices.AddAssembly(current);
 
-                Assert.IsTrue(loadResult == DynamicLoadResult.Success);
+				Assert.IsTrue(loadResult == DynamicLoadResult.Success);
 
-                pluginServices.PluginLoaded(System.IO.Path.GetFileName(current.Location), out int version);
+				pluginServices.PluginLoaded(System.IO.Path.GetFileName(current.Location), out int version);
 
-                Assert.IsTrue(version == 1);
-            }
-        }
+				Assert.IsTrue(version == 1);
+			}
+		}
 
-        [TestMethod]
-        public void PluginServices_TestAddAssemblyTwice()
-        {
-            using (MockPluginManager pluginManager = new())
-            {
-                IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
+		[TestMethod]
+		public void PluginServices_TestAddAssemblyTwice()
+		{
+			using (MockPluginManager pluginManager = new())
+			{
+				IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
 
-                Assert.IsNotNull(pluginServices);
+				Assert.IsNotNull(pluginServices);
 
-                Assembly current = Assembly.GetExecutingAssembly();
+				Assembly current = Assembly.GetExecutingAssembly();
 
-                DynamicLoadResult loadResult = pluginServices.AddAssembly(current);
+				DynamicLoadResult loadResult = pluginServices.AddAssembly(current);
 
-                Assert.IsTrue(loadResult == DynamicLoadResult.Success);
+				Assert.IsTrue(loadResult == DynamicLoadResult.Success);
 
-                pluginServices.PluginLoaded(System.IO.Path.GetFileName(current.Location), out int version);
+				pluginServices.PluginLoaded(System.IO.Path.GetFileName(current.Location), out int version);
 
-                Assert.IsTrue(version == 1);
+				Assert.IsTrue(version == 1);
 
-                loadResult = pluginServices.AddAssembly(current);
+				loadResult = pluginServices.AddAssembly(current);
 
-                Assert.IsTrue(loadResult == DynamicLoadResult.AlreadyLoaded);
-            }
-        }
+				Assert.IsTrue(loadResult == DynamicLoadResult.AlreadyLoaded);
+			}
+		}
 
-        [TestMethod]
-        public void PluginServices_GetPluginClassTypes_ReturnsValidTypes()
-        {
-            using (MockPluginManager pluginManager = new())
-            {
-                IPluginClassesService pluginClassesServices = pluginManager as IPluginClassesService;
-                IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
+		[TestMethod]
+		public void PluginServices_GetPluginClassTypes_ReturnsValidTypes()
+		{
+			using (MockPluginManager pluginManager = new())
+			{
+				IPluginClassesService pluginClassesServices = pluginManager as IPluginClassesService;
+				IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
 
-                Assert.IsNotNull(pluginClassesServices);
+				Assert.IsNotNull(pluginClassesServices);
 
-                Assembly current = Assembly.GetExecutingAssembly();
+				Assembly current = Assembly.GetExecutingAssembly();
 
-                DynamicLoadResult loadResult = pluginServices.AddAssembly(current);
+				DynamicLoadResult loadResult = pluginServices.AddAssembly(current);
 
-                Assert.IsTrue(loadResult == DynamicLoadResult.Success);
+				Assert.IsTrue(loadResult == DynamicLoadResult.Success);
 
-                List<Type> classTypes = pluginClassesServices.GetPluginClassTypes<ILogger>();
+				List<Type> classTypes = pluginClassesServices.GetPluginClassTypes<ILogger>();
 
-                Assert.IsNotNull(classTypes);
-                Assert.AreEqual(3, classTypes.Count);
-            }
-        }
+				Assert.IsNotNull(classTypes);
+				Assert.AreEqual(3, classTypes.Count);
+			}
+		}
 
-        [TestMethod]
-        public void PluginServices_GetPluginClass_ReturnsValidClasses()
-        {
-            using (MockPluginManager pluginManager = new())
-            {
-                IPluginClassesService pluginClassesServices = pluginManager as IPluginClassesService;
-                IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
+		[TestMethod]
+		public void PluginServices_GetPluginClass_ReturnsValidClasses()
+		{
+			using (MockPluginManager pluginManager = new())
+			{
+				IPluginClassesService pluginClassesServices = pluginManager as IPluginClassesService;
+				IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
 
-                Assert.IsNotNull(pluginClassesServices);
+				Assert.IsNotNull(pluginClassesServices);
 
-                Assembly current = Assembly.GetExecutingAssembly();
+				Assembly current = Assembly.GetExecutingAssembly();
 
-                DynamicLoadResult loadResult = pluginServices.AddAssembly(current);
+				DynamicLoadResult loadResult = pluginServices.AddAssembly(current);
 
-                Assert.IsTrue(loadResult == DynamicLoadResult.Success);
+				Assert.IsTrue(loadResult == DynamicLoadResult.Success);
 
-                List<ILogger> classes = pluginClassesServices.GetPluginClasses<ILogger>();
+				List<ILogger> classes = pluginClassesServices.GetPluginClasses<ILogger>();
 
-                Assert.IsNotNull(classes);
-                Assert.AreEqual(2, classes.Count);
-            }
-        }
+				Assert.IsNotNull(classes);
+				Assert.AreEqual(2, classes.Count);
+			}
+		}
 
-        [TestMethod]
-        public void PluginServices_GetPluginTypesWithAttributes_TestClasses_ReturnsValidClasses()
-        {
-            using (MockPluginManager pluginManager = new())
-            {
-                IPluginTypesService pluginTypesServices = pluginManager as IPluginTypesService;
-                IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
+		[TestMethod]
+		public void PluginServices_GetPluginTypesWithAttributes_TestClasses_ReturnsValidClasses()
+		{
+			using (MockPluginManager pluginManager = new())
+			{
+				IPluginTypesService pluginTypesServices = pluginManager as IPluginTypesService;
+				IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
 
-                Assert.IsNotNull(pluginTypesServices);
+				Assert.IsNotNull(pluginTypesServices);
 
-                Assembly current = Assembly.GetExecutingAssembly();
+				Assembly current = Assembly.GetExecutingAssembly();
 
-                DynamicLoadResult loadResult = pluginServices.AddAssembly(current);
+				DynamicLoadResult loadResult = pluginServices.AddAssembly(current);
 
-                Assert.IsTrue(loadResult == DynamicLoadResult.Success);
+				Assert.IsTrue(loadResult == DynamicLoadResult.Success);
 
-                List<Type> classTypesWithAttributes = pluginTypesServices.GetPluginTypesWithAttribute<TestClassAttribute>();
+				List<Type> classTypesWithAttributes = pluginTypesServices.GetPluginTypesWithAttribute<TestClassAttribute>();
 
-                Assert.IsNotNull(classTypesWithAttributes);
-                Assert.IsTrue(classTypesWithAttributes.Count >= 5);
-            }
-        }
-    }
+				Assert.IsNotNull(classTypesWithAttributes);
+				Assert.IsTrue(classTypesWithAttributes.Count >= 5);
+			}
+		}
+	}
 }

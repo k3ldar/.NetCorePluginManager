@@ -32,101 +32,101 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Classes.MenuItems
 {
-    public class SystemUptimeMenu : SystemAdminSubMenu
-    {
-        #region Private Members
+	public class SystemUptimeMenu : SystemAdminSubMenu
+	{
+		#region Private Members
 
-        private readonly static DateTime _loadTime = DateTime.UtcNow;
+		private readonly static DateTime _loadTime = DateTime.UtcNow;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region SystemAdminSubMenu Methods
+		#region SystemAdminSubMenu Methods
 
-        public override String Action()
-        {
-            return String.Empty;
-        }
+		public override String Action()
+		{
+			return String.Empty;
+		}
 
-        public override String Area()
-        {
-            return String.Empty;
-        }
+		public override String Area()
+		{
+			return String.Empty;
+		}
 
-        public override String Controller()
-        {
-            return String.Empty;
-        }
+		public override String Controller()
+		{
+			return String.Empty;
+		}
 
-        public override String Data()
-        {
-            TimeSpan span = DateTime.UtcNow - _loadTime;
+		public override String Data()
+		{
+			TimeSpan span = DateTime.UtcNow - _loadTime;
 
 
-            StringBuilder Result = new("Status|Value\rLoad Time|", 2048);
-            Result.Append(_loadTime.ToString("R"));
-            Result.Append('\r');
+			StringBuilder Result = new("Status|Value\rLoad Time|", 2048);
+			Result.Append(_loadTime.ToString("R"));
+			Result.Append('\r');
 
-            Result.Append("Total Time|");
+			Result.Append("Total Time|");
 
-            if (span.Days > 1)
-            {
-                Result.Append($"{span.Days} days ");
-            }
-            else if (span.Days > 0)
-            {
-                Result.Append($"{span.Days} day ");
-            }
+			if (span.Days > 1)
+			{
+				Result.Append($"{span.Days} days ");
+			}
+			else if (span.Days > 0)
+			{
+				Result.Append($"{span.Days} day ");
+			}
 
-            if (span.Hours > 1)
-            {
-                Result.Append($"{span.Hours} hours ");
-            }
-            else if (span.Hours > 0)
-            {
-                Result.Append($"{span.Hours} hour ");
-            }
+			if (span.Hours > 1)
+			{
+				Result.Append($"{span.Hours} hours ");
+			}
+			else if (span.Hours > 0)
+			{
+				Result.Append($"{span.Hours} hour ");
+			}
 
-            if (span.Minutes > 1)
-            {
-                Result.Append($"{span.Minutes} minutes ");
-            }
-            else if (span.Minutes > 0)
-            {
-                Result.Append($"{span.Minutes} minute ");
-            }
+			if (span.Minutes > 1)
+			{
+				Result.Append($"{span.Minutes} minutes ");
+			}
+			else if (span.Minutes > 0)
+			{
+				Result.Append($"{span.Minutes} minute ");
+			}
 
-            Result.Append($"{span.Seconds} seconds");
+			Result.Append($"{span.Seconds} seconds");
 
-            return Result.ToString();
-        }
+			return Result.ToString();
+		}
 
-        public override string Image()
-        {
-            return Constants.SystemImageUptime;
-        }
+		public override string Image()
+		{
+			return Constants.SystemImageUptime;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override string Name()
-        {
-            return Languages.LanguageStrings.Uptime;
-        }
+		public override string Name()
+		{
+			return Languages.LanguageStrings.Uptime;
+		}
 
-        public override string ParentMenuName()
-        {
-            return nameof(Languages.LanguageStrings.System);
-        }
+		public override string ParentMenuName()
+		{
+			return nameof(Languages.LanguageStrings.System);
+		}
 
-        public override int SortOrder()
-        {
-            return int.MinValue;
-        }
+		public override int SortOrder()
+		{
+			return int.MinValue;
+		}
 
-        #endregion SystemAdminSubMenu Methods
-    }
+		#endregion SystemAdminSubMenu Methods
+	}
 }
 
 #pragma warning restore CS1591

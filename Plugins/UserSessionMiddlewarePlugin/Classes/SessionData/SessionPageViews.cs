@@ -32,10 +32,10 @@ using Middleware;
 
 namespace UserSessionMiddleware.Plugin.Classes.SessionData
 {
-    /// <summary>
-    /// Contains a list of page views for all user sessions
-    /// </summary>
-    public sealed class SessionPageViews : IUrlHash
+	/// <summary>
+	/// Contains a list of page views for all user sessions
+	/// </summary>
+	public sealed class SessionPageViews : IUrlHash
 	{
 		#region Private Members
 
@@ -51,68 +51,68 @@ namespace UserSessionMiddleware.Plugin.Classes.SessionData
 		public SessionPageViews()
 		{
 			PageViews = new List<SessionPageView>();
-        }
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// List of page views for all sessions
-        /// </summary>
-        public List<SessionPageView> PageViews { get; set; }
+		/// <summary>
+		/// List of page views for all sessions
+		/// </summary>
+		public List<SessionPageView> PageViews { get; set; }
 
-        /// <summary>
-        /// Indicates whether the list has been updated or not
-        /// </summary>
-        internal bool IsDirty { get; set; }
+		/// <summary>
+		/// Indicates whether the list has been updated or not
+		/// </summary>
+		internal bool IsDirty { get; set; }
 
-        #endregion Properties
+		#endregion Properties
 
-        #region Public Methods
+		#region Public Methods
 
-        /// <summary>
-        /// Adds a new page view to the collection
-        /// </summary>
-        /// <param name="url">Url being visited</param>
-        /// <param name="timeStamp">Date/time the visit was made</param>
-        /// <param name="totalTime">Total time spent on the page</param>
-        /// <param name="isBot">Was the visit from a bot</param>
-        /// <param name="bounced">Did the visit end at this page (human visits only)</param>
-        public void Add(in string url, DateTime timeStamp, in double totalTime, in bool isBot, in bool bounced)
-        {
-            if (String.IsNullOrEmpty(url))
-                return;
+		/// <summary>
+		/// Adds a new page view to the collection
+		/// </summary>
+		/// <param name="url">Url being visited</param>
+		/// <param name="timeStamp">Date/time the visit was made</param>
+		/// <param name="totalTime">Total time spent on the page</param>
+		/// <param name="isBot">Was the visit from a bot</param>
+		/// <param name="bounced">Did the visit end at this page (human visits only)</param>
+		public void Add(in string url, DateTime timeStamp, in double totalTime, in bool isBot, in bool bounced)
+		{
+			if (String.IsNullOrEmpty(url))
+				return;
 
-            string hash = _urlHashProvider.GetUrlHash(url);
-            SessionPageView currentSession = PageViews.Find(pv => pv.Hash == hash && pv.Year == timeStamp.Year && pv.Month == timeStamp.Month);
+			string hash = _urlHashProvider.GetUrlHash(url);
+			SessionPageView currentSession = PageViews.Find(pv => pv.Hash == hash && pv.Year == timeStamp.Year && pv.Month == timeStamp.Month);
 
-            if (currentSession == null)
-            {
-                currentSession = new SessionPageView();
-                currentSession.Hash = hash;
-                currentSession.Url = url;
-                currentSession.Year = timeStamp.Year;
-                currentSession.Month = (byte)timeStamp.Month;
+			if (currentSession == null)
+			{
+				currentSession = new SessionPageView();
+				currentSession.Hash = hash;
+				currentSession.Url = url;
+				currentSession.Year = timeStamp.Year;
+				currentSession.Month = (byte)timeStamp.Month;
 
-                PageViews.Add(currentSession);
-            }
+				PageViews.Add(currentSession);
+			}
 
-            if (isBot)
-            {
-                currentSession.BotCount++;
-            }
-            else
-            {
-                currentSession.HumanCount++;
-                currentSession.TotalTime += totalTime;
+			if (isBot)
+			{
+				currentSession.BotCount++;
+			}
+			else
+			{
+				currentSession.HumanCount++;
+				currentSession.TotalTime += totalTime;
 
-                if (bounced)
-                    currentSession.BounceCount++;
-            }
+				if (bounced)
+					currentSession.BounceCount++;
+			}
 
-            IsDirty = true;
-        }
+			IsDirty = true;
+		}
 
 		/// <summary>
 		/// Sets the url hash provider interface

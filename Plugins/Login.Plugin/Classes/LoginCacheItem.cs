@@ -27,27 +27,27 @@ using System;
 
 namespace LoginPlugin.Classes
 {
-    internal class LoginCacheItem
-    {
-        #region Constructors
+	internal class LoginCacheItem
+	{
+		#region Constructors
 
-        public LoginCacheItem()
-        {
-            FirstAttempt = DateTime.Now;
-            CaptchaText = String.Empty;
-            LoginAttempts = 0;
-        }
+		public LoginCacheItem()
+		{
+			FirstAttempt = DateTime.Now;
+			CaptchaText = String.Empty;
+			LoginAttempts = 0;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public DateTime FirstAttempt { get; private set; }
+		public DateTime FirstAttempt { get; private set; }
 
-        public byte LoginAttempts { get; set; }
+		public byte LoginAttempts { get; set; }
 
-        public string CaptchaText { get; set; }
+		public string CaptchaText { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

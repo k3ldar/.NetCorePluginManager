@@ -26,83 +26,83 @@
 
 namespace SimpleDB
 {
-    /// <summary>
-    /// Type of compression to use when reading/writing data from disk
-    /// </summary>
-    public enum CompressionType : byte
-    {
-        /// <summary>
-        /// Data is not compressed
-        /// </summary>
-        None = 0,
+	/// <summary>
+	/// Type of compression to use when reading/writing data from disk
+	/// </summary>
+	public enum CompressionType : byte
+	{
+		/// <summary>
+		/// Data is not compressed
+		/// </summary>
+		None = 0,
 
-        /// <summary>
-        /// Data is compressed using Brotli
-        /// </summary>
-        Brotli = 1
-    }
+		/// <summary>
+		/// Data is compressed using Brotli
+		/// </summary>
+		Brotli = 1
+	}
 
-    /// <summary>
-    /// Write strategy to use
-    /// </summary>
-    public enum WriteStrategy : byte
-    {
-        /// <summary>
-        /// Data is written immediately to disk
-        /// </summary>
-        Forced = 0,
+	/// <summary>
+	/// Write strategy to use
+	/// </summary>
+	public enum WriteStrategy : byte
+	{
+		/// <summary>
+		/// Data is written immediately to disk
+		/// </summary>
+		Forced = 0,
 
-        /// <summary>
-        /// Data is written to disk at intervals or when TextTableOperation is disposed
-        /// 
-        /// In cases of a application/system crash, this could result in lost data
-        /// </summary>
-        Lazy = 1,
-    }
+		/// <summary>
+		/// Data is written to disk at intervals or when TextTableOperation is disposed
+		/// 
+		/// In cases of a application/system crash, this could result in lost data
+		/// </summary>
+		Lazy = 1,
+	}
 
-    /// <summary>
-    /// Cache strategy to use 
-    /// </summary>
-    public enum CachingStrategy : byte
-    {
-        /// <summary>
-        /// Records are read from storage on demand
-        /// </summary>
-        None = 0,
+	/// <summary>
+	/// Cache strategy to use 
+	/// </summary>
+	public enum CachingStrategy : byte
+	{
+		/// <summary>
+		/// Records are read from storage on demand
+		/// </summary>
+		None = 0,
 
-        /// <summary>
-        /// Records are held in memory to speed up retrieval
-        /// </summary>
-        Memory = 1,
+		/// <summary>
+		/// Records are held in memory to speed up retrieval
+		/// </summary>
+		Memory = 1,
 
 		/// <summary>
 		/// Data is held in memory for a specified amount of time, when the timeout expires with no use, memory is released
 		/// </summary>
 		SlidingMemory = 2,
-    }
+	}
 
-    /// <summary>
-    /// Type of index
-    /// </summary>
-    public enum IndexType : byte
-    {
-        /// <summary>
-        /// Index is ascending
-        /// </summary>
-        Ascending = 0,
+	/// <summary>
+	/// Type of index
+	/// </summary>
+	public enum IndexType : byte
+	{
+		/// <summary>
+		/// Index is ascending
+		/// </summary>
+		Ascending = 0,
 
-        /// <summary>
-        /// Index is descending
-        /// </summary>
-        Descending = 1,
-    }
+		/// <summary>
+		/// Index is descending
+		/// </summary>
+		Descending = 1,
+	}
 
-    /// <summary>
-    /// Supported trigger types
-    /// </summary>
-    [Flags]
-    public enum TriggerType : byte
-    {
+	/// <summary>
+	/// Supported trigger types
+	/// </summary>
+	[Flags]
+	public enum TriggerType : byte
+	{
 		/// <summary>
 		/// No supported triggers
 		/// </summary>
@@ -111,38 +111,38 @@ namespace SimpleDB
 		/// <summary>
 		/// Before insert trigger supported
 		/// </summary>
-        BeforeInsert = 1,
+		BeforeInsert = 1,
 
 		/// <summary>
 		/// After insert trigger supported
 		/// </summary>
-        AfterInsert = 2,
+		AfterInsert = 2,
 
 		/// <summary>
 		/// Before delete trigger supported
 		/// </summary>
-        BeforeDelete = 4,
+		BeforeDelete = 4,
 
 		/// <summary>
 		/// After delete trigger supported
 		/// </summary>
-        AfterDelete = 8,
+		AfterDelete = 8,
 
 		/// <summary>
 		/// Before update trigger supported
 		/// </summary>
-        BeforeUpdate = 16,
+		BeforeUpdate = 16,
 
 		/// <summary>
 		/// Before update comparing old record with new record trigger is supported
 		/// </summary>
-        BeforeUpdateCompare = 32,
+		BeforeUpdateCompare = 32,
 
 		/// <summary>
 		/// After update trigger supported
 		/// </summary>
-        AfterUpdate = 64,
-    }
+		AfterUpdate = 64,
+	}
 
 	/// <summary>
 	/// Database page sizes

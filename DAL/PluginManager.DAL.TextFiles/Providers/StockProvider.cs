@@ -35,76 +35,76 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
-    internal sealed class StockProvider : IStockProvider
-    {
-        #region Private Members
+	internal sealed class StockProvider : IStockProvider
+	{
+		#region Private Members
 
-        private readonly ISimpleDBOperations<StockDataRow> _stock;
+		private readonly ISimpleDBOperations<StockDataRow> _stock;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public StockProvider(ISimpleDBOperations<StockDataRow> stock)
-        {
-            _stock = stock ?? throw new ArgumentNullException(nameof(stock));
-        }
+		public StockProvider(ISimpleDBOperations<StockDataRow> stock)
+		{
+			_stock = stock ?? throw new ArgumentNullException(nameof(stock));
+		}
 
 		#endregion Constructors
 
 		#region IStockProvider Methods
 
 		public void GetStockAvailability(in Product product)
-        {
-            if (product == null)
-                throw new ArgumentNullException(nameof(product));
+		{
+			if (product == null)
+				throw new ArgumentNullException(nameof(product));
 
-            GetStockAvailability(new List<Product>() { product });
-        }
+			GetStockAvailability(new List<Product>() { product });
+		}
 
-        public void GetStockAvailability(in List<Product> productList)
-        {
-            if (productList == null)
-                throw new ArgumentNullException(nameof(productList));
+		public void GetStockAvailability(in List<Product> productList)
+		{
+			if (productList == null)
+				throw new ArgumentNullException(nameof(productList));
 
-            IReadOnlyList<StockDataRow> productStock = _stock.Select();
+			IReadOnlyList<StockDataRow> productStock = _stock.Select();
 
-            productList.ForEach(p =>
-            {
-                StockDataRow stockDataRow = productStock.FirstOrDefault(ps => ps.ProductId.Equals(p.Id));
+			productList.ForEach(p =>
+			{
+				StockDataRow stockDataRow = productStock.FirstOrDefault(ps => ps.ProductId.Equals(p.Id));
 
-                if (stockDataRow == null)
-                    p.SetCurrentStockLevel(0);
-                else
-                    p.SetCurrentStockLevel(stockDataRow.StockAvailability);
-            });
-        }
+				if (stockDataRow == null)
+					p.SetCurrentStockLevel(0);
+				else
+					p.SetCurrentStockLevel(stockDataRow.StockAvailability);
+			});
+		}
 
-        public void GetStockAvailability(in ShoppingCartItem shoppingCartItem)
-        {
-            if (shoppingCartItem == null)
-                throw new ArgumentNullException(nameof(shoppingCartItem));
+		public void GetStockAvailability(in ShoppingCartItem shoppingCartItem)
+		{
+			if (shoppingCartItem == null)
+				throw new ArgumentNullException(nameof(shoppingCartItem));
 
-            GetStockAvailability(new List<ShoppingCartItem>() { shoppingCartItem });
-        }
+			GetStockAvailability(new List<ShoppingCartItem>() { shoppingCartItem });
+		}
 
-        public void GetStockAvailability(in List<ShoppingCartItem> shoppingCartItemList)
-        {
-            if (shoppingCartItemList == null)
-                throw new ArgumentNullException(nameof(shoppingCartItemList));
+		public void GetStockAvailability(in List<ShoppingCartItem> shoppingCartItemList)
+		{
+			if (shoppingCartItemList == null)
+				throw new ArgumentNullException(nameof(shoppingCartItemList));
 
-            IReadOnlyList<StockDataRow> productStock = _stock.Select();
+			IReadOnlyList<StockDataRow> productStock = _stock.Select();
 
-            shoppingCartItemList.ForEach(sci =>
-            {
-                StockDataRow stockDataRow = productStock.FirstOrDefault(ps => ps.ProductId.Equals(sci.ItemId));
+			shoppingCartItemList.ForEach(sci =>
+			{
+				StockDataRow stockDataRow = productStock.FirstOrDefault(ps => ps.ProductId.Equals(sci.ItemId));
 
-                if (stockDataRow == null)
-                    sci.SetCurrentStockLevel(0);
-                else
-                    sci.SetCurrentStockLevel(stockDataRow.StockAvailability);
-            });
-        }
+				if (stockDataRow == null)
+					sci.SetCurrentStockLevel(0);
+				else
+					sci.SetCurrentStockLevel(stockDataRow.StockAvailability);
+			});
+		}
 
 		public bool AddStockToProduct(Product product, uint stockCount, out string error)
 		{
@@ -114,11 +114,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				if (product == null)
 					throw new ArgumentNullException(nameof(product));
 
-				StockDataRow stockDataRow = _stock.Select().FirstOrDefault(ps => ps.ProductId.Equals(product.Id));
-
-				if (stockDataRow == null)
-					throw new InvalidOperationException($"Stock data is missing for product {product.Name} {product.Id}");
-
+				StockDataRow stockDataRow = _stock.Select().FirstOrDefault(ps => ps.ProductId.Equals(product.Id)) ?? throw new InvalidOperationException($"Stock data is missing for product {product.Name} {product.Id}");
 				using (TimedLock tl = TimedLock.Lock(_stock.TableLock))
 				{
 					stockDataRow.StockAvailability += stockCount;

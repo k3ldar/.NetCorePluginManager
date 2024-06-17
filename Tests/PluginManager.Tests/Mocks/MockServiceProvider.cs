@@ -29,22 +29,22 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace PluginManager.Tests.Mocks
 {
-    [ExcludeFromCodeCoverage]
-    public class MockServiceProvider : IServiceProvider
-    {
-        private readonly Dictionary<Type, object> _services;
+	[ExcludeFromCodeCoverage]
+	public class MockServiceProvider : IServiceProvider
+	{
+		private readonly Dictionary<Type, object> _services;
 
-        public MockServiceProvider(Dictionary<Type, object> services)
-        {
-            _services = services ?? throw new ArgumentNullException(nameof(services));
-        }
+		public MockServiceProvider(Dictionary<Type, object> services)
+		{
+			_services = services ?? throw new ArgumentNullException(nameof(services));
+		}
 
-        public object GetService(Type serviceType)
-        {
-            if (_services.ContainsKey(serviceType))
-                return _services[serviceType];
+		public object GetService(Type serviceType)
+		{
+			if (_services.ContainsKey(serviceType))
+				return _services[serviceType];
 
-            return null;
-        }
-    }
+			return null;
+		}
+	}
 }

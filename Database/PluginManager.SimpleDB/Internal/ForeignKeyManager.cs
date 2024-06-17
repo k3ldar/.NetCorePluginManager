@@ -29,93 +29,93 @@ using Shared.Classes;
 
 namespace SimpleDB.Internal
 {
-    internal class ForeignKeyManager : IForeignKeyManager
-    {
-        private readonly object _lock = new();
-        private readonly Dictionary<string, ISimpleDBTable> _foreignKeys = new();
-        private readonly List<ForeignKeyRelationship> _foreignKeyRelationships = new();
+	internal class ForeignKeyManager : IForeignKeyManager
+	{
+		private readonly object _lock = new();
+		private readonly Dictionary<string, ISimpleDBTable> _foreignKeys = new();
+		private readonly List<ForeignKeyRelationship> _foreignKeyRelationships = new();
 
-        public void AddRelationShip(string sourceTable, string targetTable, string propertyName, string targetPropertyName, ForeignKeyAttributes foreignKeyAttributes)
-        {
-            if (String.IsNullOrEmpty(sourceTable))
-                throw new ArgumentNullException(nameof(sourceTable));
+		public void AddRelationShip(string sourceTable, string targetTable, string propertyName, string targetPropertyName, ForeignKeyAttributes foreignKeyAttributes)
+		{
+			if (String.IsNullOrEmpty(sourceTable))
+				throw new ArgumentNullException(nameof(sourceTable));
 
-            if (String.IsNullOrEmpty(targetTable))
-                throw new ArgumentNullException(nameof(targetTable));
+			if (String.IsNullOrEmpty(targetTable))
+				throw new ArgumentNullException(nameof(targetTable));
 
-            if (String.IsNullOrEmpty(propertyName))
-                throw new ArgumentNullException(nameof(propertyName));
+			if (String.IsNullOrEmpty(propertyName))
+				throw new ArgumentNullException(nameof(propertyName));
 
-            if (String.IsNullOrEmpty(targetPropertyName))
-                throw new ArgumentNullException(nameof(targetPropertyName));
+			if (String.IsNullOrEmpty(targetPropertyName))
+				throw new ArgumentNullException(nameof(targetPropertyName));
 
-            _foreignKeyRelationships.Add(new ForeignKeyRelationship(sourceTable, targetTable, propertyName, targetPropertyName, foreignKeyAttributes));
-        }
+			_foreignKeyRelationships.Add(new ForeignKeyRelationship(sourceTable, targetTable, propertyName, targetPropertyName, foreignKeyAttributes));
+		}
 
-        public void RegisterTable(ISimpleDBTable table)
-        {
-            if (table == null)
-                throw new ArgumentNullException(nameof(table));
+		public void RegisterTable(ISimpleDBTable table)
+		{
+			if (table == null)
+				throw new ArgumentNullException(nameof(table));
 
-            using (TimedLock tl = TimedLock.Lock(_lock))
-            {
-                if (_foreignKeys.ContainsKey(table.TableName))
-                    throw new InvalidOperationException($"Table is already registered: {nameof(table.TableName)}");
+			using (TimedLock tl = TimedLock.Lock(_lock))
+			{
+				if (_foreignKeys.ContainsKey(table.TableName))
+					throw new InvalidOperationException($"Table is already registered: {nameof(table.TableName)}");
 
-                _foreignKeys[table.TableName] = table;
-            }
-        }
+				_foreignKeys[table.TableName] = table;
+			}
+		}
 
-        public void UnregisterTable(ISimpleDBTable table)
-        {
-            if (table == null)
-                throw new ArgumentNullException(nameof(table));
+		public void UnregisterTable(ISimpleDBTable table)
+		{
+			if (table == null)
+				throw new ArgumentNullException(nameof(table));
 
-            using (TimedLock tl = TimedLock.Lock(_lock))
-            {
-                if (!_foreignKeys.ContainsKey(table.TableName))
-                    throw new InvalidOperationException($"Table is already registered: {nameof(table.TableName)}");
+			using (TimedLock tl = TimedLock.Lock(_lock))
+			{
+				if (!_foreignKeys.ContainsKey(table.TableName))
+					throw new InvalidOperationException($"Table is already registered: {nameof(table.TableName)}");
 
-                _foreignKeys.Remove(table.TableName);
-            }
-        }
+				_foreignKeys.Remove(table.TableName);
+			}
+		}
 
-        public bool ValueExists(string tableName, long id)
-        {
-            if (String.IsNullOrEmpty(tableName))
-                throw new ArgumentNullException(nameof(tableName));
+		public bool ValueExists(string tableName, long id)
+		{
+			if (String.IsNullOrEmpty(tableName))
+				throw new ArgumentNullException(nameof(tableName));
 
-            if (!_foreignKeys.ContainsKey(tableName))
-                throw new ForeignKeyException($"Foreign key table {tableName} does not exist");
+			if (!_foreignKeys.ContainsKey(tableName))
+				throw new ForeignKeyException($"Foreign key table {tableName} does not exist");
 
-            return _foreignKeys[tableName].IdExists(id);
-        }
+			return _foreignKeys[tableName].IdExists(id);
+		}
 
-        public ForeignKeyUsage ValueInUse(string tableName, string propertyName, long value, out string table, out string property)
-        {
-            foreach (ForeignKeyRelationship relationship in _foreignKeyRelationships)
-            {
-                if (relationship.TargetTable.Equals(tableName) && _foreignKeys.ContainsKey(relationship.Table) && 
+		public ForeignKeyUsage ValueInUse(string tableName, string propertyName, long value, out string table, out string property)
+		{
+			foreach (ForeignKeyRelationship relationship in _foreignKeyRelationships)
+			{
+				if (relationship.TargetTable.Equals(tableName) && _foreignKeys.ContainsKey(relationship.Table) &&
 					_foreignKeys[relationship.Table].IdIsInUse(relationship.PropertyName, value))
-                {
+				{
 					ForeignKeyUsage result = ForeignKeyUsage.Referenced;
 					table = relationship.Table;
-                    property = relationship.PropertyName;
+					property = relationship.PropertyName;
 
 					if (relationship.Attributes == ForeignKeyAttributes.DefaultValue)
 						result |= ForeignKeyUsage.AllowDefault;
 					else if (relationship.Attributes == ForeignKeyAttributes.CascadeDelete)
 						result |= ForeignKeyUsage.CascadeDelete;
 
-                    return result;
-                }
-            }
+					return result;
+				}
+			}
 
-            table = null;
-            property = null;
+			table = null;
+			property = null;
 
-            return ForeignKeyUsage.None;
-        }
+			return ForeignKeyUsage.None;
+		}
 	}
 }
 

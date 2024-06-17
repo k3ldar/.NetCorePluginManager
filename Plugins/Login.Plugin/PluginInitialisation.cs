@@ -34,60 +34,60 @@ using SharedPluginFeatures;
 
 namespace LoginPlugin
 {
-    /// <summary>
-    /// Implements IPlugin and IPluginVersion which allows the Login.Plugin module to be
-    /// loaded as a plugin module
-    /// </summary>
-    public class PluginInitialisation : IPlugin, IInitialiseEvents
-    {
-        #region IInitialiseEvents Methods
+	/// <summary>
+	/// Implements IPlugin and IPluginVersion which allows the Login.Plugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	public class PluginInitialisation : IPlugin, IInitialiseEvents
+	{
+		#region IInitialiseEvents Methods
 
-        public void AfterConfigure(in IApplicationBuilder app)
-        {
+		public void AfterConfigure(in IApplicationBuilder app)
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeConfigure(in IApplicationBuilder app)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeConfigureServices(in IServiceCollection services)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void Configure(in IApplicationBuilder app)
-        {
-            app.UseLogin();
-        }
+		{
+			app.UseLogin();
+		}
 
-        #endregion IInitialiseEvents Methods
+		#endregion IInitialiseEvents Methods
 
-        #region IPlugin Methods
+		#region IPlugin Methods
 
-        public void ConfigureServices(IServiceCollection services)
-        {
+		public void ConfigureServices(IServiceCollection services)
+		{
 			// from interface but unused in this context
 		}
 
 		public void Finalise()
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public ushort GetVersion()
-        {
-            return 1;
-        }
+		{
+			return 1;
+		}
 
-        public void Initialise(ILogger logger)
-        {
+		public void Initialise(ILogger logger)
+		{
 			// from interface but unused in this context
 		}
 

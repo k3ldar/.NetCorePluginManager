@@ -43,24 +43,23 @@ using SimpleDB;
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
 	[TestClass]
-    [ExcludeFromCodeCoverage]
-    public class UserSearchProviderTests : BaseProviderTests
-    {
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_InvalidInstance_UsersTableNull_Throws_ArgumentNullException()
-        {
-            new UserSearch(null);
-        }
+	[ExcludeFromCodeCoverage]
+	public class UserSearchProviderTests : BaseProviderTests
+	{
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Construct_InvalidInstance_UsersTableNull_Throws_ArgumentNullException()
+		{
+			new UserSearch(null);
+		}
 
-        [TestMethod]
-        public void GetUsers_Page1Returns6Users_Success()
-        {
-            string directory = TestHelper.GetTestPath();
-            try
-            {
-                Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new();
+		[TestMethod]
+		public void GetUsers_Page1Returns6Users_Success()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -69,48 +68,47 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 					IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
 
-                    Assert.IsNotNull(accountProvider);
+					Assert.IsNotNull(accountProvider);
 
-                    for (int i = 0; i < 10; i++)
-                    {
-                        bool created = accountProvider.CreateAccount($"user{i}@here.com", $"Joe {i}", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
+					for (int i = 0; i < 10; i++)
+					{
+						bool created = accountProvider.CreateAccount($"user{i}@here.com", $"Joe {i}", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
 
-                        Assert.IsTrue(created);
-                    }
+						Assert.IsTrue(created);
+					}
 
-                    ISimpleDBOperations<UserDataRow> userTable = (ISimpleDBOperations<UserDataRow>)provider.GetService(typeof(ISimpleDBOperations<UserDataRow>));
-                    Assert.IsNotNull(userTable);
-                    Assert.AreEqual(11, userTable.RecordCount);
+					ISimpleDBOperations<UserDataRow> userTable = (ISimpleDBOperations<UserDataRow>)provider.GetService(typeof(ISimpleDBOperations<UserDataRow>));
+					Assert.IsNotNull(userTable);
+					Assert.AreEqual(11, userTable.RecordCount);
 
-                    IUserSearch sut = provider.GetRequiredService<IUserSearch>();
+					IUserSearch sut = provider.GetRequiredService<IUserSearch>();
 
-                    Assert.IsNotNull(sut);
+					Assert.IsNotNull(sut);
 
-                    List<SearchUser> users = sut.GetUsers(1, 6, String.Empty, String.Empty);
-                    Assert.IsNotNull(users);
-                    Assert.AreEqual(6, users.Count);
-                    Assert.AreEqual("admin user", users[0].Name);
-                    Assert.AreEqual("Joe 0 Bloggs", users[1].Name);
-                    Assert.AreEqual("Joe 1 Bloggs", users[2].Name);
-                    Assert.AreEqual("Joe 2 Bloggs", users[3].Name);
-                    Assert.AreEqual("Joe 3 Bloggs", users[4].Name);
-                    Assert.AreEqual("Joe 4 Bloggs", users[5].Name);
-                }
-            }
-            finally
-            {
-                Directory.Delete(directory, true);
-            }
-        }
+					List<SearchUser> users = sut.GetUsers(1, 6, String.Empty, String.Empty);
+					Assert.IsNotNull(users);
+					Assert.AreEqual(6, users.Count);
+					Assert.AreEqual("admin user", users[0].Name);
+					Assert.AreEqual("Joe 0 Bloggs", users[1].Name);
+					Assert.AreEqual("Joe 1 Bloggs", users[2].Name);
+					Assert.AreEqual("Joe 2 Bloggs", users[3].Name);
+					Assert.AreEqual("Joe 3 Bloggs", users[4].Name);
+					Assert.AreEqual("Joe 4 Bloggs", users[5].Name);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
 
-        [TestMethod]
-        public void GetUsers_Page3Returns3Users_Success()
-        {
-            string directory = TestHelper.GetTestPath();
-            try
-            {
-                Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new();
+		[TestMethod]
+		public void GetUsers_Page3Returns3Users_Success()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out PluginInitialisation pluginInitialisation, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -119,35 +117,35 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 					IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
 
-                    Assert.IsNotNull(accountProvider);
+					Assert.IsNotNull(accountProvider);
 
-                    for (int i = 0; i < 10; i++)
-                    {
-                        bool created = accountProvider.CreateAccount($"user{i}@here.com", $"Joe {i}", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
+					for (int i = 0; i < 10; i++)
+					{
+						bool created = accountProvider.CreateAccount($"user{i}@here.com", $"Joe {i}", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
 
-                        Assert.IsTrue(created);
-                    }
+						Assert.IsTrue(created);
+					}
 
-                    ISimpleDBOperations<UserDataRow> userTable = (ISimpleDBOperations<UserDataRow>)provider.GetService(typeof(ISimpleDBOperations<UserDataRow>));
-                    Assert.IsNotNull(userTable);
-                    Assert.AreEqual(11, userTable.RecordCount);
+					ISimpleDBOperations<UserDataRow> userTable = (ISimpleDBOperations<UserDataRow>)provider.GetService(typeof(ISimpleDBOperations<UserDataRow>));
+					Assert.IsNotNull(userTable);
+					Assert.AreEqual(11, userTable.RecordCount);
 
-                    IUserSearch sut = provider.GetRequiredService<IUserSearch>();
+					IUserSearch sut = provider.GetRequiredService<IUserSearch>();
 
-                    Assert.IsNotNull(sut);
+					Assert.IsNotNull(sut);
 
-                    List<SearchUser> users = sut.GetUsers(3, 3, String.Empty, String.Empty);
-                    Assert.IsNotNull(users);
-                    Assert.AreEqual(3, users.Count);
-                    Assert.AreEqual("Joe 5 Bloggs", users[0].Name);
-                    Assert.AreEqual("Joe 6 Bloggs", users[1].Name);
-                    Assert.AreEqual("Joe 7 Bloggs", users[2].Name);
-                }
-            }
-            finally
-            {
-                Directory.Delete(directory, true);
-            }
-        }
-    }
+					List<SearchUser> users = sut.GetUsers(3, 3, String.Empty, String.Empty);
+					Assert.IsNotNull(users);
+					Assert.AreEqual(3, users.Count);
+					Assert.AreEqual("Joe 5 Bloggs", users[0].Name);
+					Assert.AreEqual("Joe 6 Bloggs", users[1].Name);
+					Assert.AreEqual("Joe 7 Bloggs", users[2].Name);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
+	}
 }

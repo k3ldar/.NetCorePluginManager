@@ -31,19 +31,19 @@ using Shared.Classes;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Provides a mechanism for updating the current user session with updated culture information.
-    /// 
-    /// This interface is registered within the DI container and is implemented by UserSessionMiddleware.Plugin module.
-    /// </summary>
-    public interface IUserCultureChangeProvider
-    {
-        /// <summary>
-        /// Indicates the current culture has been changed for the user.
-        /// </summary>
-        /// <param name="httpContext">Valid HttpContext</param>
-        /// <param name="userSession">UserSession whos culture has changed.</param>
-        /// <param name="cultureInfo">Culture being used by the user.</param>
-        void CultureChanged(in HttpContext httpContext, in UserSession userSession, in CultureInfo cultureInfo);
-    }
+	/// <summary>
+	/// Provides a mechanism for updating the current user session with updated culture information.
+	/// 
+	/// This interface is registered within the DI container and is implemented by UserSessionMiddleware.Plugin module.
+	/// </summary>
+	public interface IUserCultureChangeProvider
+	{
+		/// <summary>
+		/// Indicates the current culture has been changed for the user.
+		/// </summary>
+		/// <param name="httpContext">Valid HttpContext</param>
+		/// <param name="userSession">UserSession whos culture has changed.</param>
+		/// <param name="cultureInfo">Culture being used by the user.</param>
+		void CultureChanged(in HttpContext httpContext, in UserSession userSession, in CultureInfo cultureInfo);
+	}
 }

@@ -33,22 +33,22 @@ using AspNetCore.PluginManager;
 
 namespace DynamicContent.Plugin.Classes
 {
-    public class ApplicationOverrides : IApplicationOverride
-    {
-        public bool ExpandApplicationVariable(string variableName, ref object value)
-        {
-            if (String.IsNullOrEmpty(variableName))
-                throw new ArgumentNullException(nameof(variableName));
+	public class ApplicationOverrides : IApplicationOverride
+	{
+		public bool ExpandApplicationVariable(string variableName, ref object value)
+		{
+			if (String.IsNullOrEmpty(variableName))
+				throw new ArgumentNullException(nameof(variableName));
 
-            if (variableName.Equals("RootPath"))
-            {
-                value = PluginManagerService.ApplicationRootPath;
-                return true;
-            }
+			if (variableName.Equals("RootPath"))
+			{
+				value = PluginManagerService.ApplicationRootPath;
+				return true;
+			}
 
-            return false;
-        }
-    }
+			return false;
+		}
+	}
 }
 
 #pragma warning restore CS1591

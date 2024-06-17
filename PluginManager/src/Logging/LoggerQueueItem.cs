@@ -30,52 +30,52 @@ using System;
 
 namespace PluginManager
 {
-    /// <summary>
-    /// Log entry item that is held in a queue.
-    /// 
-    /// The Plugin Manager keeps the last n log entries in a list, these can be retrieved for viewing.
-    /// </summary>
-    public sealed class LoggerQueueItem
-    {
-        #region Constructors
+	/// <summary>
+	/// Log entry item that is held in a queue.
+	/// 
+	/// The Plugin Manager keeps the last n log entries in a list, these can be retrieved for viewing.
+	/// </summary>
+	public sealed class LoggerQueueItem
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="logLevel">Current log level</param>
-        /// <param name="message">Log message</param>
-        public LoggerQueueItem(in LogLevel logLevel, in string message)
-        {
-            if (String.IsNullOrEmpty(message))
-                throw new ArgumentNullException(nameof(message));
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="logLevel">Current log level</param>
+		/// <param name="message">Log message</param>
+		public LoggerQueueItem(in LogLevel logLevel, in string message)
+		{
+			if (String.IsNullOrEmpty(message))
+				throw new ArgumentNullException(nameof(message));
 
-            Date = DateTime.Now;
-            Level = logLevel;
-            Message = message;
-        }
+			Date = DateTime.Now;
+			Level = logLevel;
+			Message = message;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Date and time the log entry was made
-        /// </summary>
-        /// <value>DateTime</value>
-        public DateTime Date { get; }
+		/// <summary>
+		/// Date and time the log entry was made
+		/// </summary>
+		/// <value>DateTime</value>
+		public DateTime Date { get; }
 
-        /// <summary>
-        /// Log level, the severity or log type for the entry.
-        /// </summary>
-        /// <value>LogLevel</value>
-        public LogLevel Level { get; }
+		/// <summary>
+		/// Log level, the severity or log type for the entry.
+		/// </summary>
+		/// <value>LogLevel</value>
+		public LogLevel Level { get; }
 
-        /// <summary>
-        /// The log entry message
-        /// </summary>
-        /// <value>string</value>
-        public string Message { get; }
+		/// <summary>
+		/// The log entry message
+		/// </summary>
+		/// <value>string</value>
+		public string Message { get; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

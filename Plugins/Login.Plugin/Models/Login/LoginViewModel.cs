@@ -32,56 +32,56 @@ using SharedPluginFeatures;
 
 namespace LoginPlugin.Models
 {
-    public sealed class LoginViewModel : BaseModel
-    {
-        #region Constructors
+	public sealed class LoginViewModel : BaseModel
+	{
+		#region Constructors
 
-        public LoginViewModel()
-        {
+		public LoginViewModel()
+		{
 
-        }
+		}
 
-        public LoginViewModel(in BaseModelData modelData,
-            string returnUrl, bool showRememberMe, bool showGoogle, bool showFacebook)
-            : base(modelData)
-        {
-            ReturnUrl = returnUrl ?? throw new ArgumentNullException(nameof(returnUrl));
-            ShowRememberMe = showRememberMe;
-            ShowGoogle = showGoogle;
-            ShowFacebook = showFacebook;
-        }
+		public LoginViewModel(in BaseModelData modelData,
+			string returnUrl, bool showRememberMe, bool showGoogle, bool showFacebook)
+			: base(modelData)
+		{
+			ReturnUrl = returnUrl ?? throw new ArgumentNullException(nameof(returnUrl));
+			ShowRememberMe = showRememberMe;
+			ShowGoogle = showGoogle;
+			ShowFacebook = showFacebook;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public string ReturnUrl { get; set; }
+		public string ReturnUrl { get; set; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterUserNameOrEmail))]
-        [Display(Name = nameof(Languages.LanguageStrings.Username))]
-        public string Username { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterUserNameOrEmail))]
+		[Display(Name = nameof(Languages.LanguageStrings.Username))]
+		public string Username { get; set; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterPassword))]
-        [StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
-        [Display(Name = nameof(Languages.LanguageStrings.Password))]
-        public string Password { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterPassword))]
+		[StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
+		[Display(Name = nameof(Languages.LanguageStrings.Password))]
+		public string Password { get; set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.Code))]
-        public string CaptchaText { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.Code))]
+		public string CaptchaText { get; set; }
 
-        public bool ShowCaptchaImage { get; set; }
+		public bool ShowCaptchaImage { get; set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.RememberMe))]
-        public bool RememberMe { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.RememberMe))]
+		public bool RememberMe { get; set; }
 
-        public bool ShowRememberMe { get; set; }
+		public bool ShowRememberMe { get; set; }
 
-        public bool ShowGoogle { get; set; }
+		public bool ShowGoogle { get; set; }
 
-        public bool ShowFacebook { get; set; }
+		public bool ShowFacebook { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

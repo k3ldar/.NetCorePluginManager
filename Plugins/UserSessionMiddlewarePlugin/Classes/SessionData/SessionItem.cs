@@ -26,10 +26,10 @@
 
 namespace UserSessionMiddleware.Plugin.Classes.SessionData
 {
-    /// <summary>
-    /// Contains the necessary details from a user session which can be used to create statistics
-    /// </summary>
-    public sealed class SessionItem
-    {
-    }
+	/// <summary>
+	/// Contains the necessary details from a user session which can be used to create statistics
+	/// </summary>
+	public sealed class SessionItem
+	{
+	}
 }

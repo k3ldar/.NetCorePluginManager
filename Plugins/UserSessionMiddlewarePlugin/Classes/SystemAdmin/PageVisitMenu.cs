@@ -35,83 +35,83 @@ using SharedPluginFeatures;
 
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns a list of active page views for the website by all active sessions and can 
-    /// be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class PageVisitMenu : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	/// <summary>
+	/// Returns a list of active page views for the website by all active sessions and can 
+	/// be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public sealed class PageVisitMenu : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override string Data()
-        {
-            StringBuilder Result = new("Page|Total Visits");
-            Dictionary<string, uint> pageVisits = new();
+		public override string Data()
+		{
+			StringBuilder Result = new("Page|Total Visits");
+			Dictionary<string, uint> pageVisits = new();
 
-            foreach (UserSession session in UserSessionManager.Clone)
-            {
-                foreach (PageViewData page in session.Pages)
-                {
-                    if (!pageVisits.ContainsKey(page.URL))
-                        pageVisits.Add(page.URL, 0);
+			foreach (UserSession session in UserSessionManager.Clone)
+			{
+				foreach (PageViewData page in session.Pages)
+				{
+					if (!pageVisits.ContainsKey(page.URL))
+						pageVisits.Add(page.URL, 0);
 
-                    pageVisits[page.URL]++;
-                }
-            }
+					pageVisits[page.URL]++;
+				}
+			}
 
-            foreach (KeyValuePair<string, uint> kvp in pageVisits)
-            {
-                Result.Append($"\r{kvp.Key}|{kvp.Value}");
-            }
+			foreach (KeyValuePair<string, uint> kvp in pageVisits)
+			{
+				Result.Append($"\r{kvp.Key}|{kvp.Value}");
+			}
 
-            return Result.ToString().Trim();
-        }
+			return Result.ToString().Trim();
+		}
 
-        public override string Name()
-        {
-            return "Active Page Views";
-        }
+		public override string Name()
+		{
+			return "Active Page Views";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "User Sessions";
-        }
+		public override string ParentMenuName()
+		{
+			return "User Sessions";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
+		public override int SortOrder()
+		{
+			return 0;
+		}
 
-        public override string Image()
-        {
-            return String.Empty;
-        }
+		public override string Image()
+		{
+			return String.Empty;
+		}
 
-        public override string BackColor()
-        {
-            return "#3498DB";
-        }
-    }
+		public override string BackColor()
+		{
+			return "#3498DB";
+		}
+	}
 }
 
 #pragma warning restore CS1591

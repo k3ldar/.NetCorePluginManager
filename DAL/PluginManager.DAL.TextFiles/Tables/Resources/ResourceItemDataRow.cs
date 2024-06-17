@@ -115,7 +115,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 		}
 
 		[UniqueIndex("Idx_CategoryName")]
-		public string Name 
+		public string Name
 		{
 			get => _name;
 
@@ -129,7 +129,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 			}
 		}
 
-		public string Description 
+		public string Description
 		{
 			get => _description;
 
@@ -143,7 +143,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 			}
 		}
 
-		public string Value 
+		public string Value
 		{
 			get => _value;
 
@@ -157,7 +157,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 			}
 		}
 
-		public int Likes 
+		public int Likes
 		{
 			get => _likes;
 

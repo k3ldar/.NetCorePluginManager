@@ -48,169 +48,169 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager
 {
-    internal sealed class NetCorePluginManager : BasePluginManager
-    {
-        #region Private Members
+	internal sealed class NetCorePluginManager : BasePluginManager
+	{
+		#region Private Members
 
-        private List<IInitialiseEvents> _initializablePlugins;
-        private readonly List<string> _extractedFiles;
-        private readonly NetCorePluginSettings _netCorePluginSettings;
+		private List<IInitialiseEvents> _initializablePlugins;
+		private readonly List<string> _extractedFiles;
+		private readonly NetCorePluginSettings _netCorePluginSettings;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        internal NetCorePluginManager(in PluginManagerConfiguration configuration, in NetCorePluginSettings pluginSettings)
-            : base(configuration, pluginSettings)
-        {
-            _netCorePluginSettings = pluginSettings ?? throw new ArgumentNullException(nameof(pluginSettings));
-            _extractedFiles = new List<string>();
-        }
+		internal NetCorePluginManager(in PluginManagerConfiguration configuration, in NetCorePluginSettings pluginSettings)
+			: base(configuration, pluginSettings)
+		{
+			_netCorePluginSettings = pluginSettings ?? throw new ArgumentNullException(nameof(pluginSettings));
+			_extractedFiles = new List<string>();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Overridden Methods
+		#region Overridden Methods
 
-        protected override bool CanExtractResource(in string resourceName)
-        {
-            return true;
-        }
+		protected override bool CanExtractResource(in string resourceName)
+		{
+			return true;
+		}
 
-        protected override void ModifyPluginResourceName(ref string resourceName)
-        {
-            // special case for minified js files which have naming convention of library.min.js
-            if (resourceName.EndsWith("\\min.js"))
-            {
-                resourceName = resourceName.Replace("\\min.js", ".min.js");
-            }
+		protected override void ModifyPluginResourceName(ref string resourceName)
+		{
+			// special case for minified js files which have naming convention of library.min.js
+			if (resourceName.EndsWith("\\min.js"))
+			{
+				resourceName = resourceName.Replace("\\min.js", ".min.js");
+			}
 
-            // special case for minified css files which have naming convention of library.min.css
-            if (resourceName.EndsWith("\\min.css"))
-            {
-                resourceName = resourceName.Replace("\\min.css", ".min.cs");
-            }
+			// special case for minified css files which have naming convention of library.min.css
+			if (resourceName.EndsWith("\\min.css"))
+			{
+				resourceName = resourceName.Replace("\\min.css", ".min.cs");
+			}
 
-            _extractedFiles.Add(resourceName);
-        }
+			_extractedFiles.Add(resourceName);
+		}
 
-        protected override void PluginConfigured(in IPluginModule pluginModule)
-        {
+		protected override void PluginConfigured(in IPluginModule pluginModule)
+		{
 
-        }
+		}
 
-        protected override void PluginInitialised(in IPluginModule pluginModule)
-        {
+		protected override void PluginInitialised(in IPluginModule pluginModule)
+		{
 
-        }
+		}
 
-        protected override void PluginLoaded(in Assembly pluginFile)
-        {
+		protected override void PluginLoaded(in Assembly pluginFile)
+		{
 
-        }
+		}
 
-        protected override void PluginLoading(in Assembly pluginFile)
-        {
+		protected override void PluginLoading(in Assembly pluginFile)
+		{
 
-        }
+		}
 
-        protected override void PostConfigurePluginServices(in IServiceCollection serviceProvider)
-        {
-            foreach (IInitialiseEvents initialiseEvents in _initializablePlugins)
-                initialiseEvents.AfterConfigureServices(serviceProvider);
+		protected override void PostConfigurePluginServices(in IServiceCollection serviceProvider)
+		{
+			foreach (IInitialiseEvents initialiseEvents in _initializablePlugins)
+				initialiseEvents.AfterConfigureServices(serviceProvider);
 
-            // if no minification engine has been added, add a default one now
-            serviceProvider.TryAddTransient<IMinificationEngine, MinificationEngine>();
+			// if no minification engine has been added, add a default one now
+			serviceProvider.TryAddTransient<IMinificationEngine, MinificationEngine>();
 
-            // if no save/load data has been registered, add new default file storage options
-            serviceProvider.TryAddSingleton<ISaveData>(new FileStorageSaveData(Logger, RootPath));
-            serviceProvider.TryAddSingleton<ILoadData>(new FileStorageLoadData(Logger, RootPath));
+			// if no save/load data has been registered, add new default file storage options
+			serviceProvider.TryAddSingleton<ISaveData>(new FileStorageSaveData(Logger, RootPath));
+			serviceProvider.TryAddSingleton<ILoadData>(new FileStorageLoadData(Logger, RootPath));
 
-            // if no custom virus scanner has been registered, add the default Microsoft virus scanner if on windows, otherwise a placebo scanner
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                serviceProvider.TryAddTransient<IVirusScanner, MicrosoftDefenderVirusScanner>();
-            }
-            else
-            {
-                serviceProvider.TryAddTransient<IVirusScanner, PlaceboVirusScanner>();
-            }
-        }
+			// if no custom virus scanner has been registered, add the default Microsoft virus scanner if on windows, otherwise a placebo scanner
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+			{
+				serviceProvider.TryAddTransient<IVirusScanner, MicrosoftDefenderVirusScanner>();
+			}
+			else
+			{
+				serviceProvider.TryAddTransient<IVirusScanner, PlaceboVirusScanner>();
+			}
+		}
 
-        protected override void PreConfigurePluginServices(in IServiceCollection serviceProvider)
-        {
-            _initializablePlugins = PluginGetClasses<IInitialiseEvents>();
+		protected override void PreConfigurePluginServices(in IServiceCollection serviceProvider)
+		{
+			_initializablePlugins = PluginGetClasses<IInitialiseEvents>();
 
-            foreach (IInitialiseEvents initialiseEvents in _initializablePlugins)
-                initialiseEvents.BeforeConfigureServices(serviceProvider);
-        }
+			foreach (IInitialiseEvents initialiseEvents in _initializablePlugins)
+				initialiseEvents.BeforeConfigureServices(serviceProvider);
+		}
 
-        protected override void ServiceConfigurationComplete(in IServiceCollection serviceCollection)
-        {
-            if (_netCorePluginSettings.MinifyFiles)
-            {
-                MinifyFilesIfRequired(serviceCollection);
-            }
-        }
+		protected override void ServiceConfigurationComplete(in IServiceCollection serviceCollection)
+		{
+			if (_netCorePluginSettings.MinifyFiles)
+			{
+				MinifyFilesIfRequired(serviceCollection);
+			}
+		}
 
-        #endregion Overridden Methods
+		#endregion Overridden Methods
 
-        #region Internal Methods
+		#region Internal Methods
 
-        /// <summary>
-        /// Allows plugins to configure with the current App Builder
-        /// </summary>
-        /// <param name="app"></param>
-        internal void Configure(in IApplicationBuilder app)
-        {
-            ServiceProvider = app.ApplicationServices;
+		/// <summary>
+		/// Allows plugins to configure with the current App Builder
+		/// </summary>
+		/// <param name="app"></param>
+		internal void Configure(in IApplicationBuilder app)
+		{
+			ServiceProvider = app.ApplicationServices;
 
-            if (_netCorePluginSettings.MonitorRouteLoadTimes)
-            {
-                app.UseRouteLoadTimes();
-            }
+			if (_netCorePluginSettings.MonitorRouteLoadTimes)
+			{
+				app.UseRouteLoadTimes();
+			}
 
-            foreach (IInitialiseEvents initialiseEvents in _initializablePlugins)
-                initialiseEvents.BeforeConfigure(app);
+			foreach (IInitialiseEvents initialiseEvents in _initializablePlugins)
+				initialiseEvents.BeforeConfigure(app);
 
-            foreach (IInitialiseEvents initialiseEvents in _initializablePlugins)
-                initialiseEvents.Configure(app);
+			foreach (IInitialiseEvents initialiseEvents in _initializablePlugins)
+				initialiseEvents.Configure(app);
 
-            foreach (IInitialiseEvents initialiseEvents in _initializablePlugins)
-                initialiseEvents.AfterConfigure(app);
+			foreach (IInitialiseEvents initialiseEvents in _initializablePlugins)
+				initialiseEvents.AfterConfigure(app);
 
 			ConfigurationComplete();
-        }
+		}
 
-        #endregion Internal Methods
+		#endregion Internal Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private void MinifyFilesIfRequired(in IServiceCollection serviceCollection)
-        {
-            ILogger logger = serviceCollection.GetServiceInstance<ILogger>();
-            IMinificationEngine minifyEngine = serviceCollection.GetServiceInstance<IMinificationEngine>();
-            INotificationService notificationService = serviceCollection.GetServiceInstance<INotificationService>();
+		private void MinifyFilesIfRequired(in IServiceCollection serviceCollection)
+		{
+			ILogger logger = serviceCollection.GetServiceInstance<ILogger>();
+			IMinificationEngine minifyEngine = serviceCollection.GetServiceInstance<IMinificationEngine>();
+			INotificationService notificationService = serviceCollection.GetServiceInstance<INotificationService>();
 
-            if (logger == null || minifyEngine == null || notificationService == null)
-                return;
+			if (logger == null || minifyEngine == null || notificationService == null)
+				return;
 
-            object files = new();
+			object files = new();
 
-            if (notificationService.RaiseEvent(Constants.NotificationEventMinifyFiles, null, null, ref files))
-            {
-                List<string> additionalFiles = (List<string>)files;
+			if (notificationService.RaiseEvent(Constants.NotificationEventMinifyFiles, null, null, ref files))
+			{
+				List<string> additionalFiles = (List<string>)files;
 
-                foreach (string file in additionalFiles)
-                {
-                    if (File.Exists(file) && !_extractedFiles.Contains(file))
-                        _extractedFiles.Add(file);
-                }
-            }
+				foreach (string file in additionalFiles)
+				{
+					if (File.Exists(file) && !_extractedFiles.Contains(file))
+						_extractedFiles.Add(file);
+				}
+			}
 
-            MinificationThread minificationThread = new(_extractedFiles, logger, minifyEngine);
-            ThreadManager.ThreadStart(minificationThread, Constants.MinificationThread, System.Threading.ThreadPriority.Normal);
-        }
+			MinificationThread minificationThread = new(_extractedFiles, logger, minifyEngine);
+			ThreadManager.ThreadStart(minificationThread, Constants.MinificationThread, System.Threading.ThreadPriority.Normal);
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }

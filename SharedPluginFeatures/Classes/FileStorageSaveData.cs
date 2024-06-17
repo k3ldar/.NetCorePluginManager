@@ -35,94 +35,94 @@ using Shared.Classes;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Default implementation of File storage for ISaveData
-    /// </summary>
-    public class FileStorageSaveData : ISaveData
-    {
-        #region Private Members
+	/// <summary>
+	/// Default implementation of File storage for ISaveData
+	/// </summary>
+	public class FileStorageSaveData : ISaveData
+	{
+		#region Private Members
 
-        private readonly object _lockObject = new();
-        private readonly ILogger _logger;
-        private readonly string _rootPath;
+		private readonly object _lockObject = new();
+		private readonly ILogger _logger;
+		private readonly string _rootPath;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public FileStorageSaveData(ILogger logger, string rootPath)
-        {
-            if (string.IsNullOrEmpty(rootPath))
-                throw new ArgumentNullException(nameof(rootPath));
+		public FileStorageSaveData(ILogger logger, string rootPath)
+		{
+			if (string.IsNullOrEmpty(rootPath))
+				throw new ArgumentNullException(nameof(rootPath));
 
-            if (!Directory.Exists(rootPath))
-                throw new ArgumentException("Root path does not exists", nameof(rootPath));
+			if (!Directory.Exists(rootPath))
+				throw new ArgumentException("Root path does not exists", nameof(rootPath));
 
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-            _rootPath = Path.Combine(rootPath, "Settings");
-        }
+			_rootPath = Path.Combine(rootPath, "Settings");
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region ISaveData Methods
+		#region ISaveData Methods
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Catch all ok as returns false allowing callers to determine if success without throwing exception")]
-        public bool Save<T>(T data, in string location, in string name)
-        {
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                string basePath = Path.Combine(_rootPath, location);
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Catch all ok as returns false allowing callers to determine if success without throwing exception")]
+		public bool Save<T>(T data, in string location, in string name)
+		{
+			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+			{
+				string basePath = Path.Combine(_rootPath, location);
 
-                if (!Directory.Exists(basePath))
-                    Directory.CreateDirectory(basePath);
+				if (!Directory.Exists(basePath))
+					Directory.CreateDirectory(basePath);
 
-                string dataFile = Path.Combine(basePath, name);
+				string dataFile = Path.Combine(basePath, name);
 
-                if (!Path.HasExtension(dataFile))
-                    dataFile += ".dat";
+				if (!Path.HasExtension(dataFile))
+					dataFile += ".dat";
 
-                string tempCopy = Path.ChangeExtension(dataFile, ".tmp");
-                try
-                {
-                    if (File.Exists(dataFile))
-                    {
+				string tempCopy = Path.ChangeExtension(dataFile, ".tmp");
+				try
+				{
+					if (File.Exists(dataFile))
+					{
 #if NET_CORE_2_1 || NET_CORE_2_2 || NET_STANDARD
                         File.Move(dataFile, tempCopy);
 #else
-                        File.Move(dataFile, tempCopy, true);
+						File.Move(dataFile, tempCopy, true);
 #endif
-                    }
+					}
 
-                    File.WriteAllText(dataFile, JsonSerializer.Serialize(data));
+					File.WriteAllText(dataFile, JsonSerializer.Serialize(data));
 
-                    if (File.Exists(tempCopy))
-                    {
-                        File.Delete(tempCopy);
-                    }
+					if (File.Exists(tempCopy))
+					{
+						File.Delete(tempCopy);
+					}
 
-                    return true;
-                }
-                catch (Exception err)
-                {
-                    if (File.Exists(tempCopy))
-                    {
+					return true;
+				}
+				catch (Exception err)
+				{
+					if (File.Exists(tempCopy))
+					{
 #if NET_CORE_2_1 || NET_CORE_2_2 || NET_STANDARD
                         File.Move(tempCopy, dataFile);
 #else
-                        File.Move(tempCopy, dataFile, true);
+						File.Move(tempCopy, dataFile, true);
 #endif
-                    }
+					}
 
-                    _logger.AddToLog(PluginManager.LogLevel.Error, err);
+					_logger.AddToLog(PluginManager.LogLevel.Error, err);
 
-                    return false;
-                }
-            }
-        }
+					return false;
+				}
+			}
+		}
 
-        #endregion ISaveData Methods
-    }
+		#endregion ISaveData Methods
+	}
 }
 
 #pragma warning restore CS1591, CA1303

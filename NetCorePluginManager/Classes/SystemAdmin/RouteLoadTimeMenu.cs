@@ -35,78 +35,78 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns a list of load times for individual pages and can be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class RouteLoadTimeMenu : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	/// <summary>
+	/// Returns a list of load times for individual pages and can be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public sealed class RouteLoadTimeMenu : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        /// <summary>
-        /// Returns delimited data on all loaded assemblies and their version.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            Dictionary<string, Timings> routeTimings = RouteLoadTimeMiddleware.ClonePageTimings();
-            StringBuilder Result = new("Route ms|Total Requests|Fastest ms|Slowest ms|Average ms|Trimmed Avg ms|Total ms");
+		/// <summary>
+		/// Returns delimited data on all loaded assemblies and their version.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			Dictionary<string, Timings> routeTimings = RouteLoadTimeMiddleware.ClonePageTimings();
+			StringBuilder Result = new("Route ms|Total Requests|Fastest ms|Slowest ms|Average ms|Trimmed Avg ms|Total ms");
 
-            foreach (KeyValuePair<string, Timings> route in routeTimings)
-            {
-                Result.AppendFormat("\r{0}|{1}|{2}|{3}|{4}|{5}|{6}",
-                    route.Key,
-                    route.Value.Requests,
-                    route.Value.Fastest,
-                    route.Value.Slowest,
-                    route.Value.Average,
-                    route.Value.TrimmedAverage,
-                    route.Value.Total);
-            }
+			foreach (KeyValuePair<string, Timings> route in routeTimings)
+			{
+				Result.AppendFormat("\r{0}|{1}|{2}|{3}|{4}|{5}|{6}",
+					route.Key,
+					route.Value.Requests,
+					route.Value.Fastest,
+					route.Value.Slowest,
+					route.Value.Average,
+					route.Value.TrimmedAverage,
+					route.Value.Total);
+			}
 
 
-            return Result.ToString();
-        }
+			return Result.ToString();
+		}
 
-        public override string Name()
-        {
-            return "Route Load Times";
-        }
+		public override string Name()
+		{
+			return "Route Load Times";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "Timings";
-        }
+		public override string ParentMenuName()
+		{
+			return "Timings";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
+		public override int SortOrder()
+		{
+			return 0;
+		}
 
-        public override string Image()
-        {
-            return Constants.SystemImageStopWatch;
-        }
-    }
+		public override string Image()
+		{
+			return Constants.SystemImageStopWatch;
+		}
+	}
 }
 
 #pragma warning restore CS1591

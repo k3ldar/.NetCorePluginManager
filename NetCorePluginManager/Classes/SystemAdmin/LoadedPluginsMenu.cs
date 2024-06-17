@@ -35,72 +35,72 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns a list of all plugin modules that are loaded and can be viewed within 
-    /// SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public class LoadedPluginsMenu : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	/// <summary>
+	/// Returns a list of all plugin modules that are loaded and can be viewed within 
+	/// SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public class LoadedPluginsMenu : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        /// <summary>
-        /// Returns delimited data on all plugin modules that have been loaded by AspNetCore.PluginManager.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            Dictionary<string, IPluginModule> plugins = PluginManagerService.GetPluginManager().PluginsGetLoaded();
+		/// <summary>
+		/// Returns delimited data on all plugin modules that have been loaded by AspNetCore.PluginManager.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			Dictionary<string, IPluginModule> plugins = PluginManagerService.GetPluginManager().PluginsGetLoaded();
 
-            StringBuilder Result = new("Module|Plugin Version|File Version");
+			StringBuilder Result = new("Module|Plugin Version|File Version");
 
-            foreach (KeyValuePair<string, IPluginModule> keyValuePair in plugins)
-            {
-                Result.AppendFormat("\r{0}|{1}|{2}", keyValuePair.Value.Module, keyValuePair.Value.Version.ToString(), keyValuePair.Value.FileVersion);
-            }
+			foreach (KeyValuePair<string, IPluginModule> keyValuePair in plugins)
+			{
+				Result.AppendFormat("\r{0}|{1}|{2}", keyValuePair.Value.Module, keyValuePair.Value.Version.ToString(), keyValuePair.Value.FileVersion);
+			}
 
-            return Result.ToString();
-        }
+			return Result.ToString();
+		}
 
-        public override string Name()
-        {
-            return "Loaded Plugins";
-        }
+		public override string Name()
+		{
+			return "Loaded Plugins";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "System";
-        }
+		public override string ParentMenuName()
+		{
+			return "System";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
+		public override int SortOrder()
+		{
+			return 0;
+		}
 
-        public override string Image()
-        {
-            return String.Empty;
-        }
-    }
+		public override string Image()
+		{
+			return String.Empty;
+		}
+	}
 }
 
 #pragma warning restore CS1591

@@ -27,27 +27,27 @@
 
 namespace Middleware.SessionData
 {
-    /// <summary>
-    /// User agent session usage data
-    /// </summary>
-    public sealed class SessionUserAgent
-    {
-        /// <summary>
-        /// User agent name
-        /// </summary>
-        /// <value>string</value>
-        public string UserAgent { get; set; }
+	/// <summary>
+	/// User agent session usage data
+	/// </summary>
+	public sealed class SessionUserAgent
+	{
+		/// <summary>
+		/// User agent name
+		/// </summary>
+		/// <value>string</value>
+		public string UserAgent { get; set; }
 
-        /// <summary>
-        /// Number of times it has appeared
-        /// </summary>
-        /// <value>uint</value>
-        public uint Count { get; set; }
+		/// <summary>
+		/// Number of times it has appeared
+		/// </summary>
+		/// <value>uint</value>
+		public uint Count { get; set; }
 
-        /// <summary>
-        /// Indicates whether it was recognised as a bot or not
-        /// </summary>
-        /// <value>bool</value>
-        public bool IsBot { get; set; }
-    }
+		/// <summary>
+		/// Indicates whether it was recognised as a bot or not
+		/// </summary>
+		/// <value>bool</value>
+		public bool IsBot { get; set; }
+	}
 }

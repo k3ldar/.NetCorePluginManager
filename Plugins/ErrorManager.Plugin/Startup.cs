@@ -32,46 +32,46 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ErrorManager.Plugin
 {
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+	public class Startup
+	{
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
 
-        public IConfiguration Configuration { get; }
+		public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddMvc(
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			services.AddMvc(
 #if NET_CORE_3_X || NET_5_ABOVE
 				option => option.EnableEndpointRouting = false
 #endif
-                );
-        }
+				);
+		}
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
-        public void Configure(IApplicationBuilder app,
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
+		public void Configure(IApplicationBuilder app,
 #if NET_CORE_3_X || NET_5_ABOVE
 			IWebHostEnvironment env)
 #else
             IHostingEnvironment env)
 #endif
-        {
-            app.UseErrorManager();
+		{
+			app.UseErrorManager();
 
 #if !NET_CORE_3_X
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+			app.UseMvc(routes =>
+			{
+				routes.MapRoute(
+					name: "default",
+					template: "{controller=Home}/{action=Index}/{id?}");
+			});
 #endif
-        }
-    }
+		}
+	}
 }
 
 #pragma warning restore CS1591

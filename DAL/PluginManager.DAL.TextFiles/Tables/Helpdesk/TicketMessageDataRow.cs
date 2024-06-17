@@ -27,54 +27,54 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.DomainHelpdesk, Constants.TableNameTicketMessages, CompressionType.Brotli)]
-    internal class TicketMessageDataRow : TableRowDefinition
-    {
-        private long _ticketId;
-        private string _userName;
-        private string _message;
+	[Table(Constants.DomainHelpdesk, Constants.TableNameTicketMessages, CompressionType.Brotli)]
+	internal class TicketMessageDataRow : TableRowDefinition
+	{
+		private long _ticketId;
+		private string _userName;
+		private string _message;
 
-        [ForeignKey(Constants.TableNameTicket)]
-        public long TicketId
-        {
-            get => _ticketId;
+		[ForeignKey(Constants.TableNameTicket)]
+		public long TicketId
+		{
+			get => _ticketId;
 
-            set
-            {
-                if (_ticketId == value)
-                    return;
+			set
+			{
+				if (_ticketId == value)
+					return;
 
-                _ticketId = value;
-                Update();
-            }
-        }
+				_ticketId = value;
+				Update();
+			}
+		}
 
-        public string UserName
-        {
-            get => _userName;
+		public string UserName
+		{
+			get => _userName;
 
-            set
-            {
-                if (_userName == value)
-                    return;
+			set
+			{
+				if (_userName == value)
+					return;
 
-                _userName = value;
-                Update();
-            }
-        }
+				_userName = value;
+				Update();
+			}
+		}
 
-        public string Message
-        {
-            get => _message;
+		public string Message
+		{
+			get => _message;
 
-            set
-            {
-                if (_message == value)
-                    return;
+			set
+			{
+				if (_message == value)
+					return;
 
-                _message = value;
-                Update();
-            }
-        }
-    }
+				_message = value;
+				Update();
+			}
+		}
+	}
 }

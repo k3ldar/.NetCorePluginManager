@@ -27,143 +27,143 @@ using System.Text.Json.Serialization;
 
 namespace SimpleDB
 {
-    /// <summary>
-    /// Base class for all table row types
-    /// </summary>
-    public abstract class TableRowDefinition
-    {
-        private long _id;
-        private long _created;
-        private long _updated;
+	/// <summary>
+	/// Base class for all table row types
+	/// </summary>
+	public abstract class TableRowDefinition
+	{
+		private long _id;
+		private long _created;
+		private long _updated;
 
 		/// <summary>
 		/// Constructor
 		/// </summary>
-        protected TableRowDefinition()
-        {
-            _id = Int64.MinValue;
-            _created = DateTime.UtcNow.Ticks;
-            _updated = DateTime.UtcNow.Ticks;
-        }
+		protected TableRowDefinition()
+		{
+			_id = Int64.MinValue;
+			_created = DateTime.UtcNow.Ticks;
+			_updated = DateTime.UtcNow.Ticks;
+		}
 
-        /// <summary>
-        /// Unique id of the record
-        /// </summary>
-        /// <value>long</value>
-        [UniqueIndex(nameof(Id), IndexType.Ascending)]
-        public long Id
-        {
-            get => _id;
+		/// <summary>
+		/// Unique id of the record
+		/// </summary>
+		/// <value>long</value>
+		[UniqueIndex(nameof(Id), IndexType.Ascending)]
+		public long Id
+		{
+			get => _id;
 
-            set
-            {
-                if (Immutable)
-                    throw new InvalidOperationException();
+			set
+			{
+				if (Immutable)
+					throw new InvalidOperationException();
 
-                _id = value;
-            }
-        }
+				_id = value;
+			}
+		}
 
 		/// <summary>
 		/// Date/time data was created
 		/// </summary>
 		/// <value>DateTime</value>
-        [JsonIgnore]
-        public DateTime Created => new(_created, DateTimeKind.Utc);
+		[JsonIgnore]
+		public DateTime Created => new(_created, DateTimeKind.Utc);
 
 		/// <summary>
 		/// Date/time data was created in ticks
 		/// </summary>
 		/// <value>long</value>
-        public long CreatedTicks
-        {
-            get
-            {
-                return _created;
-            }
+		public long CreatedTicks
+		{
+			get
+			{
+				return _created;
+			}
 
-            set
-            {
-                if (Immutable)
-                    throw new InvalidOperationException();
+			set
+			{
+				if (Immutable)
+					throw new InvalidOperationException();
 
-                _created = value;
-            }
-        }
+				_created = value;
+			}
+		}
 
 		/// <summary>
 		/// Date time data was last updated
 		/// </summary>
 		/// <value>DateTime</value>
-        [JsonIgnore]
-        public DateTime Updated => new(_updated, DateTimeKind.Utc);
+		[JsonIgnore]
+		public DateTime Updated => new(_updated, DateTimeKind.Utc);
 
 		/// <summary>
 		/// Ticks for when data was last updated
 		/// </summary>
-        public long UpdatedTicks
-        {
-            get
-            {
-                return _updated;
-            }
+		public long UpdatedTicks
+		{
+			get
+			{
+				return _updated;
+			}
 
-            set
-            {
-                if (Immutable)
-                    throw new InvalidOperationException();
+			set
+			{
+				if (Immutable)
+					throw new InvalidOperationException();
 
-                _updated = value;
-            }
-        }
+				_updated = value;
+			}
+		}
 
-        /// <summary>
-        /// Indicates the row is readonly and any updates will be ignored
-        /// </summary>
-        public bool ReadOnly { get; internal set; }
+		/// <summary>
+		/// Indicates the row is readonly and any updates will be ignored
+		/// </summary>
+		public bool ReadOnly { get; internal set; }
 
-        /// <summary>
-        /// Indicates whether the row has been marked for delete or not
-        /// </summary>
-        protected internal bool Immutable { get; internal set; } = false;
+		/// <summary>
+		/// Indicates whether the row has been marked for delete or not
+		/// </summary>
+		protected internal bool Immutable { get; internal set; } = false;
 
-        /// <summary>
-        /// Indicates the record has been loaded from storage
-        /// </summary>
-        [JsonIgnore]
-        internal bool Loaded { get; set; }
+		/// <summary>
+		/// Indicates the record has been loaded from storage
+		/// </summary>
+		[JsonIgnore]
+		internal bool Loaded { get; set; }
 
-        /// <summary>
-        /// Indicates the record has been updated 
-        /// </summary>
-        [JsonIgnore]
-        public bool HasChanged { get; internal set; }
+		/// <summary>
+		/// Indicates the record has been updated 
+		/// </summary>
+		[JsonIgnore]
+		public bool HasChanged { get; internal set; }
 
 		/// <summary>
 		/// Update called to indicate the data has potentially been updated/changed
 		/// </summary>
 		/// <exception cref="InvalidOperationException"></exception>
-        protected void Update()
-        {
-            if (!Loaded || HasChanged)
-                return;
+		protected void Update()
+		{
+			if (!Loaded || HasChanged)
+				return;
 
-            if (ReadOnly)
-                throw new InvalidOperationException("Record is readonly");
+			if (ReadOnly)
+				throw new InvalidOperationException("Record is readonly");
 
-            _updated = DateTime.UtcNow.Ticks;
-            HasChanged = true;
-        }
+			_updated = DateTime.UtcNow.Ticks;
+			HasChanged = true;
+		}
 
 		/// <summary>
 		/// Indicates observable data has changed
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-        protected void ObservableDataChanged(object sender, EventArgs e)
-        {
-            Update();
-        }
+		protected void ObservableDataChanged(object sender, EventArgs e)
+		{
+			Update();
+		}
 
-    }
+	}
 }

@@ -30,18 +30,18 @@ using System.Collections.Generic;
 
 namespace ImageManager.Plugin.Models
 {
-    public sealed class RetrieveImagesModel
-    {
-        public RetrieveImagesModel(List<string> subgroups, List<string> images)
-        {
-            Subgroups = subgroups ?? throw new ArgumentNullException(nameof(subgroups));
-            Images = images ?? throw new ArgumentNullException(nameof(images));
-        }
+	public sealed class RetrieveImagesModel
+	{
+		public RetrieveImagesModel(List<string> subgroups, List<string> images)
+		{
+			Subgroups = subgroups ?? throw new ArgumentNullException(nameof(subgroups));
+			Images = images ?? throw new ArgumentNullException(nameof(images));
+		}
 
-        public List<string> Subgroups { get; set;  }
+		public List<string> Subgroups { get; set; }
 
-        public List<string> Images { get; set; }
-    }
+		public List<string> Images { get; set; }
+	}
 }
 
 #pragma warning restore CS1591

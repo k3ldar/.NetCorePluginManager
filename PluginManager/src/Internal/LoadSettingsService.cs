@@ -38,31 +38,31 @@ using PluginManager.Abstractions;
 
 namespace PluginManager.Internal
 {
-    internal class LoadSettingsService : ILoadSettingsService
-    {
-        public T LoadSettings<T>(in string jsonFile, in string name)
-        {
-            ConfigurationBuilder builder = new();
-            IConfigurationBuilder configBuilder = builder.SetBasePath(Path.GetDirectoryName(jsonFile));
-            configBuilder.AddJsonFile(jsonFile);
-            IConfigurationRoot config = builder.Build();
+	internal class LoadSettingsService : ILoadSettingsService
+	{
+		public T LoadSettings<T>(in string jsonFile, in string name)
+		{
+			ConfigurationBuilder builder = new();
+			IConfigurationBuilder configBuilder = builder.SetBasePath(Path.GetDirectoryName(jsonFile));
+			configBuilder.AddJsonFile(jsonFile);
+			IConfigurationRoot config = builder.Build();
 
-            T Result = (T)Activator.CreateInstance(typeof(T));
+			T Result = (T)Activator.CreateInstance(typeof(T));
 
-            config.GetSection(name).Bind(Result);
+			config.GetSection(name).Bind(Result);
 
-            return ValidateSettings<T>.Validate(Result);
-        }
+			return ValidateSettings<T>.Validate(Result);
+		}
 
-        public T LoadSettings<T>(in string name)
-        {
-            string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-            int isDebugPos = path.IndexOf("\\bin\\debug\\", StringComparison.InvariantCultureIgnoreCase);
+		public T LoadSettings<T>(in string name)
+		{
+			string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+			int isDebugPos = path.IndexOf("\\bin\\debug\\", StringComparison.InvariantCultureIgnoreCase);
 
-            if (isDebugPos > -1)
-                path = path.Substring(0, isDebugPos);
+			if (isDebugPos > -1)
+				path = path.Substring(0, isDebugPos);
 
-            return LoadSettings<T>(Path.Combine(path, "appsettings.json"), name);
-        }
-    }
+			return LoadSettings<T>(Path.Combine(path, "appsettings.json"), name);
+		}
+	}
 }

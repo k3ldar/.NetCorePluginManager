@@ -41,404 +41,404 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 {
 	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
 	public class MockDynamicContentProvider : IDynamicContentProvider
-    {
-        #region Private Members
+	{
+		#region Private Members
 
-        private readonly IPluginClassesService _pluginClassesService;
-        private static List<DynamicContentTemplate> _templates;
-        private readonly List<IDynamicContentPage> _dynamicContent;
-        private IDynamicContentPage _dynamicContentPage1;
-        private IDynamicContentPage _dynamicContentPage2;
-        private IDynamicContentPage _dynamicContentPage3;
-        private IDynamicContentPage _dynamicContentPage10;
-
-        #endregion Private Members
+		private readonly IPluginClassesService _pluginClassesService;
+		private static List<DynamicContentTemplate> _templates;
+		private readonly List<IDynamicContentPage> _dynamicContent;
+		private IDynamicContentPage _dynamicContentPage1;
+		private IDynamicContentPage _dynamicContentPage2;
+		private IDynamicContentPage _dynamicContentPage3;
+		private IDynamicContentPage _dynamicContentPage10;
+
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public MockDynamicContentProvider(IPluginClassesService pluginClassesService, bool useDefaultContent)
-        {
-            _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
-            _dynamicContent = new List<IDynamicContentPage>();
-            UseDefaultContent = useDefaultContent;
-            AllowSavePage = true;
-        }
+		public MockDynamicContentProvider(IPluginClassesService pluginClassesService, bool useDefaultContent)
+		{
+			_pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
+			_dynamicContent = new List<IDynamicContentPage>();
+			UseDefaultContent = useDefaultContent;
+			AllowSavePage = true;
+		}
 
-        public MockDynamicContentProvider(IPluginClassesService pluginClassesService)
-            : this(pluginClassesService, true)
-        {
+		public MockDynamicContentProvider(IPluginClassesService pluginClassesService)
+			: this(pluginClassesService, true)
+		{
 
-        }
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        public bool UseDefaultContent { get; set; }
+		public bool UseDefaultContent { get; set; }
 
-        public bool AllowSavePage { get; set; }
+		public bool AllowSavePage { get; set; }
 
-        public bool HasSaveUserInput { get; set; }
+		public bool HasSaveUserInput { get; set; }
 
-        public long CreateCustomPage()
-        {
-            return 50;
-        }
-
-        public void AddPage(IDynamicContentPage dynamicContentPage)
-        {
-            _dynamicContent.Add(dynamicContentPage ?? throw new ArgumentNullException(nameof(dynamicContentPage)));
-        }
+		public long CreateCustomPage()
+		{
+			return 50;
+		}
+
+		public void AddPage(IDynamicContentPage dynamicContentPage)
+		{
+			_dynamicContent.Add(dynamicContentPage ?? throw new ArgumentNullException(nameof(dynamicContentPage)));
+		}
 
-        public void ClearAllPages()
-        {
-            _dynamicContent.Clear();
-        }
+		public void ClearAllPages()
+		{
+			_dynamicContent.Clear();
+		}
 
-        #region IDynamicContentProvider Members
+		#region IDynamicContentProvider Members
 
-        public List<LookupListItem> GetCustomPageList()
-        {
-            List<LookupListItem> Result = new();
-
-            if (UseDefaultContent)
-            {
-                Result.Add(new LookupListItem((int)GetPage1().Id, GetPage1().Name));
-                Result.Add(new LookupListItem((int)GetPage2().Id, GetPage2().Name));
-                Result.Add(new LookupListItem((int)GetPage3().Id, GetPage3().Name));
-                Result.Add(new LookupListItem((int)GetPage10().Id, GetPage10().Name));
-            }
-
-
-            _dynamicContent.ForEach(dc => Result.Add(new LookupListItem((int)dc.Id, dc.Name)));
-
-            return Result;
-        }
-
-        public List<IDynamicContentPage> GetCustomPages()
-        {
-            List<IDynamicContentPage> Result = new();
-
-            if (UseDefaultContent)
-            {
-                Result.Add(GetPage1());
-                Result.Add(GetPage2());
-                Result.Add(GetPage3());
-                Result.Add(GetPage10());
-            }
-
-            _dynamicContent.ForEach(dc => Result.Add(dc));
-
-            return Result;
-        }
-
-        public IDynamicContentPage GetCustomPage(long id)
-        {
-            if (UseDefaultContent && id == 1)
-            {
-                return GetPage1();
-            }
-
-            if (UseDefaultContent && id == 2)
-            {
-                return GetPage2();
-            }
-
-            if (UseDefaultContent && id == 3)
-            {
-                return GetPage3();
-            }
-
-            if (UseDefaultContent && id == 10)
-            {
-                return GetPage10();
-            }
-
-            return _dynamicContent.Find(dc => dc.Id.Equals(id));
-        }
-
-        public List<DynamicContentTemplate> Templates()
-        {
-            if (_templates != null)
-                return _templates;
-
-            _templates = _pluginClassesService.GetPluginClasses<DynamicContentTemplate>();
-
-            return _templates;
-        }
-
-        public bool PageNameExists(long id, string pageName)
-        {
-            return GetCustomPages().Exists(p => p.Id != id && p.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase));
-        }
-
-        public bool RouteNameExists(long id, string routeName)
-        {
-            return GetCustomPages().Exists(p => p.Id != id && p.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
-        }
-
-        public bool Save(IDynamicContentPage dynamicContentPage)
-        {
-            return AllowSavePage;
-        }
-
-        public bool SaveUserInput(string data)
-        {
-            HasSaveUserInput = true;
-
-            return HasSaveUserInput;
-        }
-
-        #endregion IDynamicContentProvider Members
-
-        #region Private Methods
-
-        private IDynamicContentPage GetPage1()
-        {
-            if (_dynamicContentPage1 == null)
-            {
-                _dynamicContentPage1 = new DynamicContentPage()
-                {
-                    Id = 1,
-                    Name = "Custom Page 1",
-                    RouteName = "page-1"
-                };
-
-                HtmlTextTemplate htmlLayout1 = new()
-                {
-                    UniqueId = "1",
-                    SortOrder = 0,
-                    WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
-                    Width = 12,
-                    HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
-                    Data = "<p>This is <br />html over<br />three lines</p>"
-                };
-
-                _dynamicContentPage1.Content.Add(htmlLayout1);
-            }
-
-            return _dynamicContentPage1;
-        }
-
-        private IDynamicContentPage GetPage2()
-        {
-            if (_dynamicContentPage2 == null)
-            {
-                _dynamicContentPage2 = new DynamicContentPage()
-                {
-                    Id = 2,
-                    Name = "Custom Page 2",
-                    RouteName = "page-2",
-                };
-
-                HtmlTextTemplate htmlLayout1 = new()
-                {
-                    UniqueId = "control-1",
-                    SortOrder = 0,
-                    WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
-                    Width = 12,
-                    HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
-                    Data = "<p>This is <br />html over<br />three lines</p>"
-                };
-
-                _dynamicContentPage2.Content.Add(htmlLayout1);
-
-                HtmlTextTemplate htmlLayout2 = new()
-                {
-                    UniqueId = "control-2",
-                    SortOrder = 2,
-                    WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
-                    Width = 4,
-                    HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
-                    Data = "<p>This is html<br />over two lines</p>"
-                };
-
-                _dynamicContentPage2.Content.Add(htmlLayout2);
-            }
-
-            return _dynamicContentPage2;
-        }
-
-        private IDynamicContentPage GetPage3()
-        {
-            if (_dynamicContentPage3 == null)
-            {
-                _dynamicContentPage3 = new DynamicContentPage()
-                {
-                    Id = 3,
-                    Name = "Custom Page 3",
-                    RouteName = "page-3",
-                };
-
-                HtmlTextTemplate htmlLayout1 = new()
-                {
-                    UniqueId = "control-1",
-                    SortOrder = 0,
-                    WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
-                    Width = 12,
-                    HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
-                    Data = "<p>This is <br />html over<br />three lines</p>"
-                };
-
-                _dynamicContentPage3.Content.Add(htmlLayout1);
-
-                SpacerTemplate spacerTemplate1 = new()
-                {
-                    SortOrder = 1,
-                    Width = 8
-                };
-
-                _dynamicContentPage3.Content.Add(spacerTemplate1);
-
-                HtmlTextTemplate htmlLayout2 = new()
-                {
-                    UniqueId = "control-2",
-                    SortOrder = 2,
-                    WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
-                    Width = 4,
-                    HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
-                    Data = "<p>This is html<br />over two lines</p>"
-                };
-
-                _dynamicContentPage3.Content.Add(htmlLayout2);
-            }
-
-            return _dynamicContentPage3;
-        }
-
-        private IDynamicContentPage GetPage10()
-        {
-            if (_dynamicContentPage10 == null)
-            {
-                _dynamicContentPage10 = new DynamicContentPage()
-                {
-                    Id = 10,
-                    Name = "Custom Page 10",
-                    RouteName = "page-10",
-                };
-
-                HtmlTextTemplate htmlLayout1 = new()
-                {
-                    UniqueId = "control-1",
-                    SortOrder = 0,
-                    WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
-                    Width = 12,
-                    HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
-                    Data = "<p>This is <br />html over<br />three lines</p>"
-                };
-
-                _dynamicContentPage10.Content.Add(htmlLayout1);
-
-                HtmlTextTemplate htmlLayout2 = new()
-                {
-                    UniqueId = "control-2",
-                    SortOrder = 2,
-                    WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
-                    Width = 4,
-                    HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
-                    Data = "<p>This is html<br />Content 2</p>"
-                };
-
-                _dynamicContentPage10.Content.Add(htmlLayout2);
-
-                HtmlTextTemplate htmlLayout3 = new()
-                {
-                    UniqueId = "control-3",
-                    SortOrder = 9,
-                    WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
-                    Width = 4,
-                    HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
-                    Data = "<p>This is html<br />Content 3</p>"
-                };
-
-                _dynamicContentPage10.Content.Add(htmlLayout3);
-
-                HtmlTextTemplate htmlLayout4 = new()
-                {
-                    UniqueId = "control-4",
-                    SortOrder = 8,
-                    WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
-                    Width = 4,
-                    HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
-                    Data = "<p>This is html<br />Content 4</p>"
-                };
-
-                _dynamicContentPage10.Content.Add(htmlLayout4);
-
-                HtmlTextTemplate htmlLayout5 = new()
-                {
-                    UniqueId = "control-5",
-                    SortOrder = 7,
-                    WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
-                    Width = 4,
-                    HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
-                    Data = "<p>This is html<br />Content 5</p>"
-                };
-
-                _dynamicContentPage10.Content.Add(htmlLayout5);
-
-                HtmlTextTemplate htmlLayout6 = new()
-                {
-                    UniqueId = "control-6",
-                    SortOrder = 6,
-                    WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
-                    Width = 4,
-                    HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
-                    Data = "<p>This is html<br />Content 6</p>"
-                };
-
-                _dynamicContentPage10.Content.Add(htmlLayout6);
-
-                HtmlTextTemplate htmlLayout7 = new()
-                {
-                    UniqueId = "control-7",
-                    SortOrder = 5,
-                    WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
-                    Width = 4,
-                    HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
-                    Data = "<p>This is html<br />Content 7</p>"
-                };
-
-                _dynamicContentPage10.Content.Add(htmlLayout7);
-
-                HtmlTextTemplate htmlLayout8 = new()
-                {
-                    UniqueId = "control-8",
-                    SortOrder = 4,
-                    WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
-                    Width = 4,
-                    HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
-                    Data = "<p>This is html<br />Content 8</p>"
-                };
-
-                _dynamicContentPage10.Content.Add(htmlLayout8);
-
-                HtmlTextTemplate htmlLayout9 = new()
-                {
-                    UniqueId = "control-9",
-                    SortOrder = 3,
-                    WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
-                    Width = 4,
-                    HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
-                    Data = "<p>This is html<br />Content 9</p>"
-                };
-
-                _dynamicContentPage10.Content.Add(htmlLayout9);
-
-                HtmlTextTemplate htmlLayout10 = new()
-                {
-                    UniqueId = "control-10",
-                    SortOrder = 20,
-                    WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
-                    Width = 4,
-                    HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
-                    Data = "<p>This is html<br />Content 10</p>"
-                };
-
-                _dynamicContentPage10.Content.Add(htmlLayout10);
-            }
-
-            return _dynamicContentPage10;
-        }
-
-        #endregion Private Methods
-    }
+		public List<LookupListItem> GetCustomPageList()
+		{
+			List<LookupListItem> Result = new();
+
+			if (UseDefaultContent)
+			{
+				Result.Add(new LookupListItem((int)GetPage1().Id, GetPage1().Name));
+				Result.Add(new LookupListItem((int)GetPage2().Id, GetPage2().Name));
+				Result.Add(new LookupListItem((int)GetPage3().Id, GetPage3().Name));
+				Result.Add(new LookupListItem((int)GetPage10().Id, GetPage10().Name));
+			}
+
+
+			_dynamicContent.ForEach(dc => Result.Add(new LookupListItem((int)dc.Id, dc.Name)));
+
+			return Result;
+		}
+
+		public List<IDynamicContentPage> GetCustomPages()
+		{
+			List<IDynamicContentPage> Result = new();
+
+			if (UseDefaultContent)
+			{
+				Result.Add(GetPage1());
+				Result.Add(GetPage2());
+				Result.Add(GetPage3());
+				Result.Add(GetPage10());
+			}
+
+			_dynamicContent.ForEach(dc => Result.Add(dc));
+
+			return Result;
+		}
+
+		public IDynamicContentPage GetCustomPage(long id)
+		{
+			if (UseDefaultContent && id == 1)
+			{
+				return GetPage1();
+			}
+
+			if (UseDefaultContent && id == 2)
+			{
+				return GetPage2();
+			}
+
+			if (UseDefaultContent && id == 3)
+			{
+				return GetPage3();
+			}
+
+			if (UseDefaultContent && id == 10)
+			{
+				return GetPage10();
+			}
+
+			return _dynamicContent.Find(dc => dc.Id.Equals(id));
+		}
+
+		public List<DynamicContentTemplate> Templates()
+		{
+			if (_templates != null)
+				return _templates;
+
+			_templates = _pluginClassesService.GetPluginClasses<DynamicContentTemplate>();
+
+			return _templates;
+		}
+
+		public bool PageNameExists(long id, string pageName)
+		{
+			return GetCustomPages().Exists(p => p.Id != id && p.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase));
+		}
+
+		public bool RouteNameExists(long id, string routeName)
+		{
+			return GetCustomPages().Exists(p => p.Id != id && p.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
+		}
+
+		public bool Save(IDynamicContentPage dynamicContentPage)
+		{
+			return AllowSavePage;
+		}
+
+		public bool SaveUserInput(string data)
+		{
+			HasSaveUserInput = true;
+
+			return HasSaveUserInput;
+		}
+
+		#endregion IDynamicContentProvider Members
+
+		#region Private Methods
+
+		private IDynamicContentPage GetPage1()
+		{
+			if (_dynamicContentPage1 == null)
+			{
+				_dynamicContentPage1 = new DynamicContentPage()
+				{
+					Id = 1,
+					Name = "Custom Page 1",
+					RouteName = "page-1"
+				};
+
+				HtmlTextTemplate htmlLayout1 = new()
+				{
+					UniqueId = "1",
+					SortOrder = 0,
+					WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
+					Width = 12,
+					HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
+					Data = "<p>This is <br />html over<br />three lines</p>"
+				};
+
+				_dynamicContentPage1.Content.Add(htmlLayout1);
+			}
+
+			return _dynamicContentPage1;
+		}
+
+		private IDynamicContentPage GetPage2()
+		{
+			if (_dynamicContentPage2 == null)
+			{
+				_dynamicContentPage2 = new DynamicContentPage()
+				{
+					Id = 2,
+					Name = "Custom Page 2",
+					RouteName = "page-2",
+				};
+
+				HtmlTextTemplate htmlLayout1 = new()
+				{
+					UniqueId = "control-1",
+					SortOrder = 0,
+					WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
+					Width = 12,
+					HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
+					Data = "<p>This is <br />html over<br />three lines</p>"
+				};
+
+				_dynamicContentPage2.Content.Add(htmlLayout1);
+
+				HtmlTextTemplate htmlLayout2 = new()
+				{
+					UniqueId = "control-2",
+					SortOrder = 2,
+					WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
+					Width = 4,
+					HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
+					Data = "<p>This is html<br />over two lines</p>"
+				};
+
+				_dynamicContentPage2.Content.Add(htmlLayout2);
+			}
+
+			return _dynamicContentPage2;
+		}
+
+		private IDynamicContentPage GetPage3()
+		{
+			if (_dynamicContentPage3 == null)
+			{
+				_dynamicContentPage3 = new DynamicContentPage()
+				{
+					Id = 3,
+					Name = "Custom Page 3",
+					RouteName = "page-3",
+				};
+
+				HtmlTextTemplate htmlLayout1 = new()
+				{
+					UniqueId = "control-1",
+					SortOrder = 0,
+					WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
+					Width = 12,
+					HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
+					Data = "<p>This is <br />html over<br />three lines</p>"
+				};
+
+				_dynamicContentPage3.Content.Add(htmlLayout1);
+
+				SpacerTemplate spacerTemplate1 = new()
+				{
+					SortOrder = 1,
+					Width = 8
+				};
+
+				_dynamicContentPage3.Content.Add(spacerTemplate1);
+
+				HtmlTextTemplate htmlLayout2 = new()
+				{
+					UniqueId = "control-2",
+					SortOrder = 2,
+					WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
+					Width = 4,
+					HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
+					Data = "<p>This is html<br />over two lines</p>"
+				};
+
+				_dynamicContentPage3.Content.Add(htmlLayout2);
+			}
+
+			return _dynamicContentPage3;
+		}
+
+		private IDynamicContentPage GetPage10()
+		{
+			if (_dynamicContentPage10 == null)
+			{
+				_dynamicContentPage10 = new DynamicContentPage()
+				{
+					Id = 10,
+					Name = "Custom Page 10",
+					RouteName = "page-10",
+				};
+
+				HtmlTextTemplate htmlLayout1 = new()
+				{
+					UniqueId = "control-1",
+					SortOrder = 0,
+					WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
+					Width = 12,
+					HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
+					Data = "<p>This is <br />html over<br />three lines</p>"
+				};
+
+				_dynamicContentPage10.Content.Add(htmlLayout1);
+
+				HtmlTextTemplate htmlLayout2 = new()
+				{
+					UniqueId = "control-2",
+					SortOrder = 2,
+					WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
+					Width = 4,
+					HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
+					Data = "<p>This is html<br />Content 2</p>"
+				};
+
+				_dynamicContentPage10.Content.Add(htmlLayout2);
+
+				HtmlTextTemplate htmlLayout3 = new()
+				{
+					UniqueId = "control-3",
+					SortOrder = 9,
+					WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
+					Width = 4,
+					HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
+					Data = "<p>This is html<br />Content 3</p>"
+				};
+
+				_dynamicContentPage10.Content.Add(htmlLayout3);
+
+				HtmlTextTemplate htmlLayout4 = new()
+				{
+					UniqueId = "control-4",
+					SortOrder = 8,
+					WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
+					Width = 4,
+					HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
+					Data = "<p>This is html<br />Content 4</p>"
+				};
+
+				_dynamicContentPage10.Content.Add(htmlLayout4);
+
+				HtmlTextTemplate htmlLayout5 = new()
+				{
+					UniqueId = "control-5",
+					SortOrder = 7,
+					WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
+					Width = 4,
+					HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
+					Data = "<p>This is html<br />Content 5</p>"
+				};
+
+				_dynamicContentPage10.Content.Add(htmlLayout5);
+
+				HtmlTextTemplate htmlLayout6 = new()
+				{
+					UniqueId = "control-6",
+					SortOrder = 6,
+					WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
+					Width = 4,
+					HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
+					Data = "<p>This is html<br />Content 6</p>"
+				};
+
+				_dynamicContentPage10.Content.Add(htmlLayout6);
+
+				HtmlTextTemplate htmlLayout7 = new()
+				{
+					UniqueId = "control-7",
+					SortOrder = 5,
+					WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
+					Width = 4,
+					HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
+					Data = "<p>This is html<br />Content 7</p>"
+				};
+
+				_dynamicContentPage10.Content.Add(htmlLayout7);
+
+				HtmlTextTemplate htmlLayout8 = new()
+				{
+					UniqueId = "control-8",
+					SortOrder = 4,
+					WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
+					Width = 4,
+					HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
+					Data = "<p>This is html<br />Content 8</p>"
+				};
+
+				_dynamicContentPage10.Content.Add(htmlLayout8);
+
+				HtmlTextTemplate htmlLayout9 = new()
+				{
+					UniqueId = "control-9",
+					SortOrder = 3,
+					WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
+					Width = 4,
+					HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
+					Data = "<p>This is html<br />Content 9</p>"
+				};
+
+				_dynamicContentPage10.Content.Add(htmlLayout9);
+
+				HtmlTextTemplate htmlLayout10 = new()
+				{
+					UniqueId = "control-10",
+					SortOrder = 20,
+					WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
+					Width = 4,
+					HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
+					Data = "<p>This is html<br />Content 10</p>"
+				};
+
+				_dynamicContentPage10.Content.Add(htmlLayout10);
+			}
+
+			return _dynamicContentPage10;
+		}
+
+		#endregion Private Methods
+	}
 }

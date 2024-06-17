@@ -28,41 +28,41 @@ using System;
 
 namespace Middleware.SessionData
 {
-    /// <summary>
-    /// Hourly visitor statistics
-    /// </summary>
-    public sealed class SessionHourly : SessionBaseData
-    {
-        #region Constructors
+	/// <summary>
+	/// Hourly visitor statistics
+	/// </summary>
+	public sealed class SessionHourly : SessionBaseData
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public SessionHourly()
-            : base()
-        {
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public SessionHourly()
+			: base()
+		{
 
-        }
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Date of Visit
-        /// </summary>
-        public DateTime Date { get; set; }
+		/// <summary>
+		/// Date of Visit
+		/// </summary>
+		public DateTime Date { get; set; }
 
-        /// <summary>
-        /// Hour the visit was made
-        /// </summary>
-        public int Hour { get; set; }
+		/// <summary>
+		/// Hour the visit was made
+		/// </summary>
+		public int Hour { get; set; }
 
-        /// <summary>
-        /// Retrieves the hour quarter
-        /// </summary>
-        public int Quarter { get; set; }
+		/// <summary>
+		/// Retrieves the hour quarter
+		/// </summary>
+		public int Quarter { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

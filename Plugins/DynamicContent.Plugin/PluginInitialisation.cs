@@ -46,62 +46,62 @@ using static SharedPluginFeatures.Constants;
 
 namespace DynamicContent.Plugin
 {
-    /// <summary>
-    /// Implements IPlugin and IInitialiseEvents which allows the Dynamic Content plugin module to be
-    /// loaded as a plugin module
-    /// </summary>
-    public class PluginInitialisation : IPlugin, IInitialiseEvents, IClaimsService
+	/// <summary>
+	/// Implements IPlugin and IInitialiseEvents which allows the Dynamic Content plugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	public class PluginInitialisation : IPlugin, IInitialiseEvents, IClaimsService
 	{
-        private readonly IThreadManagerServices _threadManagerServices;
-        internal static readonly CacheManager DynamicContentCache = new(CacheNameDynamicContent, new TimeSpan(100, 0, 0, 0), true);
+		private readonly IThreadManagerServices _threadManagerServices;
+		internal static readonly CacheManager DynamicContentCache = new(CacheNameDynamicContent, new TimeSpan(100, 0, 0, 0), true);
 
-        #region Constructors
+		#region Constructors
 
-        public PluginInitialisation(IThreadManagerServices threadManagerServices)
-        {
-            _threadManagerServices = threadManagerServices ?? throw new ArgumentNullException(nameof(threadManagerServices));
-        }
+		public PluginInitialisation(IThreadManagerServices threadManagerServices)
+		{
+			_threadManagerServices = threadManagerServices ?? throw new ArgumentNullException(nameof(threadManagerServices));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IInitialiseEvents Methods
+		#region IInitialiseEvents Methods
 
-        public void AfterConfigure(in IApplicationBuilder app)
-        {
+		public void AfterConfigure(in IApplicationBuilder app)
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
-        {
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy(
-                    Constants.PolicyNameContentEditor,
-                    policyBuilder => policyBuilder
-                        .RequireClaim(Constants.ClaimNameManageContent)
-                        .RequireClaim(Constants.ClaimNameStaff)
-                        .RequireClaim(Constants.ClaimNameUsername)
-                        .RequireClaim(Constants.ClaimNameUserId)
-                        .RequireClaim(Constants.ClaimNameUserEmail));
-            });
+		{
+			services.AddAuthorization(options =>
+			{
+				options.AddPolicy(
+					Constants.PolicyNameContentEditor,
+					policyBuilder => policyBuilder
+						.RequireClaim(Constants.ClaimNameManageContent)
+						.RequireClaim(Constants.ClaimNameStaff)
+						.RequireClaim(Constants.ClaimNameUsername)
+						.RequireClaim(Constants.ClaimNameUserId)
+						.RequireClaim(Constants.ClaimNameUserEmail));
+			});
 
-            services.TryAddSingleton<IDynamicContentProvider, DefaultDynamicContentProvider>();
+			services.TryAddSingleton<IDynamicContentProvider, DefaultDynamicContentProvider>();
 
-            _threadManagerServices.RegisterStartupThread(nameof(DynamicContentThreadManager), typeof(DynamicContentThreadManager));
-        }
+			_threadManagerServices.RegisterStartupThread(nameof(DynamicContentThreadManager), typeof(DynamicContentThreadManager));
+		}
 
-        public void BeforeConfigure(in IApplicationBuilder app)
-        {
+		public void BeforeConfigure(in IApplicationBuilder app)
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeConfigureServices(in IServiceCollection services)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void Configure(in IApplicationBuilder app)
-        {
+		{
 			// from interface but unused in this context
 		}
 
@@ -110,22 +110,22 @@ namespace DynamicContent.Plugin
 		#region IPlugin Methods
 
 		public void ConfigureServices(IServiceCollection services)
-        {
+		{
 			services.AddTransient(typeof(DynamicContentThreadManager));
 		}
 
 		public void Finalise()
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public ushort GetVersion()
-        {
-            return 1;
-        }
+		{
+			return 1;
+		}
 
-        public void Initialise(ILogger logger)
-        {
+		public void Initialise(ILogger logger)
+		{
 			// from interface but unused in this context
 		}
 

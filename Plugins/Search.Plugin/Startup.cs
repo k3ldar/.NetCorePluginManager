@@ -32,37 +32,37 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace SearchPlugin
 {
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+	public class Startup
+	{
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
 
-        public IConfiguration Configuration { get; }
+		public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddMvc(
-                option => option.EnableEndpointRouting = false
-                )
-                .AddSessionStateTempDataProvider();
-        }
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			services.AddMvc(
+				option => option.EnableEndpointRouting = false
+				)
+				.AddSessionStateTempDataProvider();
+		}
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
-        public void Configure(IApplicationBuilder app,
-            IWebHostEnvironment env)
-        {
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Login}/{action=Index}/{id?}");
-            });
-        }
-    }
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
+		public void Configure(IApplicationBuilder app,
+			IWebHostEnvironment env)
+		{
+			app.UseMvc(routes =>
+			{
+				routes.MapRoute(
+					name: "default",
+					template: "{controller=Login}/{action=Index}/{id?}");
+			});
+		}
+	}
 }
 
 #pragma warning restore IDE0060, CS1591

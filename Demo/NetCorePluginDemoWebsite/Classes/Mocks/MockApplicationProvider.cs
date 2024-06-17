@@ -29,12 +29,12 @@ using Middleware;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
-    public class MockApplicationProvider : IApplicationProvider
-    {
-        public void Email(in string subject, in string message)
-        {
-            //t sending emails in this mock
-        }
-    }
+	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
+	public class MockApplicationProvider : IApplicationProvider
+	{
+		public void Email(in string subject, in string message)
+		{
+			//t sending emails in this mock
+		}
+	}
 }

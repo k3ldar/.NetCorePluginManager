@@ -33,89 +33,89 @@ using SharedPluginFeatures;
 
 namespace UserSessionMiddleware.Plugin.Classes.SessionData
 {
-    /// <summary>
-    /// Returns Timings information for all time spent processing default user session requests and can 
-    /// be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class DefaultSessionTimingsSubMenu : SystemAdminSubMenu
-    {
-        private readonly bool _enabled;
+	/// <summary>
+	/// Returns Timings information for all time spent processing default user session requests and can 
+	/// be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public sealed class DefaultSessionTimingsSubMenu : SystemAdminSubMenu
+	{
+		private readonly bool _enabled;
 
-        public DefaultSessionTimingsSubMenu(ISettingsProvider settingsProvider)
-        {
-            if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+		public DefaultSessionTimingsSubMenu(ISettingsProvider settingsProvider)
+		{
+			if (settingsProvider == null)
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(Constants.UserSessionConfiguration);
+			UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(Constants.UserSessionConfiguration);
 
-            _enabled = settings.EnableDefaultSessionService;
-        }
+			_enabled = settings.EnableDefaultSessionService;
+		}
 
-        public override string Action()
-        {
-            return String.Empty;
-        }
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        /// <summary>
-        /// Returns Timings data in milliseconds for time spent processing default user session requests.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            string Result = "Setting|Value";
+		/// <summary>
+		/// Returns Timings data in milliseconds for time spent processing default user session requests.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			string Result = "Setting|Value";
 
-            Result += $"\rTotal Requests|{DefaultUserSessionService._timingsDefaultSession.Requests}";
-            Result += $"\rFastest ms|{DefaultUserSessionService._timingsDefaultSession.Fastest}";
-            Result += $"\rSlowest ms|{DefaultUserSessionService._timingsDefaultSession.Slowest}";
-            Result += $"\rAverage ms|{DefaultUserSessionService._timingsDefaultSession.Average}";
-            Result += $"\rTrimmed Avg ms|{DefaultUserSessionService._timingsDefaultSession.TrimmedAverage}";
-            Result += $"\rTotal ms|{DefaultUserSessionService._timingsDefaultSession.Total}";
+			Result += $"\rTotal Requests|{DefaultUserSessionService._timingsDefaultSession.Requests}";
+			Result += $"\rFastest ms|{DefaultUserSessionService._timingsDefaultSession.Fastest}";
+			Result += $"\rSlowest ms|{DefaultUserSessionService._timingsDefaultSession.Slowest}";
+			Result += $"\rAverage ms|{DefaultUserSessionService._timingsDefaultSession.Average}";
+			Result += $"\rTrimmed Avg ms|{DefaultUserSessionService._timingsDefaultSession.TrimmedAverage}";
+			Result += $"\rTotal ms|{DefaultUserSessionService._timingsDefaultSession.Total}";
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public override string Image()
-        {
-            return Constants.SystemImageStopWatch;
-        }
+		public override string Image()
+		{
+			return Constants.SystemImageStopWatch;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override string Name()
-        {
-            return "Default User Session";
-        }
+		public override string Name()
+		{
+			return "Default User Session";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "Timings";
-        }
+		public override string ParentMenuName()
+		{
+			return "Timings";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
+		public override int SortOrder()
+		{
+			return 0;
+		}
 
-        public override Boolean Enabled()
-        {
-            return _enabled;
-        }
-    }
+		public override Boolean Enabled()
+		{
+			return _enabled;
+		}
+	}
 }
 
 #pragma warning restore CS1591

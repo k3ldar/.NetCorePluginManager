@@ -32,27 +32,27 @@ using PluginManager.Abstractions;
 
 namespace PluginManager.Tests.Mocks
 {
-    [ExcludeFromCodeCoverage]
-    public class MockIPlugin : IPlugin
-    {
-        public void ConfigureServices(IServiceCollection services)
-        {
-            throw new NotImplementedException();
-        }
+	[ExcludeFromCodeCoverage]
+	public class MockIPlugin : IPlugin
+	{
+		public void ConfigureServices(IServiceCollection services)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void Finalise()
-        {
-            throw new NotImplementedException();
-        }
+		public void Finalise()
+		{
+			throw new NotImplementedException();
+		}
 
-        public ushort GetVersion()
-        {
-            throw new NotImplementedException();
-        }
+		public ushort GetVersion()
+		{
+			throw new NotImplementedException();
+		}
 
-        public void Initialise(ILogger logger)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public void Initialise(ILogger logger)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

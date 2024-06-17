@@ -34,30 +34,30 @@ namespace UserAccount.Plugin.Models
 {
 #pragma warning disable CS1591
 
-    public sealed class InvoicesViewModel : BaseModel
-    {
-        #region Constructors
+	public sealed class InvoicesViewModel : BaseModel
+	{
+		#region Constructors
 
-        public InvoicesViewModel()
-        {
-            Invoices = new List<Invoice>();
-        }
+		public InvoicesViewModel()
+		{
+			Invoices = new List<Invoice>();
+		}
 
-        public InvoicesViewModel(in BaseModelData baseModelData,
-            in List<Invoice> invoices)
-            : base(baseModelData)
-        {
-            Invoices = invoices ?? throw new ArgumentNullException(nameof(invoices));
-        }
+		public InvoicesViewModel(in BaseModelData baseModelData,
+			in List<Invoice> invoices)
+			: base(baseModelData)
+		{
+			Invoices = invoices ?? throw new ArgumentNullException(nameof(invoices));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public List<Invoice> Invoices { get; private set; }
+		public List<Invoice> Invoices { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 
 #pragma warning restore CS1591
 }

@@ -35,131 +35,131 @@ using SharedPluginFeatures.DynamicContent;
 
 namespace DynamicContent.Plugin.Templates
 {
-    public class HorizontalRuleTemplate : DynamicContentTemplate
-    {
-        #region Constructors
+	public class HorizontalRuleTemplate : DynamicContentTemplate
+	{
+		#region Constructors
 
-        public HorizontalRuleTemplate()
-        {
-            WidthType = DynamicContentWidthType.Columns;
-            Width = 12;
-            ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
-        }
+		public HorizontalRuleTemplate()
+		{
+			WidthType = DynamicContentWidthType.Columns;
+			Width = 12;
+			ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+			ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region DynamicContentTemplate Properties
+		#region DynamicContentTemplate Properties
 
-        public override string AssemblyQualifiedName => typeof(HorizontalRuleTemplate).AssemblyQualifiedName;
+		public override string AssemblyQualifiedName => typeof(HorizontalRuleTemplate).AssemblyQualifiedName;
 
-        public override string EditorAction => String.Empty;
+		public override string EditorAction => String.Empty;
 
-        public override string EditorInstructions => String.Empty;
+		public override string EditorInstructions => String.Empty;
 
-        public override string Name => LanguageStrings.TemplateNameHorizontalRule;
+		public override string Name => LanguageStrings.TemplateNameHorizontalRule;
 
-        public override DynamicContentTemplateType TemplateType => DynamicContentTemplateType.Default;
+		public override DynamicContentTemplateType TemplateType => DynamicContentTemplateType.Default;
 
-        public override int TemplateSortOrder => 11000;
+		public override int TemplateSortOrder => 11000;
 
-        public override Int32 SortOrder { get; set; }
+		public override Int32 SortOrder { get; set; }
 
-        public override DynamicContentHeightType HeightType
-        {
-            get
-            {
-                return DynamicContentHeightType.Automatic;
-            }
+		public override DynamicContentHeightType HeightType
+		{
+			get
+			{
+				return DynamicContentHeightType.Automatic;
+			}
 
-            set
-            {
+			set
+			{
 				// not used but required for interface
 			}
 		}
 
-        public override int Height
-        {
-            get
-            {
-                return -1;
-            }
+		public override int Height
+		{
+			get
+			{
+				return -1;
+			}
 
-            set
-            {
+			set
+			{
 				// not used but required for interface
 			}
 		}
 
-        public override DynamicContentWidthType WidthType { get; set; }
+		public override DynamicContentWidthType WidthType { get; set; }
 
-        public override int Width { get; set; }
+		public override int Width { get; set; }
 
-        public override string Data
-        {
-            get
-            {
-                StringBuilder Result = new(256);
+		public override string Data
+		{
+			get
+			{
+				StringBuilder Result = new(256);
 
-                Result.AppendFormat("<hr{0} />", RetrieveCssClassAndStyle());
+				Result.AppendFormat("<hr{0} />", RetrieveCssClassAndStyle());
 
-                return Result.ToString();
-            }
+				return Result.ToString();
+			}
 
-            set
-            {
+			set
+			{
 				// not used but required for interface
 			}
 		}
 
-        public override DateTime ActiveFrom { get; set; }
+		public override DateTime ActiveFrom { get; set; }
 
-        public override DateTime ActiveTo { get; set; }
+		public override DateTime ActiveTo { get; set; }
 
-        #endregion DynamicContentTemplate Properties
+		#endregion DynamicContentTemplate Properties
 
-        #region DynamicContentTemplate Methods
+		#region DynamicContentTemplate Methods
 
-        public override String Content()
-        {
-            return GenerateContent(false);
-        }
+		public override String Content()
+		{
+			return GenerateContent(false);
+		}
 
-        public override string EditorContent()
-        {
-            return GenerateContent(true);
-        }
+		public override string EditorContent()
+		{
+			return GenerateContent(true);
+		}
 
-        public override DynamicContentTemplate Clone(string uniqueId)
-        {
-            if (String.IsNullOrEmpty(uniqueId))
-                uniqueId = Guid.NewGuid().ToString();
+		public override DynamicContentTemplate Clone(string uniqueId)
+		{
+			if (String.IsNullOrEmpty(uniqueId))
+				uniqueId = Guid.NewGuid().ToString();
 
-            return new HorizontalRuleTemplate()
-            {
-                UniqueId = uniqueId
-            };
-        }
+			return new HorizontalRuleTemplate()
+			{
+				UniqueId = uniqueId
+			};
+		}
 
-        #endregion DynamicContentTemplate Methods
+		#endregion DynamicContentTemplate Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private string GenerateContent(bool isEditing)
-        {
-            StringBuilder Result = new(256);
+		private string GenerateContent(bool isEditing)
+		{
+			StringBuilder Result = new(256);
 
-            HtmlStart(Result, isEditing);
+			HtmlStart(Result, isEditing);
 
-            Result.Append(Data);
+			Result.Append(Data);
 
-            HtmlEnd(Result);
+			HtmlEnd(Result);
 
-            return Result.ToString();
-        }
+			return Result.ToString();
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591, S3237

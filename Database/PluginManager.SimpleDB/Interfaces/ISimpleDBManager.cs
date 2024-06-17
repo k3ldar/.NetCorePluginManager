@@ -33,29 +33,29 @@ namespace SimpleDB
 	/// <summary>
 	/// Interface for managing SimpleDB initialization and other key areas of operation
 	/// </summary>
-    public interface ISimpleDBManager
-    {
+	public interface ISimpleDBManager
+	{
 		/// <summary>
 		/// Path to database files
 		/// </summary>
-        string Path { get; }
+		string Path { get; }
 
 		/// <summary>
 		/// Registers a table with DB Manager
 		/// </summary>
 		/// <param name="simpleDBTable"></param>
-        void RegisterTable(ISimpleDBTable simpleDBTable);
+		void RegisterTable(ISimpleDBTable simpleDBTable);
 
 		/// <summary>
 		/// Unregisters a table from the DB Manager
 		/// </summary>
 		/// <param name="simpleDBTable"></param>
-        void UnregisterTable(ISimpleDBTable simpleDBTable);
+		void UnregisterTable(ISimpleDBTable simpleDBTable);
 
 		/// <summary>
 		/// List of all tables tht have been registered
 		/// </summary>
-        IReadOnlyDictionary<string, ISimpleDBTable> Tables { get; }
+		IReadOnlyDictionary<string, ISimpleDBTable> Tables { get; }
 
 		/// <summary>
 		/// Initializes all tables after they have been loaded
@@ -71,5 +71,5 @@ namespace SimpleDB
 		/// Event raised when memory is cleared
 		/// </summary>
 		event SimpleDbEvent OnMemoryCleared;
-    }
+	}
 }

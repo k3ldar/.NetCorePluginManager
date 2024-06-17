@@ -30,52 +30,52 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Classes.Minify
 {
-    internal sealed class RemoveCarriageReturn : MinifyOperation
-    {
-        public override IMinifyResult Process(in MinificationFileType fileType, ref string data, in List<PreserveBlock> preserveBlocks)
-        {
-            MinifyResult Result = new(nameof(RemoveCarriageReturn), data.Length);
+	internal sealed class RemoveCarriageReturn : MinifyOperation
+	{
+		public override IMinifyResult Process(in MinificationFileType fileType, ref string data, in List<PreserveBlock> preserveBlocks)
+		{
+			MinifyResult Result = new(nameof(RemoveCarriageReturn), data.Length);
 
-            using (StopWatchTimer.Initialise(_timings))
-            {
-                switch (fileType)
-                {
-                    case MinificationFileType.Htm:
-                    case MinificationFileType.Html:
-                    case MinificationFileType.CSS:
-                    case MinificationFileType.Js:
-                    case MinificationFileType.Less:
-                        data = RemoveCarriageReturns(data);
-                        break;
-                }
-            }
+			using (StopWatchTimer.Initialise(_timings))
+			{
+				switch (fileType)
+				{
+					case MinificationFileType.Htm:
+					case MinificationFileType.Html:
+					case MinificationFileType.CSS:
+					case MinificationFileType.Js:
+					case MinificationFileType.Less:
+						data = RemoveCarriageReturns(data);
+						break;
+				}
+			}
 
-            Result.Finalise(data.Length, _timings.Fastest);
+			Result.Finalise(data.Length, _timings.Fastest);
 
-            return Result;
-        }
+			return Result;
+		}
 
-        private static string RemoveCarriageReturns(string data)
-        {
-            StringBuilder Result = new(data.Length);
+		private static string RemoveCarriageReturns(string data)
+		{
+			StringBuilder Result = new(data.Length);
 
-            for (int i = 0; i < data.Length; i++)
-            {
-                bool peekForward = i < data.Length - 1;
+			for (int i = 0; i < data.Length; i++)
+			{
+				bool peekForward = i < data.Length - 1;
 
-                char currentChar = data[i];
+				char currentChar = data[i];
 
-                if (currentChar == '\r' &&
-                    peekForward &&
-                    (data[i + 1] == '\n' || data[i + 1] == '\r'))
-                {
-                    continue;
-                }
+				if (currentChar == '\r' &&
+					peekForward &&
+					(data[i + 1] == '\n' || data[i + 1] == '\r'))
+				{
+					continue;
+				}
 
-                Result.Append(currentChar);
-            }
+				Result.Append(currentChar);
+			}
 
-            return Result.ToString();
-        }
-    }
+			return Result.ToString();
+		}
+	}
 }

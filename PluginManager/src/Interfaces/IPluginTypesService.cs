@@ -31,23 +31,23 @@ using System.Collections.Generic;
 
 namespace PluginManager.Abstractions
 {
-    /// <summary>
-    /// Allows plugin modules to retrieve a list of class Types that implement a specific attribute
-    /// either at a class or method level.
-    /// 
-    /// None of the Types returned are instantiated instances.
-    /// 
-    /// This can only return Types that have been made available from within a plugin module that
-    /// has been registered with AspNetCore.PluginManager.
-    /// </summary>
-    public interface IPluginTypesService
-    {
-        /// <summary>
-        /// Return a list of all class types that implement a specific attribute T at the class
-        /// or method level.
-        /// </summary>
-        /// <typeparam name="T">Attribute that is being sought.</typeparam>
-        /// <returns>List&lt;Type&gt;</returns>
-        List<Type> GetPluginTypesWithAttribute<T>();
-    }
+	/// <summary>
+	/// Allows plugin modules to retrieve a list of class Types that implement a specific attribute
+	/// either at a class or method level.
+	/// 
+	/// None of the Types returned are instantiated instances.
+	/// 
+	/// This can only return Types that have been made available from within a plugin module that
+	/// has been registered with AspNetCore.PluginManager.
+	/// </summary>
+	public interface IPluginTypesService
+	{
+		/// <summary>
+		/// Return a list of all class types that implement a specific attribute T at the class
+		/// or method level.
+		/// </summary>
+		/// <typeparam name="T">Attribute that is being sought.</typeparam>
+		/// <returns>List&lt;Type&gt;</returns>
+		List<Type> GetPluginTypesWithAttribute<T>();
+	}
 }

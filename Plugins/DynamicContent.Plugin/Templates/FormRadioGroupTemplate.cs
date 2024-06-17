@@ -37,147 +37,147 @@ using SharedPluginFeatures.DynamicContent;
 
 namespace DynamicContent.Plugin.Templates
 {
-    public class FormRadioGroupTemplate : DynamicContentTemplate
-    {
-        #region Constructors
+	public class FormRadioGroupTemplate : DynamicContentTemplate
+	{
+		#region Constructors
 
-        public FormRadioGroupTemplate()
-        {
-            WidthType = DynamicContentWidthType.Columns;
-            Width = 12;
-            ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
-        }
+		public FormRadioGroupTemplate()
+		{
+			WidthType = DynamicContentWidthType.Columns;
+			Width = 12;
+			ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+			ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region DynamicContentTemplate Properties
+		#region DynamicContentTemplate Properties
 
-        public override string AssemblyQualifiedName => typeof(FormRadioGroupTemplate).AssemblyQualifiedName;
+		public override string AssemblyQualifiedName => typeof(FormRadioGroupTemplate).AssemblyQualifiedName;
 
-        public override string EditorAction
-        {
-            get
-            {
-                return $"/{Controllers.DynamicContentController.Name}/{nameof(Controllers.DynamicContentController.FormControlTemplateEditorRadioGroup)}/";
-            }
-        }
+		public override string EditorAction
+		{
+			get
+			{
+				return $"/{Controllers.DynamicContentController.Name}/{nameof(Controllers.DynamicContentController.FormControlTemplateEditorRadioGroup)}/";
+			}
+		}
 
-        public override string EditorInstructions => String.Empty;
+		public override string EditorInstructions => String.Empty;
 
-        public override string Name => LanguageStrings.TemplateNameFormRadioButton;
+		public override string Name => LanguageStrings.TemplateNameFormRadioButton;
 
-        public override DynamicContentTemplateType TemplateType => DynamicContentTemplateType.Input;
+		public override DynamicContentTemplateType TemplateType => DynamicContentTemplateType.Input;
 
-        public override int TemplateSortOrder => DefaultFormTemplateSortOrder;
+		public override int TemplateSortOrder => DefaultFormTemplateSortOrder;
 
-        public override Int32 SortOrder { get; set; }
+		public override Int32 SortOrder { get; set; }
 
-        public override DynamicContentHeightType HeightType
-        {
-            get
-            {
-                return DynamicContentHeightType.Automatic;
-            }
+		public override DynamicContentHeightType HeightType
+		{
+			get
+			{
+				return DynamicContentHeightType.Automatic;
+			}
 
-            set
-            {
+			set
+			{
 				// not used but required for interface
 			}
 		}
 
-        public override int Height
-        {
-            get
-            {
-                return -1;
-            }
+		public override int Height
+		{
+			get
+			{
+				return -1;
+			}
 
-            set
-            {
+			set
+			{
 				// not used but required for interface
 			}
 		}
 
-        public override DynamicContentWidthType WidthType { get; set; }
+		public override DynamicContentWidthType WidthType { get; set; }
 
-        public override int Width { get; set; }
+		public override int Width { get; set; }
 
-        public override string Data { get; set; }
+		public override string Data { get; set; }
 
-        public override DateTime ActiveFrom { get; set; }
+		public override DateTime ActiveFrom { get; set; }
 
-        public override DateTime ActiveTo { get; set; }
+		public override DateTime ActiveTo { get; set; }
 
-        #endregion DynamicContentTemplate Properties
+		#endregion DynamicContentTemplate Properties
 
-        #region DynamicContentTemplate Methods
+		#region DynamicContentTemplate Methods
 
-        public override String Content()
-        {
-            return GenerateContent(false);
-        }
+		public override String Content()
+		{
+			return GenerateContent(false);
+		}
 
-        public override string EditorContent()
-        {
-            return GenerateContent(true);
-        }
+		public override string EditorContent()
+		{
+			return GenerateContent(true);
+		}
 
-        public override DynamicContentTemplate Clone(string uniqueId)
-        {
-            if (String.IsNullOrEmpty(uniqueId))
-                uniqueId = Guid.NewGuid().ToString();
+		public override DynamicContentTemplate Clone(string uniqueId)
+		{
+			if (String.IsNullOrEmpty(uniqueId))
+				uniqueId = Guid.NewGuid().ToString();
 
-            return new FormRadioGroupTemplate()
-            {
-                UniqueId = uniqueId
-            };
-        }
+			return new FormRadioGroupTemplate()
+			{
+				UniqueId = uniqueId
+			};
+		}
 
-        #endregion DynamicContentTemplate Methods
+		#endregion DynamicContentTemplate Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private string GenerateContent(bool isEditing)
-        {
-            StringBuilder Result = new(512);
+		private string GenerateContent(bool isEditing)
+		{
+			StringBuilder Result = new(512);
 
-            HtmlStart(Result, isEditing);
+			HtmlStart(Result, isEditing);
 
-            Result.AppendFormat("<div{0}", RetrieveCssClassAndStyle("form-group"));
+			Result.AppendFormat("<div{0}", RetrieveCssClassAndStyle("form-group"));
 
-            if (isEditing)
-                Result.Append(" style=\"margin: 0 0 0 10px;min-height:32px;\"");
+			if (isEditing)
+				Result.Append(" style=\"margin: 0 0 0 10px;min-height:32px;\"");
 
-            Result.Append('>');
+			Result.Append('>');
 
-            FormTemplateEditorModel formModel = new(Data, true);
-            string lblStyle = String.IsNullOrEmpty(formModel.LabelStyle) ? "" : $" style=\"{formModel.LabelStyle}\"";
+			FormTemplateEditorModel formModel = new(Data, true);
+			string lblStyle = String.IsNullOrEmpty(formModel.LabelStyle) ? "" : $" style=\"{formModel.LabelStyle}\"";
 
-            string disabled = isEditing ? " disabled" : "";
-            string ctlStyle = String.IsNullOrEmpty(formModel.ControlStyle) ? "" : $" style=\"{formModel.ControlStyle}\"";
+			string disabled = isEditing ? " disabled" : "";
+			string ctlStyle = String.IsNullOrEmpty(formModel.ControlStyle) ? "" : $" style=\"{formModel.ControlStyle}\"";
 
-            foreach (string option in formModel.Options)
-            {
-                string optionText = option.Trim();
-                string routeOption = HtmlHelper.RouteFriendlyName(optionText);
+			foreach (string option in formModel.Options)
+			{
+				string optionText = option.Trim();
+				string routeOption = HtmlHelper.RouteFriendlyName(optionText);
 
-                Result.AppendFormat("<input type=\"radio\" name=\"{0}\" id=\"{1}\" onclick=\"updateUC();\" onfocusout=\"updateUC();\" class=\"form-check-input\" {2}{3}>",
-                    formModel.ControlName, routeOption, ctlStyle, disabled);
+				Result.AppendFormat("<input type=\"radio\" name=\"{0}\" id=\"{1}\" onclick=\"updateUC();\" onfocusout=\"updateUC();\" class=\"form-check-input\" {2}{3}>",
+					formModel.ControlName, routeOption, ctlStyle, disabled);
 
-                Result.AppendFormat("<label for=\"{0}\" class=\"form-check-label\"{1}>{2}</label><br />",
-                    routeOption, lblStyle, optionText);
-            }
+				Result.AppendFormat("<label for=\"{0}\" class=\"form-check-label\"{1}>{2}</label><br />",
+					routeOption, lblStyle, optionText);
+			}
 
-            Result.Append("</div>");
+			Result.Append("</div>");
 
-            HtmlEnd(Result);
+			HtmlEnd(Result);
 
-            return Result.ToString();
-        }
+			return Result.ToString();
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591, S3237

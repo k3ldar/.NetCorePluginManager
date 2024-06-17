@@ -400,7 +400,7 @@ namespace SimpleDB.Tests
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
 				using SimpleDBOperations<MockRow> sut = new(initializer, new ForeignKeyManager());
-				sut.Dispose();	
+				sut.Dispose();
 				sut.Delete(new List<MockRow>() { new() });
 
 			}
@@ -912,7 +912,7 @@ namespace SimpleDB.Tests
 				SimpleDBManager initializer = CreateTestInitializer(directory);
 
 				using SimpleDBOperations<MockRow> sut = new(initializer, new ForeignKeyManager());
-				sut.Dispose();	
+				sut.Dispose();
 				_ = sut.NextSequence();
 
 			}

@@ -29,29 +29,29 @@ using System;
 
 namespace HelpdeskPlugin.Models
 {
-    public sealed class FeedbackItemViewModel
-    {
-        #region Constructors
+	public sealed class FeedbackItemViewModel
+	{
+		#region Constructors
 
-        public FeedbackItemViewModel(in string username, in string message)
-        {
-            if (String.IsNullOrEmpty(message))
-                throw new ArgumentNullException(nameof(message));
+		public FeedbackItemViewModel(in string username, in string message)
+		{
+			if (String.IsNullOrEmpty(message))
+				throw new ArgumentNullException(nameof(message));
 
-            Username = username ?? String.Empty;
-            Message = message;
-        }
+			Username = username ?? String.Empty;
+			Message = message;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public string Username { get; private set; }
+		public string Username { get; private set; }
 
-        public string Message { get; private set; }
+		public string Message { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

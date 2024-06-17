@@ -32,51 +32,51 @@ using SharedPluginFeatures;
 
 namespace ShoppingCartPlugin.Models
 {
-    public class BasketModel : BaseModel
-    {
-        #region Constructors
+	public class BasketModel : BaseModel
+	{
+		#region Constructors
 
-        public BasketModel(in BaseModelData modelData,
-            in List<BasketItemModel> cartItems, in string discountCode, in bool requiresShipping,
-            in bool loggedIn)
-            : base(modelData)
-        {
-            CartItems = cartItems ?? throw new ArgumentNullException(nameof(cartItems));
-            DiscountCode = discountCode ?? String.Empty;
-            RequiresShipping = requiresShipping;
-            LoggedIn = loggedIn;
-        }
+		public BasketModel(in BaseModelData modelData,
+			in List<BasketItemModel> cartItems, in string discountCode, in bool requiresShipping,
+			in bool loggedIn)
+			: base(modelData)
+		{
+			CartItems = cartItems ?? throw new ArgumentNullException(nameof(cartItems));
+			DiscountCode = discountCode ?? String.Empty;
+			RequiresShipping = requiresShipping;
+			LoggedIn = loggedIn;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public List<BasketItemModel> CartItems { get; private set; }
+		public List<BasketItemModel> CartItems { get; private set; }
 
-        public string DiscountCode { get; private set; }
+		public string DiscountCode { get; private set; }
 
-        public bool RequiresShipping { get; private set; }
+		public bool RequiresShipping { get; private set; }
 
-        public bool LoggedIn { get; private set; }
+		public bool LoggedIn { get; private set; }
 
-        public string DiscountDescription
-        {
-            get
-            {
-                if (CartSummary.Discount > 0)
-                {
-                    if (String.IsNullOrEmpty(DiscountCode))
-                        return $"{CartSummary.DiscountRate}%";
-                    else
-                        return $"({DiscountCode} {CartSummary.DiscountRate}%)";
-                }
+		public string DiscountDescription
+		{
+			get
+			{
+				if (CartSummary.Discount > 0)
+				{
+					if (String.IsNullOrEmpty(DiscountCode))
+						return $"{CartSummary.DiscountRate}%";
+					else
+						return $"({DiscountCode} {CartSummary.DiscountRate}%)";
+				}
 
-                return String.Empty;
-            }
-        }
+				return String.Empty;
+			}
+		}
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

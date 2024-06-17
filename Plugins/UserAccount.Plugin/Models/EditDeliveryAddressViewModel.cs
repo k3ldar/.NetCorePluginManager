@@ -33,25 +33,25 @@ namespace UserAccount.Plugin.Models
 {
 #pragma warning disable CS1591
 
-    public sealed class EditDeliveryAddressViewModel : BaseModel
-    {
-        #region Constructors
+	public sealed class EditDeliveryAddressViewModel : BaseModel
+	{
+		#region Constructors
 
-        public EditDeliveryAddressViewModel()
-        {
+		public EditDeliveryAddressViewModel()
+		{
 
-        }
+		}
 
-        public EditDeliveryAddressViewModel(string returnUrl)
-        {
-            ReturnUrl = returnUrl ?? String.Empty;
-        }
+		public EditDeliveryAddressViewModel(string returnUrl)
+		{
+			ReturnUrl = returnUrl ?? String.Empty;
+		}
 
-        public EditDeliveryAddressViewModel(in BaseModelData baseModelData)
-            : base(baseModelData)
-        {
+		public EditDeliveryAddressViewModel(in BaseModelData baseModelData)
+			: base(baseModelData)
+		{
 
-        }
+		}
 
 		#endregion Constructors
 
@@ -60,57 +60,57 @@ namespace UserAccount.Plugin.Models
 		[JsonRequired]
 		public long AddressId { get; set; }
 
-        public bool ShowName { get; set; }
+		public bool ShowName { get; set; }
 
-        public decimal PostageCost { get; set; }
+		public decimal PostageCost { get; set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.Name))]
-        [StringLength(20, MinimumLength = 0)]
-        public string Name { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.Name))]
+		[StringLength(20, MinimumLength = 0)]
+		public string Name { get; set; }
 
-        public bool ShowAddressLine1 { get; set; }
+		public bool ShowAddressLine1 { get; set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.AddressLine1))]
-        [StringLength(20, MinimumLength = 0)]
-        public string AddressLine1 { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.AddressLine1))]
+		[StringLength(20, MinimumLength = 0)]
+		public string AddressLine1 { get; set; }
 
-        public bool ShowAddressLine2 { get; set; }
+		public bool ShowAddressLine2 { get; set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.AddressLine2))]
-        [StringLength(20, MinimumLength = 0)]
-        public string AddressLine2 { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.AddressLine2))]
+		[StringLength(20, MinimumLength = 0)]
+		public string AddressLine2 { get; set; }
 
-        public bool ShowAddressLine3 { get; set; }
+		public bool ShowAddressLine3 { get; set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.AddressLine3))]
-        [StringLength(20, MinimumLength = 0)]
-        public string AddressLine3 { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.AddressLine3))]
+		[StringLength(20, MinimumLength = 0)]
+		public string AddressLine3 { get; set; }
 
-        public bool ShowCity { get; set; }
+		public bool ShowCity { get; set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.City))]
-        [StringLength(20, MinimumLength = 0)]
-        public string City { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.City))]
+		[StringLength(20, MinimumLength = 0)]
+		public string City { get; set; }
 
-        public bool ShowCounty { get; set; }
+		public bool ShowCounty { get; set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.County))]
-        [StringLength(20, MinimumLength = 0)]
-        public string County { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.County))]
+		[StringLength(20, MinimumLength = 0)]
+		public string County { get; set; }
 
-        public bool ShowPostcode { get; set; }
+		public bool ShowPostcode { get; set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.Postcode))]
-        [StringLength(20, MinimumLength = 0)]
-        public string Postcode { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.Postcode))]
+		[StringLength(20, MinimumLength = 0)]
+		public string Postcode { get; set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.Country))]
-        public string Country { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.Country))]
+		public string Country { get; set; }
 
-        public string ReturnUrl { get; set; }
+		public string ReturnUrl { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 
 #pragma warning restore CS1591
 }

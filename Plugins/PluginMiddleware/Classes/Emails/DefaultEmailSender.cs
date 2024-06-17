@@ -36,27 +36,27 @@ namespace Middleware.Classes
 	/// <summary>
 	/// Default email sender class
 	/// </summary>
-    public sealed class DefaultEmailSender : ThreadManager, IEmailSender
-    {
-        #region Private Members
+	public sealed class DefaultEmailSender : ThreadManager, IEmailSender
+	{
+		#region Private Members
 
-        private const int MaxEmailsPerBatch = 30;
+		private const int MaxEmailsPerBatch = 30;
 
-        private readonly ILogger _logger;
-        private readonly string _host;
-        private readonly string _password;
-        private readonly int _port;
-        private readonly bool _ssl;
-        private readonly string _userName;
-        private readonly object _emailQueueLock = new();
-        private readonly Queue<EmailToSend> _emailsToSend = new();
+		private readonly ILogger _logger;
+		private readonly string _host;
+		private readonly string _password;
+		private readonly int _port;
+		private readonly bool _ssl;
+		private readonly string _userName;
+		private readonly object _emailQueueLock = new();
+		private readonly Queue<EmailToSend> _emailsToSend = new();
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Private Classes / Records
+		#region Private Classes / Records
 
 #if NET5_0_OR_GREATER
-        private sealed record EmailToSend(string RecipientName, string RecipientEmail, string Message, string Subject, bool IsHtml, string[] Attachments);
+		private sealed record EmailToSend(string RecipientName, string RecipientEmail, string Message, string Subject, bool IsHtml, string[] Attachments);
 #else
         private sealed class EmailToSend
         {
@@ -77,11 +77,11 @@ namespace Middleware.Classes
         public bool IsHtml { get; }
         public string[] Attachments { get; }
         }
-#endif 
+#endif
 
-        #endregion Private Classes / Records
+		#endregion Private Classes / Records
 
-        #region Constructors
+		#region Constructors
 
 		/// <summary>
 		/// Default constructor
@@ -89,49 +89,49 @@ namespace Middleware.Classes
 		/// <param name="settingsProvider"></param>
 		/// <param name="logger"></param>
 		/// <exception cref="ArgumentNullException"></exception>
-        public DefaultEmailSender(ISettingsProvider settingsProvider, ILogger logger)
-            : base(null, new TimeSpan(0, 0, 1), null, 20000, 200, false, true)
-        {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+		public DefaultEmailSender(ISettingsProvider settingsProvider, ILogger logger)
+			: base(null, new TimeSpan(0, 0, 1), null, 20000, 200, false, true)
+		{
+			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-            if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+			if (settingsProvider == null)
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            DefaultEmailSenderSettings settings = settingsProvider.GetSettings<DefaultEmailSenderSettings>(nameof(DefaultEmailSender));
-            _host = settings.Host;
-            _password = settings.Password;
-            _userName = settings.UserName;
+			DefaultEmailSenderSettings settings = settingsProvider.GetSettings<DefaultEmailSenderSettings>(nameof(DefaultEmailSender));
+			_host = settings.Host;
+			_password = settings.Password;
+			_userName = settings.UserName;
 
-            if (Int32.TryParse(settings.Port, out int port))
-                _port = port;
+			if (Int32.TryParse(settings.Port, out int port))
+				_port = port;
 
-            _ssl = settings.SSL.Equals(Boolean.TrueString, StringComparison.InvariantCultureIgnoreCase);
-        }
+			_ssl = settings.SSL.Equals(Boolean.TrueString, StringComparison.InvariantCultureIgnoreCase);
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
 		/// <summary>
 		/// Determines if the connection details are valid or not
 		/// </summary>
-        public bool IsValid => !String.IsNullOrEmpty(_host) && !String.IsNullOrEmpty(_password) && !String.IsNullOrEmpty(_userName) && _port > 0;
+		public bool IsValid => !String.IsNullOrEmpty(_host) && !String.IsNullOrEmpty(_password) && !String.IsNullOrEmpty(_userName) && _port > 0;
 
 		/// <summary>
 		/// Returns the length of the queue of emails to send
 		/// </summary>
-        public int QueueLength
-        {
-            get
-            {
-                using (TimedLock timedLock = TimedLock.Lock(_emailQueueLock))
-                    return _emailsToSend.Count;
-            }
-        }
+		public int QueueLength
+		{
+			get
+			{
+				using (TimedLock timedLock = TimedLock.Lock(_emailQueueLock))
+					return _emailsToSend.Count;
+			}
+		}
 
-        #endregion Properties
+		#endregion Properties
 
-        #region IEmailSender Methods
+		#region IEmailSender Methods
 
 		/// <summary>
 		/// Sends an email
@@ -142,64 +142,64 @@ namespace Middleware.Classes
 		/// <param name="subject"></param>
 		/// <param name="isHtml"></param>
 		/// <param name="attachments"></param>
-        public void SendEmail(string recipientName, string recipientEmail, string message, string subject, bool isHtml, params string[] attachments)
-        {
-            using (TimedLock timedLock = TimedLock.Lock(_emailQueueLock))
-            {
-                _emailsToSend.Enqueue(new EmailToSend(recipientName, recipientEmail, message, subject, isHtml, attachments));
-            }
-        }
+		public void SendEmail(string recipientName, string recipientEmail, string message, string subject, bool isHtml, params string[] attachments)
+		{
+			using (TimedLock timedLock = TimedLock.Lock(_emailQueueLock))
+			{
+				_emailsToSend.Enqueue(new EmailToSend(recipientName, recipientEmail, message, subject, isHtml, attachments));
+			}
+		}
 
-        #endregion IEmailSender Methods
+		#endregion IEmailSender Methods
 
-        #region Overridden Methods
+		#region Overridden Methods
 
 		/// <summary>
 		/// Thread method used to process emails being sent
 		/// </summary>
 		/// <param name="parameters"></param>
 		/// <returns></returns>
-        protected override bool Run(object parameters)
-        {
-            if (!IsValid)
-            {
-                _logger.AddToLog(PluginManager.LogLevel.Error, "Unable to send emails as system is not configured");
-                return true;
-            }
+		protected override bool Run(object parameters)
+		{
+			if (!IsValid)
+			{
+				_logger.AddToLog(PluginManager.LogLevel.Error, "Unable to send emails as system is not configured");
+				return true;
+			}
 
-            List<EmailToSend> emailToSends = new();
+			List<EmailToSend> emailToSends = new();
 
-            using (TimedLock timedLock = TimedLock.Lock(_emailQueueLock))
-            {
-                for (int i = 0; i < MaxEmailsPerBatch; i++)
-                {
-                    if (_emailsToSend.TryDequeue(out EmailToSend emailToSend))
-                    {
-                        emailToSends.Add(emailToSend);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
+			using (TimedLock timedLock = TimedLock.Lock(_emailQueueLock))
+			{
+				for (int i = 0; i < MaxEmailsPerBatch; i++)
+				{
+					if (_emailsToSend.TryDequeue(out EmailToSend emailToSend))
+					{
+						emailToSends.Add(emailToSend);
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
 
-            Email email = new(_userName, _host, _userName, _password, _port, _ssl);
-            emailToSends.ForEach((Action<EmailToSend>)(e =>
-            {
-                if (email.SendEmail(_userName, e.RecipientName, e.RecipientEmail, e.Message, e.Subject, e.IsHtml, e.Attachments))
-                {
-                    _logger.AddToLog(PluginManager.LogLevel.Information, $"Email sent to {e.RecipientName} : {e.RecipientEmail}");
-                }
-                else
-                {
-                    _logger.AddToLog(PluginManager.LogLevel.Warning, $"Failed to send email to {e.RecipientName} : {e.RecipientEmail}");
-                }
-            }));
+			Email email = new(_userName, _host, _userName, _password, _port, _ssl);
+			emailToSends.ForEach((Action<EmailToSend>)(e =>
+			{
+				if (email.SendEmail(_userName, e.RecipientName, e.RecipientEmail, e.Message, e.Subject, e.IsHtml, e.Attachments))
+				{
+					_logger.AddToLog(PluginManager.LogLevel.Information, $"Email sent to {e.RecipientName} : {e.RecipientEmail}");
+				}
+				else
+				{
+					_logger.AddToLog(PluginManager.LogLevel.Warning, $"Failed to send email to {e.RecipientName} : {e.RecipientEmail}");
+				}
+			}));
 
-            return !CancelRequested;
-        }
+			return !CancelRequested;
+		}
 
-        #endregion Overridden Methods
-    }
+		#endregion Overridden Methods
+	}
 }

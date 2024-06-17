@@ -27,60 +27,60 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal class ProductGroupDataTriggers : ITableTriggers<ProductGroupDataRow>
-    {
-        private const int MinimumDescriptionLength = 5;
-        private const int MaximumDescriptionLength = 50;
+	internal class ProductGroupDataTriggers : ITableTriggers<ProductGroupDataRow>
+	{
+		private const int MinimumDescriptionLength = 5;
+		private const int MaximumDescriptionLength = 50;
 
-        public int Position => 0;
+		public int Position => 0;
 
-        public TriggerType TriggerTypes => TriggerType.BeforeInsert | TriggerType.BeforeUpdate;
+		public TriggerType TriggerTypes => TriggerType.BeforeInsert | TriggerType.BeforeUpdate;
 
-        public void AfterDelete(List<ProductGroupDataRow> records)
-        {
+		public void AfterDelete(List<ProductGroupDataRow> records)
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterInsert(List<ProductGroupDataRow> records)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterUpdate(List<ProductGroupDataRow> records)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeDelete(List<ProductGroupDataRow> records)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeInsert(List<ProductGroupDataRow> records)
-        {
-            records.ForEach(r => ValidateData(r));
-        }
+		{
+			records.ForEach(r => ValidateData(r));
+		}
 
-        public void BeforeUpdate(List<ProductGroupDataRow> records)
-        {
-            records.ForEach(r => ValidateData(r));
-        }
+		public void BeforeUpdate(List<ProductGroupDataRow> records)
+		{
+			records.ForEach(r => ValidateData(r));
+		}
 
-        public void BeforeUpdate(ProductGroupDataRow newRecord, ProductGroupDataRow oldRecord)
-        {
+		public void BeforeUpdate(ProductGroupDataRow newRecord, ProductGroupDataRow oldRecord)
+		{
 			// from interface but unused in this context
 		}
 
 		private void ValidateData(ProductGroupDataRow row)
-        {
-            if (String.IsNullOrEmpty(row.Description))
-                throw new InvalidDataRowException(nameof(ProductGroupDataRow), nameof(row.Description), "Can not be null or empty");
+		{
+			if (String.IsNullOrEmpty(row.Description))
+				throw new InvalidDataRowException(nameof(ProductGroupDataRow), nameof(row.Description), "Can not be null or empty");
 
-            if (row.Description.Length < MinimumDescriptionLength)
-                throw new InvalidDataRowException(nameof(ProductGroupDataRow), nameof(row.Description), $"Minimum length for description is {MinimumDescriptionLength} characters");
+			if (row.Description.Length < MinimumDescriptionLength)
+				throw new InvalidDataRowException(nameof(ProductGroupDataRow), nameof(row.Description), $"Minimum length for description is {MinimumDescriptionLength} characters");
 
-            if (row.Description.Length > MaximumDescriptionLength)
-                throw new InvalidDataRowException(nameof(ProductGroupDataRow), nameof(row.Description), $"Maximum length for description is {MaximumDescriptionLength} characters");
-        }
-    }
+			if (row.Description.Length > MaximumDescriptionLength)
+				throw new InvalidDataRowException(nameof(ProductGroupDataRow), nameof(row.Description), $"Maximum length for description is {MaximumDescriptionLength} characters");
+		}
+	}
 }

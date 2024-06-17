@@ -35,176 +35,176 @@ using SharedPluginFeatures;
 
 namespace SearchPlugin.Models
 {
-    /// <summary>
-    /// View model for searching all ISearchProvider 
-    /// </summary>
-    public sealed class SearchViewModel : BaseModel
-    {
-        #region Constructors
+	/// <summary>
+	/// View model for searching all ISearchProvider 
+	/// </summary>
+	public sealed class SearchViewModel : BaseModel
+	{
+		#region Constructors
 
-        public SearchViewModel()
-        {
-            Page = 1;
-            ActiveTab = String.Empty;
-        }
+		public SearchViewModel()
+		{
+			Page = 1;
+			ActiveTab = String.Empty;
+		}
 
-        public SearchViewModel(string searchText, int page)
-        {
-            SearchText = searchText ?? String.Empty;
-            Page = page;
-            ActiveTab = String.Empty;
-        }
+		public SearchViewModel(string searchText, int page)
+		{
+			SearchText = searchText ?? String.Empty;
+			Page = page;
+			ActiveTab = String.Empty;
+		}
 
-        public SearchViewModel(in BaseModelData modelData, Dictionary<string, AdvancedSearchOptions> searchNames)
-            : base(modelData)
-        {
-            Page = 1;
-            AdvancedSearch = searchNames ?? throw new ArgumentNullException(nameof(searchNames));
-            ActiveTab = String.Empty;
-        }
+		public SearchViewModel(in BaseModelData modelData, Dictionary<string, AdvancedSearchOptions> searchNames)
+			: base(modelData)
+		{
+			Page = 1;
+			AdvancedSearch = searchNames ?? throw new ArgumentNullException(nameof(searchNames));
+			ActiveTab = String.Empty;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Text to be searched for
-        /// </summary>
-        /// <value>string</value>
-        [Display(Name = nameof(Languages.LanguageStrings.SearchDescription))]
-        [StringLength(200, MinimumLength = 3)]
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.SearchInvalid))]
-        public string SearchText { get; set; }
+		/// <summary>
+		/// Text to be searched for
+		/// </summary>
+		/// <value>string</value>
+		[Display(Name = nameof(Languages.LanguageStrings.SearchDescription))]
+		[StringLength(200, MinimumLength = 3)]
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.SearchInvalid))]
+		public string SearchText { get; set; }
 
-        /// <summary>
-        /// Id of the current search, this will be used when verifying that the call is legit
-        /// </summary>
-        /// <value>string</value>
-        public string SearchId { get; set; }
+		/// <summary>
+		/// Id of the current search, this will be used when verifying that the call is legit
+		/// </summary>
+		/// <value>string</value>
+		public string SearchId { get; set; }
 
-        /// <summary>
-        /// Available search names for display on search page
-        /// </summary>
-        /// <value>Dictionary&lt;string, string&gt;</value>
-        public Dictionary<string, AdvancedSearchOptions> AdvancedSearch { get; set; }
+		/// <summary>
+		/// Available search names for display on search page
+		/// </summary>
+		/// <value>Dictionary&lt;string, string&gt;</value>
+		public Dictionary<string, AdvancedSearchOptions> AdvancedSearch { get; set; }
 
-        /// <summary>
-        /// Retrieves the url for the active search name if it exists.
-        /// </summary>
-        /// <value>string</value>
-        public string SearchName
-        {
-            get
-            {
-                if (AdvancedSearch != null && AdvancedSearch.ContainsKey(ActiveTab))
-                {
-                    return AdvancedSearch[ActiveTab].SearchName;
-                }
+		/// <summary>
+		/// Retrieves the url for the active search name if it exists.
+		/// </summary>
+		/// <value>string</value>
+		public string SearchName
+		{
+			get
+			{
+				if (AdvancedSearch != null && AdvancedSearch.ContainsKey(ActiveTab))
+				{
+					return AdvancedSearch[ActiveTab].SearchName;
+				}
 
-                return String.Empty;
-            }
-        }
+				return String.Empty;
+			}
+		}
 
-        /// <summary>
-        /// Retrieves the url for the active search option, if it exists.
-        /// </summary>
-        /// <value>string</value>
-        public string SearchOption
-        {
-            get
-            {
-                if (AdvancedSearch != null && AdvancedSearch.ContainsKey(ActiveTab))
-                {
-                    return AdvancedSearch[ActiveTab].SearchOption;
-                }
+		/// <summary>
+		/// Retrieves the url for the active search option, if it exists.
+		/// </summary>
+		/// <value>string</value>
+		public string SearchOption
+		{
+			get
+			{
+				if (AdvancedSearch != null && AdvancedSearch.ContainsKey(ActiveTab))
+				{
+					return AdvancedSearch[ActiveTab].SearchOption;
+				}
 
-                return String.Empty;
-            }
-        }
+				return String.Empty;
+			}
+		}
 
-        /// <summary>
-        /// Retrieves the name of the controller for the active search option, if it exists.
-        /// </summary>
-        /// <value>string</value>
-        public string ControllerName
-        {
-            get
-            {
-                if (AdvancedSearch != null && AdvancedSearch.ContainsKey(ActiveTab))
-                {
-                    return AdvancedSearch[ActiveTab].ControllerName;
-                }
+		/// <summary>
+		/// Retrieves the name of the controller for the active search option, if it exists.
+		/// </summary>
+		/// <value>string</value>
+		public string ControllerName
+		{
+			get
+			{
+				if (AdvancedSearch != null && AdvancedSearch.ContainsKey(ActiveTab))
+				{
+					return AdvancedSearch[ActiveTab].ControllerName;
+				}
 
-                return String.Empty;
-            }
-        }
+				return String.Empty;
+			}
+		}
 
-        /// <summary>
-        /// Retrieves the name of the action for the active search option, if it exists.
-        /// </summary>
-        /// <value>string</value>
-        public string ActionName
-        {
-            get
-            {
-                if (AdvancedSearch != null && AdvancedSearch.ContainsKey(ActiveTab))
-                {
-                    return AdvancedSearch[ActiveTab].ActionName;
-                }
+		/// <summary>
+		/// Retrieves the name of the action for the active search option, if it exists.
+		/// </summary>
+		/// <value>string</value>
+		public string ActionName
+		{
+			get
+			{
+				if (AdvancedSearch != null && AdvancedSearch.ContainsKey(ActiveTab))
+				{
+					return AdvancedSearch[ActiveTab].ActionName;
+				}
 
-                return String.Empty;
-            }
-        }
+				return String.Empty;
+			}
+		}
 
-        /// <summary>
-        /// Retrieves an optional style sheet that can be used by the search provider.
-        /// </summary>
-        /// <value>string</value>
-        public string StyleSheet
-        {
-            get
-            {
-                if (AdvancedSearch != null && AdvancedSearch.ContainsKey(ActiveTab))
-                {
-                    return AdvancedSearch[ActiveTab].StyleSheet;
-                }
+		/// <summary>
+		/// Retrieves an optional style sheet that can be used by the search provider.
+		/// </summary>
+		/// <value>string</value>
+		public string StyleSheet
+		{
+			get
+			{
+				if (AdvancedSearch != null && AdvancedSearch.ContainsKey(ActiveTab))
+				{
+					return AdvancedSearch[ActiveTab].StyleSheet;
+				}
 
-                return String.Empty;
-            }
-        }
+				return String.Empty;
+			}
+		}
 
-        /// <summary>
-        /// Available search results from users search
-        /// </summary>
-        /// <value>List&lt;<see cref="SearchResponseItem"/> SearchResponseItem&gt;</value>
-        public List<SearchResponseItem> SearchResults { get; internal set; }
+		/// <summary>
+		/// Available search results from users search
+		/// </summary>
+		/// <value>List&lt;<see cref="SearchResponseItem"/> SearchResponseItem&gt;</value>
+		public List<SearchResponseItem> SearchResults { get; internal set; }
 
-        /// <summary>
-        /// Current page of search items
-        /// </summary>
-        /// <value>int</value>
-        public int Page { get; set; }
+		/// <summary>
+		/// Current page of search items
+		/// </summary>
+		/// <value>int</value>
+		public int Page { get; set; }
 
-        /// <summary>
-        /// Total number of pages for this search
-        /// </summary>
-        /// <value>int</value>
-        public int TotalPages { get; set; }
+		/// <summary>
+		/// Total number of pages for this search
+		/// </summary>
+		/// <value>int</value>
+		public int TotalPages { get; set; }
 
-        /// <summary>
-        /// Contains the html used for paging search results.
-        /// </summary>
-        /// <value>string</value>
-        public string Pagination { get; set; }
+		/// <summary>
+		/// Contains the html used for paging search results.
+		/// </summary>
+		/// <value>string</value>
+		public string Pagination { get; set; }
 
-        /// <summary>
-        /// Name of the active tab for advanced searching.
-        /// </summary>
-        /// <value>string</value>
-        public string ActiveTab { get; set; }
+		/// <summary>
+		/// Name of the active tab for advanced searching.
+		/// </summary>
+		/// <value>string</value>
+		public string ActiveTab { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

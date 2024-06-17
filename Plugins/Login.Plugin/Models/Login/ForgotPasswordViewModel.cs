@@ -31,35 +31,35 @@ using SharedPluginFeatures;
 
 namespace LoginPlugin.Models
 {
-    public sealed class ForgotPasswordViewModel : BaseModel
-    {
-        #region Constructors
+	public sealed class ForgotPasswordViewModel : BaseModel
+	{
+		#region Constructors
 
-        public ForgotPasswordViewModel()
-        {
+		public ForgotPasswordViewModel()
+		{
 
-        }
+		}
 
-        public ForgotPasswordViewModel(in BaseModelData modelData)
-            : base(modelData)
-        {
+		public ForgotPasswordViewModel(in BaseModelData modelData)
+			: base(modelData)
+		{
 
-        }
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterUserNameOrEmail))]
-        [Display(Name = nameof(Languages.LanguageStrings.Username))]
-        public string Username { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterUserNameOrEmail))]
+		[Display(Name = nameof(Languages.LanguageStrings.Username))]
+		public string Username { get; set; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.CodeNotValid))]
-        [Display(Name = nameof(Languages.LanguageStrings.Code))]
-        public string CaptchaText { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.CodeNotValid))]
+		[Display(Name = nameof(Languages.LanguageStrings.Code))]
+		public string CaptchaText { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

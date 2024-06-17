@@ -38,113 +38,113 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Classes.Minify
 {
-    internal class MinificationThread : ThreadManager
-    {
-        #region Private Members
+	internal class MinificationThread : ThreadManager
+	{
+		#region Private Members
 
-        private readonly ILogger _logger;
-        private readonly IMinificationEngine _minificationEngine;
+		private readonly ILogger _logger;
+		private readonly IMinificationEngine _minificationEngine;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public MinificationThread(in List<string> files, in ILogger logger, in IMinificationEngine minificationEngine)
-            : base(files, new TimeSpan())
-        {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _minificationEngine = minificationEngine ?? throw new ArgumentNullException(nameof(minificationEngine));
-        }
+		public MinificationThread(in List<string> files, in ILogger logger, in IMinificationEngine minificationEngine)
+			: base(files, new TimeSpan())
+		{
+			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			_minificationEngine = minificationEngine ?? throw new ArgumentNullException(nameof(minificationEngine));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Overridden Methods
+		#region Overridden Methods
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Not the end of the world if a file can't be minified, log it, move on in life!")]
-        protected override Boolean Run(Object parameters)
-        {
-            int totalBytesSaved = 0;
-            Timings minifyTimings = new();
-            List<string> files = (List<string>)parameters;
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Not the end of the world if a file can't be minified, log it, move on in life!")]
+		protected override Boolean Run(Object parameters)
+		{
+			int totalBytesSaved = 0;
+			Timings minifyTimings = new();
+			List<string> files = (List<string>)parameters;
 
-            using (StopWatchTimer.Initialise(minifyTimings))
-            {
-                foreach (string file in files)
-                {
-                    Timings fileTimings = new();
-                    using (StopWatchTimer.Initialise(fileTimings))
-                    {
-                        try
-                        {
-                            _logger.AddToLog(LogLevel.Information, nameof(MinificationThread), $"Minifying {file}");
-                            MinificationFileType fileType = GetFileType(file);
-                            byte[] fileData = File.ReadAllBytes(file);
+			using (StopWatchTimer.Initialise(minifyTimings))
+			{
+				foreach (string file in files)
+				{
+					Timings fileTimings = new();
+					using (StopWatchTimer.Initialise(fileTimings))
+					{
+						try
+						{
+							_logger.AddToLog(LogLevel.Information, nameof(MinificationThread), $"Minifying {file}");
+							MinificationFileType fileType = GetFileType(file);
+							byte[] fileData = File.ReadAllBytes(file);
 
-                            List<IMinifyResult> minifyResults = _minificationEngine.MinifyData(Encoding.UTF8, fileType, fileData, out byte[] minifiedResult);
+							List<IMinifyResult> minifyResults = _minificationEngine.MinifyData(Encoding.UTF8, fileType, fileData, out byte[] minifiedResult);
 
-                            File.WriteAllBytes(file, minifiedResult);
+							File.WriteAllBytes(file, minifiedResult);
 
-                            if (minifyResults.Count > 0)
-                                totalBytesSaved += minifyResults[0].StartLength - minifyResults[minifyResults.Count - 1].EndLength;
+							if (minifyResults.Count > 0)
+								totalBytesSaved += minifyResults[0].StartLength - minifyResults[minifyResults.Count - 1].EndLength;
 
-                            foreach (IMinifyResult minifyResult in minifyResults)
-                            {
-                                _logger.AddToLog(LogLevel.Information, nameof(MinificationThread),
-                                    String.Format("{0}; Start Size: {1}; End Size: {2}; Time Taken: {3}",
-                                    minifyResult.ProcessName, minifyResult.StartLength, minifyResult.EndLength, minifyResult.TimeTaken));
-                            }
-                        }
-                        catch (Exception minifyError)
-                        {
-                            _logger.AddToLog(LogLevel.Error, nameof(MinificationThread), minifyError, $"Error minifying {file}");
-                        }
+							foreach (IMinifyResult minifyResult in minifyResults)
+							{
+								_logger.AddToLog(LogLevel.Information, nameof(MinificationThread),
+									String.Format("{0}; Start Size: {1}; End Size: {2}; Time Taken: {3}",
+									minifyResult.ProcessName, minifyResult.StartLength, minifyResult.EndLength, minifyResult.TimeTaken));
+							}
+						}
+						catch (Exception minifyError)
+						{
+							_logger.AddToLog(LogLevel.Error, nameof(MinificationThread), minifyError, $"Error minifying {file}");
+						}
 
-                    }
+					}
 
-                    _logger.AddToLog(LogLevel.Information, $"Total Time: {fileTimings.Fastest}ms; Minify {file}");
-                }
+					_logger.AddToLog(LogLevel.Information, $"Total Time: {fileTimings.Fastest}ms; Minify {file}");
+				}
 
-            }
+			}
 
-            _logger.AddToLog(LogLevel.Information, nameof(MinificationThread), $"Total minified bytes removed: {totalBytesSaved}; Total Time: {minifyTimings.Fastest}ms");
+			_logger.AddToLog(LogLevel.Information, nameof(MinificationThread), $"Total minified bytes removed: {totalBytesSaved}; Total Time: {minifyTimings.Fastest}ms");
 
-            return false;
-        }
+			return false;
+		}
 
-        #endregion Overridden Methods
+		#endregion Overridden Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private static MinificationFileType GetFileType(in string fileName)
-        {
-            switch (Path.GetExtension(fileName).ToLower())
-            {
-                case ".html":
-                    return MinificationFileType.Html;
-                case ".htm":
-                    return MinificationFileType.Htm;
-                case ".css":
-                    return MinificationFileType.CSS;
-                case ".less":
-                    return MinificationFileType.Less;
-                case ".js":
-                    return MinificationFileType.Js;
-                case ".cshtml":
-                case ".vbhtml":
-                    return MinificationFileType.Razor;
-                case ".gif":
-                    return MinificationFileType.ImageGif;
-                case ".jpg":
-                case ".jpeg":
-                    return MinificationFileType.ImageJpeg;
-                case ".png":
-                    return MinificationFileType.ImagePng;
+		private static MinificationFileType GetFileType(in string fileName)
+		{
+			switch (Path.GetExtension(fileName).ToLower())
+			{
+				case ".html":
+					return MinificationFileType.Html;
+				case ".htm":
+					return MinificationFileType.Htm;
+				case ".css":
+					return MinificationFileType.CSS;
+				case ".less":
+					return MinificationFileType.Less;
+				case ".js":
+					return MinificationFileType.Js;
+				case ".cshtml":
+				case ".vbhtml":
+					return MinificationFileType.Razor;
+				case ".gif":
+					return MinificationFileType.ImageGif;
+				case ".jpg":
+				case ".jpeg":
+					return MinificationFileType.ImageJpeg;
+				case ".png":
+					return MinificationFileType.ImagePng;
 
-                default:
-                    return MinificationFileType.Unknown;
-            }
-        }
+				default:
+					return MinificationFileType.Unknown;
+			}
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }

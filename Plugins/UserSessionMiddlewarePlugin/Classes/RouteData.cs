@@ -29,66 +29,66 @@ using System;
 
 namespace UserSessionMiddleware.Plugin
 {
-    internal class RouteData
-    {
-        #region Constructors
+	internal class RouteData
+	{
+		#region Constructors
 
-        internal RouteData(in string route, in bool loggedIn, in string redirectPath)
-        {
-            if (String.IsNullOrEmpty(route))
-                throw new ArgumentNullException(nameof(route));
+		internal RouteData(in string route, in bool loggedIn, in string redirectPath)
+		{
+			if (String.IsNullOrEmpty(route))
+				throw new ArgumentNullException(nameof(route));
 
-            if (String.IsNullOrEmpty(redirectPath))
-                throw new ArgumentNullException(nameof(redirectPath));
+			if (String.IsNullOrEmpty(redirectPath))
+				throw new ArgumentNullException(nameof(redirectPath));
 
-            Route = route;
-            LoggedIn = loggedIn;
-            RedirectPath = redirectPath;
-            Ignore = false;
-        }
+			Route = route;
+			LoggedIn = loggedIn;
+			RedirectPath = redirectPath;
+			Ignore = false;
+		}
 
-        internal RouteData(in string route)
-        {
-            if (String.IsNullOrEmpty(route))
-                throw new ArgumentNullException(nameof(route));
+		internal RouteData(in string route)
+		{
+			if (String.IsNullOrEmpty(route))
+				throw new ArgumentNullException(nameof(route));
 
-            Route = route;
+			Route = route;
 
-            Ignore = true;
-        }
+			Ignore = true;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Internal Methods
+		#region Internal Methods
 
-        internal bool Matches(in string route)
-        {
-            if (String.IsNullOrEmpty(route))
-                throw new ArgumentNullException(nameof(route));
+		internal bool Matches(in string route)
+		{
+			if (String.IsNullOrEmpty(route))
+				throw new ArgumentNullException(nameof(route));
 
-            if (Route.Equals(route, StringComparison.InvariantCultureIgnoreCase))
-                return true;
+			if (Route.Equals(route, StringComparison.InvariantCultureIgnoreCase))
+				return true;
 
-            if (route.EndsWith('/') && Route.Equals(route[..^1]))
-                return true;
+			if (route.EndsWith('/') && Route.Equals(route[..^1]))
+				return true;
 
-            return false;
-        }
+			return false;
+		}
 
-        #endregion Internal Methods
+		#endregion Internal Methods
 
-        #region Properties
+		#region Properties
 
-        internal string Route { get; private set; }
+		internal string Route { get; private set; }
 
-        internal bool LoggedIn { get; private set; }
+		internal bool LoggedIn { get; private set; }
 
-        internal string RedirectPath { get; private set; }
+		internal string RedirectPath { get; private set; }
 
-        internal bool Ignore { get; private set; }
+		internal bool Ignore { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore IDE0011

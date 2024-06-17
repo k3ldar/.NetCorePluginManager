@@ -42,227 +42,222 @@ using SimpleDB;
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
 	[TestClass]
-    [ExcludeFromCodeCoverage]
-    public class UserClaimsProviderTests : BaseProviderTests
-    {
-        [TestMethod]
-        public void SetClaimsForUser_UserDoesNotExists_ReturnsEmptyList()
-        {
-            string directory = TestHelper.GetTestPath();
-            try
-            {
-                Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+	[ExcludeFromCodeCoverage]
+	public class UserClaimsProviderTests : BaseProviderTests
+	{
+		[TestMethod]
+		public void SetClaimsForUser_UserDoesNotExists_ReturnsEmptyList()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
 
-                    Assert.IsNotNull(sut);
+					Assert.IsNotNull(sut);
 
-                    List<ClaimsIdentity> userClaims = sut.GetUserClaims(3);
-                    Assert.IsNotNull(userClaims);
-                    Assert.AreEqual(0, userClaims.Count);
-                }
-            }
-            finally
-            {
-                Directory.Delete(directory, true);
-            }
-        }
+					List<ClaimsIdentity> userClaims = sut.GetUserClaims(3);
+					Assert.IsNotNull(userClaims);
+					Assert.AreEqual(0, userClaims.Count);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
 
-        [TestMethod]
-        public void SetClaimsForUser_UserDoesNotExist_ReturnsFalse()
-        {
-            string directory = TestHelper.GetTestPath();
-            try
-            {
-                Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+		[TestMethod]
+		public void SetClaimsForUser_UserDoesNotExist_ReturnsFalse()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
 
-                    Assert.IsNotNull(accountProvider);
+					Assert.IsNotNull(accountProvider);
 
-                    IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
-                    Assert.IsNotNull(sut);
+					IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
+					Assert.IsNotNull(sut);
 
-                    List<string> newClaims = new()
-                    {
-                        "Administrator",
-                        "Staff",
-                        "ManageSeo",
-                        "ViewImageManager"
-                    };
+					List<string> newClaims = new()
+					{
+						"Administrator",
+						"Staff",
+						"ManageSeo",
+						"ViewImageManager"
+					};
 
-                    bool setClaimsResult = sut.SetClaimsForUser(100, newClaims);
+					bool setClaimsResult = sut.SetClaimsForUser(100, newClaims);
 
-                    Assert.IsFalse(setClaimsResult);
-                }
-            }
-            finally
-            {
-                Directory.Delete(directory, true);
-            }
-        }
+					Assert.IsFalse(setClaimsResult);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
 
-        [TestMethod]
-        public void GetUserClaims_NoAdditionalClaimsFound_ReturnsDefaultUserClaims()
-        {
-            string directory = TestHelper.GetTestPath();
-            try
-            {
-                Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+		[TestMethod]
+		public void GetUserClaims_NoAdditionalClaimsFound_ReturnsDefaultUserClaims()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
 
-                    Assert.IsNotNull(accountProvider);
+					Assert.IsNotNull(accountProvider);
 
-                    bool created = accountProvider.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
+					bool created = accountProvider.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
 
-                    Assert.IsTrue(created);
+					Assert.IsTrue(created);
 
-                    IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
-                    Assert.IsNotNull(sut);
+					IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
+					Assert.IsNotNull(sut);
 
 
-                    List<ClaimsIdentity> userClaims = sut.GetUserClaims(userId);
-                    Assert.IsNotNull(userClaims);
-                    Assert.AreEqual(1, userClaims.Count);
-                    Assert.AreEqual("Name", userClaims[0].Claims.ToList()[0].Type);
-                    Assert.AreEqual("Joe Bloggs", userClaims[0].Claims.ToList()[0].Value);
-                    Assert.AreEqual("Email", userClaims[0].Claims.ToList()[1].Type);
-                    Assert.AreEqual("me@here.com", userClaims[0].Claims.ToList()[1].Value);
-                    Assert.AreEqual("UserId", userClaims[0].Claims.ToList()[2].Type);
-                    Assert.AreEqual(userId.ToString(), userClaims[0].Claims.ToList()[2].Value);
-                }
-            }
-            finally
-            {
-                Directory.Delete(directory, true);
-            }
-        }
+					List<ClaimsIdentity> userClaims = sut.GetUserClaims(userId);
+					Assert.IsNotNull(userClaims);
+					Assert.AreEqual(1, userClaims.Count);
+					Assert.AreEqual("Name", userClaims[0].Claims.ToList()[0].Type);
+					Assert.AreEqual("Joe Bloggs", userClaims[0].Claims.ToList()[0].Value);
+					Assert.AreEqual("Email", userClaims[0].Claims.ToList()[1].Type);
+					Assert.AreEqual("me@here.com", userClaims[0].Claims.ToList()[1].Value);
+					Assert.AreEqual("UserId", userClaims[0].Claims.ToList()[2].Type);
+					Assert.AreEqual(userId.ToString(), userClaims[0].Claims.ToList()[2].Value);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
 
-        [TestMethod]
-        public void SetClaimsForUser_AddsCorrectClaimsForUser_Success()
-        {
-            string directory = TestHelper.GetTestPath();
-            try
-            {
-                Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+		[TestMethod]
+		public void SetClaimsForUser_AddsCorrectClaimsForUser_Success()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
 
-                    Assert.IsNotNull(accountProvider);
+					Assert.IsNotNull(accountProvider);
 
-                    bool created = accountProvider.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
+					bool created = accountProvider.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
 
-                    Assert.IsTrue(created);
+					Assert.IsTrue(created);
 
-                    IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
-                    Assert.IsNotNull(sut);
+					IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
+					Assert.IsNotNull(sut);
 
-                    List<string> newClaims = new()
-                    { 
-                        "Administrator",
-                        "Staff",
-                        "ManageSeo",
-                        "ViewImageManager"
-                    };
+					List<string> newClaims = new()
+					{
+						"Administrator",
+						"Staff",
+						"ManageSeo",
+						"ViewImageManager"
+					};
 
-                    bool setClaimsResult = sut.SetClaimsForUser(userId, newClaims);
+					bool setClaimsResult = sut.SetClaimsForUser(userId, newClaims);
 
-                    Assert.IsTrue(setClaimsResult);
+					Assert.IsTrue(setClaimsResult);
 
 
-                    List<ClaimsIdentity> userClaims = sut.GetUserClaims(userId);
-                    Assert.IsNotNull(userClaims);
-                    Assert.AreEqual(2, userClaims.Count);
-                    Assert.AreEqual("Name", userClaims[0].Claims.ToList()[0].Type);
-                    Assert.AreEqual("Joe Bloggs", userClaims[0].Claims.ToList()[0].Value);
-                    Assert.AreEqual("Email", userClaims[0].Claims.ToList()[1].Type);
-                    Assert.AreEqual("me@here.com", userClaims[0].Claims.ToList()[1].Value);
-                    Assert.AreEqual("UserId", userClaims[0].Claims.ToList()[2].Type);
-                    Assert.AreEqual(userId.ToString(), userClaims[0].Claims.ToList()[2].Value);
+					List<ClaimsIdentity> userClaims = sut.GetUserClaims(userId);
+					Assert.IsNotNull(userClaims);
+					Assert.AreEqual(2, userClaims.Count);
+					Assert.AreEqual("Name", userClaims[0].Claims.ToList()[0].Type);
+					Assert.AreEqual("Joe Bloggs", userClaims[0].Claims.ToList()[0].Value);
+					Assert.AreEqual("Email", userClaims[0].Claims.ToList()[1].Type);
+					Assert.AreEqual("me@here.com", userClaims[0].Claims.ToList()[1].Value);
+					Assert.AreEqual("UserId", userClaims[0].Claims.ToList()[2].Type);
+					Assert.AreEqual(userId.ToString(), userClaims[0].Claims.ToList()[2].Value);
 
-                    Assert.AreEqual("Administrator", userClaims[1].Claims.ToList()[0].Type);
-                    Assert.AreEqual("true", userClaims[1].Claims.ToList()[0].Value);
-                    Assert.AreEqual("Staff", userClaims[1].Claims.ToList()[1].Type);
-                    Assert.AreEqual("true", userClaims[1].Claims.ToList()[1].Value);
-                    Assert.AreEqual("ManageSeo", userClaims[1].Claims.ToList()[2].Type);
-                    Assert.AreEqual("true", userClaims[1].Claims.ToList()[2].Value);
-                    Assert.AreEqual("ViewImageManager", userClaims[1].Claims.ToList()[3].Type);
-                    Assert.AreEqual("true", userClaims[1].Claims.ToList()[3].Value);
-                }
-            }
-            finally
-            {
-                Directory.Delete(directory, true);
-            }
-        }
+					Assert.AreEqual("Administrator", userClaims[1].Claims.ToList()[0].Type);
+					Assert.AreEqual("true", userClaims[1].Claims.ToList()[0].Value);
+					Assert.AreEqual("Staff", userClaims[1].Claims.ToList()[1].Type);
+					Assert.AreEqual("true", userClaims[1].Claims.ToList()[1].Value);
+					Assert.AreEqual("ManageSeo", userClaims[1].Claims.ToList()[2].Type);
+					Assert.AreEqual("true", userClaims[1].Claims.ToList()[2].Value);
+					Assert.AreEqual("ViewImageManager", userClaims[1].Claims.ToList()[3].Type);
+					Assert.AreEqual("true", userClaims[1].Claims.ToList()[3].Value);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
 
-        [TestMethod]
-        public void GetClaimsForUser_UserHadAdditionalClaims_ReturnsCorrectList()
-        {
-            string directory = TestHelper.GetTestPath();
-            try
-            {
-                Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new();
-                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
+		[TestMethod]
+		public void GetClaimsForUser_UserHadAdditionalClaims_ReturnsCorrectList()
+		{
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				Directory.CreateDirectory(directory);
+				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
+				using (ServiceProvider provider = services.BuildServiceProvider())
+				{
+					IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
 
-                    Assert.IsNotNull(accountProvider);
+					Assert.IsNotNull(accountProvider);
 
-                    bool created = accountProvider.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
+					bool created = accountProvider.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
 
-                    Assert.IsTrue(created);
+					Assert.IsTrue(created);
 
-                    IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
-                    Assert.IsNotNull(sut);
+					IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
+					Assert.IsNotNull(sut);
 
-                    List<string> newClaims = new()
-                    {
-                        "Administrator",
-                        "Staff",
-                        "ManageSeo",
-                        "ViewImageManager"
-                    };
+					List<string> newClaims = new()
+					{
+						"Administrator",
+						"Staff",
+						"ManageSeo",
+						"ViewImageManager"
+					};
 
-                    bool setClaimsResult = sut.SetClaimsForUser(userId, newClaims);
+					bool setClaimsResult = sut.SetClaimsForUser(userId, newClaims);
 
-                    Assert.IsTrue(setClaimsResult);
+					Assert.IsTrue(setClaimsResult);
 
-                    List<string> userClaims = sut.GetClaimsForUser(userId);
-                    Assert.IsNotNull(userClaims);
+					List<string> userClaims = sut.GetClaimsForUser(userId);
+					Assert.IsNotNull(userClaims);
 
-                    Assert.AreEqual(4, userClaims.Count);
-                    Assert.AreEqual("Administrator", userClaims[0]);
-                    Assert.AreEqual("Staff", userClaims[1]);
-                    Assert.AreEqual("ManageSeo", userClaims[2]);
-                    Assert.AreEqual("ViewImageManager", userClaims[3]);
-                }
-            }
-            finally
-            {
-                Directory.Delete(directory, true);
-            }
-        }
+					Assert.AreEqual(4, userClaims.Count);
+					Assert.AreEqual("Administrator", userClaims[0]);
+					Assert.AreEqual("Staff", userClaims[1]);
+					Assert.AreEqual("ManageSeo", userClaims[2]);
+					Assert.AreEqual("ViewImageManager", userClaims[3]);
+				}
+			}
+			finally
+			{
+				Directory.Delete(directory, true);
+			}
+		}
 
 		[TestMethod]
 		public void GetClaimsForUser_UserHasAdditionalApplicationSpecifiedClaims_ReturnsCorrectList()
@@ -278,7 +273,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 				Directory.CreateDirectory(directory);
 				MockApplicationClaims mockApplicationClaims = new(claims);
-				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 				mockPluginClassesService.Items.Add(mockApplicationClaims);
 
@@ -349,7 +343,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 				};
 
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 				mockPluginClassesService.Items.Add(new MockApplicationClaims(applicationClaims));
 				using (ServiceProvider provider = services.BuildServiceProvider())
@@ -385,7 +378,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.AreEqual("Application", userClaims[1].AuthenticationType);
 					Assert.AreEqual(2, userClaims[1].Claims.ToList().Count);
 
-					List<Claim>  claimsList = userClaims[1].Claims.ToList();
+					List<Claim> claimsList = userClaims[1].Claims.ToList();
 					Assert.AreEqual("claim 1", claimsList[0].Type);
 					Assert.AreEqual("yes", claimsList[0].Value);
 					Assert.AreEqual("claim 2", claimsList[1].Type);

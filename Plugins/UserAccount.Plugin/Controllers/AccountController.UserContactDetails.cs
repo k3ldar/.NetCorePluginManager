@@ -37,56 +37,56 @@ namespace UserAccount.Plugin.Controllers
 {
 #pragma warning disable CS1591, IDE0017
 
-    public partial class AccountController
-    {
-        [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.MyMemberDetails), nameof(AccountController), nameof(Index))]
-        public IActionResult UserContactDetails()
-        {
-            if (_accountProvider.GetUserAccountDetails(UserId(), out string firstName, out string lastName, out string email,
-                out bool emailConfirmed, out string telephone, out bool telephoneConfirmed))
-            {
-                UserContactDetailsViewModel model = new(GetModelData(),
-                    firstName, lastName, email, emailConfirmed, telephone, telephoneConfirmed,
-                    _accountProvider.GetAddressOptions(AddressOption.Billing).HasFlag(AddressOptions.TelephoneShow));
+	public partial class AccountController
+	{
+		[HttpGet]
+		[Breadcrumb(nameof(Languages.LanguageStrings.MyMemberDetails), nameof(AccountController), nameof(Index))]
+		public IActionResult UserContactDetails()
+		{
+			if (_accountProvider.GetUserAccountDetails(UserId(), out string firstName, out string lastName, out string email,
+				out bool emailConfirmed, out string telephone, out bool telephoneConfirmed))
+			{
+				UserContactDetailsViewModel model = new(GetModelData(),
+					firstName, lastName, email, emailConfirmed, telephone, telephoneConfirmed,
+					_accountProvider.GetAddressOptions(AddressOption.Billing).HasFlag(AddressOptions.TelephoneShow));
 
-                model.Breadcrumbs = GetBreadcrumbs();
-                model.CartSummary = GetCartSummary();
+				model.Breadcrumbs = GetBreadcrumbs();
+				model.CartSummary = GetCartSummary();
 
-                return View(model);
-            }
+				return View(model);
+			}
 
-            throw new InvalidOperationException("Unable to retrieve account details");
-        }
+			throw new InvalidOperationException("Unable to retrieve account details");
+		}
 
-        [HttpPost]
-        public IActionResult UserContactDetails(UserContactDetailsViewModel model)
-        {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+		[HttpPost]
+		public IActionResult UserContactDetails(UserContactDetailsViewModel model)
+		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
 
-            AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Billing);
+			AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Billing);
 
-            if (addressOptions.HasFlag(AddressOptions.TelephoneMandatory) && String.IsNullOrEmpty(model.Telephone))
-                ModelState.AddModelError($"{nameof(model.Telephone)}", Languages.LanguageStrings.InvalidTelephoneNumber);
+			if (addressOptions.HasFlag(AddressOptions.TelephoneMandatory) && String.IsNullOrEmpty(model.Telephone))
+				ModelState.AddModelError($"{nameof(model.Telephone)}", Languages.LanguageStrings.InvalidTelephoneNumber);
 
-            if (ModelState.IsValid)
-            {
-                if (_accountProvider.SetUserAccountDetails(UserId(), model.FirstName, model.LastName, model.Email, model.Telephone))
-                {
-                    GrowlAdd(Languages.LanguageStrings.ContactDetailsUpdated);
-                    return RedirectToAction(nameof(Index), "Account");
-                }
+			if (ModelState.IsValid)
+			{
+				if (_accountProvider.SetUserAccountDetails(UserId(), model.FirstName, model.LastName, model.Email, model.Telephone))
+				{
+					GrowlAdd(Languages.LanguageStrings.ContactDetailsUpdated);
+					return RedirectToAction(nameof(Index), "Account");
+				}
 
-                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FailedToUpdateAccount);
-            }
+				ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FailedToUpdateAccount);
+			}
 
-            model.Breadcrumbs = GetBreadcrumbs();
-            model.CartSummary = GetCartSummary();
+			model.Breadcrumbs = GetBreadcrumbs();
+			model.CartSummary = GetCartSummary();
 
-            return View(model);
-        }
-    }
+			return View(model);
+		}
+	}
 
 #pragma warning restore CS1591, IDE0017
 }

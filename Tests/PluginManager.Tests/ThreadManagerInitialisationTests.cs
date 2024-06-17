@@ -36,112 +36,112 @@ using Shared.Classes;
 
 namespace PluginManager.Tests
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
-    public class ThreadManagerInitialisationTests
-    {
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Initialise_InvalidParam_Null_Throws_ArgumentNullException()
-        {
-            ThreadManagerInitialisation sut = new();
-            sut.Initialise(null);
-        }
+	[TestClass]
+	[ExcludeFromCodeCoverage]
+	public class ThreadManagerInitialisationTests
+	{
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Initialise_InvalidParam_Null_Throws_ArgumentNullException()
+		{
+			ThreadManagerInitialisation sut = new();
+			sut.Initialise(null);
+		}
 
-        [TestMethod]
-        public void ThreadStarts_RaisesThreadStartMessage_Success()
-        {
-            ThreadManager.Initialise();
-            MockLogger testLogger = new();
+		[TestMethod]
+		public void ThreadStarts_RaisesThreadStartMessage_Success()
+		{
+			ThreadManager.Initialise();
+			MockLogger testLogger = new();
 
-            ThreadManagerInitialisation sut = new();
-            sut.Initialise(testLogger);
-            try
-            {
-                ThreadManager.ThreadStart(new TestThreadThatStops(), "Test that stops", ThreadPriority.BelowNormal);
+			ThreadManagerInitialisation sut = new();
+			sut.Initialise(testLogger);
+			try
+			{
+				ThreadManager.ThreadStart(new TestThreadThatStops(), "Test that stops", ThreadPriority.BelowNormal);
 
-                ThreadManager.CancelAll(3);
+				ThreadManager.CancelAll(3);
 
-                Assert.IsTrue(testLogger.ContainsMessage("ThreadManager Thread cancel all"));
-                Assert.IsTrue(testLogger.ContainsMessage("ThreadManager Thread started: Test that stops, "));
-            }
-            finally
-            {
-                sut.Finalise();
-                ThreadManager.Finalise();
-            }
-        }
+				Assert.IsTrue(testLogger.ContainsMessage("ThreadManager Thread cancel all"));
+				Assert.IsTrue(testLogger.ContainsMessage("ThreadManager Thread started: Test that stops, "));
+			}
+			finally
+			{
+				sut.Finalise();
+				ThreadManager.Finalise();
+			}
+		}
 
-        [TestMethod]
-        public void ThreadStarts_ThreadThrowsExceptionAddedToLog_Success()
-        {
-            const string PartialErrorMessage = "ThreadManager Operation is not valid due to the current state of the object. Thread exception raised: Test that stops,";
-            ThreadManager.Initialise();
-            MockLogger testLogger = new();
+		[TestMethod]
+		public void ThreadStarts_ThreadThrowsExceptionAddedToLog_Success()
+		{
+			const string PartialErrorMessage = "ThreadManager Operation is not valid due to the current state of the object. Thread exception raised: Test that stops,";
+			ThreadManager.Initialise();
+			MockLogger testLogger = new();
 
-            ThreadManagerInitialisation sut = new();
-            sut.Initialise(testLogger);
-            try
-            {
-                ThreadManager.ThreadStart(new TestThreadThatThrowsException(), "Test that stops", ThreadPriority.AboveNormal);
+			ThreadManagerInitialisation sut = new();
+			sut.Initialise(testLogger);
+			try
+			{
+				ThreadManager.ThreadStart(new TestThreadThatThrowsException(), "Test that stops", ThreadPriority.AboveNormal);
 
-                DateTime dateTime = DateTime.Now.AddSeconds(3);
+				DateTime dateTime = DateTime.Now.AddSeconds(3);
 
-                while (dateTime > DateTime.Now)
-                {
-                    Thread.Sleep(20);
+				while (dateTime > DateTime.Now)
+				{
+					Thread.Sleep(20);
 
-                    if (testLogger.ContainsMessage(PartialErrorMessage))
-                        break;
-                }
+					if (testLogger.ContainsMessage(PartialErrorMessage))
+						break;
+				}
 
-                Assert.IsTrue(testLogger.ContainsMessage(PartialErrorMessage));
+				Assert.IsTrue(testLogger.ContainsMessage(PartialErrorMessage));
 
 
-                ThreadManager.CancelAll(3);
-                Assert.IsTrue(testLogger.ContainsMessage("ThreadManager Thread cancel all"));
-            }
-            finally
-            {
-                sut.Finalise();
-                ThreadManager.Finalise();
-            }
-        }
-    }
+				ThreadManager.CancelAll(3);
+				Assert.IsTrue(testLogger.ContainsMessage("ThreadManager Thread cancel all"));
+			}
+			finally
+			{
+				sut.Finalise();
+				ThreadManager.Finalise();
+			}
+		}
+	}
 
-    [ExcludeFromCodeCoverage]
-    internal class TestThreadThatStops : ThreadManager
-    {
-        internal TestThreadThatStops()
-            : base(null, new TimeSpan())
-        {
+	[ExcludeFromCodeCoverage]
+	internal class TestThreadThatStops : ThreadManager
+	{
+		internal TestThreadThatStops()
+			: base(null, new TimeSpan())
+		{
 
-        }
+		}
 
-        protected override bool Run(object parameters)
-        {
-            return false;
-        }
-    }
+		protected override bool Run(object parameters)
+		{
+			return false;
+		}
+	}
 
-    [ExcludeFromCodeCoverage]
-    internal class TestThreadThatThrowsException : ThreadManager
-    {
-        private bool _hasRun = false;
+	[ExcludeFromCodeCoverage]
+	internal class TestThreadThatThrowsException : ThreadManager
+	{
+		private bool _hasRun = false;
 
-        internal TestThreadThatThrowsException()
-            : base(null, new TimeSpan())
-        {
+		internal TestThreadThatThrowsException()
+			: base(null, new TimeSpan())
+		{
 
-        }
+		}
 
-        protected override bool Run(object parameters)
-        {
-            if (_hasRun)
-                return false;
+		protected override bool Run(object parameters)
+		{
+			if (_hasRun)
+				return false;
 
-            _hasRun = true;
-            throw new InvalidOperationException();
-        }
-    }
+			_hasRun = true;
+			throw new InvalidOperationException();
+		}
+	}
 }

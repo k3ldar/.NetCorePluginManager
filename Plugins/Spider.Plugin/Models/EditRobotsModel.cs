@@ -33,40 +33,40 @@ using SharedPluginFeatures;
 
 namespace Spider.Plugin.Models
 {
-    public sealed class EditRobotsModel : BaseModel
-    {
-        #region Constructors
+	public sealed class EditRobotsModel : BaseModel
+	{
+		#region Constructors
 
-        public EditRobotsModel()
-        {
+		public EditRobotsModel()
+		{
 
-        }
+		}
 
-        public EditRobotsModel(BaseModelData modelData, List<string> agents, List<CustomAgentModel> routes)
-            : base(modelData)
-        {
-            Agents = agents ?? throw new ArgumentNullException(nameof(agents));
-            Routes = routes ?? throw new ArgumentNullException(nameof(routes));
-        }
+		public EditRobotsModel(BaseModelData modelData, List<string> agents, List<CustomAgentModel> routes)
+			: base(modelData)
+		{
+			Agents = agents ?? throw new ArgumentNullException(nameof(agents));
+			Routes = routes ?? throw new ArgumentNullException(nameof(routes));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public List<string> Agents { get; private set; }
+		public List<string> Agents { get; private set; }
 
-        public List<CustomAgentModel> Routes { get; private set; }
+		public List<CustomAgentModel> Routes { get; private set; }
 
-        public bool Allowed { get; set; }
+		public bool Allowed { get; set; }
 
-        [Required]
-        public string Route { get; set; }
+		[Required]
+		public string Route { get; set; }
 
-        [Required]
-        public string AgentName { get; set; }
+		[Required]
+		public string AgentName { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

@@ -27,78 +27,78 @@ using System;
 
 namespace Middleware.Helpdesk
 {
-    /// <summary>
-    /// Represents a knowledgebase item that is part of a KnowledgeBaseGroup and used by IHelpdeskProvider within the HelpdeskPlugin module.
-    /// </summary>
-    public sealed class KnowledgeBaseItem
-    {
-        #region Constructors
+	/// <summary>
+	/// Represents a knowledgebase item that is part of a KnowledgeBaseGroup and used by IHelpdeskProvider within the HelpdeskPlugin module.
+	/// </summary>
+	public sealed class KnowledgeBaseItem
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="id">Unique id of the knowledgebase item.</param>
-        /// <param name="description">Description of the knowledgebase item.</param>
-        /// <param name="viewCount">Number of times the knowledgebase item has been viewed.</param>
-        /// <param name="content">Content for the knowledgebase item.</param>
-        public KnowledgeBaseItem(in long id, in string description,
-            in int viewCount, in string content)
-        {
-            if (String.IsNullOrEmpty(description))
-                throw new ArgumentNullException(nameof(description));
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="id">Unique id of the knowledgebase item.</param>
+		/// <param name="description">Description of the knowledgebase item.</param>
+		/// <param name="viewCount">Number of times the knowledgebase item has been viewed.</param>
+		/// <param name="content">Content for the knowledgebase item.</param>
+		public KnowledgeBaseItem(in long id, in string description,
+			in int viewCount, in string content)
+		{
+			if (String.IsNullOrEmpty(description))
+				throw new ArgumentNullException(nameof(description));
 
-            if (String.IsNullOrEmpty(content))
-                throw new ArgumentNullException(nameof(content));
+			if (String.IsNullOrEmpty(content))
+				throw new ArgumentNullException(nameof(content));
 
-            if (viewCount < 0)
-                throw new ArgumentOutOfRangeException(nameof(viewCount));
+			if (viewCount < 0)
+				throw new ArgumentOutOfRangeException(nameof(viewCount));
 
-            Id = id;
-            Description = description;
-            ViewCount = viewCount;
-            Content = content;
-        }
+			Id = id;
+			Description = description;
+			ViewCount = viewCount;
+			Content = content;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Unique id of the knowledgebase item.
-        /// </summary>
-        /// <value>int</value>
-        public long Id { get; private set; }
+		/// <summary>
+		/// Unique id of the knowledgebase item.
+		/// </summary>
+		/// <value>int</value>
+		public long Id { get; private set; }
 
-        /// <summary>
-        /// Description of the knowledgebase item.
-        /// </summary>
-        /// <value>string</value>
-        public string Description { get; private set; }
+		/// <summary>
+		/// Description of the knowledgebase item.
+		/// </summary>
+		/// <value>string</value>
+		public string Description { get; private set; }
 
-        /// <summary>
-        /// Number of times the knowledgebase item has been viewed.
-        /// </summary>
-        /// <value>int</value>
-        public int ViewCount { get; private set; }
+		/// <summary>
+		/// Number of times the knowledgebase item has been viewed.
+		/// </summary>
+		/// <value>int</value>
+		public int ViewCount { get; private set; }
 
-        /// <summary>
-        /// Content for the knowledgebase item.
-        /// </summary>
-        /// <value>string</value>
-        public string Content { get; private set; }
+		/// <summary>
+		/// Content for the knowledgebase item.
+		/// </summary>
+		/// <value>string</value>
+		public string Content { get; private set; }
 
-        #endregion Properties
+		#endregion Properties
 
-        #region Public Methods
+		#region Public Methods
 
-        /// <summary>
-        /// Increases the view count the item by one.
-        /// </summary>
-        public void IncreaseViewCount()
-        {
-            ViewCount++;
-        }
+		/// <summary>
+		/// Increases the view count the item by one.
+		/// </summary>
+		public void IncreaseViewCount()
+		{
+			ViewCount++;
+		}
 
-        #endregion Public Methods
-    }
+		#endregion Public Methods
+	}
 }

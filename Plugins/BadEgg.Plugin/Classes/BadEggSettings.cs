@@ -29,10 +29,10 @@ using SharedPluginFeatures;
 
 namespace BadEgg.Plugin
 {
-    /// <summary>
-    /// Settings which affect how BadEgg is configured and used.
-    /// </summary>
-    public class BadEggSettings : IPluginSettings
+	/// <summary>
+	/// Settings which affect how BadEgg is configured and used.
+	/// </summary>
+	public class BadEggSettings : IPluginSettings
 	{
 		#region Properties
 
@@ -41,62 +41,62 @@ namespace BadEgg.Plugin
 		/// </summary>
 		public string SettingsName => Constants.BadEggSettingsName;
 
-        /// <summary>
-        /// Number of minutes until a connection is timed out and removed from the list of monitored connections.
-        /// 
-        /// Default value: 5
-        /// Minimum value: 1
-        /// Maximum value: 300
-        /// </summary>
-        /// <value>uint</value>
-        [SettingRange(1, 300)]
-        [SettingDefault(5)]
-        public int ConnectionTimeOut { get; set; }
+		/// <summary>
+		/// Number of minutes until a connection is timed out and removed from the list of monitored connections.
+		/// 
+		/// Default value: 5
+		/// Minimum value: 1
+		/// Maximum value: 300
+		/// </summary>
+		/// <value>uint</value>
+		[SettingRange(1, 300)]
+		[SettingDefault(5)]
+		public int ConnectionTimeOut { get; set; }
 
-        /// <summary>
-        /// Maximum average connection per second, if this value is exceeded then http response from TooManyRequestResponseCode will be returned
-        /// 
-        /// Default value: 100
-        /// Minimum value: 1
-        /// Maximum value: uint.MaxValue
-        /// </summary>
-        /// <value>uint</value>
-        [SettingRange(1u, uint.MaxValue)]
-        [SettingDefault(100u)]
-        public uint ConnectionsPerSecond { get; set; }
+		/// <summary>
+		/// Maximum average connection per second, if this value is exceeded then http response from TooManyRequestResponseCode will be returned
+		/// 
+		/// Default value: 100
+		/// Minimum value: 1
+		/// Maximum value: uint.MaxValue
+		/// </summary>
+		/// <value>uint</value>
+		[SettingRange(1u, uint.MaxValue)]
+		[SettingDefault(100u)]
+		public uint ConnectionsPerSecond { get; set; }
 
-        /// <summary>
-        /// Http response code provided should the connection be banned.
-        /// 
-        /// Default: 400
-        /// 
-        /// Must be a valid http client error response (in the range of 400)
-        /// </summary>
-        /// <value>int</value>
-        [SettingDefault(SharedPluginFeatures.Constants.HtmlResponseBadRequest)]
-        [SettingHttpResponse(HttpResponseType.ClientErrors)]
-        public int BannedResponseCode { get; set; }
+		/// <summary>
+		/// Http response code provided should the connection be banned.
+		/// 
+		/// Default: 400
+		/// 
+		/// Must be a valid http client error response (in the range of 400)
+		/// </summary>
+		/// <value>int</value>
+		[SettingDefault(SharedPluginFeatures.Constants.HtmlResponseBadRequest)]
+		[SettingHttpResponse(HttpResponseType.ClientErrors)]
+		public int BannedResponseCode { get; set; }
 
-        /// <summary>
-        /// Http response provided should the connection make too many requests.
-        /// 
-        /// Default Value: 429
-        /// 
-        /// Must be a valid http client error response (in the range of 400)
-        /// </summary>
-        /// <value>int</value>
-        [SettingDefault(429)]
-        [SettingHttpResponse(HttpResponseType.ClientErrors)]
-        public int TooManyRequestResponseCode { get; set; }
+		/// <summary>
+		/// Http response provided should the connection make too many requests.
+		/// 
+		/// Default Value: 429
+		/// 
+		/// Must be a valid http client error response (in the range of 400)
+		/// </summary>
+		/// <value>int</value>
+		[SettingDefault(429)]
+		[SettingHttpResponse(HttpResponseType.ClientErrors)]
+		public int TooManyRequestResponseCode { get; set; }
 
-        /// <summary>
-        /// The code which is used to ignore validation within <see cref="BadEggMiddleware"/>BadEgg middleware, this is 
-        /// sent within the header of the request, if it matches this code, no validation takes place
-        /// </summary>
-        /// <value>string</value>
-        [SettingString(true, 0, 30)]
-        public string IgnoreValidationHeaderCode { get; set; }
+		/// <summary>
+		/// The code which is used to ignore validation within <see cref="BadEggMiddleware"/>BadEgg middleware, this is 
+		/// sent within the header of the request, if it matches this code, no validation takes place
+		/// </summary>
+		/// <value>string</value>
+		[SettingString(true, 0, 30)]
+		public string IgnoreValidationHeaderCode { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

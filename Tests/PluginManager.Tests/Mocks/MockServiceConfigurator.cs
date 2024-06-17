@@ -32,14 +32,14 @@ using PluginManager.Abstractions;
 
 namespace PluginManager.Tests.Mocks
 {
-    [ExcludeFromCodeCoverage]
-    public class MockServiceConfigurator : IServiceConfigurator
-    {
-        public void RegisterServices(IServiceCollection services)
-        {
-            RegisterServicesCalled = true;
-        }
+	[ExcludeFromCodeCoverage]
+	public class MockServiceConfigurator : IServiceConfigurator
+	{
+		public void RegisterServices(IServiceCollection services)
+		{
+			RegisterServicesCalled = true;
+		}
 
-        public bool RegisterServicesCalled { get; private set; }
-    }
+		public bool RegisterServicesCalled { get; private set; }
+	}
 }

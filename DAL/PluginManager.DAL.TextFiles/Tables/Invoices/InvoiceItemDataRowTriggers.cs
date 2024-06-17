@@ -27,44 +27,44 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal class InvoiceItemDataRowTriggers : ITableTriggers<InvoiceItemDataRow>
-    {
-        public int Position => int.MinValue;
+	internal class InvoiceItemDataRowTriggers : ITableTriggers<InvoiceItemDataRow>
+	{
+		public int Position => int.MinValue;
 
-        public TriggerType TriggerTypes => TriggerType.BeforeDelete;
+		public TriggerType TriggerTypes => TriggerType.BeforeDelete;
 
-        public void AfterDelete(List<InvoiceItemDataRow> records)
-        {
+		public void AfterDelete(List<InvoiceItemDataRow> records)
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterInsert(List<InvoiceItemDataRow> records)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterUpdate(List<InvoiceItemDataRow> records)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeDelete(List<InvoiceItemDataRow> records)
-        {
-            throw new InvalidDataRowException(nameof(InvoiceItemDataRow), nameof(InvoiceItemDataRow.Id), "Invoice items can not be deleted");
-        }
+		{
+			throw new InvalidDataRowException(nameof(InvoiceItemDataRow), nameof(InvoiceItemDataRow.Id), "Invoice items can not be deleted");
+		}
 
-        public void BeforeInsert(List<InvoiceItemDataRow> records)
-        {
+		public void BeforeInsert(List<InvoiceItemDataRow> records)
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeUpdate(List<InvoiceItemDataRow> records)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeUpdate(InvoiceItemDataRow newRecord, InvoiceItemDataRow oldRecord)
-        {
+		{
 			// from interface but unused in this context
 		}
 	}

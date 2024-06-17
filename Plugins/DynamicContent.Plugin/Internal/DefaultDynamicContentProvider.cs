@@ -44,364 +44,364 @@ using SharedPluginFeatures.DynamicContent;
 
 namespace DynamicContent.Plugin.Internal
 {
-    public class DefaultDynamicContentProvider : IDynamicContentProvider
-    {
-        #region Private Members
+	public class DefaultDynamicContentProvider : IDynamicContentProvider
+	{
+		#region Private Members
 
-        private const int FileVersion1 = 1;
-        private const int ReservedSpace1 = 65;
-        private const int ReservedSpace2 = 99;
-        private static readonly byte[] Header = { 44, 43 };
-        private const int MinimumByteSize = 54;
+		private const int FileVersion1 = 1;
+		private const int ReservedSpace1 = 65;
+		private const int ReservedSpace2 = 99;
+		private static readonly byte[] Header = { 44, 43 };
+		private const int MinimumByteSize = 54;
 
-        private readonly string _rootContentPath;
-        private readonly List<IDynamicContentPage> _dynamicContent;
-        private readonly IPluginClassesService _pluginClassesService;
-        private readonly object _lockObject = new();
-        private List<DynamicContentTemplate> _templates;
+		private readonly string _rootContentPath;
+		private readonly List<IDynamicContentPage> _dynamicContent;
+		private readonly IPluginClassesService _pluginClassesService;
+		private readonly object _lockObject = new();
+		private List<DynamicContentTemplate> _templates;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public DefaultDynamicContentProvider(IPluginClassesService pluginClassesService, ISettingsProvider settingsProvider)
-        {
-            _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
+		public DefaultDynamicContentProvider(IPluginClassesService pluginClassesService, ISettingsProvider settingsProvider)
+		{
+			_pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
 
-            if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+			if (settingsProvider == null)
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            DynamicContentSettings dynamicContentSettings = settingsProvider.GetSettings<DynamicContentSettings>(Controllers.DynamicContentController.Name);
-            _rootContentPath = dynamicContentSettings.DynamicContentLocation;
+			DynamicContentSettings dynamicContentSettings = settingsProvider.GetSettings<DynamicContentSettings>(Controllers.DynamicContentController.Name);
+			_rootContentPath = dynamicContentSettings.DynamicContentLocation;
 
-            _dynamicContent = new List<IDynamicContentPage>();
+			_dynamicContent = new List<IDynamicContentPage>();
 
-            InitializeDynamicContent();
-        }
+			InitializeDynamicContent();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IDynamicContentProvider Methods
+		#region IDynamicContentProvider Methods
 
-        public long CreateCustomPage()
-        {
-            long Result = 1;
+		public long CreateCustomPage()
+		{
+			long Result = 1;
 
-            using (TimedLock tl = TimedLock.Lock(_lockObject))
-            {
-                while (File.Exists(Path.Combine(_rootContentPath, $"{Result}.page")))
-                {
-                    Result++;
-                }
+			using (TimedLock tl = TimedLock.Lock(_lockObject))
+			{
+				while (File.Exists(Path.Combine(_rootContentPath, $"{Result}.page")))
+				{
+					Result++;
+				}
 
-                IDynamicContentPage newPage = new DynamicContentPage(Result);
-                newPage.Name = $"Page-{Result}";
-                newPage.ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-                newPage.ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
+				IDynamicContentPage newPage = new DynamicContentPage(Result);
+				newPage.Name = $"Page-{Result}";
+				newPage.ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+				newPage.ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
 
-                _dynamicContent.Add(newPage);
-                Save(newPage);
-            }
+				_dynamicContent.Add(newPage);
+				Save(newPage);
+			}
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public List<LookupListItem> GetCustomPageList()
-        {
-            List<LookupListItem> Result = new();
+		public List<LookupListItem> GetCustomPageList()
+		{
+			List<LookupListItem> Result = new();
 
-            using (TimedLock tl = TimedLock.Lock(_lockObject))
-            {
-                _dynamicContent.ForEach(dc => Result.Add(new LookupListItem((int)dc.Id, dc.Name)));
-            }
+			using (TimedLock tl = TimedLock.Lock(_lockObject))
+			{
+				_dynamicContent.ForEach(dc => Result.Add(new LookupListItem((int)dc.Id, dc.Name)));
+			}
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public IDynamicContentPage GetCustomPage(long id)
-        {
-            using (TimedLock tl = TimedLock.Lock(_lockObject))
-            {
-                return _dynamicContent.Find(dc => dc.Id.Equals(id));
-            }
-        }
+		public IDynamicContentPage GetCustomPage(long id)
+		{
+			using (TimedLock tl = TimedLock.Lock(_lockObject))
+			{
+				return _dynamicContent.Find(dc => dc.Id.Equals(id));
+			}
+		}
 
-        public List<DynamicContentTemplate> Templates()
-        {
-            if (_templates != null)
-                return _templates;
+		public List<DynamicContentTemplate> Templates()
+		{
+			if (_templates != null)
+				return _templates;
 
-            _templates = _pluginClassesService.GetPluginClasses<DynamicContentTemplate>();
+			_templates = _pluginClassesService.GetPluginClasses<DynamicContentTemplate>();
 
-            return _templates;
-        }
+			return _templates;
+		}
 
-        public List<IDynamicContentPage> GetCustomPages()
-        {
-            using (TimedLock tl = TimedLock.Lock(_lockObject))
-            {
-                return _dynamicContent;
-            }
-        }
+		public List<IDynamicContentPage> GetCustomPages()
+		{
+			using (TimedLock tl = TimedLock.Lock(_lockObject))
+			{
+				return _dynamicContent;
+			}
+		}
 
-        public bool PageNameExists(long id, string pageName)
-        {
-            if (String.IsNullOrEmpty(pageName))
-                throw new ArgumentNullException(nameof(pageName));
+		public bool PageNameExists(long id, string pageName)
+		{
+			if (String.IsNullOrEmpty(pageName))
+				throw new ArgumentNullException(nameof(pageName));
 
-            using (TimedLock tl = TimedLock.Lock(_lockObject))
-            {
-                return _dynamicContent.Exists(dc => !dc.Id.Equals(id) && dc.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase));
-            }
-        }
+			using (TimedLock tl = TimedLock.Lock(_lockObject))
+			{
+				return _dynamicContent.Exists(dc => !dc.Id.Equals(id) && dc.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase));
+			}
+		}
 
-        public bool RouteNameExists(long id, string routeName)
-        {
-            if (String.IsNullOrEmpty(routeName))
-                throw new ArgumentNullException(nameof(routeName));
+		public bool RouteNameExists(long id, string routeName)
+		{
+			if (String.IsNullOrEmpty(routeName))
+				throw new ArgumentNullException(nameof(routeName));
 
-            using (TimedLock tl = TimedLock.Lock(_lockObject))
-            {
-                return _dynamicContent.Exists(dc => !dc.Id.Equals(id) && dc.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
-            }
-        }
+			using (TimedLock tl = TimedLock.Lock(_lockObject))
+			{
+				return _dynamicContent.Exists(dc => !dc.Id.Equals(id) && dc.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase));
+			}
+		}
 
-        public bool Save(IDynamicContentPage dynamicContentPage)
-        {
-            if (dynamicContentPage == null)
-                throw new ArgumentNullException(nameof(dynamicContentPage));
+		public bool Save(IDynamicContentPage dynamicContentPage)
+		{
+			if (dynamicContentPage == null)
+				throw new ArgumentNullException(nameof(dynamicContentPage));
 
-            using (TimedLock tl = TimedLock.Lock(_lockObject))
-            {
-                WriteFileContents(dynamicContentPage);
+			using (TimedLock tl = TimedLock.Lock(_lockObject))
+			{
+				WriteFileContents(dynamicContentPage);
 
-                _dynamicContent.Remove(GetCustomPage(dynamicContentPage.Id));
-                _dynamicContent.Add(dynamicContentPage);
-            }
+				_dynamicContent.Remove(GetCustomPage(dynamicContentPage.Id));
+				_dynamicContent.Add(dynamicContentPage);
+			}
 
-            return true;
-        }
+			return true;
+		}
 
-        public bool SaveUserInput(string data)
-        {
-            if (String.IsNullOrEmpty(data))
-                return false;
+		public bool SaveUserInput(string data)
+		{
+			if (String.IsNullOrEmpty(data))
+				return false;
 
-            string inputPath = Path.Combine(_rootContentPath, "Input");
+			string inputPath = Path.Combine(_rootContentPath, "Input");
 
-            if (!Directory.Exists(inputPath))
-                Directory.CreateDirectory(inputPath);
+			if (!Directory.Exists(inputPath))
+				Directory.CreateDirectory(inputPath);
 
-            inputPath = Path.Combine(inputPath, DateTime.Now.Ticks.ToString() + ".input");
+			inputPath = Path.Combine(inputPath, DateTime.Now.Ticks.ToString() + ".input");
 
-            File.WriteAllText(inputPath, data);
+			File.WriteAllText(inputPath, data);
 
-            return File.Exists(inputPath);
-        }
+			return File.Exists(inputPath);
+		}
 
-        #endregion IDynamicContentProvider Methods
+		#endregion IDynamicContentProvider Methods
 
-        #region Static Methods
+		#region Static Methods
 
-        public static byte[] ConvertFromDynamicContent(IDynamicContentPage dynamicContentPage)
-        {
-            using (MemoryStream memoryStream = new())
-            using (BinaryWriter writer = new(memoryStream))
-            {
-                writer.Write(Header);
-                writer.Write(ReservedSpace1);
-                writer.Write(ReservedSpace2);
-                writer.Write(FileVersion1);
-                writer.Write(dynamicContentPage.Id);
-                WriteStringData(writer, dynamicContentPage.Name);
-                WriteStringData(writer, dynamicContentPage.RouteName);
-                WriteStringData(writer, dynamicContentPage.BackgroundColor);
-                WriteStringData(writer, dynamicContentPage.BackgroundImage);
-                writer.Write(dynamicContentPage.ActiveFrom.Ticks);
-                writer.Write(dynamicContentPage.ActiveTo.Ticks);
-                writer.Write(dynamicContentPage.Content.Count);
+		public static byte[] ConvertFromDynamicContent(IDynamicContentPage dynamicContentPage)
+		{
+			using (MemoryStream memoryStream = new())
+			using (BinaryWriter writer = new(memoryStream))
+			{
+				writer.Write(Header);
+				writer.Write(ReservedSpace1);
+				writer.Write(ReservedSpace2);
+				writer.Write(FileVersion1);
+				writer.Write(dynamicContentPage.Id);
+				WriteStringData(writer, dynamicContentPage.Name);
+				WriteStringData(writer, dynamicContentPage.RouteName);
+				WriteStringData(writer, dynamicContentPage.BackgroundColor);
+				WriteStringData(writer, dynamicContentPage.BackgroundImage);
+				writer.Write(dynamicContentPage.ActiveFrom.Ticks);
+				writer.Write(dynamicContentPage.ActiveTo.Ticks);
+				writer.Write(dynamicContentPage.Content.Count);
 
-                foreach (DynamicContentTemplate page in dynamicContentPage.Content)
-                {
-                    WriteStringData(writer, page.UniqueId);
-                    WriteStringData(writer, page.AssemblyQualifiedName);
-                    writer.Write(page.ActiveFrom.Ticks);
-                    writer.Write(page.ActiveTo.Ticks);
-                    WriteStringData(writer, page.Data);
-                    writer.Write(page.Height);
-                    writer.Write((int)page.HeightType);
-                    writer.Write(page.SortOrder);
-                    writer.Write(page.Width);
-                    writer.Write((int)page.WidthType);
-                }
+				foreach (DynamicContentTemplate page in dynamicContentPage.Content)
+				{
+					WriteStringData(writer, page.UniqueId);
+					WriteStringData(writer, page.AssemblyQualifiedName);
+					writer.Write(page.ActiveFrom.Ticks);
+					writer.Write(page.ActiveTo.Ticks);
+					WriteStringData(writer, page.Data);
+					writer.Write(page.Height);
+					writer.Write((int)page.HeightType);
+					writer.Write(page.SortOrder);
+					writer.Write(page.Width);
+					writer.Write((int)page.WidthType);
+				}
 
-                return memoryStream.ToArray();
-            }
-        }
+				return memoryStream.ToArray();
+			}
+		}
 
-        public static IDynamicContentPage ConvertFromByteArray(byte[] content)
-        {
-            if (content == null)
-                throw new ArgumentNullException(nameof(content));
+		public static IDynamicContentPage ConvertFromByteArray(byte[] content)
+		{
+			if (content == null)
+				throw new ArgumentNullException(nameof(content));
 
-            if (content.Length < MinimumByteSize)
-                throw new ArgumentException(nameof(content));
+			if (content.Length < MinimumByteSize)
+				throw new ArgumentException(nameof(content));
 
-            using (MemoryStream memoryStream = new(content))
-            using (BinaryReader reader = new(memoryStream))
-            {
-                memoryStream.Position = 0;
+			using (MemoryStream memoryStream = new(content))
+			using (BinaryReader reader = new(memoryStream))
+			{
+				memoryStream.Position = 0;
 
-                if (reader.ReadByte() == Header[0] && reader.ReadByte() == Header[1])
-                {
-                    // reserved space for future changes
-                    reader.ReadInt32();
-                    reader.ReadInt32();
+				if (reader.ReadByte() == Header[0] && reader.ReadByte() == Header[1])
+				{
+					// reserved space for future changes
+					reader.ReadInt32();
+					reader.ReadInt32();
 
-                    int version = reader.ReadInt32();
+					int version = reader.ReadInt32();
 
-                    switch (version)
-                    {
-                        case FileVersion1:
-                            DynamicContentPage Result = new();
+					switch (version)
+					{
+						case FileVersion1:
+							DynamicContentPage Result = new();
 
-                            LoadDynamicContentVersion1(reader, Result);
-                            return Result;
+							LoadDynamicContentVersion1(reader, Result);
+							return Result;
 
-                        default:
-                            throw new InvalidOperationException();
-                    }
-                }
-            }
+						default:
+							throw new InvalidOperationException();
+					}
+				}
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        private static void WriteStringData(BinaryWriter writer, string data)
-        {
-            byte[] byteData;
+		private static void WriteStringData(BinaryWriter writer, string data)
+		{
+			byte[] byteData;
 
-            if (String.IsNullOrEmpty(data))
-                byteData = Array.Empty<byte>();
-            else
-                byteData = Encoding.UTF8.GetBytes(data);
+			if (String.IsNullOrEmpty(data))
+				byteData = Array.Empty<byte>();
+			else
+				byteData = Encoding.UTF8.GetBytes(data);
 
-            writer.Write(byteData.Length);
+			writer.Write(byteData.Length);
 
-            if (byteData.Length > 0)
-                writer.Write(byteData);
-        }
+			if (byteData.Length > 0)
+				writer.Write(byteData);
+		}
 
-        private static string ReadStringData(BinaryReader reader)
-        {
-            int len = reader.ReadInt32();
+		private static string ReadStringData(BinaryReader reader)
+		{
+			int len = reader.ReadInt32();
 
 			bool isValid = len + reader.BaseStream.Position < reader.BaseStream.Length && len > 0;
 
-            if (isValid)
-                return Encoding.UTF8.GetString(reader.ReadBytes(len));
+			if (isValid)
+				return Encoding.UTF8.GetString(reader.ReadBytes(len));
 
-            return String.Empty;
-        }
+			return String.Empty;
+		}
 
-        private static void LoadDynamicContentVersion1(BinaryReader reader, DynamicContentPage dynamicContentPage)
-        {
-            dynamicContentPage.Id = reader.ReadInt64();
-            dynamicContentPage.Name = ReadStringData(reader);
-            dynamicContentPage.RouteName = ReadStringData(reader);
-            dynamicContentPage.BackgroundColor = ReadStringData(reader);
-            dynamicContentPage.BackgroundImage = ReadStringData(reader);
-            dynamicContentPage.ActiveFrom = new DateTime(reader.ReadInt64(), DateTimeKind.Utc);
-            dynamicContentPage.ActiveTo = new DateTime(reader.ReadInt64(), DateTimeKind.Utc);
-            int itemCount = reader.ReadInt32();
-            int item = 0;
+		private static void LoadDynamicContentVersion1(BinaryReader reader, DynamicContentPage dynamicContentPage)
+		{
+			dynamicContentPage.Id = reader.ReadInt64();
+			dynamicContentPage.Name = ReadStringData(reader);
+			dynamicContentPage.RouteName = ReadStringData(reader);
+			dynamicContentPage.BackgroundColor = ReadStringData(reader);
+			dynamicContentPage.BackgroundImage = ReadStringData(reader);
+			dynamicContentPage.ActiveFrom = new DateTime(reader.ReadInt64(), DateTimeKind.Utc);
+			dynamicContentPage.ActiveTo = new DateTime(reader.ReadInt64(), DateTimeKind.Utc);
+			int itemCount = reader.ReadInt32();
+			int item = 0;
 
-            while (item < itemCount)
-            {
-                string uniqueId = ReadStringData(reader);
-                string className = ReadStringData(reader);
+			while (item < itemCount)
+			{
+				string uniqueId = ReadStringData(reader);
+				string className = ReadStringData(reader);
 
-                string[] classParts = className.Split(",");
+				string[] classParts = className.Split(",");
 
-                if (classParts.Length < 2)
-                    throw new InvalidOperationException();
+				if (classParts.Length < 2)
+					throw new InvalidOperationException();
 
-                DynamicContentTemplate instance = CreateTemplateItem(classParts[1].Trim(), classParts[0].Trim(), uniqueId, out bool templateClassFound);
-                instance.ActiveFrom = new DateTime(reader.ReadInt64(), DateTimeKind.Utc);
-                instance.ActiveTo = new DateTime(reader.ReadInt64(), DateTimeKind.Utc);
-                string data = ReadStringData(reader);
+				DynamicContentTemplate instance = CreateTemplateItem(classParts[1].Trim(), classParts[0].Trim(), uniqueId, out bool templateClassFound);
+				instance.ActiveFrom = new DateTime(reader.ReadInt64(), DateTimeKind.Utc);
+				instance.ActiveTo = new DateTime(reader.ReadInt64(), DateTimeKind.Utc);
+				string data = ReadStringData(reader);
 
-                if (templateClassFound)
-                    instance.Data = data;
-                else
-                    instance.Data = "<p>Content template not found</p>";
+				if (templateClassFound)
+					instance.Data = data;
+				else
+					instance.Data = "<p>Content template not found</p>";
 
-                instance.Height = reader.ReadInt32();
-                instance.HeightType = (DynamicContentHeightType)reader.ReadInt32();
-                instance.SortOrder = reader.ReadInt32();
-                instance.Width = reader.ReadInt32();
-                instance.WidthType = (DynamicContentWidthType)reader.ReadInt32();
-                dynamicContentPage.Content.Add(instance);
-                item++;
-            }
-        }
+				instance.Height = reader.ReadInt32();
+				instance.HeightType = (DynamicContentHeightType)reader.ReadInt32();
+				instance.SortOrder = reader.ReadInt32();
+				instance.Width = reader.ReadInt32();
+				instance.WidthType = (DynamicContentWidthType)reader.ReadInt32();
+				dynamicContentPage.Content.Add(instance);
+				item++;
+			}
+		}
 
-        private static DynamicContentTemplate CreateTemplateItem(string assemblyName, string className, string uniqueId, out bool templateClassFound)
-        {
-            DynamicContentTemplate baseInstance;
+		private static DynamicContentTemplate CreateTemplateItem(string assemblyName, string className, string uniqueId, out bool templateClassFound)
+		{
+			DynamicContentTemplate baseInstance;
 
-            try
-            {
-                Assembly classAssembly = Assembly.Load(assemblyName);
-                Type t = classAssembly.GetType(className);
+			try
+			{
+				Assembly classAssembly = Assembly.Load(assemblyName);
+				Type t = classAssembly.GetType(className);
 
-                if (t == null)
-                {
-                    baseInstance = new Templates.HtmlTextTemplate();
-                    templateClassFound = false;
-                }
-                else
-                {
-                    baseInstance = (DynamicContentTemplate)Activator.CreateInstance(t);
-                    templateClassFound = true;
-                }
-            }
-            catch
-            {
-                baseInstance = new Templates.HtmlTextTemplate();
-                templateClassFound = false;
-            }
+				if (t == null)
+				{
+					baseInstance = new Templates.HtmlTextTemplate();
+					templateClassFound = false;
+				}
+				else
+				{
+					baseInstance = (DynamicContentTemplate)Activator.CreateInstance(t);
+					templateClassFound = true;
+				}
+			}
+			catch
+			{
+				baseInstance = new Templates.HtmlTextTemplate();
+				templateClassFound = false;
+			}
 
-            return baseInstance.Clone(uniqueId);
-        }
+			return baseInstance.Clone(uniqueId);
+		}
 
-        #endregion Static Methods
+		#endregion Static Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private void WriteFileContents(IDynamicContentPage dynamicContentPage)
-        {
-            byte[] contents = ConvertFromDynamicContent(dynamicContentPage);
-            string filename = Path.Combine(_rootContentPath, $"{dynamicContentPage.Id}.page");
-            File.WriteAllBytes(filename, contents);
-        }
+		private void WriteFileContents(IDynamicContentPage dynamicContentPage)
+		{
+			byte[] contents = ConvertFromDynamicContent(dynamicContentPage);
+			string filename = Path.Combine(_rootContentPath, $"{dynamicContentPage.Id}.page");
+			File.WriteAllBytes(filename, contents);
+		}
 
-        private static IDynamicContentPage ReadFileContents(string filename)
-        {
-            return ConvertFromByteArray(File.ReadAllBytes(filename));
-        }
+		private static IDynamicContentPage ReadFileContents(string filename)
+		{
+			return ConvertFromByteArray(File.ReadAllBytes(filename));
+		}
 
-        private void InitializeDynamicContent()
-        {
-            if (!Directory.Exists(_rootContentPath))
-                Directory.CreateDirectory(_rootContentPath);
+		private void InitializeDynamicContent()
+		{
+			if (!Directory.Exists(_rootContentPath))
+				Directory.CreateDirectory(_rootContentPath);
 
-            using (TimedLock tl = TimedLock.Lock(_lockObject))
-            {
-                string[] pages = Directory.GetFiles(_rootContentPath, "*.page");
+			using (TimedLock tl = TimedLock.Lock(_lockObject))
+			{
+				string[] pages = Directory.GetFiles(_rootContentPath, "*.page");
 
-                foreach (string page in pages)
-                {
+				foreach (string page in pages)
+				{
 					try
 					{
 						IDynamicContentPage convertedPage = ReadFileContents(page);
@@ -413,12 +413,12 @@ namespace DynamicContent.Plugin.Internal
 					{
 						// ignore as couldn't load
 					}
-                }
-            }
-        }
+				}
+			}
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591

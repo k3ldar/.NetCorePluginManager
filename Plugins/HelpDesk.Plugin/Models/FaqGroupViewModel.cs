@@ -32,28 +32,28 @@ using SharedPluginFeatures;
 
 namespace HelpdeskPlugin.Models
 {
-    public class FaqGroupViewModel : BaseModel
-    {
-        #region Constructors
+	public class FaqGroupViewModel : BaseModel
+	{
+		#region Constructors
 
-        public FaqGroupViewModel(in BaseModelData modelData,
-            in List<FaqGroup> groups, in FaqGroup activeGroup)
-            : base(modelData)
-        {
-            Groups = groups ?? throw new ArgumentNullException(nameof(groups));
-            ActiveGroup = activeGroup;
-        }
+		public FaqGroupViewModel(in BaseModelData modelData,
+			in List<FaqGroup> groups, in FaqGroup activeGroup)
+			: base(modelData)
+		{
+			Groups = groups ?? throw new ArgumentNullException(nameof(groups));
+			ActiveGroup = activeGroup;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public FaqGroup ActiveGroup { get; private set; }
+		public FaqGroup ActiveGroup { get; private set; }
 
-        public List<FaqGroup> Groups { get; private set; }
+		public List<FaqGroup> Groups { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

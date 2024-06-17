@@ -27,34 +27,34 @@ using AppSettings;
 
 namespace ShoppingCartPlugin.Classes
 {
-    /// <summary>
-    /// Settings which affect how the payment providers are configured.  
-    /// 
-    /// Each payment provider has its own settings, which determine how it is used.
-    /// </summary>
-    public class PaymentProviderSettings
-    {
-        /// <summary>
-        /// Determines whether the payment provider can be used or not.
-        /// </summary>
-        /// <value>bool.  If true the payment provider is enabled.</value>
-        public bool Enabled { get; set; }
+	/// <summary>
+	/// Settings which affect how the payment providers are configured.  
+	/// 
+	/// Each payment provider has its own settings, which determine how it is used.
+	/// </summary>
+	public class PaymentProviderSettings
+	{
+		/// <summary>
+		/// Determines whether the payment provider can be used or not.
+		/// </summary>
+		/// <value>bool.  If true the payment provider is enabled.</value>
+		public bool Enabled { get; set; }
 
-        /// <summary>
-        /// Unique guid which identifies the payment provider.
-        /// </summary>
-        /// <value>Guid</value>
-        [SettingGuid]
-        public string UniqueId { get; set; }
+		/// <summary>
+		/// Unique guid which identifies the payment provider.
+		/// </summary>
+		/// <value>Guid</value>
+		[SettingGuid]
+		public string UniqueId { get; set; }
 
-        /// <summary>
-        /// Delimited list of supported currencies for the payment provider.
-        /// 
-        /// Default:    GBP;USD;EUR
-        /// </summary>
-        /// <value>string</value>
-        [SettingDefault("GBP;USD;EUR")]
-        [SettingDelimitedString(';', 1)]
-        public string Currencies { get; set; }
-    }
+		/// <summary>
+		/// Delimited list of supported currencies for the payment provider.
+		/// 
+		/// Default:    GBP;USD;EUR
+		/// </summary>
+		/// <value>string</value>
+		[SettingDefault("GBP;USD;EUR")]
+		[SettingDelimitedString(';', 1)]
+		public string Currencies { get; set; }
+	}
 }

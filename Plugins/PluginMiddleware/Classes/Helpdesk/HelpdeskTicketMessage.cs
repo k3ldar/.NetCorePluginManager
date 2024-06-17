@@ -27,54 +27,54 @@ using System;
 
 namespace Middleware.Helpdesk
 {
-    /// <summary>
-    /// Individual message for a HelpdeskTicket message.
-    /// </summary>
-    public sealed class HelpdeskTicketMessage
-    {
-        #region Constructors
+	/// <summary>
+	/// Individual message for a HelpdeskTicket message.
+	/// </summary>
+	public sealed class HelpdeskTicketMessage
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="dateCreated">Date/time message was created.</param>
-        /// <param name="userName">Name of the person creating the message.</param>
-        /// <param name="message">Message.</param>
-        public HelpdeskTicketMessage(in DateTime dateCreated, in string userName, in string message)
-        {
-            if (String.IsNullOrEmpty(userName))
-                throw new ArgumentNullException(nameof(userName));
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="dateCreated">Date/time message was created.</param>
+		/// <param name="userName">Name of the person creating the message.</param>
+		/// <param name="message">Message.</param>
+		public HelpdeskTicketMessage(in DateTime dateCreated, in string userName, in string message)
+		{
+			if (String.IsNullOrEmpty(userName))
+				throw new ArgumentNullException(nameof(userName));
 
-            if (String.IsNullOrEmpty(message))
-                throw new ArgumentNullException(nameof(message));
+			if (String.IsNullOrEmpty(message))
+				throw new ArgumentNullException(nameof(message));
 
-            DateCreated = dateCreated;
-            UserName = userName;
-            Message = message;
-        }
+			DateCreated = dateCreated;
+			UserName = userName;
+			Message = message;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Date/time message was created.
-        /// </summary>
-        /// <value>DateTime</value>
-        public DateTime DateCreated { get; private set; }
+		/// <summary>
+		/// Date/time message was created.
+		/// </summary>
+		/// <value>DateTime</value>
+		public DateTime DateCreated { get; private set; }
 
-        /// <summary>
-        /// Name of the person creating the message.
-        /// </summary>
-        /// <value>string</value>
-        public string UserName { get; private set; }
+		/// <summary>
+		/// Name of the person creating the message.
+		/// </summary>
+		/// <value>string</value>
+		public string UserName { get; private set; }
 
-        /// <summary>
-        /// Message.
-        /// </summary>
-        /// <value>string</value>
-        public string Message { get; private set; }
+		/// <summary>
+		/// Message.
+		/// </summary>
+		/// <value>string</value>
+		public string Message { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

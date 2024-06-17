@@ -37,92 +37,92 @@ using SharedPluginFeatures;
 
 namespace Blog.Plugin.Classes
 {
-    /// <summary>
-    /// Blog search keyword provider.  Provides search facilities for blogs.
-    /// </summary>
-    public class BlogSearchKeywordProvider : ISearchKeywordProvider
-    {
-        #region Private Members
+	/// <summary>
+	/// Blog search keyword provider.  Provides search facilities for blogs.
+	/// </summary>
+	public class BlogSearchKeywordProvider : ISearchKeywordProvider
+	{
+		#region Private Members
 
-        private readonly IBlogProvider _blogProvider;
+		private readonly IBlogProvider _blogProvider;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public BlogSearchKeywordProvider(IBlogProvider blogProvider)
-        {
-            _blogProvider = blogProvider ?? throw new ArgumentNullException(nameof(blogProvider));
-        }
+		public BlogSearchKeywordProvider(IBlogProvider blogProvider)
+		{
+			_blogProvider = blogProvider ?? throw new ArgumentNullException(nameof(blogProvider));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region ISearchKeywordProvider Methods
+		#region ISearchKeywordProvider Methods
 
-        public Dictionary<String, AdvancedSearchOptions> AdvancedSearch()
-        {
-            return null;
-        }
+		public Dictionary<String, AdvancedSearchOptions> AdvancedSearch()
+		{
+			return null;
+		}
 
-        public List<SearchResponseItem> Search(in KeywordSearchOptions searchOptions)
-        {
-            if (searchOptions == null)
-                throw new ArgumentNullException(nameof(searchOptions));
+		public List<SearchResponseItem> Search(in KeywordSearchOptions searchOptions)
+		{
+			if (searchOptions == null)
+				throw new ArgumentNullException(nameof(searchOptions));
 
-            List<SearchResponseItem> Result = new();
+			List<SearchResponseItem> Result = new();
 
-            List<BlogItem> foundBlogs = new();
+			List<BlogItem> foundBlogs = new();
 
-            string[] words = searchOptions.SearchTerm.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+			string[] words = searchOptions.SearchTerm.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
-            foreach (string word in words)
-            {
-                List<BlogItem> blogs = _blogProvider.Search(word);
+			foreach (string word in words)
+			{
+				List<BlogItem> blogs = _blogProvider.Search(word);
 
-                foreach (BlogItem item in blogs)
-                {
-                    if (foundBlogs.Count == searchOptions.MaximumSearchResults)
-                        break;
+				foreach (BlogItem item in blogs)
+				{
+					if (foundBlogs.Count == searchOptions.MaximumSearchResults)
+						break;
 
-                    if (!foundBlogs.Contains(item))
-                        foundBlogs.Add(item);
-                }
-            }
+					if (!foundBlogs.Contains(item))
+						foundBlogs.Add(item);
+				}
+			}
 
-            foreach (BlogItem blogItem in foundBlogs)
-            {
-                Result.Add(CreateSearchResponseItem(blogItem));
-            }
+			foreach (BlogItem blogItem in foundBlogs)
+			{
+				Result.Add(CreateSearchResponseItem(blogItem));
+			}
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public List<String> SearchResponseTypes(in Boolean quickSearch)
-        {
-            return new List<string>() { "Blog" };
-        }
+		public List<String> SearchResponseTypes(in Boolean quickSearch)
+		{
+			return new List<string>() { "Blog" };
+		}
 
-        #endregion ISearchKeywordProvider Methods
+		#endregion ISearchKeywordProvider Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private static SearchResponseItem CreateSearchResponseItem(BlogItem blogItem)
-        {
-            string url = $"/Blog/{HtmlHelper.RouteFriendlyName(blogItem.Username)}/{blogItem.Id}/" +
-                $"{blogItem.LastModified.ToString("dd-MM-yyyy")}/{HtmlHelper.RouteFriendlyName(blogItem.Title)}";
+		private static SearchResponseItem CreateSearchResponseItem(BlogItem blogItem)
+		{
+			string url = $"/Blog/{HtmlHelper.RouteFriendlyName(blogItem.Username)}/{blogItem.Id}/" +
+				$"{blogItem.LastModified.ToString("dd-MM-yyyy")}/{HtmlHelper.RouteFriendlyName(blogItem.Title)}";
 
-            SearchResponseItem responseItem = new("Blog", blogItem.Title, -1,
-                url, blogItem.Title, "~/Views/Blog/_BlogSearchResult.cshtml");
+			SearchResponseItem responseItem = new("Blog", blogItem.Title, -1,
+				url, blogItem.Title, "~/Views/Blog/_BlogSearchResult.cshtml");
 
-            responseItem.Properties.Add(nameof(Languages.LanguageStrings.Author), blogItem.Username);
-            responseItem.Properties.Add(nameof(Languages.LanguageStrings.Published),
-                blogItem.PublishDateTime.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern));
+			responseItem.Properties.Add(nameof(Languages.LanguageStrings.Author), blogItem.Username);
+			responseItem.Properties.Add(nameof(Languages.LanguageStrings.Published),
+				blogItem.PublishDateTime.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern));
 
-            return responseItem;
-        }
+			return responseItem;
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591

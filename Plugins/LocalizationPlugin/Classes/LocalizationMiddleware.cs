@@ -39,89 +39,89 @@ using SharedPluginFeatures;
 
 namespace Localization.Plugin
 {
-    /// <summary>
-    /// Localization middleware class, processes all localiztion requests whilst in the request pipeline.
-    /// </summary>
-    public sealed class LocalizationMiddleware : BaseMiddleware
-    {
-        #region Private Members
+	/// <summary>
+	/// Localization middleware class, processes all localiztion requests whilst in the request pipeline.
+	/// </summary>
+	public sealed class LocalizationMiddleware : BaseMiddleware
+	{
+		#region Private Members
 
-        private readonly RequestDelegate _next;
-        private static readonly Timings _timings = new();
-        private readonly CacheManager _cultureCache;
+		private readonly RequestDelegate _next;
+		private static readonly Timings _timings = new();
+		private readonly CacheManager _cultureCache;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public LocalizationMiddleware(RequestDelegate next, ISettingsProvider settingsProvider)
-        {
-            if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+		public LocalizationMiddleware(RequestDelegate next, ISettingsProvider settingsProvider)
+		{
+			if (settingsProvider == null)
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            _next = next;
+			_next = next;
 
-            _cultureCache = PluginInitialisation.CultureCacheManager;
-        }
+			_cultureCache = PluginInitialisation.CultureCacheManager;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Methods
+		#region Public Methods
 
-        public async Task Invoke(HttpContext context)
-        {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
+		public async Task Invoke(HttpContext context)
+		{
+			if (context == null)
+				throw new ArgumentNullException(nameof(context));
 
-            using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
-            {
-                if (context.Items.TryGetValue(Constants.UserCulture, out object sessionCulture))
-                {
-                    SetUserCulture((string)sessionCulture);
-                }
-            }
+			using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
+			{
+				if (context.Items.TryGetValue(Constants.UserCulture, out object sessionCulture))
+				{
+					SetUserCulture((string)sessionCulture);
+				}
+			}
 
-            await _next(context);
-        }
+			await _next(context);
+		}
 
-        #endregion Public Methods
+		#endregion Public Methods
 
-        #region Internal Properties
+		#region Internal Properties
 
-        internal static Timings LocalizationTimings
-        {
-            get
-            {
-                return _timings.Clone();
-            }
-        }
+		internal static Timings LocalizationTimings
+		{
+			get
+			{
+				return _timings.Clone();
+			}
+		}
 
-        #endregion Internal Properties
+		#endregion Internal Properties
 
-        #region Private Methods
+		#region Private Methods
 
-        private void SetUserCulture(in string culture)
-        {
-            if (String.IsNullOrEmpty(culture))
-                throw new ArgumentNullException(nameof(culture));
+		private void SetUserCulture(in string culture)
+		{
+			if (String.IsNullOrEmpty(culture))
+				throw new ArgumentNullException(nameof(culture));
 
-            CacheItem cacheItem = _cultureCache.Get(culture);
+			CacheItem cacheItem = _cultureCache.Get(culture);
 
-            if (cacheItem == null)
-            {
-                cacheItem = new CacheItem(culture, new CultureInfo(culture));
-                _cultureCache.Add(culture, cacheItem);
-            }
+			if (cacheItem == null)
+			{
+				cacheItem = new CacheItem(culture, new CultureInfo(culture));
+				_cultureCache.Add(culture, cacheItem);
+			}
 
-            CultureInfo cultureInfo = (CultureInfo)cacheItem.Value;
+			CultureInfo cultureInfo = (CultureInfo)cacheItem.Value;
 
-            System.Threading.Thread.CurrentThread.CurrentCulture = cultureInfo;
-            System.Threading.Thread.CurrentThread.CurrentUICulture = cultureInfo;
+			System.Threading.Thread.CurrentThread.CurrentCulture = cultureInfo;
+			System.Threading.Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
-        }
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591

@@ -31,72 +31,72 @@ using SharedPluginFeatures;
 
 namespace Subdomain.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns Timings information for all time spent processing subdomain requests and can 
-    /// be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class SubdomainTimingsSubMenu : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	/// <summary>
+	/// Returns Timings information for all time spent processing subdomain requests and can 
+	/// be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public sealed class SubdomainTimingsSubMenu : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        /// <summary>
-        /// Returns Timings data in milliseconds for time spent processing by Subdomain.Plugin requests.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            string Result = "Setting|Value";
+		/// <summary>
+		/// Returns Timings data in milliseconds for time spent processing by Subdomain.Plugin requests.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			string Result = "Setting|Value";
 
-            Result += $"\rTotal Requests|{SubdomainMiddleware._timings.Requests}";
-            Result += $"\rFastest ms|{SubdomainMiddleware._timings.Fastest}";
-            Result += $"\rSlowest ms|{SubdomainMiddleware._timings.Slowest}";
-            Result += $"\rAverage ms|{SubdomainMiddleware._timings.Average}";
-            Result += $"\rTrimmed Avg ms|{SubdomainMiddleware._timings.TrimmedAverage}";
-            Result += $"\rTotal ms|{SubdomainMiddleware._timings.Total}";
+			Result += $"\rTotal Requests|{SubdomainMiddleware._timings.Requests}";
+			Result += $"\rFastest ms|{SubdomainMiddleware._timings.Fastest}";
+			Result += $"\rSlowest ms|{SubdomainMiddleware._timings.Slowest}";
+			Result += $"\rAverage ms|{SubdomainMiddleware._timings.Average}";
+			Result += $"\rTrimmed Avg ms|{SubdomainMiddleware._timings.TrimmedAverage}";
+			Result += $"\rTotal ms|{SubdomainMiddleware._timings.Total}";
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public override string Image()
-        {
-            return Constants.SystemImageStopWatch;
-        }
+		public override string Image()
+		{
+			return Constants.SystemImageStopWatch;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override string Name()
-        {
-            return "Subdomain";
-        }
+		public override string Name()
+		{
+			return "Subdomain";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "Timings";
-        }
+		public override string ParentMenuName()
+		{
+			return "Timings";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
-    }
+		public override int SortOrder()
+		{
+			return 0;
+		}
+	}
 }
 
 #pragma warning restore CS1591

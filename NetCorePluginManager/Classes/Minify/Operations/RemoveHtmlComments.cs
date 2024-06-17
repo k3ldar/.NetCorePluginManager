@@ -25,12 +25,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 namespace AspNetCore.PluginManager.Classes.Minify
 {
-    internal sealed class RemoveHtmlComments : RemoveComments
-    {
-        public RemoveHtmlComments()
-            : base("<!--", "-->")
-        {
+	internal sealed class RemoveHtmlComments : RemoveComments
+	{
+		public RemoveHtmlComments()
+			: base("<!--", "-->")
+		{
 
-        }
-    }
+		}
+	}
 }

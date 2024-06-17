@@ -32,38 +32,38 @@ using SharedPluginFeatures;
 
 namespace LoginPlugin.Models
 {
-    public sealed class AccountLockedViewModel : BaseModel
-    {
-        #region Constructors
+	public sealed class AccountLockedViewModel : BaseModel
+	{
+		#region Constructors
 
-        public AccountLockedViewModel()
-        {
-            Username = String.Empty;
-        }
+		public AccountLockedViewModel()
+		{
+			Username = String.Empty;
+		}
 
-        public AccountLockedViewModel(in BaseModelData modelData, string username)
-            : base(modelData)
-        {
-            if (String.IsNullOrEmpty(username))
-                throw new ArgumentNullException(nameof(username));
+		public AccountLockedViewModel(in BaseModelData modelData, string username)
+			: base(modelData)
+		{
+			if (String.IsNullOrEmpty(username))
+				throw new ArgumentNullException(nameof(username));
 
-            Username = username;
-        }
+			Username = username;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterUserNameOrEmail))]
-        [Display(Name = nameof(Languages.LanguageStrings.Username))]
-        public string Username { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterUserNameOrEmail))]
+		[Display(Name = nameof(Languages.LanguageStrings.Username))]
+		public string Username { get; set; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.EnterUnlockCode))]
-        [Display(Name = nameof(Languages.LanguageStrings.Code))]
-        public string UnlockCode { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.EnterUnlockCode))]
+		[Display(Name = nameof(Languages.LanguageStrings.Code))]
+		public string UnlockCode { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

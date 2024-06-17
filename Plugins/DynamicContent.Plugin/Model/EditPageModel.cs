@@ -34,72 +34,72 @@ using SharedPluginFeatures.DynamicContent;
 
 namespace DynamicContent.Plugin.Model
 {
-    public sealed class EditPageModel : BaseModel
-    {
-        #region Constructors
+	public sealed class EditPageModel : BaseModel
+	{
+		#region Constructors
 
-        public EditPageModel()
-        {
-            DynamicContents = new List<DynamicContentTemplate>();
-        }
+		public EditPageModel()
+		{
+			DynamicContents = new List<DynamicContentTemplate>();
+		}
 
-        public EditPageModel(in BaseModelData modelData, string cacheId, long id,
-            string name, string routeName, DateTime activeFrom, DateTime activeTo,
-            List<DynamicContentTemplate> dynamicContents, string backgroundColor,
-            string backgroundImage)
-            : base(modelData)
-        {
-            if (String.IsNullOrEmpty(name))
-                throw new ArgumentNullException(nameof(name));
+		public EditPageModel(in BaseModelData modelData, string cacheId, long id,
+			string name, string routeName, DateTime activeFrom, DateTime activeTo,
+			List<DynamicContentTemplate> dynamicContents, string backgroundColor,
+			string backgroundImage)
+			: base(modelData)
+		{
+			if (String.IsNullOrEmpty(name))
+				throw new ArgumentNullException(nameof(name));
 
-            if (String.IsNullOrEmpty(cacheId))
-                throw new ArgumentNullException(nameof(cacheId));
+			if (String.IsNullOrEmpty(cacheId))
+				throw new ArgumentNullException(nameof(cacheId));
 
-            DynamicContents = dynamicContents ?? throw new ArgumentNullException(nameof(dynamicContents));
-            CacheId = cacheId;
-            Id = id;
-            Name = name;
-            RouteName = routeName;
+			DynamicContents = dynamicContents ?? throw new ArgumentNullException(nameof(dynamicContents));
+			CacheId = cacheId;
+			Id = id;
+			Name = name;
+			RouteName = routeName;
 
-            if (String.IsNullOrEmpty(RouteName) && !String.IsNullOrEmpty(Name))
-                RouteName = RouteFriendlyName(Name);
+			if (String.IsNullOrEmpty(RouteName) && !String.IsNullOrEmpty(Name))
+				RouteName = RouteFriendlyName(Name);
 
-            ActiveFrom = activeFrom;
-            ActiveTo = activeTo;
-            BackgroundColor = backgroundColor;
-            BackgroundImage = backgroundImage;
-        }
+			ActiveFrom = activeFrom;
+			ActiveTo = activeTo;
+			BackgroundColor = backgroundColor;
+			BackgroundImage = backgroundImage;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public string CacheId { get; set; }
+		public string CacheId { get; set; }
 
-        public long Id { get; set; }
+		public long Id { get; set; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterNameOfPage))]
-        [Display(Name = nameof(Languages.LanguageStrings.PageName))]
-        public string Name { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterNameOfPage))]
+		[Display(Name = nameof(Languages.LanguageStrings.PageName))]
+		public string Name { get; set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.RouteName))]
-        public string RouteName { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.RouteName))]
+		public string RouteName { get; set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.ActiveFrom))]
-        public DateTime ActiveFrom { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.ActiveFrom))]
+		public DateTime ActiveFrom { get; set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.ActiveTo))]
-        public DateTime ActiveTo { get; set; }
+		[Display(Name = nameof(Languages.LanguageStrings.ActiveTo))]
+		public DateTime ActiveTo { get; set; }
 
-        public List<DynamicContentTemplate> DynamicContents { get; }
+		public List<DynamicContentTemplate> DynamicContents { get; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterBackgroundColor))]
-        public string BackgroundColor { get; set; }
+		[Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterBackgroundColor))]
+		public string BackgroundColor { get; set; }
 
-        public string BackgroundImage { get; set; }
+		public string BackgroundImage { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

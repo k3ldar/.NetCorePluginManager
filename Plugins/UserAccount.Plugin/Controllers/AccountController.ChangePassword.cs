@@ -37,43 +37,43 @@ namespace UserAccount.Plugin.Controllers
 {
 #pragma warning disable CS1591
 
-    public partial class AccountController : BaseController
-    {
-        [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.MyPassword), nameof(AccountController), nameof(Index))]
-        public IActionResult ChangePassword()
-        {
-            UserSession userSession = GetUserSession();
+	public partial class AccountController : BaseController
+	{
+		[HttpGet]
+		[Breadcrumb(nameof(Languages.LanguageStrings.MyPassword), nameof(AccountController), nameof(Index))]
+		public IActionResult ChangePassword()
+		{
+			UserSession userSession = GetUserSession();
 
-            return View(new ChangePasswordViewModel(GetModelData(), userSession.UserEmail));
-        }
+			return View(new ChangePasswordViewModel(GetModelData(), userSession.UserEmail));
+		}
 
-        [HttpPost]
-        public IActionResult ChangePassword(ChangePasswordViewModel model)
-        {
-            if (!model.NewPassword.Equals(model.ConfirmNewPassword))
-                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.PasswordDoesNotMatch);
+		[HttpPost]
+		public IActionResult ChangePassword(ChangePasswordViewModel model)
+		{
+			if (!model.NewPassword.Equals(model.ConfirmNewPassword))
+				ModelState.AddModelError(String.Empty, Languages.LanguageStrings.PasswordDoesNotMatch);
 
-            if (!ValidatePasswordComplexity(model.NewPassword))
-                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.PasswordComplexityFailed);
+			if (!ValidatePasswordComplexity(model.NewPassword))
+				ModelState.AddModelError(String.Empty, Languages.LanguageStrings.PasswordComplexityFailed);
 
-            if (ModelState.IsValid)
-            {
-                if (_accountProvider.ChangePassword(GetUserSession().UserID, model.NewPassword))
-                {
-                    GrowlAdd(Languages.LanguageStrings.PasswordUpdated);
-                    return RedirectToAction(nameof(Index), "Account");
-                }
+			if (ModelState.IsValid)
+			{
+				if (_accountProvider.ChangePassword(GetUserSession().UserID, model.NewPassword))
+				{
+					GrowlAdd(Languages.LanguageStrings.PasswordUpdated);
+					return RedirectToAction(nameof(Index), "Account");
+				}
 
-                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.PasswordUpdateFailed);
-            }
+				ModelState.AddModelError(String.Empty, Languages.LanguageStrings.PasswordUpdateFailed);
+			}
 
-            model.Breadcrumbs = GetBreadcrumbs();
-            model.CartSummary = GetCartSummary();
+			model.Breadcrumbs = GetBreadcrumbs();
+			model.CartSummary = GetCartSummary();
 
-            return View(model);
-        }
-    }
+			return View(model);
+		}
+	}
 
 #pragma warning restore CS1591
 }

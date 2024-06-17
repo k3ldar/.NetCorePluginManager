@@ -36,26 +36,26 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Controllers
 {
-    public partial class SystemAdminController
-    {
-        [HttpGet]
-        public JsonResult UserSearch(BootgridRequestData model)
-        {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+	public partial class SystemAdminController
+	{
+		[HttpGet]
+		public JsonResult UserSearch(BootgridRequestData model)
+		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
 
-            BootgridResponseData<SearchUser> Result = new()
+			BootgridResponseData<SearchUser> Result = new()
 			{
-                rows = _userSearch.GetUsers(model.current, model.rowCount, model.searchPhrase, ""),
-                current = model.current,
-                rowCount = model.rowCount
-            };
+				rows = _userSearch.GetUsers(model.current, model.rowCount, model.searchPhrase, ""),
+				current = model.current,
+				rowCount = model.rowCount
+			};
 
-            Result.total = Result.rows.Count();
+			Result.total = Result.rows.Count();
 
-            return new JsonResult(Result);
-        }
-    }
+			return new JsonResult(Result);
+		}
+	}
 }
 
 #pragma warning restore CS1591

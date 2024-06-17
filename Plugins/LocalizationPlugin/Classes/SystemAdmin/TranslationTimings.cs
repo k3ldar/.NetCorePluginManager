@@ -31,72 +31,72 @@ using SharedPluginFeatures;
 
 namespace Localization.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns Timings information for all time spent processing translation requests and can 
-    /// be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public class TranslationTimings : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	/// <summary>
+	/// Returns Timings information for all time spent processing translation requests and can 
+	/// be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public class TranslationTimings : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        /// <summary>
-        /// Returns Timings data in milliseconds for time spent processing translation requests.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            string Result = "Setting|Value";
+		/// <summary>
+		/// Returns Timings data in milliseconds for time spent processing translation requests.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			string Result = "Setting|Value";
 
-            Result += $"\rTotal Requests|{StringLocalizer.LocalizationTimings.Requests}";
-            Result += $"\rFastest ms|{StringLocalizer.LocalizationTimings.Fastest}";
-            Result += $"\rSlowest ms|{StringLocalizer.LocalizationTimings.Slowest}";
-            Result += $"\rAverage ms|{StringLocalizer.LocalizationTimings.Average}";
-            Result += $"\rTrimmed Avg ms|{StringLocalizer.LocalizationTimings.TrimmedAverage}";
-            Result += $"\rTotal ms|{StringLocalizer.LocalizationTimings.Total}";
+			Result += $"\rTotal Requests|{StringLocalizer.LocalizationTimings.Requests}";
+			Result += $"\rFastest ms|{StringLocalizer.LocalizationTimings.Fastest}";
+			Result += $"\rSlowest ms|{StringLocalizer.LocalizationTimings.Slowest}";
+			Result += $"\rAverage ms|{StringLocalizer.LocalizationTimings.Average}";
+			Result += $"\rTrimmed Avg ms|{StringLocalizer.LocalizationTimings.TrimmedAverage}";
+			Result += $"\rTotal ms|{StringLocalizer.LocalizationTimings.Total}";
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public override string Image()
-        {
-            return Constants.SystemImageStopWatch;
-        }
+		public override string Image()
+		{
+			return Constants.SystemImageStopWatch;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override string Name()
-        {
-            return "TranslationTimings";
-        }
+		public override string Name()
+		{
+			return "TranslationTimings";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "Timings";
-        }
+		public override string ParentMenuName()
+		{
+			return "Timings";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
-    }
+		public override int SortOrder()
+		{
+			return 0;
+		}
+	}
 }
 
 #pragma warning restore CS1591

@@ -31,11 +31,11 @@ using SharedPluginFeatures;
 
 namespace WebSmokeTest.Plugin
 {
-    /// <summary>
-    /// Settings which affect how WebSmokeTest data is served.
-    /// </summary>
-    public class WebSmokeTestSettings : IPluginSettings
-    {
+	/// <summary>
+	/// Settings which affect how WebSmokeTest data is served.
+	/// </summary>
+	public class WebSmokeTestSettings : IPluginSettings
+	{
 		#region Properties
 
 		/// <summary>
@@ -43,35 +43,35 @@ namespace WebSmokeTest.Plugin
 		/// </summary>
 		public string SettingsName => nameof(WebSmokeTest);
 
-        /// <summary>
-        /// Delimited list of file extensions to ignore
-        /// </summary>
-        /// <value>string</value>
-        [SettingDefault(Constants.StaticFileExtensions)]
-        [SettingString(false)]
-        [SettingDelimitedString(';', 1)]
-        public string StaticFileExtensions { get; set; }
+		/// <summary>
+		/// Delimited list of file extensions to ignore
+		/// </summary>
+		/// <value>string</value>
+		[SettingDefault(Constants.StaticFileExtensions)]
+		[SettingString(false)]
+		[SettingDelimitedString(';', 1)]
+		public string StaticFileExtensions { get; set; }
 
-        /// <summary>
-        /// Determines whether smoke testing is available or not, should be set to false 
-        /// when used on a live site
-        /// </summary>
-        [SettingDefault(false)]
-        public bool Enabled { get; set; }
+		/// <summary>
+		/// Determines whether smoke testing is available or not, should be set to false 
+		/// when used on a live site
+		/// </summary>
+		[SettingDefault(false)]
+		public bool Enabled { get; set; }
 
-        /// <summary>
-        /// A list of unique site id's for Smoke Testing
-        /// </summary>
-        /// <value>List&lt;string&gt;</value>
-        [SettingOptional]
-        public List<string> SiteId { get; set; }
+		/// <summary>
+		/// A list of unique site id's for Smoke Testing
+		/// </summary>
+		/// <value>List&lt;string&gt;</value>
+		[SettingOptional]
+		public List<string> SiteId { get; set; }
 
-        /// <summary>
-        /// The key used to encrypt smoke test data prior to sending
-        /// </summary>
-        [SettingString(15, 250)]
-        public string EncryptionKey { get; set; }
+		/// <summary>
+		/// The key used to encrypt smoke test data prior to sending
+		/// </summary>
+		[SettingString(15, 250)]
+		public string EncryptionKey { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

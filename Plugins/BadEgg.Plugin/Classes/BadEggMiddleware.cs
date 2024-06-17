@@ -47,204 +47,204 @@ using static SharedPluginFeatures.Enums;
 
 namespace BadEgg.Plugin
 {
-    /// <summary>
-    /// BadEgg Middleware
-    /// </summary>
-    public sealed class BadEggMiddleware : BaseMiddleware
-    {
-        #region Private Members
+	/// <summary>
+	/// BadEgg Middleware
+	/// </summary>
+	public sealed class BadEggMiddleware : BaseMiddleware
+	{
+		#region Private Members
 
-        private readonly List<ManagedRoute> _managedRoutes;
-        private readonly RequestDelegate _next;
-        private readonly ValidateConnections _validateConnections;
-        private readonly IIpValidation _ipValidation;
-        private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
-        private readonly BadEggSettings _badEggSettings;
-        private readonly INotificationService _notificationService;
-        internal readonly static Timings _timings = new();
+		private readonly List<ManagedRoute> _managedRoutes;
+		private readonly RequestDelegate _next;
+		private readonly ValidateConnections _validateConnections;
+		private readonly IIpValidation _ipValidation;
+		private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
+		private readonly BadEggSettings _badEggSettings;
+		private readonly INotificationService _notificationService;
+		internal readonly static Timings _timings = new();
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public BadEggMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider,
-            IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
-            IPluginTypesService pluginTypesService, IIpValidation ipValidation,
-            ISettingsProvider settingsProvider, INotificationService notificationService)
-        {
-            if (routeProvider == null)
-                throw new ArgumentNullException(nameof(routeProvider));
+		public BadEggMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider,
+			IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
+			IPluginTypesService pluginTypesService, IIpValidation ipValidation,
+			ISettingsProvider settingsProvider, INotificationService notificationService)
+		{
+			if (routeProvider == null)
+				throw new ArgumentNullException(nameof(routeProvider));
 
-            if (routeDataService == null)
-                throw new ArgumentNullException(nameof(routeDataService));
+			if (routeDataService == null)
+				throw new ArgumentNullException(nameof(routeDataService));
 
-            if (pluginHelperService == null)
-                throw new ArgumentNullException(nameof(pluginHelperService));
+			if (pluginHelperService == null)
+				throw new ArgumentNullException(nameof(pluginHelperService));
 
-            if (pluginTypesService == null)
-                throw new ArgumentNullException(nameof(pluginTypesService));
+			if (pluginTypesService == null)
+				throw new ArgumentNullException(nameof(pluginTypesService));
 
-            if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+			if (settingsProvider == null)
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            _next = next ?? throw new ArgumentNullException(nameof(next));
+			_next = next ?? throw new ArgumentNullException(nameof(next));
 
-            _ipValidation = ipValidation ?? throw new ArgumentNullException(nameof(ipValidation));
-            _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
+			_ipValidation = ipValidation ?? throw new ArgumentNullException(nameof(ipValidation));
+			_notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
 
-            _managedRoutes = new List<ManagedRoute>();
-            LoadRouteData(routeProvider, routeDataService, pluginTypesService);
+			_managedRoutes = new List<ManagedRoute>();
+			LoadRouteData(routeProvider, routeDataService, pluginTypesService);
 
-            _badEggSettings = settingsProvider.GetSettings<BadEggSettings>(Constants.BadEggSettingsName);
+			_badEggSettings = settingsProvider.GetSettings<BadEggSettings>(Constants.BadEggSettingsName);
 
-            _validateConnections = new ValidateConnections(
-                new TimeSpan(0, _badEggSettings.ConnectionTimeOut, 0),
-                _badEggSettings.ConnectionsPerSecond);
-            _validateConnections.ConnectionAdd += ValidateConnections_ConnectionAdd;
-            _validateConnections.ConnectionRemove += ValidateConnections_ConnectionRemove;
-            _validateConnections.OnReportConnection += ValidateConnections_OnReportConnection;
-            _validateConnections.OnBanIPAddress += ValidateConnections_OnBanIPAddress;
+			_validateConnections = new ValidateConnections(
+				new TimeSpan(0, _badEggSettings.ConnectionTimeOut, 0),
+				_badEggSettings.ConnectionsPerSecond);
+			_validateConnections.ConnectionAdd += ValidateConnections_ConnectionAdd;
+			_validateConnections.ConnectionRemove += ValidateConnections_ConnectionRemove;
+			_validateConnections.OnReportConnection += ValidateConnections_OnReportConnection;
+			_validateConnections.OnBanIPAddress += ValidateConnections_OnBanIPAddress;
 
-            ThreadManager.ThreadStart(_validateConnections, Constants.BadEggValidationThread, ThreadPriority.Lowest);
-        }
+			ThreadManager.ThreadStart(_validateConnections, Constants.BadEggValidationThread, ThreadPriority.Lowest);
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Methods
+		#region Public Methods
 
-        public async Task Invoke(HttpContext context)
-        {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
+		public async Task Invoke(HttpContext context)
+		{
+			if (context == null)
+				throw new ArgumentNullException(nameof(context));
 
-            string fileExtension = RouteFileExtension(context);
+			string fileExtension = RouteFileExtension(context);
 
-            if (!String.IsNullOrEmpty(fileExtension) && _staticFileExtensions.Contains($"{fileExtension};"))
-            {
-                await _next(context);
-                return;
-            }
+			if (!String.IsNullOrEmpty(fileExtension) && _staticFileExtensions.Contains($"{fileExtension};"))
+			{
+				await _next(context);
+				return;
+			}
 
-            if (context.Request.Headers.ContainsKey(Constants.BadEggValidationIgnoreHeaderName) &&
-                context.Request.Headers[Constants.BadEggValidationIgnoreHeaderName].Equals(_badEggSettings.IgnoreValidationHeaderCode))
-            {
-                context.Response.Headers[Constants.BadEggValidationIgnoreHeaderName] = Boolean.TrueString;
-                await _next(context);
-                return;
-            }
-
-
-            string route = RouteLowered(context);
-
-            using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
-            {
-                bool validateFormInput = false;
-
-                foreach (ManagedRoute restrictedRoute in _managedRoutes)
-                {
-                    if (restrictedRoute.ValidateFormFields && restrictedRoute.Route.StartsWith(route))
-                    {
-                        validateFormInput = true;
-                        break;
-                    }
-                }
-
-                ValidateRequestResult validateResult = _validateConnections.ValidateRequest(context.Request, validateFormInput, out int _);
-
-                if (!validateResult.HasFlag(ValidateRequestResult.IpWhiteListed))
-                {
-                    if (validateResult.HasFlag(ValidateRequestResult.IpBlackListed))
-                    {
-                        context.Response.StatusCode = _badEggSettings.BannedResponseCode;
-                        return;
-                    }
-                    else if (validateResult.HasFlag(ValidateRequestResult.TooManyRequests))
-                    {
-                        _notificationService.RaiseEvent(nameof(ValidateRequestResult.TooManyRequests), GetIpAddress(context));
-                        context.Response.StatusCode = _badEggSettings.TooManyRequestResponseCode;
-                        return;
-                    }
-                }
-            }
-
-            await _next(context);
-        }
-
-        #endregion Public Methods
-
-        #region Private Methods
-
-        private void LoadRouteData(IActionDescriptorCollectionProvider routeProvider,
-            IRouteDataService routeDataService, IPluginTypesService pluginTypesService)
-        {
-            List<Type> badeggAttributes = pluginTypesService.GetPluginTypesWithAttribute<BadEggAttribute>();
-
-            if (badeggAttributes.Count > 0)
-            {
-                // Cycle through all classes and methods which have the bad egg attribute
-                foreach (Type type in badeggAttributes)
-                {
-                    // is it a class attribute
-                    BadEggAttribute attribute = type.GetCustomAttributes(true).FirstOrDefault(a => a.GetType() == typeof(BadEggAttribute)) as BadEggAttribute;
-
-                    if (attribute != null)
-                    {
-                        string route = routeDataService.GetRouteFromClass(type, routeProvider);
-
-                        if (String.IsNullOrEmpty(route))
-                            continue;
-
-                        _managedRoutes.Add(new ManagedRoute($"{route.ToLower()}", attribute.ValidateQueryFields, attribute.ValidateFormFields));
-                    }
-
-                    // look for specific method disallows
-
-                    foreach (MethodInfo method in type.GetMethods())
-                    {
-                        attribute = method.GetCustomAttributes(true)
-                            .FirstOrDefault(a => a.GetType() == typeof(BadEggAttribute)) as BadEggAttribute;
-
-                        if (attribute != null)
-                        {
-                            string route = routeDataService.GetRouteFromMethod(method, routeProvider);
-
-                            if (String.IsNullOrEmpty(route))
-                                continue;
+			if (context.Request.Headers.ContainsKey(Constants.BadEggValidationIgnoreHeaderName) &&
+				context.Request.Headers[Constants.BadEggValidationIgnoreHeaderName].Equals(_badEggSettings.IgnoreValidationHeaderCode))
+			{
+				context.Response.Headers[Constants.BadEggValidationIgnoreHeaderName] = Boolean.TrueString;
+				await _next(context);
+				return;
+			}
 
 
-                            _managedRoutes.Add(new ManagedRoute($"{route.ToLower()}", attribute.ValidateQueryFields, attribute.ValidateFormFields));
-                        }
-                    }
-                }
-            }
-        }
+			string route = RouteLowered(context);
 
-        #region IIpValidation Methods
+			using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
+			{
+				bool validateFormInput = false;
 
-        private void ValidateConnections_OnBanIPAddress(object sender, RequestBanEventArgs e)
-        {
-            e.AddToBlackList = _ipValidation.ConnectionBan(e.IPAddress, e.Hits, e.Requests, e.Duration);
-        }
+				foreach (ManagedRoute restrictedRoute in _managedRoutes)
+				{
+					if (restrictedRoute.ValidateFormFields && restrictedRoute.Route.StartsWith(route))
+					{
+						validateFormInput = true;
+						break;
+					}
+				}
 
-        private void ValidateConnections_OnReportConnection(object sender, ConnectionReportEventArgs e)
-        {
-            _ipValidation.ConnectionReport(e.IPAddress, e.QueryString, e.Result);
-        }
+				ValidateRequestResult validateResult = _validateConnections.ValidateRequest(context.Request, validateFormInput, out int _);
 
-        private void ValidateConnections_ConnectionRemove(object sender, ConnectionRemoveEventArgs e)
-        {
-            _ipValidation.ConnectionRemove(e.IPAddress, e.Hits, e.Requests, e.Duration);
-        }
+				if (!validateResult.HasFlag(ValidateRequestResult.IpWhiteListed))
+				{
+					if (validateResult.HasFlag(ValidateRequestResult.IpBlackListed))
+					{
+						context.Response.StatusCode = _badEggSettings.BannedResponseCode;
+						return;
+					}
+					else if (validateResult.HasFlag(ValidateRequestResult.TooManyRequests))
+					{
+						_notificationService.RaiseEvent(nameof(ValidateRequestResult.TooManyRequests), GetIpAddress(context));
+						context.Response.StatusCode = _badEggSettings.TooManyRequestResponseCode;
+						return;
+					}
+				}
+			}
 
-        private void ValidateConnections_ConnectionAdd(object sender, ConnectionEventArgs e)
-        {
-            _ipValidation.ConnectionAdd(e.IPAddress);
-        }
+			await _next(context);
+		}
 
-        #endregion IIpValidation Methods
+		#endregion Public Methods
 
-        #endregion Private Methods
-    }
+		#region Private Methods
+
+		private void LoadRouteData(IActionDescriptorCollectionProvider routeProvider,
+			IRouteDataService routeDataService, IPluginTypesService pluginTypesService)
+		{
+			List<Type> badeggAttributes = pluginTypesService.GetPluginTypesWithAttribute<BadEggAttribute>();
+
+			if (badeggAttributes.Count > 0)
+			{
+				// Cycle through all classes and methods which have the bad egg attribute
+				foreach (Type type in badeggAttributes)
+				{
+					// is it a class attribute
+					BadEggAttribute attribute = type.GetCustomAttributes(true).FirstOrDefault(a => a.GetType() == typeof(BadEggAttribute)) as BadEggAttribute;
+
+					if (attribute != null)
+					{
+						string route = routeDataService.GetRouteFromClass(type, routeProvider);
+
+						if (String.IsNullOrEmpty(route))
+							continue;
+
+						_managedRoutes.Add(new ManagedRoute($"{route.ToLower()}", attribute.ValidateQueryFields, attribute.ValidateFormFields));
+					}
+
+					// look for specific method disallows
+
+					foreach (MethodInfo method in type.GetMethods())
+					{
+						attribute = method.GetCustomAttributes(true)
+							.FirstOrDefault(a => a.GetType() == typeof(BadEggAttribute)) as BadEggAttribute;
+
+						if (attribute != null)
+						{
+							string route = routeDataService.GetRouteFromMethod(method, routeProvider);
+
+							if (String.IsNullOrEmpty(route))
+								continue;
+
+
+							_managedRoutes.Add(new ManagedRoute($"{route.ToLower()}", attribute.ValidateQueryFields, attribute.ValidateFormFields));
+						}
+					}
+				}
+			}
+		}
+
+		#region IIpValidation Methods
+
+		private void ValidateConnections_OnBanIPAddress(object sender, RequestBanEventArgs e)
+		{
+			e.AddToBlackList = _ipValidation.ConnectionBan(e.IPAddress, e.Hits, e.Requests, e.Duration);
+		}
+
+		private void ValidateConnections_OnReportConnection(object sender, ConnectionReportEventArgs e)
+		{
+			_ipValidation.ConnectionReport(e.IPAddress, e.QueryString, e.Result);
+		}
+
+		private void ValidateConnections_ConnectionRemove(object sender, ConnectionRemoveEventArgs e)
+		{
+			_ipValidation.ConnectionRemove(e.IPAddress, e.Hits, e.Requests, e.Duration);
+		}
+
+		private void ValidateConnections_ConnectionAdd(object sender, ConnectionEventArgs e)
+		{
+			_ipValidation.ConnectionAdd(e.IPAddress);
+		}
+
+		#endregion IIpValidation Methods
+
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591

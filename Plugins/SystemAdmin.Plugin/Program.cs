@@ -32,20 +32,20 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace SystemAdmin.Plugin
 {
-    [ExcludeFromCodeCoverage]
-    public static class Program
-    {
-        public static void Main(string[] args)
-        {
-            AspNetCore.PluginManager.PluginManagerService.Initialise();
+	[ExcludeFromCodeCoverage]
+	public static class Program
+	{
+		public static void Main(string[] args)
+		{
+			AspNetCore.PluginManager.PluginManagerService.Initialise();
 
-            CreateWebHostBuilder(args).Build().Run();
-        }
+			CreateWebHostBuilder(args).Build().Run();
+		}
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-    }
+		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+			WebHost.CreateDefaultBuilder(args)
+				.UseStartup<Startup>();
+	}
 }
 
 #pragma warning restore CS1591

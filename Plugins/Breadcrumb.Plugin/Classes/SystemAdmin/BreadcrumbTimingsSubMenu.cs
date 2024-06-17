@@ -31,72 +31,72 @@ using SharedPluginFeatures;
 
 namespace Breadcrumb.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns Timings information for all time spent processing Breadcrumb requests and can 
-    /// be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class BreadcrumbTimingsSubMenu : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	/// <summary>
+	/// Returns Timings information for all time spent processing Breadcrumb requests and can 
+	/// be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public sealed class BreadcrumbTimingsSubMenu : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        /// <summary>
-        /// Returns Timings data in milliseconds for time spent processing by Breadcrumb.Plugin requests.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            string Result = "Setting|Value";
+		/// <summary>
+		/// Returns Timings data in milliseconds for time spent processing by Breadcrumb.Plugin requests.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			string Result = "Setting|Value";
 
-            Result += $"\rTotal Requests|{BreadcrumbMiddleware._timings.Requests}";
-            Result += $"\rFastest ms|{BreadcrumbMiddleware._timings.Fastest}";
-            Result += $"\rSlowest ms|{BreadcrumbMiddleware._timings.Slowest}";
-            Result += $"\rAverage ms|{BreadcrumbMiddleware._timings.Average}";
-            Result += $"\rTrimmed Avg ms|{BreadcrumbMiddleware._timings.TrimmedAverage}";
-            Result += $"\rTotal ms|{BreadcrumbMiddleware._timings.Total}";
+			Result += $"\rTotal Requests|{BreadcrumbMiddleware._timings.Requests}";
+			Result += $"\rFastest ms|{BreadcrumbMiddleware._timings.Fastest}";
+			Result += $"\rSlowest ms|{BreadcrumbMiddleware._timings.Slowest}";
+			Result += $"\rAverage ms|{BreadcrumbMiddleware._timings.Average}";
+			Result += $"\rTrimmed Avg ms|{BreadcrumbMiddleware._timings.TrimmedAverage}";
+			Result += $"\rTotal ms|{BreadcrumbMiddleware._timings.Total}";
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public override string Image()
-        {
-            return Constants.SystemImageStopWatch;
-        }
+		public override string Image()
+		{
+			return Constants.SystemImageStopWatch;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override string Name()
-        {
-            return "Breadcrumbs";
-        }
+		public override string Name()
+		{
+			return "Breadcrumbs";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "Timings";
-        }
+		public override string ParentMenuName()
+		{
+			return "Timings";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
-    }
+		public override int SortOrder()
+		{
+			return 0;
+		}
+	}
 }
 
 #pragma warning restore CS1591

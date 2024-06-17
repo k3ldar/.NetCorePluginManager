@@ -30,58 +30,58 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Classes.Minify
 {
-    internal class RemoveDoubleSpaces : MinifyOperation
-    {
-        public override IMinifyResult Process(in MinificationFileType fileType, ref string data, in List<PreserveBlock> preserveBlocks)
-        {
-            MinifyResult Result = new(nameof(RemoveCarriageReturn), data.Length);
+	internal class RemoveDoubleSpaces : MinifyOperation
+	{
+		public override IMinifyResult Process(in MinificationFileType fileType, ref string data, in List<PreserveBlock> preserveBlocks)
+		{
+			MinifyResult Result = new(nameof(RemoveCarriageReturn), data.Length);
 
-            using (StopWatchTimer.Initialise(_timings))
-            {
-                switch (fileType)
-                {
-                    case MinificationFileType.Htm:
-                    case MinificationFileType.Html:
-                    case MinificationFileType.Razor:
-                    case MinificationFileType.CSS:
-                    case MinificationFileType.Js:
-                    case MinificationFileType.Less:
-                        data = RemoveCarriageReturns(data, preserveBlocks);
-                        break;
-                }
-            }
+			using (StopWatchTimer.Initialise(_timings))
+			{
+				switch (fileType)
+				{
+					case MinificationFileType.Htm:
+					case MinificationFileType.Html:
+					case MinificationFileType.Razor:
+					case MinificationFileType.CSS:
+					case MinificationFileType.Js:
+					case MinificationFileType.Less:
+						data = RemoveCarriageReturns(data, preserveBlocks);
+						break;
+				}
+			}
 
-            Result.Finalise(data.Length, _timings.Fastest);
+			Result.Finalise(data.Length, _timings.Fastest);
 
-            return Result;
-        }
+			return Result;
+		}
 
-        private string RemoveCarriageReturns(string data, in List<PreserveBlock> preserveBlocks)
-        {
-            StringBuilder Result = new(data.Length);
+		private string RemoveCarriageReturns(string data, in List<PreserveBlock> preserveBlocks)
+		{
+			StringBuilder Result = new(data.Length);
 
-            for (int i = 0; i < data.Length; i++)
-            {
-                bool peekForward = i < data.Length - 1;
+			for (int i = 0; i < data.Length; i++)
+			{
+				bool peekForward = i < data.Length - 1;
 
-                char currentChar = data[i];
+				char currentChar = data[i];
 
-                if (IsInPreBlock(i, preserveBlocks, out MinificationPreserveBlock _))
-                {
-                    Result.Append(currentChar);
-                    continue;
-                }
+				if (IsInPreBlock(i, preserveBlocks, out MinificationPreserveBlock _))
+				{
+					Result.Append(currentChar);
+					continue;
+				}
 
-                if (currentChar == ' ' &&
-                    peekForward && data[i + 1] == ' ')
-                {
-                    continue;
-                }
+				if (currentChar == ' ' &&
+					peekForward && data[i + 1] == ' ')
+				{
+					continue;
+				}
 
-                Result.Append(currentChar);
-            }
+				Result.Append(currentChar);
+			}
 
-            return Result.ToString();
-        }
-    }
+			return Result.ToString();
+		}
+	}
 }

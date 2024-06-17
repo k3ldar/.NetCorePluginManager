@@ -27,84 +27,84 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameProductGroups, CompressionType.None, CachingStrategy.Memory)]
-    internal sealed class ProductGroupDataRow : TableRowDefinition
-    {
-        private string _description;
-        private bool _showOnWebsite;
-        private int _sortOrder;
-        private string _tagLine;
-        private string _url;
+	[Table(Constants.TableNameProductGroups, CompressionType.None, CachingStrategy.Memory)]
+	internal sealed class ProductGroupDataRow : TableRowDefinition
+	{
+		private string _description;
+		private bool _showOnWebsite;
+		private int _sortOrder;
+		private string _tagLine;
+		private string _url;
 
-        [UniqueIndex]
-        public string Description
-        {
-            get => _description;
+		[UniqueIndex]
+		public string Description
+		{
+			get => _description;
 
-            set
-            {
-                if (_description == value)
-                    return;
+			set
+			{
+				if (_description == value)
+					return;
 
-                _description = value;
-                Update();
-            }
-        }
+				_description = value;
+				Update();
+			}
+		}
 
-        public bool ShowOnWebsite
-        {
-            get => _showOnWebsite;
+		public bool ShowOnWebsite
+		{
+			get => _showOnWebsite;
 
-            set
-            {
-                if (_showOnWebsite == value)
-                    return;
+			set
+			{
+				if (_showOnWebsite == value)
+					return;
 
-                _showOnWebsite = value;
-                Update();
-            }
-        }
+				_showOnWebsite = value;
+				Update();
+			}
+		}
 
-        public int SortOrder
-        {
-            get => _sortOrder;
+		public int SortOrder
+		{
+			get => _sortOrder;
 
-            set
-            {
-                if (_sortOrder == value)
-                    return;
+			set
+			{
+				if (_sortOrder == value)
+					return;
 
-                _sortOrder = value;
-                Update();
-            }
-        }
+				_sortOrder = value;
+				Update();
+			}
+		}
 
-        public string TagLine
-        {
-            get => _tagLine;
+		public string TagLine
+		{
+			get => _tagLine;
 
-            set
-            {
-                if (_tagLine == value)
-                    return;
+			set
+			{
+				if (_tagLine == value)
+					return;
 
-                _tagLine = value;
-                Update();
-            }
-        }
+				_tagLine = value;
+				Update();
+			}
+		}
 
-        public string Url
-        {
-            get => _url;
+		public string Url
+		{
+			get => _url;
 
-            set
-            {
-                if (_url == value)
-                    return;
+			set
+			{
+				if (_url == value)
+					return;
 
-                _url = value;
-                Update();
-            }
-        }
-    }
+				_url = value;
+				Update();
+			}
+		}
+	}
 }

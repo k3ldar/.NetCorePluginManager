@@ -37,109 +37,109 @@ namespace UserAccount.Plugin.Controllers
 {
 #pragma warning disable CS1591
 
-    public partial class AccountController
-    {
-        #region Public Controller Methods
+	public partial class AccountController
+	{
+		#region Public Controller Methods
 
-        [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.MyBillingAddress), nameof(AccountController), nameof(Index))]
-        public IActionResult BillingAddress()
-        {
-            Address billingAddress = _accountProvider.GetBillingAddress(UserId());
+		[HttpGet]
+		[Breadcrumb(nameof(Languages.LanguageStrings.MyBillingAddress), nameof(AccountController), nameof(Index))]
+		public IActionResult BillingAddress()
+		{
+			Address billingAddress = _accountProvider.GetBillingAddress(UserId());
 
-            if (billingAddress == null)
-                throw new InvalidOperationException(nameof(billingAddress));
+			if (billingAddress == null)
+				throw new InvalidOperationException(nameof(billingAddress));
 
-            BillingAddressViewModel model = new(GetModelData());
-            PrepareBillingAddressModel(ref model, billingAddress);
+			BillingAddressViewModel model = new(GetModelData());
+			PrepareBillingAddressModel(ref model, billingAddress);
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpPost]
-        public IActionResult BillingAddress(BillingAddressViewModel model)
-        {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+		[HttpPost]
+		public IActionResult BillingAddress(BillingAddressViewModel model)
+		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
 
-            ValidateBillingAddressModel(ref model);
+			ValidateBillingAddressModel(ref model);
 
-            if (ModelState.IsValid)
-            {
-                Address billingAddress = new(model.AddressId, model.BusinessName, model.AddressLine1,
-                    model.AddressLine2, model.AddressLine3, model.City, model.County, model.Postcode, model.Country);
+			if (ModelState.IsValid)
+			{
+				Address billingAddress = new(model.AddressId, model.BusinessName, model.AddressLine1,
+					model.AddressLine2, model.AddressLine3, model.City, model.County, model.Postcode, model.Country);
 
-                if (_accountProvider.SetBillingAddress(UserId(), billingAddress))
-                {
-                    GrowlAdd(Languages.LanguageStrings.BillingAddressUpdated);
-                    return RedirectToAction(nameof(Index), "Account");
-                }
+				if (_accountProvider.SetBillingAddress(UserId(), billingAddress))
+				{
+					GrowlAdd(Languages.LanguageStrings.BillingAddressUpdated);
+					return RedirectToAction(nameof(Index), "Account");
+				}
 
-                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FailedToUpdateBillingAddress);
-            }
+				ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FailedToUpdateBillingAddress);
+			}
 
-            model = new BillingAddressViewModel(GetModelData());
-            PrepareBillingAddressModel(ref model, null);
+			model = new BillingAddressViewModel(GetModelData());
+			PrepareBillingAddressModel(ref model, null);
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        #endregion Public Controller Methods
+		#endregion Public Controller Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private void ValidateBillingAddressModel(ref BillingAddressViewModel model)
-        {
-            AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Delivery);
+		private void ValidateBillingAddressModel(ref BillingAddressViewModel model)
+		{
+			AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Delivery);
 
-            if (addressOptions.HasFlag(AddressOptions.AddressLine1Mandatory) && String.IsNullOrEmpty(model.AddressLine1))
-                ModelState.AddModelError(nameof(model.AddressLine1), Languages.LanguageStrings.AddressLine1Required);
+			if (addressOptions.HasFlag(AddressOptions.AddressLine1Mandatory) && String.IsNullOrEmpty(model.AddressLine1))
+				ModelState.AddModelError(nameof(model.AddressLine1), Languages.LanguageStrings.AddressLine1Required);
 
-            if (addressOptions.HasFlag(AddressOptions.AddressLine2Mandatory) && String.IsNullOrEmpty(model.AddressLine2))
-                ModelState.AddModelError(nameof(model.AddressLine2), Languages.LanguageStrings.AddressLine2Required);
+			if (addressOptions.HasFlag(AddressOptions.AddressLine2Mandatory) && String.IsNullOrEmpty(model.AddressLine2))
+				ModelState.AddModelError(nameof(model.AddressLine2), Languages.LanguageStrings.AddressLine2Required);
 
-            if (addressOptions.HasFlag(AddressOptions.AddressLine3Mandatory) && String.IsNullOrEmpty(model.AddressLine3))
-                ModelState.AddModelError(nameof(model.AddressLine3), Languages.LanguageStrings.AddressLine3Required);
+			if (addressOptions.HasFlag(AddressOptions.AddressLine3Mandatory) && String.IsNullOrEmpty(model.AddressLine3))
+				ModelState.AddModelError(nameof(model.AddressLine3), Languages.LanguageStrings.AddressLine3Required);
 
-            if (addressOptions.HasFlag(AddressOptions.CityMandatory) && String.IsNullOrEmpty(model.City))
-                ModelState.AddModelError(nameof(model.City), Languages.LanguageStrings.CityRequired);
+			if (addressOptions.HasFlag(AddressOptions.CityMandatory) && String.IsNullOrEmpty(model.City))
+				ModelState.AddModelError(nameof(model.City), Languages.LanguageStrings.CityRequired);
 
-            if (addressOptions.HasFlag(AddressOptions.CountyMandatory) && String.IsNullOrEmpty(model.County))
-                ModelState.AddModelError(nameof(model.County), Languages.LanguageStrings.CountyRequired);
+			if (addressOptions.HasFlag(AddressOptions.CountyMandatory) && String.IsNullOrEmpty(model.County))
+				ModelState.AddModelError(nameof(model.County), Languages.LanguageStrings.CountyRequired);
 
-            if (addressOptions.HasFlag(AddressOptions.PostCodeMandatory) && String.IsNullOrEmpty(model.Postcode))
-                ModelState.AddModelError(nameof(model.Postcode), Languages.LanguageStrings.PostcodeRequired);
+			if (addressOptions.HasFlag(AddressOptions.PostCodeMandatory) && String.IsNullOrEmpty(model.Postcode))
+				ModelState.AddModelError(nameof(model.Postcode), Languages.LanguageStrings.PostcodeRequired);
 
-            if (addressOptions.HasFlag(AddressOptions.BusinessNameMandatory) && String.IsNullOrEmpty(model.BusinessName))
-                ModelState.AddModelError(nameof(model.BusinessName), Languages.LanguageStrings.BusinessNameRequired);
-        }
+			if (addressOptions.HasFlag(AddressOptions.BusinessNameMandatory) && String.IsNullOrEmpty(model.BusinessName))
+				ModelState.AddModelError(nameof(model.BusinessName), Languages.LanguageStrings.BusinessNameRequired);
+		}
 
-        private void PrepareBillingAddressModel(ref BillingAddressViewModel model, in Address billingAddress)
-        {
-            AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Billing);
+		private void PrepareBillingAddressModel(ref BillingAddressViewModel model, in Address billingAddress)
+		{
+			AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Billing);
 
-            model.ShowAddressLine1 = addressOptions.HasFlag(AddressOptions.AddressLine1Show);
-            model.ShowAddressLine2 = addressOptions.HasFlag(AddressOptions.AddressLine2Show);
-            model.ShowAddressLine3 = addressOptions.HasFlag(AddressOptions.AddressLine3Show);
-            model.ShowBusinessName = addressOptions.HasFlag(AddressOptions.BusinessNameShow);
-            model.ShowCity = addressOptions.HasFlag(AddressOptions.CityShow);
-            model.ShowCounty = addressOptions.HasFlag(AddressOptions.CountyShow);
-            model.ShowPostcode = addressOptions.HasFlag(AddressOptions.PostCodeShow);
+			model.ShowAddressLine1 = addressOptions.HasFlag(AddressOptions.AddressLine1Show);
+			model.ShowAddressLine2 = addressOptions.HasFlag(AddressOptions.AddressLine2Show);
+			model.ShowAddressLine3 = addressOptions.HasFlag(AddressOptions.AddressLine3Show);
+			model.ShowBusinessName = addressOptions.HasFlag(AddressOptions.BusinessNameShow);
+			model.ShowCity = addressOptions.HasFlag(AddressOptions.CityShow);
+			model.ShowCounty = addressOptions.HasFlag(AddressOptions.CountyShow);
+			model.ShowPostcode = addressOptions.HasFlag(AddressOptions.PostCodeShow);
 
-            if (billingAddress != null)
-            {
-                model.AddressLine1 = billingAddress.AddressLine1;
-                model.AddressLine3 = billingAddress.AddressLine3;
-                model.AddressLine3 = billingAddress.AddressLine3;
-                model.City = billingAddress.City;
-                model.County = billingAddress.County;
-                model.Postcode = billingAddress.Postcode;
-                model.Country = billingAddress.Country;
-            }
-        }
+			if (billingAddress != null)
+			{
+				model.AddressLine1 = billingAddress.AddressLine1;
+				model.AddressLine3 = billingAddress.AddressLine3;
+				model.AddressLine3 = billingAddress.AddressLine3;
+				model.City = billingAddress.City;
+				model.County = billingAddress.County;
+				model.Postcode = billingAddress.Postcode;
+				model.Country = billingAddress.Country;
+			}
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 
 #pragma warning restore CS1591
 }

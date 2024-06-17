@@ -37,42 +37,42 @@ namespace UserAccount.Plugin.Controllers
 {
 #pragma warning disable CS1591
 
-    public partial class AccountController
-    {
-        #region Public Action Methods
+	public partial class AccountController
+	{
+		#region Public Action Methods
 
-        [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.MyInvoices), nameof(AccountController), nameof(Index))]
-        public ActionResult Invoices()
-        {
-            InvoicesViewModel model = new(GetModelData(),
-                _accountProvider.InvoicesGet(UserId()));
+		[HttpGet]
+		[Breadcrumb(nameof(Languages.LanguageStrings.MyInvoices), nameof(AccountController), nameof(Index))]
+		public ActionResult Invoices()
+		{
+			InvoicesViewModel model = new(GetModelData(),
+				_accountProvider.InvoicesGet(UserId()));
 
-            model.Breadcrumbs = GetBreadcrumbs();
-            model.CartSummary = GetCartSummary();
+			model.Breadcrumbs = GetBreadcrumbs();
+			model.CartSummary = GetCartSummary();
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.Invoice), nameof(AccountController), nameof(Invoices))]
-        public ActionResult InvoiceView(int id)
-        {
-            Invoice invoice = _accountProvider.InvoicesGet(UserId()).Find(o => o.Id == id);
+		[HttpGet]
+		[Breadcrumb(nameof(Languages.LanguageStrings.Invoice), nameof(AccountController), nameof(Invoices))]
+		public ActionResult InvoiceView(int id)
+		{
+			Invoice invoice = _accountProvider.InvoicesGet(UserId()).Find(o => o.Id == id);
 
-            if (invoice == null)
-                return RedirectToAction(nameof(Index));
+			if (invoice == null)
+				return RedirectToAction(nameof(Index));
 
-            InvoiceViewModel model = new(GetModelData(), invoice);
+			InvoiceViewModel model = new(GetModelData(), invoice);
 
-            model.Breadcrumbs = GetBreadcrumbs();
-            model.CartSummary = GetCartSummary();
+			model.Breadcrumbs = GetBreadcrumbs();
+			model.CartSummary = GetCartSummary();
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        #endregion Public Action Methods
-    }
+		#endregion Public Action Methods
+	}
 
 #pragma warning restore CS1591
 }

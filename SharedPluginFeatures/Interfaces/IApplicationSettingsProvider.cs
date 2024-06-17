@@ -29,8 +29,8 @@ namespace SharedPluginFeatures
 	/// <summary>
 	/// Application settings provider interface
 	/// </summary>
-    public interface IApplicationSettingsProvider
-    {
+	public interface IApplicationSettingsProvider
+	{
 		/// <summary>
 		/// 
 		/// </summary>
@@ -66,6 +66,6 @@ namespace SharedPluginFeatures
 		/// Deletes a setting if it exists
 		/// </summary>
 		/// <param name="name">Name of setting</param>
-        void DeleteSetting(string name);
-    }
+		void DeleteSetting(string name);
+	}
 }

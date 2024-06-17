@@ -34,37 +34,37 @@ using SharedPluginFeatures;
 
 namespace DynamicContent.Plugin.Model
 {
-    public class CustomPagesModel : BaseModel
-    {
-        #region Constructors
+	public class CustomPagesModel : BaseModel
+	{
+		#region Constructors
 
-        public CustomPagesModel()
-        {
+		public CustomPagesModel()
+		{
 
-        }
+		}
 
-        public CustomPagesModel(BaseModelData modelData, List<LookupListItem> customPages)
-            : base(modelData)
-        {
-            if (customPages == null)
-                throw new ArgumentNullException(nameof(customPages));
+		public CustomPagesModel(BaseModelData modelData, List<LookupListItem> customPages)
+			: base(modelData)
+		{
+			if (customPages == null)
+				throw new ArgumentNullException(nameof(customPages));
 
-            CustomPages = new List<NameIdModel>();
+			CustomPages = new List<NameIdModel>();
 
-            customPages.ForEach(cp => CustomPages.Add(new NameIdModel(cp.Id, cp.Description)));
-        }
+			customPages.ForEach(cp => CustomPages.Add(new NameIdModel(cp.Id, cp.Description)));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// List of custom pages
-        /// </summary>
-        public List<NameIdModel> CustomPages { get; }
+		/// <summary>
+		/// List of custom pages
+		/// </summary>
+		public List<NameIdModel> CustomPages { get; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }
 
 #pragma warning restore CS1591

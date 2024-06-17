@@ -35,272 +35,272 @@ using SimpleDB.Internal;
 namespace SimpleDB.Tests
 {
 	[TestClass]
-    [ExcludeFromCodeCoverage]
-    public class ForeignKeyManagerTests
-    {
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void RegisterTable_InvalidParamTable_Null_Throws_ArgumentNullException()
-        {
-            ForeignKeyManager sut = new();
-            sut.RegisterTable(null);
-        }
+	[ExcludeFromCodeCoverage]
+	public class ForeignKeyManagerTests
+	{
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void RegisterTable_InvalidParamTable_Null_Throws_ArgumentNullException()
+		{
+			ForeignKeyManager sut = new();
+			sut.RegisterTable(null);
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void UnregisterTable_InvalidParamTable_Null_Throws_ArgumentNullException()
-        {
-            ForeignKeyManager sut = new();
-            sut.UnregisterTable(null);
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void UnregisterTable_InvalidParamTable_Null_Throws_ArgumentNullException()
+		{
+			ForeignKeyManager sut = new();
+			sut.UnregisterTable(null);
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void AddRelationShip_InvalidParamSourceTable_Null_Throws_ArgumentNullException()
-        {
-            ForeignKeyManager sut = new();
-            sut.AddRelationShip(null, "targetTable", "Id", "Id", ForeignKeyAttributes.None);
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void AddRelationShip_InvalidParamSourceTable_Null_Throws_ArgumentNullException()
+		{
+			ForeignKeyManager sut = new();
+			sut.AddRelationShip(null, "targetTable", "Id", "Id", ForeignKeyAttributes.None);
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void AddRelationShip_InvalidParamTargetTable_Null_Throws_ArgumentNullException()
-        {
-            ForeignKeyManager sut = new();
-            sut.AddRelationShip("sourceTable", null, "Id", "Id", ForeignKeyAttributes.None);
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void AddRelationShip_InvalidParamTargetTable_Null_Throws_ArgumentNullException()
+		{
+			ForeignKeyManager sut = new();
+			sut.AddRelationShip("sourceTable", null, "Id", "Id", ForeignKeyAttributes.None);
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void AddRelationShip_InvalidParamPropertyName_Null_Throws_ArgumentNullException()
-        {
-            ForeignKeyManager sut = new();
-            sut.AddRelationShip("sourceTable", "targetTable", null, "Id", ForeignKeyAttributes.None);
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void AddRelationShip_InvalidParamPropertyName_Null_Throws_ArgumentNullException()
+		{
+			ForeignKeyManager sut = new();
+			sut.AddRelationShip("sourceTable", "targetTable", null, "Id", ForeignKeyAttributes.None);
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void AddRelationShip_InvalidParamTargetPropertyName_Null_Throws_ArgumentNullException()
-        {
-            ForeignKeyManager sut = new();
-            sut.AddRelationShip("sourceTable", "targetTable", "Id", "", ForeignKeyAttributes.None);
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void AddRelationShip_InvalidParamTargetPropertyName_Null_Throws_ArgumentNullException()
+		{
+			ForeignKeyManager sut = new();
+			sut.AddRelationShip("sourceTable", "targetTable", "Id", "", ForeignKeyAttributes.None);
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ForeignKeyException))]
-        public void ForeignKey_InsertRecordWhenKeyDoesNotExists_Throws_ForeignKeyException()
-        {
-            ForeignKeyManager sut = new();
-            string directory = TestHelper.GetTestPath();
-            try
-            {
-                io.Directory.CreateDirectory(directory);
-                ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
+		[TestMethod]
+		[ExpectedException(typeof(ForeignKeyException))]
+		public void ForeignKey_InsertRecordWhenKeyDoesNotExists_Throws_ForeignKeyException()
+		{
+			ForeignKeyManager sut = new();
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				io.Directory.CreateDirectory(directory);
+				ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
-                using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
+				using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
 				simpleDBManager.Initialize(new MockPluginClassesService());
-                List<MockTableUserRow> testData = new();
+				List<MockTableUserRow> testData = new();
 
-                for (int i = 0; i < 5; i++)
-                    testData.Add(new MockTableUserRow(i));
+				for (int i = 0; i < 5; i++)
+					testData.Add(new MockTableUserRow(i));
 
-                mockUsers.Insert(testData);
+				mockUsers.Insert(testData);
 
-                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new(simpleDBManager, sut);
+				using SimpleDBOperations<MockTableAddressRow> mockAddresses = new(simpleDBManager, sut);
 				simpleDBManager.Initialize(new MockPluginClassesService());
 				mockAddresses.Insert(new MockTableAddressRow(10));
-            }
-            finally
-            {
-                io.Directory.Delete(directory, true);
-            }
-        }
+			}
+			finally
+			{
+				io.Directory.Delete(directory, true);
+			}
+		}
 
-        [TestMethod]
-        public void ForeignKey_InsertRecordWhenForeignKeyDoesNotExists_DefaultValueAllowed_DoesNotThrowException()
-        {
-            ForeignKeyManager sut = new();
+		[TestMethod]
+		public void ForeignKey_InsertRecordWhenForeignKeyDoesNotExists_DefaultValueAllowed_DoesNotThrowException()
+		{
+			ForeignKeyManager sut = new();
 			Assert.IsNotNull(sut);
 			string directory = TestHelper.GetTestPath();
-            try
-            {
-                io.Directory.CreateDirectory(directory);
-                ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
+			try
+			{
+				io.Directory.CreateDirectory(directory);
+				ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
-                using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
-                mockUsers.ResetSequence(10, 10);
-                List<MockTableUserRow> testData = new();
+				using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
+				mockUsers.ResetSequence(10, 10);
+				List<MockTableUserRow> testData = new();
 
-                for (int i = 1; i < 6; i++)
-                    testData.Add(new MockTableUserRow(i));
+				for (int i = 1; i < 6; i++)
+					testData.Add(new MockTableUserRow(i));
 
-                mockUsers.Insert(testData);
+				mockUsers.Insert(testData);
 
-                using SimpleDBOperations<MockTableForeignKeyDefaultAllowed> mockAddresses = new(simpleDBManager, sut);
-                mockAddresses.Insert(new MockTableForeignKeyDefaultAllowed(0));
-            }
-            finally
-            {
-                io.Directory.Delete(directory, true);
-            }
-        }
+				using SimpleDBOperations<MockTableForeignKeyDefaultAllowed> mockAddresses = new(simpleDBManager, sut);
+				mockAddresses.Insert(new MockTableForeignKeyDefaultAllowed(0));
+			}
+			finally
+			{
+				io.Directory.Delete(directory, true);
+			}
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ForeignKeyException))]
-        public void ForeignKey_UpdateRecordWhenKeyDoesNotExists_Throws_ForeignKeyException()
-        {
-            ForeignKeyManager sut = new();
-            string directory = TestHelper.GetTestPath();
-            try
-            {
-                io.Directory.CreateDirectory(directory);
-                ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
+		[TestMethod]
+		[ExpectedException(typeof(ForeignKeyException))]
+		public void ForeignKey_UpdateRecordWhenKeyDoesNotExists_Throws_ForeignKeyException()
+		{
+			ForeignKeyManager sut = new();
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				io.Directory.CreateDirectory(directory);
+				ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
-                using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
-                List<MockTableUserRow> testData = new();
+				using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
+				List<MockTableUserRow> testData = new();
 
-                for (int i = 0; i < 5; i++)
-                    testData.Add(new MockTableUserRow(i));
+				for (int i = 0; i < 5; i++)
+					testData.Add(new MockTableUserRow(i));
 
-                mockUsers.Insert(testData);
+				mockUsers.Insert(testData);
 
-                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new(simpleDBManager, sut);
-                mockAddresses.Insert(new MockTableAddressRow(3));
+				using SimpleDBOperations<MockTableAddressRow> mockAddresses = new(simpleDBManager, sut);
+				mockAddresses.Insert(new MockTableAddressRow(3));
 
-                MockTableAddressRow addressRow = mockAddresses.Select(0);
-                Assert.IsNotNull(addressRow);
+				MockTableAddressRow addressRow = mockAddresses.Select(0);
+				Assert.IsNotNull(addressRow);
 
-                addressRow.UserId = 10;
-                mockAddresses.Update(addressRow);
-            }
-            finally
-            {
-                io.Directory.Delete(directory, true);
-            }
-        }
+				addressRow.UserId = 10;
+				mockAddresses.Update(addressRow);
+			}
+			finally
+			{
+				io.Directory.Delete(directory, true);
+			}
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ForeignKeyException))]
-        public void ForeignKey_DeleteForeignKeyWhenForeignKeyIsInUse_Throws_ForeignKeyException()
-        {
-            ForeignKeyManager sut = new();
-            string directory = TestHelper.GetTestPath();
-            try
-            {
-                io.Directory.CreateDirectory(directory);
-                ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
+		[TestMethod]
+		[ExpectedException(typeof(ForeignKeyException))]
+		public void ForeignKey_DeleteForeignKeyWhenForeignKeyIsInUse_Throws_ForeignKeyException()
+		{
+			ForeignKeyManager sut = new();
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				io.Directory.CreateDirectory(directory);
+				ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
-                using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
-                List<MockTableUserRow> testData = new();
+				using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
+				List<MockTableUserRow> testData = new();
 
-                for (int i = 0; i < 5; i++)
-                    testData.Add(new MockTableUserRow(i));
+				for (int i = 0; i < 5; i++)
+					testData.Add(new MockTableUserRow(i));
 
-                mockUsers.Insert(testData);
+				mockUsers.Insert(testData);
 
-                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new(simpleDBManager, sut);
-                mockAddresses.Insert(new MockTableAddressRow(3));
+				using SimpleDBOperations<MockTableAddressRow> mockAddresses = new(simpleDBManager, sut);
+				mockAddresses.Insert(new MockTableAddressRow(3));
 
-                MockTableAddressRow addressRow = mockAddresses.Select(0);
-                Assert.IsNotNull(addressRow);
+				MockTableAddressRow addressRow = mockAddresses.Select(0);
+				Assert.IsNotNull(addressRow);
 
-                mockUsers.Truncate();
-            }
-            finally
-            {
-                io.Directory.Delete(directory, true);
-            }
-        }
+				mockUsers.Truncate();
+			}
+			finally
+			{
+				io.Directory.Delete(directory, true);
+			}
+		}
 
-        [TestMethod]
-        public void ForeignKey_InsertRecordWhenKeyExists_Success()
-        {
-            ForeignKeyManager sut = new();
+		[TestMethod]
+		public void ForeignKey_InsertRecordWhenKeyExists_Success()
+		{
+			ForeignKeyManager sut = new();
 			Assert.IsNotNull(sut);
 			string directory = TestHelper.GetTestPath();
-            try
-            {
-                io.Directory.CreateDirectory(directory);
-                ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
+			try
+			{
+				io.Directory.CreateDirectory(directory);
+				ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
-                using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
-                List<MockTableUserRow> testData = new();
+				using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
+				List<MockTableUserRow> testData = new();
 
-                for (int i = 0; i < 5; i++)
-                    testData.Add(new MockTableUserRow(i));
+				for (int i = 0; i < 5; i++)
+					testData.Add(new MockTableUserRow(i));
 
-                mockUsers.Insert(testData);
+				mockUsers.Insert(testData);
 
-                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new(simpleDBManager, sut);
-                mockAddresses.Insert(new MockTableAddressRow(3));
-            }
-            finally
-            {
-                io.Directory.Delete(directory, true);
-            }
-        }
+				using SimpleDBOperations<MockTableAddressRow> mockAddresses = new(simpleDBManager, sut);
+				mockAddresses.Insert(new MockTableAddressRow(3));
+			}
+			finally
+			{
+				io.Directory.Delete(directory, true);
+			}
+		}
 
-        [TestMethod]
-        public void ForeignKey_UpdateRecordWhenKeyExists_Success()
-        {
-            ForeignKeyManager sut = new();
-            string directory = TestHelper.GetTestPath();
-            try
-            {
-                io.Directory.CreateDirectory(directory);
-                ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
+		[TestMethod]
+		public void ForeignKey_UpdateRecordWhenKeyExists_Success()
+		{
+			ForeignKeyManager sut = new();
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				io.Directory.CreateDirectory(directory);
+				ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
-                using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
-                List<MockTableUserRow> testData = new();
+				using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
+				List<MockTableUserRow> testData = new();
 
-                for (int i = 0; i < 5; i++)
-                    testData.Add(new MockTableUserRow(i));
+				for (int i = 0; i < 5; i++)
+					testData.Add(new MockTableUserRow(i));
 
-                mockUsers.Insert(testData);
+				mockUsers.Insert(testData);
 
-                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new(simpleDBManager, sut);
-                mockAddresses.Insert(new MockTableAddressRow(3));
+				using SimpleDBOperations<MockTableAddressRow> mockAddresses = new(simpleDBManager, sut);
+				mockAddresses.Insert(new MockTableAddressRow(3));
 
-                MockTableAddressRow addressRow = mockAddresses.Select(0);
-                Assert.IsNotNull(addressRow);
+				MockTableAddressRow addressRow = mockAddresses.Select(0);
+				Assert.IsNotNull(addressRow);
 
-                addressRow.UserId = 2;
-                mockAddresses.Update(addressRow);
-            }
-            finally
-            {
-                io.Directory.Delete(directory, true);
-            }
-        }
+				addressRow.UserId = 2;
+				mockAddresses.Update(addressRow);
+			}
+			finally
+			{
+				io.Directory.Delete(directory, true);
+			}
+		}
 
-        [TestMethod]
-        public void ForeignKey_DeleteRecordWhenKeyExists_Success()
-        {
-            ForeignKeyManager sut = new();
-            string directory = TestHelper.GetTestPath();
-            try
-            {
-                io.Directory.CreateDirectory(directory);
-                ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
+		[TestMethod]
+		public void ForeignKey_DeleteRecordWhenKeyExists_Success()
+		{
+			ForeignKeyManager sut = new();
+			string directory = TestHelper.GetTestPath();
+			try
+			{
+				io.Directory.CreateDirectory(directory);
+				ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
-                using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
-                List<MockTableUserRow> testData = new();
+				using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
+				List<MockTableUserRow> testData = new();
 
-                for (int i = 0; i < 5; i++)
-                    testData.Add(new MockTableUserRow(i));
+				for (int i = 0; i < 5; i++)
+					testData.Add(new MockTableUserRow(i));
 
-                mockUsers.Insert(testData);
+				mockUsers.Insert(testData);
 
-                using SimpleDBOperations<MockTableAddressRow> mockAddresses = new(simpleDBManager, sut);
-                mockAddresses.Insert(new MockTableAddressRow(4));
-                mockAddresses.Truncate();
+				using SimpleDBOperations<MockTableAddressRow> mockAddresses = new(simpleDBManager, sut);
+				mockAddresses.Insert(new MockTableAddressRow(4));
+				mockAddresses.Truncate();
 
-                Assert.AreEqual(0, mockAddresses.RecordCount);
-            }
-            finally
-            {
-                io.Directory.Delete(directory, true);
-            }
-        }
-    }
+				Assert.AreEqual(0, mockAddresses.RecordCount);
+			}
+			finally
+			{
+				io.Directory.Delete(directory, true);
+			}
+		}
+	}
 }

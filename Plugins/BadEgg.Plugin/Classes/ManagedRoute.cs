@@ -27,30 +27,30 @@ using System;
 
 namespace BadEgg.Plugin
 {
-    internal sealed class ManagedRoute
-    {
-        #region Constructors
+	internal sealed class ManagedRoute
+	{
+		#region Constructors
 
-        internal ManagedRoute(in string route, in bool validateQueryFields, in bool validateFormFields)
-        {
-            if (String.IsNullOrEmpty(route))
-                throw new ArgumentNullException(nameof(route));
+		internal ManagedRoute(in string route, in bool validateQueryFields, in bool validateFormFields)
+		{
+			if (String.IsNullOrEmpty(route))
+				throw new ArgumentNullException(nameof(route));
 
-            Route = route;
-            ValidateFormFields = validateFormFields;
-            ValidateQueryFields = validateQueryFields;
-        }
+			Route = route;
+			ValidateFormFields = validateFormFields;
+			ValidateQueryFields = validateQueryFields;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        internal string Route { get; set; }
+		internal string Route { get; set; }
 
-        internal bool ValidateQueryFields { get; set; }
+		internal bool ValidateQueryFields { get; set; }
 
-        internal bool ValidateFormFields { get; set; }
+		internal bool ValidateFormFields { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

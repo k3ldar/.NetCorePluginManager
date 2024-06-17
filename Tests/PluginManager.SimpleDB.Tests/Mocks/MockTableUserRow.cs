@@ -27,13 +27,13 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace SimpleDB.Tests.Mocks
 {
-    [ExcludeFromCodeCoverage]
-    [Table("MockTableUser", cachingStrategy: CachingStrategy.Memory)]
-    public class MockTableUserRow : TableRowDefinition
-    {
-        public MockTableUserRow(long id)
-        {
-            Id = id;
-        }
-    }
+	[ExcludeFromCodeCoverage]
+	[Table("MockTableUser", cachingStrategy: CachingStrategy.Memory)]
+	public class MockTableUserRow : TableRowDefinition
+	{
+		public MockTableUserRow(long id)
+		{
+			Id = id;
+		}
+	}
 }

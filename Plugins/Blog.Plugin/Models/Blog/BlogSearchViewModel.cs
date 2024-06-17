@@ -29,41 +29,41 @@ using SharedPluginFeatures;
 
 namespace Blog.Plugin.Models
 {
-    /// <summary>
-    /// Blog search view model
-    /// </summary>
-    public sealed class BlogSearchViewModel : BaseModel
-    {
-        #region Constructors
+	/// <summary>
+	/// Blog search view model
+	/// </summary>
+	public sealed class BlogSearchViewModel : BaseModel
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public BlogSearchViewModel()
-        {
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		public BlogSearchViewModel()
+		{
 
-        }
+		}
 
-        /// <summary>
-        /// Constructor for viewing search view.
-        /// </summary>
-        /// <param name="baseModelData"></param>
-        public BlogSearchViewModel(BaseModelData baseModelData)
-            : base(baseModelData)
-        {
+		/// <summary>
+		/// Constructor for viewing search view.
+		/// </summary>
+		/// <param name="baseModelData"></param>
+		public BlogSearchViewModel(BaseModelData baseModelData)
+			: base(baseModelData)
+		{
 
-        }
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Tag to search for within all visible blogs.
-        /// </summary>
-        [Required]
-        public string TagName { get; set; }
+		/// <summary>
+		/// Tag to search for within all visible blogs.
+		/// </summary>
+		[Required]
+		public string TagName { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

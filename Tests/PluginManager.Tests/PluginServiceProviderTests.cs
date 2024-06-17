@@ -33,67 +33,67 @@ using PluginManager.Tests.Mocks;
 namespace PluginManager.Tests
 {
 #pragma warning disable CA1707 // Identifiers should not contain underscores
-    [TestClass]
-    [ExcludeFromCodeCoverage]
-    public class PluginServiceProviderTests
-    {
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void AddTwoIServiceConfiguration_ThrowsInvalidOperationException()
-        {
-            using (MockPluginManager pluginManager = new())
-            {
-                MockServiceConfigurator serviceConfigurator = new();
+	[TestClass]
+	[ExcludeFromCodeCoverage]
+	public class PluginServiceProviderTests
+	{
+		[TestMethod]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void AddTwoIServiceConfiguration_ThrowsInvalidOperationException()
+		{
+			using (MockPluginManager pluginManager = new())
+			{
+				MockServiceConfigurator serviceConfigurator = new();
 
-                pluginManager.RegisterServiceConfigurator(serviceConfigurator);
+				pluginManager.RegisterServiceConfigurator(serviceConfigurator);
 
-                try
-                {
-                    pluginManager.RegisterServiceConfigurator(serviceConfigurator);
-                }
-                catch (InvalidOperationException ioe)
-                {
-                    Assert.AreEqual("Only one IServiceConfigurator can be loaded", ioe.Message);
-                    throw;
-                }
-            }
-        }
+				try
+				{
+					pluginManager.RegisterServiceConfigurator(serviceConfigurator);
+				}
+				catch (InvalidOperationException ioe)
+				{
+					Assert.AreEqual("Only one IServiceConfigurator can be loaded", ioe.Message);
+					throw;
+				}
+			}
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void AddNullServiceConfiguration_ThrowsArgumentNullException()
-        {
-            using (MockPluginManager pluginManager = new())
-            {
-                pluginManager.RegisterServiceConfigurator(null);
-            }
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void AddNullServiceConfiguration_ThrowsArgumentNullException()
+		{
+			using (MockPluginManager pluginManager = new())
+			{
+				pluginManager.RegisterServiceConfigurator(null);
+			}
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void ServiceConfigurationIsCalled_AfterServicesHaveBeenConfigured_ThrowsInvalidOperationException()
-        {
-            using (MockPluginManager pluginManager = new())
-            {
-                MockServiceConfigurator serviceConfigurator = new();
+		[TestMethod]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void ServiceConfigurationIsCalled_AfterServicesHaveBeenConfigured_ThrowsInvalidOperationException()
+		{
+			using (MockPluginManager pluginManager = new())
+			{
+				MockServiceConfigurator serviceConfigurator = new();
 
-                pluginManager.RegisterServiceConfigurator(serviceConfigurator);
+				pluginManager.RegisterServiceConfigurator(serviceConfigurator);
 
-                pluginManager.ConfigureServices();
+				pluginManager.ConfigureServices();
 
-                Assert.IsTrue(serviceConfigurator.RegisterServicesCalled);
+				Assert.IsTrue(serviceConfigurator.RegisterServicesCalled);
 
-                try
-                {
-                    pluginManager.RegisterServiceConfigurator(serviceConfigurator);
-                }
-                catch (InvalidOperationException ioe)
-                {
-                    Assert.AreEqual("The plugin manager has already configured its services", ioe.Message);
-                    throw;
-                }
-            }
-        }
-    }
+				try
+				{
+					pluginManager.RegisterServiceConfigurator(serviceConfigurator);
+				}
+				catch (InvalidOperationException ioe)
+				{
+					Assert.AreEqual("The plugin manager has already configured its services", ioe.Message);
+					throw;
+				}
+			}
+		}
+	}
 #pragma warning restore CA1707 // Identifiers should not contain underscores
 }

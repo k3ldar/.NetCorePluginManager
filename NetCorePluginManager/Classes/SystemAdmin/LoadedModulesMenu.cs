@@ -43,49 +43,49 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns a list of all assemblies currently loaded by the application and can 
-    /// be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class LoadedModulesMenu : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	/// <summary>
+	/// Returns a list of all assemblies currently loaded by the application and can 
+	/// be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public sealed class LoadedModulesMenu : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        /// <summary>
-        /// Returns delimited data on all loaded assemblies and their version.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            StringBuilder Result = new("Module|FileVersion", 2048);
-            Dictionary<string, string> files = new();
+		/// <summary>
+		/// Returns delimited data on all loaded assemblies and their version.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			StringBuilder Result = new("Module|FileVersion", 2048);
+			Dictionary<string, string> files = new();
 
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                string fileVersion = String.Empty;
-                string file = String.Empty;
-                try
-                {
+			foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+			{
+				string fileVersion = String.Empty;
+				string file = String.Empty;
+				try
+				{
 #if NET_5_ABOVE
 					string path = assembly.Location;
 #else
@@ -98,51 +98,51 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
 #endif
 
 					if (path.StartsWith("file:///"))
-                        path = path.Substring(8);
+						path = path.Substring(8);
 
-                    file = Path.GetFullPath(path);
+					file = Path.GetFullPath(path);
 
-                    if (File.Exists(file))
-                        fileVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(file).FileVersion;
+					if (File.Exists(file))
+						fileVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(file).FileVersion;
 
-                    file = Path.GetFileName(file);
-                }
-                catch (NotSupportedException)
-                {
+					file = Path.GetFileName(file);
+				}
+				catch (NotSupportedException)
+				{
 					// ignore specific exception
-                }
+				}
 
 
-                if (!String.IsNullOrEmpty(file) && !files.ContainsKey(file))
-                    files.Add(file, fileVersion);
-            }
+				if (!String.IsNullOrEmpty(file) && !files.ContainsKey(file))
+					files.Add(file, fileVersion);
+			}
 
-            foreach (KeyValuePair<string, string> valuePair in files.OrderBy(key => key.Key.ToLower()))
-                Result.Append($"\r{valuePair.Key}|{valuePair.Value}");
+			foreach (KeyValuePair<string, string> valuePair in files.OrderBy(key => key.Key.ToLower()))
+				Result.Append($"\r{valuePair.Key}|{valuePair.Value}");
 
-            return Result.ToString();
-        }
+			return Result.ToString();
+		}
 
-        public override string Name()
-        {
-            return "Loaded Modules";
-        }
+		public override string Name()
+		{
+			return "Loaded Modules";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "System";
-        }
+		public override string ParentMenuName()
+		{
+			return "System";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
+		public override int SortOrder()
+		{
+			return 0;
+		}
 
-        public override string Image()
-        {
-            return String.Empty;
-        }
-    }
+		public override string Image()
+		{
+			return String.Empty;
+		}
+	}
 }
 
 

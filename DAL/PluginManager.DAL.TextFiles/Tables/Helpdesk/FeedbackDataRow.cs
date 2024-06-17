@@ -27,69 +27,69 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.DomainHelpdesk, Constants.TableNameFeedback)]
-    internal class FeedbackDataRow : TableRowDefinition
-    {
-        private long _userId;
-        private string _userName;
-        private string _message;
-        private bool _showOnWebsite;
+	[Table(Constants.DomainHelpdesk, Constants.TableNameFeedback)]
+	internal class FeedbackDataRow : TableRowDefinition
+	{
+		private long _userId;
+		private string _userName;
+		private string _message;
+		private bool _showOnWebsite;
 
-        [ForeignKey(Constants.TableNameUsers, ForeignKeyAttributes.DefaultValue)]
-        public long UserId
-        {
-            get => _userId;
+		[ForeignKey(Constants.TableNameUsers, ForeignKeyAttributes.DefaultValue)]
+		public long UserId
+		{
+			get => _userId;
 
-            set
-            {
-                if (_userId == value)
-                    return;
+			set
+			{
+				if (_userId == value)
+					return;
 
-                _userId = value;
-                Update();
-            }
-        }
+				_userId = value;
+				Update();
+			}
+		}
 
-        public string UserName
-        {
-            get => _userName;
+		public string UserName
+		{
+			get => _userName;
 
-            set
-            {
-                if (_userName == value)
-                    return;
+			set
+			{
+				if (_userName == value)
+					return;
 
-                _userName = value;
-                Update();
-            }
-        }
+				_userName = value;
+				Update();
+			}
+		}
 
-        public string Message
-        {
-            get => _message;
+		public string Message
+		{
+			get => _message;
 
-            set
-            {
-                if (_message == value)
-                    return;
+			set
+			{
+				if (_message == value)
+					return;
 
-                _message = value;
-                Update();
-            }
-        }
+				_message = value;
+				Update();
+			}
+		}
 
-        public bool ShowOnWebsite
-        {
-            get => _showOnWebsite;
+		public bool ShowOnWebsite
+		{
+			get => _showOnWebsite;
 
-            set
-            {
-                if (_showOnWebsite == value)
-                    return;
+			set
+			{
+				if (_showOnWebsite == value)
+					return;
 
-                _showOnWebsite = value;
-                Update();
-            }
-        }
-    }
+				_showOnWebsite = value;
+				Update();
+			}
+		}
+	}
 }

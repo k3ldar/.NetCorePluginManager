@@ -30,11 +30,11 @@ using System.Text.Json.Serialization;
 
 namespace LoginPlugin.Classes
 {
-    public class FacebookRemoveUser
-    {
-        [JsonPropertyName("user_id")]
-        public string UserId { get; set; }
-    }
+	public class FacebookRemoveUser
+	{
+		[JsonPropertyName("user_id")]
+		public string UserId { get; set; }
+	}
 }
 
 #pragma warning restore CS1591

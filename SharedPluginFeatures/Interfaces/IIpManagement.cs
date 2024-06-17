@@ -26,40 +26,40 @@
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// This interface is implemented by the BadEgg.Plugin module and is used to manage 
-    /// black and white listed Ip addresses.
-    /// 
-    /// BadEgg Plugin module does not store any of these Ip addresses but requires that
-    /// the host application informs it which Ip addresses are black or white listed.
-    /// </summary>
-    public interface IIpManagement
-    {
-        /// <summary>
-        /// Adds an address to the black listed address list.  Any request from an Ip
-        /// address in this list will be rejected whilst the pipeline is iterated when 
-        /// a request is made.
-        /// </summary>
-        /// <param name="ipAddress">Ip address</param>
-        void AddBlackListedIp(in string ipAddress);
+	/// <summary>
+	/// This interface is implemented by the BadEgg.Plugin module and is used to manage 
+	/// black and white listed Ip addresses.
+	/// 
+	/// BadEgg Plugin module does not store any of these Ip addresses but requires that
+	/// the host application informs it which Ip addresses are black or white listed.
+	/// </summary>
+	public interface IIpManagement
+	{
+		/// <summary>
+		/// Adds an address to the black listed address list.  Any request from an Ip
+		/// address in this list will be rejected whilst the pipeline is iterated when 
+		/// a request is made.
+		/// </summary>
+		/// <param name="ipAddress">Ip address</param>
+		void AddBlackListedIp(in string ipAddress);
 
-        /// <summary>
-        /// Adds an address to the whilte listed address list.  Any request from an Ip
-        /// address in this list will never be rejected when making a request to the
-        /// application.
-        /// </summary>
-        /// <param name="ipAddress">Ip address</param>
-        void AddWhiteListedIp(in string ipAddress);
+		/// <summary>
+		/// Adds an address to the whilte listed address list.  Any request from an Ip
+		/// address in this list will never be rejected when making a request to the
+		/// application.
+		/// </summary>
+		/// <param name="ipAddress">Ip address</param>
+		void AddWhiteListedIp(in string ipAddress);
 
-        /// <summary>
-        /// Removes an Ip address from both the black and whilte address lists.  
-        /// </summary>
-        /// <param name="ipAddress">Ip address</param>
-        void RemoveIpAddress(in string ipAddress);
+		/// <summary>
+		/// Removes an Ip address from both the black and whilte address lists.  
+		/// </summary>
+		/// <param name="ipAddress">Ip address</param>
+		void RemoveIpAddress(in string ipAddress);
 
-        /// <summary>
-        /// Removes all Ip addresses from both black and white lists.
-        /// </summary>
-        void ClearAllIpAddresses();
-    }
+		/// <summary>
+		/// Removes all Ip addresses from both black and white lists.
+		/// </summary>
+		void ClearAllIpAddresses();
+	}
 }

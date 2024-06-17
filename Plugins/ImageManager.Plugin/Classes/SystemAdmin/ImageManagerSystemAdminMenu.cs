@@ -31,53 +31,53 @@ using SharedPluginFeatures;
 
 namespace ImageManager.Plugin.Classes.SystemAdmin
 {
-    public sealed class ImageManagerSystemAdminMenu : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return nameof(Controllers.ImageManagerController.Index);
-        }
+	public sealed class ImageManagerSystemAdminMenu : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return nameof(Controllers.ImageManagerController.Index);
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return Controllers.ImageManagerController.Name;
-        }
+		public override string Controller()
+		{
+			return Controllers.ImageManagerController.Name;
+		}
 
-        public override string Data()
-        {
-            return String.Empty;
-        }
+		public override string Data()
+		{
+			return String.Empty;
+		}
 
-        public override string Image()
-        {
-            return "/images/ImageManager/imMenu.png";
-        }
+		public override string Image()
+		{
+			return "/images/ImageManager/imMenu.png";
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.View;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.View;
+		}
 
-        public override string Name()
-        {
-            return Languages.LanguageStrings.AppImageManagement;
-        }
+		public override string Name()
+		{
+			return Languages.LanguageStrings.AppImageManagement;
+		}
 
-        public override string ParentMenuName()
-        {
-            return Languages.LanguageStrings.AppImagesAll;
-        }
+		public override string ParentMenuName()
+		{
+			return Languages.LanguageStrings.AppImagesAll;
+		}
 
-        public override int SortOrder()
-        {
-            return 1000;
-        }
-    }
+		public override int SortOrder()
+		{
+			return 1000;
+		}
+	}
 }
 
 #pragma warning restore CS1591

@@ -26,11 +26,11 @@
 
 namespace Middleware
 {
-    /// <summary>
-    /// Interface for sending emails
-    /// </summary>
-    public interface IEmailSender
-    {
+	/// <summary>
+	/// Interface for sending emails
+	/// </summary>
+	public interface IEmailSender
+	{
 		/// <summary>
 		/// Method for sending an email to a recipient
 		/// </summary>
@@ -40,11 +40,11 @@ namespace Middleware
 		/// <param name="subject"></param>
 		/// <param name="isHtml"></param>
 		/// <param name="attachments"></param>
-        void SendEmail(string recipientName, string recipientEmail, string message, string subject, bool isHtml, params string[] attachments);
+		void SendEmail(string recipientName, string recipientEmail, string message, string subject, bool isHtml, params string[] attachments);
 
 		/// <summary>
 		/// Length of the queue
 		/// </summary>
-        int QueueLength { get; }
-    }
+		int QueueLength { get; }
+	}
 }

@@ -29,176 +29,176 @@ using static SharedPluginFeatures.Enums;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Connection arguments for DefenderConnectionAddEventHandler
-    /// </summary>
-    public class ConnectionEventArgs : EventArgs
-    {
-        #region Constructor
+	/// <summary>
+	/// Connection arguments for DefenderConnectionAddEventHandler
+	/// </summary>
+	public class ConnectionEventArgs : EventArgs
+	{
+		#region Constructor
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="ipAddress">The Ip address being used by the connection.</param>
-        public ConnectionEventArgs(in string ipAddress)
-        {
-            IPAddress = ipAddress;
-        }
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="ipAddress">The Ip address being used by the connection.</param>
+		public ConnectionEventArgs(in string ipAddress)
+		{
+			IPAddress = ipAddress;
+		}
 
-        #endregion Constructor
+		#endregion Constructor
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// IP Address for connection
-        /// </summary>
-        public string IPAddress { get; private set; }
+		/// <summary>
+		/// IP Address for connection
+		/// </summary>
+		public string IPAddress { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 
-    /// <summary>
-    /// Delegate for connection add
-    /// </summary>
-    /// <param name="sender">The class that raised the event.</param>
-    /// <param name="e">Event parameters.</param>
-    public delegate void DefenderConnectionAddEventHandler(object sender, ConnectionEventArgs e);
+	/// <summary>
+	/// Delegate for connection add
+	/// </summary>
+	/// <param name="sender">The class that raised the event.</param>
+	/// <param name="e">Event parameters.</param>
+	public delegate void DefenderConnectionAddEventHandler(object sender, ConnectionEventArgs e);
 
-    /// <summary>
-    /// Connection info event arguments
-    /// </summary>
-    public class ConnectionRemoveEventArgs : ConnectionEventArgs
-    {
-        #region Constructor
+	/// <summary>
+	/// Connection info event arguments
+	/// </summary>
+	public class ConnectionRemoveEventArgs : ConnectionEventArgs
+	{
+		#region Constructor
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="ipAddress">Ip Address being reported on.</param>
-        /// <param name="hits">Average hits per minute.</param>
-        /// <param name="requests">Total number of reuests.</param>
-        /// <param name="duration">Total duration the Ip address remained active.</param>
-        public ConnectionRemoveEventArgs(in string ipAddress, in double hits, in ulong requests, in TimeSpan duration)
-            : base(ipAddress)
-        {
-            Hits = hits;
-            Requests = requests;
-            Duration = duration;
-        }
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="ipAddress">Ip Address being reported on.</param>
+		/// <param name="hits">Average hits per minute.</param>
+		/// <param name="requests">Total number of reuests.</param>
+		/// <param name="duration">Total duration the Ip address remained active.</param>
+		public ConnectionRemoveEventArgs(in string ipAddress, in double hits, in ulong requests, in TimeSpan duration)
+			: base(ipAddress)
+		{
+			Hits = hits;
+			Requests = requests;
+			Duration = duration;
+		}
 
-        #endregion Constructor
+		#endregion Constructor
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Average hits per minute.
-        /// </summary>
-        /// <value>double</value>
-        public double Hits { get; private set; }
+		/// <summary>
+		/// Average hits per minute.
+		/// </summary>
+		/// <value>double</value>
+		public double Hits { get; private set; }
 
-        /// <summary>
-        /// Total number of reuests.
-        /// </summary>
-        /// <value>ulong</value>
-        public ulong Requests { get; private set; }
+		/// <summary>
+		/// Total number of reuests.
+		/// </summary>
+		/// <value>ulong</value>
+		public ulong Requests { get; private set; }
 
-        /// <summary>
-        /// Total duration the Ip address remained active.
-        /// </summary>
-        /// <value>TimeSpan</value>
-        public TimeSpan Duration { get; private set; }
+		/// <summary>
+		/// Total duration the Ip address remained active.
+		/// </summary>
+		/// <value>TimeSpan</value>
+		public TimeSpan Duration { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 
-    /// <summary>
-    /// Delegate for connection remove
-    /// </summary>
-    /// <param name="sender">The class that raised the event.</param>
-    /// <param name="e">Event parameters.</param>
-    public delegate void DefenderConnectionRemoveEventHandler(object sender, ConnectionRemoveEventArgs e);
+	/// <summary>
+	/// Delegate for connection remove
+	/// </summary>
+	/// <param name="sender">The class that raised the event.</param>
+	/// <param name="e">Event parameters.</param>
+	public delegate void DefenderConnectionRemoveEventHandler(object sender, ConnectionRemoveEventArgs e);
 
-    /// <summary>
-    /// Arguments used in DefenderRequestBan event in order to notify that an Ip Address should be banned.
-    /// </summary>
-    public sealed class RequestBanEventArgs : ConnectionRemoveEventArgs
-    {
-        #region Constructor
+	/// <summary>
+	/// Arguments used in DefenderRequestBan event in order to notify that an Ip Address should be banned.
+	/// </summary>
+	public sealed class RequestBanEventArgs : ConnectionRemoveEventArgs
+	{
+		#region Constructor
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="ipAddress">Ip address being reported on.</param>
-        /// <param name="hits">Average requests per minute.</param>
-        /// <param name="requests">Total number of requests</param>
-        /// <param name="duration">Total duration the Ip address remained active.</param>
-        public RequestBanEventArgs(in string ipAddress, in double hits, in ulong requests, in TimeSpan duration)
-            : base(ipAddress, hits, requests, duration)
-        {
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="ipAddress">Ip address being reported on.</param>
+		/// <param name="hits">Average requests per minute.</param>
+		/// <param name="requests">Total number of requests</param>
+		/// <param name="duration">Total duration the Ip address remained active.</param>
+		public RequestBanEventArgs(in string ipAddress, in double hits, in ulong requests, in TimeSpan duration)
+			: base(ipAddress, hits, requests, duration)
+		{
 
-        }
+		}
 
-        #endregion Constructor
+		#endregion Constructor
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Determines whether the ip address should be black listed or note.
-        /// </summary>
-        /// <value>bool</value>
-        public bool AddToBlackList { get; set; }
+		/// <summary>
+		/// Determines whether the ip address should be black listed or note.
+		/// </summary>
+		/// <value>bool</value>
+		public bool AddToBlackList { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 
-    /// <summary>
-    /// Delegate for log audit failure events
-    /// </summary>
-    /// <param name="sender">The class that raised the event.</param>
-    /// <param name="e">Event parameters.</param>
-    public delegate void DefenderRequestBan(object sender, RequestBanEventArgs e);
+	/// <summary>
+	/// Delegate for log audit failure events
+	/// </summary>
+	/// <param name="sender">The class that raised the event.</param>
+	/// <param name="e">Event parameters.</param>
+	public delegate void DefenderRequestBan(object sender, RequestBanEventArgs e);
 
-    /// <summary>
-    /// Arguments used to report a connection.
-    /// </summary>
-    public sealed class ConnectionReportEventArgs : ConnectionEventArgs
-    {
-        #region Constructors
+	/// <summary>
+	/// Arguments used to report a connection.
+	/// </summary>
+	public sealed class ConnectionReportEventArgs : ConnectionEventArgs
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="ipAddress">Ip address.</param>
-        /// <param name="queryString">Query or Form values used when validating the request.</param>
-        /// <param name="validation">Result of validation.</param>
-        public ConnectionReportEventArgs(in string ipAddress, in string queryString, in ValidateRequestResult validation)
-            : base(ipAddress)
-        {
-            QueryString = queryString;
-            Result = validation;
-        }
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="ipAddress">Ip address.</param>
+		/// <param name="queryString">Query or Form values used when validating the request.</param>
+		/// <param name="validation">Result of validation.</param>
+		public ConnectionReportEventArgs(in string ipAddress, in string queryString, in ValidateRequestResult validation)
+			: base(ipAddress)
+		{
+			QueryString = queryString;
+			Result = validation;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Query and form data associated with the event.
-        /// </summary>
-        public string QueryString { get; private set; }
+		/// <summary>
+		/// Query and form data associated with the event.
+		/// </summary>
+		public string QueryString { get; private set; }
 
-        /// <summary>
-        /// Result determined when validating a request.
-        /// </summary>
-        public ValidateRequestResult Result { get; private set; }
+		/// <summary>
+		/// Result determined when validating a request.
+		/// </summary>
+		public ValidateRequestResult Result { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 
-    /// <summary>
-    /// Delegate used for events when the Ip address is being reported upon.
-    /// </summary>
-    /// <param name="sender">The class that raised the event.</param>
-    /// <param name="e">Event parameters.</param>
-    public delegate void DefenderReportConnection(object sender, ConnectionReportEventArgs e);
+	/// <summary>
+	/// Delegate used for events when the Ip address is being reported upon.
+	/// </summary>
+	/// <param name="sender">The class that raised the event.</param>
+	/// <param name="e">Event parameters.</param>
+	public delegate void DefenderReportConnection(object sender, ConnectionReportEventArgs e);
 }

@@ -35,80 +35,80 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Classes.MenuItems
 {
-    public sealed class AppSettingsJsonMenu : SystemAdminSubMenu
-    {
-        #region Private Members
+	public sealed class AppSettingsJsonMenu : SystemAdminSubMenu
+	{
+		#region Private Members
 
-        private readonly ISettingsProvider _settingsProvider;
+		private readonly ISettingsProvider _settingsProvider;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public AppSettingsJsonMenu(ISettingsProvider settingsProvider)
-        {
-            _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
-        }
+		public AppSettingsJsonMenu(ISettingsProvider settingsProvider)
+		{
+			_settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region SystemAdminSubMenu Methods
+		#region SystemAdminSubMenu Methods
 
-        public override string Action()
-        {
-            return String.Empty;
-        }
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Text;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Text;
+		}
 
-        public override string Data()
-        {
-            SystemAdminSettings settings = _settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
+		public override string Data()
+		{
+			SystemAdminSettings settings = _settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
 
-            if (!settings.ShowAppSettingsJson)
-                return "Viewing appsettings.json has been disabled";
+			if (!settings.ShowAppSettingsJson)
+				return "Viewing appsettings.json has been disabled";
 
-            using (StreamReader rdr = new("appsettings.json"))
-            {
-                return rdr.ReadToEnd();
-            }
-        }
+			using (StreamReader rdr = new("appsettings.json"))
+			{
+				return rdr.ReadToEnd();
+			}
+		}
 
-        public override string Name()
-        {
-            return "appsettingsjson";
-        }
+		public override string Name()
+		{
+			return "appsettingsjson";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "System";
-        }
+		public override string ParentMenuName()
+		{
+			return "System";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
+		public override int SortOrder()
+		{
+			return 0;
+		}
 
-        public override string Image()
-        {
-            return String.Empty;
-        }
+		public override string Image()
+		{
+			return String.Empty;
+		}
 
-        #endregion SystemAdminSubMenu Methods
-    }
+		#endregion SystemAdminSubMenu Methods
+	}
 }
 
 #pragma warning restore CS1591

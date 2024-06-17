@@ -34,17 +34,17 @@ namespace SimpleDB.Tests.Mocks
 {
 	[ExcludeFromCodeCoverage]
 	public class MockTextTable : ISimpleDBTable
-    {
-        private readonly string _tableName;
-        private readonly bool _idExists;
+	{
+		private readonly string _tableName;
+		private readonly bool _idExists;
 
-        public MockTextTable(string tableName, bool idExists)
-        {
-            _tableName = tableName;
-            _idExists = idExists;
-        }
+		public MockTextTable(string tableName, bool idExists)
+		{
+			_tableName = tableName;
+			_idExists = idExists;
+		}
 
-        public string TableName => _tableName;
+		public string TableName => _tableName;
 
 		public CachingStrategy CachingStrategy => throw new NotImplementedException();
 
@@ -64,14 +64,14 @@ namespace SimpleDB.Tests.Mocks
 		}
 
 		public bool IdExists(long id)
-        {
-            return _idExists;
-        }
+		{
+			return _idExists;
+		}
 
-        public bool IdIsInUse(string propertyName, long value)
-        {
-            throw new NotImplementedException();
-        }
+		public bool IdIsInUse(string propertyName, long value)
+		{
+			throw new NotImplementedException();
+		}
 
 		public void Initialize(IPluginClassesService pluginClassesService)
 		{

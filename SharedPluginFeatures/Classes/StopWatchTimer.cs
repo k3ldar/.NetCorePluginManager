@@ -28,59 +28,59 @@ using System.Diagnostics;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Stopwatch Timer is used to automatically collect and generate timing data accurate to 1000th of a millisecond.
-    /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1815:Override equals and operator equals on value types", Justification = "Do not believe this is required here")]
-    public readonly struct StopWatchTimer : IDisposable
-    {
-        #region Private Members
+	/// <summary>
+	/// Stopwatch Timer is used to automatically collect and generate timing data accurate to 1000th of a millisecond.
+	/// </summary>
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1815:Override equals and operator equals on value types", Justification = "Do not believe this is required here")]
+	public readonly struct StopWatchTimer : IDisposable
+	{
+		#region Private Members
 
-        private readonly Stopwatch _stopwatch;
-        private readonly Timings _timings;
+		private readonly Stopwatch _stopwatch;
+		private readonly Timings _timings;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="timings">SharedPluginFeatures.Timings class used to contain timing data.</param>
-        public StopWatchTimer(in Timings timings)
-        {
-            _timings = timings ?? throw new ArgumentNullException(nameof(timings));
-            _stopwatch = new Stopwatch();
-            _stopwatch.Start();
-        }
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="timings">SharedPluginFeatures.Timings class used to contain timing data.</param>
+		public StopWatchTimer(in Timings timings)
+		{
+			_timings = timings ?? throw new ArgumentNullException(nameof(timings));
+			_stopwatch = new Stopwatch();
+			_stopwatch.Start();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Static Methods
+		#region Static Methods
 
-        /// <summary>
-        /// Initialises an instance of the StopWatchTimer class used to collect timings.
-        /// </summary>
-        /// <param name="timings">SharedPluginFeatures.Timings class used to contain timing data.</param>
-        /// <returns>StopWatchTimer</returns>
-        public static StopWatchTimer Initialise(in Timings timings)
-        {
-            return new StopWatchTimer(timings);
-        }
+		/// <summary>
+		/// Initialises an instance of the StopWatchTimer class used to collect timings.
+		/// </summary>
+		/// <param name="timings">SharedPluginFeatures.Timings class used to contain timing data.</param>
+		/// <returns>StopWatchTimer</returns>
+		public static StopWatchTimer Initialise(in Timings timings)
+		{
+			return new StopWatchTimer(timings);
+		}
 
-        #endregion Static Methods
+		#endregion Static Methods
 
-        #region IDisposable Methods
+		#region IDisposable Methods
 
-        /// <summary>
-        /// Dispose method which ensures resources are disposed of and timing data is recorded.
-        /// </summary>
-        public void Dispose()
-        {
-            _stopwatch.Stop();
-            _timings.Increment(_stopwatch);
-        }
+		/// <summary>
+		/// Dispose method which ensures resources are disposed of and timing data is recorded.
+		/// </summary>
+		public void Dispose()
+		{
+			_stopwatch.Stop();
+			_timings.Increment(_stopwatch);
+		}
 
-        #endregion IDisposable Methods
-    }
+		#endregion IDisposable Methods
+	}
 }

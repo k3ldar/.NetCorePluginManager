@@ -27,172 +27,172 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameInvoiceItems)]
-    internal class InvoiceItemDataRow : TableRowDefinition
-    {
-        private long _invoiceId;
-        private long _orderItemId;
-        private int _discountType;
-        private int _itemStatus;
-        private string _description;
-        private decimal _taxRate;
-        private decimal _price;
-        private decimal _discount;
-        private decimal _quantity;
+	[Table(Constants.TableNameInvoiceItems)]
+	internal class InvoiceItemDataRow : TableRowDefinition
+	{
+		private long _invoiceId;
+		private long _orderItemId;
+		private int _discountType;
+		private int _itemStatus;
+		private string _description;
+		private decimal _taxRate;
+		private decimal _price;
+		private decimal _discount;
+		private decimal _quantity;
 
-        [ForeignKey(Constants.TableNameInvoices)]
-        public long InvoiceId
-        {
-            get
-            {
-                return _invoiceId;
-            }
+		[ForeignKey(Constants.TableNameInvoices)]
+		public long InvoiceId
+		{
+			get
+			{
+				return _invoiceId;
+			}
 
-            set
-            {
-                if (_invoiceId == value)
-                    return;
+			set
+			{
+				if (_invoiceId == value)
+					return;
 
-                _invoiceId = value;
-                Update();
-            }
-        }
+				_invoiceId = value;
+				Update();
+			}
+		}
 
-        [ForeignKey(Constants.TableNameOrderItems)]
-        public long OrderItemId
-        {
-            get
-            {
-                return _orderItemId;
-            }
+		[ForeignKey(Constants.TableNameOrderItems)]
+		public long OrderItemId
+		{
+			get
+			{
+				return _orderItemId;
+			}
 
-            set
-            {
-                if (_orderItemId == value)
-                    return;
+			set
+			{
+				if (_orderItemId == value)
+					return;
 
-                _orderItemId = value;
-                Update();
-            }
-        }
+				_orderItemId = value;
+				Update();
+			}
+		}
 
-        public string Description
-        {
-            get
-            {
-                return _description;
-            }
+		public string Description
+		{
+			get
+			{
+				return _description;
+			}
 
-            set
-            {
-                if (_description == value)
-                    return;
+			set
+			{
+				if (_description == value)
+					return;
 
-                _description = value;
-                Update();
-            }
-        }
+				_description = value;
+				Update();
+			}
+		}
 
-        public decimal TaxRate
-        {
-            get
-            {
-                return _taxRate;
-            }
+		public decimal TaxRate
+		{
+			get
+			{
+				return _taxRate;
+			}
 
-            set
-            {
-                if (_taxRate == value)
-                    return;
+			set
+			{
+				if (_taxRate == value)
+					return;
 
-                _taxRate = value;
-                Update();
-            }
-        }
+				_taxRate = value;
+				Update();
+			}
+		}
 
-        public decimal Price
-        {
-            get
-            {
-                return _price;
-            }
+		public decimal Price
+		{
+			get
+			{
+				return _price;
+			}
 
-            set
-            {
-                if (_price == value)
-                    return;
+			set
+			{
+				if (_price == value)
+					return;
 
-                _price = value;
-                Update();
-            }
-        }
+				_price = value;
+				Update();
+			}
+		}
 
-        public decimal Quantity
-        {
-            get
-            {
-                return _quantity;
-            }
+		public decimal Quantity
+		{
+			get
+			{
+				return _quantity;
+			}
 
-            set
-            {
-                if (_quantity == value)
-                    return;
+			set
+			{
+				if (_quantity == value)
+					return;
 
-                _quantity = value;
-                Update();
-            }
-        }
+				_quantity = value;
+				Update();
+			}
+		}
 
-        public decimal Discount
-        {
-            get
-            {
-                return _discount;
-            }
+		public decimal Discount
+		{
+			get
+			{
+				return _discount;
+			}
 
-            set
-            {
-                if (_discount == value)
-                    return;
+			set
+			{
+				if (_discount == value)
+					return;
 
-                _discount = value;
-                Update();
-            }
-        }
+				_discount = value;
+				Update();
+			}
+		}
 
-        public int DiscountType
-        {
-            get
-            {
-                return _discountType;
-            }
+		public int DiscountType
+		{
+			get
+			{
+				return _discountType;
+			}
 
-            set
-            {
-                if (_discountType == value)
-                    return;
+			set
+			{
+				if (_discountType == value)
+					return;
 
-                _discountType = value;
-                Update();
-            }
-        }
+				_discountType = value;
+				Update();
+			}
+		}
 
-        public int ItemStatus
-        {
-            get
-            {
-                return _itemStatus;
-            }
+		public int ItemStatus
+		{
+			get
+			{
+				return _itemStatus;
+			}
 
-            set
-            {
-                if (_itemStatus == value)
-                    return;
+			set
+			{
+				if (_itemStatus == value)
+					return;
 
-                _itemStatus = value;
-                Update();
-            }
-        }
-    }
+				_itemStatus = value;
+				Update();
+			}
+		}
+	}
 }

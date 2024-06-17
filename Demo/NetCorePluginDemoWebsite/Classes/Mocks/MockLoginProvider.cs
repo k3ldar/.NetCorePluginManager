@@ -31,105 +31,105 @@ using Middleware;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
-    public class MockLoginProvider : ILoginProvider
-    {
-        private readonly Dictionary<long, string> _externalUsers = new();
+	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
+	public class MockLoginProvider : ILoginProvider
+	{
+		private readonly Dictionary<long, string> _externalUsers = new();
 
-        public LoginResult Login(in string username, in string password, in string ipAddress,
-            in byte attempts, ref UserLoginDetails loginDetails)
-        {
-            if (loginDetails == null)
-                throw new ArgumentNullException(nameof(loginDetails));
+		public LoginResult Login(in string username, in string password, in string ipAddress,
+			in byte attempts, ref UserLoginDetails loginDetails)
+		{
+			if (loginDetails == null)
+				throw new ArgumentNullException(nameof(loginDetails));
 
-            if (_externalUsers.ContainsKey(loginDetails.UserId))
-            {
-                loginDetails.Username = _externalUsers[loginDetails.UserId];
-                loginDetails.Email = _externalUsers[loginDetails.UserId];
-                return LoginResult.Remembered;
-            }
+			if (_externalUsers.ContainsKey(loginDetails.UserId))
+			{
+				loginDetails.Username = _externalUsers[loginDetails.UserId];
+				loginDetails.Email = _externalUsers[loginDetails.UserId];
+				return LoginResult.Remembered;
+			}
 
-            if (loginDetails.RememberMe && loginDetails.UserId == 123)
-            {
-                loginDetails.Username = "Administrator";
-                loginDetails.Email = "admin@nowhere.com";
-                loginDetails.UserId = 123;
-                return LoginResult.Remembered;
-            }
+			if (loginDetails.RememberMe && loginDetails.UserId == 123)
+			{
+				loginDetails.Username = "Administrator";
+				loginDetails.Email = "admin@nowhere.com";
+				loginDetails.UserId = 123;
+				return LoginResult.Remembered;
+			}
 
-            if (username == "admin" && password == "password")
-            {
-                loginDetails.Username = "Administrator";
-                loginDetails.Email = "admin@nowhere.com";
-                loginDetails.UserId = 123;
-                return LoginResult.Success;
-            }
+			if (username == "admin" && password == "password")
+			{
+				loginDetails.Username = "Administrator";
+				loginDetails.Email = "admin@nowhere.com";
+				loginDetails.UserId = 123;
+				return LoginResult.Success;
+			}
 
-            if (username == "admin" && password == "changepassword")
-            {
-                loginDetails.Username = "Administrator";
-                loginDetails.Email = "admin@nowhere.com";
-                loginDetails.UserId = 124;
-                return LoginResult.PasswordChangeRequired;
-            }
+			if (username == "admin" && password == "changepassword")
+			{
+				loginDetails.Username = "Administrator";
+				loginDetails.Email = "admin@nowhere.com";
+				loginDetails.UserId = 124;
+				return LoginResult.PasswordChangeRequired;
+			}
 
-            if (attempts > 4)
-                return LoginResult.AccountLocked;
+			if (attempts > 4)
+				return LoginResult.AccountLocked;
 
-            return LoginResult.InvalidCredentials;
-        }
+			return LoginResult.InvalidCredentials;
+		}
 
-        public LoginResult Login(in ITokenUserDetails tokenUserDetails, ref UserLoginDetails loginDetails)
-        {
-            if (tokenUserDetails == null)
-                throw new ArgumentNullException(nameof(tokenUserDetails));
+		public LoginResult Login(in ITokenUserDetails tokenUserDetails, ref UserLoginDetails loginDetails)
+		{
+			if (tokenUserDetails == null)
+				throw new ArgumentNullException(nameof(tokenUserDetails));
 
-            if (String.IsNullOrEmpty(tokenUserDetails.Email))
-                throw new ArgumentNullException(nameof(tokenUserDetails));
+			if (String.IsNullOrEmpty(tokenUserDetails.Email))
+				throw new ArgumentNullException(nameof(tokenUserDetails));
 
-            if (String.IsNullOrEmpty(tokenUserDetails.Provider))
-                throw new ArgumentNullException(nameof(tokenUserDetails));
+			if (String.IsNullOrEmpty(tokenUserDetails.Provider))
+				throw new ArgumentNullException(nameof(tokenUserDetails));
 
-            // in the real world use a proper method for getting id, this is ok as only a mock
-            string stringId = tokenUserDetails.Provider + tokenUserDetails.Id;
+			// in the real world use a proper method for getting id, this is ok as only a mock
+			string stringId = tokenUserDetails.Provider + tokenUserDetails.Id;
 
-            long id = stringId.GetHashCode();
+			long id = stringId.GetHashCode();
 
-            if (tokenUserDetails.Verify)
-            {
-                if (_externalUsers.ContainsKey(id))
-                    return LoginResult.Success;
-                else
-                    return LoginResult.InvalidCredentials;
-            }
-            else
-            {
-                loginDetails = new UserLoginDetails
-                {
-                    UserId = id,
-                    Username = tokenUserDetails.Name ?? tokenUserDetails.Email,
-                    Email = tokenUserDetails.Email
-                };
+			if (tokenUserDetails.Verify)
+			{
+				if (_externalUsers.ContainsKey(id))
+					return LoginResult.Success;
+				else
+					return LoginResult.InvalidCredentials;
+			}
+			else
+			{
+				loginDetails = new UserLoginDetails
+				{
+					UserId = id,
+					Username = tokenUserDetails.Name ?? tokenUserDetails.Email,
+					Email = tokenUserDetails.Email
+				};
 
-                _externalUsers[id] = tokenUserDetails.Email;
+				_externalUsers[id] = tokenUserDetails.Email;
 
-                return LoginResult.Success;
-            }
-        }
+				return LoginResult.Success;
+			}
+		}
 
-        public bool UnlockAccount(in string username, in string unlockCode)
-        {
-            return unlockCode == "123456";
-        }
+		public bool UnlockAccount(in string username, in string unlockCode)
+		{
+			return unlockCode == "123456";
+		}
 
-        public bool ForgottenPassword(in string username)
-        {
-            return username == "admin";
-        }
+		public bool ForgottenPassword(in string username)
+		{
+			return username == "admin";
+		}
 
-        public void RemoveExternalUser(ITokenUserDetails tokenUserDetails)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public void RemoveExternalUser(ITokenUserDetails tokenUserDetails)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

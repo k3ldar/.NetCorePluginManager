@@ -27,21 +27,21 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal class SettingsDataRowDefaults : ITableDefaults<SettingsDataRow>
-    {
-        private const int EncryptionKeyLength = 40;
-        private const string AcceptableEncryptionChars = "abcdefghijklmnopqrstuvwxyz 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.-';#$%";
+	internal class SettingsDataRowDefaults : ITableDefaults<SettingsDataRow>
+	{
+		private const int EncryptionKeyLength = 40;
+		private const string AcceptableEncryptionChars = "abcdefghijklmnopqrstuvwxyz 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.-';#$%";
 
-        public long PrimarySequence => 0;
+		public long PrimarySequence => 0;
 
-        public long SecondarySequence => 0;
+		public long SecondarySequence => 0;
 
-        public ushort Version => 1;
+		public ushort Version => 1;
 
-        public List<SettingsDataRow> InitialData(ushort version)
-        {
-            if (version == 1)
-            {
+		public List<SettingsDataRow> InitialData(ushort version)
+		{
+			if (version == 1)
+			{
 				return new List<SettingsDataRow>
 					{
 						new()
@@ -90,9 +90,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 							Value = "0"
 						}
 					};
-            }
+			}
 
-            return null;
-        }
-    }
+			return null;
+		}
+	}
 }

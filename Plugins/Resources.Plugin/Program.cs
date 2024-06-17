@@ -38,10 +38,10 @@ using Shared.Classes;
 
 namespace Resources.Plugin
 {
-    public static class Program
-    {
-        public static void Main(string[] args)
-        {
+	public static class Program
+	{
+		public static void Main(string[] args)
+		{
 			ThreadManager.Initialise(new SharedLib.Win.WindowsCpuUsage());
 			ThreadManager.MaximumPoolSize = 500;
 			ThreadManager.MaximumRunningThreads = 50;
@@ -87,9 +87,9 @@ namespace Resources.Plugin
 		}
 
 		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-    }
+			WebHost.CreateDefaultBuilder(args)
+				.UseStartup<Startup>();
+	}
 }
 
 #pragma warning restore CS1591

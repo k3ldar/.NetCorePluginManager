@@ -27,85 +27,85 @@ using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameUserApi, CompressionType.None, CachingStrategy.None)]
-    internal class UserApiDataRow : TableRowDefinition
-    {
-        #region Private Members
+	[Table(Constants.TableNameUserApi, CompressionType.None, CachingStrategy.None)]
+	internal class UserApiDataRow : TableRowDefinition
+	{
+		#region Private Members
 
-        long _userId;
-        string _merchantId;
-        string _apiKey;
-        string _secret;
+		long _userId;
+		string _merchantId;
+		string _apiKey;
+		string _secret;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        [ForeignKey(Constants.TableNameUsers)]
-        public long UserId
-        {
-            get
-            {
-                return _userId;
-            }
+		[ForeignKey(Constants.TableNameUsers)]
+		public long UserId
+		{
+			get
+			{
+				return _userId;
+			}
 
-            set
-            {
-                if (_userId == value)
-                    return;
+			set
+			{
+				if (_userId == value)
+					return;
 
-                _userId = value;
-                Update();
-            }
-        }
+				_userId = value;
+				Update();
+			}
+		}
 
-        public string MerchantId
-        {
-            get
-            {
-                return _merchantId;
-            }
+		public string MerchantId
+		{
+			get
+			{
+				return _merchantId;
+			}
 
-            set
-            {
-                if (_merchantId == value)
-                    return;
+			set
+			{
+				if (_merchantId == value)
+					return;
 
-                _merchantId = value;
-                Update();
-            }
-        }
+				_merchantId = value;
+				Update();
+			}
+		}
 
-        public string ApiKey
-        {
-            get
-            {
-                return _apiKey;
-            }
+		public string ApiKey
+		{
+			get
+			{
+				return _apiKey;
+			}
 
-            set
-            {
-                if (_apiKey == value)
-                    return;
+			set
+			{
+				if (_apiKey == value)
+					return;
 
-                _apiKey = value;
-                Update();
-            }
-        }
+				_apiKey = value;
+				Update();
+			}
+		}
 
-        public string Secret
-        {
-            get
-            {
-                return _secret;
-            }
+		public string Secret
+		{
+			get
+			{
+				return _secret;
+			}
 
-            set
-            {
-                if (_secret == value)
-                    return;
+			set
+			{
+				if (_secret == value)
+					return;
 
-                _secret = value;
-                Update();
-            }
-        }
-    }
+				_secret = value;
+				Update();
+			}
+		}
+	}
 }

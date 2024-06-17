@@ -32,82 +32,82 @@ using SharedPluginFeatures;
 
 namespace BadEgg.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns a list of current connections and their BadEgg status and can 
-    /// be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class BadEggConnectionsSubMenu : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	/// <summary>
+	/// Returns a list of current connections and their BadEgg status and can 
+	/// be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public sealed class BadEggConnectionsSubMenu : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        /// <summary>
-        /// Returns delimited data on all connections being monitored by BadEgg.Plugin.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            StringBuilder Result = new("IP Address|Requests|Total Time|Created|Last Entry|Hits Per Minute|Results");
+		/// <summary>
+		/// Returns delimited data on all connections being monitored by BadEgg.Plugin.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			StringBuilder Result = new("IP Address|Requests|Total Time|Created|Last Entry|Hits Per Minute|Results");
 
-            string memStatus = WebDefender.ValidateConnections.GetMemoryStatus();
+			string memStatus = WebDefender.ValidateConnections.GetMemoryStatus();
 
-            foreach (string line in memStatus.Split('\r'))
-            {
-                Result.Append('\r');
-                string[] entries = line.Split('#');
+			foreach (string line in memStatus.Split('\r'))
+			{
+				Result.Append('\r');
+				string[] entries = line.Split('#');
 
-                for (int i = 0; i < entries.Length; i++)
-                {
-                    Result.Append(entries[i]);
+				for (int i = 0; i < entries.Length; i++)
+				{
+					Result.Append(entries[i]);
 
-                    if (i < (entries.Length - 1))
-                        Result.Append('|');
-                }
-            }
-            //IpAddress: {0}; Requests: {1}; TotalTime: {2}; Created: {3}; LastEntry: {4}; " +
-            //"HitsPerSecond: {5}; Results: {6}
-            return Result.ToString();
-        }
+					if (i < (entries.Length - 1))
+						Result.Append('|');
+				}
+			}
+			//IpAddress: {0}; Requests: {1}; TotalTime: {2}; Created: {3}; LastEntry: {4}; " +
+			//"HitsPerSecond: {5}; Results: {6}
+			return Result.ToString();
+		}
 
-        public override string Image()
-        {
-            return Constants.SystemImageBadEgg;
-        }
+		public override string Image()
+		{
+			return Constants.SystemImageBadEgg;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override string Name()
-        {
-            return "Bad Egg Connections";
-        }
+		public override string Name()
+		{
+			return "Bad Egg Connections";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "System";
-        }
+		public override string ParentMenuName()
+		{
+			return "System";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
-    }
+		public override int SortOrder()
+		{
+			return 0;
+		}
+	}
 }
 
 #pragma warning restore CS1591

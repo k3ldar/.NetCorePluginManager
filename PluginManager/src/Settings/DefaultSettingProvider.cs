@@ -36,61 +36,61 @@ using PluginManager.Abstractions;
 
 namespace PluginManager.Internal
 {
-    internal sealed class DefaultSettingProvider : ISettingsProvider
-    {
-        #region Private Members
+	internal sealed class DefaultSettingProvider : ISettingsProvider
+	{
+		#region Private Members
 
-        private readonly string _rootPath;
-        private readonly IApplicationOverride _appOverride;
-        private readonly ISettingError _settingsError;
+		private readonly string _rootPath;
+		private readonly IApplicationOverride _appOverride;
+		private readonly ISettingError _settingsError;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public DefaultSettingProvider(in string rootPath)
-            : this(rootPath, null, null)
-        {
+		public DefaultSettingProvider(in string rootPath)
+			: this(rootPath, null, null)
+		{
 
-        }
+		}
 
-        public DefaultSettingProvider(in string rootPath, IApplicationOverride appOverride, ISettingError settingsError)
-        {
-            if (String.IsNullOrEmpty(rootPath))
-                throw new ArgumentNullException(nameof(rootPath));
+		public DefaultSettingProvider(in string rootPath, IApplicationOverride appOverride, ISettingError settingsError)
+		{
+			if (String.IsNullOrEmpty(rootPath))
+				throw new ArgumentNullException(nameof(rootPath));
 
-            _appOverride = appOverride;
-            _settingsError = settingsError;
-            _rootPath = rootPath;
-        }
+			_appOverride = appOverride;
+			_settingsError = settingsError;
+			_rootPath = rootPath;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region ISettingsProvider Methods
+		#region ISettingsProvider Methods
 
-        public T GetSettings<T>(in string storage, in string sectionName)
-        {
-            if (String.IsNullOrEmpty(storage))
-                throw new ArgumentNullException(nameof(storage));
+		public T GetSettings<T>(in string storage, in string sectionName)
+		{
+			if (String.IsNullOrEmpty(storage))
+				throw new ArgumentNullException(nameof(storage));
 
-            if (String.IsNullOrEmpty(sectionName))
-                throw new ArgumentNullException(nameof(sectionName));
+			if (String.IsNullOrEmpty(sectionName))
+				throw new ArgumentNullException(nameof(sectionName));
 
-            ConfigurationBuilder builder = new();
-            IConfigurationBuilder configBuilder = builder.SetBasePath(_rootPath);
-            configBuilder.AddJsonFile(storage);
-            IConfigurationRoot config = builder.Build();
-            T Result = (T)Activator.CreateInstance(typeof(T));
-            config.GetSection(sectionName).Bind(Result);
+			ConfigurationBuilder builder = new();
+			IConfigurationBuilder configBuilder = builder.SetBasePath(_rootPath);
+			configBuilder.AddJsonFile(storage);
+			IConfigurationRoot config = builder.Build();
+			T Result = (T)Activator.CreateInstance(typeof(T));
+			config.GetSection(sectionName).Bind(Result);
 
-            return ValidateSettings<T>.Validate(Result, null, _settingsError, _appOverride);
-        }
+			return ValidateSettings<T>.Validate(Result, null, _settingsError, _appOverride);
+		}
 
-        public T GetSettings<T>(in string sectionName)
-        {
-            return GetSettings<T>("appsettings.json", sectionName);
-        }
+		public T GetSettings<T>(in string sectionName)
+		{
+			return GetSettings<T>("appsettings.json", sectionName);
+		}
 
-        #endregion ISettingsProvider Methods
-    }
+		#endregion ISettingsProvider Methods
+	}
 }

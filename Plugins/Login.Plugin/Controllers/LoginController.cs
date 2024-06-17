@@ -51,326 +51,326 @@ using Constants = SharedPluginFeatures.Constants;
 
 namespace LoginPlugin.Controllers
 {
-    /// <summary>
-    /// Login controller, allows users to login using a standard interface implemented by ILoginProvider interface.
-    /// </summary>
-    [LoggedOut]
-    [DenySpider]
-    [DenySpider("Googlebot")]
-    [DenySpider("Facebot")]
-    [DenySpider("Bingbot")]
-    [DenySpider("Twitterbot")]
-    [Subdomain(LoginController.Name)]
-    public partial class LoginController : BaseController
-    {
-        #region Private Members
+	/// <summary>
+	/// Login controller, allows users to login using a standard interface implemented by ILoginProvider interface.
+	/// </summary>
+	[LoggedOut]
+	[DenySpider]
+	[DenySpider("Googlebot")]
+	[DenySpider("Facebot")]
+	[DenySpider("Bingbot")]
+	[DenySpider("Twitterbot")]
+	[Subdomain(LoginController.Name)]
+	public partial class LoginController : BaseController
+	{
+		#region Private Members
 
-        private const string Name = "Login";
-        private const string ExternalLoginCacheItem = "Extern Login {0}";
-        private const string OAuthCode = "code";
-        private const string OAuthClientId = "client_id";
-        private const string OAuthClientSecret = "client_secret";
-        private const string OAuthRedirectUri = "redirect_uri";
-        private const string OAuthGrantType = "grant_type";
-        private const string OAuthAuthCode = "authorization_code";
-        private const string OAuthParamRedirectUri = "&redirect_uri=";
-        private const string OAuthParamClientId = "&client_id=";
-        private const string OAuthParamResponseTypeCode = "?response_type=code";
+		private const string Name = "Login";
+		private const string ExternalLoginCacheItem = "Extern Login {0}";
+		private const string OAuthCode = "code";
+		private const string OAuthClientId = "client_id";
+		private const string OAuthClientSecret = "client_secret";
+		private const string OAuthRedirectUri = "redirect_uri";
+		private const string OAuthGrantType = "grant_type";
+		private const string OAuthAuthCode = "authorization_code";
+		private const string OAuthParamRedirectUri = "&redirect_uri=";
+		private const string OAuthParamClientId = "&client_id=";
+		private const string OAuthParamResponseTypeCode = "?response_type=code";
 
-        private readonly ILoginProvider _loginProvider;
-        private readonly LoginControllerSettings _settings;
-        private readonly IClaimsProvider _claimsProvider;
-        private readonly IMemoryCache _memoryCache;
+		private readonly ILoginProvider _loginProvider;
+		private readonly LoginControllerSettings _settings;
+		private readonly IClaimsProvider _claimsProvider;
+		private readonly IMemoryCache _memoryCache;
 
-        private static readonly CacheManager _loginCache = new("Login Cache", new TimeSpan(0, 30, 0));
+		private static readonly CacheManager _loginCache = new("Login Cache", new TimeSpan(0, 30, 0));
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public LoginController(ILoginProvider loginProvider, ISettingsProvider settingsProvider,
-            IClaimsProvider claimsProvider, IMemoryCache memoryCache)
-        {
-            if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+		public LoginController(ILoginProvider loginProvider, ISettingsProvider settingsProvider,
+			IClaimsProvider claimsProvider, IMemoryCache memoryCache)
+		{
+			if (settingsProvider == null)
+				throw new ArgumentNullException(nameof(settingsProvider));
 
-            _loginProvider = loginProvider ?? throw new ArgumentNullException(nameof(loginProvider));
-            _claimsProvider = claimsProvider ?? throw new ArgumentNullException(nameof(claimsProvider));
-            _settings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
-            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
-        }
+			_loginProvider = loginProvider ?? throw new ArgumentNullException(nameof(loginProvider));
+			_claimsProvider = claimsProvider ?? throw new ArgumentNullException(nameof(claimsProvider));
+			_settings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
+			_memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Action Methods
+		#region Public Action Methods
 
-        [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.Login))]
-        [SmokeTest(Constants.HtmlResponseSuccess, PostType.Form, "loginForm", inputData: "Username=joe&Password=bloggs&RememberMe=False", searchData: "Don't have an account yet", submitSearchData: "Invalid User Name/Password;Please try again")]
-        [SmokeTest(Constants.HtmlResponseSuccess, PostType.Form, "loginForm", inputData: "Username=dennis&Password=mennace", searchData: "Don't have an account yet", submitSearchData: "Invalid User Name/Password;Please try again")]
-        public IActionResult Index(string returnUrl)
-        {
-            // has the user been remembered?
-            if (ValidateRememberedLogin())
-            {
-                if (String.IsNullOrEmpty(returnUrl))
-                    return LocalRedirect(_settings.LoginSuccessUrl);
-                else
-                    return LocalRedirect(returnUrl);
-            }
+		[HttpGet]
+		[Breadcrumb(nameof(Languages.LanguageStrings.Login))]
+		[SmokeTest(Constants.HtmlResponseSuccess, PostType.Form, "loginForm", inputData: "Username=joe&Password=bloggs&RememberMe=False", searchData: "Don't have an account yet", submitSearchData: "Invalid User Name/Password;Please try again")]
+		[SmokeTest(Constants.HtmlResponseSuccess, PostType.Form, "loginForm", inputData: "Username=dennis&Password=mennace", searchData: "Don't have an account yet", submitSearchData: "Invalid User Name/Password;Please try again")]
+		public IActionResult Index(string returnUrl)
+		{
+			// has the user been remembered?
+			if (ValidateRememberedLogin())
+			{
+				if (String.IsNullOrEmpty(returnUrl))
+					return LocalRedirect(_settings.LoginSuccessUrl);
+				else
+					return LocalRedirect(returnUrl);
+			}
 
-            LoginViewModel model = new(GetModelData(),
-                String.IsNullOrEmpty(returnUrl) ? _settings.LoginSuccessUrl : returnUrl,
-                _settings.ShowRememberMe, _settings.IsGoogleLoginEnabled(),
-                _settings.IsFacebookLoginEnabled());
+			LoginViewModel model = new(GetModelData(),
+				String.IsNullOrEmpty(returnUrl) ? _settings.LoginSuccessUrl : returnUrl,
+				_settings.ShowRememberMe, _settings.IsGoogleLoginEnabled(),
+				_settings.IsFacebookLoginEnabled());
 
 
-            LoginCacheItem loginCacheItem = GetCachedLoginAttempt(false);
+			LoginCacheItem loginCacheItem = GetCachedLoginAttempt(false);
 
-            if (loginCacheItem != null)
-            {
-                model.ShowCaptchaImage = loginCacheItem.LoginAttempts >= _settings.CaptchaShowFailCount;
-                loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
-            }
+			if (loginCacheItem != null)
+			{
+				model.ShowCaptchaImage = loginCacheItem.LoginAttempts >= _settings.CaptchaShowFailCount;
+				loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
+			}
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [BadEgg]
-        [HttpPost]
-        public IActionResult Index(LoginViewModel model)
-        {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+		[BadEgg]
+		[HttpPost]
+		public IActionResult Index(LoginViewModel model)
+		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
 
-            LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
+			LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
 
-            if (!String.IsNullOrEmpty(loginCacheItem.CaptchaText) &&
+			if (!String.IsNullOrEmpty(loginCacheItem.CaptchaText) &&
 				!loginCacheItem.CaptchaText.Equals(model.CaptchaText))
 			{
 				ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
-            }
+			}
 
-            loginCacheItem.LoginAttempts++;
+			loginCacheItem.LoginAttempts++;
 
-            model.ShowCaptchaImage = loginCacheItem.LoginAttempts >= _settings.CaptchaShowFailCount;
+			model.ShowCaptchaImage = loginCacheItem.LoginAttempts >= _settings.CaptchaShowFailCount;
 
-            if (!model.ShowCaptchaImage)
-                model.CaptchaText = null;
+			if (!model.ShowCaptchaImage)
+				model.CaptchaText = null;
 
-            UserLoginDetails loginDetails = new();
+			UserLoginDetails loginDetails = new();
 
-            model.Breadcrumbs = GetBreadcrumbs();
-            model.CartSummary = GetCartSummary();
+			model.Breadcrumbs = GetBreadcrumbs();
+			model.CartSummary = GetCartSummary();
 
-            if (String.IsNullOrEmpty(model.ReturnUrl))
-                model.ReturnUrl = Constants.ForwardSlash;
+			if (String.IsNullOrEmpty(model.ReturnUrl))
+				model.ReturnUrl = Constants.ForwardSlash;
 
-            if (ModelState.IsValid)
-            {
-                LoginResult loginResult = _loginProvider.Login(ValidateUserInput(model.Username, ValidationType.Name), ValidateUserInput(model.Password, ValidationType.Password), GetIpAddress(),
-                    loginCacheItem.LoginAttempts, ref loginDetails);
+			if (ModelState.IsValid)
+			{
+				LoginResult loginResult = _loginProvider.Login(ValidateUserInput(model.Username, ValidationType.Name), ValidateUserInput(model.Password, ValidationType.Password), GetIpAddress(),
+					loginCacheItem.LoginAttempts, ref loginDetails);
 
-                switch (loginResult)
-                {
-                    case LoginResult.Success:
-                    case LoginResult.PasswordChangeRequired:
-                        RemoveLoginAttempt();
+				switch (loginResult)
+				{
+					case LoginResult.Success:
+					case LoginResult.PasswordChangeRequired:
+						RemoveLoginAttempt();
 
-                        UserSession session = GetUserSession();
+						UserSession session = GetUserSession();
 
-                        if (session != null)
-                            session.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
+						if (session != null)
+							session.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
 
-                        GetAuthenticationService().SignInAsync(HttpContext,
-                            _settings.AuthenticationScheme,
-                            new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
-                            _claimsProvider.GetAuthenticationProperties());
+						GetAuthenticationService().SignInAsync(HttpContext,
+							_settings.AuthenticationScheme,
+							new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
+							_claimsProvider.GetAuthenticationProperties());
 
-                        if (model.RememberMe)
-                        {
-                            CookieAdd(_settings.RememberMeCookieName, Encrypt(loginDetails.UserId.ToString(),
-                                _settings.EncryptionKey), _settings.LoginDays, true);
-                        }
+						if (model.RememberMe)
+						{
+							CookieAdd(_settings.RememberMeCookieName, Encrypt(loginDetails.UserId.ToString(),
+								_settings.EncryptionKey), _settings.LoginDays, true);
+						}
 
-                        if (loginResult == LoginResult.PasswordChangeRequired)
-                        {
-                            return LocalRedirect(_settings.ChangePasswordUrl);
-                        }
+						if (loginResult == LoginResult.PasswordChangeRequired)
+						{
+							return LocalRedirect(_settings.ChangePasswordUrl);
+						}
 
-                        return LocalRedirect(model.ReturnUrl);
+						return LocalRedirect(model.ReturnUrl);
 
-                    case LoginResult.AccountLocked:
-                        return RedirectToAction(nameof(AccountLocked), new { username = model.Username });
+					case LoginResult.AccountLocked:
+						return RedirectToAction(nameof(AccountLocked), new { username = model.Username });
 
-                    case LoginResult.InvalidCredentials:
-                        ModelState.AddModelError(String.Empty, Languages.LanguageStrings.InvalidUsernameOrPassword);
-                        break;
-                }
-            }
+					case LoginResult.InvalidCredentials:
+						ModelState.AddModelError(String.Empty, Languages.LanguageStrings.InvalidUsernameOrPassword);
+						break;
+				}
+			}
 
-            loginCacheItem.CaptchaText = model.ShowCaptchaImage ? GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters) : null;
+			loginCacheItem.CaptchaText = model.ShowCaptchaImage ? GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters) : null;
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.AccountLocked))]
-        [SmokeTest(Constants.HtmlResponseMovedTemporarily, PostType.Form, parameters: "username=", redirectUrl: "/Login")]
-        [SmokeTest(Constants.HtmlResponseSuccess, PostType.Form, parameters: "username=fred@bloggs", searchData: "Your account has been temporarily locked due to authentication failures")]
-        [SmokeTest(Constants.HtmlResponseSuccess, PostType.Form, formId: "frmUnlockAccount", inputData: "Username=fred@bloggs.com&UnlockCode=123456", parameters: "username=fred@bloggs", searchData: "Please enter your Username/Email Address")]
-        public IActionResult AccountLocked(string username)
-        {
-            if (String.IsNullOrEmpty(username))
-                return RedirectToAction(nameof(Index));
+		[HttpGet]
+		[Breadcrumb(nameof(Languages.LanguageStrings.AccountLocked))]
+		[SmokeTest(Constants.HtmlResponseMovedTemporarily, PostType.Form, parameters: "username=", redirectUrl: "/Login")]
+		[SmokeTest(Constants.HtmlResponseSuccess, PostType.Form, parameters: "username=fred@bloggs", searchData: "Your account has been temporarily locked due to authentication failures")]
+		[SmokeTest(Constants.HtmlResponseSuccess, PostType.Form, formId: "frmUnlockAccount", inputData: "Username=fred@bloggs.com&UnlockCode=123456", parameters: "username=fred@bloggs", searchData: "Please enter your Username/Email Address")]
+		public IActionResult AccountLocked(string username)
+		{
+			if (String.IsNullOrEmpty(username))
+				return RedirectToAction(nameof(Index));
 
-            AccountLockedViewModel model = new(GetModelData(), username);
+			AccountLockedViewModel model = new(GetModelData(), username);
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpPost]
-        [BadEgg]
-        public IActionResult AccountLocked(AccountLockedViewModel model)
-        {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+		[HttpPost]
+		[BadEgg]
+		public IActionResult AccountLocked(AccountLockedViewModel model)
+		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
 
-            if (_loginProvider.UnlockAccount(model.Username, model.UnlockCode))
-            {
-                return Redirect("/Login");
-            }
+			if (_loginProvider.UnlockAccount(model.Username, model.UnlockCode))
+			{
+				return Redirect("/Login");
+			}
 
-            ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
-            model.UnlockCode = String.Empty;
-            model.Breadcrumbs = GetBreadcrumbs();
-            model.CartSummary = GetCartSummary();
+			ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
+			model.UnlockCode = String.Empty;
+			model.Breadcrumbs = GetBreadcrumbs();
+			model.CartSummary = GetCartSummary();
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.ForgotPassword))]
-        public IActionResult ForgotPassword()
-        {
-            ForgotPasswordViewModel model = new(GetModelData());
+		[HttpGet]
+		[Breadcrumb(nameof(Languages.LanguageStrings.ForgotPassword))]
+		public IActionResult ForgotPassword()
+		{
+			ForgotPasswordViewModel model = new(GetModelData());
 
-            LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
-            loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
+			LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
+			loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpPost]
-        [BadEgg]
-        public IActionResult ForgotPassword(ForgotPasswordViewModel model)
-        {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+		[HttpPost]
+		[BadEgg]
+		public IActionResult ForgotPassword(ForgotPasswordViewModel model)
+		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
 
-            LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
+			LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
 
-            if (String.IsNullOrEmpty(model.CaptchaText) || String.IsNullOrEmpty(loginCacheItem.CaptchaText))
-                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
+			if (String.IsNullOrEmpty(model.CaptchaText) || String.IsNullOrEmpty(loginCacheItem.CaptchaText))
+				ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
 
-            if (ModelState.IsValid && !String.IsNullOrEmpty(loginCacheItem.CaptchaText) &&
+			if (ModelState.IsValid && !String.IsNullOrEmpty(loginCacheItem.CaptchaText) &&
 				!loginCacheItem.CaptchaText.Equals(model.CaptchaText))
 			{
-                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
-            }
+				ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
+			}
 
-            if (ModelState.IsValid && _loginProvider.ForgottenPassword(ValidateUserInput(model.Username, ValidationType.Name)))
-            {
-                RemoveLoginAttempt();
-                return RedirectToAction(nameof(Index));
-            }
+			if (ModelState.IsValid && _loginProvider.ForgottenPassword(ValidateUserInput(model.Username, ValidationType.Name)))
+			{
+				RemoveLoginAttempt();
+				return RedirectToAction(nameof(Index));
+			}
 
-            if (ModelState.IsValid)
-                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.InvalidUsernameOrPassword);
+			if (ModelState.IsValid)
+				ModelState.AddModelError(String.Empty, Languages.LanguageStrings.InvalidUsernameOrPassword);
 
-            loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
-            model.CaptchaText = loginCacheItem.CaptchaText;
-            model.Breadcrumbs = GetBreadcrumbs();
-            model.CartSummary = GetCartSummary();
+			loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
+			model.CaptchaText = loginCacheItem.CaptchaText;
+			model.Breadcrumbs = GetBreadcrumbs();
+			model.CartSummary = GetCartSummary();
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.Logout))]
-        [LoggedIn]
-        public IActionResult Logout()
-        {
-            UserSession session = GetUserSession();
+		[HttpGet]
+		[Breadcrumb(nameof(Languages.LanguageStrings.Logout))]
+		[LoggedIn]
+		public IActionResult Logout()
+		{
+			UserSession session = GetUserSession();
 
-            if (session != null)
-            {
-                session.UserEmail = String.Empty;
-                session.UserName = String.Empty;
-                session.UserID = 0;
-            }
+			if (session != null)
+			{
+				session.UserEmail = String.Empty;
+				session.UserName = String.Empty;
+				session.UserID = 0;
+			}
 
-            CookieDelete(_settings.RememberMeCookieName);
+			CookieDelete(_settings.RememberMeCookieName);
 
-            GetAuthenticationService().SignOutAsync(HttpContext,
-                _settings.AuthenticationScheme,
-                _claimsProvider.GetAuthenticationProperties());
+			GetAuthenticationService().SignOutAsync(HttpContext,
+				_settings.AuthenticationScheme,
+				_claimsProvider.GetAuthenticationProperties());
 
-            return Redirect(Constants.ForwardSlash);
-        }
+			return Redirect(Constants.ForwardSlash);
+		}
 
-        [HttpGet]
-        [DenySpider("*")]
+		[HttpGet]
+		[DenySpider("*")]
 #if ATTR_OS
 		[SupportedOSPlatform("windows")]
 #endif
 		public IActionResult GetCaptchaImage()
-        {
-            LoginCacheItem loginCacheItem = GetCachedLoginAttempt(false);
+		{
+			LoginCacheItem loginCacheItem = GetCachedLoginAttempt(false);
 
-            if (loginCacheItem == null)
-                return StatusCode(Constants.HtmlResponseBadRequest);
+			if (loginCacheItem == null)
+				return StatusCode(Constants.HtmlResponseBadRequest);
 
-            CaptchaImage ci = new(loginCacheItem.CaptchaText, 240, 60, "Century Schoolbook");
-            try
-            {
-                // Write the image to the response stream in JPEG format.
-                using (MemoryStream ms = new())
-                {
-                    ci.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+			CaptchaImage ci = new(loginCacheItem.CaptchaText, 240, 60, "Century Schoolbook");
+			try
+			{
+				// Write the image to the response stream in JPEG format.
+				using (MemoryStream ms = new())
+				{
+					ci.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
 
-                    return File(ms.ToArray(), "image/png");
-                }
-            }
-            catch (Exception err)
-            {
-                if (err.Message.Contains("Specified method is not supported."))
-                    return StatusCode(Constants.HtmlResponseMethodFailure);
+					return File(ms.ToArray(), "image/png");
+				}
+			}
+			catch (Exception err)
+			{
+				if (err.Message.Contains("Specified method is not supported."))
+					return StatusCode(Constants.HtmlResponseMethodFailure);
 
-                throw;
-            }
-            finally
-            {
-                ci.Dispose();
-            }
-        }
+				throw;
+			}
+			finally
+			{
+				ci.Dispose();
+			}
+		}
 
 		#endregion Public Action Methods
 
 		#region Internal Testing Methods
 
-				internal static LoginCacheItem GetCacheValue(string cacheName)
-				{
-					if (String.IsNullOrEmpty(cacheName))
-						return null;
+		internal static LoginCacheItem GetCacheValue(string cacheName)
+		{
+			if (String.IsNullOrEmpty(cacheName))
+				return null;
 
-					CacheItem item = _loginCache.Get(cacheName);
+			CacheItem item = _loginCache.Get(cacheName);
 
-					if (item == null)
-						return null;
+			if (item == null)
+				return null;
 
-					return (LoginCacheItem)item.Value;
-				}
+			return (LoginCacheItem)item.Value;
+		}
 
 		#endregion Internal Testing Methods
 
@@ -446,7 +446,7 @@ namespace LoginPlugin.Controllers
 		}
 
 		#endregion Private Methods
-    }
+	}
 }
 
 #pragma warning restore CS1591

@@ -34,82 +34,82 @@ using Shared.Classes;
 
 namespace PluginManager.Tests
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
-    public class ThreadManagerServicesTests
-    {
-        private const string TestCategoryName = "Plugin Manager";
+	[TestClass]
+	[ExcludeFromCodeCoverage]
+	public class ThreadManagerServicesTests
+	{
+		private const string TestCategoryName = "Plugin Manager";
 
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void RegisterStartupThread_InvalidThreadName_Null_Throws_ArgumentNullException()
-        {
-            using (MockPluginManager pluginManager = new())
-            {
-                pluginManager.RegisterStartupThread(null, typeof(TestThreadManager));
-            }
-        }
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void RegisterStartupThread_InvalidThreadName_Null_Throws_ArgumentNullException()
+		{
+			using (MockPluginManager pluginManager = new())
+			{
+				pluginManager.RegisterStartupThread(null, typeof(TestThreadManager));
+			}
+		}
 
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void RegisterStartupThread_InvalidThreadName_EmptyString_Throws_ArgumentNullException()
-        {
-            using (MockPluginManager pluginManager = new())
-            {
-                pluginManager.RegisterStartupThread("", typeof(TestThreadManager));
-            }
-        }
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void RegisterStartupThread_InvalidThreadName_EmptyString_Throws_ArgumentNullException()
+		{
+			using (MockPluginManager pluginManager = new())
+			{
+				pluginManager.RegisterStartupThread("", typeof(TestThreadManager));
+			}
+		}
 
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        [ExpectedException(typeof(ArgumentException))]
-        public void RegisterStartupThread_InvalidType_DoesNotDescendFromThreadManager_Throws_ArgumentException()
-        {
-            using (MockPluginManager pluginManager = new())
-            {
-                pluginManager.RegisterStartupThread("My thread", this.GetType());
-            }
-        }
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		[ExpectedException(typeof(ArgumentException))]
+		public void RegisterStartupThread_InvalidType_DoesNotDescendFromThreadManager_Throws_ArgumentException()
+		{
+			using (MockPluginManager pluginManager = new())
+			{
+				pluginManager.RegisterStartupThread("My thread", this.GetType());
+			}
+		}
 
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void RegisterStartupThread_ThreadNameAlreadyExists_Throws_InvalidOperationException()
-        {
-            using (MockPluginManager pluginManager = new())
-            {
-                pluginManager.RegisterStartupThread("test", typeof(TestThreadManager));
-                pluginManager.RegisterStartupThread("test", typeof(TestThreadManager));
-            }
-        }
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void RegisterStartupThread_ThreadNameAlreadyExists_Throws_InvalidOperationException()
+		{
+			using (MockPluginManager pluginManager = new())
+			{
+				pluginManager.RegisterStartupThread("test", typeof(TestThreadManager));
+				pluginManager.RegisterStartupThread("test", typeof(TestThreadManager));
+			}
+		}
 
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        public void RegisterStartupThread_RegistersThreadForStartingAfterConfiguration_Success()
-        {
-            using (MockPluginManager pluginManager = new())
-            {
-                pluginManager.RegisterStartupThread("test", typeof(TestThreadManager));
+		[TestMethod]
+		[TestCategory(TestCategoryName)]
+		public void RegisterStartupThread_RegistersThreadForStartingAfterConfiguration_Success()
+		{
+			using (MockPluginManager pluginManager = new())
+			{
+				pluginManager.RegisterStartupThread("test", typeof(TestThreadManager));
 
-                Assert.IsTrue(pluginManager.ContainsRegisteredStartupThread("test", typeof(TestThreadManager)));
-            }
-        }
-    }
+				Assert.IsTrue(pluginManager.ContainsRegisteredStartupThread("test", typeof(TestThreadManager)));
+			}
+		}
+	}
 
-    [ExcludeFromCodeCoverage]
-    public class TestThreadManager : ThreadManager
-    {
-        public TestThreadManager()
-            : base (null, new TimeSpan())
-        {
+	[ExcludeFromCodeCoverage]
+	public class TestThreadManager : ThreadManager
+	{
+		public TestThreadManager()
+			: base(null, new TimeSpan())
+		{
 
-        }
+		}
 
-        protected override bool Run(object parameters)
-        {
-            return false;
-        }
-    }
+		protected override bool Run(object parameters)
+		{
+			return false;
+		}
+	}
 }

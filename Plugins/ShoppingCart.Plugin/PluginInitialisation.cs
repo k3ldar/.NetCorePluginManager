@@ -36,26 +36,26 @@ using SharedPluginFeatures;
 
 namespace ShoppingCartPlugin
 {
-    /// <summary>
-    /// Implements IPlugin, IPluginVersion and IInitialiseEvents which allows the ShoppingCartPlugin module to be
-    /// loaded as a plugin module
-    /// </summary>
-    public class PluginInitialisation : IPlugin, IInitialiseEvents
-    {
-        #region IPlugin Methods
+	/// <summary>
+	/// Implements IPlugin, IPluginVersion and IInitialiseEvents which allows the ShoppingCartPlugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	public class PluginInitialisation : IPlugin, IInitialiseEvents
+	{
+		#region IPlugin Methods
 
-        public void ConfigureServices(IServiceCollection services)
-        {
+		public void ConfigureServices(IServiceCollection services)
+		{
 			// from interface but unused in this context
 		}
 
 		public void Finalise()
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void Initialise(ILogger logger)
-        {
+		{
 			// from interface but unused in this context
 		}
 
@@ -64,42 +64,42 @@ namespace ShoppingCartPlugin
 		#region IPluginVersion Methods
 
 		public ushort GetVersion()
-        {
-            return (1);
-        }
+		{
+			return (1);
+		}
 
-        #endregion IPluginVersion Methods
+		#endregion IPluginVersion Methods
 
-        #region IInitialiseEvents Methods
+		#region IInitialiseEvents Methods
 
-        public void BeforeConfigure(in IApplicationBuilder app)
-        {
+		public void BeforeConfigure(in IApplicationBuilder app)
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterConfigure(in IApplicationBuilder app)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeConfigureServices(in IServiceCollection services)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
-        {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
-        }
+		{
+			if (services == null)
+				throw new ArgumentNullException(nameof(services));
+		}
 
-        public void Configure(in IApplicationBuilder app)
-        {
-            app.UseShoppingCart();
-        }
+		public void Configure(in IApplicationBuilder app)
+		{
+			app.UseShoppingCart();
+		}
 
-        #endregion IInitialiseEvents Methods
-    }
+		#endregion IInitialiseEvents Methods
+	}
 }
 
 #pragma warning restore CS1591

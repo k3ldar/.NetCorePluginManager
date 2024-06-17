@@ -37,29 +37,29 @@ using SharedPluginFeatures;
 
 namespace Resources.Plugin
 {
-    /// <summary>
-    /// Implements IPlugin which allows the Resources.Plugin module to be
-    /// loaded as a plugin module
-    /// </summary>
-    public sealed class PluginInitialisation : IPlugin, IInitialiseEvents, IClaimsService
+	/// <summary>
+	/// Implements IPlugin which allows the Resources.Plugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	public sealed class PluginInitialisation : IPlugin, IInitialiseEvents, IClaimsService
 	{
-        #region Constructors
+		#region Constructors
 
-        public PluginInitialisation()
-        {
-        }
+		public PluginInitialisation()
+		{
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IInitialiseEvents Methods
+		#region IInitialiseEvents Methods
 
-        public void AfterConfigure(in IApplicationBuilder app)
-        {
+		public void AfterConfigure(in IApplicationBuilder app)
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
-        {
+		{
 			if (services == null)
 				throw new ArgumentNullException(nameof(services));
 
@@ -85,17 +85,17 @@ namespace Resources.Plugin
 		}
 
 		public void BeforeConfigure(in IApplicationBuilder app)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeConfigureServices(in IServiceCollection services)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void Configure(in IApplicationBuilder app)
-        {
+		{
 			// from interface but unused in this context
 		}
 
@@ -104,24 +104,24 @@ namespace Resources.Plugin
 		#region IPlugin Methods
 
 		public void Initialise(ILogger logger)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void Finalise()
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void ConfigureServices(IServiceCollection services)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public ushort GetVersion()
-        {
-            return 1;
-        }
+		{
+			return 1;
+		}
 
 		#endregion IPlugin Methods
 

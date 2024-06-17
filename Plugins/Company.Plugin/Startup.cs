@@ -34,43 +34,43 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Company.Plugin
 {
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+	public class Startup
+	{
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
 
-        public IConfiguration Configuration { get; }
+		public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            // Allow plugin manager to configure all services in each plugin
-            PluginManagerService.ConfigureServices(services);
-
-
-            services.AddMvc(
-                option => option.EnableEndpointRouting = false
-                )
-                .ConfigurePluginManager();
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app)
-        {
-            // Allow plugin manager to configure options for all plugins
-            PluginManagerService.Configure(app);
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			// Allow plugin manager to configure all services in each plugin
+			PluginManagerService.ConfigureServices(services);
 
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Company}/{action=Index}/{id?}");
-            });
-        }
-    }
+			services.AddMvc(
+				option => option.EnableEndpointRouting = false
+				)
+				.ConfigurePluginManager();
+		}
+
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void Configure(IApplicationBuilder app)
+		{
+			// Allow plugin manager to configure options for all plugins
+			PluginManagerService.Configure(app);
+
+
+			app.UseMvc(routes =>
+			{
+				routes.MapRoute(
+					name: "default",
+					template: "{controller=Company}/{action=Index}/{id?}");
+			});
+		}
+	}
 }
 
 #pragma warning restore CS1591, CA1801

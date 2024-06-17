@@ -32,79 +32,79 @@ using SharedPluginFeatures;
 
 namespace DocumentationPlugin.Models
 {
-    /// <summary>
-    /// View model for displaying module summaries.
-    /// </summary>
-    public sealed class IndexViewModel : BaseModel
-    {
-        #region Constructors
+	/// <summary>
+	/// View model for displaying module summaries.
+	/// </summary>
+	public sealed class IndexViewModel : BaseModel
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="modelData">Base model data.</param>
-        /// <param name="header">Header at the top of the page.</param>
-        /// <param name="description">Description at the top of the page.</param>
-        public IndexViewModel(in BaseModelData modelData,
-            in string header, in string description)
-            : base(modelData)
-        {
-            if (String.IsNullOrEmpty(header))
-                throw new ArgumentNullException(nameof(header));
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="modelData">Base model data.</param>
+		/// <param name="header">Header at the top of the page.</param>
+		/// <param name="description">Description at the top of the page.</param>
+		public IndexViewModel(in BaseModelData modelData,
+			in string header, in string description)
+			: base(modelData)
+		{
+			if (String.IsNullOrEmpty(header))
+				throw new ArgumentNullException(nameof(header));
 
-            if (String.IsNullOrEmpty(description))
-                throw new ArgumentNullException(nameof(description));
+			if (String.IsNullOrEmpty(description))
+				throw new ArgumentNullException(nameof(description));
 
-            AssemblyNames = new Dictionary<string, DocumentationModule>();
-            DocumentationHeader = header;
-            DocumentationDescription = description;
-        }
+			AssemblyNames = new Dictionary<string, DocumentationModule>();
+			DocumentationHeader = header;
+			DocumentationDescription = description;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// List of all modules that have been loaded.
-        /// </summary>
-        /// <value>Dictionary&lt;string, DocumentationModule&gt;</value>
-        public Dictionary<string, DocumentationModule> AssemblyNames { get; private set; }
+		/// <summary>
+		/// List of all modules that have been loaded.
+		/// </summary>
+		/// <value>Dictionary&lt;string, DocumentationModule&gt;</value>
+		public Dictionary<string, DocumentationModule> AssemblyNames { get; private set; }
 
-        /// <summary>
-        /// Header text that goes at the top of the page.
-        /// </summary>
-        /// <value>string</value>
-        public string DocumentationHeader { get; private set; }
+		/// <summary>
+		/// Header text that goes at the top of the page.
+		/// </summary>
+		/// <value>string</value>
+		public string DocumentationHeader { get; private set; }
 
-        /// <summary>
-        /// Description which goes at the top of the page.
-        /// </summary>
-        /// <value>string</value>
-        public string DocumentationDescription { get; private set; }
+		/// <summary>
+		/// Description which goes at the top of the page.
+		/// </summary>
+		/// <value>string</value>
+		public string DocumentationDescription { get; private set; }
 
-        /// <summary>
-        /// Image to be displayed with the module.
-        /// </summary>
-        /// <value>string</value>
-        public string Image { get; set; }
+		/// <summary>
+		/// Image to be displayed with the module.
+		/// </summary>
+		/// <value>string</value>
+		public string Image { get; set; }
 
-        #endregion Properties
+		#endregion Properties
 
-        #region Methods
+		#region Methods
 
-        /// <summary>
-        /// Processes the image, if it doesn't exist returns a standard image.
-        /// </summary>
-        /// <param name="image">image to be displayed.</param>
-        /// <returns>string</returns>
-        public string ProcessImage(in string image)
-        {
-            if (String.IsNullOrEmpty(image))
-                return "/images/docs/module.png";
+		/// <summary>
+		/// Processes the image, if it doesn't exist returns a standard image.
+		/// </summary>
+		/// <param name="image">image to be displayed.</param>
+		/// <returns>string</returns>
+		public string ProcessImage(in string image)
+		{
+			if (String.IsNullOrEmpty(image))
+				return "/images/docs/module.png";
 
-            return image;
-        }
+			return image;
+		}
 
-        #endregion Methods        
-    }
+		#endregion Methods        
+	}
 }

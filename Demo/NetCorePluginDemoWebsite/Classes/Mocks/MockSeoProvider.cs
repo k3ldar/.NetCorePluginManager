@@ -30,126 +30,126 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
-    public sealed class MockSeoProvider : ISeoProvider
-    {
-        #region Private Members
+	[ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
+	public sealed class MockSeoProvider : ISeoProvider
+	{
+		#region Private Members
 
-        private readonly Dictionary<string, string> _descriptions;
-        private readonly Dictionary<string, string> _authors;
-        private readonly Dictionary<string, string> _titles;
-        private readonly Dictionary<string, List<string>> _keywords;
+		private readonly Dictionary<string, string> _descriptions;
+		private readonly Dictionary<string, string> _authors;
+		private readonly Dictionary<string, string> _titles;
+		private readonly Dictionary<string, List<string>> _keywords;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constructors
+		#region Constructors
 
-        public MockSeoProvider()
-        {
-            _descriptions = new Dictionary<string, string>();
-            _authors = new Dictionary<string, string>();
-            _titles = new Dictionary<string, string>();
-            _keywords = new Dictionary<string, List<string>>();
+		public MockSeoProvider()
+		{
+			_descriptions = new Dictionary<string, string>();
+			_authors = new Dictionary<string, string>();
+			_titles = new Dictionary<string, string>();
+			_keywords = new Dictionary<string, List<string>>();
 
-            _titles.Add("/", "Plugin Manager Demo Home page");
-            _titles.Add("/Home", "Plugin Manager Demo Home page");
-            _titles.Add("/Services/Middleware", "Middleware Plugin Description");
-            _titles.Add("/Services/Api", "Api Plugin Description");
-            _titles.Add("/Services/DependencyInjection", "Dependency Injection Plugin Description");
-            _titles.Add("/Services/Website", "Website Plugin Description");
-            _titles.Add("/Services/Custom", "Custom Plugin Description");
-        }
+			_titles.Add("/", "Plugin Manager Demo Home page");
+			_titles.Add("/Home", "Plugin Manager Demo Home page");
+			_titles.Add("/Services/Middleware", "Middleware Plugin Description");
+			_titles.Add("/Services/Api", "Api Plugin Description");
+			_titles.Add("/Services/DependencyInjection", "Dependency Injection Plugin Description");
+			_titles.Add("/Services/Website", "Website Plugin Description");
+			_titles.Add("/Services/Custom", "Custom Plugin Description");
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region ISeoProvider Methods
+		#region ISeoProvider Methods
 
-        public bool AddKeyword(in string route, in string keyword)
-        {
-            if (!_keywords.ContainsKey(route))
-            {
-                _keywords.Add(route, new List<string>() { keyword });
-            }
-            else
-            {
-                List<string> keywordList = _keywords[route];
+		public bool AddKeyword(in string route, in string keyword)
+		{
+			if (!_keywords.ContainsKey(route))
+			{
+				_keywords.Add(route, new List<string>() { keyword });
+			}
+			else
+			{
+				List<string> keywordList = _keywords[route];
 
-                if (keywordList.Contains(keyword))
-                    return false;
+				if (keywordList.Contains(keyword))
+					return false;
 
-                keywordList.Add(keyword);
-            }
+				keywordList.Add(keyword);
+			}
 
-            return true;
-        }
+			return true;
+		}
 
-        public bool AddKeywords(in string route, in List<string> keywords)
-        {
-            if (keywords == null)
-                return false;
+		public bool AddKeywords(in string route, in List<string> keywords)
+		{
+			if (keywords == null)
+				return false;
 
-            if (!_keywords.ContainsKey(route))
-            {
-                _keywords.Add(route, new List<string>());
-            }
+			if (!_keywords.ContainsKey(route))
+			{
+				_keywords.Add(route, new List<string>());
+			}
 
-            List<string> keywordList = _keywords[route];
+			List<string> keywordList = _keywords[route];
 
-            foreach (string s in keywords)
-                if (!keywordList.Contains(s))
-                    keywordList.Add(s);
+			foreach (string s in keywords)
+				if (!keywordList.Contains(s))
+					keywordList.Add(s);
 
-            return true;
-        }
+			return true;
+		}
 
-        public bool GetSeoDataForRoute(in string route, out string title,
-            out string metaDescription, out string author, out List<string> keywords)
-        {
-            if (!_authors.ContainsKey(route))
-                _authors.Add(route, "Simon Carter");
+		public bool GetSeoDataForRoute(in string route, out string title,
+			out string metaDescription, out string author, out List<string> keywords)
+		{
+			if (!_authors.ContainsKey(route))
+				_authors.Add(route, "Simon Carter");
 
-            if (!_titles.ContainsKey(route))
-                _titles.Add(route, "ASP Net Core Demonstration Website");
+			if (!_titles.ContainsKey(route))
+				_titles.Add(route, "ASP Net Core Demonstration Website");
 
-            if (!_keywords.ContainsKey(route))
-                _keywords.Add(route, new List<string>() { "ASP", "Net", "Core", "Plugin", "Manager" });
+			if (!_keywords.ContainsKey(route))
+				_keywords.Add(route, new List<string>() { "ASP", "Net", "Core", "Plugin", "Manager" });
 
-            if (!_descriptions.ContainsKey(route))
-                _descriptions.Add(route, "ASP Net Core Plugin Manager - demo website");
+			if (!_descriptions.ContainsKey(route))
+				_descriptions.Add(route, "ASP Net Core Plugin Manager - demo website");
 
-            author = _authors[route];
-            metaDescription = _descriptions[route];
-            title = _titles[route];
-            keywords = _keywords[route];
+			author = _authors[route];
+			metaDescription = _descriptions[route];
+			title = _titles[route];
+			keywords = _keywords[route];
 
-            return true;
-        }
+			return true;
+		}
 
-        public bool RemoveKeyword(in string route, in string keyword)
-        {
-            return true;
-        }
+		public bool RemoveKeyword(in string route, in string keyword)
+		{
+			return true;
+		}
 
-        public bool RemoveKeywords(in string route, in List<string> keywords)
-        {
-            return true;
-        }
+		public bool RemoveKeywords(in string route, in List<string> keywords)
+		{
+			return true;
+		}
 
-        public bool UpdateDescription(in string route, in string description)
-        {
-            return true;
-        }
+		public bool UpdateDescription(in string route, in string description)
+		{
+			return true;
+		}
 
-        public bool UpdateTitle(in string route, in string title)
-        {
-            return true;
-        }
+		public bool UpdateTitle(in string route, in string title)
+		{
+			return true;
+		}
 
-        public bool UpdateAuthor(in string route, in string author)
-        {
-            return true;
-        }
+		public bool UpdateAuthor(in string route, in string author)
+		{
+			return true;
+		}
 
-        #endregion ISeoProvider Methods
-    }
+		#endregion ISeoProvider Methods
+	}
 }

@@ -33,84 +33,84 @@ using SharedPluginFeatures;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
-    internal class SettingsProvider : IApplicationSettingsProvider
-    {
-        private readonly ISimpleDBOperations<SettingsDataRow> _settingsData;
+	internal class SettingsProvider : IApplicationSettingsProvider
+	{
+		private readonly ISimpleDBOperations<SettingsDataRow> _settingsData;
 
-        public sealed class SettingValue
-        {
-            public string Value { get; set; }
-        }
+		public sealed class SettingValue
+		{
+			public string Value { get; set; }
+		}
 
-        public SettingsProvider(ISimpleDBOperations<SettingsDataRow> settingsData)
-        {
-            _settingsData = settingsData ?? throw new ArgumentNullException(nameof(settingsData));
-        }
+		public SettingsProvider(ISimpleDBOperations<SettingsDataRow> settingsData)
+		{
+			_settingsData = settingsData ?? throw new ArgumentNullException(nameof(settingsData));
+		}
 
-        public string RetrieveSetting(string name)
-        {
-            return RetrieveSetting(name, null);
-        }
+		public string RetrieveSetting(string name)
+		{
+			return RetrieveSetting(name, null);
+		}
 
-        public string RetrieveSetting(string name, string defaultValue)
-        {
-            if (String.IsNullOrEmpty(name))
-                throw new ArgumentNullException(nameof(name));
+		public string RetrieveSetting(string name, string defaultValue)
+		{
+			if (String.IsNullOrEmpty(name))
+				throw new ArgumentNullException(nameof(name));
 
-            SettingsDataRow settingsDataRow = _settingsData.Select().FirstOrDefault(sd => sd.Name.Equals(name));
+			SettingsDataRow settingsDataRow = _settingsData.Select().FirstOrDefault(sd => sd.Name.Equals(name));
 
-            if (settingsDataRow == null)
-                return defaultValue;
+			if (settingsDataRow == null)
+				return defaultValue;
 
-            return settingsDataRow.Value;
-        }
+			return settingsDataRow.Value;
+		}
 
-        public T RetrieveSetting<T>(string name)
-        {
-            if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException(nameof(name));
+		public T RetrieveSetting<T>(string name)
+		{
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException(nameof(name));
 
-            SettingsDataRow settingsDataRow = _settingsData.Select().FirstOrDefault(sd => sd.Name.Equals(name));
+			SettingsDataRow settingsDataRow = _settingsData.Select().FirstOrDefault(sd => sd.Name.Equals(name));
 
-            if (settingsDataRow == null)
-                return default;
+			if (settingsDataRow == null)
+				return default;
 
-            MethodInfo methodInfo = typeof(T).GetMethod("Parse", new Type[] { typeof(string) });
+			MethodInfo methodInfo = typeof(T).GetMethod("Parse", new Type[] { typeof(string) });
 
-            if (methodInfo == null)
-                return default;
+			if (methodInfo == null)
+				return default;
 
-            return (T)methodInfo.Invoke(null, new object[] { settingsDataRow.Value });
-        }
+			return (T)methodInfo.Invoke(null, new object[] { settingsDataRow.Value });
+		}
 
-        public void UpdateSetting<T>(string name, T value)
-        {
-            if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException(nameof(name));
+		public void UpdateSetting<T>(string name, T value)
+		{
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException(nameof(name));
 
-            if (value == null)
-                throw new ArgumentNullException(nameof(value));
+			if (value == null)
+				throw new ArgumentNullException(nameof(value));
 
-            SettingsDataRow settingsDataRow = _settingsData.Select().FirstOrDefault(sd => sd.Name.Equals(name)) ?? new SettingsDataRow()
-                {
-                    Name = name,
-                };
+			SettingsDataRow settingsDataRow = _settingsData.Select().FirstOrDefault(sd => sd.Name.Equals(name)) ?? new SettingsDataRow()
+			{
+				Name = name,
+			};
 			settingsDataRow.Value = value.ToString();
 
-            _settingsData.InsertOrUpdate(settingsDataRow);
-        }
+			_settingsData.InsertOrUpdate(settingsDataRow);
+		}
 
-        public void DeleteSetting(string name)
-        {
-            if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException(nameof(name));
+		public void DeleteSetting(string name)
+		{
+			if (string.IsNullOrEmpty(name))
+				throw new ArgumentNullException(nameof(name));
 
-            SettingsDataRow settingsDataRow = _settingsData.Select().FirstOrDefault(sd => sd.Name.Equals(name));
+			SettingsDataRow settingsDataRow = _settingsData.Select().FirstOrDefault(sd => sd.Name.Equals(name));
 
-            if (settingsDataRow == null)
-                return;
+			if (settingsDataRow == null)
+				return;
 
-            _settingsData.Delete(settingsDataRow);
-        }
-    }
+			_settingsData.Delete(settingsDataRow);
+		}
+	}
 }

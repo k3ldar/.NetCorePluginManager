@@ -29,41 +29,41 @@ using Shared.Docs;
 
 namespace DocumentationPlugin.Classes
 {
-    internal sealed class DocumentData
-    {
-        #region Constructors
+	internal sealed class DocumentData
+	{
+		#region Constructors
 
-        public DocumentData()
-        {
-            KeyNames = new Dictionary<string, string>();
-            Contains = new Dictionary<string, string>();
-            SeeAlso = new Dictionary<string, string>();
-        }
+		public DocumentData()
+		{
+			KeyNames = new Dictionary<string, string>();
+			Contains = new Dictionary<string, string>();
+			SeeAlso = new Dictionary<string, string>();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public Dictionary<string, string> KeyNames { get; private set; }
+		public Dictionary<string, string> KeyNames { get; private set; }
 
-        public Dictionary<string, string> Contains { get; private set; }
+		public Dictionary<string, string> Contains { get; private set; }
 
-        public Dictionary<string, string> SeeAlso { get; private set; }
+		public Dictionary<string, string> SeeAlso { get; private set; }
 
-        public string AllReferences { get; internal set; }
+		public string AllReferences { get; internal set; }
 
-        public string ReferenceData { get; set; }
+		public string ReferenceData { get; set; }
 
-        public DocumentData Parent { get; internal set; }
+		public DocumentData Parent { get; internal set; }
 
-        public string FullClassName { get; set; }
+		public string FullClassName { get; set; }
 
-        public string ShortClassName { get; set; }
+		public string ShortClassName { get; set; }
 
-        public Document PreviousDocument { get; set; }
+		public Document PreviousDocument { get; set; }
 
-        public Document NextDocument { get; set; }
+		public Document NextDocument { get; set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

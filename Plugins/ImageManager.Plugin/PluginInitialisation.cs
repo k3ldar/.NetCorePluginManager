@@ -43,80 +43,80 @@ using SharedPluginFeatures;
 
 namespace ImageManager.Plugin
 {
-    /// <summary>
-    /// Implements IPlugin and IInitialiseEvents which allows the ImageManager.Plugin module to be
-    /// loaded as a plugin module
-    /// </summary>
-    public class PluginInitialisation : IPlugin, IInitialiseEvents, IClaimsService
+	/// <summary>
+	/// Implements IPlugin and IInitialiseEvents which allows the ImageManager.Plugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	public class PluginInitialisation : IPlugin, IInitialiseEvents, IClaimsService
 	{
-        #region IPlugin Methods
+		#region IPlugin Methods
 
-        public void ConfigureServices(IServiceCollection services)
-        {
+		public void ConfigureServices(IServiceCollection services)
+		{
 			// from interface but unused in this context
 		}
 
 		public void Finalise()
-        {
+		{
 			if (ThreadManager.IsInitialized)
 				ThreadManager.Finalise();
-        }
+		}
 
-        public ushort GetVersion()
-        {
-            return 1;
-        }
+		public ushort GetVersion()
+		{
+			return 1;
+		}
 
-        public void Initialise(ILogger logger)
-        {
-            ThreadManager.Initialise();
-        }
+		public void Initialise(ILogger logger)
+		{
+			ThreadManager.Initialise();
+		}
 
-        #endregion IPlugin
+		#endregion IPlugin
 
-        #region IInitialiseEvents Methods
+		#region IInitialiseEvents Methods
 
-        public void AfterConfigure(in IApplicationBuilder app)
-        {
+		public void AfterConfigure(in IApplicationBuilder app)
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
-        {
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy(
-                    Constants.PolicyNameViewImageManager,
-                    policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameViewImageManager)
-                        .RequireClaim(Constants.ClaimNameStaff)
-                        .RequireClaim(Constants.ClaimNameUsername)
-                        .RequireClaim(Constants.ClaimNameUserId)
-                        .RequireClaim(Constants.ClaimNameUserEmail));
+		{
+			services.AddAuthorization(options =>
+			{
+				options.AddPolicy(
+					Constants.PolicyNameViewImageManager,
+					policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameViewImageManager)
+						.RequireClaim(Constants.ClaimNameStaff)
+						.RequireClaim(Constants.ClaimNameUsername)
+						.RequireClaim(Constants.ClaimNameUserId)
+						.RequireClaim(Constants.ClaimNameUserEmail));
 
-                options.AddPolicy(
-                    Constants.PolicyNameImageManagerManage,
-                    policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameManageImages)
-                        .RequireClaim(Constants.ClaimNameStaff)
-                        .RequireClaim(Constants.ClaimNameUsername)
-                        .RequireClaim(Constants.ClaimNameUserId)
-                        .RequireClaim(Constants.ClaimNameUserEmail));
-            });
+				options.AddPolicy(
+					Constants.PolicyNameImageManagerManage,
+					policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameManageImages)
+						.RequireClaim(Constants.ClaimNameStaff)
+						.RequireClaim(Constants.ClaimNameUsername)
+						.RequireClaim(Constants.ClaimNameUserId)
+						.RequireClaim(Constants.ClaimNameUserEmail));
+			});
 
-            services.TryAddSingleton<IImageProvider, DefaultImageProvider>();
-        }
+			services.TryAddSingleton<IImageProvider, DefaultImageProvider>();
+		}
 
-        public void BeforeConfigure(in IApplicationBuilder app)
-        {
+		public void BeforeConfigure(in IApplicationBuilder app)
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeConfigureServices(in IServiceCollection services)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void Configure(in IApplicationBuilder app)
-        {
+		{
 			// from interface but unused in this context
 		}
 

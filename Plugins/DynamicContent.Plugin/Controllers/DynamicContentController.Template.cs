@@ -36,51 +36,51 @@ using SharedPluginFeatures;
 
 namespace DynamicContent.Plugin.Controllers
 {
-    public partial class DynamicContentController
-    {
-        [HttpGet]
-        [AjaxOnly]
-        public IActionResult TextTemplateEditor(string data)
-        {
-            return PartialView("/Views/DynamicContent/_TextTemplateEditor.cshtml", new TextTemplateEditorModel(HttpUtility.HtmlDecode(data)));
-        }
+	public partial class DynamicContentController
+	{
+		[HttpGet]
+		[AjaxOnly]
+		public IActionResult TextTemplateEditor(string data)
+		{
+			return PartialView("/Views/DynamicContent/_TextTemplateEditor.cshtml", new TextTemplateEditorModel(HttpUtility.HtmlDecode(data)));
+		}
 
-        [HttpGet]
-        [AjaxOnly]
-        public IActionResult YouTubeTemplateEditor(string data)
-        {
-            return PartialView("/Views/DynamicContent/_YouTubeTemplateEditor.cshtml", new YouTubeTemplateEditorModel(HttpUtility.HtmlDecode(data)));
-        }
+		[HttpGet]
+		[AjaxOnly]
+		public IActionResult YouTubeTemplateEditor(string data)
+		{
+			return PartialView("/Views/DynamicContent/_YouTubeTemplateEditor.cshtml", new YouTubeTemplateEditorModel(HttpUtility.HtmlDecode(data)));
+		}
 
-        [HttpGet]
-        [AjaxOnly]
-        public IActionResult FormControlTemplateEditor(string data)
-        {
-            return PartialView("/Views/DynamicContent/_FormControlTemplateEditor.cshtml", new FormTemplateEditorModel(HttpUtility.HtmlDecode(data)));
-        }
+		[HttpGet]
+		[AjaxOnly]
+		public IActionResult FormControlTemplateEditor(string data)
+		{
+			return PartialView("/Views/DynamicContent/_FormControlTemplateEditor.cshtml", new FormTemplateEditorModel(HttpUtility.HtmlDecode(data)));
+		}
 
-        [HttpGet]
-        [AjaxOnly]
-        public IActionResult FormControlTemplateEditorRightAlign(string data)
-        {
-            return PartialView("/Views/DynamicContent/_FormControlTemplateEditor.cshtml", new FormTemplateEditorModel(HttpUtility.HtmlDecode(data), true));
-        }
+		[HttpGet]
+		[AjaxOnly]
+		public IActionResult FormControlTemplateEditorRightAlign(string data)
+		{
+			return PartialView("/Views/DynamicContent/_FormControlTemplateEditor.cshtml", new FormTemplateEditorModel(HttpUtility.HtmlDecode(data), true));
+		}
 
-        [HttpGet]
-        [AjaxOnly]
-        public IActionResult FormControlTemplateEditorRadioGroup(string data)
-        {
-            return PartialView("/Views/DynamicContent/_FormControlTemplateEditorRadioGroup.cshtml", new FormTemplateEditorModel(HttpUtility.HtmlDecode(data), true));
-        }
+		[HttpGet]
+		[AjaxOnly]
+		public IActionResult FormControlTemplateEditorRadioGroup(string data)
+		{
+			return PartialView("/Views/DynamicContent/_FormControlTemplateEditorRadioGroup.cshtml", new FormTemplateEditorModel(HttpUtility.HtmlDecode(data), true));
+		}
 
 
-        [HttpGet]
-        [AjaxOnly]
-        public IActionResult FormControlTemplateEditorListBox(string data)
-        {
-            return PartialView("/Views/DynamicContent/_FormControlTemplateEditorListBox.cshtml", new FormTemplateEditorModel(HttpUtility.HtmlDecode(data), false));
-        }
-    }
+		[HttpGet]
+		[AjaxOnly]
+		public IActionResult FormControlTemplateEditorListBox(string data)
+		{
+			return PartialView("/Views/DynamicContent/_FormControlTemplateEditorListBox.cshtml", new FormTemplateEditorModel(HttpUtility.HtmlDecode(data), false));
+		}
+	}
 }
 
 #pragma warning restore CS1591

@@ -39,67 +39,67 @@ using SharedPluginFeatures;
 
 namespace MemoryCache.Plugin
 {
-    /// <summary>
-    /// Implements IPlugin which allows the MemoryCache.Plugin module to be
-    /// loaded as a plugin module
-    /// </summary>
-    public class PluginInitialisation : IPlugin, IInitialiseEvents
-    {
-        #region IPlugin Methods
+	/// <summary>
+	/// Implements IPlugin which allows the MemoryCache.Plugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	public class PluginInitialisation : IPlugin, IInitialiseEvents
+	{
+		#region IPlugin Methods
 
-        public void Initialise(ILogger logger)
-        {
-            ThreadManager.Initialise();
-        }
+		public void Initialise(ILogger logger)
+		{
+			ThreadManager.Initialise();
+		}
 
-        public void Finalise()
-        {
+		public void Finalise()
+		{
 			if (ThreadManager.IsInitialized)
 				ThreadManager.Finalise();
-        }
+		}
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
+		public void ConfigureServices(IServiceCollection services)
+		{
+			if (services == null)
+				throw new ArgumentNullException(nameof(services));
 
-            services.UseMemoryCache();
-        }
+			services.UseMemoryCache();
+		}
 
-        public ushort GetVersion()
-        {
-            return 1;
-        }
+		public ushort GetVersion()
+		{
+			return 1;
+		}
 
-        #endregion IPlugin Methods
+		#endregion IPlugin Methods
 
-        #region IInitialiseEvents Methods
+		#region IInitialiseEvents Methods
 
-        public void BeforeConfigure(in IApplicationBuilder app)
-        {
+		public void BeforeConfigure(in IApplicationBuilder app)
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterConfigure(in IApplicationBuilder app)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void Configure(in IApplicationBuilder app)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void BeforeConfigureServices(in IServiceCollection services)
-        {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
+		{
+			if (services == null)
+				throw new ArgumentNullException(nameof(services));
 
-            services.AddScoped<ICacheManagerFactory, CacheManagerFactory>();
-        }
+			services.AddScoped<ICacheManagerFactory, CacheManagerFactory>();
+		}
 
-        public void AfterConfigureServices(in IServiceCollection services)
-        {
+		public void AfterConfigureServices(in IServiceCollection services)
+		{
 			// from interface but unused in this context
 		}
 

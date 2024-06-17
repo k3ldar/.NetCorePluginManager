@@ -31,72 +31,72 @@ using SharedPluginFeatures;
 
 namespace SeoPlugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns Timings information for all time spent processing Seo requests and can 
-    /// be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class SeoTimingsSubMenu : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	/// <summary>
+	/// Returns Timings information for all time spent processing Seo requests and can 
+	/// be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public sealed class SeoTimingsSubMenu : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        /// <summary>
-        /// Returns Timings data in milliseconds for time spent processing by SeoPlugin requests.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            string Result = "Setting|Value";
+		/// <summary>
+		/// Returns Timings data in milliseconds for time spent processing by SeoPlugin requests.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			string Result = "Setting|Value";
 
-            Result += $"\rTotal Requests|{SeoMiddleware._timings.Requests}";
-            Result += $"\rFastest ms|{SeoMiddleware._timings.Fastest}";
-            Result += $"\rSlowest ms|{SeoMiddleware._timings.Slowest}";
-            Result += $"\rAverage ms|{SeoMiddleware._timings.Average}";
-            Result += $"\rTrimmed Avg ms|{SeoMiddleware._timings.TrimmedAverage}";
-            Result += $"\rTotal ms|{SeoMiddleware._timings.Total}";
+			Result += $"\rTotal Requests|{SeoMiddleware._timings.Requests}";
+			Result += $"\rFastest ms|{SeoMiddleware._timings.Fastest}";
+			Result += $"\rSlowest ms|{SeoMiddleware._timings.Slowest}";
+			Result += $"\rAverage ms|{SeoMiddleware._timings.Average}";
+			Result += $"\rTrimmed Avg ms|{SeoMiddleware._timings.TrimmedAverage}";
+			Result += $"\rTotal ms|{SeoMiddleware._timings.Total}";
 
-            return Result;
-        }
+			return Result;
+		}
 
-        public override string Image()
-        {
-            return Constants.SystemImageStopWatch;
-        }
+		public override string Image()
+		{
+			return Constants.SystemImageStopWatch;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        public override string Name()
-        {
-            return nameof(Languages.LanguageStrings.SEO);
-        }
+		public override string Name()
+		{
+			return nameof(Languages.LanguageStrings.SEO);
+		}
 
-        public override string ParentMenuName()
-        {
-            return nameof(Languages.LanguageStrings.Timings);
-        }
+		public override string ParentMenuName()
+		{
+			return nameof(Languages.LanguageStrings.Timings);
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
-    }
+		public override int SortOrder()
+		{
+			return 0;
+		}
+	}
 }
 
 #pragma warning restore CS1591

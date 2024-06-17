@@ -27,46 +27,46 @@ using AppSettings;
 
 namespace AspNetCore.PluginManager
 {
-    /// <summary>
-    /// Settings that affect how PluginManager works.
-    /// </summary>
-    public sealed class NetCorePluginSettings : global::PluginManager.PluginSettings
-    {
-        /// <summary>
-        /// Path where .css files will be placed when being extracted from plugin modules.
-        /// </summary>
-        /// <value>string</value>
-        [SettingString(true)]
-        [SettingValidPath]
-        [SettingDefault("%AppPath%\\wwwroot\\css")]
-        public string CSSLocation { get; set; }
+	/// <summary>
+	/// Settings that affect how PluginManager works.
+	/// </summary>
+	public sealed class NetCorePluginSettings : global::PluginManager.PluginSettings
+	{
+		/// <summary>
+		/// Path where .css files will be placed when being extracted from plugin modules.
+		/// </summary>
+		/// <value>string</value>
+		[SettingString(true)]
+		[SettingValidPath]
+		[SettingDefault("%AppPath%\\wwwroot\\css")]
+		public string CSSLocation { get; set; }
 
-        /// <summary>
-        /// Path where .js files will be placed when being extracted from plugin modules.
-        /// </summary>
-        /// <value>string</value>
-        [SettingString(true)]
-        [SettingValidPath]
-        [SettingDefault("%AppPath%\\wwwroot\\js")]
-        public string JScriptLocation { get; set; }
+		/// <summary>
+		/// Path where .js files will be placed when being extracted from plugin modules.
+		/// </summary>
+		/// <value>string</value>
+		[SettingString(true)]
+		[SettingValidPath]
+		[SettingDefault("%AppPath%\\wwwroot\\js")]
+		public string JScriptLocation { get; set; }
 
-        /// <summary>
-        /// Prevents PluginManager from creating an IRouteDataService instance that can be obtained from IoC
-        /// </summary>
-        /// <value>bool</value>
-        public bool DisableRouteDataService { get; set; }
+		/// <summary>
+		/// Prevents PluginManager from creating an IRouteDataService instance that can be obtained from IoC
+		/// </summary>
+		/// <value>bool</value>
+		public bool DisableRouteDataService { get; set; }
 
-        /// <summary>
-        /// Indicates that files should be minified
-        /// </summary>
-        /// <value>bool</value>
-        public bool MinifyFiles { get; set; }
+		/// <summary>
+		/// Indicates that files should be minified
+		/// </summary>
+		/// <value>bool</value>
+		public bool MinifyFiles { get; set; }
 
-        /// <summary>
-        /// Indicates that page load times will be monitored, these can be viewed within system admin
-        /// </summary>
-        /// <value>bool</value>
-        [SettingDefault(false)]
-        public bool MonitorRouteLoadTimes { get; set; }
-    }
+		/// <summary>
+		/// Indicates that page load times will be monitored, these can be viewed within system admin
+		/// </summary>
+		/// <value>bool</value>
+		[SettingDefault(false)]
+		public bool MonitorRouteLoadTimes { get; set; }
+	}
 }

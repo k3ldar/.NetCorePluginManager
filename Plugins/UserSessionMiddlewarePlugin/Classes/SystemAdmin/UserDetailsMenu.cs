@@ -34,101 +34,101 @@ using SharedPluginFeatures;
 
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
-    /// <summary>
-    /// Returns a list of detailed information of all active sessions currently 
-    /// active within the website and can be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public sealed class UserDetailsMenu : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	/// <summary>
+	/// Returns a list of detailed information of all active sessions currently 
+	/// active within the website and can be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public sealed class UserDetailsMenu : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.FormattedText;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.FormattedText;
+		}
 
-        public override string Data()
-        {
-            StringBuilder Result = new();
+		public override string Data()
+		{
+			StringBuilder Result = new();
 
-            foreach (UserSession session in UserSessionManager.Clone)
-            {
-                Result.Append($"<h2>{session.SessionID}</h2>");
-                string countryCode = String.IsNullOrEmpty(session.CountryCode) ? "ZZ" : session.CountryCode;
+			foreach (UserSession session in UserSessionManager.Clone)
+			{
+				Result.Append($"<h2>{session.SessionID}</h2>");
+				string countryCode = String.IsNullOrEmpty(session.CountryCode) ? "ZZ" : session.CountryCode;
 
-                Result.Append($"<p>Time Created: {session.Created}<br />");
-                Result.Append($"Country: {countryCode}<br />");
-                Result.Append($"City Name: {session.CityName}<br />");
-                Result.Append($"Bounced: {session.Bounced}<br />");
-                Result.Append($"Sale: {session.CurrentSaleCurrency}{session.CurrentSale}<br />");
-                Result.Append($"Bot: {session.IsBot}<br />");
-                Result.Append($"User Agent: {session.UserAgent}");
-                Result.Append($"Referrer: {session.InitialReferrer}<br />");
-                Result.Append($"IP Address: {session.IPAddress}<br />");
+				Result.Append($"<p>Time Created: {session.Created}<br />");
+				Result.Append($"Country: {countryCode}<br />");
+				Result.Append($"City Name: {session.CityName}<br />");
+				Result.Append($"Bounced: {session.Bounced}<br />");
+				Result.Append($"Sale: {session.CurrentSaleCurrency}{session.CurrentSale}<br />");
+				Result.Append($"Bot: {session.IsBot}<br />");
+				Result.Append($"User Agent: {session.UserAgent}");
+				Result.Append($"Referrer: {session.InitialReferrer}<br />");
+				Result.Append($"IP Address: {session.IPAddress}<br />");
 
-                if (!String.IsNullOrEmpty(session.UserEmail))
-                {
-                    Result.Append($"Username: {session.UserName}<br />");
-                    Result.Append($"Email: {session.UserEmail}<br />");
-                }
+				if (!String.IsNullOrEmpty(session.UserEmail))
+				{
+					Result.Append($"Username: {session.UserName}<br />");
+					Result.Append($"Email: {session.UserEmail}<br />");
+				}
 
-                Result.Append($"Total Page Views: {session.Pages.Count}<br />");
-                Result.Append($"Total Time: {session.TotalTime}</p>");
-                Result.Append($"<h3>Pages Visited</h3>");
-                Result.Append("<table><tr><th>Total time</th><th>Page</th></tr>");
+				Result.Append($"Total Page Views: {session.Pages.Count}<br />");
+				Result.Append($"Total Time: {session.TotalTime}</p>");
+				Result.Append($"<h3>Pages Visited</h3>");
+				Result.Append("<table><tr><th>Total time</th><th>Page</th></tr>");
 
-                foreach (PageViewData page in session.Pages)
-                {
-                    Result.Append($"<tr><td>{page.TotalTime}</td>");
-                    Result.Append($"<td>{page.URL}</td></tr>");
-                }
+				foreach (PageViewData page in session.Pages)
+				{
+					Result.Append($"<tr><td>{page.TotalTime}</td>");
+					Result.Append($"<td>{page.URL}</td></tr>");
+				}
 
-                Result.Append("</table>");
-            }
+				Result.Append("</table>");
+			}
 
-            return Result.ToString().Trim();
-        }
+			return Result.ToString().Trim();
+		}
 
-        public override string Name()
-        {
-            return "User Session Details";
-        }
+		public override string Name()
+		{
+			return "User Session Details";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "User Sessions";
-        }
+		public override string ParentMenuName()
+		{
+			return "User Sessions";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
+		public override int SortOrder()
+		{
+			return 0;
+		}
 
-        public override string Image()
-        {
-            return String.Empty;
-        }
+		public override string Image()
+		{
+			return String.Empty;
+		}
 
-        public override string BackColor()
-        {
-            return "#3498DB";
-        }
-    }
+		public override string BackColor()
+		{
+			return "#3498DB";
+		}
+	}
 }
 
 #pragma warning restore CS1591

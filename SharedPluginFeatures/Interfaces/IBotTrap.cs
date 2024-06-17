@@ -26,16 +26,16 @@
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// IBotTrap interface is called when a bot enters a trap within Spider Middleware
-    /// </summary>
-    public interface IBotTrap
-    {
-        /// <summary>
-        /// Method called when a bot enters a trap route
-        /// </summary>
-        /// <param name="ipAddress">Ip Address which triggered the bot.</param>
-        /// <param name="userAgent">User agent which triggered the bot.</param>
-        void OnTrapEntered(in string ipAddress, in string userAgent);
-    }
+	/// <summary>
+	/// IBotTrap interface is called when a bot enters a trap within Spider Middleware
+	/// </summary>
+	public interface IBotTrap
+	{
+		/// <summary>
+		/// Method called when a bot enters a trap route
+		/// </summary>
+		/// <param name="ipAddress">Ip Address which triggered the bot.</param>
+		/// <param name="userAgent">User agent which triggered the bot.</param>
+		void OnTrapEntered(in string ipAddress, in string userAgent);
+	}
 }

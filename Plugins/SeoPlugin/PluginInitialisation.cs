@@ -36,74 +36,74 @@ using SharedPluginFeatures;
 
 namespace SeoPlugin
 {
-    /// <summary>
-    /// Implements IPlugin which allows the SeoPlugin module to be
-    /// loaded as a plugin module
-    /// </summary>
-    public sealed class PluginInitialisation : IPlugin, IInitialiseEvents
-    {
-        #region Constructors
+	/// <summary>
+	/// Implements IPlugin which allows the SeoPlugin module to be
+	/// loaded as a plugin module
+	/// </summary>
+	public sealed class PluginInitialisation : IPlugin, IInitialiseEvents
+	{
+		#region Constructors
 
-        public PluginInitialisation()
-        {
-        }
+		public PluginInitialisation()
+		{
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region IPlugin Methods
+		#region IPlugin Methods
 
-        public void Initialise(ILogger logger)
-        {
+		public void Initialise(ILogger logger)
+		{
 			// from interface but unused in this context
 		}
 
 		public void Finalise()
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void ConfigureServices(IServiceCollection services)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public ushort GetVersion()
-        {
-            return 1;
-        }
+		{
+			return 1;
+		}
 
-        #endregion IPlugin Methods
+		#endregion IPlugin Methods
 
-        #region IInitialiseEvents Methods
+		#region IInitialiseEvents Methods
 
-        public void BeforeConfigure(in IApplicationBuilder app)
-        {
+		public void BeforeConfigure(in IApplicationBuilder app)
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterConfigure(in IApplicationBuilder app)
-        {
+		{
 			// from interface but unused in this context
 		}
 
 		public void Configure(in IApplicationBuilder app)
-        {
-            app.UseSeo();
-        }
+		{
+			app.UseSeo();
+		}
 
-        public void BeforeConfigureServices(in IServiceCollection services)
-        {
+		public void BeforeConfigureServices(in IServiceCollection services)
+		{
 			// from interface but unused in this context
 		}
 
 		public void AfterConfigureServices(in IServiceCollection services)
-        {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
-        }
+		{
+			if (services == null)
+				throw new ArgumentNullException(nameof(services));
+		}
 
-        #endregion IInitialiseEvents Methods
-    }
+		#endregion IInitialiseEvents Methods
+	}
 }
 
 #pragma warning restore CS1591

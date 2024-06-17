@@ -27,73 +27,73 @@ using System;
 
 namespace SharedPluginFeatures
 {
-    /// <summary>
-    /// Simple model that is used in combination with JsonResult to supply specific data
-    /// in response to a request
-    /// </summary>
-    public sealed class JsonResponseModel
-    {
-        #region Constructors
+	/// <summary>
+	/// Simple model that is used in combination with JsonResult to supply specific data
+	/// in response to a request
+	/// </summary>
+	public sealed class JsonResponseModel
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Default constructor, sets success to false and provides empty data string.
-        /// </summary>
-        public JsonResponseModel()
-            : this(false)
-        {
-        }
+		/// <summary>
+		/// Default constructor, sets success to false and provides empty data string.
+		/// </summary>
+		public JsonResponseModel()
+			: this(false)
+		{
+		}
 
-        /// <summary>
-        /// Constructor allowing the setting of the success element and provides empty data string.
-        /// </summary>
-        /// <param name="success">Indicates whether the response is successful or not.</param>
-        public JsonResponseModel(bool success)
-        {
-            Success = success;
-            ResponseData = String.Empty;
-        }
+		/// <summary>
+		/// Constructor allowing the setting of the success element and provides empty data string.
+		/// </summary>
+		/// <param name="success">Indicates whether the response is successful or not.</param>
+		public JsonResponseModel(bool success)
+		{
+			Success = success;
+			ResponseData = String.Empty;
+		}
 
-        /// <summary>
-        /// Constructor for success with mandatory data string.
-        /// </summary>
-        /// <param name="data">response data, json, xml plain string etc</param>
-        /// <exception cref="ArgumentNullException">Thrown if data is null or empty string.</exception>
-        public JsonResponseModel(string data)
-        {
-            if (String.IsNullOrEmpty(data))
-                throw new ArgumentNullException(nameof(data));
+		/// <summary>
+		/// Constructor for success with mandatory data string.
+		/// </summary>
+		/// <param name="data">response data, json, xml plain string etc</param>
+		/// <exception cref="ArgumentNullException">Thrown if data is null or empty string.</exception>
+		public JsonResponseModel(string data)
+		{
+			if (String.IsNullOrEmpty(data))
+				throw new ArgumentNullException(nameof(data));
 
-            Success = true;
-            ResponseData = data;
-        }
+			Success = true;
+			ResponseData = data;
+		}
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="success">Indicates whether the response is successful or not.</param>
-        /// <param name="data">response data, json, xml plain string etc</param>
-        public JsonResponseModel(bool success, string data)
-        {
-            Success = success;
-            ResponseData = data ?? throw new ArgumentNullException(nameof(data));
-        }
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="success">Indicates whether the response is successful or not.</param>
+		/// <param name="data">response data, json, xml plain string etc</param>
+		public JsonResponseModel(bool success, string data)
+		{
+			Success = success;
+			ResponseData = data ?? throw new ArgumentNullException(nameof(data));
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Public Properties
+		#region Public Properties
 
-        /// <summary>
-        /// Indicates success or failure
-        /// </summary>
-        /// <value>bool</value>
-        public bool Success { get; set; }
+		/// <summary>
+		/// Indicates success or failure
+		/// </summary>
+		/// <value>bool</value>
+		public bool Success { get; set; }
 
-        /// <summary>
-        /// Response data, this can be a string of any type including Json, xml etc
-        /// </summary>
-        /// <value>string</value>
-        public string ResponseData { get; set; }
+		/// <summary>
+		/// Response data, this can be a string of any type including Json, xml etc
+		/// </summary>
+		/// <value>string</value>
+		public string ResponseData { get; set; }
 
-        #endregion Public Properties
-    }
+		#endregion Public Properties
+	}
 }

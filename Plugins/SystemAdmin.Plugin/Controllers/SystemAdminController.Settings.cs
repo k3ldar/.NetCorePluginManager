@@ -157,7 +157,7 @@ namespace SystemAdmin.Plugin.Controllers
 			}
 		}
 
-		private static void ValidateAndSetPropertyValues(SettingsMenuItem baseType, List<string> errors, 
+		private static void ValidateAndSetPropertyValues(SettingsMenuItem baseType, List<string> errors,
 			ApplicationSettingViewModel modelProperty, PropertyInfo property)
 		{
 			switch (modelProperty.DataType)

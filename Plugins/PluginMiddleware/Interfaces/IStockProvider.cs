@@ -30,34 +30,34 @@ using Middleware.ShoppingCart;
 
 namespace Middleware
 {
-    /// <summary>
-    /// Stock provider interface, disigned to provide stock quantities for individual prodoucts
-    /// </summary>
-    public interface IStockProvider
-    {
-        /// <summary>
-        /// Gets the current available stock level for an individual product.
-        /// </summary>
-        /// <param name="product">Product who's stock will be checked, the StockAvailability property for the product will be updated with the stock level.</param>
-        void GetStockAvailability(in Product product);
+	/// <summary>
+	/// Stock provider interface, disigned to provide stock quantities for individual prodoucts
+	/// </summary>
+	public interface IStockProvider
+	{
+		/// <summary>
+		/// Gets the current available stock level for an individual product.
+		/// </summary>
+		/// <param name="product">Product who's stock will be checked, the StockAvailability property for the product will be updated with the stock level.</param>
+		void GetStockAvailability(in Product product);
 
-        /// <summary>
-        /// Gets the current available stock level for a list of product items.
-        /// </summary>
-        /// <param name="productList">List of products who's stock will be checked, the StockAvailability property for the product will be updated with the stock level.</param>
-        void GetStockAvailability(in List<Product> productList);
+		/// <summary>
+		/// Gets the current available stock level for a list of product items.
+		/// </summary>
+		/// <param name="productList">List of products who's stock will be checked, the StockAvailability property for the product will be updated with the stock level.</param>
+		void GetStockAvailability(in List<Product> productList);
 
-        /// <summary>
-        /// Gets the current available stock level for an individual product within a shopping cart.
-        /// </summary>
-        /// <param name="shoppingCartItem">ShoppingCartItem who's stock will be updated.</param>
-        void GetStockAvailability(in ShoppingCartItem shoppingCartItem);
+		/// <summary>
+		/// Gets the current available stock level for an individual product within a shopping cart.
+		/// </summary>
+		/// <param name="shoppingCartItem">ShoppingCartItem who's stock will be updated.</param>
+		void GetStockAvailability(in ShoppingCartItem shoppingCartItem);
 
-        /// <summary>
-        /// Gets the current available stock level for a list of products within a shopping cart.
-        /// </summary>
-        /// <param name="shoppingCartItemList">ShoppingCartItem who's stock will be updated.</param>
-        void GetStockAvailability(in List<ShoppingCartItem> shoppingCartItemList);
+		/// <summary>
+		/// Gets the current available stock level for a list of products within a shopping cart.
+		/// </summary>
+		/// <param name="shoppingCartItemList">ShoppingCartItem who's stock will be updated.</param>
+		void GetStockAvailability(in List<ShoppingCartItem> shoppingCartItemList);
 
 		/// <summary>
 		/// Adds new stock availability for a product
@@ -66,5 +66,5 @@ namespace Middleware
 		/// <param name="stockCount">Amount of stock to add</param>
 		/// <param name="error">Error if the stock provider raises it's own issue</param>
 		bool AddStockToProduct(Product product, uint stockCount, out string error);
-    }
+	}
 }

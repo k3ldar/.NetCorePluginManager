@@ -65,7 +65,7 @@ namespace HelpdeskPlugin.Classes
 		/// <param name="userSearch">Valid IUserSearch instacnce</param>
 		/// <param name="settingsProvider">Valid ISettingsProvider instance</param>
 		/// <param name="logger">Valid logger instance</param>
-		public ImportEmailIntoHelpdeskThread(IHelpdeskProvider helpdeskProvider, IPop3ClientFactory pop3ClientFactory, 
+		public ImportEmailIntoHelpdeskThread(IHelpdeskProvider helpdeskProvider, IPop3ClientFactory pop3ClientFactory,
 			IUserSearch userSearch, ISettingsProvider settingsProvider, ILogger logger)
 			: this(helpdeskProvider, pop3ClientFactory, userSearch, settingsProvider, logger, TimeSpan.FromMinutes(1))
 		{
@@ -81,7 +81,7 @@ namespace HelpdeskPlugin.Classes
 		/// <param name="settingsProvider">Valid ISettingsProvider instance</param>
 		/// <param name="logger">Valid logger instance</param>
 		/// <param name="timeSpan">Timspan depicting the interval between checks</param>
-		public ImportEmailIntoHelpdeskThread(IHelpdeskProvider helpdeskProvider, IPop3ClientFactory pop3ClientFactory, 
+		public ImportEmailIntoHelpdeskThread(IHelpdeskProvider helpdeskProvider, IPop3ClientFactory pop3ClientFactory,
 			IUserSearch userSearch, ISettingsProvider settingsProvider, ILogger logger, TimeSpan timeSpan)
 			: base(null, timeSpan)
 		{
@@ -146,8 +146,8 @@ namespace HelpdeskPlugin.Classes
 
 					long userId = user == null ? 0 : user.Id;
 
-					_helpdeskProvider.SubmitTicket(userId, _departmentId, _priorityId, fromName, fromEmail, message.Subject, 
-						message.TextMessage ?? message.HtmlMessage, 
+					_helpdeskProvider.SubmitTicket(userId, _departmentId, _priorityId, fromName, fromEmail, message.Subject,
+						message.TextMessage ?? message.HtmlMessage,
 						messageId, out HelpdeskTicket _);
 				}
 				else

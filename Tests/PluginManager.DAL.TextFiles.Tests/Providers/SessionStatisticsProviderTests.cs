@@ -148,7 +148,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.AreEqual(100, sessionData.PrimarySequence);
 					Assert.AreEqual(10000, sessionPageData.RecordCount);
 					Assert.AreEqual(1, referrer.RecordCount);
-					
+
 					Assert.AreEqual(71, hourlyStats.RecordCount);
 					SessionStatsHourlyDataRow hourly = hourlyStats.Select(0);
 					Assert.AreEqual(1u, hourly.HumanVisits);

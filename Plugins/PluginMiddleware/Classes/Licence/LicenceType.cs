@@ -27,43 +27,43 @@ using System;
 
 namespace Middleware.Accounts.Licences
 {
-    /// <summary>
-    /// List item for type of licences available.
-    /// </summary>
-    public sealed class LicenceType
-    {
-        #region Constructors
+	/// <summary>
+	/// List item for type of licences available.
+	/// </summary>
+	public sealed class LicenceType
+	{
+		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="id">Id of licence type.</param>
-        /// <param name="description">Description of licence type.</param>
-        public LicenceType(in long id, in string description)
-        {
-            if (String.IsNullOrEmpty(description))
-                throw new ArgumentNullException(nameof(description));
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="id">Id of licence type.</param>
+		/// <param name="description">Description of licence type.</param>
+		public LicenceType(in long id, in string description)
+		{
+			if (String.IsNullOrEmpty(description))
+				throw new ArgumentNullException(nameof(description));
 
-            Id = id;
-            Description = description;
-        }
+			Id = id;
+			Description = description;
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        /// <summary>
-        /// Id of licence type.
-        /// </summary>
-        /// <value>int</value>
-        public long Id { get; private set; }
+		/// <summary>
+		/// Id of licence type.
+		/// </summary>
+		/// <value>int</value>
+		public long Id { get; private set; }
 
-        /// <summary>
-        /// Description of licence type.
-        /// </summary>
-        /// <value>string</value>
-        public string Description { get; private set; }
+		/// <summary>
+		/// Description of licence type.
+		/// </summary>
+		/// <value>string</value>
+		public string Description { get; private set; }
 
-        #endregion Properties
-    }
+		#endregion Properties
+	}
 }

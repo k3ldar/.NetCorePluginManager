@@ -28,30 +28,30 @@ using SharedPluginFeatures.Interfaces;
 namespace SimpleDB.Internal
 {
 	internal sealed class BatchUpdateDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IBatchUpdate
-        where TValue : IIndexManager, IBatchUpdate
-    {
-        public bool IsUpdating { get; private set; }
+		where TValue : IIndexManager, IBatchUpdate
+	{
+		public bool IsUpdating { get; private set; }
 
-        public void BeginUpdate()
-        {
-            if (IsUpdating)
-                throw new InvalidOperationException();
+		public void BeginUpdate()
+		{
+			if (IsUpdating)
+				throw new InvalidOperationException();
 
-            foreach (KeyValuePair<TKey, TValue> kv in this)
-                kv.Value.BeginUpdate();
+			foreach (KeyValuePair<TKey, TValue> kv in this)
+				kv.Value.BeginUpdate();
 
-            IsUpdating = true;
-        }
+			IsUpdating = true;
+		}
 
-        public void EndUpdate()
-        {
-            if (!IsUpdating)
-                throw new InvalidOperationException();
+		public void EndUpdate()
+		{
+			if (!IsUpdating)
+				throw new InvalidOperationException();
 
-            foreach (KeyValuePair<TKey, TValue> kv in this)
-                kv.Value.EndUpdate();
+			foreach (KeyValuePair<TKey, TValue> kv in this)
+				kv.Value.EndUpdate();
 
-            IsUpdating = false;
-        }
-    }
+			IsUpdating = false;
+		}
+	}
 }

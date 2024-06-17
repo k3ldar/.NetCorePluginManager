@@ -48,7 +48,7 @@ namespace Resources.Plugin.Models
 		/// <param name="dislikes">Number of dislikes</param>
 		/// <param name="approved">Approved for public viewing</param>
 		/// <param name="viewCount">Number of views for resource</param>
-		public ResourceItemModel(long id, long categoryId, ResourceType resourceType, long userId, string userName, 
+		public ResourceItemModel(long id, long categoryId, ResourceType resourceType, long userId, string userName,
 			string name, string description, string value, int likes, int dislikes, int viewCount, bool approved)
 		{
 			Id = id;

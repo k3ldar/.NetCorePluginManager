@@ -37,168 +37,168 @@ using SharedPluginFeatures.DynamicContent;
 
 namespace DynamicContent.Plugin.Templates
 {
-    public class FormListBoxTemplate : DynamicContentTemplate
-    {
-        #region Constructors
+	public class FormListBoxTemplate : DynamicContentTemplate
+	{
+		#region Constructors
 
-        public FormListBoxTemplate()
-        {
-            WidthType = DynamicContentWidthType.Columns;
-            Width = 12;
-            ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
-        }
+		public FormListBoxTemplate()
+		{
+			WidthType = DynamicContentWidthType.Columns;
+			Width = 12;
+			ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+			ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region DynamicContentTemplate Properties
+		#region DynamicContentTemplate Properties
 
-        public override string AssemblyQualifiedName => typeof(FormListBoxTemplate).AssemblyQualifiedName;
+		public override string AssemblyQualifiedName => typeof(FormListBoxTemplate).AssemblyQualifiedName;
 
-        public override string EditorAction
-        {
-            get
-            {
-                return $"/{Controllers.DynamicContentController.Name}/{nameof(Controllers.DynamicContentController.FormControlTemplateEditorListBox)}/";
-            }
-        }
+		public override string EditorAction
+		{
+			get
+			{
+				return $"/{Controllers.DynamicContentController.Name}/{nameof(Controllers.DynamicContentController.FormControlTemplateEditorListBox)}/";
+			}
+		}
 
-        public override string EditorInstructions => String.Empty;
+		public override string EditorInstructions => String.Empty;
 
-        public override string Name => LanguageStrings.TemplateNameFormListBox;
+		public override string Name => LanguageStrings.TemplateNameFormListBox;
 
-        public override DynamicContentTemplateType TemplateType => DynamicContentTemplateType.Input;
+		public override DynamicContentTemplateType TemplateType => DynamicContentTemplateType.Input;
 
-        public override int TemplateSortOrder => DefaultFormTemplateSortOrder;
+		public override int TemplateSortOrder => DefaultFormTemplateSortOrder;
 
-        public override Int32 SortOrder { get; set; }
+		public override Int32 SortOrder { get; set; }
 
-        public override DynamicContentHeightType HeightType
-        {
-            get
-            {
-                return DynamicContentHeightType.Automatic;
-            }
+		public override DynamicContentHeightType HeightType
+		{
+			get
+			{
+				return DynamicContentHeightType.Automatic;
+			}
 
-            set
-            {
+			set
+			{
 				// not used but required for interface
 			}
 		}
 
-        public override int Height
-        {
-            get
-            {
-                return -1;
-            }
+		public override int Height
+		{
+			get
+			{
+				return -1;
+			}
 
-            set
-            {
+			set
+			{
 				// not used but required for interface
 			}
 		}
 
-        public override DynamicContentWidthType WidthType { get; set; }
+		public override DynamicContentWidthType WidthType { get; set; }
 
-        public override int Width { get; set; }
+		public override int Width { get; set; }
 
-        public override string Data { get; set; }
+		public override string Data { get; set; }
 
-        public override DateTime ActiveFrom { get; set; }
+		public override DateTime ActiveFrom { get; set; }
 
-        public override DateTime ActiveTo { get; set; }
+		public override DateTime ActiveTo { get; set; }
 
-        #endregion DynamicContentTemplate Properties
+		#endregion DynamicContentTemplate Properties
 
-        #region DynamicContentTemplate Methods
+		#region DynamicContentTemplate Methods
 
-        public override String Content()
-        {
-            return GenerateContent(false);
-        }
+		public override String Content()
+		{
+			return GenerateContent(false);
+		}
 
-        public override string EditorContent()
-        {
-            return GenerateContent(true);
-        }
+		public override string EditorContent()
+		{
+			return GenerateContent(true);
+		}
 
-        public override DynamicContentTemplate Clone(string uniqueId)
-        {
-            if (String.IsNullOrEmpty(uniqueId))
-                uniqueId = Guid.NewGuid().ToString();
+		public override DynamicContentTemplate Clone(string uniqueId)
+		{
+			if (String.IsNullOrEmpty(uniqueId))
+				uniqueId = Guid.NewGuid().ToString();
 
-            return new FormListBoxTemplate()
-            {
-                UniqueId = uniqueId
-            };
-        }
+			return new FormListBoxTemplate()
+			{
+				UniqueId = uniqueId
+			};
+		}
 
-        #endregion DynamicContentTemplate Methods
+		#endregion DynamicContentTemplate Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private string GenerateContent(bool isEditing)
-        {
-            StringBuilder Result = new(512);
+		private string GenerateContent(bool isEditing)
+		{
+			StringBuilder Result = new(512);
 
-            HtmlStart(Result, isEditing);
+			HtmlStart(Result, isEditing);
 
-            Result.AppendFormat("<div{0}", RetrieveCssClassAndStyle("form-group"));
+			Result.AppendFormat("<div{0}", RetrieveCssClassAndStyle("form-group"));
 
-            if (isEditing)
-                Result.Append(" style=\"margin: 0 0 0 10px;min-height:32px;\"");
+			if (isEditing)
+				Result.Append(" style=\"margin: 0 0 0 10px;min-height:32px;\"");
 
-            Result.Append('>');
+			Result.Append('>');
 
-            FormTemplateEditorModel formModel = new(Data);
-            string lblStyle = String.IsNullOrEmpty(formModel.LabelStyle) ? "" : $" style=\"{formModel.LabelStyle}\"";
+			FormTemplateEditorModel formModel = new(Data);
+			string lblStyle = String.IsNullOrEmpty(formModel.LabelStyle) ? "" : $" style=\"{formModel.LabelStyle}\"";
 
-            string disabled = isEditing ? " disabled" : "";
-            string ctlStyle = String.IsNullOrEmpty(formModel.ControlStyle) ? "" : $" style=\"{formModel.ControlStyle}\"";
+			string disabled = isEditing ? " disabled" : "";
+			string ctlStyle = String.IsNullOrEmpty(formModel.ControlStyle) ? "" : $" style=\"{formModel.ControlStyle}\"";
 
-            if (!String.IsNullOrEmpty(formModel.LabelText))
-            {
-                Result.AppendFormat("<label for=\"{0}\"{1}>{2}</label>",
-                    HtmlHelper.RouteFriendlyName(formModel.ControlName), lblStyle, formModel.LabelText);
-            }
+			if (!String.IsNullOrEmpty(formModel.LabelText))
+			{
+				Result.AppendFormat("<label for=\"{0}\"{1}>{2}</label>",
+					HtmlHelper.RouteFriendlyName(formModel.ControlName), lblStyle, formModel.LabelText);
+			}
 
-            if (formModel.AlignTop)
-            {
-                Result.Append("<br />");
-            }
+			if (formModel.AlignTop)
+			{
+				Result.Append("<br />");
+			}
 
-            Result.AppendFormat("<select name=\"{0}\" id=\"{0}\" onclick=\"updateUC();\" onfocusout=\"updateUC();\"{1}{2}>",
-                HtmlHelper.RouteFriendlyName(formModel.ControlName), ctlStyle, disabled);
-            bool first = true;
+			Result.AppendFormat("<select name=\"{0}\" id=\"{0}\" onclick=\"updateUC();\" onfocusout=\"updateUC();\"{1}{2}>",
+				HtmlHelper.RouteFriendlyName(formModel.ControlName), ctlStyle, disabled);
+			bool first = true;
 
-            foreach (string option in formModel.Options)
-            {
-                string optionText = option.Trim();
-                string routeOption = HtmlHelper.RouteFriendlyName(optionText);
+			foreach (string option in formModel.Options)
+			{
+				string optionText = option.Trim();
+				string routeOption = HtmlHelper.RouteFriendlyName(optionText);
 
-                if (first)
-                {
-                    Result.AppendFormat("<option value=\"{0}\" selected>{1}</option>",
-                        routeOption, optionText, ctlStyle, disabled);
-                    first = false;
-                }
-                else
-                {
-                    Result.AppendFormat("<option value=\"{0}\">{1}</option>",
-                        routeOption, optionText, ctlStyle, disabled);
-                }
-            }
+				if (first)
+				{
+					Result.AppendFormat("<option value=\"{0}\" selected>{1}</option>",
+						routeOption, optionText, ctlStyle, disabled);
+					first = false;
+				}
+				else
+				{
+					Result.AppendFormat("<option value=\"{0}\">{1}</option>",
+						routeOption, optionText, ctlStyle, disabled);
+				}
+			}
 
-            Result.Append("</select></div>");
+			Result.Append("</select></div>");
 
-            HtmlEnd(Result);
+			HtmlEnd(Result);
 
-            return Result.ToString();
-        }
+			return Result.ToString();
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }
 
 #pragma warning restore CS1591, S3237

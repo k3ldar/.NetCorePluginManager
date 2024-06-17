@@ -43,36 +43,36 @@ using static Shared.Utilities;
 
 namespace LoginPlugin.Controllers
 {
-    public partial class LoginController
-    {
-        private const string Google = "Google";
-        private const string GoogleCallBackUrl = "{0}://{1}/Login/GoogleCallback";
-        private const string GoogleTokenUrl = "https://www.googleapis.com/oauth2/v1/userinfo?access_token={0}";
-        private const string GoogleOAuthTokenUrl = "https://accounts.google.com/o/oauth2/token";
-        private const string GoogleFailedToRetrieveLoginDetails = "unable to get Google login details";
-        private const string GoogleScope = "&scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile";
-        private const string GoogleOAuthUri = "https://accounts.google.com/o/oauth2/auth";
+	public partial class LoginController
+	{
+		private const string Google = "Google";
+		private const string GoogleCallBackUrl = "{0}://{1}/Login/GoogleCallback";
+		private const string GoogleTokenUrl = "https://www.googleapis.com/oauth2/v1/userinfo?access_token={0}";
+		private const string GoogleOAuthTokenUrl = "https://accounts.google.com/o/oauth2/token";
+		private const string GoogleFailedToRetrieveLoginDetails = "unable to get Google login details";
+		private const string GoogleScope = "&scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile";
+		private const string GoogleOAuthUri = "https://accounts.google.com/o/oauth2/auth";
 
 		/// <summary>
 		/// Google login action
 		/// </summary>
 		/// <param name="returnUrl"></param>
 		/// <returns></returns>
-        [HttpPost]
-        public IActionResult GoogleLogin(string returnUrl)
-        {
-            UserSession userSession = GetUserSession();
-            string externalLoginCacheId = String.Format(ExternalLoginCacheItem, userSession.SessionID);
-            _memoryCache.GetShortCache().Add(externalLoginCacheId, new CacheItem(externalLoginCacheId, returnUrl));
+		[HttpPost]
+		public IActionResult GoogleLogin(string returnUrl)
+		{
+			UserSession userSession = GetUserSession();
+			string externalLoginCacheId = String.Format(ExternalLoginCacheItem, userSession.SessionID);
+			_memoryCache.GetShortCache().Add(externalLoginCacheId, new CacheItem(externalLoginCacheId, returnUrl));
 
-            string Googleurl = GoogleOAuthUri +
-                OAuthParamResponseTypeCode +
-                OAuthParamRedirectUri + String.Format(GoogleCallBackUrl, HttpContext.Request.Scheme, HttpContext.Request.Host) +
-                GoogleScope +
-                OAuthParamClientId + _settings.GoogleClientId;
+			string Googleurl = GoogleOAuthUri +
+				OAuthParamResponseTypeCode +
+				OAuthParamRedirectUri + String.Format(GoogleCallBackUrl, HttpContext.Request.Scheme, HttpContext.Request.Host) +
+				GoogleScope +
+				OAuthParamClientId + _settings.GoogleClientId;
 
-            return Redirect(Googleurl);
-        }
+			return Redirect(Googleurl);
+		}
 
 		/// <summary>
 		/// Google login callback action
@@ -83,72 +83,72 @@ namespace LoginPlugin.Controllers
 		/// <param name="prompt"></param>
 		/// <returns></returns>
 		/// <exception cref="InvalidOperationException"></exception>
-        public IActionResult GoogleCallback(string code, string scope, string authuser, string prompt)
-        {
-            NVPCodec parameters = new();
-            parameters.Add(OAuthCode, code);
-            parameters.Add(OAuthClientId, _settings.GoogleClientId);
-            parameters.Add(OAuthClientSecret, _settings.GoogleSecret);
-            parameters.Add(OAuthRedirectUri, String.Format(GoogleCallBackUrl, HttpContext.Request.Scheme, HttpContext.Request.Host));
-            parameters.Add(OAuthGrantType, OAuthAuthCode);
-            string response = HttpPost.Post(GoogleOAuthTokenUrl, parameters);
+		public IActionResult GoogleCallback(string code, string scope, string authuser, string prompt)
+		{
+			NVPCodec parameters = new();
+			parameters.Add(OAuthCode, code);
+			parameters.Add(OAuthClientId, _settings.GoogleClientId);
+			parameters.Add(OAuthClientSecret, _settings.GoogleSecret);
+			parameters.Add(OAuthRedirectUri, String.Format(GoogleCallBackUrl, HttpContext.Request.Scheme, HttpContext.Request.Host));
+			parameters.Add(OAuthGrantType, OAuthAuthCode);
+			string response = HttpPost.Post(GoogleOAuthTokenUrl, parameters);
 
-            TokenResponse googlePlusAccessToken = JsonSerializer.Deserialize<TokenResponse>(response);
+			TokenResponse googlePlusAccessToken = JsonSerializer.Deserialize<TokenResponse>(response);
 
-            TokenUserDetails userDetails = GetGoogleUserDetails(googlePlusAccessToken);
+			TokenUserDetails userDetails = GetGoogleUserDetails(googlePlusAccessToken);
 
-            if (googlePlusAccessToken == null)
-                throw new InvalidOperationException(GoogleFailedToRetrieveLoginDetails);
+			if (googlePlusAccessToken == null)
+				throw new InvalidOperationException(GoogleFailedToRetrieveLoginDetails);
 
-            userDetails.Provider = Google;
-            UserSession userSession = GetUserSession();
+			userDetails.Provider = Google;
+			UserSession userSession = GetUserSession();
 
 			if (userSession == null)
 				return RedirectToAction(nameof(Index));
 
 			UserLoginDetails loginDetails = null;
-            LoginResult loginResult = _loginProvider.Login(userDetails, ref loginDetails);
+			LoginResult loginResult = _loginProvider.Login(userDetails, ref loginDetails);
 
-            if (loginResult == LoginResult.Success)
-            {
-                userSession.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
+			if (loginResult == LoginResult.Success)
+			{
+				userSession.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
 
-                CookieAdd(_settings.RememberMeCookieName,
-                    Encrypt(loginDetails.UserId.ToString(), _settings.EncryptionKey),
-                    _settings.LoginDays, true);
+				CookieAdd(_settings.RememberMeCookieName,
+					Encrypt(loginDetails.UserId.ToString(), _settings.EncryptionKey),
+					_settings.LoginDays, true);
 
-                GetAuthenticationService().SignInAsync(HttpContext,
-                    _settings.AuthenticationScheme,
-                    new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
-                    _claimsProvider.GetAuthenticationProperties());
+				GetAuthenticationService().SignInAsync(HttpContext,
+					_settings.AuthenticationScheme,
+					new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
+					_claimsProvider.GetAuthenticationProperties());
 
-                string externalLoginCacheId = String.Format(ExternalLoginCacheItem, userSession.SessionID);
+				string externalLoginCacheId = String.Format(ExternalLoginCacheItem, userSession.SessionID);
 
-                CacheItem redirectCache = _memoryCache.GetShortCache().Get(externalLoginCacheId);
-                return LocalRedirect(redirectCache == null ? SharedPluginFeatures.Constants.ForwardSlash : (string)redirectCache.Value);
-            }
+				CacheItem redirectCache = _memoryCache.GetShortCache().Get(externalLoginCacheId);
+				return LocalRedirect(redirectCache == null ? SharedPluginFeatures.Constants.ForwardSlash : (string)redirectCache.Value);
+			}
 
-            return RedirectToAction(nameof(Index));
-        }
+			return RedirectToAction(nameof(Index));
+		}
 
-        private static TokenUserDetails GetGoogleUserDetails(TokenResponse googlePlusAccessToken)
-        {
-            using (HttpClient httpClient = new())
-            {
-                string profileUrl = String.Format(GoogleTokenUrl, googlePlusAccessToken.access_token);
+		private static TokenUserDetails GetGoogleUserDetails(TokenResponse googlePlusAccessToken)
+		{
+			using (HttpClient httpClient = new())
+			{
+				string profileUrl = String.Format(GoogleTokenUrl, googlePlusAccessToken.access_token);
 
-                HttpResponseMessage output = httpClient.GetAsync(profileUrl).Result;
+				HttpResponseMessage output = httpClient.GetAsync(profileUrl).Result;
 
-                if (output.IsSuccessStatusCode)
-                {
-                    string responseData = output.Content.ReadAsStringAsync().Result;
-                    return JsonSerializer.Deserialize<TokenUserDetails>(responseData);
-                }
-            }
+				if (output.IsSuccessStatusCode)
+				{
+					string responseData = output.Content.ReadAsStringAsync().Result;
+					return JsonSerializer.Deserialize<TokenUserDetails>(responseData);
+				}
+			}
 
-            return null;
-        }
-    }
+			return null;
+		}
+	}
 }
 
 #pragma warning disable IDE0060, S1075, S6967

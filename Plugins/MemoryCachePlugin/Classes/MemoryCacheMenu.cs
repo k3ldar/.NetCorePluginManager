@@ -34,72 +34,72 @@ using SharedPluginFeatures;
 
 namespace MemoryCache.Plugin.Classes
 {
-    /// <summary>
-    /// Returns statistical data on the usage of available memory caches and can 
-    /// be viewed within SystemAdmin.Plugin.  
-    /// 
-    /// This class descends from SystemAdminSubMenu.
-    /// </summary>
-    public class MemoryCacheMenu : SystemAdminSubMenu
-    {
-        public override string Action()
-        {
-            return String.Empty;
-        }
+	/// <summary>
+	/// Returns statistical data on the usage of available memory caches and can 
+	/// be viewed within SystemAdmin.Plugin.  
+	/// 
+	/// This class descends from SystemAdminSubMenu.
+	/// </summary>
+	public class MemoryCacheMenu : SystemAdminSubMenu
+	{
+		public override string Action()
+		{
+			return String.Empty;
+		}
 
-        public override string Area()
-        {
-            return String.Empty;
-        }
+		public override string Area()
+		{
+			return String.Empty;
+		}
 
-        public override string Controller()
-        {
-            return String.Empty;
-        }
+		public override string Controller()
+		{
+			return String.Empty;
+		}
 
-        public override Enums.SystemAdminMenuType MenuType()
-        {
-            return Enums.SystemAdminMenuType.Grid;
-        }
+		public override Enums.SystemAdminMenuType MenuType()
+		{
+			return Enums.SystemAdminMenuType.Grid;
+		}
 
-        /// <summary>
-        /// Returns data on the number of MemoryCaches in use, the number of items and age available in MemoryCachePlugin requests.
-        /// </summary>
-        /// <returns>string</returns>
-        public override string Data()
-        {
-            StringBuilder Result = new("Name|Age|Item Count\r");
+		/// <summary>
+		/// Returns data on the number of MemoryCaches in use, the number of items and age available in MemoryCachePlugin requests.
+		/// </summary>
+		/// <returns>string</returns>
+		public override string Data()
+		{
+			StringBuilder Result = new("Name|Age|Item Count\r");
 
-            for (int i = 0; i < CacheManager.GetCount(); i++)
-            {
-                Result.Append($"{CacheManager.GetCacheName(i)}|");
-                Result.Append($"{CacheManager.GetCacheAge(i)}|");
-                Result.Append($"{CacheManager.GetCacheCount(i)}\r");
-            }
+			for (int i = 0; i < CacheManager.GetCount(); i++)
+			{
+				Result.Append($"{CacheManager.GetCacheName(i)}|");
+				Result.Append($"{CacheManager.GetCacheAge(i)}|");
+				Result.Append($"{CacheManager.GetCacheCount(i)}\r");
+			}
 
-            return Result.ToString().Trim();
-        }
+			return Result.ToString().Trim();
+		}
 
-        public override string Name()
-        {
-            return "Memory Cache";
-        }
+		public override string Name()
+		{
+			return "Memory Cache";
+		}
 
-        public override string ParentMenuName()
-        {
-            return "System";
-        }
+		public override string ParentMenuName()
+		{
+			return "System";
+		}
 
-        public override int SortOrder()
-        {
-            return 0;
-        }
+		public override int SortOrder()
+		{
+			return 0;
+		}
 
-        public override string Image()
-        {
-            return String.Empty;
-        }
-    }
+		public override string Image()
+		{
+			return String.Empty;
+		}
+	}
 }
 
 #pragma warning restore CS1591
