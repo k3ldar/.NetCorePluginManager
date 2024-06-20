@@ -6,3 +6,5 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "This string is aimed at developers and not end users", Scope = "member", Target = "~M:SharedPluginFeatures.DenySpiderAttribute.#ctor(System.String,System.String,System.Int32)")]
+[assembly: SuppressMessage("Style", "IDE0041:Use 'is null' check", Justification = "System implementation", Scope = "member", Target = "~M:SharedPluginFeatures.SystemAdminSubMenu.op_GreaterThanOrEqual(SharedPluginFeatures.SystemAdminSubMenu,SharedPluginFeatures.SystemAdminSubMenu)~System.Boolean")]
+[assembly: SuppressMessage("Style", "IDE0041:Use 'is null' check", Justification = "System implementation", Scope = "member", Target = "~M:SharedPluginFeatures.SystemAdminSubMenu.op_GreaterThan(SharedPluginFeatures.SystemAdminSubMenu,SharedPluginFeatures.SystemAdminSubMenu)~System.Boolean")]

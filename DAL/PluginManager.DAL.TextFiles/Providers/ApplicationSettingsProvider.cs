@@ -88,7 +88,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (string.IsNullOrEmpty(name))
 				throw new ArgumentNullException(nameof(name));
 
-			if (value == null)
+			if (object.Equals(value, default(T)))
 				throw new ArgumentNullException(nameof(value));
 
 			SettingsDataRow settingsDataRow = _settingsData.Select().FirstOrDefault(sd => sd.Name.Equals(name)) ?? new SettingsDataRow()

@@ -109,12 +109,12 @@ namespace SimpleDB.Tests
 		[TestCategory(GeneralTestsCategory)]
 		public void Configure_DoesNotRegisterApplicationServices()
 		{
-			MockApplicationBuilder testApplicationBuilder = new();
+			MockApplicationBuilder applicationBuilder = new();
 			PluginInitialisation sut = new();
 
-			sut.Configure(testApplicationBuilder);
+			sut.Configure(applicationBuilder);
 
-			Assert.IsFalse(testApplicationBuilder.UseCalled);
+			Assert.IsFalse(applicationBuilder.UseCalled);
 		}
 
 		[TestMethod]

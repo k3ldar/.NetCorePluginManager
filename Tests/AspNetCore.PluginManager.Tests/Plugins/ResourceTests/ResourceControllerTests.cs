@@ -1158,6 +1158,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 		public void CreateResourceItem_UriInvalidNotFound_ReturnsModelStateError()
 		{
 			MockHttpContext requestContext = new MockHttpContext();
+			requestContext.LogUserIn = true;
 			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
 
 			ResourcesController sut = CreateResourceController();
@@ -1658,9 +1659,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 		public void CreateResourceItem_ImageInvalidNotFound_ReturnsModelStateError()
 		{
 			MockHttpContext requestContext = new MockHttpContext();
+			requestContext.LogUserIn = true;
 			List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
 
-			ResourcesController sut = CreateResourceController();
+			ResourcesController sut = CreateResourceController(null, requestContext);
 
 			CreateResourceItemModel itemModel = new CreateResourceItemModel()
 			{
@@ -2540,7 +2542,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 		private ResourcesController CreateResourceController(MockResourceProvider mockResourceProvider = null, 
 			MockHttpContext mockContext = null, MockServiceProvider mockServiceProvider = null)
 		{
-
 			ResourcesController Result = new ResourcesController(mockResourceProvider ?? new MockResourceProvider());
 
 			Result.ControllerContext = CreateTestControllerContext(null, null, mockServiceProvider, null, mockContext);

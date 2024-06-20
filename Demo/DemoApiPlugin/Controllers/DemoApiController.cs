@@ -126,6 +126,7 @@ namespace DemoApiPlugin.Controllers
 		[HttpGet]
 		[Route("/api/ex")]
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "Used as a route to raise an exception")]
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Major Bug", "S2259:Null pointers should not be dereferenced", Justification = "See above justification")]
 		public void RaiseError()
 		{
 			List<string> list = null;
@@ -141,6 +142,7 @@ namespace DemoApiPlugin.Controllers
 			return new JsonResult(new { response = $"If you can see this you passed the security without a policy: {s}" });
 		}
 
+		[HttpGet]
 		[Route("/api/invaliduserPolicy")]
 		[ApiAuthorization("Policy")]
 		public IActionResult RequiresAuthorizationPolicy()

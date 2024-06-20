@@ -192,11 +192,6 @@
             <param name="urlHashProvider"></param>
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
-        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionItem">
-            <summary>
-            Contains the necessary details from a user session which can be used to create statistics
-            </summary>
-        </member>
         <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionPageView">
             <summary>
             Statistics for a page view

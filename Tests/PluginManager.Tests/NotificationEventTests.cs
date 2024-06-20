@@ -36,6 +36,8 @@ using PluginManager.Tests.Mocks;
 
 using Shared.Classes;
 
+#pragma warning disable S2925
+
 namespace PluginManager.Tests
 {
 	[TestClass]
@@ -637,3 +639,4 @@ namespace PluginManager.Tests
 		public bool EventProcessed { get; private set; }
 	}
 }
+#pragma warning restore S2925

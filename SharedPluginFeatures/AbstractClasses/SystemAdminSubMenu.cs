@@ -24,6 +24,9 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
+
+#pragma warning disable IDE0041 // Use 'is null' check
 
 namespace SharedPluginFeatures
 {
@@ -34,7 +37,6 @@ namespace SharedPluginFeatures
 	/// 
 	/// Typical useage is to display timing statistics by implementing Timings class, through to showing custom data or even data shown within a map, as UserSessionMiddleware.Plugin does.
 	/// </summary>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1036:Override methods on comparable types", Justification = "Not required for how this class is implemented!")]
 	public abstract class SystemAdminSubMenu : BaseCoreClass, IComparable<SystemAdminSubMenu>
 	{
 		#region Public Abstract Methods
@@ -150,7 +152,103 @@ namespace SharedPluginFeatures
 			return Result;
 		}
 
+		/// <summary>
+		/// Compares instances for equality
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <returns></returns>
+		public override bool Equals(object obj)
+		{
+			return obj is SystemAdminSubMenu menu &&
+				   UniqueId == menu.UniqueId &&
+				   EqualityComparer<SystemAdminMainMenu>.Default.Equals(ParentMenu, menu.ParentMenu);
+		}
+
+		/// <summary>
+		/// Retrieves the hashcode
+		/// </summary>
+		/// <returns></returns>
+		public override int GetHashCode()
+		{
+			return HashCode.Combine(UniqueId, ParentMenu);
+		}
+
 		#endregion IComparable
+
+		#region Overrides
+
+		/// <summary>
+		/// Implement equality check
+		/// </summary>
+		/// <param name="left"></param>
+		/// <param name="right"></param>
+		/// <returns></returns>
+		public static bool operator ==(SystemAdminSubMenu left, SystemAdminSubMenu right)
+		{
+			if (ReferenceEquals(left, null))
+			{
+				return ReferenceEquals(right, null);
+			}
+
+			return left.Equals(right);
+		}
+
+		/// <summary>
+		/// Implement not equal to
+		/// </summary>
+		/// <param name="left"></param>
+		/// <param name="right"></param>
+		/// <returns></returns>
+		public static bool operator !=(SystemAdminSubMenu left, SystemAdminSubMenu right)
+		{
+			return !(left == right);
+		}
+
+		/// <summary>
+		/// Implement less than
+		/// </summary>
+		/// <param name="left"></param>
+		/// <param name="right"></param>
+		/// <returns></returns>
+		public static bool operator <(SystemAdminSubMenu left, SystemAdminSubMenu right)
+		{
+			return ReferenceEquals(left, null) ? !ReferenceEquals(right, null) : left.CompareTo(right) < 0;
+		}
+
+		/// <summary>
+		/// Implement less than or equal to
+		/// </summary>
+		/// <param name="left"></param>
+		/// <param name="right"></param>
+		/// <returns></returns>
+		public static bool operator <=(SystemAdminSubMenu left, SystemAdminSubMenu right)
+		{
+			return ReferenceEquals(left, null) || left.CompareTo(right) <= 0;
+		}
+
+		/// <summary>
+		/// Implement greater than
+		/// </summary>
+		/// <param name="left"></param>
+		/// <param name="right"></param>
+		/// <returns></returns>
+		public static bool operator >(SystemAdminSubMenu left, SystemAdminSubMenu right)
+		{
+			return !ReferenceEquals(left, null) && left.CompareTo(right) > 0;
+		}
+
+		/// <summary>
+		/// Implement greater than or equals
+		/// </summary>
+		/// <param name="left"></param>
+		/// <param name="right"></param>
+		/// <returns></returns>
+		public static bool operator >=(SystemAdminSubMenu left, SystemAdminSubMenu right)
+		{
+			return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : left.CompareTo(right) >= 0;
+		}
+
+		#endregion Overrides 
 
 		#region Properties
 
@@ -167,3 +265,5 @@ namespace SharedPluginFeatures
 		#endregion Properties
 	}
 }
+
+#pragma warning restore IDE0041 // Use 'is null' check
