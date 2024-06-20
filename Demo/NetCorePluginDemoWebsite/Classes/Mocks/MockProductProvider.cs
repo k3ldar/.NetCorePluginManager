@@ -43,7 +43,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 		public ProductGroup ProductGroupGet(in int id)
 		{
 			int groupId = id;
-			return ProductGroupsGet().FirstOrDefault(pg => pg.Id == groupId);
+			return ProductGroupsGet().Find(pg => pg.Id == groupId);
 		}
 
 		public List<ProductGroup> ProductGroupsGet()
@@ -139,7 +139,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 		public Product GetProduct(in int id)
 		{
 			int prodId = id;
-			return GetProducts(1, 10000).FirstOrDefault(p => p.Id == prodId);
+			return GetProducts(1, 10000).Find(p => p.Id == prodId);
 		}
 
 		public bool ProductGroupSave(in int id, in string description, in bool showOnWebsite, in int sortOrder, in string tagLine, in string url, out string errorMessage)

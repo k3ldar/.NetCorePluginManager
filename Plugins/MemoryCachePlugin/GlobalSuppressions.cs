@@ -6,3 +6,4 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Major Code Smell", "S3010:Static fields should not be updated in constructors", Justification = "Required as part of flyweight pattern where multiple instances share same underlying cache.  First one created creates the cache items with correct timeout values", Scope = "member", Target = "~M:MemoryCache.Plugin.DefaultMemoryCache.#ctor(PluginManager.Abstractions.ISettingsProvider)")]
+[assembly: SuppressMessage("Major Code Smell", "S3010:Static fields should not be updated in constructors", Justification = "As above", Scope = "member", Target = "~M:MemoryCache.Plugin.DefaultMemoryCache.#ctor(PluginManager.Abstractions.ISettingsProvider,System.Boolean,System.DateTime)")]

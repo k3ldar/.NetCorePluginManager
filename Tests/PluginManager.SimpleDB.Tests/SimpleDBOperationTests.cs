@@ -178,6 +178,7 @@ namespace SimpleDB.Tests
 
 		[TestMethod]
 		[ExpectedException(typeof(ObjectDisposedException))]
+		[SuppressMessage("Major Code Smell", "S3966:Objects should not be disposed more than once", Justification = "Part of the unit test")]
 		public void Insert_SingleRecord_ClassAlreadyDisposed_Throws_ObjectDisposedException()
 		{
 			string directory = TestHelper.GetTestPath();
@@ -304,6 +305,7 @@ namespace SimpleDB.Tests
 
 		[TestMethod]
 		[ExpectedException(typeof(ObjectDisposedException))]
+		[SuppressMessage("Major Code Smell", "S3966:Objects should not be disposed more than once", Justification = "Part of the unit test")]
 		public void Delete_SingleRecord_ObjectAlreadydisposed_Throws_ObjectDisposedException()
 		{
 			string directory = TestHelper.GetTestPath();
@@ -391,6 +393,7 @@ namespace SimpleDB.Tests
 
 		[TestMethod]
 		[ExpectedException(typeof(ObjectDisposedException))]
+		[SuppressMessage("Major Code Smell", "S3966:Objects should not be disposed more than once", Justification = "Part of the unit test")]
 		public void Delete_Multiple_ObjectAlreadydisposed_Throws_ObjectDisposedException()
 		{
 			string directory = TestHelper.GetTestPath();
@@ -487,6 +490,7 @@ namespace SimpleDB.Tests
 
 		[TestMethod]
 		[ExpectedException(typeof(ObjectDisposedException))]
+		[SuppressMessage("Major Code Smell", "S3966:Objects should not be disposed more than once", Justification = "designed to test it throws disposed exception")]
 		public void Update_SingleRecord_ObjectAlreadydisposed_Throws_ObjectDisposedException()
 		{
 			string directory = TestHelper.GetTestPath();
@@ -936,7 +940,7 @@ namespace SimpleDB.Tests
 					using (SimpleDBOperations<MockRowCompressed> sut = new(simpleDBManager, new ForeignKeyManager()))
 					{
 						long nextSequence = sut.NextSequence();
-						Assert.AreEqual(i, (long)nextSequence);
+						Assert.AreEqual(i, nextSequence);
 						Assert.AreEqual(i, sut.PrimarySequence);
 					}
 				}
@@ -1274,8 +1278,7 @@ namespace SimpleDB.Tests
 					using BinaryReader reader = new(stream, Encoding.UTF8, true);
 					Assert.AreEqual((ushort)0, reader.ReadUInt16(), "Data Version");
 
-					Span<byte> header = stackalloc byte[Consts.HeaderLength];
-					header = reader.ReadBytes(Consts.HeaderLength);
+					Span<byte> header = reader.ReadBytes(Consts.HeaderLength);
 
 					for (int i = 0; i < header.Length; i++)
 					{

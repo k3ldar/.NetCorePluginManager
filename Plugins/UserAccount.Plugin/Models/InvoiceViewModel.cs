@@ -36,7 +36,7 @@ using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Models
 {
-#pragma warning disable CS1591
+#pragma warning disable CS1591, S3928
 
 	public class InvoiceViewModel : BaseModel
 	{
@@ -107,5 +107,5 @@ namespace UserAccount.Plugin.Models
 		#endregion Properties
 	}
 
-#pragma warning restore CS1591
+#pragma warning restore CS1591, S3928
 }

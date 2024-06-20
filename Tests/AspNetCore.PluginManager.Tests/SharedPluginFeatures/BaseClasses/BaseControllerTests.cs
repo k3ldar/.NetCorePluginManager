@@ -95,9 +95,14 @@ namespace AspNetCore.PluginManager.Tests.Controllers
 
             MockHttpResponse httpResponse = testHttpResponse ?? new MockHttpResponse();
             ControllerContext Result = new ControllerContext();
-            Result.HttpContext = testServiceProvider == null ? new MockHttpContext(httpRequest, httpResponse, breadcrumbs) : new MockHttpContext(httpRequest, httpResponse, testServiceProvider, breadcrumbs);
+            MockHttpContext newMockContext = testServiceProvider == null ? new MockHttpContext(httpRequest, httpResponse, breadcrumbs) : new MockHttpContext(httpRequest, httpResponse, testServiceProvider, breadcrumbs);
 
-            return Result;
+			if (requestContext != null)
+				newMockContext.LogUserIn = requestContext.LogUserIn;
+
+			Result.HttpContext = newMockContext;
+
+			return Result;
         }
 
         protected void SetTestControllerContext()

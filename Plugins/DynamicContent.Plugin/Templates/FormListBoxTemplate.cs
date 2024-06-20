@@ -180,13 +180,13 @@ namespace DynamicContent.Plugin.Templates
 				if (first)
 				{
 					Result.AppendFormat("<option value=\"{0}\" selected>{1}</option>",
-						routeOption, optionText, ctlStyle, disabled);
+						routeOption, optionText);
 					first = false;
 				}
 				else
 				{
 					Result.AppendFormat("<option value=\"{0}\">{1}</option>",
-						routeOption, optionText, ctlStyle, disabled);
+						routeOption, optionText);
 				}
 			}
 
