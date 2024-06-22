@@ -4,6 +4,7 @@
 
   <PropertyGroup>
     <BaseOutputPath>$(SolutionDir)\Output\UnitTests\</BaseOutputPath>
+	<NoWarn>$(NoWarn);S1481</NoWarn>
   </PropertyGroup>
  
   <ItemGroup>

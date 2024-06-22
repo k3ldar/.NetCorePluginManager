@@ -373,12 +373,6 @@ namespace DocumentationPlugin.Classes
 					continue;
 				}
 
-				if (!inTag)
-				{
-					builder.Append(c);
-					continue;
-				}
-
 				if (inTag && c == '>')
 				{
 					inTag = false;
@@ -397,6 +391,12 @@ namespace DocumentationPlugin.Classes
 				if (inTag)
 				{
 					currentTag.Append(c);
+				}
+
+				if (!inTag)
+				{
+					builder.Append(c);
+					continue;
 				}
 			}
 

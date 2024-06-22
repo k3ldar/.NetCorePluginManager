@@ -588,7 +588,7 @@ namespace Resources.Plugin.Controllers
 				using HttpClient httpClient = CreateHttpClient(baseAddress);
 				using HttpResponseMessage response = httpClient.GetAsync(uri.LocalPath[1..]).GetAwaiter().GetResult();
 
-				if (response == null || response.StatusCode == HttpStatusCode.NotFound)
+				if (response == null || response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.Forbidden)
 					ModelState.AddModelError(String.Empty, String.Format(LanguageStrings.InvalidUriNotFound, value));
 			}
 			catch (UriFormatException)
@@ -664,7 +664,7 @@ namespace Resources.Plugin.Controllers
 				using HttpClient httpClient = CreateHttpClient(baseAddress);
 				using HttpResponseMessage response = httpClient.GetAsync(uri.LocalPath[1..]).GetAwaiter().GetResult();
 
-				if (response == null || response.StatusCode == HttpStatusCode.NotFound)
+				if (response == null || response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.Forbidden)
 					ModelState.AddModelError(String.Empty, String.Format(LanguageStrings.InvalidImageNotFound, value));
 			}
 			catch (UriFormatException)

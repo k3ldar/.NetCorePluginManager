@@ -102,7 +102,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 		{
 			int blogId = id;
 
-			return _blogEntries.FirstOrDefault(b => b.Id == blogId);
+			return _blogEntries.Find(b => b.Id == blogId);
 		}
 
 		public List<BlogItem> GetMyBlogs(in long userId)

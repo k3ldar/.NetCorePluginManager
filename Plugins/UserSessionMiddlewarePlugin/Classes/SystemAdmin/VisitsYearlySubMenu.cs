@@ -96,7 +96,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 				.Take(10)
 				.ToList();
 
-			if (sessionData == null)
+			if (sessionData.Count == 0)
 				return String.Empty;
 
 			Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.String, "Year"));

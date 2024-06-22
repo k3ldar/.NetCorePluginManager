@@ -327,7 +327,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.IsNotNull(user);
 					Assert.IsTrue(user.Locked);
 
-					result = sut.Login("TeSt@123.NEt", "password", "10.10.10.1", 0, ref loginDetails);
+					_ = sut.Login("TeSt@123.NEt", "password", "10.10.10.1", 0, ref loginDetails);
 				}
 			}
 			finally
@@ -348,9 +348,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					long userId = -1;
-
-
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ISimpleDBOperations<UserDataRow>)) as ISimpleDBOperations<UserDataRow>;
 
 					Assert.IsNotNull(userTable);
@@ -363,13 +360,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					user.Password = Shared.Utilities.Encrypt("password", "DSFOIRTEWRasd/flkqw409r sdaedf2134A");
 
 					userTable.Insert(user);
-					userId = user.Id;
 
 
 					ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
 					Assert.IsNotNull(sut);
 
-					UserLoginDetails loginDetails = new();
 					bool result = sut.UnlockAccount(null, "unlock code");
 					Assert.IsFalse(result);
 
@@ -392,14 +387,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			try
 			{
 				Directory.CreateDirectory(directory);
-				PluginInitialisation initialisation = new();
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					long userId = -1;
-
-
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ISimpleDBOperations<UserDataRow>)) as ISimpleDBOperations<UserDataRow>;
 
 					Assert.IsNotNull(userTable);
@@ -412,13 +403,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					user.Password = Shared.Utilities.Encrypt("password", "DSFOIRTEWRasd/flkqw409r sdaedf2134A");
 
 					userTable.Insert(user);
-					userId = user.Id;
 
 
 					ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
 					Assert.IsNotNull(sut);
 
-					UserLoginDetails loginDetails = new();
 					bool result = sut.UnlockAccount("test@123.net", null);
 					Assert.IsFalse(result);
 
@@ -462,7 +451,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
 					Assert.IsNotNull(sut);
 
-					UserLoginDetails loginDetails = new();
 					bool result = sut.UnlockAccount("TeSt@123.NEt", "unlock code");
 					Assert.IsFalse(result);
 
@@ -505,7 +493,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
 					Assert.IsNotNull(sut);
 
-					UserLoginDetails loginDetails = new();
 					bool result = sut.UnlockAccount("TeSt@123.NEt", "unlock code");
 					Assert.IsFalse(result);
 
@@ -549,7 +536,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
 					Assert.IsNotNull(sut);
 
-					UserLoginDetails loginDetails = new();
 					bool result = sut.UnlockAccount("TeSt@123.NEt", "unlock code");
 					Assert.IsTrue(result);
 
@@ -594,7 +580,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
 					Assert.IsNotNull(sut);
 
-					UserLoginDetails loginDetails = new();
 					bool result = sut.UnlockAccount(null, "unlock code");
 					Assert.IsFalse(result);
 
@@ -633,8 +618,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					user.Password = Shared.Utilities.Encrypt("password", "DSFOIRTEWRasd/flkqw409r sdaedf2134A");
 
 					userTable.Insert(user);
-					long userId = user.Id;
-
 
 					ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
 					Assert.IsNotNull(sut);
@@ -661,9 +644,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					long userId = -1;
-
-
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ISimpleDBOperations<UserDataRow>)) as ISimpleDBOperations<UserDataRow>;
 
 					Assert.IsNotNull(userTable);
@@ -676,7 +656,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					user.Password = Shared.Utilities.Encrypt("password", "DSFOIRTEWRasd/flkqw409r sdaedf2134A");
 
 					userTable.Insert(user);
-					userId = user.Id;
 
 
 					ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
@@ -705,9 +684,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					long userId = -1;
-
-
 					ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ISimpleDBOperations<UserDataRow>)) as ISimpleDBOperations<UserDataRow>;
 
 					Assert.IsNotNull(userTable);
@@ -720,8 +696,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					user.Password = Shared.Utilities.Encrypt("password", "DSFOIRTEWRasd/flkqw409r sdaedf2134A");
 
 					userTable.Insert(user);
-					userId = user.Id;
-
 
 					ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
 					Assert.IsNotNull(sut);

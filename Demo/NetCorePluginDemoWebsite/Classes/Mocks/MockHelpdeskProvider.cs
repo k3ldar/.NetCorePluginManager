@@ -52,18 +52,18 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 			_tickets = new List<HelpdeskTicket>()
 			{
 				new(1,
-					GetTicketPriorities().FirstOrDefault(p => p.Id == 1),
-					GetTicketDepartments().FirstOrDefault(d => d.Id == 2),
-					GetTicketStatus().FirstOrDefault(s => s.Id == 3),
+					GetTicketPriorities().Find(p => p.Id == 1),
+					GetTicketDepartments().Find(d => d.Id == 2),
+					GetTicketStatus().Find(s => s.Id == 3),
 					"ABC-123456", "Test 1", DateTime.Now, DateTime.Now, "Joe Bloggs",
 					"joe@bloggs.com", "Joe Bloggs", new List<HelpdeskTicketMessage>()
 					{
 						new(DateTime.Now, "Joe Bloggs", "Hello\r\nLine 2"),
 					}),
 				new(2,
-					GetTicketPriorities().FirstOrDefault(p => p.Id == 1),
-					GetTicketDepartments().FirstOrDefault(d => d.Id == 2),
-					GetTicketStatus().FirstOrDefault(s => s.Id == 3),
+					GetTicketPriorities().Find(p => p.Id == 1),
+					GetTicketDepartments().Find(d => d.Id == 2),
+					GetTicketStatus().Find(s => s.Id == 3),
 					"DEF-987654", "Test 2", DateTime.Now, DateTime.Now, "Jane Doe",
 					"jane@doe.com", "Service Representative 1", new List<HelpdeskTicketMessage>()
 					{

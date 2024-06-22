@@ -148,7 +148,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 			{
 				List<ShoppingCartItem> items = new();
 
-				Product product = _productProvider.GetProducts(1, 10000).FirstOrDefault(p => p.RetailPrice > 0);
+				Product product = _productProvider.GetProducts(1, 10000).Find(p => p.RetailPrice > 0);
 
 				if (product == null)
 					return null;
@@ -250,7 +250,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 				0, 0, 20, 0, 0, System.Threading.Thread.CurrentThread.CurrentCulture,
 				String.Empty, new List<ShoppingCartItem>(), false, "GBP");
 
-			Product product = _productProvider.GetProducts(1, 10000).FirstOrDefault(p => p.RetailPrice > 0 && !p.IsDownload);
+			Product product = _productProvider.GetProducts(1, 10000).First(p => p.RetailPrice > 0 && !p.IsDownload);
 
 			if (product != null)
 				cartDetail.Add(product, 1);

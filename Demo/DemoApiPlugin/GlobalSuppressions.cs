@@ -6,3 +6,4 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded", Justification = "<Pending>", Scope = "member", Target = "~M:DemoApiPlugin.Controllers.DemoApiController.TestApi(System.String,System.String,System.String)~Microsoft.AspNetCore.Mvc.IActionResult")]
+[assembly: SuppressMessage("Major Code Smell", "S6962:You should pool HTTP connections with HttpClientFactory", Justification = "Used as part of a demo app in this context", Scope = "member", Target = "~M:DemoApiPlugin.Controllers.DemoApiController.TestApi(System.String,System.String,System.String)~Microsoft.AspNetCore.Mvc.IActionResult")]

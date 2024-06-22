@@ -331,6 +331,67 @@
             <param name="compareTo"></param>
             <returns></returns>
         </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.Equals(System.Object)">
+            <summary>
+            Compares instances for equality
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.GetHashCode">
+            <summary>
+            Retrieves the hashcode
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.op_Equality(SharedPluginFeatures.SystemAdminSubMenu,SharedPluginFeatures.SystemAdminSubMenu)">
+            <summary>
+            Implement equality check
+            </summary>
+            <param name="left"></param>
+            <param name="right"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.op_Inequality(SharedPluginFeatures.SystemAdminSubMenu,SharedPluginFeatures.SystemAdminSubMenu)">
+            <summary>
+            Implement not equal to
+            </summary>
+            <param name="left"></param>
+            <param name="right"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.op_LessThan(SharedPluginFeatures.SystemAdminSubMenu,SharedPluginFeatures.SystemAdminSubMenu)">
+            <summary>
+            Implement less than
+            </summary>
+            <param name="left"></param>
+            <param name="right"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.op_LessThanOrEqual(SharedPluginFeatures.SystemAdminSubMenu,SharedPluginFeatures.SystemAdminSubMenu)">
+            <summary>
+            Implement less than or equal to
+            </summary>
+            <param name="left"></param>
+            <param name="right"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.op_GreaterThan(SharedPluginFeatures.SystemAdminSubMenu,SharedPluginFeatures.SystemAdminSubMenu)">
+            <summary>
+            Implement greater than
+            </summary>
+            <param name="left"></param>
+            <param name="right"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.op_GreaterThanOrEqual(SharedPluginFeatures.SystemAdminSubMenu,SharedPluginFeatures.SystemAdminSubMenu)">
+            <summary>
+            Implement greater than or equals
+            </summary>
+            <param name="left"></param>
+            <param name="right"></param>
+            <returns></returns>
+        </member>
         <member name="P:SharedPluginFeatures.SystemAdminSubMenu.UniqueId">
             <summary>
             Unique id of the menu item.  This is assigned by the SystemAdmin.Plugin module.

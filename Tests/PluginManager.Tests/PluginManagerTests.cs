@@ -498,7 +498,7 @@ namespace PluginManager.Tests
 			{
 				Assert.AreEqual(1, sut.PluginsGetLoaded().Count);
 
-				Assembly pluginAssembly = Assembly.LoadFrom("PluginManager.dll");
+				_ = Assembly.LoadFrom("PluginManager.dll");
 
 				sut.PluginLoad(null, false);
 			}
@@ -512,8 +512,6 @@ namespace PluginManager.Tests
 			using (MockPluginManager sut = new(testLogger))
 			{
 				Assert.AreEqual(1, sut.PluginsGetLoaded().Count);
-
-				Assembly pluginAssembly = Assembly.LoadFrom("PluginManager.dll");
 
 				sut.PluginLoad("", false);
 			}
@@ -617,8 +615,6 @@ namespace PluginManager.Tests
 			using (MockPluginManager sut = new(testLogger))
 			{
 				Assert.AreEqual(1, sut.PluginsGetLoaded().Count);
-
-				Assembly pluginAssembly = Assembly.LoadFrom("PluginManager.dll");
 
 				sut.PluginLoad("c:\\plugin.asdf.qwer.dll", false);
 			}
@@ -1033,133 +1029,111 @@ namespace PluginManager.Tests
 
 			sut.TestDispose(false);
 
-			Assert.IsTrue(testLogger.ContainsMessage("Error Specified argument was out of the range of valid values. (Parameter 'raised from test plugin') testDispose"));
+			Assert.IsTrue(testLogger.ContainsMessage("Error Specified argument was out of the range of valid values. (Parameter 'raised from test plugin')"));
 		}
 
-		//[TestMethod]
-		//public void PluginLoad_()
-		//{
-		//    TestLogger testLogger = new TestLogger();
-		//    TestPluginManager sut = new TestPluginManager(testLogger);
-		//    sut.PluginLoad(typeof(TestDisposePlugin).Assembly.Location, false);
+		[ExcludeFromCodeCoverage]
+		public class TestPluginModule : IPluginModule
+		{
+			public ushort Version { get; set; }
 
-		//    TestDisposeExceptionPlugin testDisposePlugin = new TestDisposeExceptionPlugin();
+			public string Module { get; set; }
 
-		//    TestPluginModule testPluginModule = new TestPluginModule()
-		//    {
-		//        Plugin = testDisposePlugin
-		//    };
+			public Assembly Assembly { get; set; }
 
-		//    bool addPlugin = sut.TestAddPluginModule("test", testPluginModule);
+			public IPlugin Plugin { get; set; }
 
-		//    Assert.IsTrue(addPlugin);
+			public string FileVersion { get; set; }
+		}
 
-		//    sut.TestDispose(false);
+		[ExcludeFromCodeCoverage]
+		public class TestDisposePlugin : IPlugin
+		{
+			public void ConfigureServices(IServiceCollection services)
+			{
 
-		//    Assert.IsTrue(testLogger.ContainsMessage("Error Specified argument was out of the range of valid values. (Parameter 'raised from test plugin') testDispose"));
-		//}
+			}
+
+			public void Finalise()
+			{
+				FinaliseCalled = true;
+			}
+
+			public ushort GetVersion()
+			{
+				return 0;
+			}
+
+			public void Initialise(ILogger logger)
+			{
+
+			}
+
+			public bool FinaliseCalled { get; private set; }
+		}
+
+
+		[ExcludeFromCodeCoverage]
+		public class TestDisposeExceptionPlugin : IPlugin
+		{
+			public void ConfigureServices(IServiceCollection services)
+			{
+
+			}
+
+			[SuppressMessage("Major Code Smell", "S3928:Parameter names used into ArgumentException constructors should match an existing one ", Justification = "Part of a unit test")]
+			public void Finalise()
+			{
+				throw new ArgumentOutOfRangeException("raised from test plugin");
+			}
+
+			public ushort GetVersion()
+			{
+				return 0;
+			}
+
+			public void Initialise(ILogger logger)
+			{
+
+			}
+		}
+
+		[ExcludeFromCodeCoverage]
+		public class TestPluginMinMaxVersion : IPlugin
+		{
+			private readonly ushort _version;
+
+			private TestPluginMinMaxVersion()
+			{
+
+			}
+
+			public TestPluginMinMaxVersion(ushort version)
+			{
+				_version = version;
+			}
+
+			public void ConfigureServices(IServiceCollection services)
+			{
+
+			}
+
+			public void Finalise()
+			{
+
+			}
+
+			public ushort GetVersion()
+			{
+				return _version;
+			}
+
+			public void Initialise(ILogger logger)
+			{
+
+			}
+		}
+
 	}
-
-	[ExcludeFromCodeCoverage]
-	public class TestPluginModule : IPluginModule
-	{
-		public ushort Version { get; set; }
-
-		public string Module { get; set; }
-
-		public Assembly Assembly { get; set; }
-
-		public IPlugin Plugin { get; set; }
-
-		public string FileVersion { get; set; }
-	}
-
-	[ExcludeFromCodeCoverage]
-	public class TestDisposePlugin : IPlugin
-	{
-		public void ConfigureServices(IServiceCollection services)
-		{
-
-		}
-
-		public void Finalise()
-		{
-			FinaliseCalled = true;
-		}
-
-		public ushort GetVersion()
-		{
-			return 0;
-		}
-
-		public void Initialise(ILogger logger)
-		{
-
-		}
-
-		public bool FinaliseCalled { get; private set; }
-	}
-
-
-	[ExcludeFromCodeCoverage]
-	public class TestDisposeExceptionPlugin : IPlugin
-	{
-		public void ConfigureServices(IServiceCollection services)
-		{
-
-		}
-
-		public void Finalise()
-		{
-			throw new ArgumentOutOfRangeException("raised from test plugin");
-		}
-
-		public ushort GetVersion()
-		{
-			return 0;
-		}
-
-		public void Initialise(ILogger logger)
-		{
-
-		}
-	}
-
-	[ExcludeFromCodeCoverage]
-	public class TestPluginMinMaxVersion : IPlugin
-	{
-		private readonly ushort _version;
-
-		private TestPluginMinMaxVersion()
-		{
-
-		}
-
-		public TestPluginMinMaxVersion(ushort version)
-		{
-			_version = version;
-		}
-
-		public void ConfigureServices(IServiceCollection services)
-		{
-
-		}
-
-		public void Finalise()
-		{
-
-		}
-
-		public ushort GetVersion()
-		{
-			return _version;
-		}
-
-		public void Initialise(ILogger logger)
-		{
-
-		}
-	}
-
 }
 #pragma warning restore S3885
