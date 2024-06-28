@@ -39,6 +39,8 @@ using SharedPluginFeatures;
 
 using SimpleDB;
 
+#pragma warning disable S1854
+
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
 	[TestClass]
@@ -392,3 +394,5 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 		}
 	}
 }
+
+#pragma warning restore S1854

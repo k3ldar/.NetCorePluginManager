@@ -252,7 +252,7 @@ namespace Breadcrumb.Plugin
 				foreach (MethodInfo method in type.GetMethods())
 				{
 					BreadcrumbAttribute attribute = (BreadcrumbAttribute)method.GetCustomAttributes(true)
-						.FirstOrDefault(a => a.GetType() == typeof(BreadcrumbAttribute));
+						.FirstOrDefault(a => (a is BreadcrumbAttribute));
 
 					if (attribute != null)
 					{

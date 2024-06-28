@@ -86,8 +86,7 @@ namespace Middleware.Images
 			if (String.IsNullOrEmpty(fileExtension))
 				throw new ArgumentNullException(nameof(fileExtension));
 
-			if (size < 0)
-				throw new ArgumentOutOfRangeException(nameof(size));
+			ArgumentOutOfRangeException.ThrowIfNegative(size);
 
 			Name = fileName;
 			FileExtension = fileExtension;

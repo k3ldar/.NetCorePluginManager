@@ -51,8 +51,7 @@ namespace Middleware.Accounts.Invoices
 			in ProcessStatus processStatus, in PaymentStatus paymentStatus,
 			DeliveryAddress deliveryAddress, List<InvoiceItem> invoiceItems)
 		{
-			if (postage < 0)
-				throw new ArgumentOutOfRangeException(nameof(postage));
+			ArgumentOutOfRangeException.ThrowIfNegative(postage);
 
 			Id = id;
 			Date = date;

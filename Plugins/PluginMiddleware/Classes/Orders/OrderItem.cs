@@ -58,17 +58,14 @@ namespace Middleware.Accounts.Orders
 			if (String.IsNullOrEmpty(description))
 				throw new ArgumentNullException(nameof(description));
 
-			if (cost < 0)
-				throw new ArgumentOutOfRangeException(nameof(cost));
+			ArgumentOutOfRangeException.ThrowIfNegative(cost);
 
 			if (taxRate < 0 || taxRate > 100)
 				throw new ArgumentOutOfRangeException(nameof(taxRate));
 
-			if (quantity < 0)
-				throw new ArgumentOutOfRangeException(nameof(quantity));
+			ArgumentOutOfRangeException.ThrowIfNegative(quantity);
 
-			if (discount < 0)
-				throw new ArgumentOutOfRangeException(nameof(discount));
+			ArgumentOutOfRangeException.ThrowIfNegative(discount);
 
 			Id = id;
 			Description = description;

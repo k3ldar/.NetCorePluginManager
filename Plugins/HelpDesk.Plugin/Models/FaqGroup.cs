@@ -44,8 +44,7 @@ namespace HelpdeskPlugin.Models
 			if (String.IsNullOrEmpty(description))
 				throw new ArgumentNullException(nameof(description));
 
-			if (subGroupCount < 0)
-				throw new ArgumentOutOfRangeException(nameof(subGroupCount));
+			ArgumentOutOfRangeException.ThrowIfNegative(subGroupCount);
 
 			Id = id;
 			Name = name;
@@ -82,8 +81,7 @@ namespace HelpdeskPlugin.Models
 
 		public List<FaqGroupItem> GetTopItems(int count)
 		{
-			if (count < 1)
-				throw new ArgumentOutOfRangeException(nameof(count));
+			ArgumentOutOfRangeException.ThrowIfLessThan(count, 1);
 
 			return Items.OrderByDescending(o => o.ViewCount).Take(count).ToList();
 		}

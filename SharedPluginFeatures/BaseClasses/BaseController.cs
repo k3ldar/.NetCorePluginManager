@@ -505,10 +505,7 @@ namespace SharedPluginFeatures
 		protected void CalculatePageOffsets(in int itemCount, in int page, in int pageSize,
 			out int startItem, out int endItem, out int availablePages)
 		{
-			if (pageSize < 1)
-			{
-				throw new ArgumentOutOfRangeException(nameof(pageSize));
-			}
+			ArgumentOutOfRangeException.ThrowIfLessThan(pageSize, 1);
 
 			int currentPage = page;
 

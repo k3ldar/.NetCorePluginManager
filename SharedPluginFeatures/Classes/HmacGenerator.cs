@@ -64,11 +64,9 @@ namespace SharedPluginFeatures
 			if (String.IsNullOrEmpty(apiSecret))
 				throw new ArgumentNullException(nameof(apiSecret));
 
-			if (epochTicks < MinimumEpochTicks)
-				throw new ArgumentOutOfRangeException(nameof(epochTicks));
+			ArgumentOutOfRangeException.ThrowIfLessThan(epochTicks, MinimumEpochTicks);
 
-			if (nonce < MininumNonceValue)
-				throw new ArgumentOutOfRangeException(nameof(nonce));
+			ArgumentOutOfRangeException.ThrowIfLessThan(nonce, MininumNonceValue);
 
 			if (String.IsNullOrEmpty(token))
 				throw new ArgumentNullException(nameof(token));

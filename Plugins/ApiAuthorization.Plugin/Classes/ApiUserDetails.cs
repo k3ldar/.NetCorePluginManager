@@ -40,8 +40,7 @@ namespace ApiAuthorization.Plugin.Classes
 			if (String.IsNullOrEmpty(authorization))
 				throw new ArgumentNullException(nameof(authorization));
 
-			if (nonce < 1)
-				throw new ArgumentOutOfRangeException(nameof(nonce));
+			ArgumentOutOfRangeException.ThrowIfLessThan(nonce, 1);
 
 			EpochTimeStamp = new DateTime(epoch + DateTime.UnixEpoch.Ticks, DateTimeKind.Utc);
 			Nonce = nonce;

@@ -46,8 +46,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
 			if (String.IsNullOrEmpty(processName))
 				throw new ArgumentNullException(nameof(processName));
 
-			if (startLength < 0)
-				throw new ArgumentOutOfRangeException(nameof(startLength));
+			ArgumentOutOfRangeException.ThrowIfNegative(startLength);
 
 			ProcessName = processName;
 			StartLength = startLength;

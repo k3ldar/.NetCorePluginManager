@@ -113,8 +113,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (product == null)
 				throw new ArgumentNullException(nameof(product));
 
-			if (count < 1)
-				throw new ArgumentOutOfRangeException(nameof(count));
+			ArgumentOutOfRangeException.ThrowIfLessThan(count, 1);
 
 			decimal cost = product.RetailPrice;
 
@@ -188,8 +187,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		public ShoppingCartDetail GetDetail(in long shoppingCartId)
 		{
-			if (shoppingCartId == 0)
-				throw new ArgumentOutOfRangeException(nameof(shoppingCartId));
+			ArgumentOutOfRangeException.ThrowIfZero(shoppingCartId);
 
 			string basketCache = $"Cart {shoppingCartId}";
 
@@ -268,8 +266,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (cartSummary == null)
 				throw new ArgumentNullException(nameof(cartSummary));
 
-			if (userId < 0)
-				throw new ArgumentOutOfRangeException(nameof(userId));
+			ArgumentOutOfRangeException.ThrowIfNegative(userId);
 
 			order = null;
 

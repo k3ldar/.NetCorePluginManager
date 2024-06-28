@@ -45,11 +45,9 @@ namespace ProductPlugin.Classes
 			if (String.IsNullOrEmpty(text))
 				throw new ArgumentNullException(nameof(text));
 
-			if (minValue > maxValue)
-				throw new ArgumentOutOfRangeException(nameof(minValue));
+			ArgumentOutOfRangeException.ThrowIfGreaterThan(minValue, maxValue);
 
-			if (minValue < 0)
-				throw new ArgumentOutOfRangeException(nameof(minValue));
+			ArgumentOutOfRangeException.ThrowIfNegative(minValue);
 
 			Text = text;
 			MinValue = minValue;
