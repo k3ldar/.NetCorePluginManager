@@ -71,7 +71,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 
 		[TestMethod]
 		[TestCategory(GeneralTestsCategory)]
-		public void Configure_DoesNotConfigurePipeline_Success()
+		public void Configure_DoesNotConfigurePipeline_OrRegisterAppServices_Success()
 		{
 			MockApplicationBuilder testApplicationBuilder = new();
 			PluginInitialisation sut = new();
@@ -89,18 +89,6 @@ namespace PluginManager.DAL.TextFiles.Tests
 			PluginInitialisation sut = new();
 
 			sut.BeforeConfigure(testApplicationBuilder);
-
-			Assert.IsFalse(testApplicationBuilder.UseCalled);
-		}
-
-		[TestMethod]
-		[TestCategory(GeneralTestsCategory)]
-		public void Configure_DoesNotRegisterApplicationServices()
-		{
-			MockApplicationBuilder testApplicationBuilder = new();
-			PluginInitialisation sut = new();
-
-			sut.Configure(testApplicationBuilder);
 
 			Assert.IsFalse(testApplicationBuilder.UseCalled);
 		}

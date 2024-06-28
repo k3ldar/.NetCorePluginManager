@@ -46,6 +46,8 @@ using SharedPluginFeatures;
 using System.Globalization;
 using PluginManager.Tests.Mocks;
 
+#pragma warning disable S2971, S6608
+
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
 	[TestClass]
@@ -671,3 +673,5 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 		}
 	}
 }
+
+#pragma warning restore S2971, S6608

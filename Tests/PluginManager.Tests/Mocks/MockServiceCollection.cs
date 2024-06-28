@@ -124,7 +124,7 @@ namespace PluginManager.Tests.Mocks
 		{
 			List<ServiceDescriptor> configureOptions = _serviceDescriptors.Where(sd => sd.ServiceType != null && sd.ServiceType.Equals(typeof(IConfigureOptions<AuthorizationOptions>))).ToList();
 
-			if (configureOptions == null)
+			if (configureOptions.Count == 0)
 				return false;
 
 			foreach (ServiceDescriptor configureOption in configureOptions)
@@ -141,9 +141,9 @@ namespace PluginManager.Tests.Mocks
 
 				Assert.AreEqual(requiredClaimNames.Length, authorizationPolicy.Requirements.Count, "Policy claim count does not match expected claim count");
 
-				foreach (ClaimsAuthorizationRequirement requirement in authorizationPolicy.Requirements)
+				foreach (IAuthorizationRequirement requirement in authorizationPolicy.Requirements)
 				{
-					if (!requiredClaimNames.Contains(requirement.ClaimType))
+					if (requirement is ClaimsAuthorizationRequirement claimRequirement && !requiredClaimNames.Contains(claimRequirement.ClaimType))
 						continue;
 				}
 

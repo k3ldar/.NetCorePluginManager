@@ -48,18 +48,7 @@ namespace PluginManager.Tests
 		[ExpectedException(typeof(InvalidOperationException))]
 		public void InvalidParam1()
 		{
-			INotificationService service = new NotificationService() as INotificationService;
-
-			Assert.IsNotNull(service);
-
-			service.RegisterListener(new InvalidEventsListenerNullEvents());
-		}
-
-		[TestMethod]
-		[ExpectedException(typeof(InvalidOperationException))]
-		public void InvalidParam2()
-		{
-			INotificationService service = new NotificationService() as INotificationService;
+			INotificationService service = new NotificationService();
 
 			Assert.IsNotNull(service);
 
@@ -69,7 +58,7 @@ namespace PluginManager.Tests
 		[TestMethod]
 		public void ValidParam()
 		{
-			INotificationService service = new NotificationService() as INotificationService;
+			INotificationService service = new NotificationService();
 
 			Assert.IsNotNull(service);
 
@@ -80,7 +69,7 @@ namespace PluginManager.Tests
 		[ExpectedException(typeof(InvalidOperationException))]
 		public void InvalidEventForClass()
 		{
-			INotificationService service = new NotificationService() as INotificationService;
+			INotificationService service = new NotificationService();
 
 			Assert.IsNotNull(service);
 
@@ -94,7 +83,7 @@ namespace PluginManager.Tests
 		{
 			ValidEventsListener validListnerProcessingEvent = new();
 			ValidEvents2 validListenerNotProcessingEvent = new();
-			INotificationService service = new NotificationService() as INotificationService;
+			INotificationService service = new NotificationService();
 
 			Assert.IsNotNull(service);
 
@@ -133,7 +122,7 @@ namespace PluginManager.Tests
 		{
 			ValidEventsListener listenerNotProcessing = new();
 			ValidEvents2 listenerProcessing = new();
-			INotificationService service = new NotificationService() as INotificationService;
+			INotificationService service = new NotificationService();
 
 			Assert.IsNotNull(service);
 
@@ -624,14 +613,14 @@ namespace PluginManager.Tests
 			}
 		}
 
-		public List<string> GetEvents()
-		{
-			return new List<string>() { "Test1", "Test2" };
-		}
-
 		public void EventRaised(in string eventId, in object param1, in object param2)
 		{
 			throw new NotImplementedException();
+		}
+
+		public List<string> GetEvents()
+		{
+			return new List<string>() { "Test1", "Test2" };
 		}
 
 		public uint EventCount { get; private set; }

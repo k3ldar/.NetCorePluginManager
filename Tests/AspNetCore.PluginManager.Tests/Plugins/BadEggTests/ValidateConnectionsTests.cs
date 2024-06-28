@@ -597,8 +597,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.BadEggTests
             string memory = ValidateConnections.GetMemoryStatus();
             Assert.IsTrue(memory.EndsWith("TooManyRequests"));
 
-            Thread.Sleep(1000);
-
             MockHttpRequest finalRequest = new MockHttpRequest("10.10.10.29", "", "/");
             Result = sut.ValidateRequest(finalRequest, false, out int finalRequestCount);
             Assert.AreEqual(ValidateRequestResult.TooManyRequests, Result);

@@ -45,7 +45,7 @@ using SimpleDB;
 using SimpleDB.Internal;
 using SimpleDB.Tests.Mocks;
 
-#pragma warning disable CA1826
+#pragma warning disable CA1826, S3358
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
@@ -2506,4 +2506,4 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 	}
 }
 
-#pragma warning restore CA1826
+#pragma warning restore CA1826, S3358

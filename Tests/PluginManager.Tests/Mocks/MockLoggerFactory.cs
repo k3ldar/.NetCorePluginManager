@@ -31,7 +31,7 @@ using Microsoft.Extensions.Logging;
 namespace PluginManager.Tests.Mocks
 {
 	[ExcludeFromCodeCoverage]
-	public class MockLoggerFactory : ILoggerFactory
+	public sealed class MockLoggerFactory : ILoggerFactory
 	{
 		public void AddProvider(ILoggerProvider provider)
 		{

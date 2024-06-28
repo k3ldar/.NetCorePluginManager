@@ -378,7 +378,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 					Address address = new(-1, "business", "add 1", "add 2", "add 3", "city", "county", "postcode", "NL");
 					bool setBillingAddress = sut.SetBillingAddress(userId, address);
-
+					Assert.IsTrue(setBillingAddress);
+					
 					AddressDataRow addressRow = addressTable.Select(1);
 					Assert.IsNotNull(addressRow);
 
@@ -395,9 +396,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.AreEqual("NL", addressRow.Country);
 					Assert.IsFalse(addressRow.IsDelivery);
 
-
 					address = new Address(Convert.ToInt32(addressRow.Id), "", "add 1a", "add 2a", "add 3a", "citya", "countya", "postcodea", "FR");
 					setBillingAddress = sut.SetBillingAddress(userId, address);
+					Assert.IsTrue(setBillingAddress);
 
 					addressRow = addressTable.Select(1);
 					Assert.IsNotNull(addressRow);
