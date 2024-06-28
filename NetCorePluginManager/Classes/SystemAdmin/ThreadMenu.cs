@@ -81,9 +81,9 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
 
 				Result.Append(SplitText(parts[1], ':') + "|");
 				string cpu = SplitText(parts[0], ':');
-				Result.Append(cpu.AsSpan(0, cpu.IndexOf("/")));
+				Result.Append(cpu.Substring(0, cpu.IndexOf("/")));
 				Result.Append('|');
-				Result.Append(cpu.AsSpan(cpu.IndexOf("/") + 1));
+				Result.Append(cpu.Substring(cpu.IndexOf("/") + 1));
 				Result.Append('|');
 				Result.Append(SplitText(parts[2], ':') + "|");
 				Result.Append(SplitText(parts[3], ':') + "|");

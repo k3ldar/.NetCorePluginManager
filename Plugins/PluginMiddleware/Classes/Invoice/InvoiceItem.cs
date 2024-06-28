@@ -56,14 +56,17 @@ namespace Middleware.Accounts.Invoices
 			if (String.IsNullOrEmpty(description))
 				throw new ArgumentNullException(nameof(description));
 
-			ArgumentOutOfRangeException.ThrowIfNegative(cost);
+			if (cost < 0)
+				throw new ArgumentOutOfRangeException(nameof(cost));
 
 			if (taxRate < 0 || taxRate > 100)
 				throw new ArgumentOutOfRangeException(nameof(taxRate));
 
-			ArgumentOutOfRangeException.ThrowIfNegative(quantity);
+			if (quantity < 0)
+				throw new ArgumentOutOfRangeException(nameof(quantity));
 
-			ArgumentOutOfRangeException.ThrowIfNegative(discount);
+			if (discount < 0)
+				throw new ArgumentOutOfRangeException(nameof(discount));
 
 			Id = id;
 			Description = description;

@@ -93,7 +93,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 			if (product == null)
 				throw new ArgumentNullException(nameof(product));
 
-			ArgumentOutOfRangeException.ThrowIfLessThan(count, 1);
+			if (count < 1)
+				throw new ArgumentOutOfRangeException(nameof(count));
 
 			decimal cost = product.RetailPrice;
 
@@ -136,7 +137,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public ShoppingCartDetail GetDetail(in long shoppingCartId)
 		{
-			ArgumentOutOfRangeException.ThrowIfZero(shoppingCartId);
+			if (shoppingCartId == 0)
+				throw new ArgumentOutOfRangeException(nameof(shoppingCartId));
 
 			string basketCache = $"Cart {shoppingCartId}";
 
@@ -177,7 +179,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 			if (cartSummary == null)
 				throw new ArgumentNullException(nameof(cartSummary));
 
-			ArgumentOutOfRangeException.ThrowIfZero(userId);
+			if (userId == 0)
+				throw new ArgumentOutOfRangeException(nameof(userId));
 
 			ShoppingCartDetail cartDetail = GetDetail(cartSummary.Id);
 

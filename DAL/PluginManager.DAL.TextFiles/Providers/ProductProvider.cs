@@ -152,9 +152,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		public List<Product> GetProducts(in int page, in int pageSize)
 		{
-			ArgumentOutOfRangeException.ThrowIfLessThan(page, 1);
+			if (page < 1)
+				throw new ArgumentOutOfRangeException(nameof(page));
 
-			ArgumentOutOfRangeException.ThrowIfLessThan(pageSize, 1);
+			if (pageSize < 1)
+				throw new ArgumentOutOfRangeException(nameof(pageSize));
 
 			List<ProductDataRow> allProducts = _productData.Select().OrderBy(p => p.Name).ToList();
 
@@ -175,9 +177,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		public List<Product> GetProducts(in ProductGroup productGroup, in int page, in int pageSize)
 		{
-			ArgumentOutOfRangeException.ThrowIfLessThan(page, 1);
+			if (page < 1)
+				throw new ArgumentOutOfRangeException(nameof(page));
 
-			ArgumentOutOfRangeException.ThrowIfLessThan(pageSize, 1);
+			if (pageSize < 1)
+				throw new ArgumentOutOfRangeException(nameof(pageSize));
 
 			int prodGroup = productGroup.Id;
 			List<ProductDataRow> allProducts = _productData.Select().Where(p => p.ProductGroupId.Equals(prodGroup)).OrderBy(p => p.Name).ToList();

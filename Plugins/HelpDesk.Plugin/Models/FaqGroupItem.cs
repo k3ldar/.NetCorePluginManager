@@ -44,7 +44,8 @@ namespace HelpdeskPlugin.Models
 			if (String.IsNullOrEmpty(content))
 				throw new ArgumentNullException(nameof(content));
 
-			ArgumentOutOfRangeException.ThrowIfNegative(viewCount);
+			if (viewCount < 0)
+				throw new ArgumentOutOfRangeException(nameof(viewCount));
 
 			Id = id;
 			Description = description;

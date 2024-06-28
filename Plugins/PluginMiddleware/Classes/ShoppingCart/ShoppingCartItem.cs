@@ -83,9 +83,11 @@ namespace Middleware.ShoppingCart
 			if (images.Length < 1)
 				throw new ArgumentException("Value must be greater than zero", nameof(images));
 
-			ArgumentOutOfRangeException.ThrowIfNegativeOrZero(itemCount);
+			if (itemCount <= 0)
+				throw new ArgumentOutOfRangeException(nameof(itemCount));
 
-			ArgumentOutOfRangeException.ThrowIfNegative(itemCost);
+			if (itemCost < 0)
+				throw new ArgumentOutOfRangeException(nameof(itemCost));
 
 			Id = id;
 			ItemId = itemId;
@@ -124,9 +126,11 @@ namespace Middleware.ShoppingCart
 			in int weight, in string customerReference, in bool canBackOrder, in string size)
 			: this(id, itemCount, itemId, itemCost, name, description, sku, images, isDownload, canBackOrder, size, DiscountType.None, 0)
 		{
-			ArgumentOutOfRangeException.ThrowIfNegative(taxRate);
+			if (taxRate < 0)
+				throw new ArgumentOutOfRangeException(nameof(taxRate));
 
-			ArgumentOutOfRangeException.ThrowIfNegative(weight);
+			if (weight < 0)
+				throw new ArgumentOutOfRangeException(nameof(weight));
 
 			TaxRate = taxRate;
 			Weight = weight;
@@ -143,7 +147,8 @@ namespace Middleware.ShoppingCart
 		/// <param name="count">Count to be added to existing count.</param>
 		public void UpdateCount(in int count)
 		{
-			ArgumentOutOfRangeException.ThrowIfLessThan(count, 1);
+			if (count < 1)
+				throw new ArgumentOutOfRangeException(nameof(count));
 
 			ItemCount += count;
 		}
@@ -154,7 +159,8 @@ namespace Middleware.ShoppingCart
 		/// <param name="count">Count of item within cart.</param>
 		public void ResetCount(in int count)
 		{
-			ArgumentOutOfRangeException.ThrowIfLessThan(count, 1);
+			if (count < 1)
+				throw new ArgumentOutOfRangeException(nameof(count));
 
 			ItemCount = count;
 		}

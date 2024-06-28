@@ -54,7 +54,8 @@ namespace Middleware.Helpdesk
 			if (String.IsNullOrEmpty(description))
 				throw new ArgumentNullException(nameof(description));
 
-			ArgumentOutOfRangeException.ThrowIfNegative(viewCount);
+			if (viewCount < 0)
+				throw new ArgumentOutOfRangeException(nameof(viewCount));
 
 			Id = id;
 			Name = name;

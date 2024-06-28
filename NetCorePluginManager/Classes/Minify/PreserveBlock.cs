@@ -43,7 +43,8 @@ namespace AspNetCore.PluginManager.Classes.Minify
 		/// <param name="startBlock">Start of block within the data.</param>
 		public PreserveBlock(in MinificationPreserveBlock blockType, in int startBlock)
 		{
-			ArgumentOutOfRangeException.ThrowIfNegative(startBlock);
+			if (startBlock < 0)
+				throw new ArgumentOutOfRangeException(nameof(startBlock));
 
 			BlockStart = startBlock;
 			BlockType = blockType;
@@ -77,7 +78,8 @@ namespace AspNetCore.PluginManager.Classes.Minify
 
 		internal void SetBlockEnd(in int endBlock)
 		{
-			ArgumentOutOfRangeException.ThrowIfNegative(endBlock);
+			if (endBlock < 0)
+				throw new ArgumentOutOfRangeException(nameof(endBlock));
 
 			BlockEnd = endBlock;
 		}

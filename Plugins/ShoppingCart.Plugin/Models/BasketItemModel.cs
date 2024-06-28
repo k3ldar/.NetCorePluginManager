@@ -45,11 +45,14 @@ namespace ShoppingCartPlugin.Models
 			if (String.IsNullOrEmpty(name))
 				throw new ArgumentNullException(nameof(name));
 
-			ArgumentOutOfRangeException.ThrowIfNegative(price);
+			if (price < 0)
+				throw new ArgumentOutOfRangeException(nameof(price));
 
-			ArgumentOutOfRangeException.ThrowIfLessThan(quantity, 1);
+			if (quantity < 1)
+				throw new ArgumentOutOfRangeException(nameof(quantity));
 
-			ArgumentOutOfRangeException.ThrowIfNegative(subTotal);
+			if (subTotal < 0)
+				throw new ArgumentOutOfRangeException(nameof(subTotal));
 
 			if (!String.IsNullOrEmpty(shortDescription) && shortDescription.Length > 50)
 				throw new ArgumentException($"{nameof(shortDescription)} must be between 1 and 50 characters long");

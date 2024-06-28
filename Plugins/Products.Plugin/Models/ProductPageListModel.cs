@@ -52,7 +52,8 @@ namespace ProductPlugin.Models
 			if (String.IsNullOrEmpty(pagination))
 				throw new ArgumentNullException(nameof(pagination));
 
-			ArgumentOutOfRangeException.ThrowIfLessThan(pageNumber, 1);
+			if (pageNumber < 1)
+				throw new ArgumentOutOfRangeException(nameof(pageNumber));
 
 			List<ProductListModel> items = new();
 

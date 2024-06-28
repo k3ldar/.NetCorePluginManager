@@ -984,11 +984,7 @@ namespace PluginManager
 
 			if (lastIndex > 0)
 			{
-#if NETSTANDARD
 				Result = Result.Substring(0, lastIndex).Replace(".", "\\") + Result.Substring(lastIndex);
-#else
-				Result = string.Concat(Result.Substring(0, lastIndex).Replace(".", "\\"), Result.AsSpan(lastIndex));
-#endif
 			}
 
 			Result = Path.Combine(_configuration.CurrentPath, Result);
@@ -1114,7 +1110,7 @@ namespace PluginManager
 			return new PluginSetting(pluginName);
 		}
 
-#endregion Private Methods
+		#endregion Private Methods
 	}
 }
 

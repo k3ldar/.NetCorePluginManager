@@ -50,7 +50,8 @@ namespace Middleware.Accounts.Orders
 			in ProcessStatus processStatus, DeliveryAddress deliveryAddress,
 			List<OrderItem> orderItems)
 		{
-			ArgumentOutOfRangeException.ThrowIfNegative(postage);
+			if (postage < 0)
+				throw new ArgumentOutOfRangeException(nameof(postage));
 
 			Id = id;
 			Date = date;

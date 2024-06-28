@@ -41,7 +41,8 @@ namespace ProductPlugin.Models
 		public AddToCartModel(in int id, in decimal retailPrice, in decimal discount, in uint stockAvailability)
 			: this()
 		{
-			ArgumentOutOfRangeException.ThrowIfNegativeOrZero(retailPrice);
+			if (retailPrice <= 0)
+				throw new ArgumentOutOfRangeException(nameof(retailPrice));
 
 			if (discount < 0 || discount > 100)
 				throw new ArgumentOutOfRangeException(nameof(discount));

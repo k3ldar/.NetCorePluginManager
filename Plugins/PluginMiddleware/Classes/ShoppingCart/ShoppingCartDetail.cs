@@ -110,7 +110,8 @@ namespace Middleware.ShoppingCart
 			if (product == null)
 				throw new ArgumentNullException(nameof(product));
 
-			ArgumentOutOfRangeException.ThrowIfLessThan(count, 1);
+			if (count < 1)
+				throw new ArgumentOutOfRangeException(nameof(count));
 
 			if (!RequiresShipping && !product.IsDownload)
 				RequiresShipping = true;
@@ -220,7 +221,8 @@ namespace Middleware.ShoppingCart
 			if (String.IsNullOrEmpty(couponCode))
 				throw new ArgumentNullException(nameof(couponCode));
 
-			ArgumentOutOfRangeException.ThrowIfNegativeOrZero(discount);
+			if (discount <= 0)
+				throw new ArgumentOutOfRangeException(nameof(discount));
 
 			CouponCode = couponCode;
 			DiscountRate = discount;

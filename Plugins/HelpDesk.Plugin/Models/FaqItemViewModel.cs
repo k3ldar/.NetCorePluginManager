@@ -45,7 +45,8 @@ namespace HelpdeskPlugin.Models
 			if (String.IsNullOrEmpty(content))
 				throw new ArgumentNullException(nameof(content));
 
-			ArgumentOutOfRangeException.ThrowIfNegative(viewCount);
+			if (viewCount < 0)
+				throw new ArgumentOutOfRangeException(nameof(viewCount));
 
 			ParentGroup = parentGroup ?? throw new ArgumentNullException(nameof(parentGroup));
 			Description = description;

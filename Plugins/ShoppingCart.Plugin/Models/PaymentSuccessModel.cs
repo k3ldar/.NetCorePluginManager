@@ -38,7 +38,8 @@ namespace ShoppingCartPlugin.Models
 		public PaymentSuccessModel(in BaseModelData modelData, int orderId)
 			: base(modelData)
 		{
-			ArgumentOutOfRangeException.ThrowIfZero(orderId);
+			if (orderId == 0)
+				throw new ArgumentOutOfRangeException(nameof(orderId));
 
 			OrderId = orderId;
 		}

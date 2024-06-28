@@ -173,7 +173,8 @@ namespace SimpleDB
 				if (CachingStrategy != CachingStrategy.SlidingMemory)
 					throw new InvalidOperationException($"Table: {TableName} - {nameof(SlidingMemoryTimeoutMilliseconds)} can only be used with {CachingStrategy.SlidingMemory} caching strategy");
 
-				ArgumentOutOfRangeException.ThrowIfLessThan(value, MinimumSlidingTimeoutMilliseconds);
+				if (value < MinimumSlidingTimeoutMilliseconds)
+					throw new ArgumentOutOfRangeException(nameof(value));
 
 				_SlidingMemoryTimeoutMilliseconds = value;
 			}

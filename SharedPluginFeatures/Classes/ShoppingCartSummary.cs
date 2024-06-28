@@ -52,9 +52,11 @@ namespace SharedPluginFeatures
 		{
 			Id = id;
 
-			ArgumentOutOfRangeException.ThrowIfNegative(totalItems);
+			if (totalItems < 0)
+				throw new ArgumentOutOfRangeException(nameof(totalItems));
 
-			ArgumentOutOfRangeException.ThrowIfNegative(subTotal);
+			if (subTotal < 0)
+				throw new ArgumentOutOfRangeException(nameof(subTotal));
 
 			if (discountRate < 0 || discountRate > 100)
 				throw new ArgumentOutOfRangeException(nameof(discountRate));

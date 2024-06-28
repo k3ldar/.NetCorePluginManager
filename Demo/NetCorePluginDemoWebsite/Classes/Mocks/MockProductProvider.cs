@@ -72,9 +72,11 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public List<Product> GetProducts(in int page, in int pageSize)
 		{
-			ArgumentOutOfRangeException.ThrowIfLessThan(page, 1);
+			if (page < 1)
+				throw new ArgumentOutOfRangeException(nameof(page));
 
-			ArgumentOutOfRangeException.ThrowIfLessThan(pageSize, 1);
+			if (pageSize < 1)
+				throw new ArgumentOutOfRangeException(nameof(pageSize));
 
 			List<Product> products = new List<Product>()
 			{
