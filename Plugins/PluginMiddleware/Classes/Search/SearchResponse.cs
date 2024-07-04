@@ -42,7 +42,7 @@ namespace Middleware.Search
 		public SearchResponse(in bool isLoggedIn, in string searchTerm)
 			: base(isLoggedIn, searchTerm)
 		{
-			SearchResults = new List<SearchResponseItem>();
+			SearchResults = [];
 		}
 
 		#endregion Constructors

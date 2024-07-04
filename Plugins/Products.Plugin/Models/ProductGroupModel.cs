@@ -51,7 +51,7 @@ namespace ProductPlugin.Models
 			if (String.IsNullOrEmpty(tagLine))
 				throw new ArgumentNullException(nameof(tagLine));
 
-			Products = new List<ProductCategoryProductModel>();
+			Products = [];
 			Description = description;
 			TagLine = tagLine;
 		}

@@ -133,8 +133,8 @@ namespace ProductPlugin.Models
 
 			string Result = VideoLink;
 
-			if (Result.ToLower().StartsWith("https://www.facebook.com/video") ||
-				Result.ToLower().StartsWith("http://www.facebook.com/video"))
+			if (Result.StartsWith("https://www.facebook.com/video", StringComparison.CurrentCultureIgnoreCase) ||
+				Result.StartsWith("http://www.facebook.com/video", StringComparison.CurrentCultureIgnoreCase))
 			{
 				//its from facebook
 				string fbReference = Result.Replace("video.php?v=", "v/");
@@ -143,7 +143,7 @@ namespace ProductPlugin.Models
 					"<embed src=\"{0}\" type=\"application/x-shockwave-flash\" allowscriptaccess=\"always\" " +
 					"allowfullscreen=\"true\" width=\"640\" height=\"390\"></embed></object>", fbReference);
 			}
-			else if (!Result.ToLower().StartsWith("http"))
+			else if (!Result.StartsWith("http", StringComparison.CurrentCultureIgnoreCase))
 			{
 				//assume a you tube link here
 				Result = String.Format("<iframe class=\"productVideo\" src=\"https://www.youtube.com/embed/{0}\" frameborder=\"0\"></iframe>", Result);

@@ -45,7 +45,7 @@ namespace SharedPluginFeatures
 			GroupName = groupName;
 			SubgroupName = subgroupName;
 
-			Files = new List<string>();
+			Files = [];
 		}
 
 		/// <summary>

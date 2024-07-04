@@ -68,7 +68,7 @@ namespace ShoppingCartPlugin.Classes.Paypoint
 		public PaypointHelper(string orderReference, decimal cost, string currency, string merchantId,
 			string remotePassword, string urlSuccess)
 		{
-			PostItems = new NameValueCollection();
+			PostItems = [];
 			Url = "https://www.secpay.com/java-bin/ValCard";
 			PostType = PostType.Post;
 			Currency = currency;

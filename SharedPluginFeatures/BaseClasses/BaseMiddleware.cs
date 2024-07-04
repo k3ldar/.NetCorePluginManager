@@ -272,8 +272,7 @@ namespace SharedPluginFeatures
 			ipAddressList.Add("127.0.0.1");
 
 			foreach (string ip in Shared.Utilities.LocalIPAddresses())
-				if (!ipAddressList.Contains(ip))
-					ipAddressList.Add(ip);
+				ipAddressList.Add(ip);
 
 			ipAddressList.Add("0.0.0.0");
 		}

@@ -45,7 +45,7 @@ namespace SimpleDB.Readers
 			dataLength = reader.ReadInt32();
 
 			if (dataLength == 0)
-				return new List<T>();
+				return [];
 
 			Span<byte> data = reader.ReadBytes(dataLength);
 

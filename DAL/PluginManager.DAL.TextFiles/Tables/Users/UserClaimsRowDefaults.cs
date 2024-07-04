@@ -57,7 +57,7 @@ namespace PluginManager.DAL.TextFiles.Tables.Users
 		{
 			if (version == 1)
 			{
-				ObservableList<string> claims = new();
+				ObservableList<string> claims = [];
 
 				foreach (IClaimsService claimsService in _pluginClassesService.GetPluginClasses<IClaimsService>())
 				{
@@ -72,14 +72,14 @@ namespace PluginManager.DAL.TextFiles.Tables.Users
 				claims.Remove(SharedPluginFeatures.Constants.ClaimNameUserEmail);
 				claims.Remove(SharedPluginFeatures.Constants.ClaimNameUserId);
 
-				return new List<UserClaimsDataRow>()
-				{
+				return
+				[
 					new()
 					{
 						UserId = 1,
 						Claims = claims,
 					}
-				};
+				];
 			}
 
 			return null;

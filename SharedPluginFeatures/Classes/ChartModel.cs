@@ -41,8 +41,8 @@ namespace SharedPluginFeatures
 		/// </summary>
 		public ChartModel()
 		{
-			DataNames = new List<KeyValuePair<ChartDataType, string>>();
-			DataValues = new Dictionary<string, List<decimal>>();
+			DataNames = [];
+			DataValues = [];
 		}
 
 		#endregion Constructors

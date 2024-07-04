@@ -40,7 +40,7 @@ namespace PluginManager.Tests.Mocks
 
 		private readonly object _lockObject = new();
 		private Exception _exception;
-		private readonly List<string> _messages = new();
+		private readonly List<string> _messages = [];
 		private readonly List<MockLoggerItem> _errors;
 		private readonly List<MockLoggerItem> _logs;
 
@@ -50,8 +50,8 @@ namespace PluginManager.Tests.Mocks
 
 		public MockLogger()
 		{
-			_errors = new List<MockLoggerItem>();
-			_logs = new List<MockLoggerItem>();
+			_errors = [];
+			_logs = [];
 		}
 
 		#endregion Constructors

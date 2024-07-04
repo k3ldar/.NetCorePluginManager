@@ -89,13 +89,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
 					Assert.IsNotNull(sut);
 
-					List<string> newClaims = new()
-					{
+					List<string> newClaims =
+					[
 						"Administrator",
 						"Staff",
 						"ManageSeo",
 						"ViewImageManager"
-					};
+					];
 
 					bool setClaimsResult = sut.SetClaimsForUser(100, newClaims);
 
@@ -170,13 +170,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
 					Assert.IsNotNull(sut);
 
-					List<string> newClaims = new()
-					{
+					List<string> newClaims =
+					[
 						"Administrator",
 						"Staff",
 						"ManageSeo",
 						"ViewImageManager"
-					};
+					];
 
 					bool setClaimsResult = sut.SetClaimsForUser(userId, newClaims);
 
@@ -231,13 +231,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
 					Assert.IsNotNull(sut);
 
-					List<string> newClaims = new()
-					{
+					List<string> newClaims =
+					[
 						"Administrator",
 						"Staff",
 						"ManageSeo",
 						"ViewImageManager"
-					};
+					];
 
 					bool setClaimsResult = sut.SetClaimsForUser(userId, newClaims);
 
@@ -265,11 +265,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			string directory = TestHelper.GetTestPath();
 			try
 			{
-				List<Claim> claims = new()
-				{
+				List<Claim> claims =
+				[
 					new Claim("AddClaim1", "true"),
 					new Claim("AddClaim2", "123"),
-				};
+				];
 
 				Directory.CreateDirectory(directory);
 				MockApplicationClaims mockApplicationClaims = new(claims);
@@ -289,13 +289,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
 					Assert.IsNotNull(sut);
 
-					List<string> newClaims = new()
-					{
+					List<string> newClaims =
+					[
 						"Administrator",
 						"Staff",
 						"ManageSeo",
 						"ViewImageManager"
-					};
+					];
 
 					bool setClaimsResult = sut.SetClaimsForUser(userId, newClaims);
 
@@ -312,16 +312,19 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					List<Claim> claimsList = userClaims[0].Claims.ToList();
 					Assert.AreEqual("Website", userClaims[1].AuthenticationType);
 					Assert.AreEqual(4, userClaims[1].Claims.ToList().Count);
+					Assert.AreEqual(3, claimsList.Count);
 
 					claimsList = userClaims[1].Claims.ToList();
 					Assert.AreEqual("Application", userClaims[2].AuthenticationType);
 					Assert.AreEqual(2, userClaims[2].Claims.ToList().Count);
+					Assert.AreEqual(4, claimsList.Count);
 
 					claimsList = userClaims[2].Claims.ToList();
 					Assert.AreEqual("AddClaim1", claimsList[0].Type);
 					Assert.AreEqual("true", claimsList[0].Value);
 					Assert.AreEqual("AddClaim2", claimsList[1].Type);
 					Assert.AreEqual("123", claimsList[1].Value);
+					Assert.AreEqual(2, claimsList.Count);
 				}
 			}
 			finally
@@ -336,11 +339,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 			string directory = TestHelper.GetTestPath();
 			try
 			{
-				List<Claim> applicationClaims = new()
-				{
+				List<Claim> applicationClaims =
+				[
 					new Claim("claim 1", "yes"),
 					new Claim("claim 2", "true"),
-				};
+				];
 
 				Directory.CreateDirectory(directory);
 				ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);

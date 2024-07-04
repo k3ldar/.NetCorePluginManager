@@ -46,7 +46,7 @@ namespace Middleware.Search
 			: base(isLoggedIn, searchTerm)
 		{
 			Timeout = 30000;
-			Properties = new Dictionary<string, object>();
+			Properties = [];
 			QuickSearch = quickSearch;
 			MaximumSearchResults = 100;
 			ExactMatch = exactMatch;
@@ -69,7 +69,7 @@ namespace Middleware.Search
 			: this(isLoggedIn, searchTerm, quickSearch, false)
 		{
 			Timeout = 30000;
-			Properties = new Dictionary<string, object>();
+			Properties = [];
 			QuickSearch = quickSearch;
 			MaximumSearchResults = 100;
 		}
@@ -83,7 +83,7 @@ namespace Middleware.Search
 			: this(false, searchTerm, quickSearch)
 		{
 			Timeout = 30000;
-			Properties = new Dictionary<string, object>();
+			Properties = [];
 			QuickSearch = quickSearch;
 		}
 
@@ -96,7 +96,7 @@ namespace Middleware.Search
 			: this(isLoggedIn, searchTerm, false)
 		{
 			Timeout = 30000;
-			Properties = new Dictionary<string, object>();
+			Properties = [];
 		}
 
 		/// <summary>

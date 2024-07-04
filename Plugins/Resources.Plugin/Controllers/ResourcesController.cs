@@ -77,7 +77,6 @@ namespace Resources.Plugin.Controllers
 		public const int MinimumNameLength = 5;
 		public const int MinimumDescriptionLength = 15;
 		public const int MaximumDescriptionLength = 100;
-		private const string UserAgentHeader = "User-Agent";
 		private const string UserAgentValue = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36";
 		private const string ResourcesBreadcrumb = "/Resources/";
 		private const string TikTokBaseUri = "https://www.tiktok.com/";
@@ -379,7 +378,7 @@ namespace Resources.Plugin.Controllers
 			if (resourceItem == null)
 				return RedirectToAction(nameof(ManageResourceItems));
 
-			List<NameIdModel> allCategories = new();
+			List<NameIdModel> allCategories = [];
 
 			_resourceProvider.RetrieveAllCategories().ForEach(c =>
 			{
@@ -405,7 +404,7 @@ namespace Resources.Plugin.Controllers
 
 			if (!ModelState.IsValid)
 			{
-				List<NameIdModel> allCategories = new();
+				List<NameIdModel> allCategories = [];
 
 				_resourceProvider.RetrieveAllCategories().ForEach(c =>
 				{
@@ -479,7 +478,7 @@ namespace Resources.Plugin.Controllers
 
 			List<ResourceItem> resourceBookmarks = _resourceProvider.RetrieveUserBookmarks(UserId());
 
-			List<NameIdModel> nameIdModels = new();
+			List<NameIdModel> nameIdModels = [];
 
 			resourceBookmarks.ForEach(rb => nameIdModels.Add(new NameIdModel(rb.Id, rb.Name)));
 
@@ -492,7 +491,7 @@ namespace Resources.Plugin.Controllers
 
 		private static List<string> ValidateAndCleanTags(string tags)
 		{
-			List<string> result = new();
+			List<string> result = [];
 
 			if (String.IsNullOrEmpty(tags))
 				return result;
@@ -696,14 +695,14 @@ namespace Resources.Plugin.Controllers
 				BaseAddress = new Uri(baseAddress)
 			};
 
-			httpClient.DefaultRequestHeaders.Add(UserAgentHeader, UserAgentValue);
+			httpClient.DefaultRequestHeaders.Add(SharedPluginFeatures.Constants.UserAgent, UserAgentValue);
 
 			return httpClient;
 		}
 
 		private ManageCategoryModel CreateManageCategoryModel()
 		{
-			List<ResourceCategoryModel> resources = new();
+			List<ResourceCategoryModel> resources = [];
 
 			foreach (ResourceCategory row in _resourceProvider.RetrieveAllCategories())
 			{
@@ -716,7 +715,7 @@ namespace Resources.Plugin.Controllers
 
 		private ManageResourceItemModel CreateManageResourceItemModel()
 		{
-			List<ResourceItemModel> resources = new();
+			List<ResourceItemModel> resources = [];
 
 			foreach (ResourceItem row in _resourceProvider.RetrieveAllResourceItems())
 			{
@@ -733,7 +732,7 @@ namespace Resources.Plugin.Controllers
 			if (resourceCategory == null)
 				return null;
 
-			List<ResourceItemModel> resources = new();
+			List<ResourceItemModel> resources = [];
 
 			foreach (ResourceItem resourceItem in resourceCategory.ResourceItems)
 			{
@@ -744,10 +743,10 @@ namespace Resources.Plugin.Controllers
 					resourceItem.Dislikes, resourceItem.ViewCount, resourceItem.Approved));
 			}
 
-			List<NameIdModel> allCategories = new()
-			{
+			List<NameIdModel> allCategories =
+			[
 				new NameIdModel(0, LanguageStrings.NoParent)
-			};
+			];
 
 			_resourceProvider.RetrieveAllCategories().ForEach(c =>
 			{
@@ -771,7 +770,7 @@ namespace Resources.Plugin.Controllers
 			if (resourceCategory == null)
 				return null;
 
-			List<ResourceItemModel> resources = new();
+			List<ResourceItemModel> resources = [];
 
 			foreach (ResourceItem resourceItem in resourceCategory.ResourceItems.OrderBy(rc => rc.Name))
 			{
@@ -782,7 +781,7 @@ namespace Resources.Plugin.Controllers
 					resourceItem.Dislikes, resourceItem.ViewCount, resourceItem.Approved));
 			}
 
-			List<ResourceCategoryModel> modelSubCategories = new();
+			List<ResourceCategoryModel> modelSubCategories = [];
 
 			List<ResourceCategory> subCategories = _resourceProvider.GetAllResources(resourceCategory.Id);
 
@@ -805,7 +804,7 @@ namespace Resources.Plugin.Controllers
 
 		private ResourcesModel CreateResourcesModel(List<ResourceCategory> resourceList)
 		{
-			List<ResourceCategoryModel> resources = new();
+			List<ResourceCategoryModel> resources = [];
 
 			foreach (ResourceCategory row in resourceList)
 			{

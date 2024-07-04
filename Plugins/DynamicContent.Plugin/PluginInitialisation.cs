@@ -73,6 +73,7 @@ namespace DynamicContent.Plugin
 
 		public void AfterConfigureServices(in IServiceCollection services)
 		{
+#if NET_6_0
 			services.AddAuthorization(options =>
 			{
 				options.AddPolicy(
@@ -84,6 +85,15 @@ namespace DynamicContent.Plugin
 						.RequireClaim(Constants.ClaimNameUserId)
 						.RequireClaim(Constants.ClaimNameUserEmail));
 			});
+#else
+			services.AddAuthorizationBuilder()
+				.AddPolicy(Constants.PolicyNameContentEditor, policyBuilder => policyBuilder
+					.RequireClaim(Constants.ClaimNameManageContent)
+					.RequireClaim(Constants.ClaimNameStaff)
+					.RequireClaim(Constants.ClaimNameUsername)
+					.RequireClaim(Constants.ClaimNameUserId)
+					.RequireClaim(Constants.ClaimNameUserEmail));
+#endif
 
 			services.TryAddSingleton<IDynamicContentProvider, DefaultDynamicContentProvider>();
 
@@ -105,7 +115,7 @@ namespace DynamicContent.Plugin
 			// from interface but unused in this context
 		}
 
-		#endregion IInitialiseEvents Methods
+#endregion IInitialiseEvents Methods
 
 		#region IPlugin Methods
 
@@ -135,10 +145,10 @@ namespace DynamicContent.Plugin
 
 		public List<string> GetClaims()
 		{
-			return new List<string>()
-			{
+			return
+			[
 				Constants.ClaimNameManageContent,
-			};
+			];
 		}
 
 		#endregion IClaimsService

@@ -422,7 +422,7 @@ namespace ProductPlugin.Controllers
 
 		private EditProductModel CreateEditProductModel(Product product, int pageNumber)
 		{
-			List<LookupListItem> productGroups = new();
+			List<LookupListItem> productGroups = [];
 
 			_productProvider.ProductGroupsGet().ForEach(pg => productGroups.Add(new LookupListItem(pg.Id, pg.Description)));
 
@@ -446,7 +446,7 @@ namespace ProductPlugin.Controllers
 
 		private EditProductModel CreateEditProductModel(EditProductModel model)
 		{
-			List<LookupListItem> productGroups = new();
+			List<LookupListItem> productGroups = [];
 
 			_productProvider.ProductGroupsGet().ForEach(pg => productGroups.Add(new LookupListItem(pg.Id, pg.Description)));
 

@@ -99,8 +99,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 			ISettingsProvider settingsProvider = new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\")));
 
-			List<object> classServices = new()
-				{
+			List<object> classServices =
+				[
 					new TicketDepartmentsDataRowDefaults(),
 					new TicketStatusDataRowDefaults(),
 					new TicketPrioritiesDataRowDefaults(),
@@ -125,7 +125,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					new ResourceCategoryTriggers(),
 					new ResourceItemTriggers(),
 					new StoreDataRowDefaults(),
-				};
+				];
 
 			mockPluginClassesService = new MockPluginClassesService(classServices);
 

@@ -186,7 +186,7 @@ namespace SystemAdmin.Plugin
 			if (allMenuItems.Count > 0)
 				return allMenuItems[0].ChildMenuItems;
 
-			return new List<SystemAdminSubMenu>();
+			return [];
 		}
 
 		public List<SystemAdminSubMenu> GetSubMenuItems(in string mainMenuName)
@@ -199,7 +199,7 @@ namespace SystemAdmin.Plugin
 					return menuItem.ChildMenuItems;
 			}
 
-			return new List<SystemAdminSubMenu>();
+			return [];
 		}
 
 		public SystemAdminSubMenu GetSubMenuItem(in int id)

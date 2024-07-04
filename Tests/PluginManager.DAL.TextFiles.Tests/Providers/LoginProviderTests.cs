@@ -81,7 +81,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
+					IPluginClassesService pluginClassesService = new MockPluginClassesService([new ExternalUsersDataRowDefaults()]);
 
 					ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 					IForeignKeyManager keyManager = new ForeignKeyManager();
@@ -111,7 +111,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
+					IPluginClassesService pluginClassesService = new MockPluginClassesService([new ExternalUsersDataRowDefaults()]);
 
 					ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 					IForeignKeyManager keyManager = new ForeignKeyManager();
@@ -157,7 +157,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
+					IPluginClassesService pluginClassesService = new MockPluginClassesService([new ExternalUsersDataRowDefaults()]);
 
 					ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 					IForeignKeyManager keyManager = new ForeignKeyManager();
@@ -206,7 +206,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() });
+					IPluginClassesService pluginClassesService = new MockPluginClassesService([new UserDataRowTriggers()]);
 
 					ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 					IForeignKeyManager keyManager = new ForeignKeyManager();
@@ -254,7 +254,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
+					IPluginClassesService pluginClassesService = new MockPluginClassesService([new ExternalUsersDataRowDefaults()]);
 
 					ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 					IForeignKeyManager keyManager = new ForeignKeyManager();

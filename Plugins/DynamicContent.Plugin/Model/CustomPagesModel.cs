@@ -49,7 +49,7 @@ namespace DynamicContent.Plugin.Model
 			if (customPages == null)
 				throw new ArgumentNullException(nameof(customPages));
 
-			CustomPages = new List<NameIdModel>();
+			CustomPages = [];
 
 			customPages.ForEach(cp => CustomPages.Add(new NameIdModel(cp.Id, cp.Description)));
 		}

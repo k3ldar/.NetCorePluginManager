@@ -394,7 +394,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		public List<DeliveryAddress> GetDeliveryAddresses(in long userId)
 		{
-			List<DeliveryAddress> Result = new();
+			List<DeliveryAddress> Result = [];
 			UserDataRow user = _users.Select(userId);
 
 			if (user == null)
@@ -510,7 +510,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		public List<Order> OrdersGet(in Int64 userId)
 		{
-			List<Order> Result = new();
+			List<Order> Result = [];
 
 			UserDataRow user = _users.Select(userId);
 
@@ -521,7 +521,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			userOrders.ForEach(o =>
 			{
-				List<OrderItem> orderItems = new();
+				List<OrderItem> orderItems = [];
 
 				List<OrderItemDataRow> userOrderItems = _ordersItems.Select().Where(oi => oi.OrderId.Equals(o.Id)).ToList();
 
@@ -560,7 +560,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			_invoices.Insert(newInvoice);
 
-			List<InvoiceItemDataRow> invoiceItems = new();
+			List<InvoiceItemDataRow> invoiceItems = [];
 			List<OrderItemDataRow> orderItems = _ordersItems.Select().Where(oi => oi.OrderId.Equals(orderDataRow.Id)).ToList();
 
 			orderItems.ForEach(oi =>
@@ -588,7 +588,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		public List<Invoice> InvoicesGet(in Int64 userId)
 		{
-			List<Invoice> Result = new();
+			List<Invoice> Result = [];
 			UserDataRow user = _users.Select(userId);
 
 			if (user == null)
@@ -598,7 +598,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			userInvoices.ForEach(i =>
 			{
-				List<InvoiceItem> invoiceItems = new();
+				List<InvoiceItem> invoiceItems = [];
 
 				List<InvoiceItemDataRow> userOrderItems = _invoiceItems.Select().Where(ii => ii.InvoiceId.Equals(i.Id)).ToList();
 

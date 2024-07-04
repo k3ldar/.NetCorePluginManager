@@ -43,7 +43,7 @@ namespace Subdomain.Plugin
 		/// </summary>
 		public SubdomainSettings()
 		{
-			Subdomains = new Dictionary<string, SubdomainSetting>();
+			Subdomains = [];
 		}
 
 		#endregion Constructors

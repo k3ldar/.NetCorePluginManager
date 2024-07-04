@@ -41,8 +41,8 @@ namespace Middleware.Blog
 		public BlogItem()
 		{
 			Published = true;
-			Tags = new List<string>();
-			Comments = new List<BlogComment>();
+			Tags = [];
+			Comments = [];
 		}
 
 		/// <summary>

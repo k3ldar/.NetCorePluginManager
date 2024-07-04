@@ -145,7 +145,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			where T : SessionBaseData
 			where D : SessionStatsBaseData
 		{
-			List<T> Result = new();
+			List<T> Result = [];
 
 			foreach (SessionStatsBaseData data in baseData)
 			{
@@ -251,7 +251,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			}
 
 			if (Result == null)
-				return new List<SessionUserAgent>();
+				return [];
 
 			return Result.OrderBy(o => o.IsBot).ThenByDescending(d => d.Count).ToList();
 		}

@@ -427,7 +427,7 @@ namespace PluginManager.Tests
 
 		public List<string> GetEvents()
 		{
-			return new List<string>();
+			return [];
 		}
 	}
 
@@ -446,10 +446,10 @@ namespace PluginManager.Tests
 
 		public List<string> GetEvents()
 		{
-			List<string> Result = new()
-			{
+			List<string> Result =
+			[
 				null
-			};
+			];
 
 			return Result;
 		}
@@ -489,15 +489,15 @@ namespace PluginManager.Tests
 
 		public List<string> GetEvents()
 		{
-			return new List<string>() { "" };
+			return [""];
 		}
 	}
 
 	[ExcludeFromCodeCoverage]
 	public class ValidEventsListener : INotificationListener
 	{
-		public List<object> param1Values = new();
-		public List<object> param2Values = new();
+		public List<object> param1Values = [];
+		public List<object> param2Values = [];
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
 		public bool EventRaised(in string eventId, in object param1, in object param2, ref object result)
@@ -548,7 +548,7 @@ namespace PluginManager.Tests
 
 		public List<string> GetEvents()
 		{
-			return new List<string>() { "Test1", "Test2" };
+			return ["Test1", "Test2"];
 		}
 
 		public int EventCount { get; private set; }
@@ -586,7 +586,7 @@ namespace PluginManager.Tests
 
 		public List<string> GetEvents()
 		{
-			return new List<string>() { "Dependency", "Frustration" };
+			return ["Dependency", "Frustration"];
 		}
 
 		public int EventCount { get; private set; }
@@ -620,7 +620,7 @@ namespace PluginManager.Tests
 
 		public List<string> GetEvents()
 		{
-			return new List<string>() { "Test1", "Test2" };
+			return ["Test1", "Test2"];
 		}
 
 		public uint EventCount { get; private set; }

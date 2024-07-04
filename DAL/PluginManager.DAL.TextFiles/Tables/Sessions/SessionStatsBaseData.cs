@@ -32,9 +32,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 	{
 		public SessionStatsBaseData()
 		{
-			_userAgents = new ObservableDictionary<string, uint>();
+			_userAgents = [];
 			_userAgents.Changed += ObservableItem_Changed;
-			_countryData = new ObservableDictionary<string, uint>();
+			_countryData = [];
 			_countryData.Changed += ObservableItem_Changed;
 		}
 

@@ -82,7 +82,7 @@ namespace UserSessionMiddleware.Plugin
 
 			_next = next;
 
-			_routeData = new List<RouteData>();
+			_routeData = [];
 
 			UserSessionSettings Settings = settingsProvider.GetSettings<UserSessionSettings>(Constants.UserSessionConfiguration);
 

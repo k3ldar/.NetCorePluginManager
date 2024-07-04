@@ -74,7 +74,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		public List<LookupListItem> GetCustomPageList()
 		{
-			List<LookupListItem> Result = new();
+			List<LookupListItem> Result = [];
 
 			IReadOnlyList<ContentPageDataRow> pages = _pageData.Select();
 
@@ -88,7 +88,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		public List<IDynamicContentPage> GetCustomPages()
 		{
-			List<IDynamicContentPage> Result = new();
+			List<IDynamicContentPage> Result = [];
 
 			IReadOnlyList<ContentPageDataRow> pages = _pageData.Select();
 

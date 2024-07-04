@@ -127,6 +127,19 @@
             </summary>
             <value>int</value>
         </member>
+        <member name="M:GeoIp.Plugin.IpCity.Equals(System.Object)">
+            <summary>
+            Determines whether objects are the same
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GeoIp.Plugin.IpCity.GetHashCode">
+            <summary>
+            Retrieves unique hash code
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:GeoIp.Plugin.IpStackSettings">
             <summary>
             IpStackSettings, used to retrieve IpStack data.  Implements IGeoIpProvider interface.

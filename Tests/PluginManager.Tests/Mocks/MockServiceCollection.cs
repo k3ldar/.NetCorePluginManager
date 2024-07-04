@@ -49,7 +49,7 @@ namespace PluginManager.Tests.Mocks
 
 		public MockServiceCollection(ServiceDescriptor[] serviceDescriptors = null)
 		{
-			_serviceDescriptors = new List<ServiceDescriptor>();
+			_serviceDescriptors = [];
 
 			if (serviceDescriptors != null)
 			{

@@ -47,28 +47,26 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public MockBlogProvider()
 		{
-			_blogEntries = new List<BlogItem>()
-			{
+			_blogEntries =
+			[
 				new(1, 123, "My First Blog Entry", "This is about my first blog entry", "Making blogs is easy", "Test User", true,
 					DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-9),
-					new List<string>() { "Blogs", "First", "Test" },
-					new List<BlogComment>()
-					{
+					["Blogs", "First", "Test"],
+					[
 						new(1, null, DateTime.Now.AddDays(-8), 2, "A User", true, "This is the first comment"),
 						new(2, null, DateTime.Now.AddDays(-7), 2, "Another User", true, "This is the second comment")
-					}),
+					]),
 				new(2, 123, "Test", "Lorem Ipsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor " +
 					"incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut " +
 					"aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat " +
 					"nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 					"Test User", true,
 					DateTime.Now.AddDays(-7), DateTime.Now.AddDays(-7), DateTime.Now.AddDays(-7),
-					new List<string>() { "Lorem", "Ipsum" },
-					new List<BlogComment>()
-					{
+					["Lorem", "Ipsum"],
+					[
 						new(3, null, DateTime.Now.AddDays(-7), 2, "A User", true, "honi soit qui mal y pense")
-					})
-		};
+					])
+		];
 		}
 
 		#endregion Constructors

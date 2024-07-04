@@ -114,7 +114,7 @@ namespace HelpdeskPlugin.Classes
 		/// </summary>
 		public void ProcessIncomingEmails()
 		{
-			List<ReceivedEmail> messages = new();
+			List<ReceivedEmail> messages = [];
 
 			RetrieveEmailsFromPop3Server(messages);
 
@@ -126,8 +126,8 @@ namespace HelpdeskPlugin.Classes
 					continue;
 				}
 
-				string fromName = message.From[..(message.From.IndexOf("<") - 1)].Trim();
-				string fromEmail = message.From.Trim()[(message.From.IndexOf("<") + 1)..].Replace(">", "");
+				string fromName = message.From[..(message.From.IndexOf(SharedPluginFeatures.Constants.LessThanChar) - 1)].Trim();
+				string fromEmail = message.From.Trim()[(message.From.IndexOf(SharedPluginFeatures.Constants.LessThanChar) + 1)..].Replace(">", "");
 				string messageId = $"P3{message.MessageId[1..^1].GetHashCode()}";
 
 

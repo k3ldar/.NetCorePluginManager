@@ -40,13 +40,13 @@ namespace ShoppingCartPlugin.Models
 
 		public CheckoutModel()
 		{
-			Providers = new List<IPaymentProvider>();
+			Providers = [];
 		}
 
 		public CheckoutModel(in BaseModelData modelData)
 			: base(modelData)
 		{
-			Providers = new List<IPaymentProvider>();
+			Providers = [];
 		}
 
 		#endregion Constructors

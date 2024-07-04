@@ -65,9 +65,9 @@ namespace Spider.Plugin.Classes
 			if (loadData == null)
 				throw new ArgumentNullException(nameof(loadData));
 
-			_deniedSpiderRoutes = new List<DeniedRoute>();
+			_deniedSpiderRoutes = [];
 			_agents = LoadSpiderData(routeProvider, routeDataService, pluginTypesService);
-			_customRoutes = new List<RobotRouteData>();
+			_customRoutes = [];
 
 			LoadData(loadData);
 		}
@@ -80,7 +80,7 @@ namespace Spider.Plugin.Classes
 		{
 			get
 			{
-				List<string> Result = new();
+				List<string> Result = [];
 
 				foreach (KeyValuePair<String, List<IRobotRouteData>> kvp in _agents)
 					Result.Add(kvp.Key);
@@ -97,7 +97,7 @@ namespace Spider.Plugin.Classes
 			if (_agents.ContainsKey(agentName))
 				return false;
 
-			_agents.Add(agentName, new List<IRobotRouteData>());
+			_agents.Add(agentName, []);
 			return true;
 		}
 
@@ -127,7 +127,7 @@ namespace Spider.Plugin.Classes
 		{
 			get
 			{
-				List<IRobotRouteData> Result = new();
+				List<IRobotRouteData> Result = [];
 				_customRoutes.ForEach(cr => Result.Add(cr));
 
 				return Result;
@@ -140,7 +140,7 @@ namespace Spider.Plugin.Classes
 
 		public List<string> GetRoutes(string agent)
 		{
-			List<string> Result = new();
+			List<string> Result = [];
 
 			foreach (IRobotRouteData agentData in _agents[agent])
 			{
@@ -254,7 +254,7 @@ namespace Spider.Plugin.Classes
 			{
 				if (!_agents.ContainsKey(item.Agent))
 				{
-					_agents.Add(item.Agent, new List<IRobotRouteData>());
+					_agents.Add(item.Agent, []);
 				}
 
 				if (_agents[item.Agent].Exists(l => l.IsCustom && l.Route.Equals(item.Route)))
@@ -294,7 +294,7 @@ namespace Spider.Plugin.Classes
 			IRouteDataService routeDataService,
 			List<Type> spiderAttributes)
 		{
-			Dictionary<string, List<IRobotRouteData>> Result = new();
+			Dictionary<string, List<IRobotRouteData>> Result = [];
 
 			// Cycle through all classes and methods which have the spider attribute
 			foreach (Type type in spiderAttributes)
@@ -338,7 +338,7 @@ namespace Spider.Plugin.Classes
 			in Dictionary<string, List<IRobotRouteData>> agentList)
 		{
 			if (!agentList.ContainsKey(denySpiderAttribute.UserAgent))
-				agentList.Add(denySpiderAttribute.UserAgent, new List<IRobotRouteData>());
+				agentList.Add(denySpiderAttribute.UserAgent, []);
 
 			string route = denySpiderAttribute.Route;
 

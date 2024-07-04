@@ -142,7 +142,7 @@ namespace UserSessionMiddleware.Plugin
 				IPAddress = "127.0.0.1";
 
 			HostName = context.Request.Host.Host;
-			UserAgent = context.Request.Headers["User-Agent"].ToString();
+			UserAgent = context.Request.Headers[SharedPluginFeatures.Constants.UserAgent].ToString();
 			IsMobileDevice = CheckIfMobileDevice(UserAgent);
 			IsBrowserMobile = false;// Request.Browser.IsMobileDevice;
 

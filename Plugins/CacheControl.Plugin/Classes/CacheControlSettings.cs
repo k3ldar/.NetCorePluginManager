@@ -41,7 +41,7 @@ namespace CacheControl.Plugin
 		/// </summary>
 		public CacheControlSettings()
 		{
-			CacheControlRoutes = new Dictionary<string, CacheControlRoute>();
+			CacheControlRoutes = [];
 		}
 
 		#endregion Constructors

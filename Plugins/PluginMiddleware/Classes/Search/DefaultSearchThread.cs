@@ -229,7 +229,7 @@ namespace Middleware.Search
 		/// <returns>bool</returns>
 		protected override Boolean Run(object parameters)
 		{
-			List<SearchResponseItem> Results = new();
+			List<SearchResponseItem> Results = [];
 
 			foreach (ISearchKeywordProvider keywordProvider in _searchKeywordProviders)
 			{

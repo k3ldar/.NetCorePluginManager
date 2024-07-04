@@ -48,46 +48,46 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public List<DownloadCategory> DownloadCategoriesGet(in long userId)
 		{
-			_userDownloads ??= new List<DownloadCategory>()
-				{
-					new(1, "Brochures", new List<DownloadItem>()
-					{
+			_userDownloads ??=
+				[
+					new(1, "Brochures",
+					[
 						new(1, "Summer 2018", "Summer 2018 Catalogue", null, "\\Files\\Catalogues\\summer2018.pdf"),
 						new(2, "Autumn 2018", "Autumn 2018 Catalogue", null, "\\Files\\Catalogues\\autumn2018.pdf"),
 						new(3, "Winter 2018", "Winter 2018 Catalogue", null, "\\Files\\Catalogues\\winter2018.pdf"),
 						new(4, "Spring 2019", "Spring 2019 Catalogue", null, "\\Files\\Catalogues\\spring2019.pdf"),
-					}),
-					new(2, "Applications", new List<DownloadItem>()
-					{
+					]),
+					new(2, "Applications",
+					[
 						new(5, "FB Stored Proc Generator", "Firebird stored procedure generator",
 							"2.2.0", "\\Files\\Install\\fbspgen_v2.2_setup.exe"),
 						new(6, "FB Task Scheduler", "Firebird task scheduler",
 							"1.2", "\\Files\\Install\\fbtaskscheduler_1.2_setup.exe"),
-					})
-				};
+					])
+				];
 
 			return _userDownloads;
 		}
 
 		public List<DownloadCategory> DownloadCategoriesGet()
 		{
-			_publicDownloads ??= new List<DownloadCategory>()
-				{
-					new(3, "Brochures", new List<DownloadItem>()
-					{
+			_publicDownloads ??=
+				[
+					new(3, "Brochures",
+					[
 						new(7, "Summer 2018", "Summer 2018 Catalogue", null, "\\Files\\Catalogues\\summer2018.pdf"),
 						new(8, "Autumn 2018", "Autumn 2018 Catalogue", null, "\\Files\\Catalogues\\autumn2018.pdf"),
 						new(9, "Winter 2018", "Winter 2018 Catalogue", null, "\\Files\\Catalogues\\winter2018.pdf"),
 						new(10, "Spring 2019", "Spring 2019 Catalogue", null, "\\Files\\Catalogues\\spring2019.pdf"),
-					}),
-					new(4, "Applications", new List<DownloadItem>()
-					{
+					]),
+					new(4, "Applications",
+					[
 						new(11, "FB Stored Proc Generator", "Firebird stored procedure generator",
 							"2.2.0", "\\Files\\Install\\fbspgen_v2.2_setup.exe"),
 						new(12, "FB Task Scheduler", "Firebird task scheduler",
 							"1.2", "\\Files\\Install\\fbtaskscheduler_1.2_setup.exe"),
-					})
-				};
+					])
+				];
 
 			return _publicDownloads;
 		}

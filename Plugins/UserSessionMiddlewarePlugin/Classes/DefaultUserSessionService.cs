@@ -408,7 +408,7 @@ namespace UserSessionMiddleware.Plugin.Classes
 				}
 			}
 
-			Result ??= new List<SessionUserAgent>();
+			Result ??= [];
 
 			Result = Result.OrderBy(o => o.IsBot).ThenByDescending(d => d.Count).ToList();
 		}
@@ -500,7 +500,7 @@ namespace UserSessionMiddleware.Plugin.Classes
 
 		private void ProcessClosedSessions()
 		{
-			List<UserSession> readySessions = new();
+			List<UserSession> readySessions = [];
 
 			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
 			{

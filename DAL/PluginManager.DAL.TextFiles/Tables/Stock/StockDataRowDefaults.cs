@@ -46,7 +46,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 		{
 			if (version == 1)
 			{
-				List<StockDataRow> initialData = new();
+				List<StockDataRow> initialData = [];
 
 				foreach (ProductDataRow item in _productDataRow.Select())
 				{

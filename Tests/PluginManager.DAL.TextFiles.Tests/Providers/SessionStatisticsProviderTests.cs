@@ -53,6 +53,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 	{
 		[Ignore("Temporarily ignored due to potential build issue on azure")]
 		[TestMethod]
+		[SuppressMessage("Major Code Smell", "S2925:\"Thread.Sleep\" should not be used in tests", Justification = "At present required for this part of the test")]
 		public void TestAllMethods_InOneHit_Success()
 		{
 			string directory = TestHelper.GetTestPath();

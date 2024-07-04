@@ -246,7 +246,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		public List<ResourceItem> RetrieveAllResourceItems()
 		{
-			List<ResourceItem> resources = new();
+			List<ResourceItem> resources = [];
 
 			foreach (ResourceItemDataRow resourceItemDataRow in _resourceItems.Select())
 			{
@@ -339,7 +339,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				return ConvertResourceItemDataRowsToResourceItemList(resourceBookmarks);
 			}
 
-			return new List<ResourceItem>();
+			return [];
 		}
 
 		#region Private Methods
@@ -350,7 +350,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (resourceItemList == null)
 				return null;
 
-			List<ResourceItem> result = new();
+			List<ResourceItem> result = [];
 
 			foreach (ResourceItemDataRow resourceItemDataRow in resourceItemList)
 			{
@@ -401,7 +401,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (resourceRow == null)
 				return null;
 
-			List<ResourceItem> resources = new();
+			List<ResourceItem> resources = [];
 
 			foreach (ResourceItemDataRow resourceItemDataRow in _resourceItems.Select(ri => ri.CategoryId.Equals(resourceRow.Id)))
 			{
@@ -427,7 +427,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		private static List<ResourceCategory> ConvertResourceDataRowsToResourceList(IReadOnlyList<ResourceCategoryDataRow> resources)
 		{
-			List<ResourceCategory> result = new();
+			List<ResourceCategory> result = [];
 
 			foreach (ResourceCategoryDataRow row in resources)
 			{

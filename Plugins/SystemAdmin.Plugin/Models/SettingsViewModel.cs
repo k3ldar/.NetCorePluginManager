@@ -40,7 +40,7 @@ namespace SystemAdmin.Plugin.Models
 		/// </summary>
 		public SettingsViewModel()
 		{
-			Settings = new();
+			Settings = [];
 		}
 
 		/// <summary>
@@ -57,7 +57,7 @@ namespace SystemAdmin.Plugin.Models
 
 			SettingId = settingId;
 			SettingsName = settingsName;
-			Settings = new();
+			Settings = [];
 		}
 
 		/// <summary>

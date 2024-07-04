@@ -39,12 +39,12 @@ namespace PluginManager.DAL.TextFiles.Tables
 		{
 			if (version == 1)
 			{
-				return new List<TicketStatusDataRow>()
-				{
+				return
+				[
 					new() { Description = "Closed" },
 					new() { Description = "Open" },
 					new() { Description = "On Hold" }
-				};
+				];
 			}
 
 			return null;

@@ -178,6 +178,16 @@ namespace SharedPluginFeatures
 		public const string UserAgent = "User-Agent";
 
 		/// <summary>
+		/// Cache control constant
+		/// </summary>
+		public const string CacheControl = "Cache-Control";
+
+		/// <summary>
+		/// X Requested with constant
+		/// </summary>
+		public const string XRequestedWith = "X-Requested-With";
+
+		/// <summary>
 		/// Forward slash (/) constant
 		/// </summary>
 		public const string ForwardSlash = "/";
@@ -186,6 +196,11 @@ namespace SharedPluginFeatures
 		/// Forward slash (/) char constant.
 		/// </summary>
 		public const char ForwardSlashChar = '/';
+
+		/// <summary>
+		/// Open bracket char constant
+		/// </summary>
+		public const char OpenBracketChar = '(';
 
 		/// <summary>
 		/// Pipe character (|) char constant
@@ -236,6 +251,16 @@ namespace SharedPluginFeatures
 		/// Comma (,) char constant
 		/// </summary>
 		public const char CommaChar = ',';
+
+		/// <summary>
+		/// Semicolon ; char constant
+		/// </summary>
+		public const char SemicolonChar = ';';
+
+		/// <summary>
+		/// Less than char constant
+		/// </summary>
+		public const char LessThanChar = '<';
 
 		/// <summary>
 		/// String with one empty space char

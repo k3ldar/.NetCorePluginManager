@@ -63,7 +63,7 @@ namespace Blog.Plugin.Classes
 		/// <returns>List&lt;ISitemapItem&gt;</returns>
 		public List<SitemapItem> Items()
 		{
-			List<SitemapItem> Result = new();
+			List<SitemapItem> Result = [];
 
 			List<BlogItem> blogs = _blogProvider.GetRecentPosts(1000, true);
 

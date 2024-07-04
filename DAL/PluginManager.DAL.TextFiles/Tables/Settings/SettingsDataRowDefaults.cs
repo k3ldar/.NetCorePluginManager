@@ -42,8 +42,8 @@ namespace PluginManager.DAL.TextFiles.Tables
 		{
 			if (version == 1)
 			{
-				return new List<SettingsDataRow>
-					{
+				return
+					[
 						new()
 						{
 							Name = "ShoppingCartEncryption",
@@ -89,7 +89,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 							Name = "AddressOptions",
 							Value = "0"
 						}
-					};
+					];
 			}
 
 			return null;

@@ -110,7 +110,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 			const int RegisteredService = 70;
 
 			PluginInitialisation sut = new();
-			MockServiceCollection mockServiceCollection = new();
+			MockServiceCollection mockServiceCollection = [];
 
 			sut.BeforeConfigureServices(mockServiceCollection);
 
@@ -122,7 +122,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 		public void ConfigureServices_DoesNotThrowException()
 		{
 			PluginInitialisation sut = new();
-			MockServiceCollection mockServiceCollection = new();
+			MockServiceCollection mockServiceCollection = [];
 
 			sut.ConfigureServices(mockServiceCollection);
 
@@ -134,7 +134,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 		public void AfterConfigureServices_DoesNotThrowException_Success()
 		{
 			PluginInitialisation sut = new();
-			MockServiceCollection mockServiceCollection = new();
+			MockServiceCollection mockServiceCollection = [];
 
 			sut.AfterConfigureServices(mockServiceCollection);
 

@@ -42,8 +42,8 @@ namespace ProductPlugin.Models
 		/// </summary>
 		public ProductSearchViewModel()
 		{
-			ProductGroups = new List<CheckedViewItemModel>();
-			Prices = new List<CheckedViewItemModel>();
+			ProductGroups = [];
+			Prices = [];
 		}
 
 		#endregion Constructors

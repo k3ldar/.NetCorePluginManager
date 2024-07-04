@@ -96,11 +96,11 @@ namespace ImageManager.Plugin.Classes
 
 			if (groupsCache == null)
 			{
-				Dictionary<string, List<string>> Result = new();
+				Dictionary<string, List<string>> Result = [];
 
 				foreach (string group in Directory.GetDirectories(_rootPath, Constants.Asterix.ToString(), SearchOption.TopDirectoryOnly))
 				{
-					List<string> subGroups = new();
+					List<string> subGroups = [];
 
 					foreach (string subGroup in Directory.GetDirectories(group, Constants.Asterix.ToString(), SearchOption.TopDirectoryOnly))
 					{
@@ -138,7 +138,7 @@ namespace ImageManager.Plugin.Classes
 
 			if (imageCache == null)
 			{
-				List<ImageFile> Result = new();
+				List<ImageFile> Result = [];
 
 				foreach (string file in Directory.GetFiles(groupPath, "*", SearchOption.TopDirectoryOnly))
 				{
@@ -173,14 +173,14 @@ namespace ImageManager.Plugin.Classes
 			string groupPath = Path.Combine(_rootPath, ValidateUserInput(groupName, ValidationType.Path), ValidateUserInput(subgroupName, ValidationType.Path));
 
 			if (!Directory.Exists(groupPath))
-				return new List<ImageFile>();
+				return [];
 
 			string cacheNameImageGroup = $"Default Image Provider Image Subgroup - {groupName} {subgroupName}";
 			CacheItem imageCache = _imageProviderCache.Get(cacheNameImageGroup);
 
 			if (imageCache == null)
 			{
-				List<ImageFile> Result = new();
+				List<ImageFile> Result = [];
 
 				foreach (string file in Directory.GetFiles(groupPath, "*", SearchOption.TopDirectoryOnly))
 				{

@@ -106,7 +106,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
 			foreach (SessionWeekly week in sessionData)
 			{
-				List<Decimal> datavalues = new();
+				List<Decimal> datavalues = [];
 				Result.DataValues[week.Week.ToString(Thread.CurrentThread.CurrentUICulture)] = datavalues;
 
 				datavalues.Add(week.BotVisits);

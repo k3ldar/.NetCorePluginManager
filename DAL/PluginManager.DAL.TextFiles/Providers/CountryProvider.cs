@@ -106,7 +106,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		private static List<Country> ConvertTableCountriesToCountries(IReadOnlyList<CountryDataRow> tableCountries)
 		{
-			List<Country> Result = new();
+			List<Country> Result = [];
 
 			foreach (CountryDataRow tableCountry in tableCountries)
 			{

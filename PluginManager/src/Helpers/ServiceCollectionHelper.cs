@@ -107,7 +107,7 @@ namespace PluginManager
 
 		internal static object[] GetInstancesConstructorParameters(IServiceCollection serviceCollection, Type type)
 		{
-			List<object> Result = new();
+			List<object> Result = [];
 
 			//grab a list of all constructors in the class, start with the one with most parameters
 			List<ConstructorInfo> constructors = type.GetConstructors()

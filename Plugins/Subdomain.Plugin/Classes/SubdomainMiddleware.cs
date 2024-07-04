@@ -101,8 +101,8 @@ namespace Subdomain.Plugin
 
 			_next = next;
 			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			_subdomainMappings = new Dictionary<string, SubdomainSetting>();
-			_routesWithoutSubdomains = new List<string>();
+			_subdomainMappings = [];
+			_routesWithoutSubdomains = [];
 
 
 			SubdomainSettings settings = settingsProvider.GetSettings<SubdomainSettings>(nameof(SubdomainSettings));
@@ -246,7 +246,7 @@ namespace Subdomain.Plugin
 			in IPluginClassesService pluginClassesService, in SubdomainSettings settings)
 		{
 			List<Type> classesWithSubdomainAttribute = pluginTypesService.GetPluginTypesWithAttribute<SubdomainAttribute>();
-			List<Type> classesWithValidSubdomain = new();
+			List<Type> classesWithValidSubdomain = [];
 
 			// Cycle through all classes which have the subdomain attribute
 			foreach (Type classType in classesWithSubdomainAttribute)

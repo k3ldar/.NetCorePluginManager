@@ -85,12 +85,14 @@ namespace LoginPlugin.Controllers
 		/// <exception cref="InvalidOperationException"></exception>
 		public IActionResult GoogleCallback(string code, string scope, string authuser, string prompt)
 		{
-			NVPCodec parameters = new();
-			parameters.Add(OAuthCode, code);
-			parameters.Add(OAuthClientId, _settings.GoogleClientId);
-			parameters.Add(OAuthClientSecret, _settings.GoogleSecret);
-			parameters.Add(OAuthRedirectUri, String.Format(GoogleCallBackUrl, HttpContext.Request.Scheme, HttpContext.Request.Host));
-			parameters.Add(OAuthGrantType, OAuthAuthCode);
+			NVPCodec parameters = new()
+			{
+				{ OAuthCode, code },
+				{ OAuthClientId, _settings.GoogleClientId },
+				{ OAuthClientSecret, _settings.GoogleSecret },
+				{ OAuthRedirectUri, String.Format(GoogleCallBackUrl, HttpContext.Request.Scheme, HttpContext.Request.Host) },
+				{ OAuthGrantType, OAuthAuthCode }
+			};
 			string response = HttpPost.Post(GoogleOAuthTokenUrl, parameters);
 
 			TokenResponse googlePlusAccessToken = JsonSerializer.Deserialize<TokenResponse>(response);

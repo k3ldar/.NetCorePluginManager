@@ -44,7 +44,7 @@ namespace Middleware.DynamicContent
 		/// </summary>
 		public DynamicContentPage()
 		{
-			Content = new List<DynamicContentTemplate>();
+			Content = [];
 			ActiveFrom = DateTime.MinValue;
 			ActiveTo = DateTime.MaxValue;
 			Name = String.Empty;

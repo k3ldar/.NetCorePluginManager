@@ -100,22 +100,22 @@ namespace DynamicContent.Plugin.Controllers
 
 		public static List<LookupListItem> GetHeightTypes()
 		{
-			return new List<LookupListItem>()
-			{
+			return
+			[
 				new(1, DynamicContentHeightType.Automatic.ToString()),
 				new(3, DynamicContentHeightType.Percentage.ToString()),
 				new(4, DynamicContentHeightType.Pixels.ToString()),
-			};
+			];
 		}
 
 		public static List<LookupListItem> GetWidthTypes()
 		{
-			return new List<LookupListItem>()
-			{
+			return
+			[
 				new(1, DynamicContentWidthType.Columns.ToString()),
 				new(2, DynamicContentWidthType.Percentage.ToString()),
 				new(3, DynamicContentWidthType.Pixels.ToString()),
-			};
+			];
 		}
 
 		[HttpGet]
@@ -653,7 +653,7 @@ namespace DynamicContent.Plugin.Controllers
 			IEnumerable<DynamicContentTemplate> templates = dynamicContentPage.Content.OrderBy(pc => pc.SortOrder);
 
 			StringBuilder content = new(4096);
-			List<string> inputControlIds = new();
+			List<string> inputControlIds = [];
 
 			foreach (DynamicContentTemplate template in templates)
 			{

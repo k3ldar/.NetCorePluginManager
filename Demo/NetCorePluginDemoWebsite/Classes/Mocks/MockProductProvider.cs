@@ -48,11 +48,11 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public List<ProductGroup> ProductGroupsGet()
 		{
-			return new List<ProductGroup>()
-			{
+			return
+			[
 				new(1, "Main Products", true, 1, "Checkout our main products", String.Empty),
 				new(2, "Other Products", true, 2, "Checkout our other products", String.Empty)
-			};
+			];
 		}
 
 		public bool ProductGroupDelete(in int id, out string errorMessage)
@@ -99,7 +99,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 			products[0].SetCurrentStockLevel(5);
 
-			List<Product> Result = new();
+			List<Product> Result = [];
 
 			int start = (page * pageSize) - pageSize;
 			int end = (start + pageSize);

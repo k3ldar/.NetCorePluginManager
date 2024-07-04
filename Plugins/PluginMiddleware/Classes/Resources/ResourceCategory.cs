@@ -73,7 +73,7 @@ namespace Middleware.Resources
 		/// <param name="routeName">Route friendly name for resource</param>
 		/// <param name="isVisible">Indicates whether the category is visible to users or not</param>
 		public ResourceCategory(long id, long parentId, string name, string description, string foreColor, string backColor, string image, string routeName, bool isVisible)
-			: this(id, parentId, name, description, foreColor, backColor, image, routeName, isVisible, new List<ResourceItem>())
+			: this(id, parentId, name, description, foreColor, backColor, image, routeName, isVisible, [])
 		{
 		}
 

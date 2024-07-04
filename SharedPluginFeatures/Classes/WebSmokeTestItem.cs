@@ -42,8 +42,8 @@ namespace SharedPluginFeatures
 		/// </summary>
 		public WebSmokeTestItem()
 		{
-			ResponseData = new List<string>();
-			AuthorHistory = new Dictionary<DateTime, string>();
+			ResponseData = [];
+			AuthorHistory = [];
 		}
 
 		/// <summary>
@@ -58,7 +58,7 @@ namespace SharedPluginFeatures
 		/// <param name="inputData">The data that will be submitted for the test</param>
 		public WebSmokeTestItem(in string route, in string method, in string formId, in int response,
 			in int position, in string name, in string inputData)
-			: this(route, method, formId, response, position, name, inputData, new List<string>(), new List<string>())
+			: this(route, method, formId, response, position, name, inputData, [], [])
 		{
 		}
 
@@ -106,7 +106,7 @@ namespace SharedPluginFeatures
 			if (String.IsNullOrEmpty(method))
 				throw new ArgumentNullException(nameof(method));
 
-			AuthorHistory = new Dictionary<DateTime, string>();
+			AuthorHistory = [];
 			Route = route;
 			Method = method;
 			FormId = formId;

@@ -26,7 +26,7 @@
 using System;
 using System.Collections.Generic;
 
-#pragma warning disable CA1822
+#pragma warning disable CA1822, S1210
 
 namespace SharedPluginFeatures
 {
@@ -50,7 +50,7 @@ namespace SharedPluginFeatures
 		{
 			Name = name;
 			UniqueId = uniqueId;
-			ChildMenuItems = new List<SystemAdminSubMenu>();
+			ChildMenuItems = [];
 		}
 
 		#endregion Constructors
@@ -124,6 +124,32 @@ namespace SharedPluginFeatures
 			return Result;
 		}
 
+		/// <summary>
+		/// Equals method
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <returns></returns>
+		public override bool Equals(object obj)
+		{
+			return obj is SystemAdminMainMenu menu &&
+				   EqualityComparer<List<SystemAdminSubMenu>>.Default.Equals(ChildMenuItems, menu.ChildMenuItems) &&
+				   UniqueId == menu.UniqueId &&
+				   Name == menu.Name &&
+				   SortOrder == menu.SortOrder &&
+				   MenuType == menu.MenuType &&
+				   Data == menu.Data &&
+				   Image == menu.Image;
+		}
+
+		/// <summary>
+		/// Retrieves unique hash code
+		/// </summary>
+		/// <returns></returns>
+		public override int GetHashCode()
+		{
+			return HashCode.Combine(ChildMenuItems, UniqueId, Name, SortOrder, MenuType, Data, Image);
+		}
+
 		#endregion IComparable
 
 		#region Properties
@@ -173,4 +199,4 @@ namespace SharedPluginFeatures
 	}
 }
 
-#pragma warning restore CA1822
+#pragma warning restore CA1822, S1210

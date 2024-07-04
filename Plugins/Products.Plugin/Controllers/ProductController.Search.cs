@@ -104,7 +104,7 @@ namespace ProductPlugin.Controllers
 					options.Properties.Add(item.Name, KeywordSearchProvider.ProductGroup);
 			}
 
-			List<ProductPriceInfo> prices = new();
+			List<ProductPriceInfo> prices = [];
 			List<ProductPriceInfo> priceGroups = GetPriceGroups();
 
 			foreach (CheckedViewItemModel item in model.Prices)
@@ -152,7 +152,7 @@ namespace ProductPlugin.Controllers
 
 				if (cacheItem == null)
 				{
-					List<string> productGroups = new();
+					List<string> productGroups = [];
 
 					foreach (ProductGroup item in _productProvider.ProductGroupsGet())
 						productGroups.Add(item.Description);
@@ -182,7 +182,7 @@ namespace ProductPlugin.Controllers
 				{
 					int videoCount = _productProvider.GetProducts(1, Constants.MaximumProducts)
 						.Count(p => !String.IsNullOrEmpty(p.VideoLink));
-					List<string> productGroups = new();
+					List<string> productGroups = [];
 
 					foreach (ProductGroup item in _productProvider.ProductGroupsGet())
 						productGroups.Add(item.Description);
@@ -211,7 +211,7 @@ namespace ProductPlugin.Controllers
 
 				if (cacheItem == null)
 				{
-					List<ProductPriceInfo> priceGroups = new();
+					List<ProductPriceInfo> priceGroups = [];
 
 					string[] prices = _settings.PriceGroups.Split(';', StringSplitOptions.RemoveEmptyEntries);
 					decimal lastValue = -1;

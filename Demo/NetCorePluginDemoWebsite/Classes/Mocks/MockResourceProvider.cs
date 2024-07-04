@@ -38,15 +38,15 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 	{
 		private long _nextId = 1;
 		private List<ResourceCategory> _resources;
-		private readonly List<ResourceItem> _items = new();
-		private readonly Dictionary<long, List<long>> _bookmarks = new();
+		private readonly List<ResourceItem> _items = [];
+		private readonly Dictionary<long, List<long>> _bookmarks = [];
 
 		public List<ResourceCategory> GetAllResources()
 		{
 			if (_resources == null)
 			{
-				_resources = new List<ResourceCategory>()
-				{
+				_resources =
+				[
 					new(_nextId++, 0, "Resource 1", "Resource desc 1", "black", "rgba(0,0,0,.03)", "/Images/Download/download.jpg", "resource-1", true),
 					new(_nextId++, 0, "Resource 2", "Resource desc 2", "white", "red", null, "resource-2", true),
 					new(_nextId++, 0, "Resource 3", "Resource desc 2", "white", "black", null, "resource-3", true),
@@ -56,7 +56,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 					new(_nextId++, 2, "Resource 2 Child 1", "Resource desc 2 (1)", "black", "white", null, "resource-2-child-1", true),
 					new(_nextId++, 2, "Resource 2 Child 2", "Resource desc 2 (2)", "black", "white", null, "resource-2-child-2", true),
 					new(_nextId++, 2, "Resource 2 Child 3", "Resource desc 2 (3)", "black", "white", null, "resource-2-child-3", true),
-				};
+				];
 
 				foreach (ResourceCategory category in _resources)
 				{
@@ -243,10 +243,10 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 				return BookmarkActionResult.Added;
 			}
 
-			_bookmarks[userId] = new List<long>
-			{
+			_bookmarks[userId] =
+			[
 				resourceItem.Id
-			};
+			];
 
 			return BookmarkActionResult.Added;
 		}
@@ -258,7 +258,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 				return _items.Where(r => _bookmarks[userId].Exists(bm => bm.Equals(r.Id))).ToList();
 			}
 
-			return new List<ResourceItem>();
+			return [];
 		}
 	}
 }

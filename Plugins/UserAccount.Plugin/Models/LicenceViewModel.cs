@@ -38,7 +38,7 @@ namespace UserAccount.Plugin.Models
 
 		public LicenceViewModel()
 		{
-			Licences = new List<ViewLicenceViewModel>();
+			Licences = [];
 			GrowlMessage = String.Empty;
 		}
 

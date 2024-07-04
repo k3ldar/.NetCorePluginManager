@@ -40,7 +40,7 @@ namespace DocumentationPlugin.Classes
 		/// </summary>
 		public PostProcessResults()
 		{
-			Counts = new Dictionary<string, int>();
+			Counts = [];
 		}
 
 		#endregion Constructors

@@ -38,7 +38,7 @@ namespace Middleware.Resources
 		/// </summary>
 		public ResourceItem()
 		{
-			Tags = new();
+			Tags = [];
 		}
 
 		/// <summary>

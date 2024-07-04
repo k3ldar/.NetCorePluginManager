@@ -1133,7 +1133,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.AddResourceItem(1, ResourceType.Image, 1, null, "Resource name", "Description", "Resource Value", false, new());
+					sut.AddResourceItem(1, ResourceType.Image, 1, null, "Resource name", "Description", "Resource Value", false, []);
 				}
 			}
 			finally
@@ -1186,7 +1186,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.AddResourceItem(1, ResourceType.Image, 1, "user name", null, "Description", "Resource Value", false, new());
+					sut.AddResourceItem(1, ResourceType.Image, 1, "user name", null, "Description", "Resource Value", false, []);
 				}
 			}
 			finally
@@ -1239,7 +1239,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "", "Resource Value", false, new());
+					sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "", "Resource Value", false, []);
 				}
 			}
 			finally
@@ -1292,7 +1292,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "Description", "", false, new());
+					sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "Description", "", false, []);
 				}
 			}
 			finally
@@ -1412,7 +1412,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "Description", "a value", false, new());
+					sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "Description", "a value", false, []);
 				}
 			}
 			finally
@@ -1463,7 +1463,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "Description", "a value", false, new());
+					sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "Description", "a value", false, []);
 				}
 			}
 			finally
@@ -1519,7 +1519,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					ResourceItem Result = sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "Description", "some value", false, new());
+					ResourceItem Result = sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "Description", "some value", false, []);
 					Assert.IsNotNull(Result);
 					Assert.AreEqual(1, resourceItemsTable.RecordCount);
 				}
@@ -1577,7 +1577,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					ResourceItem Result = sut.AddResourceItem(1, ResourceType.Image, -83736363, "user name", "Resource Name", "Description", "some value", false, new());
+					ResourceItem Result = sut.AddResourceItem(1, ResourceType.Image, -83736363, "user name", "Resource Name", "Description", "some value", false, []);
 					Assert.IsNotNull(Result);
 					Assert.AreEqual(1, resourceItemsTable.RecordCount);
 
@@ -1639,13 +1639,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					List<string> tags = new()
-					{
+					List<string> tags =
+					[
 						"tag                         1",
 						"ta          g2",
 						"tag\t=__(*&^%$£\"!3",
 						"t=ag 4"
-					};
+					];
 
 					ResourceItem Result = sut.AddResourceItem(1, ResourceType.Image, 1, "user name", "Resource Name", "Description", "some value", false, tags);
 					Assert.IsNotNull(Result);
@@ -1790,7 +1790,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.UpdateResourceItem(0, new ResourceItem(23, 0, ResourceType.Uri, 1, "user", "name", "desc", "value", 1, 1, 1, true, new()));
+					sut.UpdateResourceItem(0, new ResourceItem(23, 0, ResourceType.Uri, 1, "user", "name", "desc", "value", 1, 1, 1, true, []));
 				}
 			}
 			finally
@@ -1846,7 +1846,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.UpdateResourceItem(21, new ResourceItem(0, 1, ResourceType.Uri, 1, "user", "name", "desc", "value", 1, 1, 1, true, new()));
+					sut.UpdateResourceItem(21, new ResourceItem(0, 1, ResourceType.Uri, 1, "user", "name", "desc", "value", 1, 1, 1, true, []));
 				}
 			}
 			finally
@@ -1902,7 +1902,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					sut.UpdateResourceItem(1, new ResourceItem(0, 38, ResourceType.Uri, 1, "user", "name", "desc", "value", 1, 1, 1, true, new()));
+					sut.UpdateResourceItem(1, new ResourceItem(0, 38, ResourceType.Uri, 1, "user", "name", "desc", "value", 1, 1, 1, true, []));
 				}
 			}
 			finally
@@ -1962,7 +1962,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					ResourceItem updateItem = new(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
+					ResourceItem updateItem = new(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, []);
 					ResourceItem result = sut.UpdateResourceItem(2, updateItem);
 
 					Assert.IsNotNull(result);
@@ -2003,7 +2003,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					ResourceItem resourceItem = new(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
+					ResourceItem resourceItem = new(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, []);
 					BookmarkActionResult result = sut.ToggleResourceBookmark(2, resourceItem);
 
 					Assert.AreEqual(BookmarkActionResult.Unknown, result);
@@ -2079,7 +2079,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IResourceProvider sut = provider.GetRequiredService<IResourceProvider>();
 					Assert.IsNotNull(sut);
 
-					ResourceItem resourceItem = new(-100, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
+					ResourceItem resourceItem = new(-100, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, []);
 					BookmarkActionResult result = sut.ToggleResourceBookmark(1, resourceItem);
 
 					Assert.AreEqual(BookmarkActionResult.Unknown, result);
@@ -2147,7 +2147,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.AreEqual(0, resourceBookmarks.RecordCount);
 
 
-					ResourceItem resourceItem = new(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
+					ResourceItem resourceItem = new(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, []);
 					BookmarkActionResult result = sut.ToggleResourceBookmark(1, resourceItem);
 
 					Assert.AreEqual(BookmarkActionResult.Added, result);
@@ -2227,7 +2227,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.AreEqual(1, resourceBookmarks.RecordCount);
 
 
-					ResourceItem resourceItem = new(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
+					ResourceItem resourceItem = new(0, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, []);
 					BookmarkActionResult result = sut.ToggleResourceBookmark(1, resourceItem);
 
 					Assert.AreEqual(BookmarkActionResult.Removed, result);
@@ -2312,7 +2312,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.AreEqual(30, resourceBookmarks.RecordCount);
 
 
-					ResourceItem resourceItem = new(35, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, new());
+					ResourceItem resourceItem = new(35, 0, ResourceType.Uri, 1, "user name", "new name", "my description", "the value", 100, 100, 100, true, []);
 					BookmarkActionResult result = sut.ToggleResourceBookmark(1, resourceItem);
 
 					Assert.AreEqual(BookmarkActionResult.QuotaExceeded, result);

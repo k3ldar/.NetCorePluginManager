@@ -96,7 +96,7 @@ namespace BadEgg.Plugin.WebDefender
 		/// </summary>
 		private static readonly object _lockObject = new();
 
-		private static readonly Dictionary<string, IpConnectionInfo> _connectionInformation = new();
+		private static readonly Dictionary<string, IpConnectionInfo> _connectionInformation = [];
 
 		private readonly HashSet<IpConnectionInfo> _connectionsAdd;
 
@@ -106,7 +106,7 @@ namespace BadEgg.Plugin.WebDefender
 
 		private ulong _iteration = 0;
 
-		internal static readonly Dictionary<string, bool> InternalIpAddressList = new();
+		internal static readonly Dictionary<string, bool> InternalIpAddressList = [];
 
 		internal static readonly object InternalIpAddressLock = new();
 
@@ -115,7 +115,7 @@ namespace BadEgg.Plugin.WebDefender
 		/// </summary>
 		public TimeSpan ConnectionTimeout { get; }
 
-		private readonly HashSet<ConnectionReportEventArgs> _reports = new();
+		private readonly HashSet<ConnectionReportEventArgs> _reports = [];
 
 		private readonly object _reportsLock = new();
 
@@ -137,7 +137,7 @@ namespace BadEgg.Plugin.WebDefender
 		{
 			ContinueIfGlobalException = true;
 
-			_connectionsAdd = new HashSet<IpConnectionInfo>();
+			_connectionsAdd = [];
 			ConnectionTimeout = connectionTimeout;
 			InternalMaximumConnectionsPerSecond = maximumConnectionsPerSecond;
 			HackProbability = DefaultHackProbability;
@@ -191,7 +191,7 @@ namespace BadEgg.Plugin.WebDefender
 			// every 10th iteration, remove expired connections
 			if (++_iteration % RemoveExpiredConnectionInterval == 0)
 			{
-				HashSet<IpConnectionInfo> removedConnections = new();
+				HashSet<IpConnectionInfo> removedConnections = [];
 
 				//remove expired connections
 				using (TimedLock lck = TimedLock.Lock(_lockObject))
@@ -224,7 +224,7 @@ namespace BadEgg.Plugin.WebDefender
 
 			// add/remove events done using seperate list so as not to slow down processing
 			// when connections add/remove
-			HashSet<IpConnectionInfo> _eventList = new();
+			HashSet<IpConnectionInfo> _eventList = [];
 
 			using (TimedLock lck = TimedLock.Lock(_eventLockObject))
 			{
@@ -312,7 +312,7 @@ namespace BadEgg.Plugin.WebDefender
 
 			string url = request.Path;
 			string physicalPath = request.PathBase.ToString();
-			string agent = request.Headers["User-Agent"].ToString();
+			string agent = request.Headers[Constants.UserAgent].ToString();
 			string query = UrlDecode(request.QueryString.ToString()).ToLower();
 
 			if (validatePostValues && request.HasFormContentType)
@@ -602,7 +602,7 @@ namespace BadEgg.Plugin.WebDefender
 
 		private void ValidateAndBanIPAddresses()
 		{
-			HashSet<IpConnectionInfo> banRequests = new();
+			HashSet<IpConnectionInfo> banRequests = [];
 
 			using (TimedLock lck = TimedLock.Lock(_lockObject))
 			{

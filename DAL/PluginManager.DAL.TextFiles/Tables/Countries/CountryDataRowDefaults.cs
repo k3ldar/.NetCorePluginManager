@@ -46,8 +46,8 @@ namespace PluginManager.DAL.TextFiles.Tables
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "This is initial load data and does not need to be retianed in memory as only used at startup")]
 		private List<CountryDataRow> GetVersion1Data()
 		{
-			List<CountryDataRow> initialData = new()
-			{
+			List<CountryDataRow> initialData =
+			[
 				new CountryDataRow() { Code = "ZZ", Name = "Unknown Country", Visible = false },
 				new CountryDataRow() { Code = "GB", Name = "United Kingdom" },
 				new CountryDataRow() { Code = "US", Name = "United States of America" },
@@ -299,7 +299,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 				new CountryDataRow() { Code = "RS", Name = "Serbia" },
 				new CountryDataRow() { Code = "TL", Name = "Timor-leste" },
 				new CountryDataRow() { Code = "CW", Name = "Curaçao" }
-			};
+			];
 
 
 			return initialData;

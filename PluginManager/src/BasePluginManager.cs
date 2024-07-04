@@ -79,8 +79,8 @@ namespace PluginManager
 		/// </summary>
 		private BasePluginManager()
 		{
-			_plugins = new Dictionary<string, IPluginModule>();
-			RegisteredStartupThreads = new Dictionary<string, Type>();
+			_plugins = [];
+			RegisteredStartupThreads = [];
 			_notificationService = new NotificationService();
 			AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainAssemblyResolve;
 
@@ -546,7 +546,7 @@ namespace PluginManager
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Mustn't allow a single plugin load failure to prevent others loading")]
 		public List<Type> PluginGetTypesWithAttribute<T>()
 		{
-			List<Type> Result = new();
+			List<Type> Result = [];
 
 			foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
 			{
@@ -608,7 +608,7 @@ namespace PluginManager
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
 		public List<Type> PluginGetClassTypes<T>()
 		{
-			List<Type> Result = new();
+			List<Type> Result = [];
 
 			foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
 			{
@@ -647,7 +647,7 @@ namespace PluginManager
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
 		public List<T> PluginGetClasses<T>()
 		{
-			List<T> Result = new();
+			List<T> Result = [];
 			string name = typeof(T).FullName;
 
 			foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
@@ -819,7 +819,7 @@ namespace PluginManager
 			if (type == null)
 				throw new ArgumentNullException(nameof(type));
 
-			List<object> Result = new();
+			List<object> Result = [];
 
 			if (_serviceCollection != null)
 			{

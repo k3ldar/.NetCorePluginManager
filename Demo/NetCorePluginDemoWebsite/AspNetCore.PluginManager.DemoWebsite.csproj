@@ -32,7 +32,7 @@
     <PackageReleaseNotes>$(PackageReleaseNotes) Introduce new methods to query plugins for classes containing attributes and non instantiated class/interface types</PackageReleaseNotes>
     <PackageTags>$(PackageTags)</PackageTags>
     <RunAnalyzersDuringBuild>$(RunAnalyzersDuringBuild)</RunAnalyzersDuringBuild>
-    <NoWarn>$(NoWarn)</NoWarn>
+    <NoWarn>$(NoWarn);CA1861</NoWarn>
     <SignAssembly>$(SignAssembly)</SignAssembly>
     <AssemblyOriginatorKeyFile>$(AssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
   </PropertyGroup>

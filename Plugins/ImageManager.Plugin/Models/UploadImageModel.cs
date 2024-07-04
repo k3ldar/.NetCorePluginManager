@@ -41,7 +41,7 @@ namespace ImageManager.Plugin.Models
 		public UploadImageModel()
 			: base()
 		{
-			Files = new List<IFormFile>();
+			Files = [];
 		}
 
 		/// <summary>
@@ -52,7 +52,7 @@ namespace ImageManager.Plugin.Models
 		public UploadImageModel(BaseModelData modelData)
 			: base(modelData)
 		{
-			Files = new List<IFormFile>();
+			Files = [];
 		}
 
 		/// <summary>

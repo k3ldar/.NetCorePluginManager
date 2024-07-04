@@ -72,18 +72,18 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISimpleDBOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ISimpleDBOperations<DownloadCategoryDataRow>>();
 					Assert.IsNotNull(downloadCategoriesTable);
 
-					downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
-					{
+					downloadCategoriesTable.Insert(
+					[
 						new() { Name = "Cat 1" },
 						new() { Name = "Cat 2" },
 						new() { Name = "Cat 3" },
-					});
+					]);
 
 					ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
 					Assert.IsNotNull(downloadItemsTable);
 
-					downloadItemsTable.Insert(new List<DownloadItemsDataRow>()
-					{
+					downloadItemsTable.Insert(
+					[
 						new() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
 						new() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
 						new() { Name = "DL3", UserId = 0, CategoryId = 1, Description = "dl3", Filename = "dl3.txt" },
@@ -91,7 +91,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 						new() { Name = "DL5", UserId = 0, CategoryId = 1, Description = "dl5", Filename = "dl5.txt" },
 						new() { Name = "DL6", UserId = 0, CategoryId = 2, Description = "dl6", Filename = "dl6.txt" },
 						new() { Name = "DL7", UserId = 1, CategoryId = 2, Description = "dl7", Filename = "dl7.txt" },
-					});
+					]);
 
 					List<DownloadCategory> result = sut.DownloadCategoriesGet(0);
 					Assert.IsNotNull(result);
@@ -133,18 +133,18 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISimpleDBOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ISimpleDBOperations<DownloadCategoryDataRow>>();
 					Assert.IsNotNull(downloadCategoriesTable);
 
-					downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
-					{
+					downloadCategoriesTable.Insert(
+					[
 						new() { Name = "Cat 1" },
 						new() { Name = "Cat 2" },
 						new() { Name = "Cat 3" },
-					});
+					]);
 
 					ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
 					Assert.IsNotNull(downloadItemsTable);
 
-					downloadItemsTable.Insert(new List<DownloadItemsDataRow>()
-					{
+					downloadItemsTable.Insert(
+					[
 						new() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
 						new() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
 						new() { Name = "DL3", UserId = 0, CategoryId = 1, Description = "dl3", Filename = "dl3.txt" },
@@ -152,7 +152,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 						new() { Name = "DL5", UserId = 0, CategoryId = 1, Description = "dl5", Filename = "dl5.txt" },
 						new() { Name = "DL6", UserId = 0, CategoryId = 2, Description = "dl6", Filename = "dl6.txt" },
 						new() { Name = "DL7", UserId = 1, CategoryId = 2, Description = "dl7", Filename = "dl7.txt" },
-					});
+					]);
 
 					List<DownloadCategory> result = sut.DownloadCategoriesGet(1);
 					Assert.IsNotNull(result);
@@ -194,18 +194,18 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISimpleDBOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ISimpleDBOperations<DownloadCategoryDataRow>>();
 					Assert.IsNotNull(downloadCategoriesTable);
 
-					downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
-					{
+					downloadCategoriesTable.Insert(
+					[
 						new() { Name = "Cat 1" },
 						new() { Name = "Cat 2" },
 						new() { Name = "Cat 3" },
-					});
+					]);
 
 					ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
 					Assert.IsNotNull(downloadItemsTable);
 
-					downloadItemsTable.Insert(new List<DownloadItemsDataRow>()
-					{
+					downloadItemsTable.Insert(
+					[
 						new() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
 						new() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
 						new() { Name = "DL3", UserId = 0, CategoryId = 1, Description = "dl3", Filename = "dl3.txt" },
@@ -213,7 +213,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 						new() { Name = "DL5", UserId = 0, CategoryId = 1, Description = "dl5", Filename = "dl5.txt" },
 						new() { Name = "DL6", UserId = 0, CategoryId = 2, Description = "dl6", Filename = "dl6.txt" },
 						new() { Name = "DL7", UserId = 1, CategoryId = 2, Description = "dl7", Filename = "dl7.txt" },
-					});
+					]);
 
 					List<DownloadCategory> result = sut.DownloadCategoriesGet();
 					Assert.IsNotNull(result);
@@ -283,19 +283,19 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISimpleDBOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ISimpleDBOperations<DownloadCategoryDataRow>>();
 					Assert.IsNotNull(downloadCategoriesTable);
 
-					downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
-					{
+					downloadCategoriesTable.Insert(
+					[
 						new() { Name = "Cat 1" },
-					});
+					]);
 
 					ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
 					Assert.IsNotNull(downloadItemsTable);
 
-					downloadItemsTable.Insert(new List<DownloadItemsDataRow>()
-					{
+					downloadItemsTable.Insert(
+					[
 						new() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
 						new() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
-					});
+					]);
 
 					DownloadItem result = sut.GetDownloadItem(1);
 					Assert.IsNotNull(result);
@@ -329,19 +329,19 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISimpleDBOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ISimpleDBOperations<DownloadCategoryDataRow>>();
 					Assert.IsNotNull(downloadCategoriesTable);
 
-					downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
-					{
+					downloadCategoriesTable.Insert(
+					[
 						new() { Name = "Cat 1" },
-					});
+					]);
 
 					ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
 					Assert.IsNotNull(downloadItemsTable);
 
-					downloadItemsTable.Insert(new List<DownloadItemsDataRow>()
-					{
+					downloadItemsTable.Insert(
+					[
 						new() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
 						new() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
-					});
+					]);
 
 					DownloadItem result = sut.GetDownloadItem(1, 1);
 					Assert.IsNotNull(result);
@@ -375,19 +375,19 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISimpleDBOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ISimpleDBOperations<DownloadCategoryDataRow>>();
 					Assert.IsNotNull(downloadCategoriesTable);
 
-					downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
-					{
+					downloadCategoriesTable.Insert(
+					[
 						new() { Name = "Cat 1" },
-					});
+					]);
 
 					ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
 					Assert.IsNotNull(downloadItemsTable);
 
-					downloadItemsTable.Insert(new List<DownloadItemsDataRow>()
-					{
+					downloadItemsTable.Insert(
+					[
 						new() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
 						new() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
-					});
+					]);
 
 					DownloadItem result = sut.GetDownloadItem(1);
 					Assert.IsNotNull(result);
@@ -429,19 +429,19 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISimpleDBOperations<DownloadCategoryDataRow> downloadCategoriesTable = provider.GetService<ISimpleDBOperations<DownloadCategoryDataRow>>();
 					Assert.IsNotNull(downloadCategoriesTable);
 
-					downloadCategoriesTable.Insert(new List<DownloadCategoryDataRow>()
-					{
+					downloadCategoriesTable.Insert(
+					[
 						new() { Name = "Cat 1" },
-					});
+					]);
 
 					ISimpleDBOperations<DownloadItemsDataRow> downloadItemsTable = provider.GetService<ISimpleDBOperations<DownloadItemsDataRow>>();
 					Assert.IsNotNull(downloadItemsTable);
 
-					downloadItemsTable.Insert(new List<DownloadItemsDataRow>()
-					{
+					downloadItemsTable.Insert(
+					[
 						new() { Name = "DL1", UserId = 1, CategoryId = 0, Description = "dl1", Filename = "dl1.txt" },
 						new() { Name = "DL2", UserId = 0, CategoryId = 0, Description = "dl2", Filename = "dl2.txt" },
-					});
+					]);
 
 					DownloadItem result = sut.GetDownloadItem(1, 1);
 					Assert.IsNotNull(result);

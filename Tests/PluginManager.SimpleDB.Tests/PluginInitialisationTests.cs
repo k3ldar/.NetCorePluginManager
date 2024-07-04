@@ -134,7 +134,7 @@ namespace SimpleDB.Tests
 			const int RegisteredService = 4;
 
 			PluginInitialisation sut = new();
-			MockServiceCollection mockServiceCollection = new();
+			MockServiceCollection mockServiceCollection = [];
 
 			sut.BeforeConfigureServices(mockServiceCollection);
 
@@ -146,7 +146,7 @@ namespace SimpleDB.Tests
 		public void ConfigureServices_DoesNotThrowException()
 		{
 			PluginInitialisation sut = new();
-			MockServiceCollection mockServiceCollection = new();
+			MockServiceCollection mockServiceCollection = [];
 
 			sut.ConfigureServices(mockServiceCollection);
 
@@ -158,7 +158,7 @@ namespace SimpleDB.Tests
 		public void AfterConfigureServices_DoesNotThrowException_Success()
 		{
 			PluginInitialisation sut = new();
-			MockServiceCollection mockServiceCollection = new();
+			MockServiceCollection mockServiceCollection = [];
 
 			sut.AfterConfigureServices(mockServiceCollection);
 

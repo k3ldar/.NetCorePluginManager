@@ -36,7 +36,7 @@ using SimpleDB.Tests.Mocks;
 using io = System.IO;
 
 
-#pragma warning disable CA1806
+#pragma warning disable CA1806, CA1859
 
 namespace SimpleDB.Tests
 {
@@ -357,7 +357,7 @@ namespace SimpleDB.Tests
 
 				using (SimpleDBOperations<MockRow> sut = new(simpleDBManager, keyManager))
 				{
-					List<MockRow> testData = new();
+					List<MockRow> testData = [];
 
 					for (int i = 0; i < 15168; i++)
 						testData.Add(new MockRow(i));
@@ -404,7 +404,7 @@ namespace SimpleDB.Tests
 
 				using SimpleDBOperations<MockRow> sut = new(initializer, new ForeignKeyManager());
 				sut.Dispose();
-				sut.Delete(new List<MockRow>() { new() });
+				sut.Delete([new()]);
 
 			}
 			finally
@@ -445,7 +445,7 @@ namespace SimpleDB.Tests
 
 				using (SimpleDBOperations<MockRow> sut = new(simpleDBManager, keyManager))
 				{
-					List<MockRow> testData = new();
+					List<MockRow> testData = [];
 
 					for (int i = 0; i < 15168; i++)
 						testData.Add(new MockRow(i));
@@ -461,12 +461,12 @@ namespace SimpleDB.Tests
 					Assert.AreEqual(15168, deleteSut.RecordCount);
 					Assert.AreEqual(1475355, deleteSut.DataLength);
 
-					deleteSut.Delete(new List<MockRow>()
-					{
+					deleteSut.Delete(
+					[
 						deleteSut.Select(1519),
 						deleteSut.Select(2168),
 						deleteSut.Select(15000)
-					});
+					]);
 				}
 
 				fi = new FileInfo(Path.Combine(directory, "MockTable.dat"));
@@ -545,7 +545,7 @@ namespace SimpleDB.Tests
 				using (SimpleDBOperations<MockUpdateRow> sut = new(simpleDBManager, keyManager))
 				{
 					sut.OnAction += (simpleDb) => onActionCalled = true;
-					List<MockUpdateRow> testData = new();
+					List<MockUpdateRow> testData = [];
 
 					for (int i = 0; i < 15168; i++)
 						testData.Add(new MockUpdateRow(i));
@@ -600,7 +600,7 @@ namespace SimpleDB.Tests
 
 				using SimpleDBOperations<MockUpdateRow> sut = new(initializer, new ForeignKeyManager());
 				sut.Dispose();
-				sut.Update(new List<MockUpdateRow>() { new() });
+				sut.Update([new()]);
 
 			}
 			finally
@@ -641,7 +641,7 @@ namespace SimpleDB.Tests
 
 				using (SimpleDBOperations<MockUpdateRow> sut = new(simpleDBManager, keyManager))
 				{
-					List<MockUpdateRow> testData = new();
+					List<MockUpdateRow> testData = [];
 
 					for (int i = 0; i < 15168; i++)
 						testData.Add(new MockUpdateRow(i));
@@ -654,12 +654,12 @@ namespace SimpleDB.Tests
 					Assert.AreEqual(15168, updateSut.RecordCount);
 					Assert.AreEqual(1657371, updateSut.DataLength);
 
-					List<MockUpdateRow> updateList = new()
-					{
+					List<MockUpdateRow> updateList =
+					[
 						updateSut.Select(1519),
 						updateSut.Select(2168),
 						updateSut.Select(15000)
-					};
+					];
 
 					updateList[0].Data = "Row 1 updated";
 					updateList[1].Data = "Row 2 updated";
@@ -698,7 +698,7 @@ namespace SimpleDB.Tests
 
 				using SimpleDBOperations<MockRow> sut = new(initializer, new ForeignKeyManager());
 				sut.Dispose();
-				sut.Insert(new List<MockRow>());
+				sut.Insert([]);
 
 			}
 			finally
@@ -719,7 +719,7 @@ namespace SimpleDB.Tests
 
 				using (SimpleDBOperations<MockRow> sut = new(simpleDBManager, keyManager))
 				{
-					List<MockRow> testData = new();
+					List<MockRow> testData = [];
 
 					for (int i = 0; i < 15168; i++)
 						testData.Add(new MockRow(i));
@@ -755,7 +755,7 @@ namespace SimpleDB.Tests
 
 				using (SimpleDBOperations<MockRow> sut = new(simpleDBManager, keyManager))
 				{
-					List<MockRow> testData = new();
+					List<MockRow> testData = [];
 
 					for (int i = 0; i < 5; i++)
 						testData.Add(new MockRow());
@@ -798,7 +798,7 @@ namespace SimpleDB.Tests
 
 				using (SimpleDBOperations<MockRowCompressed> sut = new(simpleDBManager, keyManager))
 				{
-					List<MockRowCompressed> testData = new();
+					List<MockRowCompressed> testData = [];
 
 					for (int i = 0; i < 15168; i++)
 						testData.Add(new MockRowCompressed());
@@ -876,7 +876,7 @@ namespace SimpleDB.Tests
 
 				using (SimpleDBOperations<MockRowCompressed> sut = new(simpleDBManager, keyManager))
 				{
-					List<MockRowCompressed> testData = new();
+					List<MockRowCompressed> testData = [];
 
 					for (int i = 0; i < 200; i++)
 						testData.Add(new MockRowCompressed());
@@ -1017,7 +1017,7 @@ namespace SimpleDB.Tests
 
 				using (SimpleDBOperations<MockRowCompressed> sut = new(simpleDBManager, keyManager))
 				{
-					List<MockRowCompressed> testData = new();
+					List<MockRowCompressed> testData = [];
 
 					MockRowCompressed row = new();
 					testData.Add(row);
@@ -1112,7 +1112,7 @@ namespace SimpleDB.Tests
 
 				using (SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, keyManager))
 				{
-					List<MockTableUserRow> testData = new();
+					List<MockTableUserRow> testData = [];
 
 					for (int i = 0; i < 5; i++)
 						testData.Add(new MockTableUserRow(i));
@@ -1121,7 +1121,7 @@ namespace SimpleDB.Tests
 
 					using (SimpleDBOperations<MockTableAddressRow> sut = new(simpleDBManager, keyManager))
 					{
-						List<MockTableAddressRow> itemsToInsert = new();
+						List<MockTableAddressRow> itemsToInsert = [];
 
 						for (int i = 0; i < 5; i++)
 							itemsToInsert.Add(new MockTableAddressRow() { Id = -1, Description = "test", UserId = 1 });
@@ -1311,4 +1311,4 @@ namespace SimpleDB.Tests
 	}
 }
 
-#pragma warning restore CA1806
+#pragma warning restore CA1806, CA1859

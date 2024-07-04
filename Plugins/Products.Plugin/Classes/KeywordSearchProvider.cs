@@ -88,7 +88,7 @@ namespace ProductPlugin.Classes
 			if (searchOptions == null)
 				throw new ArgumentNullException(nameof(searchOptions));
 
-			List<SearchResponseItem> Results = new();
+			List<SearchResponseItem> Results = [];
 
 			List<Product> products = _productProvider.GetProducts(1, SharedPluginFeatures.Constants.MaximumProducts);
 
@@ -130,10 +130,10 @@ namespace ProductPlugin.Classes
 		/// <returns>List&lt;string&gt;</returns>
 		public List<string> SearchResponseTypes(in Boolean quickSearch)
 		{
-			List<string> Result = new()
-			{
+			List<string> Result =
+			[
 				"ProductName"
-			};
+			];
 
 			if (!quickSearch)
 			{
@@ -257,7 +257,7 @@ namespace ProductPlugin.Classes
 
 		private List<int> GetProductGroupsFromOptions(in KeywordSearchOptions searchOptions)
 		{
-			List<int> Result = new();
+			List<int> Result = [];
 
 			if (!searchOptions.QuickSearch)
 			{

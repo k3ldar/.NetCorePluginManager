@@ -320,7 +320,7 @@ namespace ImageManager.Plugin.Controllers
 			else
 				images = _imageProvider.Images(groupName, subgroupName);
 
-			List<string> imageNames = new();
+			List<string> imageNames = [];
 
 			images.ForEach(i => imageNames.Add(i.Name));
 
@@ -444,11 +444,11 @@ namespace ImageManager.Plugin.Controllers
 			else
 				images = _imageProvider.Images(groupName, subgroupName);
 
-			Dictionary<string, List<string>> groups = new();
+			Dictionary<string, List<string>> groups = [];
 
 			foreach (KeyValuePair<string, List<string>> item in _imageProvider.Groups())
 			{
-				groups.Add(item.Key, new List<string>());
+				groups.Add(item.Key, []);
 
 				if (!String.IsNullOrEmpty(groupName) && item.Key.Equals(groupName))
 				{

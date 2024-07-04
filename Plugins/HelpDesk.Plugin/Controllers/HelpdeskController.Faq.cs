@@ -121,7 +121,7 @@ namespace HelpdeskPlugin.Controllers
 		private FaqGroupViewModel CreateFaqViewModel(List<KnowledgeBaseGroup> groups,
 			in KnowledgeBaseGroup activeGroup)
 		{
-			List<FaqGroup> faqGroups = new();
+			List<FaqGroup> faqGroups = [];
 
 			foreach (KnowledgeBaseGroup group in groups)
 			{
@@ -158,7 +158,7 @@ namespace HelpdeskPlugin.Controllers
 			if (group == null)
 				return null;
 
-			List<FaqGroupItem> items = new();
+			List<FaqGroupItem> items = [];
 
 			foreach (KnowledgeBaseItem item in group.Items)
 			{

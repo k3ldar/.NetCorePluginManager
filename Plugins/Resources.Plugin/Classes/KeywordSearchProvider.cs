@@ -61,7 +61,7 @@ namespace Resources.Plugin.Classes
 			if (searchOptions == null)
 				throw new ArgumentNullException(nameof(searchOptions));
 
-			List<SearchResponseItem> Result = new();
+			List<SearchResponseItem> Result = [];
 
 			if (searchOptions.ExactMatch || searchOptions.QuickSearch)
 			{
@@ -83,11 +83,11 @@ namespace Resources.Plugin.Classes
 
 		public List<string> SearchResponseTypes(in bool quickSearch)
 		{
-			List<string> Result = new()
-			{
+			List<string> Result =
+			[
 				"Name",
 				"Tags"
-			};
+			];
 
 			if (!quickSearch)
 			{

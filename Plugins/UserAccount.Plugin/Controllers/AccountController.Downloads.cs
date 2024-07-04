@@ -38,7 +38,7 @@ using UserAccount.Plugin.Models;
 
 namespace UserAccount.Plugin.Controllers
 {
-#pragma warning disable CS1591, IDE0017, IDE0066
+#pragma warning disable CS1591, IDE0017, IDE0066, ASP0015
 
 	public partial class AccountController
 	{
@@ -52,7 +52,7 @@ namespace UserAccount.Plugin.Controllers
 
 			activeCategory ??= categories[0];
 
-			List<ViewDownloadViewItem> downloads = new();
+			List<ViewDownloadViewItem> downloads = [];
 
 			foreach (DownloadItem item in activeCategory.Downloads)
 			{
@@ -185,5 +185,5 @@ namespace UserAccount.Plugin.Controllers
 		#endregion Private Methods
 	}
 
-#pragma warning restore CS1591, IDE0017, IDE0066
+#pragma warning restore CS1591, IDE0017, IDE0066, ASP0015
 }

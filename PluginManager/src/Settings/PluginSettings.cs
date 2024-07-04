@@ -44,7 +44,7 @@ namespace PluginManager
 		/// </summary>
 		public PluginSettings()
 		{
-			Plugins = new List<PluginSetting>();
+			Plugins = [];
 		}
 
 		#endregion Constructors

@@ -347,12 +347,12 @@ namespace DocumentationPlugin.Controllers
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private static string ReturnUptoParam(string s)
 		{
-			int bracket = s.IndexOf("(");
+			int bracket = s.IndexOf(SharedPluginFeatures.Constants.OpenBracketChar);
 
 			if (bracket == -1)
 				return s;
 			else
-				return s.Substring(0, bracket);
+				return s[..bracket];
 		}
 
 		private DocumentViewModel BuildDocumentViewModel(string documentName, string className, out Document selected)

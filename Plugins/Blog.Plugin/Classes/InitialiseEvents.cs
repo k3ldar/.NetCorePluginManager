@@ -48,7 +48,7 @@ namespace Blog.Plugin.Classes
 
 		public void AfterConfigureServices(in IServiceCollection services)
 		{
-			// Add blog specific policies
+#if NET_6_0
 			services.AddAuthorization(options =>
 			{
 				options.AddPolicy(
@@ -60,9 +60,17 @@ namespace Blog.Plugin.Classes
 						.RequireClaim(Constants.ClaimNameUserId)
 						.RequireClaim(Constants.ClaimNameUserEmail));
 			});
+#else
+			// Add blog specific policies
+			services.AddAuthorizationBuilder()
+				.AddPolicy(Constants.PolicyNameBlogCreate, policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameCreateBlog))
+				.AddPolicy(Constants.PolicyNameBlogRespond, policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameUsername)
+				.RequireClaim(Constants.ClaimNameUserId)
+				.RequireClaim(Constants.ClaimNameUserEmail));
+#endif
 		}
 
-		public void BeforeConfigure(in IApplicationBuilder app)
+			public void BeforeConfigure(in IApplicationBuilder app)
 		{
 			// required by interface not used in this implementation
 		}
@@ -77,20 +85,20 @@ namespace Blog.Plugin.Classes
 			// required by interface not used in this implementation
 		}
 
-		#endregion IInitialiseEvents
+#endregion IInitialiseEvents
 
 		#region IClaimsService
 
 		public List<string> GetClaims()
 		{
-			return new List<string>()
-			{
+			return
+			[
 				Constants.ClaimNameCreateBlog,
 				Constants.ClaimNameUsername,
 				Constants.ClaimNameUserId,
 				Constants.ClaimNameUserEmail,
 				Constants.ClaimIdentityBlog
-			};
+			];
 		}
 
 		#endregion IClaimsService

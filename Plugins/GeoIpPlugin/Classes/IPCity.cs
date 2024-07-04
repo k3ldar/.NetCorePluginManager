@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+#pragma warning disable S1210
+
 namespace GeoIp.Plugin
 {
 	/// <summary>
@@ -123,6 +125,46 @@ namespace GeoIp.Plugin
 			return IpStart.CompareTo(((IpCity)obj).IpStart);
 		}
 
+		/// <summary>
+		/// Determines whether objects are the same
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <returns></returns>
+		public override bool Equals(object obj)
+		{
+			return obj is IpCity city &&
+				   IpStart == city.IpStart &&
+				   IpEnd == city.IpEnd &&
+				   CountryCode == city.CountryCode &&
+				   Region == city.Region &&
+				   CityName == city.CityName &&
+				   Latitude == city.Latitude &&
+				   Longitude == city.Longitude &&
+				   IpUniqueID == city.IpUniqueID &&
+				   IsComplete == city.IsComplete;
+		}
+
+		/// <summary>
+		/// Retrieves unique hash code
+		/// </summary>
+		/// <returns></returns>
+		public override int GetHashCode()
+		{
+			HashCode hash = new HashCode();
+			hash.Add(IpStart);
+			hash.Add(IpEnd);
+			hash.Add(CountryCode);
+			hash.Add(Region);
+			hash.Add(CityName);
+			hash.Add(Latitude);
+			hash.Add(Longitude);
+			hash.Add(IpUniqueID);
+			hash.Add(IsComplete);
+			return hash.ToHashCode();
+		}
+
 		#endregion Public Methods
 	}
 }
+
+#pragma warning restore S1210

@@ -65,8 +65,8 @@ namespace CacheControl.Plugin
 				throw new ArgumentNullException(nameof(settingsProvider));
 
 			_next = next ?? throw new ArgumentNullException(nameof(next));
-			_routePaths = new Dictionary<string, CacheControlRoute>();
-			_ignoredRoutes = new HashSet<string>();
+			_routePaths = [];
+			_ignoredRoutes = [];
 
 			LoadSettings(settingsProvider.GetSettings<CacheControlSettings>("CacheControlRoute"));
 		}
@@ -95,14 +95,14 @@ namespace CacheControl.Plugin
 							return;
 					}
 
-					if (!context.Response.Headers.ContainsKey("Cache-Control"))
+					if (!context.Response.Headers.ContainsKey(Constants.CacheControl))
 					{
 
 						foreach (KeyValuePair<string, CacheControlRoute> keyValuePair in _routePaths)
 						{
 							if (routeLowered.StartsWith(keyValuePair.Key))
 							{
-								context.Response.Headers["Cache-Control"] = $"max-age={keyValuePair.Value.CacheValue}";
+								context.Response.Headers[Constants.CacheControl] = $"max-age={keyValuePair.Value.CacheValue}";
 								return;
 							}
 						}

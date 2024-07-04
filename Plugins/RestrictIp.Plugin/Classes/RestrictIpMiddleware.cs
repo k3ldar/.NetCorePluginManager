@@ -92,8 +92,8 @@ namespace RestrictIp.Plugin
 
 			_next = next;
 			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			_localIpAddresses = new HashSet<string>();
-			_restrictedRoutes = new Dictionary<string, List<string>>();
+			_localIpAddresses = [];
+			_restrictedRoutes = [];
 			GetLocalIpAddresses(_localIpAddresses);
 			RestrictIpSettings settings = settingsProvider.GetSettings<RestrictIpSettings>("RestrictedIpRoutes.Plugin");
 			_disabled = settings.Disabled;
@@ -190,7 +190,7 @@ namespace RestrictIp.Plugin
 							route = route.Substring(0, route.Length - 1);
 
 						if (!_restrictedRoutes.ContainsKey(route.ToLower()))
-							_restrictedRoutes.Add(route.ToLower(), new List<string>());
+							_restrictedRoutes.Add(route.ToLower(), []);
 
 						if (settings.RouteRestrictions.ContainsKey(restrictedIpRouteAttribute.ProfileName))
 						{

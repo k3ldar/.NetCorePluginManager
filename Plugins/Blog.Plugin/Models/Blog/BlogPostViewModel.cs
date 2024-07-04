@@ -145,7 +145,7 @@ namespace Blog.Plugin.Models
 			LastModified = lastModified;
 			CanEdit = canEdit;
 			Tags = String.Join(' ', tags);
-			Comments = new List<BlogCommentViewModel>();
+			Comments = [];
 			IsLoggedIn = isLoggedIn;
 			AllowComments = allowComments;
 		}

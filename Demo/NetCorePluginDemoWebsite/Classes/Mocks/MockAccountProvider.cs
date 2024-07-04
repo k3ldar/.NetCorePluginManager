@@ -196,11 +196,11 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public List<DeliveryAddress> GetDeliveryAddresses(in long userId)
 		{
-			_deliveryAddresses ??= new List<DeliveryAddress>()
-					{
+			_deliveryAddresses ??=
+					[
 						new(1, String.Empty, "1 Mike St", String.Empty, String.Empty, "London", String.Empty, "L1 1AA", "GB", 5.99m),
 						new(2, String.Empty, "29 5th Avenue", String.Empty, String.Empty, "New York", String.Empty, "49210", "US", 5.99m),
-					};
+					];
 
 			return _deliveryAddresses;
 		}
@@ -263,25 +263,25 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public List<Order> OrdersGet(in Int64 userId)
 		{
-			_orders ??= new List<Order>()
-				{
+			_orders ??=
+				[
 					new(1, DateTime.Now.AddDays(-10), 4.99m, new CultureInfo("en-US"), ProcessStatus.Dispatched,
-						GetDeliveryAddresses(userId)[0], new List<OrderItem>()
-						{
+						GetDeliveryAddresses(userId)[0],
+						[
 							new(1, "The shining ones by David Eddings", 14.99m, 20, 1m, ItemStatus.Dispatched, DiscountType.Value, 0),
 							new(2, "Domes of Fire by David Eddings", 12.99m, 20, 2m, ItemStatus.BackOrder, DiscountType.PercentageSubTotal, 10),
 							new(3, "The hidden city by David Eddings", 12.99m, 20, 1m, ItemStatus.OnHold, DiscountType.PercentageTotal, 10),
 							new(4, "Bookmark", 0.99m, 20, 1m, ItemStatus.Dispatched, DiscountType.None, 0)
-						}),
+						]),
 
 					new(2, DateTime.Now.AddDays(-8), 6.99m, new CultureInfo("en-GB"), ProcessStatus.Dispatched,
-						GetDeliveryAddresses(userId)[0], new List<OrderItem>()
-						{
+						GetDeliveryAddresses(userId)[0],
+						[
 							new(5, "Mug, shiny white", 6.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.Value, 15),
 							new(6, "Dinner Plate", 7.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.PercentageSubTotal, 10),
 							new(7, "Cereal bowl", 5.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.PercentageTotal, 10)
-						})
-				};
+						])
+				];
 
 			return _orders;
 		}
@@ -294,7 +294,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 			if (String.IsNullOrEmpty(message))
 				throw new ArgumentNullException(nameof(message));
 
-			List<InvoiceItem> items = new();
+			List<InvoiceItem> items = [];
 
 			foreach (OrderItem item in order.OrderItems)
 			{
@@ -312,23 +312,23 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public List<Invoice> InvoicesGet(in Int64 userId)
 		{
-			_invoices ??= new List<Invoice>()
-				{
+			_invoices ??=
+				[
 					new(123, DateTime.Now.AddDays(-10), 4.99m, new CultureInfo("en-US"), ProcessStatus.Dispatched,
-						PaymentStatus.PaidMixed, GetDeliveryAddresses(userId)[0], new List<InvoiceItem>()
-						{
+						PaymentStatus.PaidMixed, GetDeliveryAddresses(userId)[0],
+						[
 							new(1, "The shining ones by David Eddings", 14.99m, 20, 1m, ItemStatus.Dispatched, DiscountType.Value, 0),
 							new(4, "Bookmark", 0.99m, 20, 1m, ItemStatus.Dispatched, DiscountType.None, 0)
-						}),
+						]),
 
 					new(234, DateTime.Now.AddDays(-8), 6.99m, new CultureInfo("en-GB"), ProcessStatus.Dispatched,
-						PaymentStatus.PaidCash, GetDeliveryAddresses(userId)[0], new List<InvoiceItem>()
-						{
+						PaymentStatus.PaidCash, GetDeliveryAddresses(userId)[0],
+						[
 							new(5, "Mug, shiny white", 6.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.Value, 15),
 							new(6, "Dinner Plate", 7.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.PercentageSubTotal, 10),
 							new(7, "Cereal bowl", 5.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.PercentageTotal, 10)
-						})
-				};
+						])
+				];
 
 			return _invoices;
 		}

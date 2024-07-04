@@ -52,7 +52,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 		public MockClaimsProvider(IPluginClassesService pluginClassesService)
 		{
 			_pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
-			_claimsForUser = new List<string>();
+			_claimsForUser = [];
 		}
 
 		#endregion Constructors
@@ -70,23 +70,27 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public List<ClaimsIdentity> GetUserClaims(in long userId)
 		{
-			List<ClaimsIdentity> Result = new();
+			List<ClaimsIdentity> Result = [];
 
-			List<Claim> userClaims = new();
-			userClaims.Add(new Claim("sub", userId.ToString()));
-			userClaims.Add(new Claim(Constants.ClaimNameUsername, "Administrator"));
-			userClaims.Add(new Claim(Constants.ClaimNameUserEmail, "admin@nowhere.com"));
-			userClaims.Add(new Claim(Constants.ClaimNameUserId, userId.ToString()));
+			List<Claim> userClaims =
+			[
+				new Claim("sub", userId.ToString()),
+				new Claim(Constants.ClaimNameUsername, "Administrator"),
+				new Claim(Constants.ClaimNameUserEmail, "admin@nowhere.com"),
+				new Claim(Constants.ClaimNameUserId, userId.ToString()),
+			];
 			Result.Add(new ClaimsIdentity(userClaims, Constants.ClaimIdentityUser));
 
-			List<Claim> webClaims = new();
-			webClaims.Add(new Claim(Constants.ClaimNameCreateBlog, "true"));
-			webClaims.Add(new Claim(Constants.ClaimNameAdministrator, "true"));
-			webClaims.Add(new Claim(Constants.ClaimNameStaff, "true"));
-			webClaims.Add(new Claim(Constants.ClaimNameManageSeo, "true"));
-			webClaims.Add(new Claim(Constants.ClaimNameViewImageManager, "true"));
-			webClaims.Add(new Claim(Constants.ClaimNameManageContent, "true"));
-			webClaims.Add(new Claim(Constants.ClaimNameAddResources, "true"));
+			List<Claim> webClaims =
+			[
+				new Claim(Constants.ClaimNameCreateBlog, "true"),
+				new Claim(Constants.ClaimNameAdministrator, "true"),
+				new Claim(Constants.ClaimNameStaff, "true"),
+				new Claim(Constants.ClaimNameManageSeo, "true"),
+				new Claim(Constants.ClaimNameViewImageManager, "true"),
+				new Claim(Constants.ClaimNameManageContent, "true"),
+				new Claim(Constants.ClaimNameAddResources, "true"),
+			];
 
 			// Only enable the following if the file exists to prevent malicious use
 			// when deployed live as a demo site
@@ -114,7 +118,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public List<string> GetAllClaims()
 		{
-			List<string> Result = new();
+			List<string> Result = [];
 
 			foreach (IClaimsService claimsService in _pluginClassesService.GetPluginClasses<IClaimsService>())
 			{

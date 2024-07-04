@@ -46,10 +46,10 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public MockSeoProvider()
 		{
-			_descriptions = new Dictionary<string, string>();
-			_authors = new Dictionary<string, string>();
-			_titles = new Dictionary<string, string>();
-			_keywords = new Dictionary<string, List<string>>();
+			_descriptions = [];
+			_authors = [];
+			_titles = [];
+			_keywords = [];
 
 			_titles.Add("/", "Plugin Manager Demo Home page");
 			_titles.Add("/Home", "Plugin Manager Demo Home page");
@@ -68,7 +68,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 		{
 			if (!_keywords.ContainsKey(route))
 			{
-				_keywords.Add(route, new List<string>() { keyword });
+				_keywords.Add(route, [keyword]);
 			}
 			else
 			{
@@ -90,7 +90,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 			if (!_keywords.ContainsKey(route))
 			{
-				_keywords.Add(route, new List<string>());
+				_keywords.Add(route, []);
 			}
 
 			List<string> keywordList = _keywords[route];
@@ -105,17 +105,10 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 		public bool GetSeoDataForRoute(in string route, out string title,
 			out string metaDescription, out string author, out List<string> keywords)
 		{
-			if (!_authors.ContainsKey(route))
-				_authors.Add(route, "Simon Carter");
-
-			if (!_titles.ContainsKey(route))
-				_titles.Add(route, "ASP Net Core Demonstration Website");
-
-			if (!_keywords.ContainsKey(route))
-				_keywords.Add(route, new List<string>() { "ASP", "Net", "Core", "Plugin", "Manager" });
-
-			if (!_descriptions.ContainsKey(route))
-				_descriptions.Add(route, "ASP Net Core Plugin Manager - demo website");
+			_authors.TryAdd(route, "Simon Carter");
+			_titles.TryAdd(route, "ASP Net Core Demonstration Website");
+			_keywords.TryAdd(route, ["ASP", "Net", "Core", "Plugin", "Manager"]);
+			_descriptions.TryAdd(route, "ASP Net Core Plugin Manager - demo website");
 
 			author = _authors[route];
 			metaDescription = _descriptions[route];
