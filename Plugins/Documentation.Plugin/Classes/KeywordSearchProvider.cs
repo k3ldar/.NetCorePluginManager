@@ -74,7 +74,7 @@ namespace DocumentationPlugin.Classes
 			if (searchOptions == null)
 				throw new ArgumentNullException(nameof(searchOptions));
 
-			List<SearchResponseItem> Results = new();
+			List<SearchResponseItem> Results = [];
 
 			List<Document> documents;
 
@@ -179,10 +179,10 @@ namespace DocumentationPlugin.Classes
 		/// <returns>List&lt;string&gt;</returns>
 		public List<string> SearchResponseTypes(in Boolean quickSearch)
 		{
-			List<string> Result = new()
-			{
+			List<string> Result =
+			[
 				"DocumentTitle"
-			};
+			];
 
 			if (!quickSearch)
 			{

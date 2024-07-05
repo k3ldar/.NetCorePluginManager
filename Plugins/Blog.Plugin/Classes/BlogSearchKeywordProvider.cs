@@ -69,9 +69,9 @@ namespace Blog.Plugin.Classes
 			if (searchOptions == null)
 				throw new ArgumentNullException(nameof(searchOptions));
 
-			List<SearchResponseItem> Result = new();
+			List<SearchResponseItem> Result = [];
 
-			List<BlogItem> foundBlogs = new();
+			List<BlogItem> foundBlogs = [];
 
 			string[] words = searchOptions.SearchTerm.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
@@ -99,7 +99,7 @@ namespace Blog.Plugin.Classes
 
 		public List<String> SearchResponseTypes(in Boolean quickSearch)
 		{
-			return new List<string>() { "Blog" };
+			return ["Blog"];
 		}
 
 		#endregion ISearchKeywordProvider Methods

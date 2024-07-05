@@ -225,11 +225,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 							Excerpt = $"Test blog {i}",
 							Username = "Test User",
 							UserId = 2,
-							Tags = new ObservableList<string>()
-							{
+							Tags =
+							[
 								"test",
 								$"{i % 2 == 0}"
-							}
+							]
 						});
 
 						firstDate.AddDays(1);
@@ -282,11 +282,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 							Excerpt = $"Test blog {i}",
 							Username = "Test User",
 							UserId = 2,
-							Tags = new ObservableList<string>()
-							{
+							Tags =
+							[
 								"test",
 								$"{i % 2 == 0}"
-							}
+							]
 						});
 
 						firstDate.AddDays(1);
@@ -339,11 +339,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 							Excerpt = $"Test blog {i}",
 							Username = "Test User",
 							UserId = 2,
-							Tags = new ObservableList<string>()
-							{
+							Tags =
+							[
 								"test",
 								$"{i % 2 == 0}"
-							}
+							]
 						});
 
 						firstDate.AddDays(1);
@@ -396,11 +396,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 							Excerpt = $"Test blog {i}",
 							Username = "Test User",
 							UserId = 2,
-							Tags = new ObservableList<string>()
-							{
+							Tags =
+							[
 								"test",
 								$"{i % 2 == 0}"
-							}
+							]
 						});
 
 						firstDate.AddDays(1);
@@ -453,11 +453,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 							Excerpt = $"Test blog {i}",
 							Username = "Test User",
 							UserId = 2,
-							Tags = new ObservableList<string>()
-							{
+							Tags =
+							[
 								"test",
 								$"{i % 2 == 0}"
-							}
+							]
 						});
 
 						firstDate.AddDays(1);
@@ -511,11 +511,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 							Excerpt = $"Test blog {i}",
 							Username = "Test User",
 							UserId = i % 2 == 0 ? 3 : 2,
-							Tags = new ObservableList<string>()
-							{
+							Tags =
+							[
 								"test",
 								$"{i % 2 == 0}"
-							}
+							]
 						});
 					}
 
@@ -559,13 +559,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
 					Assert.IsNotNull(blogTable);
 
-					List<string> tags = new()
-					{
+					List<string> tags =
+					[
 						"new",
 						"blog"
-					};
+					];
 
-					BlogItem newBlog = new(-1, 1, "My Blog", "My blog...", "Just a blog", "Blog writer", false, DateTime.Now, DateTime.Now, DateTime.Now.AddDays(-10), tags, new List<BlogComment>());
+					BlogItem newBlog = new(-1, 1, "My Blog", "My blog...", "Just a blog", "Blog writer", false, DateTime.Now, DateTime.Now, DateTime.Now.AddDays(-10), tags, []);
 					IBlogProvider sut = provider.GetRequiredService<IBlogProvider>();
 					Assert.IsNotNull(sut);
 
@@ -622,11 +622,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 							Excerpt = $"Test blog {i}",
 							Username = "Test User",
 							UserId = 2,
-							Tags = new ObservableList<string>()
-							{
+							Tags =
+							[
 								"test",
 								$"{i % 2 == 0}"
-							}
+							]
 						});
 					}
 
@@ -679,13 +679,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
 					Assert.IsNotNull(blogTable);
 
-					List<string> tags = new()
-					{
+					List<string> tags =
+					[
 						"new",
 						"blog"
-					};
+					];
 
-					BlogItem newBlog = new(-1, 2, "My Blog", "My blog...", "Just a blog", "Blog writer", false, DateTime.Now, DateTime.Now, DateTime.Now.AddDays(-10), tags, new List<BlogComment>());
+					BlogItem newBlog = new(-1, 2, "My Blog", "My blog...", "Just a blog", "Blog writer", false, DateTime.Now, DateTime.Now, DateTime.Now.AddDays(-10), tags, []);
 					IBlogProvider sut = provider.GetRequiredService<IBlogProvider>();
 					Assert.IsNotNull(sut);
 
@@ -737,13 +737,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
 					Assert.IsNotNull(blogTable);
 
-					List<string> tags = new()
-					{
+					List<string> tags =
+					[
 						"new",
 						"blog"
-					};
+					];
 
-					BlogItem newBlog = new(-1, 2, "My Blog", "My blog...", "Just a blog", "Blog writer", false, DateTime.Now, DateTime.Now, DateTime.Now.AddDays(-10), tags, new List<BlogComment>());
+					BlogItem newBlog = new(-1, 2, "My Blog", "My blog...", "Just a blog", "Blog writer", false, DateTime.Now, DateTime.Now, DateTime.Now.AddDays(-10), tags, []);
 					IBlogProvider sut = provider.GetRequiredService<IBlogProvider>();
 					Assert.IsNotNull(sut);
 

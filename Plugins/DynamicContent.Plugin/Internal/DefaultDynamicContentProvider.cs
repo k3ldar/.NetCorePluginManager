@@ -74,7 +74,7 @@ namespace DynamicContent.Plugin.Internal
 			DynamicContentSettings dynamicContentSettings = settingsProvider.GetSettings<DynamicContentSettings>(Controllers.DynamicContentController.Name);
 			_rootContentPath = dynamicContentSettings.DynamicContentLocation;
 
-			_dynamicContent = new List<IDynamicContentPage>();
+			_dynamicContent = [];
 
 			InitializeDynamicContent();
 		}
@@ -108,7 +108,7 @@ namespace DynamicContent.Plugin.Internal
 
 		public List<LookupListItem> GetCustomPageList()
 		{
-			List<LookupListItem> Result = new();
+			List<LookupListItem> Result = [];
 
 			using (TimedLock tl = TimedLock.Lock(_lockObject))
 			{

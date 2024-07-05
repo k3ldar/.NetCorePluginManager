@@ -24,6 +24,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#pragma warning disable IDE1006
+
 namespace SearchPlugin.Models
 {
 	/// <summary>
@@ -44,3 +46,5 @@ namespace SearchPlugin.Models
 		public string searchid { get; set; }
 	}
 }
+
+#pragma warning restore IDE1006

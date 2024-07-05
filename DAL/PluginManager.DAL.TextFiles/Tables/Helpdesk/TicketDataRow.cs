@@ -44,7 +44,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 
 		public TicketDataRow()
 		{
-			_messages = new ObservableList<TicketMessageDataRow>();
+			_messages = [];
 			_messages.Changed += ObservableDataChanged;
 		}
 

@@ -330,7 +330,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		private void ProcessClosedSessions()
 		{
-			List<UserSession> sessionsToSave = new();
+			List<UserSession> sessionsToSave = [];
 
 			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
 			{
@@ -445,7 +445,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 					if (session.Pages.Count > 0)
 					{
-						List<SessionPageDataRow> pages = new();
+						List<SessionPageDataRow> pages = [];
 
 						foreach (PageViewData page in session.Pages)
 						{

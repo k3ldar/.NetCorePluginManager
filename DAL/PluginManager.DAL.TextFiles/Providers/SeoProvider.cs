@@ -119,7 +119,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				title = String.Empty;
 				metaDescription = String.Empty;
 				author = String.Empty;
-				keywords = new();
+				keywords = [];
 				return false;
 			}
 

@@ -35,9 +35,9 @@ namespace DocumentationPlugin.Classes
 
 		public DocumentData()
 		{
-			KeyNames = new Dictionary<string, string>();
-			Contains = new Dictionary<string, string>();
-			SeeAlso = new Dictionary<string, string>();
+			KeyNames = [];
+			Contains = [];
+			SeeAlso = [];
 		}
 
 		#endregion Constructors

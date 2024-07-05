@@ -35,7 +35,7 @@ namespace DynamicContent.Plugin.Model
 
 		public TemplatesModel()
 		{
-			Templates = new List<TemplateModel>();
+			Templates = [];
 		}
 
 		#endregion Constructors

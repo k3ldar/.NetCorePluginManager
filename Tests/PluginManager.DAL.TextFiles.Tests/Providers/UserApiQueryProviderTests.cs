@@ -42,6 +42,8 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CA1859
+
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
 	[TestClass]
@@ -72,7 +74,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
+					IPluginClassesService pluginClassesService = new MockPluginClassesService([new ExternalUsersDataRowDefaults()]);
 
 					ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 					IForeignKeyManager keyManager = new ForeignKeyManager();
@@ -102,7 +104,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
+					IPluginClassesService pluginClassesService = new MockPluginClassesService([new ExternalUsersDataRowDefaults()]);
 
 					ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 					IForeignKeyManager keyManager = new ForeignKeyManager();
@@ -132,7 +134,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
+					IPluginClassesService pluginClassesService = new MockPluginClassesService([new ExternalUsersDataRowDefaults()]);
 
 					ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 					IForeignKeyManager keyManager = new ForeignKeyManager();
@@ -167,7 +169,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
+					IPluginClassesService pluginClassesService = new MockPluginClassesService([new ExternalUsersDataRowDefaults()]);
 
 					ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 					IForeignKeyManager keyManager = new ForeignKeyManager();
@@ -197,7 +199,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 				using (ServiceProvider provider = services.BuildServiceProvider())
 				{
-					IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
+					IPluginClassesService pluginClassesService = new MockPluginClassesService([new ExternalUsersDataRowDefaults()]);
 
 					ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
@@ -246,3 +248,5 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 		}
 	}
 }
+
+#pragma warning restore CA1859

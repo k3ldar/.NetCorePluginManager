@@ -56,9 +56,9 @@ namespace SharedPluginFeatures
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private static bool IsAjaxRequest(HttpRequest request)
 		{
-			if (request.Headers != null && request.Headers.ContainsKey("X-Requested-With"))
+			if (request.Headers != null && request.Headers.ContainsKey(Constants.XRequestedWith))
 			{
-				string requestedWith = request.Headers["X-Requested-With"];
+				string requestedWith = request.Headers[Constants.XRequestedWith];
 				return requestedWith.Equals("XmlHttpRequest", StringComparison.OrdinalIgnoreCase);
 			}
 

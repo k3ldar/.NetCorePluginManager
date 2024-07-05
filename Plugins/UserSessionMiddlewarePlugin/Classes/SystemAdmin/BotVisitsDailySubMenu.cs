@@ -96,7 +96,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 				.Take(30)
 				.ToList();
 
-			if (sessionData == null)
+			if (sessionData.Count == 0)
 				return String.Empty;
 
 			Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.String, "Day"));
@@ -105,7 +105,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
 			foreach (SessionDaily day in sessionData)
 			{
-				List<Decimal> datavalues = new();
+				List<Decimal> datavalues = [];
 				Result.DataValues[day.Date.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern)] = datavalues;
 
 				datavalues.Add(day.BotVisits);

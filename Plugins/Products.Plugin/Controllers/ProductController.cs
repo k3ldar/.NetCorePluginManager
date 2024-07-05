@@ -166,7 +166,7 @@ namespace ProductPlugin.Controllers
 
 		private ProductGroupModel GetProductGroupModel(in ProductGroup group, List<Product> products, in int page)
 		{
-			List<ProductCategoryModel> modelCategories = new();
+			List<ProductCategoryModel> modelCategories = [];
 
 			foreach (ProductGroup item in _productProvider.ProductGroupsGet())
 			{
@@ -197,7 +197,7 @@ namespace ProductPlugin.Controllers
 		{
 			ProductModel Result;
 
-			List<ProductCategoryModel> modelCategories = new();
+			List<ProductCategoryModel> modelCategories = [];
 
 			foreach (ProductGroup item in _productProvider.ProductGroupsGet())
 			{
@@ -239,7 +239,7 @@ namespace ProductPlugin.Controllers
 					.Where(i => i.Name.Contains("_orig"))
 					.ToList();
 
-			List<string> imageNames = new();
+			List<string> imageNames = [];
 			images.ForEach(i => imageNames.Add(i.Name.Substring(0, i.Name.IndexOf("_orig"))));
 
 			return imageNames.ToArray();

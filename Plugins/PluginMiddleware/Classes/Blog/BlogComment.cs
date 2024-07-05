@@ -62,7 +62,7 @@ namespace Middleware.Blog
 			if (String.IsNullOrEmpty(comment))
 				throw new ArgumentNullException(nameof(comment));
 
-			Comments = new List<BlogComment>();
+			Comments = [];
 
 			Id = id;
 			ParentComment = parentComment;

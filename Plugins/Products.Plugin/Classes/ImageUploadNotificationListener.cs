@@ -49,6 +49,7 @@ namespace ProductPlugin.Classes
 
 		private readonly IImageProvider _imageProvider;
 		private readonly ISettingsProvider _settingsProvider;
+		private static readonly char[] XSeparator = ['x'];
 
 		#endregion Private Members
 
@@ -73,7 +74,7 @@ namespace ProductPlugin.Classes
 
 			if (eventId.Equals(Constants.NotificationEventImageUploaded))
 			{
-				List<string> errors = new();
+				List<string> errors = [];
 				Result = ProcessImageUpload(param1 as CachedImageUpload, (string)param2, errors);
 				result = Result ? errors : null;
 			}
@@ -94,11 +95,11 @@ namespace ProductPlugin.Classes
 
 		public List<string> GetEvents()
 		{
-			return new List<string>()
-			{
+			return
+			[
 				Constants.NotificationEventImageUploaded,
 				Constants.NotificationEventImageUploadOptions
-			};
+			];
 		}
 
 		#endregion INotificationListener Methods
@@ -121,15 +122,15 @@ namespace ProductPlugin.Classes
 
 			ProductPluginSettings settings = _settingsProvider.GetSettings<ProductPluginSettings>("Products");
 
-			List<Size> newSizes = new();
+			List<Size> newSizes = [];
 
 			if (settings.ResizeImages)
 			{
-				string[] newSizess = settings.ResizeWidths.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+				string[] newSizess = settings.ResizeWidths.Split(new char[] { Constants.SemicolonChar }, StringSplitOptions.RemoveEmptyEntries);
 
 				foreach (string newSize in newSizess)
 				{
-					string[] parts = newSize.Split(new char[] { 'x' }, StringSplitOptions.RemoveEmptyEntries);
+					string[] parts = newSize.Split(XSeparator, StringSplitOptions.RemoveEmptyEntries);
 
 					if (parts.Length != 2)
 						continue;

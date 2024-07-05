@@ -109,7 +109,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 				shoppingCart.ResetShoppingCartId(++_basketId);
 				cartDetail = new ShoppingCartDetail(shoppingCart.Id,
 					0, 0, 20, 0, 0, shoppingCart.Culture, String.Empty,
-					new List<ShoppingCartItem>(), false, "GBP");
+					[], false, "GBP");
 			}
 
 			if (userSession.UserBasketId != shoppingCart.Id)
@@ -146,7 +146,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 			if (cacheItem == null)
 			{
-				List<ShoppingCartItem> items = new();
+				List<ShoppingCartItem> items = [];
 
 				Product product = _productProvider.GetProducts(1, 10000).Find(p => p.RetailPrice > 0);
 
@@ -193,7 +193,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 			}
 
 			DeliveryAddress shippingAddress = _accountProvider.GetDeliveryAddress(userId, cartDetail.DeliveryAddressId);
-			List<OrderItem> items = new();
+			List<OrderItem> items = [];
 
 			foreach (ShoppingCartItem item in cartDetail.Items)
 			{
@@ -248,7 +248,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 			ShoppingCartDetail cartDetail = new(cartId,
 				0, 0, 20, 0, 0, System.Threading.Thread.CurrentThread.CurrentCulture,
-				String.Empty, new List<ShoppingCartItem>(), false, "GBP");
+				String.Empty, [], false, "GBP");
 
 			Product product = _productProvider.GetProducts(1, 10000).First(p => p.RetailPrice > 0 && !p.IsDownload);
 

@@ -92,7 +92,7 @@ namespace BadEgg.Plugin
 			_ipValidation = ipValidation ?? throw new ArgumentNullException(nameof(ipValidation));
 			_notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
 
-			_managedRoutes = new List<ManagedRoute>();
+			_managedRoutes = [];
 			LoadRouteData(routeProvider, routeDataService, pluginTypesService);
 
 			_badEggSettings = settingsProvider.GetSettings<BadEggSettings>(Constants.BadEggSettingsName);

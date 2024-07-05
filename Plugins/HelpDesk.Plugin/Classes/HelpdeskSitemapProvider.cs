@@ -64,11 +64,12 @@ namespace HelpdeskPlugin.Classes
 		/// <returns>List&lt;ISitemapItem&gt;</returns>
 		public List<SitemapItem> Items()
 		{
-			List<SitemapItem> Result = new();
-
-			Result.Add(new SitemapItem(
-				new Uri($"{HelpdeskController.Name}/{nameof(HelpdeskController.Feedback)}", UriKind.RelativeOrAbsolute),
-					SitemapChangeFrequency.Weekly));
+			List<SitemapItem> Result =
+			[
+				new SitemapItem(
+					new Uri($"{HelpdeskController.Name}/{nameof(HelpdeskController.Feedback)}", UriKind.RelativeOrAbsolute),
+						SitemapChangeFrequency.Weekly),
+			];
 
 			List<KnowledgeBaseGroup> faqGroups = _helpdeskProvider.GetKnowledgebaseGroups(0, null);
 

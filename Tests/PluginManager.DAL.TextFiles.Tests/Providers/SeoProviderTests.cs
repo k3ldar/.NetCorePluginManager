@@ -193,7 +193,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISeoProvider sut = provider.GetRequiredService<ISeoProvider>();
 
 					Assert.IsNotNull(sut);
-					sut.AddKeywords(null, new List<string>());
+					sut.AddKeywords(null, []);
 				}
 			}
 			finally
@@ -254,13 +254,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 					Assert.IsNotNull(sut);
 
-					List<string> keywords = new()
-					{
+					List<string> keywords =
+					[
 						"one",
 						"two",
 						"three",
 						"four",
-					};
+					];
 
 					bool result = sut.AddKeywords("/route", keywords);
 					Assert.IsTrue(result);
@@ -539,7 +539,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 				{
 					ISeoProvider sut = provider.GetRequiredService<ISeoProvider>();
 
-					sut.RemoveKeywords(null, new List<string>());
+					sut.RemoveKeywords(null, []);
 				}
 			}
 			finally
@@ -584,7 +584,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 				{
 					ISeoProvider sut = provider.GetRequiredService<ISeoProvider>();
 
-					bool result = sut.RemoveKeywords("/route", new List<string>());
+					bool result = sut.RemoveKeywords("/route", []);
 					Assert.IsFalse(result);
 				}
 			}
@@ -627,7 +627,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISeoProvider sut = provider.GetRequiredService<ISeoProvider>();
 
 
-					bool result = sut.RemoveKeywords("/route", new List<string>() { "one", "four" });
+					bool result = sut.RemoveKeywords("/route", ["one", "four"]);
 					Assert.IsTrue(result);
 
 					SeoDataRow record = seoTable.Select(0);

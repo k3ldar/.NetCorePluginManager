@@ -87,7 +87,7 @@ namespace ProductPlugin
 		{
 			if (services == null)
 				throw new ArgumentNullException(nameof(services));
-
+#if NET_6_0
 			services.AddAuthorization(options =>
 			{
 				options.AddPolicy(
@@ -99,6 +99,15 @@ namespace ProductPlugin
 						.RequireClaim(Constants.ClaimNameUserEmail)
 						.RequireClaim(Constants.ClaimNameStaff));
 			});
+#else
+			services.AddAuthorizationBuilder()
+				.AddPolicy(Constants.PolicyNameManageProducts, policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameAdministrator)
+					.RequireClaim(Constants.ClaimNameManageProducts)
+					.RequireClaim(Constants.ClaimNameUsername)
+					.RequireClaim(Constants.ClaimNameUserId)
+					.RequireClaim(Constants.ClaimNameUserEmail)
+					.RequireClaim(Constants.ClaimNameStaff));
+#endif
 		}
 
 		public void BeforeConfigure(in IApplicationBuilder app)
@@ -116,16 +125,16 @@ namespace ProductPlugin
 			// from interface but unused in this context
 		}
 
-		#endregion IInitialiseEvents Methods
+#endregion IInitialiseEvents Methods
 
 		#region IClaimsService
 
 		public List<string> GetClaims()
 		{
-			return new List<string>()
-			{
+			return
+			[
 				Constants.ClaimNameManageProducts,
-			};
+			];
 		}
 
 		#endregion IClaimsService

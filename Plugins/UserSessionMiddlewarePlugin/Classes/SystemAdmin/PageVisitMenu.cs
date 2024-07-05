@@ -66,7 +66,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 		public override string Data()
 		{
 			StringBuilder Result = new("Page|Total Visits");
-			Dictionary<string, uint> pageVisits = new();
+			Dictionary<string, uint> pageVisits = [];
 
 			foreach (UserSession session in UserSessionManager.Clone)
 			{

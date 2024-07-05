@@ -37,13 +37,13 @@ namespace ShoppingCartPlugin.Models
 
 		public ShippingModel()
 		{
-			ShippingAddresses = new List<ShippingAddressModel>();
+			ShippingAddresses = [];
 		}
 
 		public ShippingModel(in BaseModelData modelData)
 			: base(modelData)
 		{
-			ShippingAddresses = new List<ShippingAddressModel>();
+			ShippingAddresses = [];
 		}
 
 		#endregion Constructors

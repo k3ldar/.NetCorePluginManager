@@ -59,7 +59,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 		public MockDynamicContentProvider(IPluginClassesService pluginClassesService, bool useDefaultContent)
 		{
 			_pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
-			_dynamicContent = new List<IDynamicContentPage>();
+			_dynamicContent = [];
 			UseDefaultContent = useDefaultContent;
 			AllowSavePage = true;
 		}
@@ -97,7 +97,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
 		public List<LookupListItem> GetCustomPageList()
 		{
-			List<LookupListItem> Result = new();
+			List<LookupListItem> Result = [];
 
 			if (UseDefaultContent)
 			{
@@ -115,7 +115,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
 		public List<IDynamicContentPage> GetCustomPages()
 		{
-			List<IDynamicContentPage> Result = new();
+			List<IDynamicContentPage> Result = [];
 
 			if (UseDefaultContent)
 			{

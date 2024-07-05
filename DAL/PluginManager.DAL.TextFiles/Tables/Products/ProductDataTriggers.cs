@@ -53,7 +53,7 @@ namespace PluginManager.DAL.TextFiles.Tables.Products
 		public void AfterInsert(List<ProductDataRow> records)
 		{
 			IReadOnlyList<StockDataRow> allStock = _stockData.Select();
-			List<StockDataRow> stockData = new();
+			List<StockDataRow> stockData = [];
 
 			records.ForEach(r =>
 			{

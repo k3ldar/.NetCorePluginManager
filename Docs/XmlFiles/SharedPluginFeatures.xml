@@ -2113,6 +2113,19 @@
             <param name="compareTo"></param>
             <returns></returns>
         </member>
+        <member name="M:SharedPluginFeatures.SystemAdminMainMenu.Equals(System.Object)">
+            <summary>
+            Equals method
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminMainMenu.GetHashCode">
+            <summary>
+            Retrieves unique hash code
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:SharedPluginFeatures.SystemAdminMainMenu.ChildMenuItems">
             <summary>
             Child menu items within the menu.
@@ -2523,6 +2536,16 @@
             User agent constant
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.CacheControl">
+            <summary>
+            Cache control constant
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.XRequestedWith">
+            <summary>
+            X Requested with constant
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.ForwardSlash">
             <summary>
             Forward slash (/) constant
@@ -2531,6 +2554,11 @@
         <member name="F:SharedPluginFeatures.Constants.ForwardSlashChar">
             <summary>
             Forward slash (/) char constant.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.OpenBracketChar">
+            <summary>
+            Open bracket char constant
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.PipeChar">
@@ -2581,6 +2609,16 @@
         <member name="F:SharedPluginFeatures.Constants.CommaChar">
             <summary>
             Comma (,) char constant
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.SemicolonChar">
+            <summary>
+            Semicolon ; char constant
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.LessThanChar">
+            <summary>
+            Less than char constant
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.EmptySpace">

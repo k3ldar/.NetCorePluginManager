@@ -46,9 +46,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
 		public BlogDataRow()
 		{
-			_comments = new ObservableList<BlogCommentDataRow>();
+			_comments = [];
 			_comments.Changed += ObservableDataChanged;
-			_tags = new ObservableList<string>();
+			_tags = [];
 			_tags.Changed += ObservableDataChanged;
 		}
 

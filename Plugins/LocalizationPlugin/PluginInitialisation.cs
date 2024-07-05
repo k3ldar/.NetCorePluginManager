@@ -83,7 +83,7 @@ namespace Localization.Plugin
 
 			InstalledCultures = LanguageWrapper.GetInstalledLanguages(environment.ContentRootPath);
 
-			List<CultureInfo> cultures = new();
+			List<CultureInfo> cultures = [];
 
 			for (int i = 0; i < InstalledCultures.Length; i++)
 				cultures.Add(new CultureInfo(InstalledCultures[i]));

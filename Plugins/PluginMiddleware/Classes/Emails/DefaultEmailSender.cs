@@ -167,7 +167,7 @@ namespace Middleware.Classes
 				return true;
 			}
 
-			List<EmailToSend> emailToSends = new();
+			List<EmailToSend> emailToSends = [];
 
 			using (TimedLock timedLock = TimedLock.Lock(_emailQueueLock))
 			{

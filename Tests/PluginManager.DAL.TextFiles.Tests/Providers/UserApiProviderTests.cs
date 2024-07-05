@@ -55,7 +55,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					string merchantId = sut.GetMerchantId(userId);
 					Assert.IsNotNull(merchantId);
 
-					IUserApiQueryProvider userApiQueryProvider = provider.GetService<IUserApiQueryProvider>() as IUserApiQueryProvider;
+					IUserApiQueryProvider userApiQueryProvider = provider.GetService<IUserApiQueryProvider>();
 					Assert.IsNotNull(userApiQueryProvider);
 
 					bool secretFound = userApiQueryProvider.ApiSecret(merchantId, "testkey", out string secret);

@@ -47,8 +47,7 @@ namespace Languages
 		{
 			string[] files = Directory.GetFiles(path, "Languages.resources*", SearchOption.AllDirectories);
 
-			List<string> Result = new();
-			Result.Add(defaultCulture.Name);
+			List<string> Result = [defaultCulture.Name];
 
 			for (int i = 0; i < files.Length; i++)
 			{

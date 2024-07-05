@@ -50,21 +50,21 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public List<Country> GetAllCountries()
 		{
-			return new List<Country>()
-			{
+			return
+			[
 				new("USA", "US", true),
 				new("England", "GB", true),
 				new("Unknown", "UK", false),
-			};
+			];
 		}
 
 		public List<Country> GetVisibleCountries()
 		{
-			return new List<Country>()
-			{
+			return
+			[
 				new("USA", "US", true),
 				new("England", "GB", true),
-			};
+			];
 		}
 	}
 }

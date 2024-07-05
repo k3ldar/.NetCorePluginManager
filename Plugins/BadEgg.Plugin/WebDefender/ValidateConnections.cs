@@ -55,7 +55,7 @@ namespace BadEgg.Plugin.WebDefender
 		/// <summary>
 		/// keywords used to determine sql injection
 		/// </summary>
-		private readonly string[] KeyWords = { "all", "alter", "and", "any", "array", "arrow", "as", "asc", "at", "begin", "between",
+		private readonly string[] KeyWords = [ "all", "alter", "and", "any", "array", "arrow", "as", "asc", "at", "begin", "between",
 			"by", "case", "check", "clusters", "cluster", "colauth", "columns", "compress", "connect", "crash", "create", "current",
 			"decimal", "declare", "default", "delete", "desc", "distinct", "drop", "else", "end", "exception", "exclusive", "exists",
 			"fetch", "form", "for", "from", "goto", "grant", "group", "having", "identified", "if", "in", "indexes", "index", "insert",
@@ -64,39 +64,39 @@ namespace BadEgg.Plugin.WebDefender
 			"size", "sql", "start", "subtype", "tabauth", "table", "then", "to", "type", "union", "unique", "update", "use", "values",
 			"view", "views", "when", "where", "with", "char", "user", "password", "--", "/*", "*/", "declare", "cursor", "varchar",
 			"checksum", "replace", "abs", "data_type", "sysobjects", "sysindexes", "inner", "outer", "character_maximum_length",
-			"sa", "[", "]", "(", ")" };
+			"sa", "[", "]", "(", ")" ];
 
 		/// <summary>
 		/// Phrases to find / Replace within a string
 		/// </summary>
-		private readonly string[] PhraseFind = { "0x31303235343830303536", ",", "(", ")", "--", "&", "=", "?", "_", "]", "[" };
-		private readonly string[] PhraseReplace = { "null", " ", " ( ", " ) ", " -- ", " ", " = ", " ? ", " _ ", " ] ", " [ " };
+		private readonly string[] PhraseFind = ["0x31303235343830303536", ",", "(", ")", "--", "&", "=", "?", "_", "]", "["];
+		private readonly string[] PhraseReplace = ["null", " ", " ( ", " ) ", " -- ", " ", " = ", " ? ", " _ ", " ] ", " [ "];
 
 		/// <summary>
 		/// Hacking keywords
 		/// </summary>
-		private readonly string[] HackKeyWords = { "safe", "prepend", "disable", "function", "open", "allow", "include", "file",
+		private readonly string[] HackKeyWords = [ "safe", "prepend", "disable", "function", "open", "allow", "include", "file",
 			"proc", "self", "environ", "editor", "browser", "filemanager", "include", "connector", ".. /", "../", "file",
 			"manager", "provider", "null", "plugin", "src", "ckfinder", "core", "/ aspx /", "usg", "sa", "ved", "ei",
-			"script" };
+			"script" ];
 
 		/// <summary>
 		/// Hacking phrases to find/replace
 		/// </summary>
-		private readonly string[] HackFind = { "?", "_", "-", "/", "=", "<", "/>" };
-		private readonly string[] HackReplace = { " ? ", " _ ", " - ", " / ", " = ", " < ", " / > " };
+		private readonly string[] HackFind = ["?", "_", "-", "/", "=", "<", "/>"];
+		private readonly string[] HackReplace = [" ? ", " _ ", " - ", " / ", " = ", " < ", " / > "];
 
 		/// <summary>
 		/// Words/Chars to replace with a space in Random Word checker
 		/// </summary>
-		private readonly string[] RandomFind = { "=" };
+		private readonly string[] RandomFind = ["="];
 
 		/// <summary>
 		/// Address list lock object for unique access
 		/// </summary>
 		private static readonly object _lockObject = new();
 
-		private static readonly Dictionary<string, IpConnectionInfo> _connectionInformation = new();
+		private static readonly Dictionary<string, IpConnectionInfo> _connectionInformation = [];
 
 		private readonly HashSet<IpConnectionInfo> _connectionsAdd;
 
@@ -106,7 +106,7 @@ namespace BadEgg.Plugin.WebDefender
 
 		private ulong _iteration = 0;
 
-		internal static readonly Dictionary<string, bool> InternalIpAddressList = new();
+		internal static readonly Dictionary<string, bool> InternalIpAddressList = [];
 
 		internal static readonly object InternalIpAddressLock = new();
 
@@ -115,7 +115,7 @@ namespace BadEgg.Plugin.WebDefender
 		/// </summary>
 		public TimeSpan ConnectionTimeout { get; }
 
-		private readonly HashSet<ConnectionReportEventArgs> _reports = new();
+		private readonly HashSet<ConnectionReportEventArgs> _reports = [];
 
 		private readonly object _reportsLock = new();
 
@@ -137,7 +137,7 @@ namespace BadEgg.Plugin.WebDefender
 		{
 			ContinueIfGlobalException = true;
 
-			_connectionsAdd = new HashSet<IpConnectionInfo>();
+			_connectionsAdd = [];
 			ConnectionTimeout = connectionTimeout;
 			InternalMaximumConnectionsPerSecond = maximumConnectionsPerSecond;
 			HackProbability = DefaultHackProbability;
@@ -191,7 +191,7 @@ namespace BadEgg.Plugin.WebDefender
 			// every 10th iteration, remove expired connections
 			if (++_iteration % RemoveExpiredConnectionInterval == 0)
 			{
-				HashSet<IpConnectionInfo> removedConnections = new();
+				HashSet<IpConnectionInfo> removedConnections = [];
 
 				//remove expired connections
 				using (TimedLock lck = TimedLock.Lock(_lockObject))
@@ -224,7 +224,7 @@ namespace BadEgg.Plugin.WebDefender
 
 			// add/remove events done using seperate list so as not to slow down processing
 			// when connections add/remove
-			HashSet<IpConnectionInfo> _eventList = new();
+			HashSet<IpConnectionInfo> _eventList = [];
 
 			using (TimedLock lck = TimedLock.Lock(_eventLockObject))
 			{
@@ -312,7 +312,7 @@ namespace BadEgg.Plugin.WebDefender
 
 			string url = request.Path;
 			string physicalPath = request.PathBase.ToString();
-			string agent = request.Headers["User-Agent"].ToString();
+			string agent = request.Headers[Constants.UserAgent].ToString();
 			string query = UrlDecode(request.QueryString.ToString()).ToLower();
 
 			if (validatePostValues && request.HasFormContentType)
@@ -602,7 +602,7 @@ namespace BadEgg.Plugin.WebDefender
 
 		private void ValidateAndBanIPAddresses()
 		{
-			HashSet<IpConnectionInfo> banRequests = new();
+			HashSet<IpConnectionInfo> banRequests = [];
 
 			using (TimedLock lck = TimedLock.Lock(_lockObject))
 			{

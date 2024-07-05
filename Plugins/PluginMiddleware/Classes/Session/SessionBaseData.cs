@@ -41,8 +41,8 @@ namespace Middleware.SessionData
 		/// </summary>
 		public SessionBaseData()
 		{
-			CountryData = new Dictionary<string, uint>();
-			UserAgents = new List<SessionUserAgent>();
+			CountryData = [];
+			UserAgents = [];
 		}
 
 		#endregion Constructors

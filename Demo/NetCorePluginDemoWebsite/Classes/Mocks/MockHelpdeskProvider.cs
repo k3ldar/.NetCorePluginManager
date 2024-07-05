@@ -49,65 +49,59 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
 		public MockHelpdeskProvider()
 		{
-			_tickets = new List<HelpdeskTicket>()
-			{
+			_tickets =
+			[
 				new(1,
 					GetTicketPriorities().Find(p => p.Id == 1),
 					GetTicketDepartments().Find(d => d.Id == 2),
 					GetTicketStatus().Find(s => s.Id == 3),
 					"ABC-123456", "Test 1", DateTime.Now, DateTime.Now, "Joe Bloggs",
-					"joe@bloggs.com", "Joe Bloggs", new List<HelpdeskTicketMessage>()
-					{
+					"joe@bloggs.com", "Joe Bloggs",
+					[
 						new(DateTime.Now, "Joe Bloggs", "Hello\r\nLine 2"),
-					}),
+					]),
 				new(2,
 					GetTicketPriorities().Find(p => p.Id == 1),
 					GetTicketDepartments().Find(d => d.Id == 2),
 					GetTicketStatus().Find(s => s.Id == 3),
 					"DEF-987654", "Test 2", DateTime.Now, DateTime.Now, "Jane Doe",
-					"jane@doe.com", "Service Representative 1", new List<HelpdeskTicketMessage>()
-					{
+					"jane@doe.com", "Service Representative 1",
+					[
 						new(DateTime.Now, "Jane Doe", "Hello\r\nLine 2"),
 						new(DateTime.Now, "Service Rep 1", "Hello\r\n\r\nTo you too!")
-					}),
-			};
+					]),
+			];
 
-			_faq = new List<KnowledgeBaseGroup>()
-			{
+			_faq =
+			[
 				new(0, "Plugin Interfaces", "Frequently asked questions about plugin interfaces", 0, 0, null,
-					new List<KnowledgeBaseItem>()
-					{
+					[
 						new(0, "IPlugin", 0, "Primary interface used to register an assembly with plugin manager"),
 						new(1, "IPluginTypesService", 0, "Retrieves all classes with the specified attribute"),
 						new(2, "IPluginHelperService", 0, "Plugin services and stuff"),
 						new(3, "IPluginVersion", 0, "Retrieves version from assembly"),
-					}),
+					]),
 				new(1, "Shared Interfaces", "Frequently asked questions about shared interfaces", 0, 0, null,
-				   new List<KnowledgeBaseItem>()
-				   {
+				   [
 							new(4, "IMemoryCache", 0, "Provides two caches with variable expire times."),
 							new(5, "ISettingsProvider", 0, "Allows plugins to easily load setting data."),
-				   }),
-			};
+				   ]),
+			];
 
 			_faq.Add(new KnowledgeBaseGroup(3, "Geo Ip Interfaces", "Interaces for geoip usage", 0, 0, _faq[0],
-				new List<KnowledgeBaseItem>()
-				{
-				}));
+				[]));
 
 			_faq.Add(new KnowledgeBaseGroup(4, "Supported Geo Ip Services", "details on supported Geo Ip Services", 0, 0, _faq[2],
-				new List<KnowledgeBaseItem>()
-				{
+				[
 					new(6, "SieraDelta Geo Ip", 0, "Details about Geo Ip Service"),
 					new(7, "Net77", 0, "Net 77 Geo Ip"),
 					new(8, "IpStack", 0, "Ip Stack Geo Ip Servies"),
-				}));
+				]));
 
 			_faq.Add(new KnowledgeBaseGroup(5, "Geo Ip Sub Sub Group", "Another Sub Group", 0, 0, _faq[2],
-				new List<KnowledgeBaseItem>()
-				{
+				[
 					new(6, "SieraDelta Geo Ip", 0, "Details about Geo Ip Service")
-				}));
+				]));
 		}
 
 		#endregion Constructors
@@ -117,11 +111,11 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
 		public List<Feedback> GetFeedback(in bool publiclyVisible)
 		{
-			_feedback ??= new List<Feedback>()
-				{
+			_feedback ??=
+				[
 					new(1, "Joe Bloggs", "Asp Net core is awesome", true),
 					new(2, "Jane Doe", "AspNetCore.PluginManager is extremely flexible", true),
-				};
+				];
 
 			return _feedback;
 		}
@@ -141,32 +135,32 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public List<LookupListItem> GetTicketDepartments()
 		{
-			return new List<LookupListItem>()
-			{
+			return
+			[
 				new(1, "Sales"),
 				new(2, "Support"),
 				new(3, "Returns"),
-			};
+			];
 		}
 
 		public List<LookupListItem> GetTicketPriorities()
 		{
-			return new List<LookupListItem>()
-			{
+			return
+			[
 				new(1, "Low"),
 				new(2, "Medium"),
 				new(3, "High"),
-			};
+			];
 		}
 
 		public List<LookupListItem> GetTicketStatus()
 		{
-			return new List<LookupListItem>()
-			{
+			return
+			[
 				new(1, "Closed"),
 				new(2, "Open"),
 				new(3, "On Hold"),
-			};
+			];
 		}
 
 		public bool SubmitTicket(in long userId, in int department, in int priority,
@@ -193,10 +187,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 				DateTime.Now,
 				userName,
 				email, userName,
-				new List<HelpdeskTicketMessage>()
-				{
+				[
 					new(DateTime.Now, userName, message)
-				});
+				]);
 
 			_tickets.Add(ticket);
 

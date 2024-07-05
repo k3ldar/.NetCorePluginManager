@@ -37,12 +37,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 	{
 		public List<SearchUser> GetUsers(in int pageNumber, in int pageSize, string searchField, string searchOrder)
 		{
-			return new List<SearchUser>()
-			{
+			return
+			[
 				new(1, "Joe Bloggs", "joe@blogs.com"),
 				new(2, "Jane Doe", "jane@doe.com"),
 				new(3, "John Doe", "john@doe.com"),
-			};
+			];
 
 		}
 	}

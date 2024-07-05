@@ -63,7 +63,7 @@ namespace SystemAdmin.Plugin.Models
 
 			HeaderColumnCount = Headers.Length;
 
-			Items = new List<string[]>();
+			Items = [];
 
 			for (int i = 1; i < allLines.Length; i++)
 			{

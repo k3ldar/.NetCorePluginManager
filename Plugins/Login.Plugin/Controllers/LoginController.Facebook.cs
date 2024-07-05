@@ -76,12 +76,14 @@ namespace LoginPlugin.Controllers
 
 		public IActionResult FacebookCallback(string code)
 		{
-			NVPCodec parameters = new();
-			parameters.Add(OAuthCode, code);
-			parameters.Add(OAuthClientId, _settings.FacebookClientId);
-			parameters.Add(OAuthClientSecret, _settings.FacebookSecret);
-			parameters.Add(OAuthRedirectUri, String.Format(FacebookCallBackUrl, HttpContext.Request.Scheme, HttpContext.Request.Host));
-			parameters.Add(OAuthGrantType, OAuthAuthCode);
+			NVPCodec parameters = new()
+			{
+				{ OAuthCode, code },
+				{ OAuthClientId, _settings.FacebookClientId },
+				{ OAuthClientSecret, _settings.FacebookSecret },
+				{ OAuthRedirectUri, String.Format(FacebookCallBackUrl, HttpContext.Request.Scheme, HttpContext.Request.Host) },
+				{ OAuthGrantType, OAuthAuthCode }
+			};
 			string response = HttpPost.Post(FacebookOAuthAccessTokenUri, parameters);
 
 			TokenResponse facebookAccessToken = JsonSerializer.Deserialize<TokenResponse>(response, GetSerializerOptions());

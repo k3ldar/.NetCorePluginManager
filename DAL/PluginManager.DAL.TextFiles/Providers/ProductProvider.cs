@@ -68,14 +68,14 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		public int ProductCountForGroup(ProductGroup productGroup)
 		{
-			return _productData.Select(r => r.ProductGroupId.Equals(productGroup.Id)).Count();
+			return _productData.Select(r => r.ProductGroupId.Equals(productGroup.Id)).Count;
 		}
 
 		public List<ProductGroup> ProductGroupsGet()
 		{
 			IReadOnlyList<ProductGroupDataRow> allGroups = _productGroupsData.Select();
 
-			List<ProductGroup> Result = new();
+			List<ProductGroup> Result = [];
 
 			foreach (ProductGroupDataRow group in allGroups)
 			{
@@ -160,7 +160,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			List<ProductDataRow> allProducts = _productData.Select().OrderBy(p => p.Name).ToList();
 
-			List<Product> Result = new();
+			List<Product> Result = [];
 
 			(int start, int end, bool isEmpty) = GetPageStartAndEnd(page, pageSize, allProducts.Count);
 
@@ -186,7 +186,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			int prodGroup = productGroup.Id;
 			List<ProductDataRow> allProducts = _productData.Select().Where(p => p.ProductGroupId.Equals(prodGroup)).OrderBy(p => p.Name).ToList();
 
-			List<Product> Result = new();
+			List<Product> Result = [];
 
 			(int start, int end, bool isEmpty) = GetPageStartAndEnd(page, pageSize, allProducts.Count);
 
@@ -298,7 +298,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				return null;
 
 			return new Product((int)product.Id, product.ProductGroupId, product.Name, product.Description, product.Features, product.VideoLink,
-				new string[] { "NoImage" }, product.RetailPrice, product.Sku, product.IsDownload, product.AllowBackorder, product.IsVisible);
+				["NoImage"], product.RetailPrice, product.Sku, product.IsDownload, product.AllowBackorder, product.IsVisible);
 		}
 
 		#endregion Private Members

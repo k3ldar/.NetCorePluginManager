@@ -230,11 +230,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISimpleDBOperations<FeedbackDataRow> feedbackData = provider.GetRequiredService<ISimpleDBOperations<FeedbackDataRow>>();
 					Assert.IsNotNull(feedbackData);
 
-					feedbackData.Insert(new List<FeedbackDataRow>
-					{
+					feedbackData.Insert(
+					[
 						new() { UserName = "a user", ShowOnWebsite = false, Message = "a message" },
 						new() { UserName = "other user", ShowOnWebsite = false, Message = "another message" }
-					});
+					]);
 
 					IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
 					Assert.IsNotNull(sut);
@@ -272,12 +272,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISimpleDBOperations<FeedbackDataRow> feedbackData = provider.GetRequiredService<ISimpleDBOperations<FeedbackDataRow>>();
 					Assert.IsNotNull(feedbackData);
 
-					feedbackData.Insert(new List<FeedbackDataRow>
-					{
+					feedbackData.Insert(
+					[
 						new() { UserName = "a user", ShowOnWebsite = true, Message = "a message" },
 						new() { UserName = "other user", ShowOnWebsite = false, Message = "another message" },
 						new() { UserName = "user b", ShowOnWebsite = true, Message = "a message from user b" },
-					});
+					]);
 
 					Assert.AreEqual(3, feedbackData.RecordCount);
 					IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
@@ -316,12 +316,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISimpleDBOperations<FeedbackDataRow> feedbackData = provider.GetRequiredService<ISimpleDBOperations<FeedbackDataRow>>();
 					Assert.IsNotNull(feedbackData);
 
-					feedbackData.Insert(new List<FeedbackDataRow>
-					{
+					feedbackData.Insert(
+					[
 						new() { UserName = "a user", ShowOnWebsite = true, Message = "a message" },
 						new() { UserName = "other user", ShowOnWebsite = false, Message = "another message" },
 						new() { UserName = "user b", ShowOnWebsite = true, Message = "a message from user b" },
-					});
+					]);
 
 					Assert.AreEqual(3, feedbackData.RecordCount);
 					IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
@@ -828,16 +828,16 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISimpleDBOperations<FaqItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FaqItemDataRow>>();
 					Assert.AreEqual(0, faqItemData.RecordCount);
 
-					faqData.Insert(new List<FaqDataRow>()
-					{
+					faqData.Insert(
+					[
 						new() { Name = "group 1", Description = "Group 1 description" },
 						new() { Name = "group 2", Description = "Group 2 description" },
 						new() { Name = "group 2a", Description = "Group 2a description", Parent = 2 }
-					});
+					]);
 
 					int itemNumber = 0;
-					faqItemData.Insert(new List<FaqItemDataRow>()
-					{
+					faqItemData.Insert(
+					[
 						new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
 						new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
 						new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
@@ -848,7 +848,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 						new() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
 						new() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
 						new() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-					});
+					]);
 
 					mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
 
@@ -899,16 +899,16 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISimpleDBOperations<FaqItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FaqItemDataRow>>();
 					Assert.AreEqual(0, faqItemData.RecordCount);
 
-					faqData.Insert(new List<FaqDataRow>()
-					{
+					faqData.Insert(
+					[
 						new() { Name = "group 1", Description = "Group 1 description" },
 						new() { Name = "group 2", Description = "Group 2 description" },
 						new() { Name = "group 2a", Description = "Group 2a description", Parent = 2 }
-					});
+					]);
 
 					int itemNumber = 0;
-					faqItemData.Insert(new List<FaqItemDataRow>()
-					{
+					faqItemData.Insert(
+					[
 						new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
 						new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
 						new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
@@ -919,7 +919,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 						new() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
 						new() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
 						new() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-					});
+					]);
 
 					mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
 
@@ -963,16 +963,16 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISimpleDBOperations<FaqItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FaqItemDataRow>>();
 					Assert.AreEqual(0, faqItemData.RecordCount);
 
-					faqData.Insert(new List<FaqDataRow>()
-					{
+					faqData.Insert(
+					[
 						new() { Name = "group 1", Description = "Group 1 description" },
 						new() { Name = "group 2", Description = "Group 2 description" },
 						new() { Name = "group 2a", Description = "Group 2a description", Parent = 2 }
-					});
+					]);
 
 					int itemNumber = 0;
-					faqItemData.Insert(new List<FaqItemDataRow>()
-					{
+					faqItemData.Insert(
+					[
 						new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
 						new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
 						new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
@@ -983,7 +983,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 						new() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
 						new() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
 						new() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-					});
+					]);
 
 					mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
 
@@ -1028,18 +1028,18 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISimpleDBOperations<FaqItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FaqItemDataRow>>();
 					Assert.AreEqual(0, faqItemData.RecordCount);
 
-					faqData.Insert(new List<FaqDataRow>()
-					{
+					faqData.Insert(
+					[
 						new() { Name = "group 1", Description = "Group 1 description" },
-					});
+					]);
 
 					int itemNumber = 0;
-					faqItemData.Insert(new List<FaqItemDataRow>()
-					{
+					faqItemData.Insert(
+					[
 						new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
 						new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
 						new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-					});
+					]);
 
 					mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
 
@@ -1132,18 +1132,18 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					ISimpleDBOperations<FaqItemDataRow> faqItemData = provider.GetRequiredService<ISimpleDBOperations<FaqItemDataRow>>();
 					Assert.AreEqual(0, faqItemData.RecordCount);
 
-					faqData.Insert(new List<FaqDataRow>()
-					{
+					faqData.Insert(
+					[
 						new() { Name = "group 1", Description = "Group 1 description" },
-					});
+					]);
 
 					int itemNumber = 0;
-					faqItemData.Insert(new List<FaqItemDataRow>()
-					{
+					faqItemData.Insert(
+					[
 						new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
 						new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
 						new() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
-					});
+					]);
 
 					mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
 

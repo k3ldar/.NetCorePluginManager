@@ -39,10 +39,10 @@ namespace PluginManager.DAL.TextFiles.Tables
 		{
 			if (version == 1)
 			{
-				List<StoreDataRow> initialData = new()
-				{
+				List<StoreDataRow> initialData =
+				[
 					new StoreDataRow { Name = "Default" }
-				};
+				];
 
 				return initialData;
 			}

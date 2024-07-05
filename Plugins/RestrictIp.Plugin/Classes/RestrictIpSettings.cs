@@ -42,7 +42,7 @@ namespace RestrictIp.Plugin
 		/// </summary>
 		public RestrictIpSettings()
 		{
-			RouteRestrictions = new Dictionary<string, string>();
+			RouteRestrictions = [];
 		}
 
 		#endregion Constructors

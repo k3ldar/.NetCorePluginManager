@@ -43,7 +43,7 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
-#pragma warning disable CS1591, IDE0066
+#pragma warning disable CS1591, IDE0066, ASP0015
 
 namespace DownloadPlugin.Controllers
 {
@@ -99,7 +99,7 @@ namespace DownloadPlugin.Controllers
 			if (category == null)
 				return RedirectToAction(nameof(Index));
 
-			List<DownloadableItem> downloads = new();
+			List<DownloadableItem> downloads = [];
 
 			foreach (DownloadItem item in category.Downloads)
 			{
@@ -113,7 +113,7 @@ namespace DownloadPlugin.Controllers
 				}
 			}
 
-			List<CategoriesModel> categories = new();
+			List<CategoriesModel> categories = [];
 
 			foreach (DownloadCategory item in _categories)
 			{
@@ -227,4 +227,4 @@ namespace DownloadPlugin.Controllers
 	}
 }
 
-#pragma warning restore CS1591, IDE0066
+#pragma warning restore CS1591, IDE0066, ASP0015

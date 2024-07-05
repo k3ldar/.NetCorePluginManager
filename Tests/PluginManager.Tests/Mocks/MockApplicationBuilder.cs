@@ -42,7 +42,7 @@ namespace PluginManager.Tests.Mocks
 	{
 		#region Private Members
 
-		private readonly List<Func<RequestDelegate, RequestDelegate>> _middleware = new();
+		private readonly List<Func<RequestDelegate, RequestDelegate>> _middleware = [];
 
 		#endregion Private Members
 
@@ -52,7 +52,7 @@ namespace PluginManager.Tests.Mocks
 		{
 			UseCalled = false;
 			UseCalledCount = 0;
-			ApplicationServices = new MockServiceProvider(new Dictionary<Type, object>());
+			ApplicationServices = new MockServiceProvider([]);
 		}
 
 		public MockApplicationBuilder(IServiceProvider serviceProvider)

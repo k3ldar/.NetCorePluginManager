@@ -35,7 +35,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 
 		public UserClaimsDataRow()
 		{
-			_claims = new ObservableList<string>();
+			_claims = [];
 			_claims.Changed += ObservableDataChanged;
 		}
 

@@ -59,8 +59,7 @@ namespace Blog.Plugin.Models
 			if (blogItem == null)
 				throw new ArgumentNullException(nameof(blogItem));
 
-			BlogEntries = new List<BlogPostViewModel>();
-			BlogEntries.Add(blogItem);
+			BlogEntries = [blogItem];
 		}
 
 		#endregion Constructors

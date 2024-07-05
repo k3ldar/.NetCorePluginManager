@@ -71,7 +71,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 
 		[TestMethod]
 		[TestCategory(GeneralTestsCategory)]
-		public void Configure_DoesNotConfigurePipeline_Success()
+		public void Configure_DoesNotConfigurePipeline_OrRegisterAppServices_Success()
 		{
 			MockApplicationBuilder testApplicationBuilder = new();
 			PluginInitialisation sut = new();
@@ -95,18 +95,6 @@ namespace PluginManager.DAL.TextFiles.Tests
 
 		[TestMethod]
 		[TestCategory(GeneralTestsCategory)]
-		public void Configure_DoesNotRegisterApplicationServices()
-		{
-			MockApplicationBuilder testApplicationBuilder = new();
-			PluginInitialisation sut = new();
-
-			sut.Configure(testApplicationBuilder);
-
-			Assert.IsFalse(testApplicationBuilder.UseCalled);
-		}
-
-		[TestMethod]
-		[TestCategory(GeneralTestsCategory)]
 		public void Finalise_DoesNotThrowException()
 		{
 			PluginInitialisation sut = new();
@@ -122,7 +110,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 			const int RegisteredService = 70;
 
 			PluginInitialisation sut = new();
-			MockServiceCollection mockServiceCollection = new();
+			MockServiceCollection mockServiceCollection = [];
 
 			sut.BeforeConfigureServices(mockServiceCollection);
 
@@ -134,7 +122,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 		public void ConfigureServices_DoesNotThrowException()
 		{
 			PluginInitialisation sut = new();
-			MockServiceCollection mockServiceCollection = new();
+			MockServiceCollection mockServiceCollection = [];
 
 			sut.ConfigureServices(mockServiceCollection);
 
@@ -146,7 +134,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 		public void AfterConfigureServices_DoesNotThrowException_Success()
 		{
 			PluginInitialisation sut = new();
-			MockServiceCollection mockServiceCollection = new();
+			MockServiceCollection mockServiceCollection = [];
 
 			sut.AfterConfigureServices(mockServiceCollection);
 

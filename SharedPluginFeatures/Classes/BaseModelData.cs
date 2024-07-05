@@ -42,7 +42,7 @@ namespace SharedPluginFeatures
 			in bool userIsLoggedIn,
 			in bool userHasConsentCookie)
 		{
-			Breadcrumbs = breadcrumbs ?? new List<BreadcrumbItem>();
+			Breadcrumbs = breadcrumbs ?? [];
 			CartSummary = cartSummary;
 			SeoAuthor = seoAuthor ?? String.Empty;
 			SeoDescription = seoDescription ?? String.Empty;

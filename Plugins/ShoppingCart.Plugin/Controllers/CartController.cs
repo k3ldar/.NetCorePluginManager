@@ -82,7 +82,7 @@ namespace ShoppingCartPlugin.Controllers
 		[Breadcrumb(nameof(Languages.LanguageStrings.ShoppingCart))]
 		public IActionResult Index()
 		{
-			List<BasketItemModel> basketItems = new();
+			List<BasketItemModel> basketItems = [];
 			ShoppingCartSummary cartSummary = GetCartSummary();
 			BasketModel model;
 
@@ -116,7 +116,7 @@ namespace ShoppingCartPlugin.Controllers
 			else
 			{
 				modelData.ReplaceCartSummary(cartSummary);
-				model = new BasketModel(modelData, new List<BasketItemModel>(),
+				model = new BasketModel(modelData, [],
 					String.Empty, false, GetUserSession().UserID != 0);
 			}
 

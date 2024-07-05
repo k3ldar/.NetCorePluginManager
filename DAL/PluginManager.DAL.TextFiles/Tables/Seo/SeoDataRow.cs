@@ -38,7 +38,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 
 		public SeoDataRow()
 		{
-			Keywords = new ObservableList<string>();
+			Keywords = [];
 			Keywords.Changed += ObservableDataChanged;
 		}
 

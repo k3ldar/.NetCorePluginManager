@@ -55,7 +55,7 @@ namespace DocumentationPlugin.Models
 			if (String.IsNullOrEmpty(description))
 				throw new ArgumentNullException(nameof(description));
 
-			AssemblyNames = new Dictionary<string, DocumentationModule>();
+			AssemblyNames = [];
 			DocumentationHeader = header;
 			DocumentationDescription = description;
 		}

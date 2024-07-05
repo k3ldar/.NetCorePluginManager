@@ -61,7 +61,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		public List<LicenceType> LicenceTypesGet()
 		{
-			List<LicenceType> Result = new();
+			List<LicenceType> Result = [];
 			IReadOnlyList<LicenseTypeDataRow> licenseTypes = _licenseTypes.Select();
 
 			foreach (LicenseTypeDataRow row in licenseTypes)
@@ -74,7 +74,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		public List<Licence> LicencesGet(in Int64 userId)
 		{
-			List<Licence> Result = new();
+			List<Licence> Result = [];
 
 			UserDataRow user = _users.Select(userId);
 

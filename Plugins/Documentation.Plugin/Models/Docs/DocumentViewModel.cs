@@ -58,7 +58,7 @@ namespace DocumentationPlugin.Models
 			ShortDescription = shortDescription ?? throw new ArgumentNullException(nameof(shortDescription));
 			LongDescription = longDescription ?? throw new ArgumentNullException(nameof(longDescription));
 			AllReferences = allReferences ?? String.Empty;
-			SeeAlso = new Dictionary<string, string>();
+			SeeAlso = [];
 		}
 
 		#endregion Constructors

@@ -275,7 +275,7 @@ namespace WebSmokeTest.Plugin
 
 		private void LoadSmokeTestData(in IPluginTypesService pluginTypesService)
 		{
-			List<WebSmokeTestItem> allSmokeTests = new();
+			List<WebSmokeTestItem> allSmokeTests = [];
 			List<Type> testAttributes = pluginTypesService.GetPluginTypesWithAttribute<SmokeTestAttribute>();
 			int testCount = 0;
 

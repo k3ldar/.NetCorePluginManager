@@ -87,7 +87,7 @@ namespace SystemAdmin.Plugin
 		{
 			if (services == null)
 				throw new ArgumentNullException(nameof(services));
-
+#if NET_6_0
 			services.AddAuthorization(options =>
 			{
 				options.AddPolicy(
@@ -124,6 +124,29 @@ namespace SystemAdmin.Plugin
 						.RequireClaim(Constants.ClaimNameUserId)
 						.RequireClaim(Constants.ClaimNameUserEmail));
 			});
+#else
+			services.AddAuthorizationBuilder()
+				.AddPolicy(Constants.PolicyNameAlterSeoData, policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameManageSeo)
+					.RequireClaim(Constants.ClaimNameStaff)
+					.RequireClaim(Constants.ClaimNameUsername)
+					.RequireClaim(Constants.ClaimNameUserId)
+					.RequireClaim(Constants.ClaimNameUserEmail));
+
+			services.AddAuthorizationBuilder()
+				.AddPolicy(Constants.PolicyNameManagePermissions, policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameAdministrator)
+					.RequireClaim(Constants.ClaimNameUserPermissions)
+					.RequireClaim(Constants.ClaimNameStaff))
+				.AddPolicy(Constants.PolicyNameStaff, policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameStaff)
+					.RequireClaim(Constants.ClaimNameUserId));
+
+			services.AddAuthorizationBuilder()
+				.AddPolicy(Constants.PolicyNameManageSystemSettings, policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameManageSystemSettings)
+					.RequireClaim(Constants.ClaimNameAdministrator)
+					.RequireClaim(Constants.ClaimNameStaff)
+					.RequireClaim(Constants.ClaimNameUsername)
+					.RequireClaim(Constants.ClaimNameUserId)
+					.RequireClaim(Constants.ClaimNameUserEmail));
+#endif
 		}
 
 		public void BeforeConfigure(in IApplicationBuilder app)
@@ -141,14 +164,14 @@ namespace SystemAdmin.Plugin
 			// from interface but unused in this context
 		}
 
-		#endregion IInitialiseEvents Methods
+#endregion IInitialiseEvents Methods
 
 		#region IClaimsService
 
 		public List<string> GetClaims()
 		{
-			return new List<string>()
-			{
+			return
+			[
 				Constants.ClaimNameStaff,
 				Constants.ClaimNameUsername,
 				Constants.ClaimNameUserId,
@@ -157,7 +180,7 @@ namespace SystemAdmin.Plugin
 				Constants.ClaimNameManageSeo,
 				Constants.ClaimNameUserPermissions,
 				Constants.ClaimNameManageSystemSettings,
-			};
+			];
 		}
 
 		#endregion IClaimsService

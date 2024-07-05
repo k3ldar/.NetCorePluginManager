@@ -138,7 +138,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 					cartDetail = new ShoppingCartDetail(shoppingCart.Id,
 						0, 0, _defaultTaxRate, 0, 0, shoppingCart.Culture, String.Empty,
-						new List<ShoppingCartItem>(), false, _defaultCurrency);
+						[], false, _defaultCurrency);
 				}
 
 				basket = new CacheItem(cacheName, cartDetail);
@@ -201,7 +201,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 				ShoppingCartDetail cartDetail = new(shoppingCartId, 0,
 					0, _defaultTaxRate, 0, 0, Thread.CurrentThread.CurrentUICulture,
-					"", new List<ShoppingCartItem>(), false, _defaultCurrency);
+					"", [], false, _defaultCurrency);
 				cacheItem = new CacheItem(basketCache, cartDetail);
 				_cartCacheManager.Add(basketCache, cacheItem, true);
 			}
@@ -282,7 +282,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			cartDetail.SetDeliveryAddress(shippingAddress);
 
-			List<OrderItem> items = new();
+			List<OrderItem> items = [];
 
 			OrderDataRow orderData = new()
 			{
@@ -415,13 +415,13 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		private static List<ShoppingCartItem> ConvertShoppingCartItemsDataRowToShoppingCartItems(List<ShoppingCartItemDataRow> shoppingCartItems)
 		{
-			List<ShoppingCartItem> Result = new();
+			List<ShoppingCartItem> Result = [];
 
 			if (shoppingCartItems == null)
 				return Result;
 
 			shoppingCartItems.ForEach(item => Result.Add(new ShoppingCartItem((int)item.Id, item.ItemCount, item.ProductId, item.ItemCost, item.Name,
-				item.Description, item.SKU, new string[] { "NoImage" }, item.IsDownload, item.CanBackOrder, item.Size,
+				item.Description, item.SKU, ["NoImage"], item.IsDownload, item.CanBackOrder, item.Size,
 				(DiscountType)item.DiscountType, item.DiscountRate)));
 
 			return Result;

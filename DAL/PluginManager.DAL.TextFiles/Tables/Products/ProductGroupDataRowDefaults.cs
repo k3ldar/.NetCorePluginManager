@@ -39,10 +39,10 @@ namespace PluginManager.DAL.TextFiles.Tables
 		{
 			if (version == 1)
 			{
-				return new List<ProductGroupDataRow>()
-				{
+				return
+				[
 					new() { Description = "Default Product Group", ShowOnWebsite = true },
-				};
+				];
 			}
 
 			return null;

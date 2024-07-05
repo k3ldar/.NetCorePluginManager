@@ -47,7 +47,7 @@ namespace UserAccount.Plugin.Controllers
 		[Breadcrumb(nameof(Languages.LanguageStrings.MyLicences), nameof(AccountController), nameof(Index))]
 		public IActionResult Licences()
 		{
-			List<ViewLicenceViewModel> licences = new();
+			List<ViewLicenceViewModel> licences = [];
 
 			foreach (Licence licence in _licenceProvider.LicencesGet(UserId()))
 			{

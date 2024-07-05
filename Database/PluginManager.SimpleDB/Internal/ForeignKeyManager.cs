@@ -32,8 +32,8 @@ namespace SimpleDB.Internal
 	internal class ForeignKeyManager : IForeignKeyManager
 	{
 		private readonly object _lock = new();
-		private readonly Dictionary<string, ISimpleDBTable> _foreignKeys = new();
-		private readonly List<ForeignKeyRelationship> _foreignKeyRelationships = new();
+		private readonly Dictionary<string, ISimpleDBTable> _foreignKeys = [];
+		private readonly List<ForeignKeyRelationship> _foreignKeyRelationships = [];
 
 		public void AddRelationShip(string sourceTable, string targetTable, string propertyName, string targetPropertyName, ForeignKeyAttributes foreignKeyAttributes)
 		{

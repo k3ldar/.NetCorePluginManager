@@ -64,7 +64,7 @@ namespace DocumentationPlugin.Classes
 		/// <returns>List&lt;ISitemapItem&gt;</returns>
 		public List<SitemapItem> Items()
 		{
-			List<SitemapItem> Result = new();
+			List<SitemapItem> Result = [];
 
 			List<Document> documents = _documentationService.GetDocuments()
 				.Where(d => d.DocumentType == DocumentType.Assembly || d.DocumentType == DocumentType.Custom)

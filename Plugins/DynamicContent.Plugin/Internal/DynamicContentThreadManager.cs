@@ -113,10 +113,10 @@ namespace DynamicContent.Plugin.Internal
 
 		public List<string> GetEvents()
 		{
-			return new List<string>()
-			{
+			return
+			[
 				NotificationEventDynamicContentUpdated
-			};
+			];
 		}
 
 		#endregion INotificationListener Methods

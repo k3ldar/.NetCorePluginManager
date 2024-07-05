@@ -52,7 +52,7 @@ namespace PluginManager.Internal
 		public NotificationService()
 			: base(null, new TimeSpan(0, 0, 1), null, 1000, 200, false)
 		{
-			_eventListener = new Dictionary<string, List<INotificationListener>>();
+			_eventListener = [];
 			_messageQueue = new Queue<NotificationQueueItem>();
 		}
 
@@ -63,19 +63,19 @@ namespace PluginManager.Internal
 		public bool RaiseEvent(in string eventId, in object param1, in object param2, ref object result)
 		{
 			// if no one is listening, indicate not sent
-			if (!_eventListener.ContainsKey(eventId))
+			if (!_eventListener.TryGetValue(eventId, out List<INotificationListener> value))
 				return false;
 
 			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
 			{
-				foreach (INotificationListener listener in _eventListener[eventId])
+				foreach (INotificationListener listener in value)
 				{
 					if (listener.EventRaised(eventId, param1, param2, ref result))
 						break;
 				}
 
 				// if there is at least one listener, then the event has been processed
-				return _eventListener[eventId].Count > 0;
+				return value.Count > 0;
 			}
 		}
 
@@ -116,7 +116,7 @@ namespace PluginManager.Internal
 						throw new InvalidOperationException(Constants.InvalidEventName);
 
 					if (!_eventListener.ContainsKey(eventName))
-						_eventListener.Add(eventName, new List<INotificationListener>());
+						_eventListener.Add(eventName, []);
 
 					if (!_eventListener[eventName].Contains(listener))
 						_eventListener[eventName].Add(listener);
@@ -141,8 +141,7 @@ namespace PluginManager.Internal
 
 				foreach (KeyValuePair<string, List<INotificationListener>> eventHolder in _eventListener)
 				{
-					if (eventHolder.Value.Contains(listener))
-						eventHolder.Value.Remove(listener);
+					eventHolder.Value.Remove(listener);
 				}
 			}
 
@@ -187,7 +186,7 @@ namespace PluginManager.Internal
 
 		protected override bool Run(object parameters)
 		{
-			List<NotificationQueueItem> queue = new();
+			List<NotificationQueueItem> queue = [];
 
 			using (TimedLock timedLock = TimedLock.Lock(_queueLock))
 			{

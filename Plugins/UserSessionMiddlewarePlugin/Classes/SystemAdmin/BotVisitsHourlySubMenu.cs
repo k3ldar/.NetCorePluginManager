@@ -107,7 +107,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
 			foreach (SessionHourly hour in sessionData)
 			{
-				List<Decimal> datavalues = new();
+				List<Decimal> datavalues = [];
 				Result.DataValues[
 					$"{hour.Date.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern.Replace("y", ""))} H{hour.Hour.ToString(Thread.CurrentThread.CurrentUICulture)} Q{hour.Quarter}"] =
 					datavalues;

@@ -47,7 +47,7 @@ namespace Middleware.Search
 		/// </summary>
 		public SearchResponseItem()
 		{
-			Properties = new Dictionary<string, object>();
+			Properties = [];
 		}
 
 		/// <summary>

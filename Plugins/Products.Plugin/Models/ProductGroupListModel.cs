@@ -41,7 +41,7 @@ namespace ProductPlugin.Models
 		public ProductGroupListModel(BaseModelData modelData)
 			: base(modelData)
 		{
-			Groups = new List<LookupListItem>();
+			Groups = [];
 		}
 
 		public List<LookupListItem> Groups { get; }

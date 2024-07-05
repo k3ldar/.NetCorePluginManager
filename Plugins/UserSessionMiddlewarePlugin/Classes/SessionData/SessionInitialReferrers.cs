@@ -50,7 +50,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SessionData
 		/// </summary>
 		public SessionInitialReferrers()
 		{
-			InitialReferrers = new List<SessionInitialReferrer>();
+			InitialReferrers = [];
 		}
 
 		#endregion Constructors

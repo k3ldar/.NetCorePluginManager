@@ -167,7 +167,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		private List<BlogItem> ConvertTableBlogToBlogItem(List<BlogDataRow> tableBlogs)
 		{
-			List<BlogItem> Result = new();
+			List<BlogItem> Result = [];
 
 			tableBlogs.ForEach(blog => Result.Add(ConvertTableBlogToBlogItem(blog)));
 
@@ -180,7 +180,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				return null;
 
 			BlogItem Result = new(Convert.ToInt32(blog.Id), blog.UserId, blog.Title, blog.Excerpt, blog.BlogText, blog.Username, blog.Published,
-					blog.PublishDateTime, blog.Created, blog.Updated, blog.Tags, new List<BlogComment>());
+					blog.PublishDateTime, blog.Created, blog.Updated, blog.Tags, []);
 
 			List<BlogCommentDataRow> comments = _blogComments.Select().Where(bc => bc.BlogId.Equals(blog.Id)).ToList();
 

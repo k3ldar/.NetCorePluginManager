@@ -49,7 +49,7 @@ namespace SimpleDB.Internal
 			if (propertyNames.Length == 0)
 				throw new ArgumentOutOfRangeException(nameof(propertyNames));
 
-			_keys = new List<T>();
+			_keys = [];
 			_propertyNames = propertyNames.ToList();
 			IndexType = indexType;
 		}

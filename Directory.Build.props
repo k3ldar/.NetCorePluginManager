@@ -41,6 +41,7 @@
   
   <PropertyGroup>
     <Version>5.6.2</Version>
+	<AssemblyVersion>$(Version).0</AssemblyVersion>
     <LangVersion>latest</LangVersion>
     <Authors>Simon Carter (s1cart3r@gmail.com)</Authors>
     <Company>Simon Carter</Company>
@@ -55,14 +56,14 @@
   </PropertyGroup>
 	
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net8.0'">
-    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_6_0;NET_6_X;ISO_WEEK;ATTR_OS;NET_5_ABOVE;NET_6_ABOVE;NET_7_ABOVE;NET_8_ABOVE;NET_8_0;NET_8_X</DefineConstants>
+    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;ISO_WEEK;ATTR_OS;NET_5_ABOVE;NET_6_ABOVE;NET_7_ABOVE;NET_8_ABOVE;NET_8_0;NET_8_X</DefineConstants>
     <CheckForOverflowUnderflow>$(CheckForOverflowUnderflow)</CheckForOverflowUnderflow>
     <DebugType>$(DebugType)</DebugType>
     <DebugSymbols>$(DebugSymbols)</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net8.0'">
-    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_6_0;NET_6_X;ISO_WEEK;ATTR_OS;NET_5_ABOVE;NET_6_ABOVE;NET_7_ABOVE;NET_8_ABOVE;NET_8_0;NET_8_X</DefineConstants>
+    <DefineConstants>CODE_ANALYSIS;NET_CORE;ISO_WEEK;ATTR_OS;NET_5_ABOVE;NET_6_ABOVE;NET_7_ABOVE;NET_8_ABOVE;NET_8_0;NET_8_X</DefineConstants>
     <CheckForOverflowUnderflow>$(CheckForOverflowUnderflow)</CheckForOverflowUnderflow>
     <DebugType>$(DebugType)</DebugType>
     <DebugSymbols>$(DebugSymbols)</DebugSymbols>

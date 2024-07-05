@@ -49,8 +49,8 @@ namespace PluginManager.DAL.TextFiles.Tables
 		{
 			if (version == 1)
 			{
-				return new List<UserDataRow>()
-				{
+				return
+				[
 					new()
 					{
 						Email = "admin",
@@ -58,7 +58,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 						Surname = "user",
 						Password = Shared.Utilities.Encrypt("M4sterK3y", _encryptionKey),
 					}
-				};
+				];
 			}
 
 			return null;

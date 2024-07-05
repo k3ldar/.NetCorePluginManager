@@ -39,12 +39,12 @@ namespace PluginManager.DAL.TextFiles.Tables
 		{
 			if (version == 1)
 			{
-				return new List<TicketPrioritiesDataRow>()
-				{
+				return
+				[
 					new() { Description = "Low" },
 					new() { Description = "Medium" },
 					new() { Description = "High" }
-				};
+				];
 			}
 
 			return null;

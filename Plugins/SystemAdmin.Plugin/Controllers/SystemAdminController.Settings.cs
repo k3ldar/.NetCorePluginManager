@@ -89,7 +89,7 @@ namespace SystemAdmin.Plugin.Controllers
 			if ((baseType = subMenu as SettingsMenuItem) == null)
 				return RedirectToAction(nameof(Index));
 
-			List<string> errors = new();
+			List<string> errors = [];
 
 			ValidateIncomingProperties(model, baseType, errors);
 

@@ -46,7 +46,7 @@ namespace Localization.Plugin
 		private static readonly Timings _timings = new();
 
 		private readonly ILogger _logger;
-		private readonly List<ResourceManager> _resourceManagers = new();
+		private readonly List<ResourceManager> _resourceManagers = [];
 
 		#endregion Private Members
 

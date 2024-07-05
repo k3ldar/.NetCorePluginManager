@@ -104,7 +104,7 @@ namespace DocumentationPlugin.Classes
 				if (cache == null)
 				{
 					DocumentBuilder builder = new();
-					List<Document> documents = new();
+					List<Document> documents = [];
 
 					foreach (string file in GetDocumentationFileNames())
 					{
@@ -465,7 +465,7 @@ namespace DocumentationPlugin.Classes
 
 		private List<string> GetDocumentationFileNames()
 		{
-			List<string> Result = new();
+			List<string> Result = [];
 
 			if (File.Exists(_fileNameFile))
 			{

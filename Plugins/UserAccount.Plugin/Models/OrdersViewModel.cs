@@ -40,7 +40,7 @@ namespace UserAccount.Plugin.Models
 
 		public OrdersViewModel()
 		{
-			Orders = new List<Order>();
+			Orders = [];
 		}
 
 		public OrdersViewModel(in BaseModelData baseModelData, in List<Order> orders)

@@ -6,3 +6,4 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Major Code Smell", "S3885:\"Assembly.Load\" should be used", Justification = "Valid in this instance", Scope = "member", Target = "~M:PluginManager.Tests.PluginManagerTests.AddAssembly_PluginAlreadyLoaded_Returns_DynamicLoadResultAlreadyLoaded")]
+[assembly: SuppressMessage("Major Bug", "S1751:Loops with at most one iteration should be refactored", Justification = "<Pending>", Scope = "member", Target = "~M:PluginManager.Tests.Mocks.MockServiceCollection.HasMvcEndpointRouting~System.Boolean")]

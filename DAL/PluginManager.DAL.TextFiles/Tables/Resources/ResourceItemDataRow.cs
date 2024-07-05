@@ -51,7 +51,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 
 		public ResourceItemDataRow()
 		{
-			_tags = new();
+			_tags = [];
 			_tags.Changed += ObservableDataChanged;
 		}
 

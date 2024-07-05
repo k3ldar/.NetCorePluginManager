@@ -50,7 +50,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SessionData
 		/// </summary>
 		public SessionPageViews()
 		{
-			PageViews = new List<SessionPageView>();
+			PageViews = [];
 		}
 
 		#endregion Constructors

@@ -108,7 +108,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				else
 					allFeedback = _feedbackDataRow.Select().ToList();
 
-				List<Feedback> Result = new();
+				List<Feedback> Result = [];
 
 				allFeedback.ForEach(f => Result.Add(new Feedback(f.Id, f.UserName, f.Message, f.ShowOnWebsite)));
 
@@ -142,7 +142,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			if (cacheItem == null)
 			{
-				List<LookupListItem> Result = new();
+				List<LookupListItem> Result = [];
 
 				List<TicketDepartmentsDataRow> departments = _ticketDepartments.Select().ToList();
 
@@ -160,7 +160,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			if (cacheItem == null)
 			{
-				List<LookupListItem> Result = new();
+				List<LookupListItem> Result = [];
 
 				List<TicketPrioritiesDataRow> departments = _ticketPriority.Select().ToList();
 
@@ -178,7 +178,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			if (cacheItem == null)
 			{
-				List<LookupListItem> Result = new();
+				List<LookupListItem> Result = [];
 
 				List<TicketStatusDataRow> departments = _ticketStatus.Select().ToList();
 
@@ -263,10 +263,9 @@ namespace PluginManager.DAL.TextFiles.Providers
 				userName,
 				email,
 				userName,
-				new List<HelpdeskTicketMessage>()
-				{
+				[
 					new(DateTime.Now, userName, message)
-				});
+				]);
 
 			return true;
 		}
@@ -421,7 +420,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		private List<KnowledgeBaseGroup> ConvertFaqDataListToKbGroupList(IEnumerable<FaqDataRow> faqDataRow, KnowledgeBaseGroup parent)
 		{
-			List<KnowledgeBaseGroup> Result = new();
+			List<KnowledgeBaseGroup> Result = [];
 
 			foreach (FaqDataRow item in faqDataRow)
 			{
@@ -443,7 +442,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		private List<KnowledgeBaseItem> ConvertFaqItemDataToFaqItemList(FaqDataRow faqDataItem)
 		{
-			List<KnowledgeBaseItem> Result = new();
+			List<KnowledgeBaseItem> Result = [];
 
 			foreach (FaqItemDataRow item in _faqItemDataRow.Select().Where(i => i.ParentId.Equals(faqDataItem.Id)))
 			{
@@ -458,7 +457,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (ticketDataRow == null)
 				return null;
 
-			List<HelpdeskTicketMessage> messageList = new();
+			List<HelpdeskTicketMessage> messageList = [];
 
 			foreach (TicketMessageDataRow messageDataRow in messages)
 				messageList.Add(new HelpdeskTicketMessage(messageDataRow.Created, messageDataRow.UserName, messageDataRow.Message));

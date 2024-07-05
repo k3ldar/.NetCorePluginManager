@@ -378,7 +378,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 					Address address = new(-1, "business", "add 1", "add 2", "add 3", "city", "county", "postcode", "NL");
 					bool setBillingAddress = sut.SetBillingAddress(userId, address);
-
+					Assert.IsTrue(setBillingAddress);
+					
 					AddressDataRow addressRow = addressTable.Select(1);
 					Assert.IsNotNull(addressRow);
 
@@ -395,9 +396,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					Assert.AreEqual("NL", addressRow.Country);
 					Assert.IsFalse(addressRow.IsDelivery);
 
-
 					address = new Address(Convert.ToInt32(addressRow.Id), "", "add 1a", "add 2a", "add 3a", "citya", "countya", "postcodea", "FR");
 					setBillingAddress = sut.SetBillingAddress(userId, address);
+					Assert.IsTrue(setBillingAddress);
 
 					addressRow = addressTable.Select(1);
 					Assert.IsNotNull(addressRow);
@@ -498,18 +499,18 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					DeliveryAddress deliveryAddress = new(-1, "", "Street 1", "", "", "city", "county", "postcode", "GB", 5.99m);
 					sut.AddDeliveryAddress(userId, deliveryAddress);
 
-					orderData.Insert(new List<OrderDataRow>()
-					{
+					orderData.Insert(
+					[
 						new() { Culture = "en-GB", DeliveryAddress = deliveryAddress.Id, Postage = 4.99m, ProcessStatus = (int)ProcessStatus.PaymentPending, UserId = userId },
 						new() { Culture = "en-US", DeliveryAddress = deliveryAddress.Id, Postage = 3.99m, ProcessStatus = (int)ProcessStatus.PaymentPending, UserId = userId }
-					});
+					]);
 
-					orderItemsData.Insert(new List<OrderItemDataRow>()
-					{
+					orderItemsData.Insert(
+					[
 						new() { Description = "Order 1", Discount = 0, OrderId = 0, Price = 8.56m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 20m },
 						new() { Description = "Order 2a", Discount = 0, OrderId = 1, Price = 8.99m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
 						new() { Description = "Order 2b", Discount = 0, OrderId = 1, Price = 4.26m, Quantity = 2, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
-					});
+					]);
 
 
 					List<Order> orders = sut.OrdersGet(userId);
@@ -604,18 +605,18 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					DeliveryAddress deliveryAddress = new(-1, "", "Street 1", "", "", "city", "county", "postcode", "GB", 5.99m);
 					sut.AddDeliveryAddress(userId, deliveryAddress);
 
-					orderData.Insert(new List<OrderDataRow>()
-					{
+					orderData.Insert(
+					[
 						new() { Culture = "en-GB", DeliveryAddress = deliveryAddress.Id, Postage = 4.99m, ProcessStatus = (int)ProcessStatus.PaymentPending, UserId = userId },
 						new() { Culture = "en-US", DeliveryAddress = deliveryAddress.Id, Postage = 3.99m, ProcessStatus = (int)ProcessStatus.PaymentPending, UserId = userId }
-					});
+					]);
 
-					orderItemsData.Insert(new List<OrderItemDataRow>()
-					{
+					orderItemsData.Insert(
+					[
 						new() { Description = "Order 1", Discount = 0, OrderId = 0, Price = 8.56m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 20m },
 						new() { Description = "Order 2a", Discount = 0, OrderId = 1, Price = 8.99m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
 						new() { Description = "Order 2b", Discount = 0, OrderId = 1, Price = 4.26m, Quantity = 2, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
-					});
+					]);
 
 
 					List<Order> orders = sut.OrdersGet(userId);
@@ -673,7 +674,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
 					Assert.IsNotNull(sut);
 					DeliveryAddress delAddress = new(-1, "", "", "", "", "", "", "", "", 0);
-					Order invalidOrder = new(-1, DateTime.Now, 1.22m, new System.Globalization.CultureInfo("en-GB"), ProcessStatus.Cancelled, delAddress, new List<OrderItem>());
+					Order invalidOrder = new(-1, DateTime.Now, 1.22m, new System.Globalization.CultureInfo("en-GB"), ProcessStatus.Cancelled, delAddress, []);
 
 					sut.OrderPaid(invalidOrder, PaymentStatus.PaidCard, "order not found");
 				}
@@ -714,18 +715,18 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					DeliveryAddress deliveryAddress = new(-1, "", "Street 1", "", "", "city", "county", "postcode", "GB", 5.99m);
 					sut.AddDeliveryAddress(userId, deliveryAddress);
 
-					orderData.Insert(new List<OrderDataRow>()
-					{
+					orderData.Insert(
+					[
 						new() { Culture = "en-GB", DeliveryAddress = deliveryAddress.Id, Postage = 4.99m, ProcessStatus = (int)ProcessStatus.PaymentPending, UserId = userId },
 						new() { Culture = "en-US", DeliveryAddress = deliveryAddress.Id, Postage = 3.99m, ProcessStatus = (int)ProcessStatus.PaymentPending, UserId = userId }
-					});
+					]);
 
-					orderItemsData.Insert(new List<OrderItemDataRow>()
-					{
+					orderItemsData.Insert(
+					[
 						new() { Description = "Order 1", Discount = 0, OrderId = 0, Price = 8.56m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 20m },
 						new() { Description = "Order 2a", Discount = 0, OrderId = 1, Price = 8.99m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
 						new() { Description = "Order 2b", Discount = 0, OrderId = 1, Price = 4.26m, Quantity = 2, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
-					});
+					]);
 
 					sut.OrderPaid(sut.OrdersGet(userId)[0], PaymentStatus.Unpaid, "not been paid");
 				}
@@ -776,17 +777,17 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					DeliveryAddress deliveryAddress = new(-1, "", "Street 1", "", "", "city", "county", "postcode", "GB", 5.99m);
 					sut.AddDeliveryAddress(userId, deliveryAddress);
 
-					orderData.Insert(new List<OrderDataRow>()
-					{
+					orderData.Insert(
+					[
 						new() { Culture = "en-GB", DeliveryAddress = deliveryAddress.Id, Postage = 4.99m, ProcessStatus = (int)ProcessStatus.OrderReceived, UserId = userId },
-					});
+					]);
 
-					orderItemsData.Insert(new List<OrderItemDataRow>()
-					{
+					orderItemsData.Insert(
+					[
 						new() { Description = "Order 1a", Discount = 0, OrderId = 0, Price = 8.56m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 20m },
 						new() { Description = "Order 1b", Discount = 0, OrderId = 0, Price = 8.99m, Quantity = 1, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
 						new() { Description = "Order 1c", Discount = 0, OrderId = 0, Price = 4.26m, Quantity = 2, ItemStatus = 0, DiscountType = 0, TaxRate = 15m },
-					});
+					]);
 
 
 					List<Order> orders = sut.OrdersGet(userId);

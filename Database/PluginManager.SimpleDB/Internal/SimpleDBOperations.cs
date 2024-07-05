@@ -154,10 +154,10 @@ namespace SimpleDB.Internal
 				_tableAttributes.CachingStrategy == CachingStrategy.SlidingMemory ||
 				_tableAttributes.WriteStrategy == WriteStrategy.Lazy;
 
-			_triggersMap = new Dictionary<TriggerType, List<ITableTriggers<T>>>();
+			_triggersMap = [];
 
 			foreach (TriggerType triggerType in Enum.GetValues(typeof(TriggerType)))
-				_triggersMap.Add(triggerType, new());
+				_triggersMap.Add(triggerType, []);
 
 			_foreignKeys = GetForeignKeysForTable();
 			_indexes = BuildIndexListForTable();
@@ -217,7 +217,7 @@ namespace SimpleDB.Internal
 		{
 			get
 			{
-				Dictionary<string, Timings> Result = new();
+				Dictionary<string, Timings> Result = [];
 
 				foreach (KeyValuePair<string, Timings> item in _ReadWriteTimes)
 				{
@@ -422,7 +422,7 @@ namespace SimpleDB.Internal
 
 			using (StopWatchTimer timer = StopWatchTimer.Initialise(_ReadWriteTimes[TimingsInsert]))
 			{
-				InternalInsertRecords(new List<T> { record }, insertOptions ?? new InsertOptions());
+				InternalInsertRecords([record], insertOptions ?? new InsertOptions());
 			}
 		}
 
@@ -450,7 +450,7 @@ namespace SimpleDB.Internal
 
 			using (StopWatchTimer timer = StopWatchTimer.Initialise(_ReadWriteTimes[TimingsDelete]))
 			{
-				InternalDeleteRecords(new List<T>() { record });
+				InternalDeleteRecords([record]);
 			}
 		}
 
@@ -486,7 +486,7 @@ namespace SimpleDB.Internal
 
 			using (StopWatchTimer timer = StopWatchTimer.Initialise(_ReadWriteTimes[TimingsUpdate]))
 			{
-				InternalUpdateRecords(new List<T>() { record });
+				InternalUpdateRecords([record]);
 			}
 		}
 
@@ -501,9 +501,9 @@ namespace SimpleDB.Internal
 			using (StopWatchTimer timer = StopWatchTimer.Initialise(_ReadWriteTimes[TimingsInsertOrUpdate]))
 			{
 				if (IdExists(record.Id))
-					InternalUpdateRecords(new List<T> { record });
+					InternalUpdateRecords([record]);
 				else
-					InternalInsertRecords(new List<T>() { record }, new InsertOptions());
+					InternalInsertRecords([record], new InsertOptions());
 			}
 		}
 
@@ -932,7 +932,7 @@ namespace SimpleDB.Internal
 
 		private Dictionary<string, ForeignKeyRelation> GetForeignKeysForTable()
 		{
-			Dictionary<string, ForeignKeyRelation> Result = new();
+			Dictionary<string, ForeignKeyRelation> Result = [];
 
 			foreach (PropertyInfo property in typeof(T).GetProperties())
 			{
@@ -957,7 +957,7 @@ namespace SimpleDB.Internal
 
 		private static BatchUpdateDictionary<string, IIndexManager> BuildIndexListForTable()
 		{
-			BatchUpdateDictionary<string, IIndexManager> Result = new();
+			BatchUpdateDictionary<string, IIndexManager> Result = [];
 			foreach (PropertyInfo property in typeof(T).GetProperties())
 			{
 				UniqueIndexAttribute uniqueIndex = (UniqueIndexAttribute)property.GetCustomAttributes(true)

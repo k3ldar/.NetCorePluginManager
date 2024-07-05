@@ -55,7 +55,7 @@ namespace ProductPlugin.Models
 			if (pageNumber < 1)
 				throw new ArgumentOutOfRangeException(nameof(pageNumber));
 
-			List<ProductListModel> items = new();
+			List<ProductListModel> items = [];
 
 			products.ForEach(p => items.Add(new ProductListModel(p.Id, p.Sku, p.Name)));
 

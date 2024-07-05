@@ -199,7 +199,7 @@ namespace HelpdeskPlugin.Controllers
 
 		private ViewTicketViewModel GetTicketViewModel(HelpdeskTicket ticket)
 		{
-			List<ViewTicketResponseViewModel> messages = new();
+			List<ViewTicketResponseViewModel> messages = [];
 
 			foreach (HelpdeskTicketMessage item in ticket.Messages)
 				messages.Add(new ViewTicketResponseViewModel(item.DateCreated, item.UserName, FormatTextForDisplay(item.Message)));

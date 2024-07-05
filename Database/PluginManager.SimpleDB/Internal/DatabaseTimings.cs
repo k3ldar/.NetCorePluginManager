@@ -48,7 +48,7 @@ namespace SimpleDB.Internal
 
 		public Dictionary<string, Dictionary<string, Timings>> GetDatabaseTimings()
 		{
-			Dictionary<string, Dictionary<string, Timings>> Result = new();
+			Dictionary<string, Dictionary<string, Timings>> Result = [];
 
 			foreach (KeyValuePair<string, ISimpleDBTable> table in _simpleDBManager.Tables)
 			{

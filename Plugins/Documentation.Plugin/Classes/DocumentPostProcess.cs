@@ -186,7 +186,7 @@ namespace DocumentationPlugin.Classes
 
 			if (data != null && data.Contains.Count > 0)
 			{
-				Dictionary<string, string> contains = new();
+				Dictionary<string, string> contains = [];
 
 				foreach (KeyValuePair<String, String> item in data.Contains)
 				{

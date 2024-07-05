@@ -40,7 +40,7 @@ namespace UserAccount.Plugin.Models
 
 		public InvoicesViewModel()
 		{
-			Invoices = new List<Invoice>();
+			Invoices = [];
 		}
 
 		public InvoicesViewModel(in BaseModelData baseModelData,

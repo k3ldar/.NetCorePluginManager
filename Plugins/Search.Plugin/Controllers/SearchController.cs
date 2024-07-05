@@ -222,7 +222,7 @@ namespace SearchPlugin.Controllers
 
 			SearchViewModel Result = new(GetModelData(), _searchProvider.AdvancedSearch())
 			{
-				SearchResults = new List<SearchResponseItem>(),
+				SearchResults = [],
 				SearchText = model.SearchText ?? String.Empty,
 				SearchId = model.SearchId ?? String.Empty,
 				Page = model.Page,

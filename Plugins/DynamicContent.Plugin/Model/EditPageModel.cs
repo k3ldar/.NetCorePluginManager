@@ -40,7 +40,7 @@ namespace DynamicContent.Plugin.Model
 
 		public EditPageModel()
 		{
-			DynamicContents = new List<DynamicContentTemplate>();
+			DynamicContents = [];
 		}
 
 		public EditPageModel(in BaseModelData modelData, string cacheId, long id,

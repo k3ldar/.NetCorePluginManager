@@ -190,7 +190,7 @@ namespace PluginManager.Tests
 
 			PluginSettings pluginSettings = new()
 			{
-				PluginFiles = new List<string>()
+				PluginFiles = []
 			};
 
 

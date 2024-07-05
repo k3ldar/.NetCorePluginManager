@@ -52,7 +52,7 @@ namespace SimpleDB.Readers
 			dataLength = reader.ReadInt32();
 
 			if (dataLength == 0)
-				return new List<T>();
+				return [];
 
 			Span<byte> data = dataLength < Consts.MaxStackAllocSize ? stackalloc byte[dataLength] : new Byte[dataLength];
 

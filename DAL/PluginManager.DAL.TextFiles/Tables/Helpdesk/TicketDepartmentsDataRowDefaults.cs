@@ -39,12 +39,12 @@ namespace PluginManager.DAL.TextFiles.Tables
 		{
 			if (version == 1)
 			{
-				return new List<TicketDepartmentsDataRow>()
-				{
+				return
+				[
 					new() { Description = "Sales" },
 					new() { Description = "Support" },
 					new() { Description = "Returns" }
-				};
+				];
 			}
 
 			return null;

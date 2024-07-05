@@ -79,7 +79,7 @@ namespace SystemAdmin.Plugin.Controllers
 
 			if (!_seoProvider.GetSeoDataForRoute(model.SeoUrl, out string title, out string metaDescription, out string author, out List<string> keywords))
 			{
-				keywords = new List<string>();
+				keywords = [];
 			}
 
 			if (!author.Equals(model.SeoAuthor))

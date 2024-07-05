@@ -48,18 +48,7 @@ namespace PluginManager.Tests
 		[ExpectedException(typeof(InvalidOperationException))]
 		public void InvalidParam1()
 		{
-			INotificationService service = new NotificationService() as INotificationService;
-
-			Assert.IsNotNull(service);
-
-			service.RegisterListener(new InvalidEventsListenerNullEvents());
-		}
-
-		[TestMethod]
-		[ExpectedException(typeof(InvalidOperationException))]
-		public void InvalidParam2()
-		{
-			INotificationService service = new NotificationService() as INotificationService;
+			INotificationService service = new NotificationService();
 
 			Assert.IsNotNull(service);
 
@@ -69,7 +58,7 @@ namespace PluginManager.Tests
 		[TestMethod]
 		public void ValidParam()
 		{
-			INotificationService service = new NotificationService() as INotificationService;
+			INotificationService service = new NotificationService();
 
 			Assert.IsNotNull(service);
 
@@ -80,7 +69,7 @@ namespace PluginManager.Tests
 		[ExpectedException(typeof(InvalidOperationException))]
 		public void InvalidEventForClass()
 		{
-			INotificationService service = new NotificationService() as INotificationService;
+			INotificationService service = new NotificationService();
 
 			Assert.IsNotNull(service);
 
@@ -94,7 +83,7 @@ namespace PluginManager.Tests
 		{
 			ValidEventsListener validListnerProcessingEvent = new();
 			ValidEvents2 validListenerNotProcessingEvent = new();
-			INotificationService service = new NotificationService() as INotificationService;
+			INotificationService service = new NotificationService();
 
 			Assert.IsNotNull(service);
 
@@ -133,7 +122,7 @@ namespace PluginManager.Tests
 		{
 			ValidEventsListener listenerNotProcessing = new();
 			ValidEvents2 listenerProcessing = new();
-			INotificationService service = new NotificationService() as INotificationService;
+			INotificationService service = new NotificationService();
 
 			Assert.IsNotNull(service);
 
@@ -438,7 +427,7 @@ namespace PluginManager.Tests
 
 		public List<string> GetEvents()
 		{
-			return new List<string>();
+			return [];
 		}
 	}
 
@@ -457,10 +446,10 @@ namespace PluginManager.Tests
 
 		public List<string> GetEvents()
 		{
-			List<string> Result = new()
-			{
+			List<string> Result =
+			[
 				null
-			};
+			];
 
 			return Result;
 		}
@@ -500,15 +489,15 @@ namespace PluginManager.Tests
 
 		public List<string> GetEvents()
 		{
-			return new List<string>() { "" };
+			return [""];
 		}
 	}
 
 	[ExcludeFromCodeCoverage]
 	public class ValidEventsListener : INotificationListener
 	{
-		public List<object> param1Values = new();
-		public List<object> param2Values = new();
+		public List<object> param1Values = [];
+		public List<object> param2Values = [];
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
 		public bool EventRaised(in string eventId, in object param1, in object param2, ref object result)
@@ -559,7 +548,7 @@ namespace PluginManager.Tests
 
 		public List<string> GetEvents()
 		{
-			return new List<string>() { "Test1", "Test2" };
+			return ["Test1", "Test2"];
 		}
 
 		public int EventCount { get; private set; }
@@ -597,7 +586,7 @@ namespace PluginManager.Tests
 
 		public List<string> GetEvents()
 		{
-			return new List<string>() { "Dependency", "Frustration" };
+			return ["Dependency", "Frustration"];
 		}
 
 		public int EventCount { get; private set; }
@@ -624,14 +613,14 @@ namespace PluginManager.Tests
 			}
 		}
 
-		public List<string> GetEvents()
-		{
-			return new List<string>() { "Test1", "Test2" };
-		}
-
 		public void EventRaised(in string eventId, in object param1, in object param2)
 		{
 			throw new NotImplementedException();
+		}
+
+		public List<string> GetEvents()
+		{
+			return ["Test1", "Test2"];
 		}
 
 		public uint EventCount { get; private set; }

@@ -32,6 +32,8 @@ using AspNetCore.PluginManager.Tests.Shared;
 using SimpleDB.Tests.Mocks;
 using SimpleDB.Internal;
 
+#pragma warning disable CA1859
+
 namespace SimpleDB.Tests
 {
 	[TestClass]
@@ -99,7 +101,7 @@ namespace SimpleDB.Tests
 
 				using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
 				simpleDBManager.Initialize(new MockPluginClassesService());
-				List<MockTableUserRow> testData = new();
+				List<MockTableUserRow> testData = [];
 
 				for (int i = 0; i < 5; i++)
 					testData.Add(new MockTableUserRow(i));
@@ -129,7 +131,7 @@ namespace SimpleDB.Tests
 
 				using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
 				mockUsers.ResetSequence(10, 10);
-				List<MockTableUserRow> testData = new();
+				List<MockTableUserRow> testData = [];
 
 				for (int i = 1; i < 6; i++)
 					testData.Add(new MockTableUserRow(i));
@@ -157,7 +159,7 @@ namespace SimpleDB.Tests
 				ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
 				using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
-				List<MockTableUserRow> testData = new();
+				List<MockTableUserRow> testData = [];
 
 				for (int i = 0; i < 5; i++)
 					testData.Add(new MockTableUserRow(i));
@@ -191,7 +193,7 @@ namespace SimpleDB.Tests
 				ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
 				using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
-				List<MockTableUserRow> testData = new();
+				List<MockTableUserRow> testData = [];
 
 				for (int i = 0; i < 5; i++)
 					testData.Add(new MockTableUserRow(i));
@@ -224,7 +226,7 @@ namespace SimpleDB.Tests
 				ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
 				using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
-				List<MockTableUserRow> testData = new();
+				List<MockTableUserRow> testData = [];
 
 				for (int i = 0; i < 5; i++)
 					testData.Add(new MockTableUserRow(i));
@@ -251,7 +253,7 @@ namespace SimpleDB.Tests
 				ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
 				using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
-				List<MockTableUserRow> testData = new();
+				List<MockTableUserRow> testData = [];
 
 				for (int i = 0; i < 5; i++)
 					testData.Add(new MockTableUserRow(i));
@@ -284,7 +286,7 @@ namespace SimpleDB.Tests
 				ISimpleDBManager simpleDBManager = new SimpleDBManager(directory);
 
 				using SimpleDBOperations<MockTableUserRow> mockUsers = new(simpleDBManager, sut);
-				List<MockTableUserRow> testData = new();
+				List<MockTableUserRow> testData = [];
 
 				for (int i = 0; i < 5; i++)
 					testData.Add(new MockTableUserRow(i));
@@ -304,3 +306,5 @@ namespace SimpleDB.Tests
 		}
 	}
 }
+
+#pragma warning restore CA1859

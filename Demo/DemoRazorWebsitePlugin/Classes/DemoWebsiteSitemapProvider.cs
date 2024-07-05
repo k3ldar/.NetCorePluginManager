@@ -43,27 +43,24 @@ namespace DemoWebsitePlugin.Classes
 		/// <returns>List&lt;ISitemapItem&gt;</returns>
 		public List<SitemapItem> Items()
 		{
-			List<SitemapItem> Result = new();
-
-			Result.Add(new SitemapItem(
-				new Uri($"{ServicesController.Name}/{nameof(ServicesController.Middleware)}", UriKind.RelativeOrAbsolute),
-					SitemapChangeFrequency.Weekly));
-
-			Result.Add(new SitemapItem(
-				new Uri($"{ServicesController.Name}/{nameof(ServicesController.Api)}", UriKind.RelativeOrAbsolute),
-					SitemapChangeFrequency.Weekly));
-
-			Result.Add(new SitemapItem(
-				new Uri($"{ServicesController.Name}/{nameof(ServicesController.DependencyInjection)}", UriKind.RelativeOrAbsolute),
-					SitemapChangeFrequency.Weekly));
-
-			Result.Add(new SitemapItem(
-				new Uri($"{ServicesController.Name}/{nameof(ServicesController.Website)}", UriKind.RelativeOrAbsolute),
-					SitemapChangeFrequency.Weekly));
-
-			Result.Add(new SitemapItem(
-				new Uri($"{ServicesController.Name}/{nameof(ServicesController.Custom)}", UriKind.RelativeOrAbsolute),
-					SitemapChangeFrequency.Weekly));
+			List<SitemapItem> Result =
+			[
+				new SitemapItem(
+					new Uri($"{ServicesController.Name}/{nameof(ServicesController.Middleware)}", UriKind.RelativeOrAbsolute),
+						SitemapChangeFrequency.Weekly),
+				new SitemapItem(
+					new Uri($"{ServicesController.Name}/{nameof(ServicesController.Api)}", UriKind.RelativeOrAbsolute),
+						SitemapChangeFrequency.Weekly),
+				new SitemapItem(
+					new Uri($"{ServicesController.Name}/{nameof(ServicesController.DependencyInjection)}", UriKind.RelativeOrAbsolute),
+						SitemapChangeFrequency.Weekly),
+				new SitemapItem(
+					new Uri($"{ServicesController.Name}/{nameof(ServicesController.Website)}", UriKind.RelativeOrAbsolute),
+						SitemapChangeFrequency.Weekly),
+				new SitemapItem(
+					new Uri($"{ServicesController.Name}/{nameof(ServicesController.Custom)}", UriKind.RelativeOrAbsolute),
+						SitemapChangeFrequency.Weekly),
+			];
 
 			return Result;
 		}

@@ -64,7 +64,7 @@ namespace AspNetCore.PluginManager
 			: base(configuration, pluginSettings)
 		{
 			_netCorePluginSettings = pluginSettings ?? throw new ArgumentNullException(nameof(pluginSettings));
-			_extractedFiles = new List<string>();
+			_extractedFiles = [];
 		}
 
 		#endregion Constructors

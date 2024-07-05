@@ -54,7 +54,7 @@ namespace PluginManager.Tests
 		[TestCategory(TestCategoryDescription)]
 		public void GetServiceInstance_TypeNotRegistered_ReturnsNull()
 		{
-			MockServiceCollection msc = new();
+			MockServiceCollection msc = [];
 			ILogger logger = ServiceCollectionHelper.GetServiceInstance<ILogger>(msc);
 
 			Assert.IsNull(logger);
@@ -66,7 +66,7 @@ namespace PluginManager.Tests
 		{
 			MockLogger testLogger = new();
 
-			MockServiceCollection msc = new();
+			MockServiceCollection msc = [];
 			msc.AddSingleton<ILogger>(testLogger);
 
 			ILogger logger = ServiceCollectionHelper.GetServiceInstance<ILogger>(msc);
@@ -79,7 +79,7 @@ namespace PluginManager.Tests
 		[TestCategory(TestCategoryDescription)]
 		public void GetServiceInstance_Singleton_ImplementationType_ReturnsInstance_Success()
 		{
-			MockServiceCollection msc = new();
+			MockServiceCollection msc = [];
 			msc.AddSingleton<ILogger, MockLogger>();
 			Assert.IsNull(msc[0].ImplementationInstance);
 			Assert.IsNull(msc[0].ImplementationFactory);
@@ -99,7 +99,7 @@ namespace PluginManager.Tests
 		{
 			MockLogger testLogger = new();
 
-			MockServiceCollection msc = new();
+			MockServiceCollection msc = [];
 			msc.AddSingleton<ILogger>(factory => testLogger);
 
 			Assert.IsNotNull(msc[0].ImplementationFactory);
@@ -121,7 +121,7 @@ namespace PluginManager.Tests
 		{
 			MockLogger testLogger = new();
 
-			MockServiceCollection msc = new();
+			MockServiceCollection msc = [];
 			msc.AddTransient<ILogger>(factory => testLogger);
 
 			Assert.IsNotNull(msc[0].ImplementationFactory);
@@ -141,7 +141,7 @@ namespace PluginManager.Tests
 		[TestCategory(TestCategoryDescription)]
 		public void GetServiceInstance_Transient_ImplementationType_ReturnsInstance_Success()
 		{
-			MockServiceCollection msc = new();
+			MockServiceCollection msc = [];
 			msc.AddTransient<ILogger, MockLogger>();
 
 			Assert.IsNull(msc[0].ImplementationFactory);
@@ -219,7 +219,7 @@ namespace PluginManager.Tests
 		[ExpectedException(typeof(MissingMethodException))]
 		public void GetServiceInstance_ConstructInstanceWithMissingConstructorClassesRegistered_Throws_MissingMethodException()
 		{
-			MockServiceCollection msc = new();
+			MockServiceCollection msc = [];
 			msc.AddTransient<TestClassWithConstructorParams>();
 
 			Assert.IsNull(msc[0].ImplementationFactory);
@@ -235,7 +235,7 @@ namespace PluginManager.Tests
 		{
 			MockLogger testLogger = new();
 
-			MockServiceCollection msc = new();
+			MockServiceCollection msc = [];
 			msc.AddTransient<TestClassWithConstructorParams>();
 			msc.AddTransient<ILogger>(factory => testLogger);
 
@@ -259,7 +259,7 @@ namespace PluginManager.Tests
 		{
 			MockLogger testLogger = new();
 
-			MockServiceCollection msc = new();
+			MockServiceCollection msc = [];
 			msc.AddTransient<TestClassWithMultipleConstructors>();
 			msc.AddTransient<ILogger>(factory => testLogger);
 

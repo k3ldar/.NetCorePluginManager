@@ -52,7 +52,7 @@ namespace Breadcrumb.Plugin
 	{
 		#region Private Members
 
-		private static readonly Dictionary<string, BreadcrumbRoute> _breadcrumbRoutes = new();
+		private static readonly Dictionary<string, BreadcrumbRoute> _breadcrumbRoutes = [];
 		private static readonly CacheManager _breadcrumbCache = new("Breadcrumb Cache", new TimeSpan(0, 20, 0), true);
 		private readonly RequestDelegate _next;
 		private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
@@ -208,7 +208,7 @@ namespace Breadcrumb.Plugin
 
 			if (cacheItem == null)
 			{
-				List<BreadcrumbItem> Result = new();
+				List<BreadcrumbItem> Result = [];
 
 				for (int i = 0; i < breadcrumbs.Count; i++)
 				{
@@ -242,7 +242,7 @@ namespace Breadcrumb.Plugin
 			in IPluginTypesService pluginTypesService,
 			in BreadcrumbSettings settings)
 		{
-			Dictionary<string, BreadcrumbAttribute> allBreadcrumbs = new();
+			Dictionary<string, BreadcrumbAttribute> allBreadcrumbs = [];
 			List<Type> breadcrumbAttributes = pluginTypesService.GetPluginTypesWithAttribute<BreadcrumbAttribute>();
 
 			// Cycle through all methods which have the breadcrumb attribute
@@ -252,7 +252,7 @@ namespace Breadcrumb.Plugin
 				foreach (MethodInfo method in type.GetMethods())
 				{
 					BreadcrumbAttribute attribute = (BreadcrumbAttribute)method.GetCustomAttributes(true)
-						.FirstOrDefault(a => a.GetType() == typeof(BreadcrumbAttribute));
+						.FirstOrDefault(a => a is BreadcrumbAttribute);
 
 					if (attribute != null)
 					{

@@ -106,7 +106,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
 			foreach (SessionMonthly month in sessionData)
 			{
-				List<Decimal> datavalues = new();
+				List<Decimal> datavalues = [];
 				Result.DataValues[month.Month.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat)] = datavalues;
 
 				datavalues.Add(month.BotVisits);

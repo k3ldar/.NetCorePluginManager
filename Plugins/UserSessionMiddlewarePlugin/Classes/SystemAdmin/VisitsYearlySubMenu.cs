@@ -106,7 +106,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
 			foreach (SessionYearly year in sessionData)
 			{
-				List<Decimal> datavalues = new();
+				List<Decimal> datavalues = [];
 				Result.DataValues[year.Year.ToString(Thread.CurrentThread.CurrentUICulture)] = datavalues;
 
 				datavalues.Add(year.HumanVisits);

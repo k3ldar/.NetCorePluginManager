@@ -127,7 +127,7 @@ namespace PluginManager.Tests
 	{
 		internal TestTraceListener()
 		{
-			ListnerLines = new List<string>();
+			ListnerLines = [];
 		}
 
 		public override void Write(string message)

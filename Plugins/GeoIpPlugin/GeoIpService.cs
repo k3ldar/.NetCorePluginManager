@@ -43,7 +43,7 @@ namespace GeoIp.Plugin
 		private readonly CacheManager _geoIpCache;
 		private readonly GeoIpPluginSettings _geoIpSettings;
 		private IpCity[] _geoIpCityData;
-		private List<IpCity> _tempIpCity = new();
+		private List<IpCity> _tempIpCity = [];
 		internal readonly static Timings _timingsIpCache = new();
 		internal readonly static Timings _timingsIpMemory = new();
 		internal readonly static Timings _timingsIpProvider = new();

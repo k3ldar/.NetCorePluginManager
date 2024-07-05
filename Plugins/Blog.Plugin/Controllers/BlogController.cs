@@ -151,7 +151,7 @@ namespace Blog.Plugin.Controllers
 				BlogItem newBlog = _blogProvider.SaveBlog(new BlogItem(0, user.UserID, model.Title, model.Excerpt,
 					model.BlogText, user.UserName, model.Published, DateTime.Now, DateTime.Now,
 					DateTime.Now, model.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList(),
-					new List<BlogComment>()));
+					[]));
 
 				return Redirect(GetBlogItemUrl(newBlog));
 			}
@@ -307,7 +307,7 @@ namespace Blog.Plugin.Controllers
 
 		private BlogPostsViewModel GetBlogPostViewModel(List<BlogItem> entries)
 		{
-			List<BlogPostViewModel> blogPosts = new();
+			List<BlogPostViewModel> blogPosts = [];
 			UserSession user = GetUserSession();
 
 			foreach (BlogItem entry in entries)
@@ -315,7 +315,7 @@ namespace Blog.Plugin.Controllers
 				BlogPostViewModel post = new(entry.Id, entry.Title, entry.Excerpt,
 					entry.BlogText, entry.Username, entry.Published, entry.PublishDateTime,
 					entry.LastModified, user.UserID == entry.UserId, entry.Tags,
-					new List<BlogCommentViewModel>(), IsUserLoggedIn(),
+					[], IsUserLoggedIn(),
 					_settings.AllowComments);
 
 				foreach (BlogComment comment in entry.Comments)
@@ -331,14 +331,14 @@ namespace Blog.Plugin.Controllers
 
 		private MyBlogsViewModel GetMyBlogsViewModel(List<BlogItem> entries)
 		{
-			List<BlogPostViewModel> blogPosts = new();
+			List<BlogPostViewModel> blogPosts = [];
 
 			foreach (BlogItem entry in entries)
 			{
 				BlogPostViewModel post = new(entry.Id, entry.Title, entry.Excerpt,
 					entry.BlogText, entry.Username, entry.Published, entry.PublishDateTime,
 					entry.LastModified, true, entry.Tags,
-					new List<BlogCommentViewModel>(), IsUserLoggedIn(),
+					[], IsUserLoggedIn(),
 					_settings.AllowComments);
 
 				foreach (BlogComment comment in entry.Comments)

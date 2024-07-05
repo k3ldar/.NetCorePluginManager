@@ -169,7 +169,7 @@ namespace SharedPluginFeatures
 		/// <returns>List&lt;BreadcrumbItem&gt;</returns>
 		protected List<BreadcrumbItem> GetBreadcrumbs()
 		{
-			List<BreadcrumbItem> Result = new();
+			List<BreadcrumbItem> Result = [];
 
 			if (HttpContext.Items.TryGetValue(Constants.Breadcrumbs, out object value))
 			{

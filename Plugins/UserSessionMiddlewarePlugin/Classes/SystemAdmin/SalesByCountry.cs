@@ -68,7 +68,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 		{
 			StringBuilder Result = new("Country|Total Sales|Value\r");
 			List<UserSession> sessions = UserSessionManager.Clone;
-			List<SessionStatistics> statistics = new();
+			List<SessionStatistics> statistics = [];
 
 
 			foreach (UserSession session in sessions)
