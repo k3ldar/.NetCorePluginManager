@@ -79,10 +79,10 @@ namespace AspNetCore.PluginManager
 				string template = classRouteAttribute.Template;
 
 				while (template.IndexOf('{') > -1)
-					template = template.Substring(0, template.Length - 1);
+					template = template[..^1];
 
 				if (template.EndsWith('/'))
-					template = template.Substring(0, template.Length - 1);
+					template = template[..^1];
 
 				return template;
 			}

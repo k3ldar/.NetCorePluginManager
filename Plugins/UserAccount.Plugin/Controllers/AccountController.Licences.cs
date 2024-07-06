@@ -57,10 +57,11 @@ namespace UserAccount.Plugin.Controllers
 					licence.IsTrial, licence.ExpireDate, licence.UpdateCount, licence.EncryptedLicence));
 			}
 
-			LicenceViewModel model = new(GetModelData(), licences, GrowlGet());
-
-			model.Breadcrumbs = GetBreadcrumbs();
-			model.CartSummary = GetCartSummary();
+			LicenceViewModel model = new(GetModelData(), licences, GrowlGet())
+			{
+				Breadcrumbs = GetBreadcrumbs(),
+				CartSummary = GetCartSummary()
+			};
 
 			return View(model);
 		}

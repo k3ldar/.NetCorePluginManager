@@ -33,13 +33,14 @@ using System.Linq;
 using System.Reflection;
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager;
 using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
+
+#pragma warning disable CA1859
 
 namespace AspNetCore.PluginManager
 {
@@ -404,3 +405,5 @@ namespace AspNetCore.PluginManager
 		#endregion Private Static Methods
 	}
 }
+
+#pragma warning restore CA1859

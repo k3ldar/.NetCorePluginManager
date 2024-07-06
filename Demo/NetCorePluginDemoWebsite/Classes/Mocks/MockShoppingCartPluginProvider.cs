@@ -156,7 +156,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 				bool requiresShipping = !product.IsDownload;
 
 				items.Add(new ShoppingCartItem(product.Id, 1, product.Id, product.RetailPrice, product.Name,
-					product.Description.Substring(0, Shared.Utilities.CheckMinMax(product.Description.Length, 0, 49)),
+					product.Description[..Shared.Utilities.CheckMinMax(product.Description.Length, 0, 49)],
 					product.Sku, product.Images, product.IsDownload, product.AllowBackorder, String.Empty, DiscountType.None, 0));
 				ShoppingCartDetail cartDetail = new(shoppingCartId, 1,
 					product.RetailPrice, 20, 0, 10, System.Threading.Thread.CurrentThread.CurrentUICulture,

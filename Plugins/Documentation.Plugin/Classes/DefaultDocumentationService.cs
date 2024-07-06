@@ -414,16 +414,16 @@ namespace DocumentationPlugin.Classes
 
 				if (nextHEnd > nextHStart)
 				{
-					string reference = document.LongDescription.Substring(nextHStart, nextHEnd - nextHStart);
-					string idName = HtmlHelper.RouteFriendlyName(reference.Substring(4).ToLower());
+					string reference = document.LongDescription[nextHStart..nextHEnd];
+					string idName = HtmlHelper.RouteFriendlyName(reference[4..].ToLower());
 
-					string hType = reference.Substring(0, 3);
+					string hType = reference[..3];
 
 					string newhRef = string.Concat($"{hType} id=\"{idName}\">", reference.AsSpan(4));
 					document.LongDescription = document.LongDescription.Replace(reference, newhRef);
 
 					if (!data.Contains.ContainsKey(idName))
-						data.Contains.Add("#" + idName, reference.Substring(4));
+						data.Contains.Add("#" + idName, reference[4..]);
 				}
 				else
 					break;

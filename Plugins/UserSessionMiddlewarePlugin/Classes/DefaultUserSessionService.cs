@@ -583,10 +583,12 @@ namespace UserSessionMiddleware.Plugin.Classes
 
 				if (hourly == null)
 				{
-					hourly = new SessionHourly();
-					hourly.Date = currentDate.Date;
-					hourly.Hour = hour;
-					hourly.Quarter = quarter;
+					hourly = new SessionHourly
+					{
+						Date = currentDate.Date,
+						Hour = hour,
+						Quarter = quarter
+					};
 					hourlySessionData.Add(hourly);
 				}
 
@@ -611,8 +613,10 @@ namespace UserSessionMiddleware.Plugin.Classes
 
 				if (daily == null)
 				{
-					daily = new SessionDaily();
-					daily.Date = sessionDate.Date;
+					daily = new SessionDaily
+					{
+						Date = sessionDate.Date
+					};
 					hourlySessionData.Add(daily);
 				}
 
@@ -643,9 +647,11 @@ namespace UserSessionMiddleware.Plugin.Classes
 
 				if (weekly == null)
 				{
-					weekly = new SessionWeekly();
-					weekly.Week = week;
-					weekly.Year = sessionDate.Year;
+					weekly = new SessionWeekly
+					{
+						Week = week,
+						Year = sessionDate.Year
+					};
 					weeklySessionData.Add(weekly);
 				}
 
@@ -670,9 +676,11 @@ namespace UserSessionMiddleware.Plugin.Classes
 
 				if (monthly == null)
 				{
-					monthly = new SessionMonthly();
-					monthly.Month = sessionDate.Month;
-					monthly.Year = sessionDate.Year;
+					monthly = new SessionMonthly
+					{
+						Month = sessionDate.Month,
+						Year = sessionDate.Year
+					};
 					monthlySessionData.Add(monthly);
 				}
 
@@ -698,8 +706,10 @@ namespace UserSessionMiddleware.Plugin.Classes
 
 				if (yearly == null)
 				{
-					yearly = new SessionYearly();
-					yearly.Year = sessionDate.Year;
+					yearly = new SessionYearly
+					{
+						Year = sessionDate.Year
+					};
 					yearlySessionData.Add(yearly);
 				}
 

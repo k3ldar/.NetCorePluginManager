@@ -47,7 +47,7 @@ namespace SimpleDB.Internal
 					return new TableReadVersionThree();
 
 				default:
-					throw new ArgumentException(nameof(version));
+					throw new ArgumentException(null, nameof(version));
 			}
 		}
 

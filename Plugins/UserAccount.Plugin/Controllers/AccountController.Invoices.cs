@@ -46,10 +46,11 @@ namespace UserAccount.Plugin.Controllers
 		public ActionResult Invoices()
 		{
 			InvoicesViewModel model = new(GetModelData(),
-				_accountProvider.InvoicesGet(UserId()));
-
-			model.Breadcrumbs = GetBreadcrumbs();
-			model.CartSummary = GetCartSummary();
+				_accountProvider.InvoicesGet(UserId()))
+			{
+				Breadcrumbs = GetBreadcrumbs(),
+				CartSummary = GetCartSummary()
+			};
 
 			return View(model);
 		}
@@ -63,10 +64,11 @@ namespace UserAccount.Plugin.Controllers
 			if (invoice == null)
 				return RedirectToAction(nameof(Index));
 
-			InvoiceViewModel model = new(GetModelData(), invoice);
-
-			model.Breadcrumbs = GetBreadcrumbs();
-			model.CartSummary = GetCartSummary();
+			InvoiceViewModel model = new(GetModelData(), invoice)
+			{
+				Breadcrumbs = GetBreadcrumbs(),
+				CartSummary = GetCartSummary()
+			};
 
 			return View(model);
 		}

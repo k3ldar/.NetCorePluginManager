@@ -647,8 +647,7 @@ namespace BadEgg.Plugin.WebDefender
 
 					using (TimedLock lck = TimedLock.Lock(InternalIpAddressLock))
 					{
-						if (!InternalIpAddressList.ContainsKey(connection.IPAddress))
-							InternalIpAddressList.Add(connection.IPAddress, true);
+						InternalIpAddressList.TryAdd(connection.IPAddress, true);
 					}
 				}
 			}

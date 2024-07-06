@@ -33,6 +33,8 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CA1859
+
 namespace GeoIp.Plugin
 {
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
@@ -263,3 +265,5 @@ namespace GeoIp.Plugin
 		#endregion Private Methods
 	}
 }
+
+#pragma warning restore CA1859

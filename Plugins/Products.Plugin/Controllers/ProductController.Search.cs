@@ -306,20 +306,17 @@ namespace ProductPlugin.Controllers
 		private static void GetSearchId(in ProductSearchViewModel model)
 		{
 			// Use input string to calculate MD5 hash
-			using (MD5 md5 = MD5.Create())
+			byte[] inputBytes = Encoding.ASCII.GetBytes(JsonSerializer.Serialize(model));
+			byte[] hashBytes = MD5.HashData(inputBytes);
+
+			// Convert the byte array to hexadecimal string
+			StringBuilder sb = new();
+			for (int i = 0; i < hashBytes.Length; i++)
 			{
-				byte[] inputBytes = Encoding.ASCII.GetBytes(JsonSerializer.Serialize(model));
-				byte[] hashBytes = md5.ComputeHash(inputBytes);
-
-				// Convert the byte array to hexadecimal string
-				StringBuilder sb = new();
-				for (int i = 0; i < hashBytes.Length; i++)
-				{
-					sb.Append(hashBytes[i].ToString("X2"));
-				}
-
-				model.SearchName = $"P{sb.ToString()}";
+				sb.Append(hashBytes[i].ToString("X2"));
 			}
+
+			model.SearchName = $"P{sb.ToString()}";
 		}
 
 		#endregion Private Methods

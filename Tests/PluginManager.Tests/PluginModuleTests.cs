@@ -69,8 +69,10 @@ namespace PluginManager.Tests
 		[TestMethod]
 		public void Version_Set_RemembersSetting_Success()
 		{
-			PluginModule sut = new(Assembly.GetExecutingAssembly(), "TestAssembly", new MockIPlugin());
-			sut.Version = 123;
+			PluginModule sut = new(Assembly.GetExecutingAssembly(), "TestAssembly", new MockIPlugin())
+			{
+				Version = 123
+			};
 
 			Assert.AreEqual(123, sut.Version);
 			Assert.AreEqual(123, sut.GetVersion());

@@ -341,10 +341,12 @@ namespace SystemAdmin.Plugin.Controllers
 
 		private static ApplicationSettingViewModel CreatePropertySetting(string value, PropertyInfo property)
 		{
-			ApplicationSettingViewModel setting = new();
-			setting.Name = property.Name;
-			setting.Value = value;
-			setting.DataType = property.PropertyType.Name;
+			ApplicationSettingViewModel setting = new()
+			{
+				Name = property.Name,
+				Value = value,
+				DataType = property.PropertyType.Name
+			};
 			return setting;
 		}
 

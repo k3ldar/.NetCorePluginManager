@@ -135,7 +135,7 @@ namespace Breadcrumb.Plugin
 				string route = RouteLowered(context);
 
 				if (route.Length > 1 && route[route.Length - 1] == Constants.ForwardSlashChar)
-					route = route.Substring(0, route.Length - 1);
+					route = route[..^1];
 
 				try
 				{
@@ -154,7 +154,7 @@ namespace Breadcrumb.Plugin
 							if (route.StartsWith(kvp.Value.PartialRoute) && kvp.Value.HasParameters)
 							{
 								context.Items[Constants.Breadcrumbs] =
-									GetBreadCrumbs(route, kvp.Value.Breadcrumbs, Route(context).Substring(kvp.Value.PartialRoute.Length - 1));
+									GetBreadCrumbs(route, kvp.Value.Breadcrumbs, Route(context)[(kvp.Value.PartialRoute.Length - 1)..]);
 								found = true;
 								break;
 							}
@@ -327,7 +327,7 @@ namespace Breadcrumb.Plugin
 					// is it the default method for controller
 					if (isDefaultAction)
 					{
-						string routeDesc = route.Route.Substring(0, route.Route.Length - 6);
+						string routeDesc = route.Route[..^6];
 
 						if (String.IsNullOrEmpty(routeDesc))
 							routeDesc = Constants.ForwardSlash;

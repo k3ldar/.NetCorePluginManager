@@ -96,7 +96,7 @@ namespace SimpleDB.Internal
 		private const string TimingsInsertOrUpdate = "TimingsInsertOrUpdate";
 		private const string TimingsForceWrite = "TimingsForceWrite";
 
-		private readonly IVersionedReadWriteFactory _readWriteFactory = new VersionedReadWriteFactory();
+		private readonly VersionedReadWriteFactory _readWriteFactory = new VersionedReadWriteFactory();
 		private readonly string _tableName;
 		private readonly bool _tableCreated;
 		private readonly FileStream _fileStream;

@@ -191,11 +191,12 @@ namespace DocumentationPlugin.Controllers
 			}
 
 			DocumentViewTypeViewModel model = new(GetModelData(),
-				selected.Title, data.ReferenceData);
-
-			model.Assembly = HtmlHelper.RouteFriendlyName(selected.AssemblyName);
-			model.Namespace = HtmlHelper.RouteFriendlyName(selected.NameSpaceName);
-			model.ClassName = HtmlHelper.RouteFriendlyName(selected.ClassName);
+				selected.Title, data.ReferenceData)
+			{
+				Assembly = HtmlHelper.RouteFriendlyName(selected.AssemblyName),
+				Namespace = HtmlHelper.RouteFriendlyName(selected.NameSpaceName),
+				ClassName = HtmlHelper.RouteFriendlyName(selected.ClassName)
+			};
 
 			if (data.SeeAlso != null && data.SeeAlso.Count > 0)
 			{

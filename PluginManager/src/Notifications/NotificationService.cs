@@ -168,10 +168,10 @@ namespace PluginManager.Internal
 
 		internal bool ListenerRegisteredEvent<T>(string eventName)
 		{
-			if (!_eventListener.ContainsKey(eventName))
+			if (!_eventListener.TryGetValue(eventName, out List<INotificationListener> events))
 				return false;
 
-			foreach (INotificationListener listener in _eventListener[eventName])
+			foreach (INotificationListener listener in events)
 			{
 				if (listener.GetType().Equals(typeof(T)))
 					return true;

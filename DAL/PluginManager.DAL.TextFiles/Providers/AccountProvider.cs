@@ -81,7 +81,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			long addressValue = 0;
 
 			if (addressOptions != null)
-				Int64.TryParse(addressOptions.Value, out addressValue);
+				_ = Int64.TryParse(addressOptions.Value, out addressValue);
 
 			_addressOptions = (AddressOptions)addressValue;
 		}

@@ -165,9 +165,9 @@ namespace ApiAuthorization.Plugin.Classes
 
 			int payloadLength = 0;
 
-			if (request.Headers.Keys.Contains(PayloadLength))
+			if (request.Headers.ContainsKey(PayloadLength))
 			{
-				Int32.TryParse(request.Headers[PayloadLength], out payloadLength);
+				_ = Int32.TryParse(request.Headers[PayloadLength], out payloadLength);
 			}
 
 			return new ApiUserDetails(apiKey, merchantId, authorization, numericNonce, numericTimestamp, payloadLength);

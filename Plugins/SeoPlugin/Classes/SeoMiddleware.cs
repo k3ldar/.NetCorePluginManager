@@ -86,7 +86,7 @@ namespace SeoPlugin
 				string route = RouteLowered(context);
 
 				if (route.Length > 1 && route[route.Length - 1] == Constants.ForwardSlashChar)
-					route = route.Substring(0, route.Length - 1);
+					route = route[..^1];
 
 				string cacheName = $"Seo Cache {route}";
 				CacheItem cacheItem = _memoryCache.GetCache().Get(cacheName);

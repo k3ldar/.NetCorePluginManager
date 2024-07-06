@@ -49,14 +49,14 @@ namespace UserAccount.Plugin.Models
 				throw new ArgumentNullException(nameof(order));
 
 			OrderId = order.Id;
-			Culture = order.Culture ?? throw new ArgumentOutOfRangeException(nameof(order.Culture));
+			Culture = order.Culture ?? throw new InvalidOperationException(nameof(order.Culture));
 			Date = order.Date;
 			SubTotal = order.SubTotal;
 			Postage = order.Postage;
 			Tax = order.Tax;
 			Total = order.Total;
 			Status = order.Status;
-			OrderItems = order.OrderItems ?? throw new ArgumentNullException(nameof(order.OrderItems));
+			OrderItems = order.OrderItems ?? throw new InvalidOperationException(nameof(order.OrderItems));
 			DeliveryAddress = String.Empty;
 
 			if (order.DeliveryAddress != null)

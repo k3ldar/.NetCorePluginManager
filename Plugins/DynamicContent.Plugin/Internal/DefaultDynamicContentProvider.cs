@@ -94,10 +94,12 @@ namespace DynamicContent.Plugin.Internal
 					Result++;
 				}
 
-				IDynamicContentPage newPage = new DynamicContentPage(Result);
-				newPage.Name = $"Page-{Result}";
-				newPage.ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-				newPage.ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
+				IDynamicContentPage newPage = new DynamicContentPage(Result)
+				{
+					Name = $"Page-{Result}",
+					ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+					ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc)
+				};
 
 				_dynamicContent.Add(newPage);
 				Save(newPage);
@@ -245,7 +247,7 @@ namespace DynamicContent.Plugin.Internal
 				throw new ArgumentNullException(nameof(content));
 
 			if (content.Length < MinimumByteSize)
-				throw new ArgumentException(nameof(content));
+				throw new ArgumentException(null, nameof(content));
 
 			using (MemoryStream memoryStream = new(content))
 			using (BinaryReader reader = new(memoryStream))

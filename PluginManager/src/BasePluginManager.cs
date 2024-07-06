@@ -984,7 +984,11 @@ namespace PluginManager
 
 			if (lastIndex > 0)
 			{
+#if NET_STANDARD
 				Result = Result.Substring(0, lastIndex).Replace(".", "\\") + Result.Substring(lastIndex);
+#else
+				Result = string.Concat(Result[..lastIndex].Replace(".", "\\"), Result.AsSpan(lastIndex));
+#endif
 			}
 
 			Result = Path.Combine(_configuration.CurrentPath, Result);
@@ -1026,7 +1030,7 @@ namespace PluginManager
 					if (fileExists)
 						File.Delete(resourceFileName);
 
-					using (Stream fileStream = File.OpenWrite(resourceFileName))
+					using (FileStream fileStream = File.OpenWrite(resourceFileName))
 					{
 						byte[] buffer = new byte[stream.Length];
 

@@ -145,7 +145,7 @@ namespace LoginPlugin
 
 				try
 				{
-					authData = System.Text.Encoding.GetEncoding("ISO-8859-1").GetString(Convert.FromBase64String(authData.Substring(6)));
+					authData = System.Text.Encoding.GetEncoding("ISO-8859-1").GetString(Convert.FromBase64String(authData[6..]));
 				}
 				catch (FormatException)
 				{

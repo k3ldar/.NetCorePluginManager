@@ -78,7 +78,7 @@ namespace ShoppingCartPlugin.Controllers
 			string s = Request.Path;
 			s += "?";
 			s += Request.QueryString.ToString();
-			s = s.Substring(0, s.IndexOf("hash"));
+			s = s[..s.IndexOf("hash")];
 
 			ISettingsProvider settingsProvider = (ISettingsProvider)HttpContext.RequestServices.GetService(typeof(ISettingsProvider));
 			PaypointSettings paypointSettings = settingsProvider.GetSettings<PaypointSettings>(nameof(Paypoint));

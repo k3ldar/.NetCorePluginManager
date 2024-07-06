@@ -90,10 +90,7 @@ namespace DocumentationPlugin.Classes
 		/// <param name="countName">Name of count to be incremented</param>
 		internal void IncrementCount(in string countName)
 		{
-			if (!Counts.ContainsKey(countName))
-			{
-				Counts.Add(countName, 0);
-			}
+			Counts.TryAdd(countName, 0);
 
 			Counts[countName]++;
 		}

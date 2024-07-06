@@ -170,7 +170,7 @@ namespace Spider.Plugin
 
 							for (int i = 0; i < sitemaps.Length; i++)
 							{
-								stringBuilder.Append($"\r\n\r\nSitemap: {url}{sitemaps[i].Substring(1)}\n");
+								stringBuilder.Append($"\r\n\r\nSitemap: {url}{sitemaps[i][1..]}\n");
 							}
 						}
 					}

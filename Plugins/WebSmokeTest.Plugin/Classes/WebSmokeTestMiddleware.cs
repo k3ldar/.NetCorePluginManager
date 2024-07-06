@@ -150,7 +150,7 @@ namespace WebSmokeTest.Plugin
 						}
 						else if (route.StartsWith("/smoketest/test"))
 						{
-							string testNumber = route.Substring(16);
+							string testNumber = route[16..];
 							List<WebSmokeTestItem> testItems = SmokeTests;
 
 							if (Int32.TryParse(testNumber, out int number) &&
@@ -358,7 +358,7 @@ namespace WebSmokeTest.Plugin
 		private static WebSmokeTestItem GetSmokeTestFromControllerAction(in Type type, in MethodInfo method, in SmokeTestAttribute attribute)
 		{
 			string name = attribute.Name;
-			StringBuilder route = new($"{type.Name.Substring(0, type.Name.Length - 10)}/{method.Name}/");
+			StringBuilder route = new($"{type.Name[..^10]}/{method.Name}/");
 
 			if (String.IsNullOrEmpty(attribute.Name))
 				name = $"{route}";

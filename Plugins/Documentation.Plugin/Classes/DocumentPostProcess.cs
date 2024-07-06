@@ -638,10 +638,7 @@ namespace DocumentationPlugin.Classes
 						$"{HtmlHelper.RouteFriendlyName(xRefDoc.ClassName)}/\">{xRefDoc.ClassName}</a>");
 				}
 
-				if (!linkDocument.SeeAlso.ContainsKey(xRefDoc.ClassName))
-				{
-					linkDocument.SeeAlso.Add(xRefDoc.ClassName, link);
-				}
+				linkDocument.SeeAlso.TryAdd(xRefDoc.ClassName, link);
 
 				//"docs/Document/{documentName}/"
 				//"docs/Document/{className}/Type/{classType}/{typeName}"
