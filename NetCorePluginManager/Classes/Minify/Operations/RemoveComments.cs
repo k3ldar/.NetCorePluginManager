@@ -102,7 +102,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
 						continue;
 					}
 
-					if (!canPeekBack && (!canPeekForward && !isInComment))
+					if (!canPeekBack && !canPeekForward && !isInComment)
 					{
 						Result.Append(currentChar);
 						continue;

@@ -284,13 +284,13 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
                 Thread.Sleep(250);
                 Assert.IsFalse(sut.UpdateRequired);
                 Assert.AreEqual(page2.ActiveFrom, sut.NextUpdate);
-                Assert.AreEqual(1, sut.CacheCount);
+                Assert.AreEqual(1, DynamicContentThreadManager.CacheCount);
                 Assert.AreEqual(1u, sut.UpdateContentTimings.Requests);
 
                 Thread.Sleep(1200);
                 Assert.IsFalse(sut.UpdateRequired);
                 Assert.AreEqual(page2.ActiveTo, sut.NextUpdate);
-                Assert.AreEqual(2, sut.CacheCount);
+                Assert.AreEqual(2, DynamicContentThreadManager.CacheCount);
                 Assert.AreEqual(2u, sut.UpdateContentTimings.Requests);
 
                 // expire first page
@@ -301,7 +301,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
                 Thread.Sleep(600);
                 Assert.IsFalse(sut.UpdateRequired);
                 Assert.AreEqual(page2.ActiveTo, sut.NextUpdate);
-                Assert.AreEqual(1, sut.CacheCount);
+                Assert.AreEqual(1, DynamicContentThreadManager.CacheCount);
                 Assert.AreEqual(3u, sut.UpdateContentTimings.Requests);
             }
             finally
