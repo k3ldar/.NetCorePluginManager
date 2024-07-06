@@ -146,7 +146,7 @@ namespace ErrorManager.Plugin.Controllers
 
 #if DEBUG
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "Debug Only")]
-		public IActionResult Raise(string s)
+		public static IActionResult Raise(string s)
 		{
 			if (String.IsNullOrEmpty(s))
 				s = "Oopsies";

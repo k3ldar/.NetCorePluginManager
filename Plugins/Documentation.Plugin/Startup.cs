@@ -54,7 +54,7 @@ namespace DocumentationPlugin
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
-		public void Configure(
+		public static void Configure(
 #if !NET_CORE_3_X && !NET_5_ABOVE
             IApplicationBuilder app, IHostingEnvironment env
 #endif

@@ -42,7 +42,7 @@ namespace ErrorManager.Plugin
 		public IConfiguration Configuration { get; }
 
 		// This method gets called by the runtime. Use this method to add services to the container.
-		public void ConfigureServices(IServiceCollection services)
+		public static void ConfigureServices(IServiceCollection services)
 		{
 			services.AddMvc(
 #if NET_CORE_3_X || NET_5_ABOVE
@@ -53,7 +53,7 @@ namespace ErrorManager.Plugin
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
-		public void Configure(IApplicationBuilder app,
+		public static void Configure(IApplicationBuilder app,
 #if NET_CORE_3_X || NET_5_ABOVE
 			IWebHostEnvironment env)
 #else
