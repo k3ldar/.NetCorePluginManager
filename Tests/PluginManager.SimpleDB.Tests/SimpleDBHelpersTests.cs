@@ -50,10 +50,10 @@ namespace SimpleDB.Tests
 		[TestMethod]
 		public void AddSimpleDB_RegistersServices_UsesSettingsFromISettingsProvider_Success()
 		{
-			ServiceDescriptor[] serviceDescriptors = new ServiceDescriptor[]
-			{
+			ServiceDescriptor[] serviceDescriptors =
+			[
 				new(typeof(ISettingsProvider), new MockSettingsProvider()),
-			};
+			];
 
 			MockServiceCollection mockServiceCollection = new(serviceDescriptors);
 
@@ -71,10 +71,10 @@ namespace SimpleDB.Tests
 		{
 			string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
 
-			ServiceDescriptor[] serviceDescriptors = new ServiceDescriptor[]
-			{
+			ServiceDescriptor[] serviceDescriptors =
+			[
 				new(typeof(ISettingsProvider), new MockSettingsProvider()),
-			};
+			];
 
 			MockServiceCollection mockServiceCollection = new(serviceDescriptors);
 
@@ -93,10 +93,10 @@ namespace SimpleDB.Tests
 			try
 			{
 				Directory.CreateDirectory(directory);
-				ServiceDescriptor[] serviceDescriptors = new ServiceDescriptor[]
-				{
+				ServiceDescriptor[] serviceDescriptors =
+				[
 					new(typeof(ISettingsProvider), new MockSettingsProvider()),
-				};
+				];
 
 				MockServiceCollection mockServiceCollection = new(serviceDescriptors);
 

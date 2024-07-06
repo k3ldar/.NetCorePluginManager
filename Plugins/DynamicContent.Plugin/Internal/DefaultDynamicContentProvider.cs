@@ -51,7 +51,7 @@ namespace DynamicContent.Plugin.Internal
 		private const int FileVersion1 = 1;
 		private const int ReservedSpace1 = 65;
 		private const int ReservedSpace2 = 99;
-		private static readonly byte[] Header = { 44, 43 };
+		private static readonly byte[] Header = [44, 43];
 		private const int MinimumByteSize = 54;
 
 		private readonly string _rootContentPath;

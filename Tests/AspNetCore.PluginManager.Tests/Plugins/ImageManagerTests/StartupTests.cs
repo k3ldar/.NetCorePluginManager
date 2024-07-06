@@ -69,15 +69,19 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
 		public void ConfigureService_InvalidParamNull_Throws_ArgumentNullException()
         {
-			Startup.ConfigureServices(null);
+			Startup sut = new Startup();
+			Assert.IsNotNull(sut); 
+			sut.ConfigureServices(null);
         }
 
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
 		public void ConfigureServices_EnableEndpointRoutingIsFalse_Success()
         {
-            MockServiceCollection serviceCollection = new MockServiceCollection();
-			Startup.ConfigureServices(serviceCollection);
+			Startup sut = new Startup();
+			Assert.IsNotNull(sut); 
+			MockServiceCollection serviceCollection = new MockServiceCollection();
+			sut.ConfigureServices(serviceCollection);
 
             Assert.IsTrue(serviceCollection.HasMvcConfigured());
             Assert.IsFalse(serviceCollection.HasMvcEndpointRouting());
@@ -89,7 +93,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Configure_InvalidParamNull_Throws_ArgumentNullException()
         {
-			Startup.Configure(null);
+			Startup sut = new Startup();
+			Assert.IsNotNull(sut); 
+			sut.Configure(null);
         }
     }
 }

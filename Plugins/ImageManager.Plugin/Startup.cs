@@ -34,7 +34,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ImageManager.Plugin
 {
-	public class Startup
+	public sealed class Startup
 	{
 		public Startup()
 		{
@@ -45,7 +45,7 @@ namespace ImageManager.Plugin
 		}
 
 		// This method gets called by the runtime. Use this method to add services to the container.
-		public static void ConfigureServices(IServiceCollection services)
+		public void ConfigureServices(IServiceCollection services)
 		{
 			if (services == null)
 				throw new ArgumentNullException(nameof(services));
@@ -58,7 +58,7 @@ namespace ImageManager.Plugin
 				.ConfigurePluginManager();
 		}
 
-		public static void Configure(IApplicationBuilder app)
+		public void Configure(IApplicationBuilder app)
 		{
 			if (app == null)
 				throw new ArgumentNullException(nameof(app));

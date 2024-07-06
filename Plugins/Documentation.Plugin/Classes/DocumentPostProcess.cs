@@ -41,10 +41,10 @@ namespace DocumentationPlugin.Classes
 	{
 		#region Private Members
 
-		private static readonly string[] BuiltIntypesAndReferences = { "bool", "boolean", "byte", "sbyte", "char", "decimal",
+		private static readonly string[] BuiltIntypesAndReferences = [ "bool", "boolean", "byte", "sbyte", "char", "decimal",
 			"double", "float", "int", "uint", "long", "ulong", "short", "ushort", "object", "string", "dynamic",
-			"enum", "struct", "void" };
-		private static readonly string[] ValidTags = { "c", "code", "/c", "/code", "para", "/para", "see", "seealso", "example", "exception", "include" };
+			"enum", "struct", "void" ];
+		private static readonly string[] ValidTags = ["c", "code", "/c", "/code", "para", "/para", "see", "seealso", "example", "exception", "include"];
 		private readonly List<Document> _documents;
 		private PostProcessResults _processResult;
 

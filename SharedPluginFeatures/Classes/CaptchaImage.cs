@@ -224,12 +224,12 @@ namespace SharedPluginFeatures
 								path.AddString(Text, font.FontFamily, (int)font.Style, font.Size, rect, format);
 								float v = 4F;
 								PointF[] points =
-								{
+								[
 									new(_random.Next(rect.Width) / v, _random.Next(rect.Height) / v),
 									new(rect.Width - (_random.Next(rect.Width) / v), _random.Next(rect.Height) / v),
 									new(_random.Next(rect.Width) / v, rect.Height - (_random.Next(rect.Height) / v)),
 									new(rect.Width - (_random.Next(rect.Width) / v), rect.Height - (_random.Next(rect.Height) / v))
-								};
+								];
 
 								using (Matrix matrix = new())
 								{

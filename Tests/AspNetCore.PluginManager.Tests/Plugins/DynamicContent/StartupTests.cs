@@ -69,6 +69,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ConfigureService_InvalidParamNull_Throws_ArgumentNullException()
         {
+			Startup sut = new Startup();
+			Assert.IsNotNull(sut);
 			Startup.ConfigureServices(null);
         }
 
@@ -97,6 +99,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Configure_InvalidParamNull_Throws_ArgumentNullException()
         {
+			Startup sut = new Startup();
+			Assert.IsNotNull(sut);
 			Startup.Configure(null);
         }
     }

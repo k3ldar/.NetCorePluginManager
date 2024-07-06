@@ -75,12 +75,12 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (settingsDataRow == null)
 				return default;
 
-			MethodInfo methodInfo = typeof(T).GetMethod("Parse", new Type[] { typeof(string) });
+			MethodInfo methodInfo = typeof(T).GetMethod("Parse", [typeof(string)]);
 
 			if (methodInfo == null)
 				return default;
 
-			return (T)methodInfo.Invoke(null, new object[] { settingsDataRow.Value });
+			return (T)methodInfo.Invoke(null, [settingsDataRow.Value]);
 		}
 
 		public void UpdateSetting<T>(string name, T value)

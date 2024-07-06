@@ -37,7 +37,7 @@ namespace SimpleDB.Internal
 			IncludeFields = true,
 		};
 
-		public static readonly byte[] Header = new byte[] { 80, 77 };
+		public static readonly byte[] Header = [80, 77];
 		public const string DefaultExtension = ".dat";
 		public const byte CompressionNone = 0;
 		public const byte CompressionBrotli = 1;

@@ -38,7 +38,7 @@ namespace SystemAdmin.Plugin.Classes.MenuItems
 	{
 		#region Private Members
 
-		private readonly static string[] IgnoredTimingMenus = { "Route Load Times" };
+		private readonly static string[] IgnoredTimingMenus = ["Route Load Times"];
 
 		private const int MinimumResetMilliseconds = 1500;
 
