@@ -10,3 +10,4 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Major Bug", "S1244:Floating point numbers should not be tested for equality", Justification = "Fine as is", Scope = "member", Target = "~P:PluginManager.DAL.TextFiles.Tables.PageViewsDataRow.TotalTime")]
 [assembly: SuppressMessage("Major Code Smell", "S1854:Unused assignments should be removed", Justification = "Without it there will be no depth", Scope = "member", Target = "~M:PluginManager.DAL.TextFiles.Providers.HelpdeskProvider.InternalGetKnowledgebaseGroup(System.Int64,System.Int32)~Middleware.Helpdesk.KnowledgeBaseGroup")]
 [assembly: SuppressMessage("Performance", "CA1859:Use concrete types when possible for improved performance", Justification = "<Pending>", Scope = "member", Target = "~M:PluginManager.DAL.TextFiles.Providers.DynamicContentProvider.InternalGetCustomPage(PluginManager.DAL.TextFiles.Tables.ContentPageDataRow)~Middleware.IDynamicContentPage")]
+
