@@ -190,7 +190,7 @@ namespace BadEgg.Plugin.WebDefender
 
 			foreach (Enum value in Enum.GetValues(typeof(ValidateRequestResult)))
 				if (Results.HasFlag(value))
-					Result += $"{value.ToString()} ";
+					Result += $"{value} ";
 
 			return Result;
 		}

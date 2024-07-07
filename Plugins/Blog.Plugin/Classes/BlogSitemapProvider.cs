@@ -70,7 +70,7 @@ namespace Blog.Plugin.Classes
 			foreach (BlogItem blogItem in blogs)
 			{
 				Uri blogUrl = new($"Blog/{HtmlHelper.RouteFriendlyName(blogItem.Username)}/{blogItem.Id}/" +
-					$"{blogItem.LastModified.ToString("dd-MM-yyyy")}/{HtmlHelper.RouteFriendlyName(blogItem.Title)}",
+					$"{blogItem.LastModified:dd-MM-yyyy}/{HtmlHelper.RouteFriendlyName(blogItem.Title)}",
 					UriKind.RelativeOrAbsolute);
 
 				Result.Add(new SitemapItem(blogUrl, SitemapChangeFrequency.Daily, blogItem.PublishDateTime));

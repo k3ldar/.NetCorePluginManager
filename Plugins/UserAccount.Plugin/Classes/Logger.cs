@@ -39,42 +39,42 @@ namespace UserAccount.Plugin.Classes
 		public void AddToLog(in LogLevel logLevel, in string data)
 		{
 #if TRACE
-			System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {data}");
+			System.Diagnostics.Trace.WriteLine($"{logLevel} {data}");
 #endif
 		}
 
 		public void AddToLog(in LogLevel logLevel, in Exception exception)
 		{
 #if TRACE
-			System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}");
+			System.Diagnostics.Trace.WriteLine($"{logLevel} {exception.Message}");
 #endif
 		}
 
 		public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
 		{
 #if TRACE
-			System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");
+			System.Diagnostics.Trace.WriteLine($"{logLevel} {exception.Message}\r\n{data}");
 #endif
 		}
 
 		public void AddToLog(in LogLevel logLevel, in string moduleName, in string data)
 		{
 #if TRACE
-			System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {data}");
+			System.Diagnostics.Trace.WriteLine($"{logLevel} {data}");
 #endif
 		}
 
 		public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception)
 		{
 #if TRACE
-			System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}");
+			System.Diagnostics.Trace.WriteLine($"{logLevel} {exception.Message}");
 #endif
 		}
 
 		public void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception, string data)
 		{
 #if TRACE
-			System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");
+			System.Diagnostics.Trace.WriteLine($"{logLevel} {exception.Message}\r\n{data}");
 #endif
 		}
 

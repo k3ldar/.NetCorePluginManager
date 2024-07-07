@@ -109,7 +109,7 @@ namespace Blog.Plugin.Classes
 		private static SearchResponseItem CreateSearchResponseItem(BlogItem blogItem)
 		{
 			string url = $"/Blog/{HtmlHelper.RouteFriendlyName(blogItem.Username)}/{blogItem.Id}/" +
-				$"{blogItem.LastModified.ToString("dd-MM-yyyy")}/{HtmlHelper.RouteFriendlyName(blogItem.Title)}";
+				$"{blogItem.LastModified:dd-MM-yyyy}/{HtmlHelper.RouteFriendlyName(blogItem.Title)}";
 
 			SearchResponseItem responseItem = new("Blog", blogItem.Title, -1,
 				url, blogItem.Title, "~/Views/Blog/_BlogSearchResult.cshtml");

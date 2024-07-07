@@ -355,7 +355,7 @@ namespace ImageManager.Plugin.Controllers
 
 			do
 			{
-				Result = $"ImageManager - {DateTime.UtcNow.Ticks.ToString("X")}-{_uploadId++}";
+				Result = $"ImageManager - {DateTime.UtcNow.Ticks:X}-{_uploadId++}";
 			}
 			while (_memoryCache.GetCache().Get(Result) != null);
 

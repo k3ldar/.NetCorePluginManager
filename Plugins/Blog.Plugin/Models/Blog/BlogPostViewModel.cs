@@ -265,7 +265,7 @@ namespace Blog.Plugin.Models
 		{
 			get
 			{
-				return $"/Blog/{RouteFriendlyName(Username)}/{Id}/{LastModified.ToString("dd-MM-yyyy")}/{RouteFriendlyName(Title)}";
+				return $"/Blog/{RouteFriendlyName(Username)}/{Id}/{LastModified:dd-MM-yyyy}/{RouteFriendlyName(Title)}";
 			}
 		}
 

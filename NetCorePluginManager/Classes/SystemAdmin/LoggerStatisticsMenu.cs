@@ -184,7 +184,7 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
 				throw new ArgumentNullException(nameof(exception));
 
 #if TRACE
-			System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");
+			System.Diagnostics.Trace.WriteLine($"{logLevel} {exception.Message}\r\n{data}");
 #endif
 
 			string message = exception.Message.Replace("\r", " ");

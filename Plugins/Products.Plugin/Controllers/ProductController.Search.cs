@@ -316,7 +316,7 @@ namespace ProductPlugin.Controllers
 				sb.Append(hashBytes[i].ToString("X2"));
 			}
 
-			model.SearchName = $"P{sb.ToString()}";
+			model.SearchName = $"P{sb}";
 		}
 
 		#endregion Private Methods

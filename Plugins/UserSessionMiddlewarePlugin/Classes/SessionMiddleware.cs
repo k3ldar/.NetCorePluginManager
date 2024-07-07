@@ -197,7 +197,7 @@ namespace UserSessionMiddleware.Plugin
 					}
 					else if (partialMatch.LoggedIn && !loggedIn)
 					{
-						context.Response.Redirect($"{partialMatch.RedirectPath}?returnUrl={context.Request.Path.ToString()}", false);
+						context.Response.Redirect($"{partialMatch.RedirectPath}?returnUrl={context.Request.Path}", false);
 						return;
 					}
 

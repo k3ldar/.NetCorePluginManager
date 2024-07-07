@@ -270,7 +270,7 @@ namespace Blog.Plugin.Controllers
 		private static string GetBlogItemUrl(in BlogItem blogItem)
 		{
 			return $"/Blog/{RouteFriendlyName(blogItem.Username)}/{blogItem.Id}/" +
-				$"{blogItem.LastModified.ToString("dd-MM-yyyy")}/{RouteFriendlyName(blogItem.Title)}";
+				$"{blogItem.LastModified:dd-MM-yyyy}/{RouteFriendlyName(blogItem.Title)}";
 		}
 
 		private BlogPostViewModel GetEditBlogPostViewModel(in BlogItem blogItem)
