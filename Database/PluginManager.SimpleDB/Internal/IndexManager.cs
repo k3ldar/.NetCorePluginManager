@@ -75,11 +75,11 @@ namespace SimpleDB.Internal
 
 			using (TimedLock timedLock = TimedLock.Lock(_lock))
 			{
-				foreach (T item in items)
+				foreach (object item in items)
 				{
-					if (!Contains(item))
+					if (item is T tItem && !Contains(tItem))
 					{
-						_keys.Add(item);
+						_keys.Add(tItem);
 					}
 				}
 			}

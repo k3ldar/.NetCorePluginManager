@@ -49,7 +49,6 @@ namespace UserSessionMiddleware.Plugin
 		private const byte _maximumLoadInterfaceAttempts = 10;
 		private static IGeoIpProvider _geoIpInstance;
 		private static IUserSessionService _userSessionService;
-		private static IPluginClassesService _pluginClasses { get; set; }
 		private static IServiceProvider _serviceProvider;
 
 		#endregion Private Static Members
@@ -66,7 +65,7 @@ namespace UserSessionMiddleware.Plugin
 			UserSessionManager.Instance.OnSessionSave += UserSession_OnSessionSave;
 			UserSessionManager.Instance.IPAddressDetails += UserSession_IPAddressDetails;
 
-			_pluginClasses = _serviceProvider.GetRequiredService<IPluginClassesService>();
+			_ = _serviceProvider.GetRequiredService<IPluginClassesService>();
 		}
 
 		internal static void UserSession_IPAddressDetails(object sender, IpAddressArgs e)
