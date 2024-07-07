@@ -36,6 +36,7 @@ using Languages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 
 using Middleware.Images;
 using Middleware.Interfaces;
@@ -130,13 +131,13 @@ namespace ImageManager.Plugin.Controllers
 
 			Dictionary<string, List<string>> groups = _imageProvider.Groups();
 
-			if (!groups.ContainsKey(groupName))
+			if (!groups.TryGetValue(groupName, out List<string> subGroups))
 				return RedirectToAction(nameof(Index));
 
 			if (String.IsNullOrEmpty(subgroupName))
 				return RedirectToAction(nameof(Index));
 
-			if (!groups[groupName].Contains(subgroupName))
+			if (!subGroups.Contains(subgroupName))
 				return RedirectToAction(nameof(Index));
 
 			return View("/Views/ImageManager/Index.cshtml", CreateImagesViewModel(groupName, subgroupName, String.Empty));

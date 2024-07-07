@@ -333,8 +333,8 @@ namespace ProductPlugin.Classes
 				{
 					bool priceFound = false;
 
-					if (searchOptions.Properties.ContainsKey(Price) &&
-						searchOptions.Properties[Price] is List<ProductPriceInfo> priceInfo)
+					if (searchOptions.Properties.TryGetValue(Price, out object value) &&
+						value is List<ProductPriceInfo> priceInfo)
 					{
 						foreach (ProductPriceInfo productPrice in priceInfo)
 						{

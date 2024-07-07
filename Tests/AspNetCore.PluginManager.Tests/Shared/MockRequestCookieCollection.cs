@@ -79,7 +79,14 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
         public Boolean TryGetValue(String key, out String value)
         {
-            throw new NotImplementedException();
+			if (_cookies.TryGetValue(key, out CookieValue cookieValue))
+			{
+				value = cookieValue.Value;
+				return true;
+			}
+
+			value = null;
+			return false;
         }
 
         IEnumerator IEnumerable.GetEnumerator()

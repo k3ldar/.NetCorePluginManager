@@ -66,14 +66,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 		public bool AddKeyword(in string route, in string keyword)
 		{
-			if (!_keywords.ContainsKey(route))
+			if (!_keywords.TryGetValue(route, out List<string> keywordList))
 			{
 				_keywords.Add(route, [keyword]);
 			}
 			else
 			{
-				List<string> keywordList = _keywords[route];
-
 				if (keywordList.Contains(keyword))
 					return false;
 
@@ -88,12 +86,11 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 			if (keywords == null)
 				return false;
 
-			if (!_keywords.ContainsKey(route))
+			if (!_keywords.TryGetValue(route, out List<string> keywordList))
 			{
-				_keywords.Add(route, []);
+				keywordList = [];
+				_keywords.Add(route, keywordList);
 			}
-
-			List<string> keywordList = _keywords[route];
 
 			foreach (string s in keywords)
 				if (!keywordList.Contains(s))

@@ -107,12 +107,13 @@ namespace AspNetCore.PluginManager.Middleware
 		{
 			using (TimedLock tl = TimedLock.Lock(_lockObject))
 			{
-				if (!_pageTimings.ContainsKey(route))
+				if (!_pageTimings.TryGetValue(route, out Timings timings))
 				{
-					_pageTimings.Add(route, new Timings());
+					timings = new Timings();
+					_pageTimings.Add(route, timings);
 				}
 
-				return _pageTimings[route];
+				return timings;
 			}
 		}
 

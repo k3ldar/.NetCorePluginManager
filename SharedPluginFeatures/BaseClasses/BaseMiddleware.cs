@@ -30,6 +30,7 @@ using System.Globalization;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.Primitives;
 
 using Shared.Classes;
 
@@ -233,8 +234,8 @@ namespace SharedPluginFeatures
 				throw new ArgumentNullException(nameof(context));
 
 			foreach (string key in Constants.ForwardForHeader)
-				if (context.Request.Headers.ContainsKey(key))
-					return context.Request.Headers[key];
+				if (context.Request.Headers.TryGetValue(key, out StringValues headerValue))
+					return headerValue;
 
 			string Result = context.Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
@@ -309,7 +310,7 @@ namespace SharedPluginFeatures
 			if (String.IsNullOrEmpty(name))
 				throw new ArgumentNullException(nameof(name));
 
-			if (context.Request.Cookies.ContainsKey(name))
+			if (context.Request.Cookies.TryGetValue(name, out _))
 				context.Response.Cookies.Append(name, String.Empty, new CookieOptions() { Expires = DateTime.Now.AddDays(-1) });
 		}
 

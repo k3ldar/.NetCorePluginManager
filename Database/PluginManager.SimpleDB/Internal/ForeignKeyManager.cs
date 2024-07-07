@@ -85,18 +85,18 @@ namespace SimpleDB.Internal
 			if (String.IsNullOrEmpty(tableName))
 				throw new ArgumentNullException(nameof(tableName));
 
-			if (!_foreignKeys.ContainsKey(tableName))
+			if (!_foreignKeys.TryGetValue(tableName, out ISimpleDBTable table))
 				throw new ForeignKeyException($"Foreign key table {tableName} does not exist");
 
-			return _foreignKeys[tableName].IdExists(id);
+			return table.IdExists(id);
 		}
 
 		public ForeignKeyUsage ValueInUse(string tableName, string propertyName, long value, out string table, out string property)
 		{
 			foreach (ForeignKeyRelationship relationship in _foreignKeyRelationships)
 			{
-				if (relationship.TargetTable.Equals(tableName) && _foreignKeys.ContainsKey(relationship.Table) &&
-					_foreignKeys[relationship.Table].IdIsInUse(relationship.PropertyName, value))
+				if (relationship.TargetTable.Equals(tableName) && _foreignKeys.TryGetValue(relationship.Table, out ISimpleDBTable simpleDbTable) &&
+					simpleDbTable.IdIsInUse(relationship.PropertyName, value))
 				{
 					ForeignKeyUsage result = ForeignKeyUsage.Referenced;
 					table = relationship.Table;

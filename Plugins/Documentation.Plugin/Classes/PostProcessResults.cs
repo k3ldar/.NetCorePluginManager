@@ -74,10 +74,10 @@ namespace DocumentationPlugin.Classes
 			if (string.IsNullOrEmpty(countName))
 				throw new ArgumentNullException(nameof(countName));
 
-			if (!Counts.ContainsKey(countName))
+			if (!Counts.TryGetValue(countName, out int value))
 				return 0;
 
-			return Counts[countName];
+			return value;
 		}
 
 		#endregion Public Methods

@@ -34,6 +34,7 @@ using BadEgg.Plugin.WebDefender;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.Primitives;
 
 using PluginManager.Abstractions;
 
@@ -125,8 +126,8 @@ namespace BadEgg.Plugin
 				return;
 			}
 
-			if (context.Request.Headers.ContainsKey(Constants.BadEggValidationIgnoreHeaderName) &&
-				context.Request.Headers[Constants.BadEggValidationIgnoreHeaderName].Equals(_badEggSettings.IgnoreValidationHeaderCode))
+			if (context.Request.Headers.TryGetValue(Constants.BadEggValidationIgnoreHeaderName, out StringValues value) &&
+				value.Equals(_badEggSettings.IgnoreValidationHeaderCode))
 			{
 				context.Response.Headers[Constants.BadEggValidationIgnoreHeaderName] = Boolean.TrueString;
 				await _next(context);

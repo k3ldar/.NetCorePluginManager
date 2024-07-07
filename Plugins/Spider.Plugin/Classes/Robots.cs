@@ -106,10 +106,10 @@ namespace Spider.Plugin.Classes
 			if (String.IsNullOrEmpty(agentName))
 				throw new ArgumentNullException(nameof(agentName));
 
-			if (!_agents.ContainsKey(agentName))
+			if (!_agents.TryGetValue(agentName, out List<IRobotRouteData> robotRoute))
 				return false;
 
-			if (_agents[agentName].Exists(item => !item.IsCustom))
+			if (robotRoute.Exists(item => !item.IsCustom))
 				return false;
 
 			return _agents.Remove(agentName);
@@ -252,15 +252,16 @@ namespace Spider.Plugin.Classes
 
 			foreach (IRobotRouteData item in _customRoutes)
 			{
-				if (!_agents.ContainsKey(item.Agent))
+				if (!_agents.TryGetValue(item.Agent, out List<IRobotRouteData> robotRouteData))
 				{
-					_agents.Add(item.Agent, []);
+					robotRouteData = [];
+					_agents.Add(item.Agent, robotRouteData);
 				}
 
-				if (_agents[item.Agent].Exists(l => l.IsCustom && l.Route.Equals(item.Route)))
+				if (robotRouteData.Exists(l => l.IsCustom && l.Route.Equals(item.Route)))
 					continue;
 
-				_agents[item.Agent].Add(item);
+				robotRouteData.Add(item);
 			}
 		}
 

@@ -29,6 +29,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Primitives;
 
 #pragma warning disable CS1591
 
@@ -56,9 +57,9 @@ namespace SharedPluginFeatures
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private static bool IsAjaxRequest(HttpRequest request)
 		{
-			if (request.Headers != null && request.Headers.ContainsKey(Constants.XRequestedWith))
+			if (request.Headers != null && request.Headers.TryGetValue(Constants.XRequestedWith, out StringValues headerValue))
 			{
-				string requestedWith = request.Headers[Constants.XRequestedWith];
+				string requestedWith = headerValue;
 				return requestedWith.Equals("XmlHttpRequest", StringComparison.OrdinalIgnoreCase);
 			}
 
