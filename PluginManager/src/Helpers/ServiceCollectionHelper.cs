@@ -97,12 +97,13 @@ namespace PluginManager
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0057:Use range operator", Justification = "Not available for net standard")]
 		private static string GetNameWithoutGenericArity(Type t)
 		{
 			string name = t.FullName;
 			int index = name.IndexOf('`');
 
-			return index == -1 ? name : name[..index];
+			return index == -1 ? name : name.Substring(0, index);
 		}
 
 		internal static object[] GetInstancesConstructorParameters(IServiceCollection serviceCollection, Type type)

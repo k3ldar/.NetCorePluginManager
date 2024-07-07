@@ -54,13 +54,14 @@ namespace PluginManager.Internal
 			return ValidateSettings<T>.Validate(Result);
 		}
 
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0057:Use range operator", Justification = "Not available for net standard")]
 		public T LoadSettings<T>(in string name)
 		{
 			string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 			int isDebugPos = path.IndexOf("\\bin\\debug\\", StringComparison.InvariantCultureIgnoreCase);
 
 			if (isDebugPos > -1)
-				path = path[..isDebugPos];
+				path = path.Substring(0, isDebugPos);
 
 			return LoadSettings<T>(Path.Combine(path, "appsettings.json"), name);
 		}

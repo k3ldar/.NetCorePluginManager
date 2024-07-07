@@ -43,6 +43,7 @@ namespace Languages
 		/// <param name="path">Path where search to begin</param>
 		/// <param name="defaultCulture">Default culture in use</param>
 		/// <returns>String array of installed languages</returns>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0057:Use range operator", Justification = "Not available for net standard")]
 		public static string[] GetInstalledLanguages(string path, CultureInfo defaultCulture)
 		{
 			string[] files = Directory.GetFiles(path, "Languages.resources*", SearchOption.AllDirectories);
@@ -52,8 +53,8 @@ namespace Languages
 			for (int i = 0; i < files.Length; i++)
 			{
 				string file = files[i].Replace(path, String.Empty);
-				file = file[..file.LastIndexOf('\\')];
-				string language = file[(file.LastIndexOf('\\') + 1)..];
+				file = file.Substring(0, file.LastIndexOf('\\'));
+				string language = file.Substring(file.LastIndexOf('\\') + 1);
 
 				if (!Result.Contains(language))
 					Result.Add(language);
