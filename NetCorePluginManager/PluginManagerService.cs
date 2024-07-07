@@ -350,7 +350,7 @@ namespace AspNetCore.PluginManager
 			// are we after the latest version
 			if (version == LatestVersion)
 			{
-				pluginFile = fileVersions[fileVersions.Count - 1].FullName;
+				pluginFile = fileVersions[^1].FullName;
 				return true;
 			}
 

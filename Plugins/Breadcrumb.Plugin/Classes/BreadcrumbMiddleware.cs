@@ -134,7 +134,7 @@ namespace Breadcrumb.Plugin
 			{
 				string route = RouteLowered(context);
 
-				if (route.Length > 1 && route[route.Length - 1] == Constants.ForwardSlashChar)
+				if (route.Length > 1 && route[^1] == Constants.ForwardSlashChar)
 					route = route[..^1];
 
 				try

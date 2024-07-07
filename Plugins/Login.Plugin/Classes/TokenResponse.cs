@@ -24,7 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#pragma warning disable CS1591
+#pragma warning disable CS1591, IDE1006
 
 namespace LoginPlugin.Classes
 {
@@ -42,4 +42,4 @@ namespace LoginPlugin.Classes
 	}
 }
 
-#pragma warning restore CS1591
+#pragma warning restore CS1591, IDE1006

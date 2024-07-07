@@ -52,8 +52,8 @@ namespace Languages
 			for (int i = 0; i < files.Length; i++)
 			{
 				string file = files[i].Replace(path, String.Empty);
-				file = file.Substring(0, file.LastIndexOf('\\'));
-				string language = file.Substring(file.LastIndexOf('\\') + 1);
+				file = file[..file.LastIndexOf('\\')];
+				string language = file[(file.LastIndexOf('\\') + 1)..];
 
 				if (!Result.Contains(language))
 					Result.Add(language);

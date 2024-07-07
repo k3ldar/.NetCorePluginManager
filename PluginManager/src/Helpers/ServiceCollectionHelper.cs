@@ -102,7 +102,7 @@ namespace PluginManager
 			string name = t.FullName;
 			int index = name.IndexOf('`');
 
-			return index == -1 ? name : name.Substring(0, index);
+			return index == -1 ? name : name[..index];
 		}
 
 		internal static object[] GetInstancesConstructorParameters(IServiceCollection serviceCollection, Type type)

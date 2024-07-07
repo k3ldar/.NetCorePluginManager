@@ -117,7 +117,7 @@ namespace DocumentationPlugin.Controllers
 
 			if (model.Breadcrumbs.Count > 0)
 			{
-				BreadcrumbItem lastItem = model.Breadcrumbs[model.Breadcrumbs.Count - 1];
+				BreadcrumbItem lastItem = model.Breadcrumbs[^1];
 				BreadcrumbItem breadcrumb = new(selected.Title, lastItem.Route, lastItem.HasParameters);
 				model.Breadcrumbs.Remove(lastItem);
 				model.Breadcrumbs.Add(breadcrumb);
@@ -139,7 +139,7 @@ namespace DocumentationPlugin.Controllers
 
 			if (model.Breadcrumbs.Count > 0)
 			{
-				BreadcrumbItem lastItem = model.Breadcrumbs[model.Breadcrumbs.Count - 1];
+				BreadcrumbItem lastItem = model.Breadcrumbs[^1];
 				BreadcrumbItem breadcrumb = new(selected.Title, lastItem.Route, lastItem.HasParameters);
 				model.Breadcrumbs.Remove(lastItem);
 				model.Breadcrumbs.Add(breadcrumb);

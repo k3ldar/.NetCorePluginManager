@@ -40,6 +40,7 @@ namespace DynamicContent.Plugin
 {
 	public class Startup
 	{
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S1118:Utility classes should not have public constructors", Justification = "It's more of a startup class than a utility class")]
 		public Startup()
 		{
 			if (!PluginManagerService.HasInitialised)

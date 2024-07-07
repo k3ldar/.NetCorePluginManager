@@ -85,7 +85,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
 							File.WriteAllBytes(file, minifiedResult);
 
 							if (minifyResults.Count > 0)
-								totalBytesSaved += minifyResults[0].StartLength - minifyResults[minifyResults.Count - 1].EndLength;
+								totalBytesSaved += minifyResults[0].StartLength - minifyResults[^1].EndLength;
 
 							foreach (IMinifyResult minifyResult in minifyResults)
 							{

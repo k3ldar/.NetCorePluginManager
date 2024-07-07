@@ -57,6 +57,7 @@ namespace Resources.Plugin.Models
 		/// <summary>
 		/// All resource item types
 		/// </summary>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Left as non static as used in belongs to a base class")]
 		public List<NameIdModel> AllResourceTypes
 		{
 			get

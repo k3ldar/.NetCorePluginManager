@@ -41,7 +41,7 @@ using SimpleDB;
 using SimpleDB.Internal;
 using SimpleDB.Tests.Mocks;
 
-#pragma warning disable IDE0017
+#pragma warning disable IDE0017, CA1859
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
@@ -955,4 +955,4 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 	}
 }
 
-#pragma warning restore IDE0017
+#pragma warning restore IDE0017, CA1859

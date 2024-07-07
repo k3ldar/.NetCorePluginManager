@@ -68,7 +68,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
 				char currentChar = data[i];
 
 
-				if (currentChar == ' ' && peekBackwards && Result[Result.Length - 1] == '\n')
+				if (currentChar == ' ' && peekBackwards && Result[^1] == '\n')
 					continue;
 
 				if (currentChar == ' ' && peekForward && data[i + 1] == ' ')
@@ -81,7 +81,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
 						case MinificationPreserveBlock.RazorBlock:
 						case MinificationPreserveBlock.RazorLine:
 							if ((currentChar == ' ' && peekForward && data[i + 1] == '=') ||
-								(currentChar == ' ' && peekBackwards && Result[Result.Length - 1] == '='))
+								(currentChar == ' ' && peekBackwards && Result[^1] == '='))
 							{
 								continue;
 							}
@@ -94,10 +94,10 @@ namespace AspNetCore.PluginManager.Classes.Minify
 				}
 				else
 				{
-					if (peekBackwards && peekForward && currentChar == ' ' && Result[Result.Length - 1] == '>' && data[i + 1] == '<')
+					if (peekBackwards && peekForward && currentChar == ' ' && Result[^1] == '>' && data[i + 1] == '<')
 						continue;
 
-					if (peekBackwards && peekForward && currentChar == '\t' && Result[Result.Length - 1] == '>' && data[i + 1] == '<')
+					if (peekBackwards && peekForward && currentChar == '\t' && Result[^1] == '>' && data[i + 1] == '<')
 						continue;
 				}
 

@@ -27,7 +27,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using SharedPluginFeatures;
 
-#pragma warning disable S3400
+#pragma warning disable S3400, CA1822
 
 namespace DemoApiPlugin.Controllers
 {
@@ -44,4 +44,5 @@ namespace DemoApiPlugin.Controllers
 	}
 }
 
+#pragma warning disable S3400, CA1822
 #pragma warning restore S3400

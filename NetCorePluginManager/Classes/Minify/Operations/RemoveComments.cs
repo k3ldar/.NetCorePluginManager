@@ -53,7 +53,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
 
 			_commentStart = commentStart;
 			_commentEnd = commentEnd;
-			_commentEndChar = commentEnd[commentEnd.Length - 1];
+			_commentEndChar = commentEnd[^1];
 		}
 
 		#endregion Constructors

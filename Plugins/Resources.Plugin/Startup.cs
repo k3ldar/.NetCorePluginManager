@@ -30,7 +30,7 @@ using AspNetCore.PluginManager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-#pragma warning disable CS1591
+#pragma warning disable CS1591, CA1822
 
 namespace Resources.Plugin
 {
@@ -75,4 +75,4 @@ namespace Resources.Plugin
 	}
 }
 
-#pragma warning restore CS1591
+#pragma warning restore CS1591, CA1822

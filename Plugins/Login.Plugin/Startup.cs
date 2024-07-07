@@ -30,7 +30,7 @@ using AspNetCore.PluginManager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-#pragma warning disable IDE0060, CS1591
+#pragma warning disable IDE0060, CS1591, CA1822
 
 namespace LoginPlugin
 {
@@ -72,4 +72,4 @@ namespace LoginPlugin
 	}
 }
 
-#pragma warning restore IDE0060, CS1591
+#pragma warning restore IDE0060, CS1591, CA1822

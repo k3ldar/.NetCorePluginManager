@@ -32,7 +32,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Shared.Classes;
 
-#pragma warning disable CS1591
+#pragma warning disable CS1591, CA1822
 
 namespace ProductPlugin
 {
@@ -90,4 +90,4 @@ namespace ProductPlugin
 	}
 }
 
-#pragma warning restore CS1591
+#pragma warning disable CS1591, CA1822

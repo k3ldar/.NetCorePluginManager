@@ -160,7 +160,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
 					if (isInPreBlock && currentChar == '>' && canPeekBack && data.Substring(i - 5, 6) == preEnd)
 					{
 						isInPreBlock = false;
-						Result[Result.Count - 1].SetBlockEnd(i);
+						Result[^1].SetBlockEnd(i);
 					}
 				}
 			}

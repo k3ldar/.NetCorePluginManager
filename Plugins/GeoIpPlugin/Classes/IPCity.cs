@@ -150,7 +150,7 @@ namespace GeoIp.Plugin
 		/// <returns></returns>
 		public override int GetHashCode()
 		{
-			HashCode hash = new HashCode();
+			HashCode hash = new();
 			hash.Add(IpStart);
 			hash.Add(IpEnd);
 			hash.Add(CountryCode);

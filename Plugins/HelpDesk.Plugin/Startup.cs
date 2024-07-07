@@ -27,7 +27,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
-#pragma warning disable CS1591, CA1801
+#pragma warning disable CS1591, CA1801, S1118
 
 namespace HelpdeskPlugin
 {
@@ -63,4 +63,4 @@ namespace HelpdeskPlugin
 	}
 }
 
-#pragma warning restore CS1591, CA1801
+#pragma warning restore CS1591, CA1801, S1118

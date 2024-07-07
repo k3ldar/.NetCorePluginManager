@@ -440,7 +440,7 @@ namespace DocumentationPlugin.Classes
 				if (removeNamespace && StringCouldBeNamespace(text))
 				{
 					string[] parts = text.Split('.');
-					return new StringBuilder(parts[parts.Length - 1]);
+					return new StringBuilder(parts[^1]);
 				}
 				else
 				{

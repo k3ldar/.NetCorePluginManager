@@ -219,7 +219,7 @@ namespace ProductPlugin.Classes
 			}
 		}
 
-		private static Image ResizeImageToFixedSize(Image imgPhoto, in Size size, Color fillColor)
+		private static Bitmap ResizeImageToFixedSize(Image imgPhoto, in Size size, Color fillColor)
 		{
 			int sourceWidth = imgPhoto.Width;
 			int sourceHeight = imgPhoto.Height;

@@ -28,7 +28,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-#pragma warning disable CS1591
+#pragma warning disable CS1591, CA1822
 
 namespace ShoppingCartPlugin
 {
@@ -70,4 +70,4 @@ namespace ShoppingCartPlugin
 	}
 }
 
-#pragma warning restore CS1591
+#pragma warning restore CS1591, CA1822
