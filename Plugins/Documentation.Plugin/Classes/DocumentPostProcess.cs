@@ -182,9 +182,7 @@ namespace DocumentationPlugin.Classes
 			ProcessExceptions(document, document);
 			ProcessExamples(document, document);
 
-			DocumentData data = document.Tag as DocumentData;
-
-			if (data != null && data.Contains.Count > 0)
+			if (document.Tag is DocumentData data && data.Contains.Count > 0)
 			{
 				Dictionary<string, string> contains = [];
 

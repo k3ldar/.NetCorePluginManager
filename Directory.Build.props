@@ -110,5 +110,10 @@
     <DebugType>$(DebugType)</DebugType>
     <DebugSymbols>%(DebugSymbols)</DebugSymbols>
   </PropertyGroup>
+	
+  <!-- Warning disabled whilst net 6 supported -->
+  <PropertyGroup  Condition="'$(NET_6_0)'=='1'">
+	  <NoWarn>$(NoWarn);CA1510;CA1512;CA1513</NoWarn>
+  </PropertyGroup>
 
 </Project>

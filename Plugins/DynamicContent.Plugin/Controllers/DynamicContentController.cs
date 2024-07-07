@@ -132,9 +132,8 @@ namespace DynamicContent.Plugin.Controllers
 			if (cacheItem == null)
 				return StatusCode(HtmlResponseNotFound);
 
-			IDynamicContentPage dynamicContentPage = cacheItem.Value as IDynamicContentPage;
 
-			if (dynamicContentPage == null)
+			if (cacheItem.Value is not IDynamicContentPage dynamicContentPage)
 				return StatusCode(HtmlResponseNotFound);
 
 			return View("/Views/DynamicContent/Index.cshtml", GetDynamicContentPageModel(dynamicContentPage, false));
@@ -153,9 +152,7 @@ namespace DynamicContent.Plugin.Controllers
 			if (cacheItem == null)
 				return StatusCode(HtmlResponseNotFound);
 
-			IDynamicContentPage dynamicContentPage = cacheItem.Value as IDynamicContentPage;
-
-			if (dynamicContentPage == null)
+			if (cacheItem.Value is not IDynamicContentPage dynamicContentPage)
 				return StatusCode(HtmlResponseNotFound);
 
 			bool saveUserData = _dynamicContentProvider.SaveUserInput(data);
@@ -216,9 +213,7 @@ namespace DynamicContent.Plugin.Controllers
 			if (cachedPage == null)
 				return RedirectToAction(nameof(GetCustomPages));
 
-			IDynamicContentPage dynamicContentPage = cachedPage.Value as IDynamicContentPage;
-
-			if (dynamicContentPage == null)
+			if (cachedPage.Value is not IDynamicContentPage dynamicContentPage)
 				return RedirectToAction(nameof(GetCustomPages));
 
 			if (ModelState.IsValid)
@@ -292,9 +287,7 @@ namespace DynamicContent.Plugin.Controllers
 			if (cacheItem == null)
 				return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidCacheItem);
 
-			DynamicContentPage dynamicContentPage = cacheItem.Value as DynamicContentPage;
-
-			if (dynamicContentPage == null)
+			if (cacheItem.Value is not DynamicContentPage dynamicContentPage)
 				return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidDynamicPage);
 
 			if (dynamicContentPage.Content.Find(ctl => ctl.UniqueId.Equals(model.ControlId)) == null)
@@ -326,9 +319,7 @@ namespace DynamicContent.Plugin.Controllers
 			if (cacheItem == null)
 				return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidCacheItem);
 
-			DynamicContentPage dynamicContentPage = cacheItem.Value as DynamicContentPage;
-
-			if (dynamicContentPage == null)
+			if (cacheItem.Value is not DynamicContentPage dynamicContentPage)
 				return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidDynamicPage);
 
 			DynamicContentTemplate control = dynamicContentPage.Content.Find(ctl => ctl.UniqueId.Equals(controlId));
@@ -358,9 +349,7 @@ namespace DynamicContent.Plugin.Controllers
 			if (cacheItem == null)
 				return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidCacheItem);
 
-			DynamicContentPage dynamicContentPage = cacheItem.Value as DynamicContentPage;
-
-			if (dynamicContentPage == null)
+			if (cacheItem.Value is not DynamicContentPage dynamicContentPage)
 				return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
 
 			DynamicContentTemplate control = dynamicContentPage.Content.Find(ctl => ctl.UniqueId.Equals(model.UniqueId));
@@ -398,9 +387,7 @@ namespace DynamicContent.Plugin.Controllers
 			if (cacheItem == null)
 				return StatusCode(HtmlResponseBadRequest);
 
-			IDynamicContentPage dynamicContentPage = cacheItem.Value as IDynamicContentPage;
-
-			if (dynamicContentPage == null)
+			if (cacheItem.Value is not IDynamicContentPage dynamicContentPage)
 				return StatusCode(HtmlResponseBadRequest);
 
 			return View("/Views/DynamicContent/Index.cshtml", GetDynamicContentPageModel(dynamicContentPage, false));
@@ -423,9 +410,7 @@ namespace DynamicContent.Plugin.Controllers
 			if (cacheItem == null)
 				return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidCacheItem);
 
-			DynamicContentPage dynamicContentPage = cacheItem.Value as DynamicContentPage;
-
-			if (dynamicContentPage == null)
+			if (cacheItem.Value is not DynamicContentPage dynamicContentPage)
 				return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
 
 			DynamicContentTemplate control = dynamicContentPage.Content.Find(ctl => ctl.UniqueId.Equals(controlId));
@@ -455,9 +440,7 @@ namespace DynamicContent.Plugin.Controllers
 			if (cacheItem == null)
 				return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidCacheItem);
 
-			DynamicContentPage dynamicContentPage = cacheItem.Value as DynamicContentPage;
-
-			if (dynamicContentPage == null)
+			if (cacheItem.Value is not DynamicContentPage dynamicContentPage)
 				return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
 
 			DynamicContentTemplate control = dynamicContentPage.Content.Find(ctl => ctl.UniqueId.Equals(model.ControlId));
@@ -507,9 +490,7 @@ namespace DynamicContent.Plugin.Controllers
 			if (cacheItem == null)
 				return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidCacheItem);
 
-			DynamicContentPage dynamicContentPage = cacheItem.Value as DynamicContentPage;
-
-			if (dynamicContentPage == null)
+			if (cacheItem.Value is not DynamicContentPage dynamicContentPage)
 				return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
 
 			DynamicContentTemplate template = _dynamicContentProvider.Templates().Find(t => t.UniqueId.Equals(model.TemplateId));

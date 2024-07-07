@@ -285,9 +285,7 @@ namespace Subdomain.Plugin
 		{
 			foreach (Attribute attribute in classType.GetCustomAttributes(false))
 			{
-				SubdomainAttribute subdomainAttribute = attribute as SubdomainAttribute;
-
-				if (subdomainAttribute != null)
+				if (attribute is SubdomainAttribute subdomainAttribute)
 				{
 					if (!settings.Subdomains.ContainsKey(subdomainAttribute.ConfigurationName))
 					{

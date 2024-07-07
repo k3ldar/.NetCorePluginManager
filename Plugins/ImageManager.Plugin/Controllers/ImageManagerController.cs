@@ -255,9 +255,7 @@ namespace ImageManager.Plugin.Controllers
 			if (uploadCache == null)
 				return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidImageCache);
 
-			CachedImageUpload cachedImageUpload = uploadCache.Value as CachedImageUpload;
-
-			if (cachedImageUpload == null)
+			if (uploadCache.Value is not CachedImageUpload cachedImageUpload)
 				return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidImageCache);
 
 			object notificationResponse = null;
