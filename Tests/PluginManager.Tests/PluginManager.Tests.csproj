@@ -13,6 +13,16 @@
   </PropertyGroup>
 
   <PropertyGroup>
+	<RunAnalyzersDuringBuild>$(RunAnalyzersDuringBuild)</RunAnalyzersDuringBuild>
+	<RunAnalyzersDuringLiveAnalysis>$(RunAnalyzersDuringLiveAnalysis)</RunAnalyzersDuringLiveAnalysis>
+	<RunAnalyzers>$(RunAnalyzers)</RunAnalyzers>
+	<RunCodeAnalysis>$(RunCodeAnalysis)</RunCodeAnalysis>
+	<AnalysisLevel>$(AnalysisLevel)</AnalysisLevel>
+	<AnalysisMode>$(AnalysisMode)</AnalysisMode>
+	<EnableNETAnalyzers>$(EnableNETAnalyzers)</EnableNETAnalyzers>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Description>$(Description) Plugin manager unit tests</Description>
     <Version>$(Version)</Version>
     <LangVersion>$(LangVersion)</LangVersion>
@@ -26,12 +36,9 @@
     <PackageLicenseExpression>$(PackageLicenseExpression)</PackageLicenseExpression>
     <PackageReleaseNotes>$(PackageReleaseNotes)</PackageReleaseNotes>
     <PackageTags>$(PackageTags)</PackageTags>
-    <RunAnalyzersDuringBuild>$(RunAnalyzersDuringBuild)</RunAnalyzersDuringBuild>
     <NoWarn>$(NoWarn)</NoWarn>
     <SignAssembly>$(SignAssembly)</SignAssembly>
     <AssemblyOriginatorKeyFile>$(AssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
-    <EnableNETAnalyzers>False</EnableNETAnalyzers>
-    <AnalysisLevel>none</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>

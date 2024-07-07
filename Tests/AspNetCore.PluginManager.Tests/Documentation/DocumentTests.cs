@@ -258,7 +258,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
 
             Assert.IsNotNull(postProcess);
 
-            Document searchDoc = new Document(sl.DocumentType.Custom, "Custom Type");
+            Document searchDoc = new(sl.DocumentType.Custom, "Custom Type");
             searchDoc.LongDescription = "Test <para>This will be a seperate paragraph</para> class";
 
             Assert.IsNotNull(searchDoc);
