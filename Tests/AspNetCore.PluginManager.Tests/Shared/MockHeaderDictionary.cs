@@ -127,7 +127,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
         public Boolean TryGetValue(String key, [MaybeNullWhen(false)] out StringValues value)
         {
-            throw new NotImplementedException();
+            return _headerDictionary.TryGetValue(key, out value);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
