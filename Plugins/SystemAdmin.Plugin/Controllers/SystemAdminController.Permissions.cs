@@ -69,7 +69,7 @@ namespace SystemAdmin.Plugin.Controllers
 				model.SelectedClaims = String.Empty;
 
 			string[] claims = model.SelectedClaims.Split(';', StringSplitOptions.RemoveEmptyEntries);
-			_claimsProvider.SetClaimsForUser(model.UserId, claims.ToList());
+			_claimsProvider.SetClaimsForUser(model.UserId, [.. claims]);
 
 			return new JsonResult(new { updated = true });
 		}

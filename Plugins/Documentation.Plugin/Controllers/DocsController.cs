@@ -86,10 +86,9 @@ namespace DocumentationPlugin.Controllers
 				_documentationService.GetCustomData("Header", Languages.LanguageStrings.APIReference),
 				_documentationService.GetCustomData("Description", Languages.LanguageStrings.InThisDocument));
 
-			List<Document> documents = _documentationService.GetDocuments()
+			List<Document> documents = [.. _documentationService.GetDocuments()
 				.Where(d => d.DocumentType == DocumentType.Assembly || d.DocumentType == DocumentType.Custom)
-				.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)
-				.ToList();
+				.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)];
 
 			foreach (Document doc in documents)
 			{
@@ -181,11 +180,10 @@ namespace DocumentationPlugin.Controllers
 
 			if (data.ReferenceData == null)
 			{
-				List<Document> documents = _documentationService.GetDocuments()
+				List<Document> documents = [.. _documentationService.GetDocuments()
 					.Where(d => d.DocumentType == DocumentType.Assembly ||
 						d.DocumentType == DocumentType.Custom)
-					.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)
-					.ToList();
+					.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)];
 
 				data.ReferenceData = GetAllReferences(selected, data, documents);
 			}
@@ -358,11 +356,10 @@ namespace DocumentationPlugin.Controllers
 
 		private DocumentViewModel BuildDocumentViewModel(string documentName, string className, out Document selected)
 		{
-			List<Document> documents = _documentationService.GetDocuments()
+			List<Document> documents = [.. _documentationService.GetDocuments()
 				.Where(d => d.DocumentType == DocumentType.Assembly ||
 					d.DocumentType == DocumentType.Custom)
-				.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)
-				.ToList();
+				.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)];
 
 			if (String.IsNullOrEmpty(className))
 			{

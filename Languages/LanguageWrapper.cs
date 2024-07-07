@@ -73,7 +73,7 @@ namespace Languages
 				Result.Insert(0, defaultCulture.Name);
 			}
 
-			return Result.ToArray();
+			return [.. Result];
 		}
 
 		/// <summary>

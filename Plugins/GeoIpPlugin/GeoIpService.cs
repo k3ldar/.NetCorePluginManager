@@ -225,7 +225,7 @@ namespace GeoIp.Plugin
 
 		private void LoadWebNet77DataThread_ThreadFinishing(object sender, Shared.ThreadManagerEventArgs e)
 		{
-			_geoIpCityData = _tempIpCity.ToArray();
+			_geoIpCityData = [.. _tempIpCity];
 			_tempIpCity.Clear();
 			_tempIpCity = null;
 		}

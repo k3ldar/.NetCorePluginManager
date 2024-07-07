@@ -120,7 +120,7 @@ namespace SystemAdmin.Plugin.Classes
 		{
 			using (TimedLock tl = TimedLock.Lock(_lockObject))
 			{
-				return _gcStatistics.ToList();
+				return [.. _gcStatistics];
 			}
 		}
 

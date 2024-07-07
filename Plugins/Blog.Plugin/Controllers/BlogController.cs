@@ -150,7 +150,7 @@ namespace Blog.Plugin.Controllers
 				UserSession user = GetUserSession();
 				BlogItem newBlog = _blogProvider.SaveBlog(new BlogItem(0, user.UserID, model.Title, model.Excerpt,
 					model.BlogText, user.UserName, model.Published, DateTime.Now, DateTime.Now,
-					DateTime.Now, model.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList(),
+					DateTime.Now, [.. model.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries)],
 					[]));
 
 				return Redirect(GetBlogItemUrl(newBlog));
@@ -165,7 +165,7 @@ namespace Blog.Plugin.Controllers
 			{
 				blogItem.UpdateBlog(model.Title, model.Excerpt, model.BlogText,
 					model.Published, model.PublishDateTime,
-					model.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList());
+					[.. model.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries)]);
 
 				_blogProvider.SaveBlog(blogItem);
 

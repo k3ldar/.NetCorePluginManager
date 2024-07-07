@@ -73,7 +73,7 @@ namespace PluginManager.DAL.TextFiles.Tables.Products
 		{
 			records.ForEach(r =>
 			{
-				List<StockDataRow> stockData = _stockData.Select(sd => sd.ProductId.Equals(r.Id)).ToList();
+				List<StockDataRow> stockData = [.. _stockData.Select(sd => sd.ProductId.Equals(r.Id))];
 
 				if (stockData.Count > 0)
 					_stockData.Delete(stockData);

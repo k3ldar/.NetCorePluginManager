@@ -284,7 +284,7 @@ namespace DynamicContent.Plugin.Internal
 			byte[] byteData;
 
 			if (String.IsNullOrEmpty(data))
-				byteData = Array.Empty<byte>();
+				byteData = [];
 			else
 				byteData = Encoding.UTF8.GetBytes(data);
 

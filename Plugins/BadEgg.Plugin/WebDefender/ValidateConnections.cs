@@ -55,7 +55,7 @@ namespace BadEgg.Plugin.WebDefender
 		/// <summary>
 		/// keywords used to determine sql injection
 		/// </summary>
-		private readonly string[] KeyWords = [ "all", "alter", "and", "any", "array", "arrow", "as", "asc", "at", "begin", "between",
+		private readonly static string[] KeyWords = [ "all", "alter", "and", "any", "array", "arrow", "as", "asc", "at", "begin", "between",
 			"by", "case", "check", "clusters", "cluster", "colauth", "columns", "compress", "connect", "crash", "create", "current",
 			"decimal", "declare", "default", "delete", "desc", "distinct", "drop", "else", "end", "exception", "exclusive", "exists",
 			"fetch", "form", "for", "from", "goto", "grant", "group", "having", "identified", "if", "in", "indexes", "index", "insert",
@@ -69,13 +69,13 @@ namespace BadEgg.Plugin.WebDefender
 		/// <summary>
 		/// Phrases to find / Replace within a string
 		/// </summary>
-		private readonly string[] PhraseFind = ["0x31303235343830303536", ",", "(", ")", "--", "&", "=", "?", "_", "]", "["];
-		private readonly string[] PhraseReplace = ["null", " ", " ( ", " ) ", " -- ", " ", " = ", " ? ", " _ ", " ] ", " [ "];
+		private readonly static string[] PhraseFind = ["0x31303235343830303536", ",", "(", ")", "--", "&", "=", "?", "_", "]", "["];
+		private readonly static string[] PhraseReplace = ["null", " ", " ( ", " ) ", " -- ", " ", " = ", " ? ", " _ ", " ] ", " [ "];
 
 		/// <summary>
 		/// Hacking keywords
 		/// </summary>
-		private readonly string[] HackKeyWords = [ "safe", "prepend", "disable", "function", "open", "allow", "include", "file",
+		private readonly static string[] HackKeyWords = [ "safe", "prepend", "disable", "function", "open", "allow", "include", "file",
 			"proc", "self", "environ", "editor", "browser", "filemanager", "include", "connector", ".. /", "../", "file",
 			"manager", "provider", "null", "plugin", "src", "ckfinder", "core", "/ aspx /", "usg", "sa", "ved", "ei",
 			"script" ];
@@ -83,13 +83,13 @@ namespace BadEgg.Plugin.WebDefender
 		/// <summary>
 		/// Hacking phrases to find/replace
 		/// </summary>
-		private readonly string[] HackFind = ["?", "_", "-", "/", "=", "<", "/>"];
-		private readonly string[] HackReplace = [" ? ", " _ ", " - ", " / ", " = ", " < ", " / > "];
+		private readonly static string[] HackFind = ["?", "_", "-", "/", "=", "<", "/>"];
+		private readonly static string[] HackReplace = [" ? ", " _ ", " - ", " / ", " = ", " < ", " / > "];
 
 		/// <summary>
 		/// Words/Chars to replace with a space in Random Word checker
 		/// </summary>
-		private readonly string[] RandomFind = ["="];
+		private readonly static string[] RandomFind = ["="];
 
 		/// <summary>
 		/// Address list lock object for unique access

@@ -95,7 +95,7 @@ namespace SystemAdmin.Plugin.Controllers
 
 			model.SeoTags ??= String.Empty;
 
-			_seoProvider.AddKeywords(model.SeoUrl, model.SeoTags.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList());
+			_seoProvider.AddKeywords(model.SeoUrl, [.. model.SeoTags.Split(' ', StringSplitOptions.RemoveEmptyEntries)]);
 
 
 

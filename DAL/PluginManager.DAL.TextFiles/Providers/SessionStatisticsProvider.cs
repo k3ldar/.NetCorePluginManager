@@ -253,7 +253,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (Result == null)
 				return [];
 
-			return Result.OrderBy(o => o.IsBot).ThenByDescending(d => d.Count).ToList();
+			return [.. Result.OrderBy(o => o.IsBot).ThenByDescending(d => d.Count)];
 		}
 
 		#endregion Private Methods

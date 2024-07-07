@@ -106,7 +106,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 		public List<BlogItem> GetMyBlogs(in long userId)
 		{
 			long user = userId;
-			return _blogEntries.Where(b => b.UserId == user).OrderBy(o => o.Created).ToList();
+			return [.. _blogEntries.Where(b => b.UserId == user).OrderBy(o => o.Created)];
 		}
 
 		public BlogItem SaveBlog(in BlogItem blogItem)

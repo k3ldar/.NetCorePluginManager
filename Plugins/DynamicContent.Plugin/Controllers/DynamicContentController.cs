@@ -663,7 +663,7 @@ namespace DynamicContent.Plugin.Controllers
 				pageCss += "}</style>";
 			}
 
-			return new PageModel(GetModelData(), dynamicContentPage.Name, content.ToString(), pageCss, inputControlIds.ToArray(), hasDataSaved);
+			return new PageModel(GetModelData(), dynamicContentPage.Name, content.ToString(), pageCss, [.. inputControlIds], hasDataSaved);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]

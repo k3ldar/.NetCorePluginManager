@@ -333,15 +333,15 @@ namespace WebSmokeTest.Plugin
 			{
 				try
 				{
-					ConstructorInfo constructorInfo = type.GetConstructor(Array.Empty<Type>());
+					ConstructorInfo constructorInfo = type.GetConstructor([]);
 
 					if (constructorInfo != null)
 					{
-						object inst = constructorInfo.Invoke(Array.Empty<object>());
+						object inst = constructorInfo.Invoke([]);
 
 						if (inst != null)
 						{
-							return (WebSmokeTestItem)method.Invoke(inst, Array.Empty<object>());
+							return (WebSmokeTestItem)method.Invoke(inst, []);
 						}
 					}
 				}
@@ -389,8 +389,8 @@ namespace WebSmokeTest.Plugin
 				attribute.InputData,
 				attribute.Parameters,
 				attribute.RedirectUrl,
-				attribute.SearchData.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList(),
-				attribute.SubmitSearchData.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList());
+				[.. attribute.SearchData.Split(';', StringSplitOptions.RemoveEmptyEntries)],
+				[.. attribute.SubmitSearchData.Split(';', StringSplitOptions.RemoveEmptyEntries)]);
 		}
 
 		private static string GetHttpMethodFromMethodInfo(in IEnumerable<CustomAttributeData> attributes)

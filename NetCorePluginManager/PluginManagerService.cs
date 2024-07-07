@@ -136,7 +136,7 @@ namespace AspNetCore.PluginManager
 				if (String.IsNullOrEmpty(pluginSearchPath) || !Directory.Exists(pluginSearchPath))
 					pluginSearchPath = AddTrailingBackSlash(_rootPath);
 
-				string[] files = Array.Empty<string>();
+				string[] files = [];
 
 				if (!String.IsNullOrEmpty(pluginSearchPath) && Directory.Exists(pluginSearchPath))
 					files = Directory.GetFiles(pluginSearchPath, "*.*", SearchOption.TopDirectoryOnly);

@@ -410,7 +410,7 @@ namespace UserSessionMiddleware.Plugin.Classes
 
 			Result ??= [];
 
-			Result = Result.OrderBy(o => o.IsBot).ThenByDescending(d => d.Count).ToList();
+			Result = [.. Result.OrderBy(o => o.IsBot).ThenByDescending(d => d.Count)];
 		}
 
 		private static string GetHash(HashAlgorithm hashAlgorithm, string input)

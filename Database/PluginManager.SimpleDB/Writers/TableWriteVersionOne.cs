@@ -39,7 +39,7 @@ namespace SimpleDB.Writers
 			CompressionType compressionType, PageSize pageSize,
 			ref byte compactPercent, ref int pageCount)
 		{
-			byte[] data = recordsToSave.Count > 0 ? JsonSerializer.SerializeToUtf8Bytes(recordsToSave, recordsToSave.GetType(), Consts.JsonSerializerOptions) : Array.Empty<byte>();
+			byte[] data = recordsToSave.Count > 0 ? JsonSerializer.SerializeToUtf8Bytes(recordsToSave, recordsToSave.GetType(), Consts.JsonSerializerOptions) : [];
 
 			int dataLength = data.Length;
 			bool isCompressed = false;

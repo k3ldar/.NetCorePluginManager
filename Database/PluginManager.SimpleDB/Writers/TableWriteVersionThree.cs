@@ -37,7 +37,7 @@ namespace SimpleDB.Writers
 
 		public void WriteData<T>(FileStream fileStream, List<T> recordsToSave, CompressionType compressionType, PageSize pageSize, ref byte compactPercent, ref int pageCount)
 		{
-			byte[] data = recordsToSave.Count > 0 ? JsonSerializer.SerializeToUtf8Bytes(recordsToSave, recordsToSave.GetType(), Consts.JsonSerializerOptions) : Array.Empty<byte>();
+			byte[] data = recordsToSave.Count > 0 ? JsonSerializer.SerializeToUtf8Bytes(recordsToSave, recordsToSave.GetType(), Consts.JsonSerializerOptions) : [];
 
 			bool isCompressed = false;
 

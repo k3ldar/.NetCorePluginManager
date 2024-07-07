@@ -972,7 +972,7 @@ namespace SimpleDB.Internal
 						List<string> propertyNames = Result[indexName].PropertyNames;
 						propertyNames.Add(property.Name);
 						Result.Remove(indexName);
-						Result.Add(indexName, new IndexManager<string>(uniqueIndex.IndexType, propertyNames.ToArray()));
+						Result.Add(indexName, new IndexManager<string>(uniqueIndex.IndexType, [.. propertyNames]));
 					}
 					else
 					{

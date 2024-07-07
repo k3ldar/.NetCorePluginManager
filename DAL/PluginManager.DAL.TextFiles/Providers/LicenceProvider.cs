@@ -81,7 +81,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (user == null)
 				return Result;
 
-			List<LicenseTypeDataRow> licenseTypes = _licenseTypes.Select().ToList();
+			List<LicenseTypeDataRow> licenseTypes = [.. _licenseTypes.Select()];
 			List<LicenseDataRow> userLicenses = _licenses.Select().Where(l => l.UserId.Equals(user.Id)).ToList();
 
 			userLicenses.ForEach(ul =>

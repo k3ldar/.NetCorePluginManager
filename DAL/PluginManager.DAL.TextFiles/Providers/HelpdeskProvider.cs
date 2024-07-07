@@ -106,7 +106,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				if (publiclyVisible)
 					allFeedback = _feedbackDataRow.Select().Where(pv => pv.ShowOnWebsite).ToList();
 				else
-					allFeedback = _feedbackDataRow.Select().ToList();
+					allFeedback = [.. _feedbackDataRow.Select()];
 
 				List<Feedback> Result = [];
 
@@ -144,7 +144,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			{
 				List<LookupListItem> Result = [];
 
-				List<TicketDepartmentsDataRow> departments = _ticketDepartments.Select().ToList();
+				List<TicketDepartmentsDataRow> departments = [.. _ticketDepartments.Select()];
 
 				departments.ForEach(d => Result.Add(new LookupListItem((int)d.Id, d.Description)));
 
@@ -162,7 +162,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			{
 				List<LookupListItem> Result = [];
 
-				List<TicketPrioritiesDataRow> departments = _ticketPriority.Select().ToList();
+				List<TicketPrioritiesDataRow> departments = [.. _ticketPriority.Select()];
 
 				departments.ForEach(d => Result.Add(new LookupListItem((int)d.Id, d.Description)));
 
@@ -180,7 +180,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			{
 				List<LookupListItem> Result = [];
 
-				List<TicketStatusDataRow> departments = _ticketStatus.Select().ToList();
+				List<TicketStatusDataRow> departments = [.. _ticketStatus.Select()];
 
 				departments.ForEach(d => Result.Add(new LookupListItem((int)d.Id, d.Description)));
 

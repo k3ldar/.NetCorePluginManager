@@ -80,12 +80,11 @@ namespace DocumentationPlugin.Classes
 
 			if (searchOptions.QuickSearch)
 			{
-				documents = _documentationService.GetDocuments()
+				documents = [.. _documentationService.GetDocuments()
 					.Where(d => d.DocumentType == DocumentType.Assembly ||
 						d.DocumentType == DocumentType.Custom ||
 						d.DocumentType == DocumentType.Class)
-					.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)
-					.ToList();
+					.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)];
 			}
 			else
 			{

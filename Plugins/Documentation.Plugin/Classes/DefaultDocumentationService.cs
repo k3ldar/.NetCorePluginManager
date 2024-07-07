@@ -276,11 +276,10 @@ namespace DocumentationPlugin.Classes
 
 		private static void SetPreviousNext(List<Document> documents)
 		{
-			List<Document> topLevel = documents.Where(d => d.DocumentType == DocumentType.Assembly ||
+			List<Document> topLevel = [.. documents.Where(d => d.DocumentType == DocumentType.Assembly ||
 				d.DocumentType == DocumentType.Custom ||
 				d.DocumentType == DocumentType.Document)
-				.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)
-				.ToList();
+				.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)];
 
 			for (int i = 0; i < topLevel.Count; i++)
 			{
@@ -505,7 +504,7 @@ namespace DocumentationPlugin.Classes
 
 		private void SaveFileList(in List<string> files)
 		{
-			Utilities.FileWrite(_fileNameFile, String.Join('\n', files.ToArray()));
+			Utilities.FileWrite(_fileNameFile, String.Join('\n', [.. files]));
 		}
 
 		#endregion Private Methods
