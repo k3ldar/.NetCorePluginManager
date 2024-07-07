@@ -127,10 +127,8 @@ namespace WebSmokeTest.Plugin
 						}
 						else if (route.Equals("/smoketest/start/"))
 						{
-							ISmokeTestProvider smokeTestProvider = context.RequestServices
-								.GetService(typeof(ISmokeTestProvider)) as ISmokeTestProvider;
-
-							if (smokeTestProvider != null)
+							if (context.RequestServices
+								.GetService(typeof(ISmokeTestProvider)) is ISmokeTestProvider smokeTestProvider)
 							{
 								NVPCodec codec = smokeTestProvider.SmokeTestStart();
 
@@ -169,10 +167,8 @@ namespace WebSmokeTest.Plugin
 						}
 						else if (route.Equals("/smoketest/end/"))
 						{
-							ISmokeTestProvider smokeTestProvider = context.RequestServices
-								.GetService(typeof(ISmokeTestProvider)) as ISmokeTestProvider;
-
-							if (smokeTestProvider != null)
+							if (context.RequestServices
+								.GetService(typeof(ISmokeTestProvider)) is ISmokeTestProvider smokeTestProvider)
 							{
 								smokeTestProvider.SmokeTestEnd();
 							}
@@ -290,9 +286,7 @@ namespace WebSmokeTest.Plugin
 
 					foreach (object attr in attributes)
 					{
-						SmokeTestAttribute attribute = attr as SmokeTestAttribute;
-
-						if (attribute != null)
+						if (attr is SmokeTestAttribute attribute)
 						{
 							WebSmokeTestItem smokeTestItem = GetSmokeTestFromAttribute(type, method, attribute);
 

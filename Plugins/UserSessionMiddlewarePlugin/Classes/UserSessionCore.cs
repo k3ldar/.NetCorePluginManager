@@ -26,6 +26,7 @@
 using System;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 
 using Shared.Classes;
 
@@ -192,8 +193,10 @@ namespace UserSessionMiddleware.Plugin
 		private static string GetIpAddress(in HttpContext context)
 		{
 			foreach (string key in SharedPluginFeatures.Constants.ForwardForHeader)
-				if (context.Request.Headers.ContainsKey(key))
-					return context.Request.Headers[key];
+			{
+				if (context.Request.Headers.TryGetValue(key, out StringValues headerValue))
+					return headerValue;
+			}
 
 			string Result = context.Request.HttpContext.Connection.RemoteIpAddress.ToString();
 

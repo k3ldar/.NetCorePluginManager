@@ -466,9 +466,7 @@ namespace UserSessionMiddleware.Plugin.Classes
 				sessionData = new T();
 			}
 
-			IUrlHash sessionHash = sessionData as IUrlHash;
-
-			if (sessionHash != null)
+			if (sessionData is IUrlHash sessionHash)
 				sessionHash.SetUrlHash(this);
 
 		}
