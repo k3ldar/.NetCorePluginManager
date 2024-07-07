@@ -43,7 +43,7 @@ namespace DynamicContent.Plugin.Model
 			Path = path;
 			Content = content ?? throw new ArgumentNullException(nameof(content));
 			PageCSS = css;
-			DynamicContentIds = dynamicContentIds ?? Array.Empty<string>();
+			DynamicContentIds = dynamicContentIds ?? [];
 			HasDataSaved = hasDataSaved;
 		}
 

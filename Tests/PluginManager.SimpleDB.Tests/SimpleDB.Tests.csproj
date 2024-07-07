@@ -2,10 +2,18 @@
 
   <PropertyGroup>
     <TargetFrameworks>$(FrameWorkLatestVersion)</TargetFrameworks>
-
     <IsPackable>false</IsPackable>
-
     <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup>
+	<RunAnalyzersDuringBuild>$(RunAnalyzersDuringBuild)</RunAnalyzersDuringBuild>
+	<RunAnalyzersDuringLiveAnalysis>$(RunAnalyzersDuringLiveAnalysis)</RunAnalyzersDuringLiveAnalysis>
+	<RunAnalyzers>$(RunAnalyzers)</RunAnalyzers>
+	<RunCodeAnalysis>$(RunCodeAnalysis)</RunCodeAnalysis>
+	<AnalysisLevel>$(AnalysisLevel)</AnalysisLevel>
+	<AnalysisMode>$(AnalysisMode)</AnalysisMode>
+	<EnableNETAnalyzers>$(EnableNETAnalyzers)</EnableNETAnalyzers>
   </PropertyGroup>
 
   <ItemGroup>

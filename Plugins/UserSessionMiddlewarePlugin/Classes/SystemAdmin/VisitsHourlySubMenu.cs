@@ -87,9 +87,10 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 		/// <returns>string</returns>
 		public override string Data()
 		{
-			ChartModel Result = new();
-
-			Result.ChartTitle = "Hourly Visitor Statistics";
+			ChartModel Result = new()
+			{
+				ChartTitle = "Hourly Visitor Statistics"
+			};
 
 			List<SessionHourly> sessionData = _sessionStatisticsProvider.GetHourlyData(false)
 				.OrderBy(o => o.Date)

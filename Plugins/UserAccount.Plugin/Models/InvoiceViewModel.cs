@@ -49,14 +49,14 @@ namespace UserAccount.Plugin.Models
 				throw new ArgumentNullException(nameof(invoice));
 
 			InvoiceId = invoice.Id;
-			Culture = invoice.Culture ?? throw new ArgumentNullException(nameof(invoice.Culture));
+			Culture = invoice.Culture ?? throw new InvalidOperationException(nameof(invoice.Culture));
 			Date = invoice.Date;
 			SubTotal = invoice.SubTotal;
 			Postage = invoice.Postage;
 			Tax = invoice.Tax;
 			Total = invoice.Total;
 			Status = invoice.Status;
-			InvoiceItems = invoice.InvoiceItems ?? throw new ArgumentNullException(nameof(invoice.InvoiceItems));
+			InvoiceItems = invoice.InvoiceItems ?? throw new InvalidOperationException(nameof(invoice.InvoiceItems));
 			DeliveryAddress = String.Empty;
 
 			if (invoice.DeliveryAddress != null)

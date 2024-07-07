@@ -185,9 +185,7 @@ namespace BadEgg.Plugin
 				foreach (Type type in badeggAttributes)
 				{
 					// is it a class attribute
-					BadEggAttribute attribute = type.GetCustomAttributes(true).FirstOrDefault(a => a is BadEggAttribute) as BadEggAttribute;
-
-					if (attribute != null)
+					if (type.GetCustomAttributes(true).FirstOrDefault(a => a is BadEggAttribute) is BadEggAttribute attribute)
 					{
 						string route = routeDataService.GetRouteFromClass(type, routeProvider);
 

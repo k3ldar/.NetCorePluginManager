@@ -53,9 +53,9 @@ namespace Resources.Plugin.Controllers
 	{
 		#region Private Members
 
-		private readonly static string[] SupportedImageTypes = { ".apng", ".gif", ".ico", ".jpeg", ".jpg", ".png", ".svg" };
-		private readonly static string[] ReplacableTextFrom = { "<", ">" };
-		private readonly static string[] ReplacableTextTo = { "&lt;", "&gt;" };
+		private readonly static string[] SupportedImageTypes = [".apng", ".gif", ".ico", ".jpeg", ".jpg", ".png", ".svg"];
+		private readonly static string[] ReplacableTextFrom = ["<", ">"];
+		private readonly static string[] ReplacableTextTo = ["&lt;", "&gt;"];
 
 		private readonly IResourceProvider _resourceProvider;
 

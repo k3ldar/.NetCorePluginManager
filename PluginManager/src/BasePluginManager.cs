@@ -829,10 +829,9 @@ namespace PluginManager
 			if (_serviceProvider != null)
 			{
 				//grab a list of all constructors in the class, start with the one with most parameters
-				List<ConstructorInfo> constructors = type.GetConstructors()
+				List<ConstructorInfo> constructors = [.. type.GetConstructors()
 					.Where(c => c.IsPublic && !c.IsStatic && c.GetParameters().Length > 0)
-					.OrderByDescending(c => c.GetParameters().Length)
-					.ToList();
+					.OrderByDescending(c => c.GetParameters().Length)];
 
 				foreach (ConstructorInfo constructor in constructors)
 				{
@@ -851,11 +850,11 @@ namespace PluginManager
 					}
 
 					if (Result.Count > 0)
-						return Result.ToArray();
+						return [.. Result];
 				}
 			}
 
-			return Result.ToArray();
+			return [.. Result];
 		}
 
 		#endregion Internal Methods
@@ -984,7 +983,11 @@ namespace PluginManager
 
 			if (lastIndex > 0)
 			{
+#if NET_STANDARD
 				Result = Result.Substring(0, lastIndex).Replace(".", "\\") + Result.Substring(lastIndex);
+#else
+				Result = string.Concat(Result[..lastIndex].Replace(".", "\\"), Result.AsSpan(lastIndex));
+#endif
 			}
 
 			Result = Path.Combine(_configuration.CurrentPath, Result);
@@ -1026,7 +1029,7 @@ namespace PluginManager
 					if (fileExists)
 						File.Delete(resourceFileName);
 
-					using (Stream fileStream = File.OpenWrite(resourceFileName))
+					using (FileStream fileStream = File.OpenWrite(resourceFileName))
 					{
 						byte[] buffer = new byte[stream.Length];
 

@@ -92,7 +92,7 @@ namespace PluginManager.Tests
 			int isDebugPos = path.IndexOf("\\bin\\debug\\", StringComparison.InvariantCultureIgnoreCase);
 
 			if (isDebugPos > -1)
-				path = path.Substring(0, isDebugPos);
+				path = path[..isDebugPos];
 
 			PluginSetting testData = new("test.plugin")
 			{

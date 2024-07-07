@@ -54,6 +54,7 @@ namespace PluginManager.Internal
 			return ValidateSettings<T>.Validate(Result);
 		}
 
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0057:Use range operator", Justification = "Not available for net standard")]
 		public T LoadSettings<T>(in string name)
 		{
 			string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);

@@ -82,7 +82,7 @@ namespace DynamicContent.Plugin.Internal
 			}
 		}
 
-		public int CacheCount
+		public static int CacheCount
 		{
 			get
 			{

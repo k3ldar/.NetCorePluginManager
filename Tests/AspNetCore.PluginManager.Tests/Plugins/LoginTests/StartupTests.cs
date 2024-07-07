@@ -68,9 +68,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ConfigureService_InvalidParamNull_Throws_ArgumentNullException()
         {
-            Startup sut = new Startup();
-
-            sut.ConfigureServices(null);
+			Startup sut = new Startup();
+			Assert.IsNotNull(sut); sut.ConfigureServices(null);
         }
 
         [TestMethod]
@@ -83,7 +82,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
                 Startup sut = new Startup();
 
                 MockServiceCollection serviceCollection = new MockServiceCollection();
-                sut.ConfigureServices(serviceCollection);
+				sut.ConfigureServices(serviceCollection);
 
                 Assert.IsTrue(serviceCollection.HasMvcConfigured());
                 Assert.IsFalse(serviceCollection.HasMvcEndpointRouting());
@@ -100,9 +99,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Configure_InvalidParamNull_Throws_ArgumentNullException()
         {
-            Startup sut = new Startup();
-
-            sut.Configure(null);
+			Startup sut = new Startup();
+			Assert.IsNotNull(sut); 
+			sut.Configure(null);
         }
     }
 }

@@ -66,10 +66,9 @@ namespace DocumentationPlugin.Classes
 		{
 			List<SitemapItem> Result = [];
 
-			List<Document> documents = _documentationService.GetDocuments()
+			List<Document> documents = [.. _documentationService.GetDocuments()
 				.Where(d => d.DocumentType == DocumentType.Assembly || d.DocumentType == DocumentType.Custom)
-				.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)
-				.ToList();
+				.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)];
 
 			foreach (Document document in documents)
 			{

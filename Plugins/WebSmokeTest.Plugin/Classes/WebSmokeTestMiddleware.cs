@@ -127,10 +127,8 @@ namespace WebSmokeTest.Plugin
 						}
 						else if (route.Equals("/smoketest/start/"))
 						{
-							ISmokeTestProvider smokeTestProvider = context.RequestServices
-								.GetService(typeof(ISmokeTestProvider)) as ISmokeTestProvider;
-
-							if (smokeTestProvider != null)
+							if (context.RequestServices
+								.GetService(typeof(ISmokeTestProvider)) is ISmokeTestProvider smokeTestProvider)
 							{
 								NVPCodec codec = smokeTestProvider.SmokeTestStart();
 
@@ -150,7 +148,7 @@ namespace WebSmokeTest.Plugin
 						}
 						else if (route.StartsWith("/smoketest/test"))
 						{
-							string testNumber = route.Substring(16);
+							string testNumber = route[16..];
 							List<WebSmokeTestItem> testItems = SmokeTests;
 
 							if (Int32.TryParse(testNumber, out int number) &&
@@ -169,10 +167,8 @@ namespace WebSmokeTest.Plugin
 						}
 						else if (route.Equals("/smoketest/end/"))
 						{
-							ISmokeTestProvider smokeTestProvider = context.RequestServices
-								.GetService(typeof(ISmokeTestProvider)) as ISmokeTestProvider;
-
-							if (smokeTestProvider != null)
+							if (context.RequestServices
+								.GetService(typeof(ISmokeTestProvider)) is ISmokeTestProvider smokeTestProvider)
 							{
 								smokeTestProvider.SmokeTestEnd();
 							}
@@ -290,9 +286,7 @@ namespace WebSmokeTest.Plugin
 
 					foreach (object attr in attributes)
 					{
-						SmokeTestAttribute attribute = attr as SmokeTestAttribute;
-
-						if (attribute != null)
+						if (attr is SmokeTestAttribute attribute)
 						{
 							WebSmokeTestItem smokeTestItem = GetSmokeTestFromAttribute(type, method, attribute);
 
@@ -333,15 +327,15 @@ namespace WebSmokeTest.Plugin
 			{
 				try
 				{
-					ConstructorInfo constructorInfo = type.GetConstructor(Array.Empty<Type>());
+					ConstructorInfo constructorInfo = type.GetConstructor([]);
 
 					if (constructorInfo != null)
 					{
-						object inst = constructorInfo.Invoke(Array.Empty<object>());
+						object inst = constructorInfo.Invoke([]);
 
 						if (inst != null)
 						{
-							return (WebSmokeTestItem)method.Invoke(inst, Array.Empty<object>());
+							return (WebSmokeTestItem)method.Invoke(inst, []);
 						}
 					}
 				}
@@ -358,7 +352,7 @@ namespace WebSmokeTest.Plugin
 		private static WebSmokeTestItem GetSmokeTestFromControllerAction(in Type type, in MethodInfo method, in SmokeTestAttribute attribute)
 		{
 			string name = attribute.Name;
-			StringBuilder route = new($"{type.Name.Substring(0, type.Name.Length - 10)}/{method.Name}/");
+			StringBuilder route = new($"{type.Name[..^10]}/{method.Name}/");
 
 			if (String.IsNullOrEmpty(attribute.Name))
 				name = $"{route}";
@@ -389,8 +383,8 @@ namespace WebSmokeTest.Plugin
 				attribute.InputData,
 				attribute.Parameters,
 				attribute.RedirectUrl,
-				attribute.SearchData.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList(),
-				attribute.SubmitSearchData.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList());
+				[.. attribute.SearchData.Split(';', StringSplitOptions.RemoveEmptyEntries)],
+				[.. attribute.SubmitSearchData.Split(';', StringSplitOptions.RemoveEmptyEntries)]);
 		}
 
 		private static string GetHttpMethodFromMethodInfo(in IEnumerable<CustomAttributeData> attributes)

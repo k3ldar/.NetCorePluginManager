@@ -144,7 +144,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
 					bool canPeekBack = i > preEnd.Length - 1;
 					char currentChar = data[i];
 
-					if (!canPeekBack && (!canPeekForward && !isInPreBlock))
+					if (!canPeekBack && !canPeekForward && !isInPreBlock)
 					{
 						continue;
 					}
@@ -160,7 +160,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
 					if (isInPreBlock && currentChar == '>' && canPeekBack && data.Substring(i - 5, 6) == preEnd)
 					{
 						isInPreBlock = false;
-						Result[Result.Count - 1].SetBlockEnd(i);
+						Result[^1].SetBlockEnd(i);
 					}
 				}
 			}

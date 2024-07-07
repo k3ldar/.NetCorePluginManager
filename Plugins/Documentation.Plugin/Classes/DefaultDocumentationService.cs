@@ -276,11 +276,10 @@ namespace DocumentationPlugin.Classes
 
 		private static void SetPreviousNext(List<Document> documents)
 		{
-			List<Document> topLevel = documents.Where(d => d.DocumentType == DocumentType.Assembly ||
+			List<Document> topLevel = [.. documents.Where(d => d.DocumentType == DocumentType.Assembly ||
 				d.DocumentType == DocumentType.Custom ||
 				d.DocumentType == DocumentType.Document)
-				.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)
-				.ToList();
+				.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)];
 
 			for (int i = 0; i < topLevel.Count; i++)
 			{
@@ -414,16 +413,16 @@ namespace DocumentationPlugin.Classes
 
 				if (nextHEnd > nextHStart)
 				{
-					string reference = document.LongDescription.Substring(nextHStart, nextHEnd - nextHStart);
-					string idName = HtmlHelper.RouteFriendlyName(reference.Substring(4).ToLower());
+					string reference = document.LongDescription[nextHStart..nextHEnd];
+					string idName = HtmlHelper.RouteFriendlyName(reference[4..].ToLower());
 
-					string hType = reference.Substring(0, 3);
+					string hType = reference[..3];
 
 					string newhRef = string.Concat($"{hType} id=\"{idName}\">", reference.AsSpan(4));
 					document.LongDescription = document.LongDescription.Replace(reference, newhRef);
 
 					if (!data.Contains.ContainsKey(idName))
-						data.Contains.Add("#" + idName, reference.Substring(4));
+						data.Contains.Add("#" + idName, reference[4..]);
 				}
 				else
 					break;
@@ -505,7 +504,7 @@ namespace DocumentationPlugin.Classes
 
 		private void SaveFileList(in List<string> files)
 		{
-			Utilities.FileWrite(_fileNameFile, String.Join('\n', files.ToArray()));
+			Utilities.FileWrite(_fileNameFile, String.Join('\n', [.. files]));
 		}
 
 		#endregion Private Methods

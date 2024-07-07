@@ -142,7 +142,7 @@ namespace ImageManager.Plugin.Classes
 
 				foreach (string file in Directory.GetFiles(groupPath, "*", SearchOption.TopDirectoryOnly))
 				{
-					string uriFile = file.Substring(_rootPath.Length + 1).Replace("\\", "/");
+					string uriFile = file[(_rootPath.Length + 1)..].Replace("\\", "/");
 
 					Uri uri = new($"/images/{uriFile}", UriKind.RelativeOrAbsolute);
 					Result.Add(new ImageFile(uri, file));
@@ -184,7 +184,7 @@ namespace ImageManager.Plugin.Classes
 
 				foreach (string file in Directory.GetFiles(groupPath, "*", SearchOption.TopDirectoryOnly))
 				{
-					string uriFile = file.Substring(_rootPath.Length + 1).Replace("\\", "/");
+					string uriFile = file[(_rootPath.Length + 1)..].Replace("\\", "/");
 
 					Uri uri = new($"/images/{uriFile}", UriKind.RelativeOrAbsolute);
 					Result.Add(new ImageFile(uri, file));

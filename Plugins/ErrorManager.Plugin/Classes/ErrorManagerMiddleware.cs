@@ -191,7 +191,7 @@ namespace ErrorManager.Plugin
 
 			if (!String.IsNullOrEmpty(stackTrace) && stackTrace.Contains('\r'))
 			{
-				stackTrace = stackTrace.Substring(0, stackTrace.IndexOf('\r')).Trim();
+				stackTrace = stackTrace[..stackTrace.IndexOf('\r')].Trim();
 			}
 
 			// has this error been logged before?

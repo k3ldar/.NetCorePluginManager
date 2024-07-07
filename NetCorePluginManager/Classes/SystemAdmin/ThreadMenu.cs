@@ -81,7 +81,7 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
 
 				Result.Append(SplitText(parts[1], ':') + Constants.PipeChar);
 				string cpu = SplitText(parts[0], ':');
-				Result.Append(cpu.Substring(0, cpu.IndexOf(Constants.ForwardSlashChar)));
+				Result.Append(cpu.AsSpan(0, cpu.IndexOf(Constants.ForwardSlashChar)));
 				Result.Append(Constants.PipeChar);
 				Result.Append(cpu[(cpu.IndexOf(Constants.ForwardSlashChar) + 1)..]);
 				Result.Append(Constants.PipeChar);
@@ -118,7 +118,7 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
 		{
 			if (text.Contains(splitText.ToString()))
 			{
-				string result = text.Substring(text.IndexOf(splitText) + 1);
+				string result = text[(text.IndexOf(splitText) + 1)..];
 				return result.Trim();
 			}
 			else

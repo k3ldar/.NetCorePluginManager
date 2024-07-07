@@ -23,6 +23,9 @@
  *  06/09/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#pragma warning disable IDE1006
+
 namespace Resources.Plugin.Models
 {
 	/// <summary>
@@ -41,3 +44,5 @@ namespace Resources.Plugin.Models
 		public bool value { get; set; }
 	}
 }
+
+#pragma warning restore IDE1006

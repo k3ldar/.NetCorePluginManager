@@ -43,7 +43,7 @@ namespace UserAccount.Plugin
 		public IConfiguration Configuration { get; }
 
 		// This method gets called by the runtime. Use this method to add services to the container.
-		public void ConfigureServices(IServiceCollection services)
+		public static void ConfigureServices(IServiceCollection services)
 		{
 			// Allow plugin manager to configure all services in each plugin
 			PluginManagerService.ConfigureServices(services);
@@ -71,7 +71,7 @@ namespace UserAccount.Plugin
 				.ConfigurePluginManager();
 		}
 
-		public void Configure(IApplicationBuilder app)
+		public static void Configure(IApplicationBuilder app)
 		{
 			// Allow plugin manager to configure options for all plugins
 			PluginManagerService.Configure(app);

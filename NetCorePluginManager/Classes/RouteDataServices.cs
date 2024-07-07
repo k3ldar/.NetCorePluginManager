@@ -79,15 +79,15 @@ namespace AspNetCore.PluginManager
 				string template = classRouteAttribute.Template;
 
 				while (template.IndexOf('{') > -1)
-					template = template.Substring(0, template.Length - 1);
+					template = template[..^1];
 
 				if (template.EndsWith('/'))
-					template = template.Substring(0, template.Length - 1);
+					template = template[..^1];
 
 				return template;
 			}
 
-			string routeName = $"{method.DeclaringType.ToString()}.{method.Name}";
+			string routeName = $"{method.DeclaringType}.{method.Name}";
 
 			ActionDescriptor route = routeProvider.ActionDescriptors.Items
 				.FirstOrDefault(ad => ad.DisplayName.StartsWith(routeName, StringComparison.CurrentCultureIgnoreCase));

@@ -59,9 +59,7 @@ namespace SharedPluginFeatures
 		/// <param name="context"></param>
 		public override void OnActionExecuting(ActionExecutingContext context)
 		{
-			IApiAuthorizationService apiAuthorizationService = context.HttpContext.RequestServices.GetService(typeof(IApiAuthorizationService)) as IApiAuthorizationService;
-
-			if (apiAuthorizationService == null)
+			if (context.HttpContext.RequestServices.GetService(typeof(IApiAuthorizationService)) is not IApiAuthorizationService apiAuthorizationService)
 			{
 				context.HttpContext.Response.StatusCode = Constants.HtmlResponseMethodNotAllowed;
 				context.Result = new JsonResult(new { response = "Not allowed" });

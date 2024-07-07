@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
-    <NoWarn>1701;1702;8032;8981;S125;S6967;S6964;S6670;S6934;S3267;</NoWarn>
+    <NoWarn>1701;1702;8032;8981;S125;S6967;S6964;S6670;S6934;S3267;IDE0290</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>Shared.Key.pfx</AssemblyOriginatorKeyFile>
@@ -109,6 +109,11 @@
     <CheckForOverflowUnderflow>$(CheckForOverflowUnderflow)</CheckForOverflowUnderflow>
     <DebugType>$(DebugType)</DebugType>
     <DebugSymbols>%(DebugSymbols)</DebugSymbols>
+  </PropertyGroup>
+	
+  <!-- Warning disabled whilst net 6 supported -->
+  <PropertyGroup  Condition="'$(NET_6_0)'=='1'">
+	  <NoWarn>$(NoWarn);CA1510;CA1512;CA1513</NoWarn>
   </PropertyGroup>
 
 </Project>

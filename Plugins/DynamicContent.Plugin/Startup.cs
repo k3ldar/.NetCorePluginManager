@@ -40,6 +40,7 @@ namespace DynamicContent.Plugin
 {
 	public class Startup
 	{
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S1118:Utility classes should not have public constructors", Justification = "It's more of a startup class than a utility class")]
 		public Startup()
 		{
 			if (!PluginManagerService.HasInitialised)
@@ -49,7 +50,7 @@ namespace DynamicContent.Plugin
 		}
 
 		// This method gets called by the runtime. Use this method to add services to the container.
-		public void ConfigureServices(IServiceCollection services)
+		public static void ConfigureServices(IServiceCollection services)
 		{
 			if (services == null)
 				throw new ArgumentNullException(nameof(services));
@@ -69,7 +70,7 @@ namespace DynamicContent.Plugin
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app)
+		public static void Configure(IApplicationBuilder app)
 		{
 			if (app == null)
 				throw new ArgumentNullException(nameof(app));

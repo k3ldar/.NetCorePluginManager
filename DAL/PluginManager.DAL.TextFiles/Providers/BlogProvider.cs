@@ -91,7 +91,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 		public List<BlogItem> GetMyBlogs(in long userId)
 		{
 			long user = userId;
-			return ConvertTableBlogToBlogItem(_blogs.Select().Where(b => b.UserId == user).OrderBy(o => o.Created).ToList());
+			return ConvertTableBlogToBlogItem([.. _blogs.Select().Where(b => b.UserId == user).OrderBy(o => o.Created)]);
 		}
 
 		public BlogItem SaveBlog(in BlogItem blogItem)

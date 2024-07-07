@@ -150,7 +150,7 @@ namespace Blog.Plugin.Controllers
 				UserSession user = GetUserSession();
 				BlogItem newBlog = _blogProvider.SaveBlog(new BlogItem(0, user.UserID, model.Title, model.Excerpt,
 					model.BlogText, user.UserName, model.Published, DateTime.Now, DateTime.Now,
-					DateTime.Now, model.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList(),
+					DateTime.Now, [.. model.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries)],
 					[]));
 
 				return Redirect(GetBlogItemUrl(newBlog));
@@ -165,7 +165,7 @@ namespace Blog.Plugin.Controllers
 			{
 				blogItem.UpdateBlog(model.Title, model.Excerpt, model.BlogText,
 					model.Published, model.PublishDateTime,
-					model.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList());
+					[.. model.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries)]);
 
 				_blogProvider.SaveBlog(blogItem);
 
@@ -270,7 +270,7 @@ namespace Blog.Plugin.Controllers
 		private static string GetBlogItemUrl(in BlogItem blogItem)
 		{
 			return $"/Blog/{RouteFriendlyName(blogItem.Username)}/{blogItem.Id}/" +
-				$"{blogItem.LastModified.ToString("dd-MM-yyyy")}/{RouteFriendlyName(blogItem.Title)}";
+				$"{blogItem.LastModified:dd-MM-yyyy}/{RouteFriendlyName(blogItem.Title)}";
 		}
 
 		private BlogPostViewModel GetEditBlogPostViewModel(in BlogItem blogItem)

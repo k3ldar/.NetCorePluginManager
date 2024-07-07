@@ -87,9 +87,10 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 		/// <returns>string</returns>
 		public override string Data()
 		{
-			ChartModel Result = new();
-
-			Result.ChartTitle = "Weekly Bot Visitor Statistics";
+			ChartModel Result = new()
+			{
+				ChartTitle = "Weekly Bot Visitor Statistics"
+			};
 
 			List<SessionWeekly> sessionData = _sessionStatisticsProvider.GetWeeklyData(false)
 				.OrderBy(o => o.Year)

@@ -86,10 +86,9 @@ namespace DocumentationPlugin.Controllers
 				_documentationService.GetCustomData("Header", Languages.LanguageStrings.APIReference),
 				_documentationService.GetCustomData("Description", Languages.LanguageStrings.InThisDocument));
 
-			List<Document> documents = _documentationService.GetDocuments()
+			List<Document> documents = [.. _documentationService.GetDocuments()
 				.Where(d => d.DocumentType == DocumentType.Assembly || d.DocumentType == DocumentType.Custom)
-				.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)
-				.ToList();
+				.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)];
 
 			foreach (Document doc in documents)
 			{
@@ -117,7 +116,7 @@ namespace DocumentationPlugin.Controllers
 
 			if (model.Breadcrumbs.Count > 0)
 			{
-				BreadcrumbItem lastItem = model.Breadcrumbs[model.Breadcrumbs.Count - 1];
+				BreadcrumbItem lastItem = model.Breadcrumbs[^1];
 				BreadcrumbItem breadcrumb = new(selected.Title, lastItem.Route, lastItem.HasParameters);
 				model.Breadcrumbs.Remove(lastItem);
 				model.Breadcrumbs.Add(breadcrumb);
@@ -139,7 +138,7 @@ namespace DocumentationPlugin.Controllers
 
 			if (model.Breadcrumbs.Count > 0)
 			{
-				BreadcrumbItem lastItem = model.Breadcrumbs[model.Breadcrumbs.Count - 1];
+				BreadcrumbItem lastItem = model.Breadcrumbs[^1];
 				BreadcrumbItem breadcrumb = new(selected.Title, lastItem.Route, lastItem.HasParameters);
 				model.Breadcrumbs.Remove(lastItem);
 				model.Breadcrumbs.Add(breadcrumb);
@@ -181,21 +180,21 @@ namespace DocumentationPlugin.Controllers
 
 			if (data.ReferenceData == null)
 			{
-				List<Document> documents = _documentationService.GetDocuments()
+				List<Document> documents = [.. _documentationService.GetDocuments()
 					.Where(d => d.DocumentType == DocumentType.Assembly ||
 						d.DocumentType == DocumentType.Custom)
-					.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)
-					.ToList();
+					.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)];
 
 				data.ReferenceData = GetAllReferences(selected, data, documents);
 			}
 
 			DocumentViewTypeViewModel model = new(GetModelData(),
-				selected.Title, data.ReferenceData);
-
-			model.Assembly = HtmlHelper.RouteFriendlyName(selected.AssemblyName);
-			model.Namespace = HtmlHelper.RouteFriendlyName(selected.NameSpaceName);
-			model.ClassName = HtmlHelper.RouteFriendlyName(selected.ClassName);
+				selected.Title, data.ReferenceData)
+			{
+				Assembly = HtmlHelper.RouteFriendlyName(selected.AssemblyName),
+				Namespace = HtmlHelper.RouteFriendlyName(selected.NameSpaceName),
+				ClassName = HtmlHelper.RouteFriendlyName(selected.ClassName)
+			};
 
 			if (data.SeeAlso != null && data.SeeAlso.Count > 0)
 			{
@@ -357,11 +356,10 @@ namespace DocumentationPlugin.Controllers
 
 		private DocumentViewModel BuildDocumentViewModel(string documentName, string className, out Document selected)
 		{
-			List<Document> documents = _documentationService.GetDocuments()
+			List<Document> documents = [.. _documentationService.GetDocuments()
 				.Where(d => d.DocumentType == DocumentType.Assembly ||
 					d.DocumentType == DocumentType.Custom)
-				.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)
-				.ToList();
+				.OrderBy(o => o.SortOrder).ThenBy(o => o.Title)];
 
 			if (String.IsNullOrEmpty(className))
 			{

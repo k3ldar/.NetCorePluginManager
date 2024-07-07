@@ -51,7 +51,7 @@ namespace DynamicContent.Plugin.Internal
 		private const int FileVersion1 = 1;
 		private const int ReservedSpace1 = 65;
 		private const int ReservedSpace2 = 99;
-		private static readonly byte[] Header = { 44, 43 };
+		private static readonly byte[] Header = [44, 43];
 		private const int MinimumByteSize = 54;
 
 		private readonly string _rootContentPath;
@@ -94,10 +94,12 @@ namespace DynamicContent.Plugin.Internal
 					Result++;
 				}
 
-				IDynamicContentPage newPage = new DynamicContentPage(Result);
-				newPage.Name = $"Page-{Result}";
-				newPage.ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-				newPage.ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc);
+				IDynamicContentPage newPage = new DynamicContentPage(Result)
+				{
+					Name = $"Page-{Result}",
+					ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+					ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59, DateTimeKind.Utc)
+				};
 
 				_dynamicContent.Add(newPage);
 				Save(newPage);
@@ -245,7 +247,7 @@ namespace DynamicContent.Plugin.Internal
 				throw new ArgumentNullException(nameof(content));
 
 			if (content.Length < MinimumByteSize)
-				throw new ArgumentException(nameof(content));
+				throw new ArgumentException(null, nameof(content));
 
 			using (MemoryStream memoryStream = new(content))
 			using (BinaryReader reader = new(memoryStream))
@@ -282,7 +284,7 @@ namespace DynamicContent.Plugin.Internal
 			byte[] byteData;
 
 			if (String.IsNullOrEmpty(data))
-				byteData = Array.Empty<byte>();
+				byteData = [];
 			else
 				byteData = Encoding.UTF8.GetBytes(data);
 

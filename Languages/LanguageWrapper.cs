@@ -43,6 +43,7 @@ namespace Languages
 		/// <param name="path">Path where search to begin</param>
 		/// <param name="defaultCulture">Default culture in use</param>
 		/// <returns>String array of installed languages</returns>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0057:Use range operator", Justification = "Not available for net standard")]
 		public static string[] GetInstalledLanguages(string path, CultureInfo defaultCulture)
 		{
 			string[] files = Directory.GetFiles(path, "Languages.resources*", SearchOption.AllDirectories);
@@ -72,7 +73,7 @@ namespace Languages
 				Result.Insert(0, defaultCulture.Name);
 			}
 
-			return Result.ToArray();
+			return [.. Result];
 		}
 
 		/// <summary>

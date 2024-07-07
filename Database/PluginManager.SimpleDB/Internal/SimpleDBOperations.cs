@@ -96,7 +96,7 @@ namespace SimpleDB.Internal
 		private const string TimingsInsertOrUpdate = "TimingsInsertOrUpdate";
 		private const string TimingsForceWrite = "TimingsForceWrite";
 
-		private readonly IVersionedReadWriteFactory _readWriteFactory = new VersionedReadWriteFactory();
+		private readonly VersionedReadWriteFactory _readWriteFactory = new();
 		private readonly string _tableName;
 		private readonly bool _tableCreated;
 		private readonly FileStream _fileStream;
@@ -892,7 +892,7 @@ namespace SimpleDB.Internal
 						ForeignKeyUsage foreignKeyUsage = _foreignKeyManager.ValueInUse(TableName, index.Key, value, out string table, out string propertyName);
 
 						if (foreignKeyUsage == ForeignKeyUsage.Referenced &&
-							(foreignKeyUsage != ForeignKeyUsage.AllowDefault && foreignKeyUsage != ForeignKeyUsage.CascadeDelete))
+							foreignKeyUsage != ForeignKeyUsage.AllowDefault && foreignKeyUsage != ForeignKeyUsage.CascadeDelete)
 						{
 							throw new ForeignKeyException($"Foreign key value {keyValue} from table {TableName} is being used in Table: {table}; Property: {propertyName}");
 						}
@@ -972,7 +972,7 @@ namespace SimpleDB.Internal
 						List<string> propertyNames = Result[indexName].PropertyNames;
 						propertyNames.Add(property.Name);
 						Result.Remove(indexName);
-						Result.Add(indexName, new IndexManager<string>(uniqueIndex.IndexType, propertyNames.ToArray()));
+						Result.Add(indexName, new IndexManager<string>(uniqueIndex.IndexType, [.. propertyNames]));
 					}
 					else
 					{

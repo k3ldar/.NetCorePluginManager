@@ -82,7 +82,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				Result.Add(ConvertProductGroupDataRowToProductGroup(group));
 			}
 
-			return Result.OrderBy(pg => pg.SortOrder).ToList();
+			return [.. Result.OrderBy(pg => pg.SortOrder)];
 		}
 
 		public bool ProductGroupDelete(in int id, out string errorMessage)
@@ -158,7 +158,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (pageSize < 1)
 				throw new ArgumentOutOfRangeException(nameof(pageSize));
 
-			List<ProductDataRow> allProducts = _productData.Select().OrderBy(p => p.Name).ToList();
+			List<ProductDataRow> allProducts = [.. _productData.Select().OrderBy(p => p.Name)];
 
 			List<Product> Result = [];
 
@@ -184,7 +184,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				throw new ArgumentOutOfRangeException(nameof(pageSize));
 
 			int prodGroup = productGroup.Id;
-			List<ProductDataRow> allProducts = _productData.Select().Where(p => p.ProductGroupId.Equals(prodGroup)).OrderBy(p => p.Name).ToList();
+			List<ProductDataRow> allProducts = [.. _productData.Select().Where(p => p.ProductGroupId.Equals(prodGroup)).OrderBy(p => p.Name)];
 
 			List<Product> Result = [];
 

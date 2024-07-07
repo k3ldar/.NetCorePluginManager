@@ -97,7 +97,7 @@ namespace DocumentationPlugin.Models
 		/// </summary>
 		/// <param name="image">image to be displayed.</param>
 		/// <returns>string</returns>
-		public string ProcessImage(in string image)
+		public static string ProcessImage(in string image)
 		{
 			if (String.IsNullOrEmpty(image))
 				return "/images/docs/module.png";

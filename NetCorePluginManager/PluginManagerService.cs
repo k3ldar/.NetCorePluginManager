@@ -33,13 +33,14 @@ using System.Linq;
 using System.Reflection;
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager;
 using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
+
+#pragma warning disable CA1859
 
 namespace AspNetCore.PluginManager
 {
@@ -135,7 +136,7 @@ namespace AspNetCore.PluginManager
 				if (String.IsNullOrEmpty(pluginSearchPath) || !Directory.Exists(pluginSearchPath))
 					pluginSearchPath = AddTrailingBackSlash(_rootPath);
 
-				string[] files = Array.Empty<string>();
+				string[] files = [];
 
 				if (!String.IsNullOrEmpty(pluginSearchPath) && Directory.Exists(pluginSearchPath))
 					files = Directory.GetFiles(pluginSearchPath, "*.*", SearchOption.TopDirectoryOnly);
@@ -349,7 +350,7 @@ namespace AspNetCore.PluginManager
 			// are we after the latest version
 			if (version == LatestVersion)
 			{
-				pluginFile = fileVersions[fileVersions.Count - 1].FullName;
+				pluginFile = fileVersions[^1].FullName;
 				return true;
 			}
 
@@ -404,3 +405,5 @@ namespace AspNetCore.PluginManager
 		#endregion Private Static Methods
 	}
 }
+
+#pragma warning restore CA1859

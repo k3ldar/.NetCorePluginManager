@@ -4,7 +4,17 @@
 
   <PropertyGroup>
     <BaseOutputPath>$(SolutionDir)\Output\UnitTests\</BaseOutputPath>
-	<NoWarn>$(NoWarn);S1481</NoWarn>
+  	<NoWarn>$(NoWarn);S1481</NoWarn>
+  </PropertyGroup>
+	
+  <PropertyGroup>
+	  <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+	  <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+	  <RunAnalyzers>false</RunAnalyzers>
+	  <RunCodeAnalysis>false</RunCodeAnalysis>
+	  <AnalysisLevel>none</AnalysisLevel>
+	  <AnalysisMode>none</AnalysisMode>
+	  <EnableNETAnalyzers>false</EnableNETAnalyzers>
   </PropertyGroup>
  
   <ItemGroup>

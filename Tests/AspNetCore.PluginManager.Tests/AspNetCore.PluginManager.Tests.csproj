@@ -1,10 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-		<TargetFrameworks>$(FrameWorkLatestVersion)</TargetFrameworks>
-		<IsPackable>false</IsPackable>
-		<RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
-		<RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+	<TargetFrameworks>$(FrameWorkLatestVersion)</TargetFrameworks>
+	<IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -12,6 +10,16 @@
     <CheckForOverflowUnderflow>$(CheckForOverflowUnderflow)</CheckForOverflowUnderflow>
     <DebugType>$(DebugType)</DebugType>
     <DebugSymbols>$(DebugSymbols)</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup>
+	<RunAnalyzersDuringBuild>$(RunAnalyzersDuringBuild)</RunAnalyzersDuringBuild>
+	<RunAnalyzersDuringLiveAnalysis>$(RunAnalyzersDuringLiveAnalysis)</RunAnalyzersDuringLiveAnalysis>
+	<RunAnalyzers>$(RunAnalyzers)</RunAnalyzers>
+	<RunCodeAnalysis>$(RunCodeAnalysis)</RunCodeAnalysis>
+	<AnalysisLevel>$(AnalysisLevel)</AnalysisLevel>
+	<AnalysisMode>$(AnalysisMode)</AnalysisMode>
+	<EnableNETAnalyzers>$(EnableNETAnalyzers)</EnableNETAnalyzers>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -28,7 +36,6 @@
     <PackageLicenseExpression>$(PackageLicenseExpression)</PackageLicenseExpression>
     <PackageReleaseNotes>$(PackageReleaseNotes)</PackageReleaseNotes>
     <PackageTags>$(PackageTags) unit tests</PackageTags>
-    <RunAnalyzersDuringBuild>$(RunAnalyzersDuringBuild)</RunAnalyzersDuringBuild>
     <NoWarn>$(NoWarn)</NoWarn>
     <SignAssembly>$(SignAssembly)</SignAssembly>
     <AssemblyOriginatorKeyFile>$(AssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
@@ -38,17 +45,17 @@
     <Optimize>False</Optimize>
   </PropertyGroup>
 
-	<ItemGroup>
-		<None Remove="Properties\Images\banksy-no-ball-games.-graffiti-street-fine-art-print-poster.-sizes-a4-a3-a2-a1-001187--4305-p.jpg" />
-		<None Remove="Properties\Images\banksy-pulp-fiction.-banana-graffiti-street-fine-art-print-poster.-sizes-a4-a3-a2-a1-00344--4244-p.jpg" />
-		<None Remove="Properties\Images\Banksy_077_preview.jpg" />
-		<None Remove="Properties\Images\Banksy_191_preview.jpg" />
-		<None Remove="Properties\Images\Banksy_215_preview.jpg" />
-		<None Remove="Properties\Images\fit together.jpg" />
-		<None Remove="Properties\Images\InvalidImage.txt" />
-		<None Remove="Properties\Images\life.jpg" />
-		<None Remove="Properties\Images\racism is stupid.jpg" />
-		<None Remove="Properties\Images\this_tall.jpg" />
+  <ItemGroup>
+	<None Remove="Properties\Images\banksy-no-ball-games.-graffiti-street-fine-art-print-poster.-sizes-a4-a3-a2-a1-001187--4305-p.jpg" />
+	<None Remove="Properties\Images\banksy-pulp-fiction.-banana-graffiti-street-fine-art-print-poster.-sizes-a4-a3-a2-a1-00344--4244-p.jpg" />
+	<None Remove="Properties\Images\Banksy_077_preview.jpg" />
+	<None Remove="Properties\Images\Banksy_191_preview.jpg" />
+	<None Remove="Properties\Images\Banksy_215_preview.jpg" />
+	<None Remove="Properties\Images\fit together.jpg" />
+	<None Remove="Properties\Images\InvalidImage.txt" />
+	<None Remove="Properties\Images\life.jpg" />
+	<None Remove="Properties\Images\racism is stupid.jpg" />
+	<None Remove="Properties\Images\this_tall.jpg" />
   </ItemGroup>
 
   <ItemGroup>

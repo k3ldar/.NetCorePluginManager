@@ -41,10 +41,10 @@ namespace DocumentationPlugin.Classes
 	{
 		#region Private Members
 
-		private static readonly string[] BuiltIntypesAndReferences = { "bool", "boolean", "byte", "sbyte", "char", "decimal",
+		private static readonly string[] BuiltIntypesAndReferences = [ "bool", "boolean", "byte", "sbyte", "char", "decimal",
 			"double", "float", "int", "uint", "long", "ulong", "short", "ushort", "object", "string", "dynamic",
-			"enum", "struct", "void" };
-		private static readonly string[] ValidTags = { "c", "code", "/c", "/code", "para", "/para", "see", "seealso", "example", "exception", "include" };
+			"enum", "struct", "void" ];
+		private static readonly string[] ValidTags = ["c", "code", "/c", "/code", "para", "/para", "see", "seealso", "example", "exception", "include"];
 		private readonly List<Document> _documents;
 		private PostProcessResults _processResult;
 
@@ -182,9 +182,7 @@ namespace DocumentationPlugin.Classes
 			ProcessExceptions(document, document);
 			ProcessExamples(document, document);
 
-			DocumentData data = document.Tag as DocumentData;
-
-			if (data != null && data.Contains.Count > 0)
+			if (document.Tag is DocumentData data && data.Contains.Count > 0)
 			{
 				Dictionary<string, string> contains = [];
 
@@ -440,7 +438,7 @@ namespace DocumentationPlugin.Classes
 				if (removeNamespace && StringCouldBeNamespace(text))
 				{
 					string[] parts = text.Split('.');
-					return new StringBuilder(parts[parts.Length - 1]);
+					return new StringBuilder(parts[^1]);
 				}
 				else
 				{
@@ -638,10 +636,7 @@ namespace DocumentationPlugin.Classes
 						$"{HtmlHelper.RouteFriendlyName(xRefDoc.ClassName)}/\">{xRefDoc.ClassName}</a>");
 				}
 
-				if (!linkDocument.SeeAlso.ContainsKey(xRefDoc.ClassName))
-				{
-					linkDocument.SeeAlso.Add(xRefDoc.ClassName, link);
-				}
+				linkDocument.SeeAlso.TryAdd(xRefDoc.ClassName, link);
 
 				//"docs/Document/{documentName}/"
 				//"docs/Document/{className}/Type/{classType}/{typeName}"

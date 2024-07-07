@@ -50,7 +50,7 @@ namespace SimpleDB.Internal
 				throw new ArgumentOutOfRangeException(nameof(propertyNames));
 
 			_keys = [];
-			_propertyNames = propertyNames.ToList();
+			_propertyNames = [.. propertyNames];
 			IndexType = indexType;
 		}
 

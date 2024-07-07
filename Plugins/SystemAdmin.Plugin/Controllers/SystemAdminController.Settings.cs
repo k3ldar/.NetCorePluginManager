@@ -52,6 +52,13 @@ namespace SystemAdmin.Plugin.Controllers
 {
 	public partial class SystemAdminController
 	{
+		private readonly static JsonSerializerOptions JsonOptions = new()
+		{
+			WriteIndented = true,
+			IgnoreReadOnlyProperties = true,
+			Encoder = JavaScriptEncoder.Create(new TextEncoderSettings(System.Text.Unicode.UnicodeRanges.All))
+		};
+
 		#region Controller Action Methods
 
 		[HttpGet]
@@ -114,17 +121,12 @@ namespace SystemAdmin.Plugin.Controllers
 			string json = System.IO.File.ReadAllText(_pluginManagerConfiguration.ConfigurationFile);
 
 			var jsonData = JsonSerializer.Deserialize<Dictionary<string, object>>(json);
-			JsonSerializerOptions options = new()
-			{
-				WriteIndented = true,
-				IgnoreReadOnlyProperties = true,
-				Encoder = JavaScriptEncoder.Create(new TextEncoderSettings(System.Text.Unicode.UnicodeRanges.All))
-			};
+			
 
 			object newSettings = baseType.PluginSettings;
 			jsonData[baseType.PluginSettings.SettingsName] = newSettings;
 
-			System.IO.File.WriteAllText(_pluginManagerConfiguration.ConfigurationFile, JsonSerializer.Serialize(jsonData, options));
+			System.IO.File.WriteAllText(_pluginManagerConfiguration.ConfigurationFile, JsonSerializer.Serialize(jsonData, JsonOptions));
 		}
 
 		private static void ValidateIncomingProperties(SettingsViewModel model, SettingsMenuItem baseType, List<string> errors)
@@ -341,10 +343,12 @@ namespace SystemAdmin.Plugin.Controllers
 
 		private static ApplicationSettingViewModel CreatePropertySetting(string value, PropertyInfo property)
 		{
-			ApplicationSettingViewModel setting = new();
-			setting.Name = property.Name;
-			setting.Value = value;
-			setting.DataType = property.PropertyType.Name;
+			ApplicationSettingViewModel setting = new()
+			{
+				Name = property.Name,
+				Value = value,
+				DataType = property.PropertyType.Name
+			};
 			return setting;
 		}
 

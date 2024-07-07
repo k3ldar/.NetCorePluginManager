@@ -240,9 +240,9 @@ namespace ProductPlugin.Controllers
 					.ToList();
 
 			List<string> imageNames = [];
-			images.ForEach(i => imageNames.Add(i.Name.Substring(0, i.Name.IndexOf("_orig"))));
+			images.ForEach(i => imageNames.Add(i.Name[..i.Name.IndexOf("_orig")]));
 
-			return imageNames.ToArray();
+			return [.. imageNames];
 		}
 
 		#endregion Private Methods

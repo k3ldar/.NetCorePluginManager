@@ -255,9 +255,7 @@ namespace ImageManager.Plugin.Controllers
 			if (uploadCache == null)
 				return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidImageCache);
 
-			CachedImageUpload cachedImageUpload = uploadCache.Value as CachedImageUpload;
-
-			if (cachedImageUpload == null)
+			if (uploadCache.Value is not CachedImageUpload cachedImageUpload)
 				return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidImageCache);
 
 			object notificationResponse = null;
@@ -357,7 +355,7 @@ namespace ImageManager.Plugin.Controllers
 
 			do
 			{
-				Result = $"ImageManager - {DateTime.UtcNow.Ticks.ToString("X")}-{_uploadId++}";
+				Result = $"ImageManager - {DateTime.UtcNow.Ticks:X}-{_uploadId++}";
 			}
 			while (_memoryCache.GetCache().Get(Result) != null);
 

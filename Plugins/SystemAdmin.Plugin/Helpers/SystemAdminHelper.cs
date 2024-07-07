@@ -165,8 +165,10 @@ namespace SystemAdmin.Plugin
 
 				foreach (IPluginSettings pluginSettings in settings)
 				{
-					SettingsMenuItem settingsMenuItem = new(pluginSettings);
-					settingsMenuItem.UniqueId = ++uniqueId;
+					SettingsMenuItem settingsMenuItem = new(pluginSettings)
+					{
+						UniqueId = ++uniqueId
+					};
 					settingsParent.ChildMenuItems.Add(settingsMenuItem);
 
 					_memoryCache.GetCache().Add(String.Format(SystemAdminSubMenu, settingsMenuItem.UniqueId),

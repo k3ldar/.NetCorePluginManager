@@ -39,7 +39,7 @@ namespace Spider.Plugin
 
 		public IConfiguration Configuration { get; }
 
-		public void Configure(IApplicationBuilder app)
+		public static void Configure(IApplicationBuilder app)
 		{
 
 			app.UseMvc(routes =>

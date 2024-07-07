@@ -89,11 +89,13 @@ namespace UserSessionMiddleware.Plugin.Classes.SessionData
 
 			if (currentSession == null)
 			{
-				currentSession = new SessionPageView();
-				currentSession.Hash = hash;
-				currentSession.Url = url;
-				currentSession.Year = timeStamp.Year;
-				currentSession.Month = (byte)timeStamp.Month;
+				currentSession = new SessionPageView
+				{
+					Hash = hash,
+					Url = url,
+					Year = timeStamp.Year,
+					Month = (byte)timeStamp.Month
+				};
 
 				PageViews.Add(currentSession);
 			}

@@ -28,6 +28,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+#pragma warning disable CA1822
+
 namespace DemoWebsitePlugin
 {
 	public class Startup
@@ -67,3 +69,5 @@ namespace DemoWebsitePlugin
 		}
 	}
 }
+
+#pragma warning restore CA1822

@@ -77,7 +77,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
 					continue;
 				}
 
-				if (((currentChar == '\t' || currentChar == ' ') && peekBack && Result[Result.Length - 1] == '\n') ||
+				if (((currentChar == '\t' || currentChar == ' ') && peekBack && Result[^1] == '\n') ||
 					(currentChar == ' ' && peekForward && (data[i + 1] == ' ' || data[i + 1] == '\n')))
 				{
 					continue;

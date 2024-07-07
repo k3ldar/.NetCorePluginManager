@@ -34,7 +34,7 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
-#pragma warning disable IDE0060, IDE0079, S3400
+#pragma warning disable IDE0060, IDE0079, S3400, CA1822
 
 namespace DemoApiPlugin.Controllers
 {
@@ -177,4 +177,4 @@ namespace DemoApiPlugin.Controllers
 	}
 }
 
-#pragma warning restore IDE0060, IDE0079, S3400
+#pragma warning restore IDE0060, IDE0079, S3400, CA1822

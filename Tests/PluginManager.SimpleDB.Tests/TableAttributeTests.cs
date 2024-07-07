@@ -114,33 +114,44 @@ namespace SimpleDB.Tests
 
 		[TestMethod]
 		[ExpectedException(typeof(InvalidOperationException))]
+		[SuppressMessage("Style", "IDE0059:Unnecessary assignment of a value", Justification = "Part of the test")]
 		public void SlidingMemoryTimeout_Set_CachingStrategyNotSlidingMemory_Throws_InvalidOperationException()
 		{
-			TableAttribute sut = new("table", CompressionType.Brotli, CachingStrategy.None);
-			sut.SlidingMemoryTimeoutMilliseconds = 0;
+			TableAttribute sut = new("table", CompressionType.Brotli, CachingStrategy.None)
+			{
+				SlidingMemoryTimeoutMilliseconds = 0
+			};
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
+		[SuppressMessage("Style", "IDE0059:Unnecessary assignment of a value", Justification = "Part of the test")]
 		public void SlidingMemoryTimeout_Set_ValueLessThanZero_Throws_ArgumentOutOfRangeException()
 		{
-			TableAttribute sut = new("table", CompressionType.Brotli, CachingStrategy.SlidingMemory);
-			sut.SlidingMemoryTimeoutMilliseconds = -1;
+			TableAttribute sut = new("table", CompressionType.Brotli, CachingStrategy.SlidingMemory)
+			{
+				SlidingMemoryTimeoutMilliseconds = -1
+			};
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
+		[SuppressMessage("Style", "IDE0059:Unnecessary assignment of a value", Justification = "Part of the test")]
 		public void SlidingMemoryTimeout_Set_ValueLessToZero_Throws_ArgumentOutOfRangeException()
 		{
-			TableAttribute sut = new("table", CompressionType.Brotli, CachingStrategy.SlidingMemory);
-			sut.SlidingMemoryTimeoutMilliseconds = 0;
+			TableAttribute sut = new("table", CompressionType.Brotli, CachingStrategy.SlidingMemory)
+			{
+				SlidingMemoryTimeoutMilliseconds = 0
+			};
 		}
 
 		[TestMethod]
 		public void SlidingMemoryTimeout_Set_Success()
 		{
-			TableAttribute sut = new("table", CompressionType.Brotli, CachingStrategy.SlidingMemory);
-			sut.SlidingMemoryTimeoutMilliseconds = 60000;
+			TableAttribute sut = new("table", CompressionType.Brotli, CachingStrategy.SlidingMemory)
+			{
+				SlidingMemoryTimeoutMilliseconds = 60000
+			};
 
 			Assert.AreEqual(sut.SlidingMemoryTimeout, TimeSpan.FromMinutes(1));
 		}

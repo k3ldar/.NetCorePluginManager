@@ -155,7 +155,7 @@ namespace ProductPlugin.Models
 		public string[] FeatureList()
 		{
 			if (String.IsNullOrEmpty(Features))
-				return Array.Empty<string>();
+				return [];
 
 			string features = Features.Replace("\n", String.Empty);
 			return features.Split('\r', StringSplitOptions.RemoveEmptyEntries);

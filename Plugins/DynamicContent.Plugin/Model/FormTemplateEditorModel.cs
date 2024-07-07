@@ -131,7 +131,7 @@ namespace DynamicContent.Plugin.Model
 			if (parts.Length > 5)
 				Options = parts[5].Split(";", StringSplitOptions.RemoveEmptyEntries);
 			else
-				Options = Array.Empty<string>();
+				Options = [];
 
 			_data = data;
 		}

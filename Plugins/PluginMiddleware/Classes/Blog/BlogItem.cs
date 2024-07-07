@@ -190,7 +190,7 @@ namespace Middleware.Blog
 		/// <returns>bool</returns>
 		public override Boolean Equals(Object obj)
 		{
-			if (!(obj is BlogItem item))
+			if (obj is not BlogItem item)
 				return false;
 
 			return item.Id == Id;

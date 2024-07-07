@@ -83,7 +83,7 @@ namespace SharedPluginFeatures
 				throw new ArgumentNullException(nameof(parentActionName));
 
 			if (parentControllerName.EndsWith("Controller", StringComparison.InvariantCultureIgnoreCase))
-				parentControllerName = parentControllerName.Substring(0, parentControllerName.Length - 10);
+				parentControllerName = parentControllerName[..^10];
 
 			ParentRoute = $"/{parentControllerName}/{parentActionName}";
 		}

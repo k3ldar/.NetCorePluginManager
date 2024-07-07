@@ -113,8 +113,8 @@ namespace ImageManager.Plugin.Models
 				groups.Add(item.Key);
 			}
 
-			Groups = groups.ToArray();
-			Subgroups = allGroups[ActiveGroup].ToArray();
+			Groups = [.. groups];
+			Subgroups = [.. allGroups[ActiveGroup]];
 			SetImagesForCurrentGroupAndSubgroup();
 
 			return true;
@@ -134,7 +134,7 @@ namespace ImageManager.Plugin.Models
 			List<string> fileNames = [];
 			files.ForEach(f => fileNames.Add(f.Name));
 
-			Images = fileNames.ToArray();
+			Images = [.. fileNames];
 		}
 
 		private void CreateGroupListNoExistingData()
@@ -156,8 +156,8 @@ namespace ImageManager.Plugin.Models
 				}
 			}
 
-			Groups = groups.ToArray();
-			Subgroups = subgroups.ToArray();
+			Groups = [.. groups];
+			Subgroups = [.. subgroups];
 			SetImagesForCurrentGroupAndSubgroup();
 		}
 
