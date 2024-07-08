@@ -29,6 +29,7 @@ using System.Linq;
 using System.Text;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 
 using Shared.Classes;
 
@@ -200,18 +201,11 @@ namespace BadEgg.Plugin.WebDefender
 					{
 						List<KeyValuePair<string, IpConnectionInfo>> keys = _connectionInformation
 							.Where(p => p.Value.LastEntry.AddMilliseconds(ConnectionTimeout.TotalMilliseconds) < DateTime.Now).ToList();
-						try
-						{
 							foreach (KeyValuePair<string, IpConnectionInfo> item in keys)
 							{
 								removedConnections.Add(item.Value);
 								_connectionInformation.Remove(item.Key);
 							}
-						}
-						finally
-						{
-							keys = null;
-						}
 					}
 				}
 
@@ -397,16 +391,16 @@ namespace BadEgg.Plugin.WebDefender
 		{
 			using (TimedLock lck = TimedLock.Lock(_lockObject))
 			{
-				if (!_connectionInformation.ContainsKey(ipAddress))
+				if (!_connectionInformation.TryGetValue(ipAddress, out IpConnectionInfo connectionInfo))
 				{
-					IpConnectionInfo newConnection = new(ipAddress);
-					_connectionInformation.Add(ipAddress, newConnection);
+					connectionInfo = new(ipAddress);
+					_connectionInformation.Add(ipAddress, connectionInfo);
 
 					using (TimedLock elck = TimedLock.Lock(_eventLockObject))
-						_connectionsAdd.Add(newConnection);
+						_connectionsAdd.Add(connectionInfo);
 				}
 
-				return _connectionInformation[ipAddress];
+				return connectionInfo;
 			}
 		}
 
@@ -520,8 +514,8 @@ namespace BadEgg.Plugin.WebDefender
 		private static string GetIpAddress(HttpRequest request)
 		{
 			foreach (string key in Constants.ForwardForHeader)
-				if (request.Headers.ContainsKey(key))
-					return request.Headers[key];
+				if (request.Headers.TryGetValue(key, out StringValues value))
+					return value;
 
 			return request.HttpContext.Connection.RemoteIpAddress.ToString();
 		}
@@ -662,9 +656,9 @@ namespace BadEgg.Plugin.WebDefender
 		{
 			using (TimedLock lockobj = TimedLock.Lock(InternalIpAddressLock))
 			{
-				if (InternalIpAddressList.ContainsKey(ipAddress))
+				if (InternalIpAddressList.TryGetValue(ipAddress, out bool value))
 				{
-					if (InternalIpAddressList[ipAddress])
+					if (value)
 						return ValidateRequestResult.IpBlackListed;
 					else
 						return ValidateRequestResult.IpWhiteListed;
