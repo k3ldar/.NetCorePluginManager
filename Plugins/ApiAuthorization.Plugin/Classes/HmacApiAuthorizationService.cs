@@ -28,6 +28,7 @@ using System.Linq;
 using System.Text;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 
 using Middleware;
 
@@ -129,45 +130,25 @@ namespace ApiAuthorization.Plugin.Classes
 
 		private static ApiUserDetails ValidateHeaders(HttpRequest request)
 		{
-			if (!request.Headers.ContainsKey(ApiKey) ||
-				!request.Headers.ContainsKey(MerchantId) ||
-				!request.Headers.ContainsKey(Nonce) ||
-				!request.Headers.ContainsKey(TimeStamp) ||
-				!request.Headers.ContainsKey(AuthCode))
+			if (!request.Headers.TryGetValue(ApiKey, out StringValues apiKey) ||
+				!request.Headers.TryGetValue(MerchantId, out StringValues merchantId) ||
+				!request.Headers.TryGetValue(Nonce, out StringValues nonce) ||
+				!request.Headers.TryGetValue(TimeStamp, out StringValues timestamp) ||
+				!request.Headers.TryGetValue(AuthCode, out StringValues authorization) ||
+				String.IsNullOrEmpty(apiKey) ||
+				String.IsNullOrEmpty(merchantId) ||
+				String.IsNullOrEmpty(nonce) || !UInt64.TryParse(nonce, out ulong numericNonce) ||
+				String.IsNullOrEmpty(timestamp) || !Int64.TryParse(timestamp, out long numericTimestamp) ||
+				String.IsNullOrEmpty(authorization))
 			{
 				return null;
 			}
 
-			string apiKey = request.Headers[ApiKey];
-
-			if (String.IsNullOrEmpty(apiKey))
-				return null;
-
-			string merchantId = request.Headers[MerchantId];
-
-			if (String.IsNullOrEmpty(merchantId))
-				return null;
-
-			string nonce = request.Headers[Nonce];
-
-			if (String.IsNullOrEmpty(nonce) || !UInt64.TryParse(nonce, out ulong numericNonce))
-				return null;
-
-			string timestamp = request.Headers[TimeStamp];
-
-			if (String.IsNullOrEmpty(timestamp) || !Int64.TryParse(timestamp, out long numericTimestamp))
-				return null;
-
-			string authorization = request.Headers[AuthCode];
-
-			if (String.IsNullOrEmpty(authorization))
-				return null;
-
 			int payloadLength = 0;
 
-			if (request.Headers.ContainsKey(PayloadLength))
+			if (request.Headers.TryGetValue(PayloadLength, out StringValues payloadStringLength))
 			{
-				_ = Int32.TryParse(request.Headers[PayloadLength], out payloadLength);
+				_ = Int32.TryParse(payloadStringLength, out payloadLength);
 			}
 
 			return new ApiUserDetails(apiKey, merchantId, authorization, numericNonce, numericTimestamp, payloadLength);

@@ -96,9 +96,9 @@ namespace SearchPlugin.Models
 		{
 			get
 			{
-				if (AdvancedSearch != null && AdvancedSearch.ContainsKey(ActiveTab))
+				if (AdvancedSearch != null && AdvancedSearch.TryGetValue(ActiveTab, out AdvancedSearchOptions value))
 				{
-					return AdvancedSearch[ActiveTab].SearchName;
+					return value.SearchName;
 				}
 
 				return String.Empty;
@@ -113,9 +113,9 @@ namespace SearchPlugin.Models
 		{
 			get
 			{
-				if (AdvancedSearch != null && AdvancedSearch.ContainsKey(ActiveTab))
+				if (AdvancedSearch != null && AdvancedSearch.TryGetValue(ActiveTab, out AdvancedSearchOptions value))
 				{
-					return AdvancedSearch[ActiveTab].SearchOption;
+					return value.SearchOption;
 				}
 
 				return String.Empty;
@@ -130,9 +130,9 @@ namespace SearchPlugin.Models
 		{
 			get
 			{
-				if (AdvancedSearch != null && AdvancedSearch.ContainsKey(ActiveTab))
+				if (AdvancedSearch != null && AdvancedSearch.TryGetValue(ActiveTab, out AdvancedSearchOptions value))
 				{
-					return AdvancedSearch[ActiveTab].ControllerName;
+					return value.ControllerName;
 				}
 
 				return String.Empty;
@@ -147,9 +147,9 @@ namespace SearchPlugin.Models
 		{
 			get
 			{
-				if (AdvancedSearch != null && AdvancedSearch.ContainsKey(ActiveTab))
+				if (AdvancedSearch != null && AdvancedSearch.TryGetValue(ActiveTab, out AdvancedSearchOptions value))
 				{
-					return AdvancedSearch[ActiveTab].ActionName;
+					return value.ActionName;
 				}
 
 				return String.Empty;
@@ -164,9 +164,9 @@ namespace SearchPlugin.Models
 		{
 			get
 			{
-				if (AdvancedSearch != null && AdvancedSearch.ContainsKey(ActiveTab))
+				if (AdvancedSearch != null && AdvancedSearch.TryGetValue(ActiveTab, out AdvancedSearchOptions value))
 				{
-					return AdvancedSearch[ActiveTab].StyleSheet;
+					return value.StyleSheet;
 				}
 
 				return String.Empty;

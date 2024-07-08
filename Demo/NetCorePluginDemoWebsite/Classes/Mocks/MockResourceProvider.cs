@@ -228,18 +228,18 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
 		public BookmarkActionResult ToggleResourceBookmark(long userId, ResourceItem resourceItem)
 		{
-			if (_bookmarks.ContainsKey(userId))
+			if (_bookmarks.TryGetValue(userId, out List<long> bookmarks))
 			{
-				if (_bookmarks[userId].Contains(resourceItem.Id))
+				if (bookmarks.Contains(resourceItem.Id))
 				{
-					_bookmarks[userId].Remove(resourceItem.Id);
+					bookmarks.Remove(resourceItem.Id);
 					return BookmarkActionResult.Removed;
 				}
 
-				if (_bookmarks[userId].Count > 5)
+				if (bookmarks.Count > 5)
 					return BookmarkActionResult.QuotaExceeded;
 
-				_bookmarks[userId].Add(resourceItem.Id);
+				bookmarks.Add(resourceItem.Id);
 				return BookmarkActionResult.Added;
 			}
 
@@ -253,9 +253,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
 		public List<ResourceItem> RetrieveUserBookmarks(long userId)
 		{
-			if (_bookmarks.ContainsKey(userId))
+			if (_bookmarks.TryGetValue(userId, out List<long> userBookmarks))
 			{
-				return _items.Where(r => _bookmarks[userId].Exists(bm => bm.Equals(r.Id))).ToList();
+				return _items.Where(r => userBookmarks.Exists(bm => bm.Equals(r.Id))).ToList();
 			}
 
 			return [];

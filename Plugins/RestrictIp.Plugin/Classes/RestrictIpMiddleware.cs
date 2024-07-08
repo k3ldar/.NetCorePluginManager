@@ -190,9 +190,9 @@ namespace RestrictIp.Plugin
 						if (!_restrictedRoutes.ContainsKey(route.ToLower()))
 							_restrictedRoutes.Add(route.ToLower(), []);
 
-						if (settings.RouteRestrictions.ContainsKey(restrictedIpRouteAttribute.ProfileName))
+						if (settings.RouteRestrictions.TryGetValue(restrictedIpRouteAttribute.ProfileName, out string value))
 						{
-							foreach (string ipAddress in settings.RouteRestrictions[restrictedIpRouteAttribute.ProfileName].Split(';'))
+							foreach (string ipAddress in value.Split(';'))
 							{
 								if (String.IsNullOrEmpty(ipAddress))
 									continue;
@@ -200,8 +200,8 @@ namespace RestrictIp.Plugin
 								_restrictedRoutes[route.ToLower()].Add(ipAddress.Replace("*", String.Empty));
 
 								_logger.AddToLog(LogLevel.Information,
-									String.Format(RouteRestricted, restrictedIpRouteAttribute.ProfileName,
-										route, ipAddress));
+									String.Format(RouteRestricted, restrictedIpRouteAttribute.ProfileName, 
+									route, ipAddress));
 							}
 						}
 						else

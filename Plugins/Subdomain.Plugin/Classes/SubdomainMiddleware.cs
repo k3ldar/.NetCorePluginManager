@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -283,7 +284,7 @@ namespace Subdomain.Plugin
 			in SubdomainSettings settings, in IActionDescriptorCollectionProvider routeProvider,
 			in IRouteDataService routeDataService)
 		{
-			foreach (Attribute attribute in classType.GetCustomAttributes(false))
+			foreach (Attribute attribute in classType.GetCustomAttributes(false).Cast<Attribute>())
 			{
 				if (attribute is SubdomainAttribute subdomainAttribute)
 				{

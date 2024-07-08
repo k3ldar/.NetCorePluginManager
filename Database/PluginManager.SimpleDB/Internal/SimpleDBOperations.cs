@@ -285,10 +285,10 @@ namespace SimpleDB.Internal
 			if (String.IsNullOrEmpty(name))
 				throw new ArgumentNullException(nameof(name));
 
-			if (!_indexes.ContainsKey(name))
+			if (!_indexes.TryGetValue(name, out IIndexManager indexManager))
 				throw new ArgumentOutOfRangeException($"Index {name} does not exist");
 
-			return _indexes[name].Contains(value);
+			return indexManager.Contains(value);
 		}
 
 		public bool IdIsInUse(string propertyName, long value)
@@ -967,9 +967,9 @@ namespace SimpleDB.Internal
 				{
 					string indexName = String.IsNullOrEmpty(uniqueIndex.Name) ? property.Name : uniqueIndex.Name;
 
-					if (Result.ContainsKey(indexName))
+					if (Result.TryGetValue(indexName, out IIndexManager value))
 					{
-						List<string> propertyNames = Result[indexName].PropertyNames;
+						List<string> propertyNames = value.PropertyNames;
 						propertyNames.Add(property.Name);
 						Result.Remove(indexName);
 						Result.Add(indexName, new IndexManager<string>(uniqueIndex.IndexType, [.. propertyNames]));

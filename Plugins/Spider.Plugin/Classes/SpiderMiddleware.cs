@@ -124,9 +124,7 @@ namespace Spider.Plugin
 				{
 					using (StopWatchTimer botTrapTimings = StopWatchTimer.Initialise(_botTrapTimings))
 					{
-						IBotTrap botTrapLogger = context.RequestServices.GetService(typeof(IBotTrap)) as IBotTrap;
-
-						if (botTrapLogger == null)
+						if (context.RequestServices.GetService(typeof(IBotTrap)) is not IBotTrap botTrapLogger)
 						{
 							context.Response.StatusCode = 403;
 						}

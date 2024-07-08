@@ -81,7 +81,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		public List<ResourceCategory> RetrieveAllCategories()
 		{
-			return ConvertResourceDataRowsToResourceList(_resourceCategories.Select().ToList());
+			return ConvertResourceDataRowsToResourceList([.. _resourceCategories.Select()]);
 		}
 
 		public ResourceItem IncrementResourceItemResponse(long id, long userId, bool like)

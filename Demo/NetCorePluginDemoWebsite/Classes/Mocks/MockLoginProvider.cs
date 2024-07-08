@@ -42,7 +42,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 			if (loginDetails == null)
 				throw new ArgumentNullException(nameof(loginDetails));
 
-			if (_externalUsers.ContainsKey(loginDetails.UserId))
+			if (_externalUsers.TryGetValue(loginDetails.UserId, out _))
 			{
 				loginDetails.Username = _externalUsers[loginDetails.UserId];
 				loginDetails.Email = _externalUsers[loginDetails.UserId];

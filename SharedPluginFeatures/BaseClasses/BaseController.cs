@@ -32,6 +32,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 
 using Shared.Classes;
 
@@ -320,8 +321,8 @@ namespace SharedPluginFeatures
 		protected string GetIpAddress()
 		{
 			foreach (string key in Constants.ForwardForHeader)
-				if (HttpContext.Request.Headers.ContainsKey(key))
-					return HttpContext.Request.Headers[key];
+				if (HttpContext.Request.Headers.TryGetValue(key, out StringValues headerValue))
+					return headerValue;
 
 			return HttpContext.Connection.RemoteIpAddress.ToString();
 		}

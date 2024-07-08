@@ -108,10 +108,10 @@ namespace Sitemap.Plugin
 					{
 						Dictionary<string, string> sitemaps = GetSitemaps(context);
 
-						if (sitemaps.ContainsKey(route))
+						if (sitemaps.TryGetValue(route, out string value))
 						{
 							context.Response.StatusCode = Constants.HtmlResponseSuccess;
-							await context.Response.WriteAsync(sitemaps[route]);
+							await context.Response.WriteAsync(value);
 							return;
 						}
 					}
