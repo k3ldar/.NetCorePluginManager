@@ -35,8 +35,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <SharedVer>3.15.0</SharedVer>
-    <SharedWinVer>1.5.0</SharedWinVer>
+    <SharedVer>3.16.0</SharedVer>
+    <SharedWinVer>1.6.0</SharedWinVer>
   </PropertyGroup>
   
   <PropertyGroup>
