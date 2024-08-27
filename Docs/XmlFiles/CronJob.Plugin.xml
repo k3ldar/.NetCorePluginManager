@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cron.Plugin</name>
+    </assembly>
+    <members>
+        <member name="T:Cron.Plugin.CronExtender">
+            <summary>
+            Cron middleware extender
+            </summary>
+        </member>
+        <member name="M:Cron.Plugin.CronExtender.UseCron(Microsoft.AspNetCore.Builder.IApplicationBuilder,PluginManager.Abstractions.IThreadManagerServices)">
+            <summary>
+            Adds Cron functionality to the application
+            </summary>
+            <param name="builder">IApplicationBuilder instance</param>
+            <param name="threadManagerServices">Thread manager services</param>
+            <returns>IApplicationBuilder</returns>
+            <example><c><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseCron</span>(threadManagerServices);</c></example>
+        </member>
+        <member name="T:Cron.Plugin.CronSettings">
+            <summary>
+            Settings which affect how Cron is configured and used.
+            </summary>
+        </member>
+        <member name="P:Cron.Plugin.CronSettings.SettingsName">
+            <summary>
+            Name of settings
+            </summary>
+        </member>
+        <member name="T:Cron.Plugin.Classes.MasterCronThread">
+            <summary>
+            Primary thread which manages and processes cron jobs
+            </summary>
+        </member>
+        <member name="T:Cron.Plugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin which allows the Cron.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+        <member name="T:Cron.Plugin.Provider.DefaultCronData">
+            <summary>
+            Cron data storage, used as json
+            </summary>
+        </member>
+        <member name="M:Cron.Plugin.Provider.DefaultCronData.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Cron.Plugin.Provider.DefaultCronData.#ctor(SharedPluginFeatures.ICronJob)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="cronJob"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="P:Cron.Plugin.Provider.DefaultCronData.Guid">
+            <summary>
+            Cron job unique guid
+            </summary>
+        </member>
+        <member name="P:Cron.Plugin.Provider.DefaultCronData.Name">
+            <summary>
+            Name of cron job
+            </summary>
+        </member>
+        <member name="P:Cron.Plugin.Provider.DefaultCronData.LastRunTicks">
+            <summary>
+            Date/Time job last run
+            </summary>
+        </member>
+    </members>
+</doc>

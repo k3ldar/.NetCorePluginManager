@@ -40,3 +40,4 @@ DynamicContent.Plugin.xml
 ApiAuthorization.Plugin.xml
 Resources.Plugin.xml
 SimpleDb.xml
+CronJob.Plugin.xml
