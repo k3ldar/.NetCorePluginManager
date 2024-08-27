@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2023 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2024 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SharedPluginFeatures
  *  
@@ -508,5 +508,62 @@ namespace SharedPluginFeatures
 		/// Local Redirect uri
 		/// </summary>
 		RedirectUriLocal,
+	}
+
+	/// <summary>
+	/// Priority for cron job
+	/// </summary>
+	public enum CronPriority
+	{
+		/// <summary>
+		/// Low priority
+		/// </summary>
+		Low = 0,
+
+		/// <summary>
+		/// No priority
+		/// </summary>
+		Default = 1,
+
+		/// <summary>
+		/// High priority 
+		/// </summary>
+		High = 2
+	}
+
+	/// <summary>
+	/// Frequency unit for which the job repeats
+	/// </summary>
+	public enum CronRepeatFrequencyType
+	{
+		/// <summary>
+		/// Job does not repeat
+		/// </summary>
+		None,
+
+		/// <summary>
+		/// Minutes
+		/// </summary>
+		Minute,
+
+		/// <summary>
+		/// Hourly
+		/// </summary>
+		Hour,
+
+		/// <summary>
+		/// Daily
+		/// </summary>
+		Day,
+
+		/// <summary>
+		/// Weekly
+		/// </summary>
+		Week,
+
+		/// <summary>
+		/// Monthly
+		/// </summary>
+		Month,
 	}
 }

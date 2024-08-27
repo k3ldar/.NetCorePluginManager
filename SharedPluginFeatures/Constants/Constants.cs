@@ -671,6 +671,11 @@ namespace SharedPluginFeatures
 		public const string BadEggSettingsName = "BadEgg.Plugin";
 
 		/// <summary>
+		/// Name of cron settings found within appsettings.json
+		/// </summary>
+		public const string CronSettingsName = "Cron";
+
+		/// <summary>
 		/// Name of bad egg settings as found within appsettings.json
 		/// </summary>
 		public const string ApiAuthorizationSettingsName = "ApiAuthorization";

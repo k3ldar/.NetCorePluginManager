@@ -1253,6 +1253,41 @@
              <param name="lastItemLinked">bool.  If true the last item will have an a href link, otherwise it wont.</param>
              <returns>string</returns>
         </member>
+        <member name="T:SharedPluginFeatures.BaseClasses.CronJob">
+            <summary>
+            Represents a cron job which is run daily
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.BaseClasses.CronJob.JobId">
+            <summary>
+            Unique guid identifier for the job
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.BaseClasses.CronJob.Name">
+            <summary>
+            Name of job
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.BaseClasses.CronJob.Settings">
+            <summary>
+            Cron job settings
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.BaseClasses.CronJob.Priority">
+            <summary>
+            Priority for the cron job
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.BaseClasses.CronJob.StartDateTime">
+            <summary>
+            Date and time the job starts
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseClasses.CronJob.Execute">
+            <summary>
+            Method called by cron manager for job to execute
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.BaseModelData">
             <summary>
             Generic model data that can be displayed on all web pages.
@@ -1539,6 +1574,49 @@
             Indicates whether the item is selected or not.
             </summary>
             <value>bool</value>
+        </member>
+        <member name="T:SharedPluginFeatures.CronJobSettings">
+            <summary>
+            Implementation for ICronJobSettings
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.CronJobSettings.#ctor(System.TimeSpan,SharedPluginFeatures.CronRepeatFrequencyType,System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="maximumRunTime"></param>
+            <param name="repeatFrequencyType"></param>
+            <param name="repeatFrequency"></param>
+        </member>
+        <member name="M:SharedPluginFeatures.CronJobSettings.#ctor(System.Boolean,System.TimeSpan,SharedPluginFeatures.CronRepeatFrequencyType,System.Int32,System.DateTime)">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.CronJobSettings.Enabled">
+            <summary>
+            Indicates whether the job is active or not
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.CronJobSettings.MaximumRunTime">
+            <summary>
+            Maximum run time for task
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.CronJobSettings.RepeatFrequencyType">
+            <summary>
+            Repeat frequency type
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.CronJobSettings.RepeatFrequency">
+            <summary>
+            Repeat frequency
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.CronJobSettings.Expires">
+            <summary>
+            Expire date time or null for no expirery
+            </summary>
         </member>
         <member name="T:SharedPluginFeatures.DeniedRoute">
             <summary>
@@ -3031,6 +3109,11 @@
             Name of bad egg settings as found within appsettings.json
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.CronSettingsName">
+            <summary>
+            Name of cron settings found within appsettings.json
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.ApiAuthorizationSettingsName">
             <summary>
             Name of bad egg settings as found within appsettings.json
@@ -3633,6 +3716,61 @@
             Local Redirect uri
             </summary>
         </member>
+        <member name="T:SharedPluginFeatures.CronPriority">
+            <summary>
+            Priority for cron job
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.CronPriority.Low">
+            <summary>
+            Low priority
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.CronPriority.Default">
+            <summary>
+            No priority
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.CronPriority.High">
+            <summary>
+            High priority 
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.CronRepeatFrequencyType">
+            <summary>
+            Frequency unit for which the job repeats
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.CronRepeatFrequencyType.None">
+            <summary>
+            Job does not repeat
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.CronRepeatFrequencyType.Minute">
+            <summary>
+            Minutes
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.CronRepeatFrequencyType.Hour">
+            <summary>
+            Hourly
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.CronRepeatFrequencyType.Day">
+            <summary>
+            Daily
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.CronRepeatFrequencyType.Week">
+            <summary>
+            Weekly
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.CronRepeatFrequencyType.Month">
+            <summary>
+            Monthly
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.HtmlHelper">
             <summary>
             Html Helper class, contains extension methods and other methods for use within MVC application
@@ -3856,6 +3994,71 @@
             Provides an opportunity for plugins to configure Mvc Builder.
             </summary>
             <param name="mvcBuilder">IMvcBuilder instance that can be configure.</param>
+        </member>
+        <member name="T:SharedPluginFeatures.ICronJob">
+            <summary>
+            Basic cron job instance
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ICronJob.JobId">
+            <summary>
+            Unique guid for job
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ICronJob.Name">
+            <summary>
+            Name of cron job
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ICronJob.Settings">
+            <summary>
+            Advanced settings for job
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ICronJob.Priority">
+            <summary>
+            Priority for cron job
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ICronJob.StartDateTime">
+            <summary>
+            Date and time job should start
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.ICronJob.Execute">
+            <summary>
+            Executes/runs the cron job
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.ICronJobSettings">
+            <summary>
+            Settings applied to each cron job
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ICronJobSettings.Enabled">
+            <summary>
+            Indicates whether the job is enabled or not
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ICronJobSettings.MaximumRunTime">
+            <summary>
+            Maximum amount of time the job can run before being closed
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ICronJobSettings.RepeatFrequencyType">
+            <summary>
+            Frequency at which the job repeats
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ICronJobSettings.RepeatFrequency">
+            <summary>
+            Frequency value at which the job repeats, used in conjunction with <seealso cref="P:SharedPluginFeatures.ICronJobSettings.RepeatFrequencyType"/>
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ICronJobSettings.Expires">
+            <summary>
+            Date and time job expires
+            </summary>
         </member>
         <member name="T:SharedPluginFeatures.ICultureProvider">
             <summary>

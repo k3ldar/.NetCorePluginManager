@@ -23,6 +23,7 @@
  *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 using AspNetCore.PluginManager.DemoWebsite.Classes;
@@ -35,6 +36,8 @@ using Middleware.Resources;
 using PluginManager;
 
 using Shared.Classes;
+
+using SharedPluginFeatures;
 
 using rp = Resources.Plugin;
 
@@ -49,6 +52,7 @@ namespace AspNetCore.PluginManager.DemoWebsite
 			ThreadManager.MaximumPoolSize = 500;
 			ThreadManager.MaximumRunningThreads = 50;
 			ThreadManager.ThreadCpuChangeNotification = 0;
+			ThreadManager.ThreadHangTimeout = TimeSpan.FromMinutes(5);
 
 			// add plugins which need to be loaded first in a specific order
 			PluginManagerService.UsePlugin(typeof(ApiAuthorization.Plugin.PluginInitialisation));
@@ -93,6 +97,7 @@ namespace AspNetCore.PluginManager.DemoWebsite
 				PluginManagerService.UsePlugin(typeof(DynamicContent.Plugin.PluginInitialisation));
 				PluginManagerService.UsePlugin(typeof(rp.PluginInitialisation));
 				PluginManagerService.UsePlugin(typeof(SearchPlugin.PluginInitialisation));
+				PluginManagerService.UsePlugin(typeof(Cron.Plugin.PluginInitialisation));
 
 				CreateWebHostBuilder(args).Build().Run();
 			}

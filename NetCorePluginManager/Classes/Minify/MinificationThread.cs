@@ -54,6 +54,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
 		{
 			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			_minificationEngine = minificationEngine ?? throw new ArgumentNullException(nameof(minificationEngine));
+			HangTimeoutSpan = TimeSpan.FromMinutes(10);
 		}
 
 		#endregion Constructors

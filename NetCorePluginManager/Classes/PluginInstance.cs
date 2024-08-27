@@ -52,7 +52,6 @@ namespace AspNetCore.PluginManager
 		public void Initialise(ILogger logger)
 		{
 			// required by interface not used in this implementation
-			// required by interface not used in this implementation
 		}
 	}
 }

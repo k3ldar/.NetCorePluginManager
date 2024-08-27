@@ -66,6 +66,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Plugins\Cron.Plugin\Cron.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\Resources.Plugin\Resources.Plugin.csproj" />
     <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />

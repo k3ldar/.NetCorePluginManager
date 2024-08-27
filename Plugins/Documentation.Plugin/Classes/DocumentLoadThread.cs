@@ -49,7 +49,7 @@ namespace DocumentationPlugin.Classes
 		public DocumentLoadThread(IDocumentationService documentationService)
 			: base(null, new TimeSpan(0, 5, 0), null, 10000, 200, false, true)
 		{
-			HangTimeout = 0;
+			HangTimeoutSpan = TimeSpan.Zero;
 			_documentationService = documentationService ?? throw new ArgumentNullException(nameof(documentationService));
 		}
 

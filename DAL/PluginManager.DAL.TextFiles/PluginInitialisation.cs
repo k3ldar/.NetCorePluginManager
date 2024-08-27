@@ -30,7 +30,6 @@ using Middleware;
 using Middleware.Accounts;
 using Middleware.DynamicContent;
 using Middleware.Helpdesk;
-using Middleware.Interfaces;
 
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
@@ -91,6 +90,8 @@ namespace PluginManager.DAL.TextFiles
 
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<ContentPageDataRow>>();
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<ContentPageItemDataRow>>();
+
+			_ = app.ApplicationServices.GetService<ISimpleDBOperations<CronJobDataRow>>();
 
 			_ = app.ApplicationServices.GetService<ISimpleDBOperations<ExternalUsersDataRow>>();
 
@@ -176,6 +177,8 @@ namespace PluginManager.DAL.TextFiles
 			services.AddSingleton(typeof(TableRowDefinition), typeof(ContentPageDataRow));
 			services.AddSingleton(typeof(TableRowDefinition), typeof(ContentPageItemDataRow));
 
+			services.AddSingleton(typeof(TableRowDefinition), typeof(CronJobDataRow));
+
 			services.AddSingleton(typeof(TableRowDefinition), typeof(ExternalUsersDataRow));
 
 			services.AddSingleton(typeof(TableRowDefinition), typeof(FeedbackDataRow));
@@ -236,6 +239,7 @@ namespace PluginManager.DAL.TextFiles
 			services.AddSingleton<IBlogProvider, BlogProvider>();
 			services.AddSingleton<IClaimsProvider, ClaimsProvider>();
 			services.AddSingleton<ICountryProvider, CountryProvider>();
+			services.AddSingleton<ICronJobProvider, CronJobProvider>();
 			services.AddSingleton<IDownloadProvider, DownloadProvider>();
 			services.AddSingleton<IDynamicContentProvider, DynamicContentProvider>();
 			services.AddSingleton<IHelpdeskProvider, HelpdeskProvider>();

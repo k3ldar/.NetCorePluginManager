@@ -3718,6 +3718,25 @@
             <param name="visible">bool.  Determines whether the country is visible or not.</param>
             <returns>Country</returns>
         </member>
+        <member name="T:Middleware.ICronJobProvider">
+            <summary>
+            Cron job data provider
+            </summary>
+        </member>
+        <member name="M:Middleware.ICronJobProvider.GetLastRun(SharedPluginFeatures.ICronJob)">
+            <summary>
+            Date and time the job was last run
+            </summary>
+            <param name="cronJob">ICronJob instance</param>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.ICronJobProvider.SetLastRun(SharedPluginFeatures.ICronJob,System.DateTime)">
+            <summary>
+            Sets the date and time the job was last run
+            </summary>
+            <param name="cronJob">ICronJob instance</param>
+            <param name="lastRun">Date time last run</param>
+        </member>
         <member name="T:Middleware.IDownloadProvider">
             <summary>
             Download provider.  Provides download information used by the DownloadPlugin module.
