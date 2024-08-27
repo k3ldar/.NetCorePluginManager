@@ -61,6 +61,8 @@ namespace PluginManager.DAL.TextFiles
 		public const string TableNameFAQ = "FAQGroups";
 		public const string TableNameFAQItem = "FAQItems";
 
+		public const string TableNameCronJobs = "CronJobs";
+
 		public const string DomainDownloads = "Downloads";
 		public const string TableNameDownloadCategories = "DownloadCategories";
 		public const string TableNameDownloadItems = "DownloadItems";

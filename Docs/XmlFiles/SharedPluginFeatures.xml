@@ -1253,37 +1253,37 @@
              <param name="lastItemLinked">bool.  If true the last item will have an a href link, otherwise it wont.</param>
              <returns>string</returns>
         </member>
-        <member name="T:SharedPluginFeatures.BaseClasses.DailyCronJob">
+        <member name="T:SharedPluginFeatures.BaseClasses.CronJob">
             <summary>
             Represents a cron job which is run daily
             </summary>
         </member>
-        <member name="P:SharedPluginFeatures.BaseClasses.DailyCronJob.JobId">
+        <member name="P:SharedPluginFeatures.BaseClasses.CronJob.JobId">
             <summary>
             Unique guid identifier for the job
             </summary>
         </member>
-        <member name="P:SharedPluginFeatures.BaseClasses.DailyCronJob.Name">
+        <member name="P:SharedPluginFeatures.BaseClasses.CronJob.Name">
             <summary>
             Name of job
             </summary>
         </member>
-        <member name="P:SharedPluginFeatures.BaseClasses.DailyCronJob.Settings">
+        <member name="P:SharedPluginFeatures.BaseClasses.CronJob.Settings">
             <summary>
             Cron job settings
             </summary>
         </member>
-        <member name="P:SharedPluginFeatures.BaseClasses.DailyCronJob.Priority">
+        <member name="P:SharedPluginFeatures.BaseClasses.CronJob.Priority">
             <summary>
             Priority for the cron job
             </summary>
         </member>
-        <member name="P:SharedPluginFeatures.BaseClasses.DailyCronJob.StartDateTime">
+        <member name="P:SharedPluginFeatures.BaseClasses.CronJob.StartDateTime">
             <summary>
             Date and time the job starts
             </summary>
         </member>
-        <member name="M:SharedPluginFeatures.BaseClasses.DailyCronJob.Execute">
+        <member name="M:SharedPluginFeatures.BaseClasses.CronJob.Execute">
             <summary>
             Method called by cron manager for job to execute
             </summary>
