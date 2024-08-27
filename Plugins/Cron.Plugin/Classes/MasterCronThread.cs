@@ -43,6 +43,7 @@ namespace Cron.Plugin.Classes
 	internal sealed class MasterCronThread : ThreadManager
 	{
 		private const int ZeroIntervals = 0;
+		private const string InvalidCronJob = "Invalid CronJob Thread";
 		private readonly ICronJobProvider _cronProvider;
 		private readonly List<CronThreadJob> _cronJobs = [];
 		private readonly ILogger _logger;
@@ -101,7 +102,7 @@ namespace Cron.Plugin.Classes
 			}
 			else
 			{
-				_logger.AddToLog(PluginManager.LogLevel.Error, "Invalid CronJob Thread");
+				_logger.AddToLog(PluginManager.LogLevel.Error, InvalidCronJob);
 			}
 		}
 
@@ -113,7 +114,7 @@ namespace Cron.Plugin.Classes
 			}
 			else
 			{
-				_logger.AddToLog(PluginManager.LogLevel.Error, "Invalid CronJob Thread");
+				_logger.AddToLog(PluginManager.LogLevel.Error, InvalidCronJob);
 			}
 		}
 
@@ -125,7 +126,7 @@ namespace Cron.Plugin.Classes
 			}
 			else
 			{
-				_logger.AddToLog(PluginManager.LogLevel.Error, "Invalid CronJob Thread");
+				_logger.AddToLog(PluginManager.LogLevel.Error, InvalidCronJob);
 			}
 		}
 
@@ -138,7 +139,7 @@ namespace Cron.Plugin.Classes
 			}
 			else
 			{
-				_logger.AddToLog(PluginManager.LogLevel.Error, "Invalid CronJob Thread");
+				_logger.AddToLog(PluginManager.LogLevel.Error, InvalidCronJob);
 			}
 		}
 
