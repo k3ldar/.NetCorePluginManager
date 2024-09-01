@@ -355,6 +355,7 @@ namespace BadEgg.Plugin.WebDefender
 		/// </summary>
 		/// <param name="ipAddress">Ip address to add to black list</param>
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Public and used in other places")]
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S2325:Methods and properties that don't access instance data should be static", Justification = "As above")]
 		public void AddToBlackList(in string ipAddress)
 		{
 			if (String.IsNullOrEmpty(ipAddress))
@@ -371,6 +372,7 @@ namespace BadEgg.Plugin.WebDefender
 		/// </summary>
 		/// <param name="ipAddress">Ip address to add to black list</param>
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Public and used in other places")]
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S2325:Methods and properties that don't access instance data should be static", Justification = "As above")]
 		public void AddToWhiteList(in string ipAddress)
 		{
 			if (String.IsNullOrEmpty(ipAddress))

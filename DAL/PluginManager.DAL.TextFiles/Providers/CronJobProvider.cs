@@ -58,7 +58,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		private CronJobDataRow GetOrCreateCronJobDataRow(ICronJob cronJob)
 		{
-			CronJobDataRow cronJobDataRow = _cronJobSettings.Select(cj => cj.JobId.Equals(cronJob.JobId) && cj.Name.Equals(cronJob.Name)).FirstOrDefault();
+			CronJobDataRow cronJobDataRow = _cronJobSettings.Select().FirstOrDefault(cj => cj.JobId.Equals(cronJob.JobId) && cj.Name.Equals(cronJob.Name));
 
 			if (cronJobDataRow == null)
 			{

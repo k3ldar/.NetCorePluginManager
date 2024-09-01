@@ -7,4 +7,5 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Critical Code Smell", "S2696:Instance members should not write to \"static\" fields", Justification = "Required for unique id in app lifetime", Scope = "member", Target = "~M:ImageManager.Plugin.Controllers.ImageManagerController.GetCacheId~System.String")]
 [assembly: SuppressMessage("Performance", "CA1859:Use concrete types when possible for improved performance", Justification = "The right model is returned here", Scope = "member", Target = "~M:ImageManager.Plugin.Controllers.ImageManagerController.CreateImagesViewModel(System.String,System.String,System.String)~ImageManager.Plugin.Models.ImagesViewModel")]
-
+[assembly: SuppressMessage("Minor Code Smell", "S2325:Methods and properties that don't access instance data should be static", Justification = "Part of original c# generated code", Scope = "member", Target = "~M:ImageManager.Plugin.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)")]
+[assembly: SuppressMessage("Minor Code Smell", "S2325:Methods and properties that don't access instance data should be static", Justification = "Part of original c# generated code", Scope = "member", Target = "~M:ImageManager.Plugin.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder)")]

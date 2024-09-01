@@ -306,7 +306,7 @@ namespace SharedPluginFeatures.DynamicContent
 		/// </summary>
 		/// <param name="stringBuilder">StringBuilder instance where end block will be appended to.</param>
 		/// <exception cref="ArgumentNullException">Raised if stringBuilder parameter is null</exception>
-		protected void HtmlEnd(StringBuilder stringBuilder)
+		protected static void HtmlEnd(StringBuilder stringBuilder)
 		{
 			if (stringBuilder == null)
 			{

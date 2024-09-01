@@ -38,7 +38,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for dev not public use.")]
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Protected and used in other places")]
-		protected bool IsInPreBlock(in int currentPosition, in List<PreserveBlock> preserveBlocks, out MinificationPreserveBlock blockType)
+		protected static bool IsInPreBlock(in int currentPosition, in List<PreserveBlock> preserveBlocks, out MinificationPreserveBlock blockType)
 		{
 			blockType = MinificationPreserveBlock.Undefined;
 

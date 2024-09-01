@@ -104,6 +104,7 @@ namespace ErrorManager.Plugin
 		#region Internal Methods
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Internal and used in other places")]
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S2325:Methods and properties that don't access instance data should be static", Justification = "As above")]
 		internal void AddError(ErrorInformation errorInformation)
 		{
 			using (TimedLock lck = TimedLock.Lock(_lockObject))

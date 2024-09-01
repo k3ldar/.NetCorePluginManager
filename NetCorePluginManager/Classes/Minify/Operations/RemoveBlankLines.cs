@@ -56,7 +56,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
 			return Result;
 		}
 
-		private string RemoveEmptyLines(string data, in List<PreserveBlock> preserveBlocks)
+		private static string RemoveEmptyLines(string data, in List<PreserveBlock> preserveBlocks)
 		{
 			StringBuilder Result = new(data.Length);
 

@@ -95,7 +95,7 @@ namespace PluginManager.DAL.TextFiles.Tables.Products
 			// from interface but unused in this context
 		}
 
-		private void ValidateData(ProductDataRow row)
+		private static void ValidateData(ProductDataRow row)
 		{
 			if (String.IsNullOrEmpty(row.Name))
 				throw new InvalidDataRowException(nameof(ProductDataRow), nameof(row.Name), "Can not be null or empty");

@@ -1091,12 +1091,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 				new MockStockProvider(),
 				memoryCache ?? new MockMemoryCache());
 
-            Result.ControllerContext = CreateTestControllerContext(breadcrumbs ?? GetBreadcrumbs());
+            Result.ControllerContext = CreateTestControllerContext(breadcrumbs ?? CreateBreadcrumbs());
 
             return Result;
         }
 
-        new private List<BreadcrumbItem> GetBreadcrumbs()
+        private List<BreadcrumbItem> CreateBreadcrumbs()
         {
             List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>();
             breadcrumbs.Add(new BreadcrumbItem("Home", "/", false));

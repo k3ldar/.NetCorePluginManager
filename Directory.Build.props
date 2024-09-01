@@ -49,6 +49,18 @@
     <Copyright>Copyright (c) 2018 - 2024.  Simon Carter.  All rights reserved.</Copyright>
     <Description>Plugin Manager</Description>
   </PropertyGroup>
+		
+  <!-- Warning disabled whilst net 6 supported -->
+  <PropertyGroup  Condition="'$(NET_8_0)'=='1'">
+	  <NoWarn>$(NoWarn);CA1510;CA1512;CA1513</NoWarn>
+  </PropertyGroup>
+	
+  <ItemGroup>
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.32.0.97167">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
   <PropertyGroup>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
@@ -110,11 +122,6 @@
     <CheckForOverflowUnderflow>$(CheckForOverflowUnderflow)</CheckForOverflowUnderflow>
     <DebugType>$(DebugType)</DebugType>
     <DebugSymbols>%(DebugSymbols)</DebugSymbols>
-  </PropertyGroup>
-	
-  <!-- Warning disabled whilst net 6 supported -->
-  <PropertyGroup  Condition="'$(NET_6_0)'=='1'">
-	  <NoWarn>$(NoWarn);CA1510;CA1512;CA1513</NoWarn>
   </PropertyGroup>
 
 </Project>

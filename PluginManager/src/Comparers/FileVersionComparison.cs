@@ -36,13 +36,13 @@ namespace PluginManager
 {
 	public sealed class FileVersionComparison : Comparer<FileInfo>
 	{
-		public override int Compare(FileInfo objectCompare1, FileInfo objectCompare2)
+		public override int Compare(FileInfo x, FileInfo y)
 		{
-			if (objectCompare1 == null || objectCompare2 == null)
+			if (x == null || y == null)
 				return 0;
 
-			FileVersionInfo versionX = FileVersionInfo.GetVersionInfo(objectCompare1.FullName);
-			FileVersionInfo versionY = FileVersionInfo.GetVersionInfo(objectCompare2.FullName);
+			FileVersionInfo versionX = FileVersionInfo.GetVersionInfo(x.FullName);
+			FileVersionInfo versionY = FileVersionInfo.GetVersionInfo(y.FullName);
 
 			return versionX.FileVersion.CompareTo(versionY.FileVersion);
 		}
