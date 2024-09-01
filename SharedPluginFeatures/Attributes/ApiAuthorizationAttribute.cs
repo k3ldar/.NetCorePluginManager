@@ -23,6 +23,8 @@
  *  15/11/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -31,6 +33,7 @@ namespace SharedPluginFeatures
 	/// <summary>
 	/// Api authorization attribute used to verify the current user has the correct authorization for a route
 	/// </summary>
+	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
 	public sealed class ApiAuthorizationAttribute : ActionFilterAttribute
 	{
 		private readonly string _policyName;

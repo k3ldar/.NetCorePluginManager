@@ -71,7 +71,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 			// from interface but unused in this context
 		}
 
-		private void ValidateData(ProductGroupDataRow row)
+		private static void ValidateData(ProductGroupDataRow row)
 		{
 			if (String.IsNullOrEmpty(row.Description))
 				throw new InvalidDataRowException(nameof(ProductGroupDataRow), nameof(row.Description), "Can not be null or empty");

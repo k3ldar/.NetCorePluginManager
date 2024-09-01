@@ -95,17 +95,17 @@ namespace AspNetCore.PluginManager
 
 		protected override void PluginConfigured(in IPluginModule pluginModule)
 		{
-
+			// required by interface, not used in this context
 		}
 
 		protected override void PluginInitialised(in IPluginModule pluginModule)
 		{
-
+			// required by interface, not used in this context
 		}
 
 		protected override void PluginLoaded(in Assembly pluginFile)
 		{
-
+			// required by interface, not used in this context
 		}
 
 		protected override void PluginLoading(in Assembly pluginFile)

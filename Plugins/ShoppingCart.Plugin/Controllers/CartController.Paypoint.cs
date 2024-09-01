@@ -71,6 +71,7 @@ namespace ShoppingCartPlugin.Controllers
 			return RedirectToAction(nameof(Failed));
 		}
 
+#pragma warning disable S6932
 		private bool ValidateHashCode()
 		{
 			bool Result = false;
@@ -102,7 +103,7 @@ namespace ShoppingCartPlugin.Controllers
 
 			return (Result);
 		}
-
+#pragma warning restore S6932
 	}
 }
 

@@ -40,7 +40,7 @@ namespace SearchPlugin.Classes.Search
 	/// <summary>
 	/// Default search provider to be used if no other search provider is registered
 	/// </summary>
-	public class DefaultSearchProvider : ISearchProvider
+	public sealed class DefaultSearchProvider : ISearchProvider
 	{
 		#region Private Members
 

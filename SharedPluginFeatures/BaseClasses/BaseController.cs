@@ -480,7 +480,7 @@ namespace SharedPluginFeatures
 		/// <param name="startItem">First item in the list of items</param>
 		/// <param name="endItem">Last item in the list of items</param>
 		/// <param name="availablePages">Number of available pages based on the list</param>
-		protected void CalculatePageOffsets<T>(in List<T> items, in int page, in int pageSize,
+		protected static void CalculatePageOffsets<T>(in List<T> items, in int page, in int pageSize,
 			out int startItem, out int endItem, out int availablePages)
 		{
 			if (items == null)
@@ -503,7 +503,7 @@ namespace SharedPluginFeatures
 		/// <param name="startItem">First item in the list of items</param>
 		/// <param name="endItem">Last item in the list of items</param>
 		/// <param name="availablePages">Number of available pages based on the itemCount</param>
-		protected void CalculatePageOffsets(in int itemCount, in int page, in int pageSize,
+		protected static void CalculatePageOffsets(in int itemCount, in int page, in int pageSize,
 			out int startItem, out int endItem, out int availablePages)
 		{
 			if (pageSize < 1)
@@ -628,7 +628,7 @@ namespace SharedPluginFeatures
 		/// <param name="controller">Name of the controller.</param>
 		/// <param name="viewName">Name of the view.</param>
 		/// <returns>string</returns>
-		protected string GetViewName(in string controller, in string viewName)
+		protected static string GetViewName(in string controller, in string viewName)
 		{
 			if (String.IsNullOrEmpty(controller))
 				throw new ArgumentNullException(nameof(controller));
