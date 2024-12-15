@@ -161,15 +161,11 @@ namespace Spider.Plugin
 						  .Select(x => x.ToString())
 						  .ToArray();
 
-						if (sitemaps != null)
+						string url = GetHost(context);
+
+						for (int i = 0; i < sitemaps.Length; i++)
 						{
-
-							string url = GetHost(context);
-
-							for (int i = 0; i < sitemaps.Length; i++)
-							{
-								stringBuilder.Append($"\r\n\r\nSitemap: {url}{sitemaps[i][1..]}\n");
-							}
+							stringBuilder.Append($"\r\n\r\nSitemap: {url}{sitemaps[i][1..]}\n");
 						}
 					}
 
