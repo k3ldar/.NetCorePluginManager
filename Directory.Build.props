@@ -5,7 +5,7 @@
   <PropertyGroup>
     <RunAnalyzers>true</RunAnalyzers>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-    <NoWarn>1701;1702;8032;8981;S125;S6967;S6964;S6670;S6934;S3267;S3431;IDE0290</NoWarn>
+    <NoWarn>1701;1702;8032;8981;S125;S6967;S6964;S6670;S6934;S3267;S3431;IDE0290;S3904</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>Shared.Key.pfx</AssemblyOriginatorKeyFile>

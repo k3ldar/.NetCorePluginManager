@@ -153,7 +153,7 @@ namespace DocumentationPlugin.Controllers
 		[Route("docs/Document/{className}/Type/{classType}/{typeName}")]
 		public IActionResult ViewType(string className, string classType, string typeName)
 		{
-			DocumentViewTypeViewModel model = BuildDocumentViewTypeModel(className, classType, typeName, out Document selected);
+			DocumentViewTypeViewModel model = BuildDocumentViewTypeModel(className, classType, typeName, out Document _);
 
 			if (model == null)
 				return RedirectToAction(nameof(Index));

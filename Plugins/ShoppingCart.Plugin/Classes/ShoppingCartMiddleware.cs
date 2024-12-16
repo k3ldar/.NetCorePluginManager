@@ -72,7 +72,7 @@ namespace ShoppingCartPlugin
 			_next = next;
 			_shoppingCartService = shoppingCartService ?? throw new ArgumentNullException(nameof(shoppingCartService));
 
-			if (pluginHelperService == null || !pluginHelperService.PluginLoaded(Constants.PluginNameUserSession, out int version))
+			if (pluginHelperService == null || !pluginHelperService.PluginLoaded(Constants.PluginNameUserSession, out int _))
 				logger.AddToLog(LogLevel.Error,
 					new Exception(Constants.UserSessionServiceNotFound),
 					nameof(ShoppingCartMiddleware));
