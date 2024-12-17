@@ -30,18 +30,18 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <FrameWorkLatestVersion>net8.0</FrameWorkLatestVersion>
-    <FrameWorkAllSupported>net8.0;net6.0;</FrameWorkAllSupported>
+    <FrameWorkLatestVersion>net9.0</FrameWorkLatestVersion>
+    <FrameWorkAllSupported>net9.0;net8.0;net6.0;</FrameWorkAllSupported>
 	<FrameWorkWithNetStandard>$(FrameWorkAllSupported)netstandard2.0</FrameWorkWithNetStandard>
   </PropertyGroup>
 
   <PropertyGroup>
-    <SharedVer>3.16.0</SharedVer>
-    <SharedWinVer>1.6.0</SharedWinVer>
+    <SharedVer>3.17.0</SharedVer>
+    <SharedWinVer>1.7.0</SharedWinVer>
   </PropertyGroup>
   
   <PropertyGroup>
-    <Version>5.6.2</Version>
+    <Version>5.7.0</Version>
 	<AssemblyVersion>$(Version).0</AssemblyVersion>
     <LangVersion>latest</LangVersion>
     <Authors>Simon Carter (s1cart3r@gmail.com)</Authors>
