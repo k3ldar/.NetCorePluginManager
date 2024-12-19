@@ -5,7 +5,7 @@
  *  Service Manager modules used on your system as well. The GPL (version 3) is 
  *  available at https://opensource.org/licenses/GPL-3.0
  *
- *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY,
  *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *  See the GNU General Public License for more details.
  *
@@ -37,28 +37,20 @@ namespace HelpdeskPlugin
 		public static void ConfigureServices(IServiceCollection services)
 		{
 			services.AddMvc(
-#if NET_CORE_3_X || NET_5_ABOVE
 				option => option.EnableEndpointRouting = false
-#endif
-				)
-#if NET_CORE_3_X
-                .SetCompatibilityVersion(CompatibilityVersion.Latest)
-#endif
-				;
+				);
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public static void Configure(IApplicationBuilder app)
 		{
 
-#if !NET_CORE_3_X
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(
 					name: "default",
 					template: "{controller=Helpdesk}/{action=Index}/{id?}");
 			});
-#endif
 		}
 	}
 }

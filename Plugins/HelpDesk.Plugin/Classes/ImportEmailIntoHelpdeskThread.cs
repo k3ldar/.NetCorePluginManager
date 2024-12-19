@@ -5,7 +5,7 @@
  *  Service Manager modules used on your system as well. The GPL (version 3) is 
  *  available at https://opensource.org/licenses/GPL-3.0
  *
- *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY,
  *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *  See the GNU General Public License for more details.
  *
@@ -178,13 +178,13 @@ namespace HelpdeskPlugin.Classes
 				using IPop3Client popClient = _pop3ClientFactory.Create();
 
 				popClient.Initialize(pop3Server, userName, password, ushort.Parse(port));
-				int mailCount = popClient.GetMailCount(out int sizeInOctets);
+				int mailCount = popClient.GetMailCount(out int _);
 
 				for (int i = 0; i < mailCount; i++)
 				{
 					try
 					{
-						string message = popClient.RetrieveMessage(i + 1, out string initialResponse);
+						string message = popClient.RetrieveMessage(i + 1, out string _);
 						messages.Add(new ReceivedEmail(new StringBuilder(message)));
 						_ = popClient.DeleteMessage(i + 1);
 					}

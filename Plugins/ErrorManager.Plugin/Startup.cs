@@ -5,7 +5,7 @@
  *  Service Manager modules used on your system as well. The GPL (version 3) is 
  *  available at https://opensource.org/licenses/GPL-3.0
  *
- *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY,
  *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *  See the GNU General Public License for more details.
  *
@@ -45,31 +45,22 @@ namespace ErrorManager.Plugin
 		public static void ConfigureServices(IServiceCollection services)
 		{
 			services.AddMvc(
-#if NET_CORE_3_X || NET_5_ABOVE
 				option => option.EnableEndpointRouting = false
-#endif
 				);
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
-		public static void Configure(IApplicationBuilder app,
-#if NET_CORE_3_X || NET_5_ABOVE
-			IWebHostEnvironment env)
-#else
-            IHostingEnvironment env)
-#endif
+		public static void Configure(IApplicationBuilder app)
 		{
 			app.UseErrorManager();
 
-#if !NET_CORE_3_X
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(
 					name: "default",
 					template: "{controller=Home}/{action=Index}/{id?}");
 			});
-#endif
 		}
 	}
 }

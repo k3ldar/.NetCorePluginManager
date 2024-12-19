@@ -5,7 +5,7 @@
  *  Service Manager modules used on your system as well. The GPL (version 3) is 
  *  available at https://opensource.org/licenses/GPL-3.0
  *
- *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY,
  *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *  See the GNU General Public License for more details.
  *
@@ -153,7 +153,7 @@ namespace DocumentationPlugin.Controllers
 		[Route("docs/Document/{className}/Type/{classType}/{typeName}")]
 		public IActionResult ViewType(string className, string classType, string typeName)
 		{
-			DocumentViewTypeViewModel model = BuildDocumentViewTypeModel(className, classType, typeName, out Document selected);
+			DocumentViewTypeViewModel model = BuildDocumentViewTypeModel(className, classType, typeName, out Document _);
 
 			if (model == null)
 				return RedirectToAction(nameof(Index));

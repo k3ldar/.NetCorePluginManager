@@ -6,3 +6,4 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Minor Bug", "S2674:The length returned from a stream read should be checked", Justification = "Reads entire length in one go", Scope = "member", Target = "~M:PluginManager.BasePluginManager.ExtractResources(System.Reflection.Assembly@,PluginManager.PluginSetting@)")]
+[assembly: SuppressMessage("Reliability", "CA2022:Avoid inexact read with 'Stream.Read'", Justification = "Good as is", Scope = "member", Target = "~M:PluginManager.BasePluginManager.ExtractResources(System.Reflection.Assembly@,PluginManager.PluginSetting@)")]
