@@ -37,11 +37,6 @@ namespace PluginManager.DAL.TextFiles.Providers
 	{
 		private readonly ISimpleDBOperations<SettingsDataRow> _settingsData;
 
-		public sealed class SettingValue
-		{
-			public string Value { get; set; }
-		}
-
 		public SettingsProvider(ISimpleDBOperations<SettingsDataRow> settingsData)
 		{
 			_settingsData = settingsData ?? throw new ArgumentNullException(nameof(settingsData));

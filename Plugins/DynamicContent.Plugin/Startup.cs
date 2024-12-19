@@ -61,9 +61,7 @@ namespace DynamicContent.Plugin
 			PluginManagerService.ConfigureServices(services);
 
 			services.AddMvc(
-#if NET_CORE_3_X || NET_5_ABOVE
 				option => option.EnableEndpointRouting = false
-#endif
 				)
 				.AddSessionStateTempDataProvider()
 				.ConfigurePluginManager();

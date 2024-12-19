@@ -37,28 +37,20 @@ namespace HelpdeskPlugin
 		public static void ConfigureServices(IServiceCollection services)
 		{
 			services.AddMvc(
-#if NET_CORE_3_X || NET_5_ABOVE
 				option => option.EnableEndpointRouting = false
-#endif
-				)
-#if NET_CORE_3_X
-                .SetCompatibilityVersion(CompatibilityVersion.Latest)
-#endif
-				;
+				);
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public static void Configure(IApplicationBuilder app)
 		{
 
-#if !NET_CORE_3_X
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(
 					name: "default",
 					template: "{controller=Helpdesk}/{action=Index}/{id?}");
 			});
-#endif
 		}
 	}
 }

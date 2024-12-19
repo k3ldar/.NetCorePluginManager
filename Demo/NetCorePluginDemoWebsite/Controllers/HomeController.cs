@@ -27,7 +27,6 @@ using System;
 
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 
 using Shared.Classes;
 

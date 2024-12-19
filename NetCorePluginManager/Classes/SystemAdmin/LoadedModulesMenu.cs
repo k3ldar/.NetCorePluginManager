@@ -86,13 +86,9 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
 				string file = String.Empty;
 				try
 				{
-#if NET_5_ABOVE
 					string path = assembly.Location;
-#else
-                    string path = String.IsNullOrEmpty(assembly.Location) ? assembly.CodeBase : assembly.Location;
-#endif
 
-#if NET_7_ABOVE
+#if NET_6_ABOVE
 					if (String.IsNullOrEmpty(path))
 						continue;
 #endif

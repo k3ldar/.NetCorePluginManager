@@ -49,11 +49,7 @@ namespace ErrorManager.Plugin.Controllers
 	{
 		#region Private Members
 
-#if NET_CORE_3_X || NET_5_ABOVE
 		private readonly IWebHostEnvironment _hostingEnvironment;
-#else
-        private readonly IHostingEnvironment _hostingEnvironment;
-#endif
 
 		private readonly ISettingsProvider _settingsProvider;
 
@@ -61,20 +57,11 @@ namespace ErrorManager.Plugin.Controllers
 
 		#region Constructors
 
-#if NET_CORE_3_X || NET_5_ABOVE
 		public ErrorController(IWebHostEnvironment hostingEnvironment, ISettingsProvider settingsProvider)
 		{
 			_hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
 			_settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
 		}
-#else
-        public ErrorController(IHostingEnvironment hostingEnvironment, ISettingsProvider settingsProvider)
-        {
-            _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
-            _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
-        }
-#endif
-
 
 		#endregion Constructors
 

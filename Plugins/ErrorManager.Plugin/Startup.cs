@@ -45,31 +45,22 @@ namespace ErrorManager.Plugin
 		public static void ConfigureServices(IServiceCollection services)
 		{
 			services.AddMvc(
-#if NET_CORE_3_X || NET_5_ABOVE
 				option => option.EnableEndpointRouting = false
-#endif
 				);
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
-		public static void Configure(IApplicationBuilder app,
-#if NET_CORE_3_X || NET_5_ABOVE
-			IWebHostEnvironment env)
-#else
-            IHostingEnvironment env)
-#endif
+		public static void Configure(IApplicationBuilder app)
 		{
 			app.UseErrorManager();
 
-#if !NET_CORE_3_X
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(
 					name: "default",
 					template: "{controller=Home}/{action=Index}/{id?}");
 			});
-#endif
 		}
 	}
 }
