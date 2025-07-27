@@ -35,7 +35,7 @@ namespace HelpdeskPlugin.Models
 	{
 		#region Constructors
 
-		public FaqItemViewModel(in BaseModelData modelData,
+		public FaqItemViewModel(in IBaseModelData modelData,
 			in FaqGroup parentGroup, in string description, in int viewCount, in string content)
 			: base(modelData)
 		{

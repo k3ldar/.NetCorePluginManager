@@ -41,7 +41,7 @@ namespace LoginPlugin.Models
 			Username = String.Empty;
 		}
 
-		public AccountLockedViewModel(in BaseModelData modelData, string username)
+		public AccountLockedViewModel(in IBaseModelData modelData, string username)
 			: base(modelData)
 		{
 			if (String.IsNullOrEmpty(username))

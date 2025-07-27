@@ -42,7 +42,7 @@ namespace Blog.Plugin.Models
 		/// </summary>
 		/// <param name="modelData">BaseModelData items.</param>
 		/// <param name="blogItems">User blog items.</param>
-		public MyBlogsViewModel(BaseModelData modelData, List<BlogPostViewModel> blogItems)
+		public MyBlogsViewModel(IBaseModelData modelData, List<BlogPostViewModel> blogItems)
 			: base(modelData)
 		{
 			BlogItems = blogItems ?? throw new ArgumentNullException(nameof(blogItems));

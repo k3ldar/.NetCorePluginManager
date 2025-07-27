@@ -36,7 +36,7 @@ namespace HelpdeskPlugin.Models
 	{
 		#region Constructors
 
-		public FaqGroupViewModel(in BaseModelData modelData,
+		public FaqGroupViewModel(in IBaseModelData modelData,
 			in List<FaqGroup> groups, in FaqGroup activeGroup)
 			: base(modelData)
 		{

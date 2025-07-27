@@ -40,7 +40,7 @@ namespace ShoppingCartPlugin.Models
 			ShippingAddresses = [];
 		}
 
-		public ShippingModel(in BaseModelData modelData)
+		public ShippingModel(in IBaseModelData modelData)
 			: base(modelData)
 		{
 			ShippingAddresses = [];

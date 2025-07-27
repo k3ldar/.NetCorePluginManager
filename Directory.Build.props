@@ -5,7 +5,7 @@
   <PropertyGroup>
     <RunAnalyzers>true</RunAnalyzers>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-    <NoWarn>1701;1702;8032;8981;S125;S6967;S6964;S6670;S6934;S3267;S3431;IDE0290;IDE0130;IDE1100;S3904;S3358;S3400</NoWarn>
+    <NoWarn>1701;1702;8032;8981;S125;S6967;S6964;S6670;S6934;S3267;S3431;IDE0290;IDE0130;IDE1100;S3904;S3358;S3400,IDE0290</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>Shared.Key.pfx</AssemblyOriginatorKeyFile>
@@ -41,12 +41,12 @@
   </PropertyGroup>
   
   <PropertyGroup>
-    <Version>5.7.0</Version>
+    <Version>5.8.0</Version>
 	<AssemblyVersion>$(Version).0</AssemblyVersion>
     <LangVersion>latest</LangVersion>
     <Authors>Simon Carter (s1cart3r@gmail.com)</Authors>
     <Company>Simon Carter</Company>
-    <Copyright>Copyright (c) 2018 - 2024.  Simon Carter.  All rights reserved.</Copyright>
+    <Copyright>Copyright (c) 2018 - 2025.  Simon Carter.  All rights reserved.</Copyright>
     <Description>Plugin Manager</Description>
   </PropertyGroup>
 		

@@ -43,7 +43,7 @@ namespace UserAccount.Plugin.Models
 			Orders = [];
 		}
 
-		public OrdersViewModel(in BaseModelData baseModelData, in List<Order> orders)
+		public OrdersViewModel(in IBaseModelData baseModelData, in List<Order> orders)
 			: base(baseModelData)
 		{
 			Orders = orders ?? throw new ArgumentNullException(nameof(orders));

@@ -49,7 +49,7 @@ namespace ErrorManager.Plugin.Models
 		/// </summary>
 		/// <param name="modelData">Base model data.</param>
 		/// <param name="title">Title to be displayed on the page.</param>
-		public Error404Model(in BaseModelData modelData,
+		public Error404Model(in IBaseModelData modelData,
 			string title)
 			: base(modelData)
 		{
@@ -66,7 +66,7 @@ namespace ErrorManager.Plugin.Models
 		/// <param name="title">Title to be displayed on the page.</param>
 		/// <param name="message">Message to be displayed to the user.</param>
 		/// <param name="image">Image to be displayed on the page.</param>
-		public Error404Model(in BaseModelData modelData,
+		public Error404Model(in IBaseModelData modelData,
 			string title, string message, string image)
 			: this(modelData, title)
 		{

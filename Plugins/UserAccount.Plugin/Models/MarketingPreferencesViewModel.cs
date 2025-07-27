@@ -40,7 +40,7 @@ namespace UserAccount.Plugin.Models
 
 		}
 
-		public MarketingPreferencesViewModel(in BaseModelData baseModelData)
+		public MarketingPreferencesViewModel(in IBaseModelData baseModelData)
 			: base(baseModelData)
 		{
 

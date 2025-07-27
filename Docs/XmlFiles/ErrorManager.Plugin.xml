@@ -143,14 +143,14 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:ErrorManager.Plugin.Models.Error404Model.#ctor(SharedPluginFeatures.BaseModelData@,System.String)">
+        <member name="M:ErrorManager.Plugin.Models.Error404Model.#ctor(SharedPluginFeatures.IBaseModelData@,System.String)">
             <summary>
             Constructor
             </summary>
             <param name="modelData">Base model data.</param>
             <param name="title">Title to be displayed on the page.</param>
         </member>
-        <member name="M:ErrorManager.Plugin.Models.Error404Model.#ctor(SharedPluginFeatures.BaseModelData@,System.String,System.String,System.String)">
+        <member name="M:ErrorManager.Plugin.Models.Error404Model.#ctor(SharedPluginFeatures.IBaseModelData@,System.String,System.String,System.String)">
             <summary>
             Constructor
             </summary>

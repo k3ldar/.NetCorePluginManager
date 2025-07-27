@@ -38,7 +38,7 @@ namespace ProductPlugin.Models
 	/// </summary>
 	public sealed class ProductGroupListModel : BaseModel
 	{
-		public ProductGroupListModel(BaseModelData modelData)
+		public ProductGroupListModel(IBaseModelData modelData)
 			: base(modelData)
 		{
 			Groups = [];

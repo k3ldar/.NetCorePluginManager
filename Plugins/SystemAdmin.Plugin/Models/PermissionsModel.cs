@@ -33,7 +33,7 @@ namespace SystemAdmin.Plugin.Models
 	{
 		#region Constructors
 
-		public PermissionsModel(in BaseModelData modelData)
+		public PermissionsModel(in IBaseModelData modelData)
 			: base(modelData)
 		{
 

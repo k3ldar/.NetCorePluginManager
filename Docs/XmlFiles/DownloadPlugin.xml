@@ -108,7 +108,7 @@
             View model used to display download data.
             </summary>
         </member>
-        <member name="M:DownloadPlugin.Models.DownloadModel.#ctor(SharedPluginFeatures.BaseModelData@,System.String@,System.Collections.Generic.List{DownloadPlugin.Models.DownloadableItem}@,System.Collections.Generic.List{DownloadPlugin.Models.CategoriesModel}@)">
+        <member name="M:DownloadPlugin.Models.DownloadModel.#ctor(SharedPluginFeatures.IBaseModelData@,System.String@,System.Collections.Generic.List{DownloadPlugin.Models.DownloadableItem}@,System.Collections.Generic.List{DownloadPlugin.Models.CategoriesModel}@)">
             <summary>
             Constructor
             </summary>

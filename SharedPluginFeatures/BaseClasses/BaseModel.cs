@@ -56,7 +56,7 @@ namespace SharedPluginFeatures
 		/// Constructor allowing developer to pass all generic base model data in one pass.
 		/// </summary>
 		/// <param name="modelData">BaseModelData</param>
-		public BaseModel(in BaseModelData modelData)
+		public BaseModel(in IBaseModelData modelData)
 		{
 			if (modelData == null)
 				throw new ArgumentNullException(nameof(modelData));

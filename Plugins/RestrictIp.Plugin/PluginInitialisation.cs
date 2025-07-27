@@ -32,7 +32,7 @@ using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
-#pragma warning disable CS1591
+#pragma warning disable CS1591, IDE0060
 
 namespace RestrictIp.Plugin
 {
@@ -98,4 +98,4 @@ namespace RestrictIp.Plugin
 	}
 }
 
-#pragma warning restore CS1591
+#pragma warning restore CS1591, IDE0060

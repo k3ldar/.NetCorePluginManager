@@ -36,7 +36,7 @@ namespace SystemAdmin.Plugin.Models
 	{
 		#region Constructors
 
-		public GridViewModel(in BaseModelData modelData,
+		public GridViewModel(in IBaseModelData modelData,
 			SystemAdminSubMenu subMenu)
 			: base(modelData)
 		{

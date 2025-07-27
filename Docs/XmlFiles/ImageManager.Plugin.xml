@@ -310,7 +310,7 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:ImageManager.Plugin.Models.ImagesViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Boolean,System.String,System.String,Middleware.Images.ImageFile,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.List{Middleware.Images.ImageFile})">
+        <member name="M:ImageManager.Plugin.Models.ImagesViewModel.#ctor(SharedPluginFeatures.IBaseModelData@,System.Boolean,System.String,System.String,Middleware.Images.ImageFile,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.List{Middleware.Images.ImageFile})">
             <summary>
             Constructor for use when displaying data within controller
             </summary>
@@ -372,7 +372,7 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:ImageManager.Plugin.Models.ImageViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Boolean,System.String,System.String,Middleware.Images.ImageFile,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.List{Middleware.Images.ImageFile})">
+        <member name="M:ImageManager.Plugin.Models.ImageViewModel.#ctor(SharedPluginFeatures.IBaseModelData@,System.Boolean,System.String,System.String,Middleware.Images.ImageFile,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.List{Middleware.Images.ImageFile})">
             <summary>
             Constructor for use when displaying data within controller
             </summary>
@@ -423,11 +423,11 @@
             View model for processing images which have just been uploaded
             </summary>
         </member>
-        <member name="M:ImageManager.Plugin.Models.ProcessImagesViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Boolean,System.String,System.String,Middleware.Images.ImageFile,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.List{Middleware.Images.ImageFile},System.String)">
+        <member name="M:ImageManager.Plugin.Models.ProcessImagesViewModel.#ctor(SharedPluginFeatures.IBaseModelData@,System.Boolean,System.String,System.String,Middleware.Images.ImageFile,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.List{Middleware.Images.ImageFile},System.String)">
             <summary>
             Constructor
             </summary>
-            <param name="modelData"><see cref="T:SharedPluginFeatures.BaseModelData"/> instance.</param>
+            <param name="modelData"><see cref="T:SharedPluginFeatures.IBaseModelData"/> instance.</param>
             <param name="canManageImages"></param>
             <param name="selectedGroupName"></param>
             <param name="selectedSubgroupName"></param>
@@ -484,14 +484,14 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:ImageManager.Plugin.Models.UploadImageModel.#ctor(SharedPluginFeatures.BaseModelData)">
+        <member name="M:ImageManager.Plugin.Models.UploadImageModel.#ctor(SharedPluginFeatures.IBaseModelData)">
             <summary>
             Constructor
             </summary>
             <param name="modelData">Valid BaseModelData instance</param>
             <exception cref="T:System.ArgumentNullException">Thrown if modelData is null</exception>
         </member>
-        <member name="M:ImageManager.Plugin.Models.UploadImageModel.#ctor(SharedPluginFeatures.BaseModelData,System.String,System.String)">
+        <member name="M:ImageManager.Plugin.Models.UploadImageModel.#ctor(SharedPluginFeatures.IBaseModelData,System.String,System.String)">
             <summary>
             Constructor
             </summary>
@@ -529,14 +529,14 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:ImageManager.Plugin.Models.UploadImageViewModel.#ctor(SharedPluginFeatures.BaseModelData)">
+        <member name="M:ImageManager.Plugin.Models.UploadImageViewModel.#ctor(SharedPluginFeatures.IBaseModelData)">
             <summary>
             Constructor
             </summary>
             <param name="modelData">Valid BaseModelData instance</param>
             <exception cref="T:System.ArgumentNullException">Thrown if modelData is null</exception>
         </member>
-        <member name="M:ImageManager.Plugin.Models.UploadImageViewModel.#ctor(SharedPluginFeatures.BaseModelData,System.String,System.String)">
+        <member name="M:ImageManager.Plugin.Models.UploadImageViewModel.#ctor(SharedPluginFeatures.IBaseModelData,System.String,System.String)">
             <summary>
             Constructor
             </summary>

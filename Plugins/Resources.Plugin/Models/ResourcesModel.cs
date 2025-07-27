@@ -41,7 +41,7 @@ namespace Resources.Plugin.Models
 		/// <param name="modelData"></param>
 		/// <param name="resourceCategories"></param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public ResourcesModel(BaseModelData modelData, List<ResourceCategoryModel> resourceCategories)
+		public ResourcesModel(IBaseModelData modelData, List<ResourceCategoryModel> resourceCategories)
 			: base(modelData)
 		{
 			ResourceCategories = resourceCategories ?? throw new ArgumentNullException(nameof(resourceCategories));

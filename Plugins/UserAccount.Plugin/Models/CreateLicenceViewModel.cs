@@ -40,7 +40,7 @@ namespace UserAccount.Plugin.Models
 
 		}
 
-		public CreateLicenceViewModel(in BaseModelData baseModelData)
+		public CreateLicenceViewModel(in IBaseModelData baseModelData)
 			: base(baseModelData)
 		{
 

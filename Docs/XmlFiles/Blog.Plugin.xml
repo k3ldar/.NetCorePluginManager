@@ -94,14 +94,14 @@
             Container view model which can hold one or more blog posts.
             </summary>
         </member>
-        <member name="M:Blog.Plugin.Models.BlogPostsViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Collections.Generic.List{Blog.Plugin.Models.BlogPostViewModel}@)">
+        <member name="M:Blog.Plugin.Models.BlogPostsViewModel.#ctor(SharedPluginFeatures.IBaseModelData@,System.Collections.Generic.List{Blog.Plugin.Models.BlogPostViewModel}@)">
             <summary>
             Default constructor for multiple blog entries.
             </summary>
             <param name="baseModelData"></param>
             <param name="blogEntries"></param>
         </member>
-        <member name="M:Blog.Plugin.Models.BlogPostsViewModel.#ctor(SharedPluginFeatures.BaseModelData@,Blog.Plugin.Models.BlogPostViewModel@)">
+        <member name="M:Blog.Plugin.Models.BlogPostsViewModel.#ctor(SharedPluginFeatures.IBaseModelData@,Blog.Plugin.Models.BlogPostViewModel@)">
             <summary>
             Default constructor for a single blog entry.
             </summary>
@@ -142,7 +142,7 @@
             <param name="isLoggedIn">Indicates whether the user is logged in or not.</param>
             <param name="allowComments">Determines whether comments are allowed or not.</param>
         </member>
-        <member name="M:Blog.Plugin.Models.BlogPostViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.DateTime@,System.Boolean@,System.Collections.Generic.List{System.String}@,System.Boolean@,System.Boolean@)">
+        <member name="M:Blog.Plugin.Models.BlogPostViewModel.#ctor(SharedPluginFeatures.IBaseModelData@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.DateTime@,System.Boolean@,System.Collections.Generic.List{System.String}@,System.Boolean@,System.Boolean@)">
             <summary>
             Constructor for viewing a single blog entry.
             </summary>
@@ -160,7 +160,7 @@
             <param name="isLoggedIn">Indicates whether the user is logged in or not.</param>
             <param name="allowComments">Determines whether comments are allowed or not.</param>
         </member>
-        <member name="M:Blog.Plugin.Models.BlogPostViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.DateTime@,System.Collections.Generic.List{System.String}@)">
+        <member name="M:Blog.Plugin.Models.BlogPostViewModel.#ctor(SharedPluginFeatures.IBaseModelData@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.DateTime@,System.Collections.Generic.List{System.String}@)">
             <summary>
             Constructor for creating or editing a blog entry
             </summary>
@@ -269,7 +269,7 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:Blog.Plugin.Models.BlogSearchViewModel.#ctor(SharedPluginFeatures.BaseModelData)">
+        <member name="M:Blog.Plugin.Models.BlogSearchViewModel.#ctor(SharedPluginFeatures.IBaseModelData)">
             <summary>
             Constructor for viewing search view.
             </summary>
@@ -319,7 +319,7 @@
             View model for viewing a specific users list of blogs.
             </summary>
         </member>
-        <member name="M:Blog.Plugin.Models.MyBlogsViewModel.#ctor(SharedPluginFeatures.BaseModelData,System.Collections.Generic.List{Blog.Plugin.Models.BlogPostViewModel})">
+        <member name="M:Blog.Plugin.Models.MyBlogsViewModel.#ctor(SharedPluginFeatures.IBaseModelData,System.Collections.Generic.List{Blog.Plugin.Models.BlogPostViewModel})">
             <summary>
             Default constructor
             </summary>

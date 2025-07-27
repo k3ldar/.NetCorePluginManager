@@ -361,9 +361,9 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             return viewResult.ViewData.ModelState[name].Errors.Where(e => e.ErrorMessage.Equals(value)).Any();
         }
 
-        protected BaseModelData GenerateTestBaseModelData(bool isloggedIn = false)
+        protected IBaseModelData GenerateTestBaseModelData(bool isloggedIn = false)
         {
-            BaseModelData Result = new BaseModelData(new List<BreadcrumbItem>(),
+            IBaseModelData Result = new BaseModelData(new List<BreadcrumbItem>(),
                 new ShoppingCartSummary(1, 0, 0, 0, 0, 20, Thread.CurrentThread.CurrentUICulture, "GBP"),
                 "The Title", "The Author", "The Description", "The Tags", false, isloggedIn, true);
 

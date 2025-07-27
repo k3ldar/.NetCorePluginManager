@@ -40,7 +40,7 @@ namespace ProductPlugin.Models
 		{
 		}
 
-		public ProductModel(in BaseModelData modelData,
+		public ProductModel(in IBaseModelData modelData,
 			in int id, in string name, in string[] images, in int productGroupId,
 			in bool newProduct, in bool bestSeller, in decimal lowestPrice, bool allowAddToBasket, string sku)
 			: base(modelData)
@@ -70,14 +70,14 @@ namespace ProductPlugin.Models
 			AllowAddToBasket = allowAddToBasket;
 		}
 
-		public ProductModel(in BaseModelData modelData,
+		public ProductModel(in IBaseModelData modelData,
 			in List<ProductCategoryModel> productCategories)
 			: base(modelData, productCategories)
 		{
 
 		}
 
-		public ProductModel(in BaseModelData modelData,
+		public ProductModel(in IBaseModelData modelData,
 			in List<ProductCategoryModel> productCategories,
 			in int id, in int productGroupId, in string name, in string description, in string features,
 			in string videoLink, in string[] images, in decimal retailPrice, in string sku,

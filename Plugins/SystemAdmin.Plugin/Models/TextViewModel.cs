@@ -36,7 +36,7 @@ namespace SystemAdmin.Plugin.Models
 	{
 		#region Constructors
 
-		public TextViewModel(in BaseModelData modelData,
+		public TextViewModel(in IBaseModelData modelData,
 			SystemAdminSubMenu subMenu)
 			: base(modelData)
 		{

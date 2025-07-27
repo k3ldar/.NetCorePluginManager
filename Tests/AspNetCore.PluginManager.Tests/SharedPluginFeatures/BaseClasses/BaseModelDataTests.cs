@@ -47,7 +47,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestCategory(Category)]
         public void Construct_ValidInstance_NoBreadcrums_Success()
         {
-            BaseModelData sut = new BaseModelData(null, null,
+            IBaseModelData sut = new BaseModelData(null, null,
                 null, null, null, null, false, false, false);
 
             Assert.IsNotNull(sut.Breadcrumbs);
@@ -67,7 +67,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         {
             List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>();
             breadcrumbs.Add(new BreadcrumbItem("test", "/", false));
-            BaseModelData sut = new BaseModelData(breadcrumbs, null,
+            IBaseModelData sut = new BaseModelData(breadcrumbs, null,
                 null, null, null, null, false, false, false);
 
             Assert.IsNotNull(sut.Breadcrumbs);
@@ -88,7 +88,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         {
             List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>();
             breadcrumbs.Add(new BreadcrumbItem("test", "/", false));
-            BaseModelData sut = new BaseModelData(breadcrumbs, null,
+            IBaseModelData sut = new BaseModelData(breadcrumbs, null,
                 "seo Title", "seo Author", "seo Description", "seo Tags", true, true, true);
 
             Assert.IsNotNull(sut.Breadcrumbs);
@@ -108,7 +108,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [ExpectedException(typeof(ArgumentNullException))]
         public void ReplaceBreadcrumbs_InvalidParamNull_Throws_ArgumentNullException()
         {
-            BaseModelData sut = new BaseModelData(null, null,
+            IBaseModelData sut = new BaseModelData(null, null,
                 "seo Title", "seo Author", "seo Description", "seo Tags", true, false, true);
 
             Assert.IsNotNull(sut.Breadcrumbs);
@@ -121,7 +121,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestCategory(Category)]
         public void ReplaceBreadcrumbs_Success()
         {
-            BaseModelData sut = new BaseModelData(null, null,
+            IBaseModelData sut = new BaseModelData(null, null,
                 "seo Title", "seo Author", "seo Description", "seo Tags", true, false, true);
 
             Assert.IsNotNull(sut.Breadcrumbs);
@@ -139,7 +139,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [ExpectedException(typeof(ArgumentNullException))]
         public void ReplaceCartSummary_InvalidParamNull_Throws_ArgumentNullException()
         {
-            BaseModelData sut = new BaseModelData(null, null,
+            IBaseModelData sut = new BaseModelData(null, null,
                 "seo Title", "seo Author", "seo Description", "seo Tags", true, false, true);
 
             Assert.IsNull(sut.CartSummary);
@@ -151,7 +151,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestCategory(Category)]
         public void ReplaceCartSummary_Success()
         {
-            BaseModelData sut = new BaseModelData(null, null,
+            IBaseModelData sut = new BaseModelData(null, null,
                 "seo Title", "seo Author", "seo Description", "seo Tags", true, false, true);
 
             Assert.IsNull(sut.CartSummary);

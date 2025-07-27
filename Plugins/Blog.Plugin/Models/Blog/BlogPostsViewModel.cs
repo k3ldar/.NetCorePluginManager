@@ -42,7 +42,7 @@ namespace Blog.Plugin.Models
 		/// </summary>
 		/// <param name="baseModelData"></param>
 		/// <param name="blogEntries"></param>
-		public BlogPostsViewModel(in BaseModelData baseModelData, in List<BlogPostViewModel> blogEntries)
+		public BlogPostsViewModel(in IBaseModelData baseModelData, in List<BlogPostViewModel> blogEntries)
 			: base(baseModelData)
 		{
 			BlogEntries = blogEntries ?? throw new ArgumentNullException(nameof(blogEntries));
@@ -53,7 +53,7 @@ namespace Blog.Plugin.Models
 		/// </summary>
 		/// <param name="baseModelData"></param>
 		/// <param name="blogItem"></param>
-		public BlogPostsViewModel(in BaseModelData baseModelData, in BlogPostViewModel blogItem)
+		public BlogPostsViewModel(in IBaseModelData baseModelData, in BlogPostViewModel blogItem)
 			: base(baseModelData)
 		{
 			if (blogItem == null)

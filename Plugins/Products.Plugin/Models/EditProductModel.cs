@@ -52,7 +52,7 @@ namespace ProductPlugin.Models
 		/// Constructor used for creating a product
 		/// </summary>
 		/// <param name="modelData"></param>
-		public EditProductModel(in BaseModelData modelData)
+		public EditProductModel(in IBaseModelData modelData)
 			: base(modelData)
 		{
 			Id = -1;
@@ -78,7 +78,7 @@ namespace ProductPlugin.Models
 		/// <param name="allowBackOrder"></param>
 		/// <param name="isVisible"></param>
 		/// <param name="pageNumber"></param>
-		public EditProductModel(in BaseModelData modelData, List<LookupListItem> productGroups, int id, int productGroupId, string name, string description,
+		public EditProductModel(in IBaseModelData modelData, List<LookupListItem> productGroups, int id, int productGroupId, string name, string description,
 			string features, string videoLink, bool newProduct, bool bestSeller, decimal retailPrice, string sku,
 			bool isDownload, bool allowBackOrder, bool isVisible, int pageNumber)
 			: base(modelData)

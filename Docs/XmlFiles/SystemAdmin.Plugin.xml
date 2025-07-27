@@ -76,7 +76,7 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:SystemAdmin.Plugin.Models.SettingsViewModel.#ctor(SharedPluginFeatures.BaseModelData,System.Int32,System.String)">
+        <member name="M:SystemAdmin.Plugin.Models.SettingsViewModel.#ctor(SharedPluginFeatures.IBaseModelData,System.Int32,System.String)">
             <summary>
             Constructor
             </summary>

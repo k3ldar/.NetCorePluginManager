@@ -45,7 +45,7 @@ namespace DocumentationPlugin.Models
 		/// <param name="modelData">Base model data.</param>
 		/// <param name="header">Header at the top of the page.</param>
 		/// <param name="description">Description at the top of the page.</param>
-		public IndexViewModel(in BaseModelData modelData,
+		public IndexViewModel(in IBaseModelData modelData,
 			in string header, in string description)
 			: base(modelData)
 		{

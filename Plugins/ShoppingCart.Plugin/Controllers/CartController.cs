@@ -86,7 +86,7 @@ namespace ShoppingCartPlugin.Controllers
 			ShoppingCartSummary cartSummary = GetCartSummary();
 			BasketModel model;
 
-			BaseModelData modelData = GetModelData();
+			IBaseModelData modelData = GetModelData();
 
 			if (cartSummary.Id != 0)
 			{
@@ -238,7 +238,7 @@ namespace ShoppingCartPlugin.Controllers
 		{
 			UserSession session = GetUserSession();
 
-			BaseModelData modelData = GetModelData();
+			IBaseModelData modelData = GetModelData();
 			modelData.ReplaceCartSummary(new ShoppingCartSummary(0, 0, 0, 0, 0, GetDefaultTaxRate(),
 				System.Threading.Thread.CurrentThread.CurrentUICulture,
 				SharedPluginFeatures.Constants.CurrencyCodeDefault));

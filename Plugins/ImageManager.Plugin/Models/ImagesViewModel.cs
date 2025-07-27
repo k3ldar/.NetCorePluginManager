@@ -55,7 +55,7 @@ namespace ImageManager.Plugin.Models
 		/// <param name="selectedImageFile">The selected image file if applicable, otherwise null</param>
 		/// <param name="groups">List of all groups</param>
 		/// <param name="imageFiles">List of images that belong to the group</param>
-		public ImagesViewModel(in BaseModelData modelData,
+		public ImagesViewModel(in IBaseModelData modelData,
 			bool canManageImages,
 			string selectedGroupName,
 			string selectedSubgroupName,

@@ -40,14 +40,14 @@ namespace UserAccount.Plugin.Models
 			GrowlMessage = String.Empty;
 		}
 
-		public AccountViewModel(in BaseModelData baseModelData,
+		public AccountViewModel(in IBaseModelData baseModelData,
 			AccountSettings accountSettings, string growl)
 			: this(baseModelData, accountSettings)
 		{
 			GrowlMessage = growl;
 		}
 
-		public AccountViewModel(in BaseModelData baseModelData,
+		public AccountViewModel(in IBaseModelData baseModelData,
 			AccountSettings accountSettings)
 			: base(baseModelData)
 		{

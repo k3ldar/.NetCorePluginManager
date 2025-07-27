@@ -36,7 +36,7 @@ namespace HelpdeskPlugin.Models
 	{
 		#region Constructors
 
-		public FeedbackViewModel(in BaseModelData modelData,
+		public FeedbackViewModel(in IBaseModelData modelData,
 			in List<FeedbackItemViewModel> feedback)
 			: base(modelData)
 		{

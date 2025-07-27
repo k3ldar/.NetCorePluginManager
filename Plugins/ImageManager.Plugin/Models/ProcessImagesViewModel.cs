@@ -17,7 +17,7 @@ namespace ImageManager.Plugin.Models
 		/// <summary>
 		/// Constructor
 		/// </summary>
-		/// <param name="modelData"><see cref="BaseModelData"/> instance.</param>
+		/// <param name="modelData"><see cref="IBaseModelData"/> instance.</param>
 		/// <param name="canManageImages"></param>
 		/// <param name="selectedGroupName"></param>
 		/// <param name="selectedSubgroupName"></param>
@@ -27,7 +27,7 @@ namespace ImageManager.Plugin.Models
 		/// <param name="fileUploadId">Unique id of file upload session.</param>
 		/// <exception cref="ArgumentNullException">Thrown if modelData is null or invalid.</exception>
 		/// <exception cref="ArgumentNullException">Thrown if fileUploadId is null or empty.</exception>
-		public ProcessImagesViewModel(in BaseModelData modelData,
+		public ProcessImagesViewModel(in IBaseModelData modelData,
 			bool canManageImages,
 			string selectedGroupName,
 			string selectedSubgroupName,

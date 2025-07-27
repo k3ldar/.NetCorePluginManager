@@ -40,7 +40,7 @@ namespace Resources.Plugin.Models
 		/// </summary>
 		/// <param name="baseModelData"></param>
 		/// <param name="parentId">Id of parent category or zero</param>
-		public CreateCategoryModel(BaseModelData baseModelData, long parentId)
+		public CreateCategoryModel(IBaseModelData baseModelData, long parentId)
 			: base(baseModelData)
 		{
 			ParentId = parentId;
@@ -53,7 +53,7 @@ namespace Resources.Plugin.Models
 		/// <param name="parentId">Parent category id</param>
 		/// <param name="name">Category name</param>
 		/// <param name="description">Category description</param>
-		public CreateCategoryModel(BaseModelData baseModelData, long parentId, string name, string description)
+		public CreateCategoryModel(IBaseModelData baseModelData, long parentId, string name, string description)
 			: base(baseModelData)
 		{
 			ParentId = parentId;

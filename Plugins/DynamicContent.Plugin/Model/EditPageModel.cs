@@ -43,7 +43,7 @@ namespace DynamicContent.Plugin.Model
 			DynamicContents = [];
 		}
 
-		public EditPageModel(in BaseModelData modelData, string cacheId, long id,
+		public EditPageModel(in IBaseModelData modelData, string cacheId, long id,
 			string name, string routeName, DateTime activeFrom, DateTime activeTo,
 			List<DynamicContentTemplate> dynamicContents, string backgroundColor,
 			string backgroundImage)

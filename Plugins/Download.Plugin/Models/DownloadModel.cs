@@ -44,7 +44,7 @@ namespace DownloadPlugin.Models
 		/// <param name="category">Download category.</param>
 		/// <param name="downloads">List of downloadable files for the category.</param>
 		/// <param name="categories">All available categories.</param>
-		public DownloadModel(in BaseModelData modelData,
+		public DownloadModel(in IBaseModelData modelData,
 			in string category, in List<DownloadableItem> downloads, in List<CategoriesModel> categories)
 			: base(modelData)
 		{

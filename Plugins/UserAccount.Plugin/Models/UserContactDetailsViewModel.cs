@@ -40,7 +40,7 @@ namespace UserAccount.Plugin.Models
 
 		}
 
-		public UserContactDetailsViewModel(in BaseModelData baseModelData,
+		public UserContactDetailsViewModel(in IBaseModelData baseModelData,
 			in string firstName, in string lastName, in string email,
 			in bool emailConfirmed, in string telephone, in bool telephoneConfirmed, in bool showTelephone)
 			: base(baseModelData)

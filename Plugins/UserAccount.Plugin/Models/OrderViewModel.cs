@@ -42,7 +42,7 @@ namespace UserAccount.Plugin.Models
 	{
 		#region Constructors
 
-		public OrderViewModel(in BaseModelData baseModelData, Order order)
+		public OrderViewModel(in IBaseModelData baseModelData, Order order)
 			: base(baseModelData)
 		{
 			if (order == null)

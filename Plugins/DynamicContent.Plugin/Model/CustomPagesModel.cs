@@ -43,7 +43,7 @@ namespace DynamicContent.Plugin.Model
 
 		}
 
-		public CustomPagesModel(BaseModelData modelData, List<LookupListItem> customPages)
+		public CustomPagesModel(IBaseModelData modelData, List<LookupListItem> customPages)
 			: base(modelData)
 		{
 			if (customPages == null)

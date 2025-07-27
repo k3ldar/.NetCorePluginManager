@@ -132,7 +132,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
             return attribute.Name.Equals(value);
         }
 
-        protected BaseModelData GenerateTestBaseModelData()
+        protected IBaseModelData GenerateTestBaseModelData()
         {
             return new BaseModelData(new List<BreadcrumbItem>(),
                 new ShoppingCartSummary(1, 0, 0, 0, 0, 20, Thread.CurrentThread.CurrentUICulture, "GBP"),

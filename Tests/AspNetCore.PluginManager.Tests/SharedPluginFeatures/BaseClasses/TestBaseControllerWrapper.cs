@@ -84,7 +84,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
             return GenerateJsonSuccessResponse(responseData);
         }
 
-        internal BaseModelData TestGetModelData()
+        internal IBaseModelData TestGetModelData()
         {
             return GetModelData();
         }

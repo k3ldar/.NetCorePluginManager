@@ -40,7 +40,7 @@ namespace HelpdeskPlugin.Models
 
 		}
 
-		public FindTicketViewModel(in BaseModelData modelData,
+		public FindTicketViewModel(in IBaseModelData modelData,
 			in bool showCaptchaText)
 			: base(modelData)
 		{

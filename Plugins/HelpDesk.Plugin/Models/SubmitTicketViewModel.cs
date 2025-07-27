@@ -44,7 +44,7 @@ namespace HelpdeskPlugin.Models
 
 		}
 
-		public SubmitTicketViewModel(in BaseModelData modelData,
+		public SubmitTicketViewModel(in IBaseModelData modelData,
 			in List<LookupListItem> departments, in List<LookupListItem> priorities,
 			in string username, in string email, in string subject, in string message,
 			in bool readonlyUser)

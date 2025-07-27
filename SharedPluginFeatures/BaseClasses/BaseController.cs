@@ -548,7 +548,7 @@ namespace SharedPluginFeatures
 		/// Returns basic model data to populate BaseModel.
 		/// </summary>
 		/// <returns>BaseModelData instance.</returns>
-		protected BaseModelData GetModelData()
+		protected IBaseModelData GetModelData()
 		{
 			return new BaseModelData(
 				GetBreadcrumbs(),
