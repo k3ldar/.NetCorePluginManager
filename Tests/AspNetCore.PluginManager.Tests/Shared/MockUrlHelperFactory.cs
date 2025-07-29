@@ -33,9 +33,16 @@ namespace AspNetCore.PluginManager.Tests.Shared
     [ExcludeFromCodeCoverage]
     public class MockUrlHelperFactory : IUrlHelperFactory
     {
-        public IUrlHelper GetUrlHelper(ActionContext context)
-        {
-            return new MockUrlHelper();
-        }
+		private readonly IUrlHelper _urlHelper;
+
+		public MockUrlHelperFactory(IUrlHelper urlHelper = null)
+		{
+			_urlHelper = urlHelper ?? new MockUrlHelper();
+		}
+
+		public IUrlHelper GetUrlHelper(ActionContext context)
+		{
+			return _urlHelper;
+		}
     }
 }

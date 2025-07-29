@@ -36,7 +36,9 @@ namespace AspNetCore.PluginManager.Tests.Shared
     {
         public ActionContext ActionContext => throw new NotImplementedException();
 
-        public string Action(UrlActionContext actionContext)
+		public bool IsLocalUrlResult { get; set; }
+
+		public string Action(UrlActionContext actionContext)
         {
             throw new NotImplementedException();
         }
@@ -48,8 +50,8 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
         public bool IsLocalUrl(string url)
         {
-            throw new NotImplementedException();
-        }
+            return IsLocalUrlResult;
+		}
 
         public string Link(string routeName, object values)
         {

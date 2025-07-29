@@ -33,6 +33,7 @@ using AspNetCore.PluginManager.Tests.Controllers;
 using AspNetCore.PluginManager.Tests.Shared;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware.Users;
@@ -844,7 +845,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         {
             MockSeoProvider mockSeoProvider = new MockSeoProvider();
             SystemAdminController sut = CreateSystemAdminController(null, null, mockSeoProvider);
-            SeoDataModel seoDataModel = new SeoDataModel("/RouteWithNoSeo")
+			var mockUrlHelper = new MockUrlHelper();
+			mockUrlHelper.IsLocalUrlResult = true;
+			sut.Url = mockUrlHelper;
+			// Create a new SeoDataModel for a route that has no existing SEO data
+			// This will simulate adding new SEO data for a route that previously had none
+			SeoDataModel seoDataModel = new SeoDataModel("/RouteWithNoSeo")
             {
                 SeoAuthor = "New Author",
                 SeoMetaDescription = "New Meta",
