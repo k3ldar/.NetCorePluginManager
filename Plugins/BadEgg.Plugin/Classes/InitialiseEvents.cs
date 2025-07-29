@@ -28,7 +28,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
 
-#pragma warning disable CS1591
+#pragma warning disable CS1591, IDE0060
 
 namespace BadEgg.Plugin.Classes
 {
@@ -65,4 +65,4 @@ namespace BadEgg.Plugin.Classes
 	}
 }
 
-#pragma warning disable CS1591
+#pragma warning disable CS1591, IDE0060

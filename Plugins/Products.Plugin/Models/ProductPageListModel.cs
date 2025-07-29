@@ -43,7 +43,7 @@ namespace ProductPlugin.Models
 		/// <summary>
 		/// Constructor
 		/// </summary>
-		public ProductPageListModel(in BaseModelData modelData, List<Product> products, string pagination, int pageNumber)
+		public ProductPageListModel(in IBaseModelData modelData, List<Product> products, string pagination, int pageNumber)
 			: base(modelData)
 		{
 			if (products == null)

@@ -45,7 +45,7 @@ namespace DocumentationPlugin.Models
 		/// <param name="modelData">Base model data.</param>
 		/// <param name="title">Title of document</param>
 		/// <param name="allReferences">All references associated with the document.</param>
-		public DocumentViewTypeViewModel(in BaseModelData modelData,
+		public DocumentViewTypeViewModel(in IBaseModelData modelData,
 			in string title, in string allReferences)
 			: base(modelData)
 		{

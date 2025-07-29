@@ -36,7 +36,7 @@ namespace SystemAdmin.Plugin.Models
 		#region Constructors
 
 		//[System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly", Justification = "Validating property of param so ok")]
-		public PartialViewModel(in BaseModelData modelData, SystemAdminSubMenu subMenu)
+		public PartialViewModel(in IBaseModelData modelData, SystemAdminSubMenu subMenu)
 			: base(modelData)
 		{
 			if (subMenu == null)

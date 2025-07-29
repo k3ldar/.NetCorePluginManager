@@ -40,7 +40,7 @@ namespace ProductPlugin.Models
 		{
 		}
 
-		public ProductGroupModel(in BaseModelData modelData,
+		public ProductGroupModel(in IBaseModelData modelData,
 			in List<ProductCategoryModel> productGroups,
 			in string description, in string tagLine)
 			: base(modelData, productGroups)

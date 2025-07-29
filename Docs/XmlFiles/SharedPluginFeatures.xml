@@ -1167,7 +1167,7 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:SharedPluginFeatures.BaseModel.#ctor(SharedPluginFeatures.BaseModelData@)">
+        <member name="M:SharedPluginFeatures.BaseModel.#ctor(SharedPluginFeatures.IBaseModelData@)">
             <summary>
             Constructor allowing developer to pass all generic base model data in one pass.
             </summary>
@@ -1855,6 +1855,74 @@
             Generates a random nonce value
             </summary>
             <returns>ulong</returns>
+        </member>
+        <member name="T:SharedPluginFeatures.IBaseModelData">
+            <summary>
+            Interface for base model data that can be used across various pages in a web application.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.IBaseModelData.Breadcrumbs">
+            <summary>
+            Gets or sets the collection of breadcrumb items representing the navigation path.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.IBaseModelData.CanManageSeoData">
+            <summary>
+            Indicates whether the user can manage SEO data.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.IBaseModelData.CartSummary">
+            <summary>
+            Shopping cart summary containing details about the user's shopping cart, if used.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.IBaseModelData.SeoAuthor">
+            <summary>
+            Author of the SEO data for the page, typically used for metadata.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.IBaseModelData.SeoDescription">
+            <summary>
+            Description for the SEO data of the page, typically used for metadata.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.IBaseModelData.SeoTags">
+            <summary>
+            Tags for the SEO data of the page, typically used for metadata.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.IBaseModelData.SeoTitle">
+            <summary>
+            Title for the SEO data of the page, typically used for metadata.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.IBaseModelData.UserHasConsentCookie">
+            <summary>
+            Gets a value indicating whether the user has provided consent via a cookie.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.IBaseModelData.UserIsLoggedIn">
+            <summary>
+            Gets a value indicating whether the user is currently logged in.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.IBaseModelData.ReplaceBreadcrumbs(System.Collections.Generic.List{SharedPluginFeatures.BreadcrumbItem})">
+            <summary>
+            Replaces the current breadcrumb trail with the specified list of breadcrumb items.
+            </summary>
+            <remarks>The provided list of breadcrumbs will completely overwrite the existing breadcrumb trail. Ensure
+            the list accurately represents the desired navigation path. Passing an empty list will clear the breadcrumb
+            trail.</remarks>
+            <param name="breadcrumbs">A list of <see cref="T:SharedPluginFeatures.BreadcrumbItem"/> objects representing the new breadcrumb trail. Each item in the list
+            defines a step in the navigation hierarchy.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.IBaseModelData.ReplaceCartSummary(SharedPluginFeatures.ShoppingCartSummary)">
+            <summary>
+            Replaces the current shopping cart summary with the specified summary.
+            </summary>
+            <remarks>This method updates the shopping cart summary to reflect the provided details. Ensure that
+            <paramref name="shoppingCartSummary"/> contains valid data before calling this method.</remarks>
+            <param name="shoppingCartSummary">The new shopping cart summary to replace the existing one. Cannot be <see langword="null"/>.</param>
         </member>
         <member name="T:SharedPluginFeatures.JsonResponseModel">
             <summary>

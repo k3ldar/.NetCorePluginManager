@@ -110,7 +110,7 @@ namespace HelpdeskPlugin.Controllers
 				currGroup = currGroup.Parent;
 			}
 
-			BaseModelData modelData = GetModelData();
+			IBaseModelData modelData = GetModelData();
 			modelData.ReplaceBreadcrumbs(crumbs);
 
 			return new FaqItemViewModel(modelData,
@@ -147,7 +147,7 @@ namespace HelpdeskPlugin.Controllers
 				}
 			}
 
-			BaseModelData modelData = GetModelData();
+			IBaseModelData modelData = GetModelData();
 			modelData.ReplaceBreadcrumbs(crumbs);
 			return new FaqGroupViewModel(modelData, faqGroups, KnowledgeBaseToFaQGroup(activeGroup));
 		}

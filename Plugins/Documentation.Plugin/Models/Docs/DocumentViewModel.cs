@@ -47,7 +47,7 @@ namespace DocumentationPlugin.Models
 		/// <param name="shortDescription">Short description for the document</param>
 		/// <param name="longDescription">Long description for the document.</param>
 		/// <param name="allReferences">Any references found in other documents.</param>
-		public DocumentViewModel(in BaseModelData modelData,
+		public DocumentViewModel(in IBaseModelData modelData,
 			in string title, in string shortDescription, in string longDescription, in string allReferences)
 			: base(modelData)
 		{

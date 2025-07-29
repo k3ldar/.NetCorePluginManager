@@ -43,20 +43,20 @@ namespace UserAccount.Plugin.Models
 
 		}
 
-		public DeliveryAddressViewModel(in BaseModelData baseModelData)
+		public DeliveryAddressViewModel(in IBaseModelData baseModelData)
 			: base(baseModelData)
 		{
 
 		}
 
-		public DeliveryAddressViewModel(in BaseModelData baseModelData,
+		public DeliveryAddressViewModel(in IBaseModelData baseModelData,
 			in List<DeliveryAddress> addresses)
 			: this(baseModelData)
 		{
 			Addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
 		}
 
-		public DeliveryAddressViewModel(in BaseModelData baseModelData,
+		public DeliveryAddressViewModel(in IBaseModelData baseModelData,
 			in List<DeliveryAddress> addresses, in string growlMessage)
 			: this(baseModelData)
 		{

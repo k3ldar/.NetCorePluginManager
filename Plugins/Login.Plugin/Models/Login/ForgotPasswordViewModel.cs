@@ -40,7 +40,7 @@ namespace LoginPlugin.Models
 
 		}
 
-		public ForgotPasswordViewModel(in BaseModelData modelData)
+		public ForgotPasswordViewModel(in IBaseModelData modelData)
 			: base(modelData)
 		{
 

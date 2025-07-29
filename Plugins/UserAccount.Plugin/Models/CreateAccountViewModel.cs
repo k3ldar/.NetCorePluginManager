@@ -40,7 +40,7 @@ namespace UserAccount.Plugin.Models
 
 		}
 
-		public CreateAccountViewModel(in BaseModelData baseModelData, string returnUrl)
+		public CreateAccountViewModel(in IBaseModelData baseModelData, string returnUrl)
 			: base(baseModelData)
 		{
 			ReturnUrl = returnUrl;

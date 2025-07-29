@@ -49,7 +49,7 @@ namespace SystemAdmin.Plugin.Models
 		/// <param name="data">Base model data</param>
 		/// <param name="settingId">Unique id for setting</param>
 		/// <param name="settingsName">Name of settings</param>
-		public SettingsViewModel(BaseModelData data, int settingId, string settingsName)
+		public SettingsViewModel(IBaseModelData data, int settingId, string settingsName)
 			: base(data)
 		{
 			if (String.IsNullOrEmpty(settingsName))

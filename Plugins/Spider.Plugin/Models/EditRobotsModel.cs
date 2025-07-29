@@ -42,7 +42,7 @@ namespace Spider.Plugin.Models
 
 		}
 
-		public EditRobotsModel(BaseModelData modelData, List<string> agents, List<CustomAgentModel> routes)
+		public EditRobotsModel(IBaseModelData modelData, List<string> agents, List<CustomAgentModel> routes)
 			: base(modelData)
 		{
 			Agents = agents ?? throw new ArgumentNullException(nameof(agents));

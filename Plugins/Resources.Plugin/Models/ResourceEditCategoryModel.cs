@@ -58,7 +58,7 @@ namespace Resources.Plugin.Models
 		/// <param name="isVisible">Indicates whether the category is visible or not</param>
 		/// <param name="parentId">Parent id of category or zero if no parent found</param>
 		/// <param name="allCategories">List of all categories except current category</param>
-		public ResourceEditCategoryModel(BaseModelData modelData, long id, string name, string description, string foreColor,
+		public ResourceEditCategoryModel(IBaseModelData modelData, long id, string name, string description, string foreColor,
 			string backColor, string image, string routeName, bool isVisible, long parentId,
 			List<NameIdModel> allCategories)
 			: base(modelData)

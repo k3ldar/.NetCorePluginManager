@@ -41,7 +41,7 @@ namespace UserAccount.Plugin.Models
 
 		}
 
-		public ViewLicenceViewModel(in BaseModelData baseModelData,
+		public ViewLicenceViewModel(in IBaseModelData baseModelData,
 			in long id, in string domain, in string licenceType, in bool active,
 			in bool trial, in DateTime expires, in byte updates, in string licence)
 			: base(baseModelData)

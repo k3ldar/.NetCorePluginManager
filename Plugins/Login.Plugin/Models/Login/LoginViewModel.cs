@@ -41,7 +41,7 @@ namespace LoginPlugin.Models
 
 		}
 
-		public LoginViewModel(in BaseModelData modelData,
+		public LoginViewModel(in IBaseModelData modelData,
 			string returnUrl, bool showRememberMe, bool showGoogle, bool showFacebook)
 			: base(modelData)
 		{

@@ -46,7 +46,7 @@ namespace Resources.Plugin.Models
 		/// </summary>
 		/// <param name="baseModelData"></param>
 		/// <param name="parentId">Id of parent category or zero</param>
-		public CreateResourceItemModel(BaseModelData baseModelData, long parentId)
+		public CreateResourceItemModel(IBaseModelData baseModelData, long parentId)
 			: base(baseModelData)
 		{
 			ParentId = parentId;
@@ -62,7 +62,7 @@ namespace Resources.Plugin.Models
 		/// <param name="name">Category name</param>
 		/// <param name="description">Category description</param>
 		/// <param name="tags">Resource item tags</param>
-		public CreateResourceItemModel(BaseModelData baseModelData, long parentId, string name, string description, string tags)
+		public CreateResourceItemModel(IBaseModelData baseModelData, long parentId, string name, string description, string tags)
 			: base(baseModelData)
 		{
 			ParentId = parentId;

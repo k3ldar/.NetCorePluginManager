@@ -47,7 +47,7 @@ namespace UserAccount.Plugin.Models
 			ReturnUrl = returnUrl ?? String.Empty;
 		}
 
-		public EditDeliveryAddressViewModel(in BaseModelData baseModelData)
+		public EditDeliveryAddressViewModel(in IBaseModelData baseModelData)
 			: base(baseModelData)
 		{
 

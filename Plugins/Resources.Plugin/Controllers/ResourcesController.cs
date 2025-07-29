@@ -135,7 +135,7 @@ namespace Resources.Plugin.Controllers
 		[Route("Resources/CreateCategory/{parentId}")]
 		public IActionResult CreateCategory(long parentId)
 		{
-			BaseModelData baseModelData = GetModelData();
+			IBaseModelData baseModelData = GetModelData();
 
 			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, ResourcesBreadcrumb, false));
 			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.CreateCategory, $"/Resources/CreateCategory/{parentId}/", false));
@@ -303,7 +303,7 @@ namespace Resources.Plugin.Controllers
 			if (resourceCategory == null)
 				return RedirectToAction(nameof(Index));
 
-			BaseModelData baseModelData = GetModelData();
+			IBaseModelData baseModelData = GetModelData();
 
 			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, ResourcesBreadcrumb, false));
 			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.CreateCategory, $"/Resources/CreateCategory/{parentCategory}/", false));
@@ -343,7 +343,7 @@ namespace Resources.Plugin.Controllers
 				return RedirectToAction(nameof(ResourceItemSubmitted));
 			}
 
-			BaseModelData baseModelData = GetModelData();
+			IBaseModelData baseModelData = GetModelData();
 
 			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ResourcesMain, ResourcesBreadcrumb, false));
 			baseModelData.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.CreateCategory, $"/Resources/CreateCategory/{model.ParentId}/", false));

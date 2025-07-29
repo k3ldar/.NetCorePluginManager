@@ -38,7 +38,7 @@ namespace SystemAdmin.Plugin.Models
 
 		}
 
-		public ErrorViewModel(in BaseModelData modelData,
+		public ErrorViewModel(in IBaseModelData modelData,
 			string requestId)
 			: base(modelData)
 		{

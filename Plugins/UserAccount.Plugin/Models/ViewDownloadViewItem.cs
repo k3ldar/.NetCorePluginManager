@@ -38,7 +38,7 @@ namespace UserAccount.Plugin.Models
 
 		}
 
-		public ViewDownloadViewItem(in BaseModelData baseModelData,
+		public ViewDownloadViewItem(in IBaseModelData baseModelData,
 			in long id, in string name, in string description,
 			in string version, in string filename, in string icon, in string size)
 			: base(baseModelData)

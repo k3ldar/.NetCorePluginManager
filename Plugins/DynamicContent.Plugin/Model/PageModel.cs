@@ -34,7 +34,7 @@ namespace DynamicContent.Plugin.Model
 {
 	public sealed class PageModel : BaseModel
 	{
-		public PageModel(BaseModelData modelData, string path, string content, string css, string[] dynamicContentIds, bool hasDataSaved)
+		public PageModel(IBaseModelData modelData, string path, string content, string css, string[] dynamicContentIds, bool hasDataSaved)
 			: base(modelData)
 		{
 			if (String.IsNullOrEmpty(path))

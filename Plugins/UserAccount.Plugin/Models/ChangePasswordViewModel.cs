@@ -41,13 +41,13 @@ namespace UserAccount.Plugin.Models
 
 		}
 
-		public ChangePasswordViewModel(in BaseModelData baseModelData)
+		public ChangePasswordViewModel(in IBaseModelData baseModelData)
 			: base(baseModelData)
 		{
 
 		}
 
-		public ChangePasswordViewModel(in BaseModelData baseModelData, in string username)
+		public ChangePasswordViewModel(in IBaseModelData baseModelData, in string username)
 			: this(baseModelData)
 		{
 			if (String.IsNullOrEmpty(username))

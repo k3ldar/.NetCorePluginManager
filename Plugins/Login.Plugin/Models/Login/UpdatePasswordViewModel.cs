@@ -41,7 +41,7 @@ namespace LoginPlugin.Models
 			Username = String.Empty;
 		}
 
-		public UpdatePasswordViewModel(in BaseModelData modelData)
+		public UpdatePasswordViewModel(in IBaseModelData modelData)
 			: base(modelData)
 		{
 			Username = String.Empty;

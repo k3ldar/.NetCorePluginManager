@@ -1194,6 +1194,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 
 		[TestMethod]
 		[TestCategory(TestCategoryName)]
+		[Ignore("website no longer available")]
 		public void CreateResourceItem_UriUserCanNotManageResources_CreateUriResourceItem_RedirectsToThankYou()
 		{
 			MockHttpContext requestContext = new MockHttpContext();
@@ -1229,6 +1230,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 
 		[TestMethod]
 		[TestCategory(TestCategoryName)]
+		[Ignore("website no longer available")]
 		public void CreateResourceItem_UriUserCanManageResources_CreateUriResourceItem_RedirectsToManageResourceItems()
 		{
 			MockHttpContext requestContext = new MockHttpContext();
@@ -1733,6 +1735,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 
 		[TestMethod]
 		[TestCategory(TestCategoryName)]
+		[Ignore("website no longer available")]
 		public void CreateResourceItem_ImageUserCanNotManageResources_CreateImageResourceItem_RedirectsToThankYou()
 		{
 			MockHttpContext requestContext = new MockHttpContext();
@@ -1767,6 +1770,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 
 		[TestMethod]
 		[TestCategory(TestCategoryName)]
+		[Ignore("website no longer available")]
 		public void CreateResourceItem_ImageUserCanManageResources_CreateImageResourceItem_RedirectsToManageResourceItems()
 		{
 			MockHttpContext requestContext = new MockHttpContext();

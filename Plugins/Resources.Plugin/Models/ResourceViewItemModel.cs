@@ -55,7 +55,7 @@ namespace Resources.Plugin.Models
 		/// <param name="viewCount">Number of views for resource item</param>
 		/// <param name="approved">Approved for public viewing</param>
 		/// <param name="tags">Resource tags</param>
-		public ResourceViewItemModel(BaseModelData baseModelData, long id, long categoryId, ResourceType resourceType,
+		public ResourceViewItemModel(IBaseModelData baseModelData, long id, long categoryId, ResourceType resourceType,
 			long userId, string userName, string name, string description, string value, int likes, int dislikes,
 			int viewCount, bool approved, List<string> tags)
 			: base(baseModelData)

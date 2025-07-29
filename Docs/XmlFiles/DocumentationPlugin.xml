@@ -228,7 +228,7 @@
             Model used when viewing a document
             </summary>
         </member>
-        <member name="M:DocumentationPlugin.Models.DocumentViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.String@,System.String@,System.String@,System.String@)">
+        <member name="M:DocumentationPlugin.Models.DocumentViewModel.#ctor(SharedPluginFeatures.IBaseModelData@,System.String@,System.String@,System.String@,System.String@)">
             <summary>
             Default Constructor
             </summary>
@@ -357,7 +357,7 @@
             Summary document for a documents type, method, field, constructor, property etc.
             </summary>
         </member>
-        <member name="M:DocumentationPlugin.Models.DocumentViewTypeViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.String@,System.String@)">
+        <member name="M:DocumentationPlugin.Models.DocumentViewTypeViewModel.#ctor(SharedPluginFeatures.IBaseModelData@,System.String@,System.String@)">
             <summary>
             Default constructor
             </summary>
@@ -471,7 +471,7 @@
             View model for displaying module summaries.
             </summary>
         </member>
-        <member name="M:DocumentationPlugin.Models.IndexViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.String@,System.String@)">
+        <member name="M:DocumentationPlugin.Models.IndexViewModel.#ctor(SharedPluginFeatures.IBaseModelData@,System.String@,System.String@)">
             <summary>
             Constructor
             </summary>

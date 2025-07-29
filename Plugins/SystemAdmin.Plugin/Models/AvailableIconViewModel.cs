@@ -36,13 +36,13 @@ namespace SystemAdmin.Plugin.Models
 	{
 		#region Constructors
 
-		public AvailableIconViewModel(in BaseModelData modelData)
+		public AvailableIconViewModel(in IBaseModelData modelData)
 			: base(modelData)
 		{
 
 		}
 
-		public AvailableIconViewModel(in BaseModelData modelData,
+		public AvailableIconViewModel(in IBaseModelData modelData,
 			in List<SystemAdminMainMenu> homeMenuItems)
 			: this(modelData)
 		{
@@ -50,7 +50,7 @@ namespace SystemAdmin.Plugin.Models
 		}
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly", Justification = "Valid in this context")]
-		public AvailableIconViewModel(in BaseModelData modelData,
+		public AvailableIconViewModel(in IBaseModelData modelData,
 			in SystemAdminMainMenu mainMenu)
 			: this(modelData)
 		{

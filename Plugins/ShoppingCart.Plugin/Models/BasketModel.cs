@@ -36,7 +36,7 @@ namespace ShoppingCartPlugin.Models
 	{
 		#region Constructors
 
-		public BasketModel(in BaseModelData modelData,
+		public BasketModel(in IBaseModelData modelData,
 			in List<BasketItemModel> cartItems, in string discountCode, in bool requiresShipping,
 			in bool loggedIn)
 			: base(modelData)

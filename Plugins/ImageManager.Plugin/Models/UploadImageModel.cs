@@ -49,7 +49,7 @@ namespace ImageManager.Plugin.Models
 		/// </summary>
 		/// <param name="modelData">Valid BaseModelData instance</param>
 		/// <exception cref="ArgumentNullException">Thrown if modelData is null</exception>
-		public UploadImageModel(BaseModelData modelData)
+		public UploadImageModel(IBaseModelData modelData)
 			: base(modelData)
 		{
 			Files = [];
@@ -63,7 +63,7 @@ namespace ImageManager.Plugin.Models
 		/// <param name="subgroupName">Name of subgroup for uploaded images</param>
 		/// <exception cref="ArgumentNullException">Thrown if modelData is null</exception>
 		/// <exception cref="ArgumentNullException">Thrown if groupName is null or empty</exception>
-		public UploadImageModel(BaseModelData modelData, string groupName, string subgroupName)
+		public UploadImageModel(IBaseModelData modelData, string groupName, string subgroupName)
 			: this(modelData)
 		{
 			if (String.IsNullOrEmpty(groupName))

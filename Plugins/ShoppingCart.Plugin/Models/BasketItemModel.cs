@@ -36,7 +36,7 @@ namespace ShoppingCartPlugin.Models
 		#region Constructors
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Not a user displayed message")]
-		public BasketItemModel(in BaseModelData modelData,
+		public BasketItemModel(in IBaseModelData modelData,
 			in int productId, in string name, in string shortDescription, in string size,
 			in string sku, in decimal price, in int quantity, in string stock, in decimal subTotal,
 			in bool backOrder, in string image)

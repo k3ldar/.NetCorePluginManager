@@ -40,7 +40,7 @@ namespace UserAccount.Plugin.Models
 
 		}
 
-		public BillingAddressViewModel(in BaseModelData baseModelData)
+		public BillingAddressViewModel(in IBaseModelData baseModelData)
 			: base(baseModelData)
 		{
 

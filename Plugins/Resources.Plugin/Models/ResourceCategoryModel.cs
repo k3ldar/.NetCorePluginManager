@@ -84,7 +84,7 @@ namespace Resources.Plugin.Models
 		/// <param name="resourceItems">List of resource items</param>
 		/// <param name="isVisible">Indicates whether the category is visible or not</param>
 		/// <param name="parentId">Parent id of category or zero if no parent found</param>
-		public ResourceCategoryModel(BaseModelData modelData, long id, string name, string description, string foreColor,
+		public ResourceCategoryModel(IBaseModelData modelData, long id, string name, string description, string foreColor,
 			string backColor, string image, string routeName, bool isVisible, long parentId,
 			List<ResourceCategoryModel> categories, List<ResourceItemModel> resourceItems)
 			: base(modelData)

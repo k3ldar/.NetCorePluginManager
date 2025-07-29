@@ -49,7 +49,7 @@ namespace ProductPlugin.Models
 		/// Constructor used for creating a product
 		/// </summary>
 		/// <param name="modelData"></param>
-		public EditProductGroupModel(in BaseModelData modelData)
+		public EditProductGroupModel(in IBaseModelData modelData)
 			: base(modelData)
 		{
 			Id = -1;
@@ -65,7 +65,7 @@ namespace ProductPlugin.Models
 		/// <param name="sortOrder"></param>
 		/// <param name="tagLine"></param>
 		/// <param name="url"></param>
-		public EditProductGroupModel(in BaseModelData modelData, int id, string description,
+		public EditProductGroupModel(in IBaseModelData modelData, int id, string description,
 			bool showOnWebsite, int sortOrder, string tagLine, string url)
 			: base(modelData)
 		{

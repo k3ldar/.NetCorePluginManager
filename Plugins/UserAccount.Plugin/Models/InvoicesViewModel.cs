@@ -43,7 +43,7 @@ namespace UserAccount.Plugin.Models
 			Invoices = [];
 		}
 
-		public InvoicesViewModel(in BaseModelData baseModelData,
+		public InvoicesViewModel(in IBaseModelData baseModelData,
 			in List<Invoice> invoices)
 			: base(baseModelData)
 		{

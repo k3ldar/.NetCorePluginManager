@@ -48,7 +48,7 @@ namespace Blog.Plugin.Models
 		/// Constructor for viewing search view.
 		/// </summary>
 		/// <param name="baseModelData"></param>
-		public BlogSearchViewModel(BaseModelData baseModelData)
+		public BlogSearchViewModel(IBaseModelData baseModelData)
 			: base(baseModelData)
 		{
 

@@ -42,7 +42,7 @@ namespace UserAccount.Plugin.Models
 		{
 		}
 
-		public DownloadViewModel(in BaseModelData baseModelData,
+		public DownloadViewModel(in IBaseModelData baseModelData,
 			in List<DownloadCategory> categories, in string activeCategory,
 			in List<ViewDownloadViewItem> downloads)
 			: base(baseModelData)

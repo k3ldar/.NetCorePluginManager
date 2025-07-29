@@ -36,7 +36,7 @@ namespace ShoppingCartPlugin.Models
 	{
 		#region Constructors
 
-		public ShippingAddressModel(in BaseModelData modelData,
+		public ShippingAddressModel(in IBaseModelData modelData,
 			in long id, in string businessName, in string addressLine1,
 			in string addressLine2, in string addressLine3, in string city, in string county,
 			in string postcode, in string country, in decimal shippingCost)

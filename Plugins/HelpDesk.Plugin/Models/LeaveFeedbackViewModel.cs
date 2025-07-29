@@ -40,7 +40,7 @@ namespace HelpdeskPlugin.Models
 
 		}
 
-		public LeaveFeedbackViewModel(in BaseModelData modelData,
+		public LeaveFeedbackViewModel(in IBaseModelData modelData,
 			in bool showCaptchaText)
 			: base(modelData)
 		{

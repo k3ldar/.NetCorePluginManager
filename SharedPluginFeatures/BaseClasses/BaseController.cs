@@ -548,7 +548,7 @@ namespace SharedPluginFeatures
 		/// Returns basic model data to populate BaseModel.
 		/// </summary>
 		/// <returns>BaseModelData instance.</returns>
-		protected BaseModelData GetModelData()
+		protected IBaseModelData GetModelData()
 		{
 			return new BaseModelData(
 				GetBreadcrumbs(),
@@ -668,10 +668,7 @@ namespace SharedPluginFeatures
 		/// <returns></returns>
 		protected bool IsUriLocalToHost(string value)
 		{
-			if (System.IO.File.Exists(value))
-				return false;
-
-			return Uri.TryCreate(value, UriKind.Relative, out _);
+			return Url.IsLocalUrl(value);
 		}
 
 		#endregion Uri Validation
@@ -751,9 +748,7 @@ namespace SharedPluginFeatures
 		public static string ValidateUserInput(string userInput, ValidationType validationType)
 		{
 			return BaseCoreClass.ValidateUserInput(userInput, validationType);
-
 		}
-
 	}
 }
 

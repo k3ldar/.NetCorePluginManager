@@ -37,7 +37,7 @@ namespace SystemAdmin.Plugin.Models
 	{
 		#region Constructors
 
-		public MapViewModel(in BaseModelData modelData,
+		public MapViewModel(in IBaseModelData modelData,
 			in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu)
 			: base(modelData)
 		{

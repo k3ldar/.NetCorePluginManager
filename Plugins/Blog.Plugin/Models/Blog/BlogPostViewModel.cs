@@ -114,7 +114,7 @@ namespace Blog.Plugin.Models
 		/// <param name="tags">List of tags assigned to the post.</param>
 		/// <param name="isLoggedIn">Indicates whether the user is logged in or not.</param>
 		/// <param name="allowComments">Determines whether comments are allowed or not.</param>
-		public BlogPostViewModel(in BaseModelData baseModelData, in int id, in string title, in string excerpt,
+		public BlogPostViewModel(in IBaseModelData baseModelData, in int id, in string title, in string excerpt,
 			in string blogtext, in string username, in bool published, in DateTime publishDateTime,
 			in DateTime lastModified, in bool canEdit, in List<string> tags, in bool isLoggedIn,
 			in bool allowComments)
@@ -163,7 +163,7 @@ namespace Blog.Plugin.Models
 		/// <param name="publishDateTime">Date and time the blog entry is available.</param>
 		/// <param name="lastModified">Date and time last modified.</param>
 		/// <param name="tags">List of tags assigned to the post.</param>
-		public BlogPostViewModel(in BaseModelData baseModelData, in int id, in string title, in string excerpt,
+		public BlogPostViewModel(in IBaseModelData baseModelData, in int id, in string title, in string excerpt,
 			in string blogtext, in string username, in bool published, in DateTime publishDateTime,
 			in DateTime lastModified, in List<string> tags)
 			: base(baseModelData)

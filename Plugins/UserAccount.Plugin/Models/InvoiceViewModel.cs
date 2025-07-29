@@ -42,7 +42,7 @@ namespace UserAccount.Plugin.Models
 	{
 		#region Constructors
 
-		public InvoiceViewModel(in BaseModelData baseModelData, Invoice invoice)
+		public InvoiceViewModel(in IBaseModelData baseModelData, Invoice invoice)
 			: base(baseModelData)
 		{
 			if (invoice == null)

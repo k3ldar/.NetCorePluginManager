@@ -41,13 +41,13 @@ namespace ProductPlugin.Models
 
 		}
 
-		public BaseProductModel(in BaseModelData modelData)
+		public BaseProductModel(in IBaseModelData modelData)
 			: base(modelData)
 		{
 
 		}
 
-		public BaseProductModel(in BaseModelData modelData,
+		public BaseProductModel(in IBaseModelData modelData,
 			in List<ProductCategoryModel> productCategoryModels)
 			: base(modelData)
 		{

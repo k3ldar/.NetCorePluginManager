@@ -35,7 +35,7 @@ namespace ShoppingCartPlugin.Models
 	{
 		#region Constructors
 
-		public PaymentSuccessModel(in BaseModelData modelData, int orderId)
+		public PaymentSuccessModel(in IBaseModelData modelData, int orderId)
 			: base(modelData)
 		{
 			if (orderId == 0)

@@ -42,13 +42,13 @@ namespace UserAccount.Plugin.Models
 			GrowlMessage = String.Empty;
 		}
 
-		public LicenceViewModel(in BaseModelData baseModelData, in List<ViewLicenceViewModel> licences)
+		public LicenceViewModel(in IBaseModelData baseModelData, in List<ViewLicenceViewModel> licences)
 			: base(baseModelData)
 		{
 			Licences = licences ?? throw new ArgumentNullException(nameof(licences));
 		}
 
-		public LicenceViewModel(in BaseModelData baseModelData,
+		public LicenceViewModel(in IBaseModelData baseModelData,
 			in List<ViewLicenceViewModel> licences, in string growlMessage)
 			: base(baseModelData)
 		{

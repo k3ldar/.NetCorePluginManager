@@ -43,7 +43,7 @@ namespace ShoppingCartPlugin.Models
 			Providers = [];
 		}
 
-		public CheckoutModel(in BaseModelData modelData)
+		public CheckoutModel(in IBaseModelData modelData)
 			: base(modelData)
 		{
 			Providers = [];

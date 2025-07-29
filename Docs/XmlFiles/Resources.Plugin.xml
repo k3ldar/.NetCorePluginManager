@@ -9,7 +9,7 @@
             Base resource item model
             </summary>
         </member>
-        <member name="M:Resources.Plugin.Models.BaseResourceItemModel.#ctor(SharedPluginFeatures.BaseModelData)">
+        <member name="M:Resources.Plugin.Models.BaseResourceItemModel.#ctor(SharedPluginFeatures.IBaseModelData)">
             <summary>
             Constructor
             </summary>
@@ -30,14 +30,14 @@
             Model used to create categories
             </summary>
         </member>
-        <member name="M:Resources.Plugin.Models.CreateCategoryModel.#ctor(SharedPluginFeatures.BaseModelData,System.Int64)">
+        <member name="M:Resources.Plugin.Models.CreateCategoryModel.#ctor(SharedPluginFeatures.IBaseModelData,System.Int64)">
             <summary>
             Constructor
             </summary>
             <param name="baseModelData"></param>
             <param name="parentId">Id of parent category or zero</param>
         </member>
-        <member name="M:Resources.Plugin.Models.CreateCategoryModel.#ctor(SharedPluginFeatures.BaseModelData,System.Int64,System.String,System.String)">
+        <member name="M:Resources.Plugin.Models.CreateCategoryModel.#ctor(SharedPluginFeatures.IBaseModelData,System.Int64,System.String,System.String)">
             <summary>
             Constructor
             </summary>
@@ -76,14 +76,14 @@
             Model used to create resource items
             </summary>
         </member>
-        <member name="M:Resources.Plugin.Models.CreateResourceItemModel.#ctor(SharedPluginFeatures.BaseModelData,System.Int64)">
+        <member name="M:Resources.Plugin.Models.CreateResourceItemModel.#ctor(SharedPluginFeatures.IBaseModelData,System.Int64)">
             <summary>
             Constructor
             </summary>
             <param name="baseModelData"></param>
             <param name="parentId">Id of parent category or zero</param>
         </member>
-        <member name="M:Resources.Plugin.Models.CreateResourceItemModel.#ctor(SharedPluginFeatures.BaseModelData,System.Int64,System.String,System.String,System.String)">
+        <member name="M:Resources.Plugin.Models.CreateResourceItemModel.#ctor(SharedPluginFeatures.IBaseModelData,System.Int64,System.String,System.String,System.String)">
             <summary>
             Constructor
             </summary>
@@ -169,7 +169,7 @@
             Model for managing classes
             </summary>
         </member>
-        <member name="M:Resources.Plugin.Models.ManageCategoryModel.#ctor(SharedPluginFeatures.BaseModelData,System.String,System.Collections.Generic.List{Resources.Plugin.Models.ResourceCategoryModel})">
+        <member name="M:Resources.Plugin.Models.ManageCategoryModel.#ctor(SharedPluginFeatures.IBaseModelData,System.String,System.Collections.Generic.List{Resources.Plugin.Models.ResourceCategoryModel})">
             <summary>
             Constructor
             </summary>
@@ -193,7 +193,7 @@
             Manage resource item model
             </summary>
         </member>
-        <member name="M:Resources.Plugin.Models.ManageResourceItemModel.#ctor(SharedPluginFeatures.BaseModelData,System.String,System.Collections.Generic.List{Resources.Plugin.Models.ResourceItemModel})">
+        <member name="M:Resources.Plugin.Models.ManageResourceItemModel.#ctor(SharedPluginFeatures.IBaseModelData,System.String,System.Collections.Generic.List{Resources.Plugin.Models.ResourceItemModel})">
             <summary>
             Constructor
             </summary>
@@ -236,7 +236,7 @@
             <param name="isVisible">Indicates whether the category is visible or not</param>
             <param name="parentId">Parent id of category or zero if no parent found</param>
         </member>
-        <member name="M:Resources.Plugin.Models.ResourceCategoryModel.#ctor(SharedPluginFeatures.BaseModelData,System.Int64,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Int64,System.Collections.Generic.List{Resources.Plugin.Models.ResourceCategoryModel},System.Collections.Generic.List{Resources.Plugin.Models.ResourceItemModel})">
+        <member name="M:Resources.Plugin.Models.ResourceCategoryModel.#ctor(SharedPluginFeatures.IBaseModelData,System.Int64,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Int64,System.Collections.Generic.List{Resources.Plugin.Models.ResourceCategoryModel},System.Collections.Generic.List{Resources.Plugin.Models.ResourceItemModel})">
             <summary>
             Constructor
             </summary>
@@ -322,7 +322,7 @@
             Standard Constructor
             </summary>
         </member>
-        <member name="M:Resources.Plugin.Models.ResourceEditCategoryModel.#ctor(SharedPluginFeatures.BaseModelData,System.Int64,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Int64,System.Collections.Generic.List{SharedPluginFeatures.NameIdModel})">
+        <member name="M:Resources.Plugin.Models.ResourceEditCategoryModel.#ctor(SharedPluginFeatures.IBaseModelData,System.Int64,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Int64,System.Collections.Generic.List{SharedPluginFeatures.NameIdModel})">
             <summary>
             Constructor
             </summary>
@@ -402,7 +402,7 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:Resources.Plugin.Models.ResourceEditResourceItemModel.#ctor(SharedPluginFeatures.BaseModelData,System.Int64,System.Int64,Middleware.ResourceType,System.Int64,System.String,System.String,System.String,System.String,System.Boolean,System.String,System.Collections.Generic.List{SharedPluginFeatures.NameIdModel})">
+        <member name="M:Resources.Plugin.Models.ResourceEditResourceItemModel.#ctor(SharedPluginFeatures.IBaseModelData,System.Int64,System.Int64,Middleware.ResourceType,System.Int64,System.String,System.String,System.String,System.String,System.Boolean,System.String,System.Collections.Generic.List{SharedPluginFeatures.NameIdModel})">
             <summary>
             Constructor
             </summary>
@@ -601,7 +601,7 @@
             Resources model, contains list of resource categories
             </summary>
         </member>
-        <member name="M:Resources.Plugin.Models.ResourcesModel.#ctor(SharedPluginFeatures.BaseModelData,System.Collections.Generic.List{Resources.Plugin.Models.ResourceCategoryModel})">
+        <member name="M:Resources.Plugin.Models.ResourcesModel.#ctor(SharedPluginFeatures.IBaseModelData,System.Collections.Generic.List{Resources.Plugin.Models.ResourceCategoryModel})">
             <summary>
             Default constructor
             </summary>
@@ -619,7 +619,7 @@
             Resource item model
             </summary>
         </member>
-        <member name="M:Resources.Plugin.Models.ResourceViewItemModel.#ctor(SharedPluginFeatures.BaseModelData,System.Int64,System.Int64,Middleware.ResourceType,System.Int64,System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Boolean,System.Collections.Generic.List{System.String})">
+        <member name="M:Resources.Plugin.Models.ResourceViewItemModel.#ctor(SharedPluginFeatures.IBaseModelData,System.Int64,System.Int64,Middleware.ResourceType,System.Int64,System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Boolean,System.Collections.Generic.List{System.String})">
             <summary>
             Constructor
             </summary>
@@ -708,7 +708,7 @@
             Model used for viewing bookmarks
             </summary>
         </member>
-        <member name="M:Resources.Plugin.Models.ViewBookmarksModel.#ctor(SharedPluginFeatures.BaseModelData,System.Collections.Generic.List{SharedPluginFeatures.NameIdModel})">
+        <member name="M:Resources.Plugin.Models.ViewBookmarksModel.#ctor(SharedPluginFeatures.IBaseModelData,System.Collections.Generic.List{SharedPluginFeatures.NameIdModel})">
             <summary>
             Constructor
             </summary>

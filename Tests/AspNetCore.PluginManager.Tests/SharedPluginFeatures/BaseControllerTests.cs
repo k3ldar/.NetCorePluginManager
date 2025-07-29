@@ -315,7 +315,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
 
             using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper(mockHttpRequest, new MockHttpResponse()))
             {
-                BaseModelData modelData = baseController.TestGetModelData();
+                IBaseModelData modelData = baseController.TestGetModelData();
                 Assert.IsTrue(modelData.UserHasConsentCookie);
             }
         }

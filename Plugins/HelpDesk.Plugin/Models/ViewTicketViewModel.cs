@@ -36,7 +36,7 @@ namespace HelpdeskPlugin.Models
 	{
 		#region Constructors
 
-		public ViewTicketViewModel(in BaseModelData modelData,
+		public ViewTicketViewModel(in IBaseModelData modelData,
 			in long id, in string priority, in string department,
 			in string status, in string key,
 			in string subject, in DateTime dateCreated, in DateTime dateLastUpdated,

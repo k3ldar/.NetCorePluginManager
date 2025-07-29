@@ -55,7 +55,7 @@ namespace SearchPlugin.Models
 			ActiveTab = String.Empty;
 		}
 
-		public SearchViewModel(in BaseModelData modelData, Dictionary<string, AdvancedSearchOptions> searchNames)
+		public SearchViewModel(in IBaseModelData modelData, Dictionary<string, AdvancedSearchOptions> searchNames)
 			: base(modelData)
 		{
 			Page = 1;

@@ -41,7 +41,7 @@ namespace Resources.Plugin.Models
 		/// <param name="baseModelData"></param>
 		/// <param name="bookmarks"></param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public ViewBookmarksModel(BaseModelData baseModelData, List<NameIdModel> bookmarks)
+		public ViewBookmarksModel(IBaseModelData baseModelData, List<NameIdModel> bookmarks)
 			: base(baseModelData)
 		{
 			Bookmarks = bookmarks ?? throw new ArgumentNullException(nameof(bookmarks));

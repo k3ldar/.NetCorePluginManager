@@ -33,7 +33,7 @@ namespace HelpdeskPlugin.Models
 	{
 		#region Construtors
 
-		public IndexViewModel(in BaseModelData modelData,
+		public IndexViewModel(in IBaseModelData modelData,
 			in bool showTickets, in bool showFaq, in bool showFeedback, in string growlMessage)
 			: base(modelData)
 		{

@@ -192,13 +192,13 @@
             Standard constructor
             </summary>
         </member>
-        <member name="M:ProductPlugin.Models.EditProductGroupModel.#ctor(SharedPluginFeatures.BaseModelData@)">
+        <member name="M:ProductPlugin.Models.EditProductGroupModel.#ctor(SharedPluginFeatures.IBaseModelData@)">
             <summary>
             Constructor used for creating a product
             </summary>
             <param name="modelData"></param>
         </member>
-        <member name="M:ProductPlugin.Models.EditProductGroupModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Int32,System.String,System.Boolean,System.Int32,System.String,System.String)">
+        <member name="M:ProductPlugin.Models.EditProductGroupModel.#ctor(SharedPluginFeatures.IBaseModelData@,System.Int32,System.String,System.Boolean,System.Int32,System.String,System.String)">
             <summary>
             Constructor used for editing a product group
             </summary>
@@ -256,13 +256,13 @@
             Standard constructor
             </summary>
         </member>
-        <member name="M:ProductPlugin.Models.EditProductModel.#ctor(SharedPluginFeatures.BaseModelData@)">
+        <member name="M:ProductPlugin.Models.EditProductModel.#ctor(SharedPluginFeatures.IBaseModelData@)">
             <summary>
             Constructor used for creating a product
             </summary>
             <param name="modelData"></param>
         </member>
-        <member name="M:ProductPlugin.Models.EditProductModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Collections.Generic.List{Middleware.LookupListItem},System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean,System.Decimal,System.String,System.Boolean,System.Boolean,System.Boolean,System.Int32)">
+        <member name="M:ProductPlugin.Models.EditProductModel.#ctor(SharedPluginFeatures.IBaseModelData@,System.Collections.Generic.List{Middleware.LookupListItem},System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean,System.Decimal,System.String,System.Boolean,System.Boolean,System.Boolean,System.Int32)">
             <summary>
             Constructor used for editing a product
             </summary>
@@ -443,7 +443,7 @@
             List of products for a page view
             </summary>
         </member>
-        <member name="M:ProductPlugin.Models.ProductPageListModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Collections.Generic.List{Middleware.Products.Product},System.String,System.Int32)">
+        <member name="M:ProductPlugin.Models.ProductPageListModel.#ctor(SharedPluginFeatures.IBaseModelData@,System.Collections.Generic.List{Middleware.Products.Product},System.String,System.Int32)">
             <summary>
             Constructor
             </summary>
