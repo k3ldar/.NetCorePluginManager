@@ -146,12 +146,12 @@ namespace UserSessionMiddleware.Plugin
 						Shared.Utilities.Encrypt(cookieSessionID, _cookieEncryptionKey), options);
 				}
 
-				CacheItem currentSession = UserSessionManager.UserSessions.Get(cookieSessionID);
+				ICacheItem currentSession = UserSessionManager.UserSessions.Get(cookieSessionID);
 				UserSession userSession;
 
 				if (currentSession != null)
 				{
-					userSession = (UserSession)currentSession.Value;
+					userSession = currentSession.GetValue<UserSession>();
 				}
 				else
 				{

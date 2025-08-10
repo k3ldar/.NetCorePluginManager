@@ -46,7 +46,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 	{
 		#region Private Members
 
-		private static readonly CacheManager _cartCacheManager = new("Shopping Carts", new TimeSpan(0, 20, 0), true);
+		private static readonly ICacheManager _cartCacheManager = new CacheManager("Shopping Carts", new TimeSpan(0, 20, 0), true);
 		private bool _cartHookedUp;
 		private readonly IAccountProvider _accountProvider;
 		private readonly string _encryptionKey;
@@ -125,24 +125,23 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			string cacheName = $"Cart {shoppingCart.Id}";
 
-			CacheItem basket = _cartCacheManager.Get(cacheName);
+			ICacheItem basket = _cartCacheManager.Get(cacheName);
 
 			if (basket == null)
 			{
 				if (shoppingCart.Id == 0)
 				{
 					ShoppingCartDataRow cartDataRow = CreateNewShoppingCart(-1);
-
 					// create a new cart
 					shoppingCart.ResetShoppingCartId(cartDataRow.Id);
 
+					cacheName = $"Cart {shoppingCart.Id}";
 					cartDetail = new ShoppingCartDetail(shoppingCart.Id,
 						0, 0, _defaultTaxRate, 0, 0, shoppingCart.Culture, String.Empty,
 						[], false, _defaultCurrency);
 				}
 
-				basket = new CacheItem(cacheName, cartDetail);
-				_cartCacheManager.Add(cacheName, basket, true);
+				basket = _cartCacheManager.Add(cacheName, cartDetail, true);
 			}
 
 			if (userSession.UserBasketId != shoppingCart.Id)
@@ -151,7 +150,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 			if (shoppingCart.Id == 0 || userSession.UserBasketId != shoppingCart.Id)
 				shoppingCart.ResetShoppingCartId(userSession.UserBasketId);
 
-			ShoppingCartDetail cart = basket.Value as ShoppingCartDetail;
+			ShoppingCartDetail cart = basket.GetValue<ShoppingCartDetail>();
 
 			_shoppingCartItemData.Insert(new ShoppingCartItemDataRow()
 			{
@@ -193,7 +192,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			string basketCache = $"Cart {shoppingCartId}";
 
-			CacheItem cacheItem = _cartCacheManager.Get(basketCache);
+			ICacheItem cacheItem = _cartCacheManager.Get(basketCache);
 
 			if (cacheItem == null)
 			{
@@ -202,11 +201,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 				ShoppingCartDetail cartDetail = new(shoppingCartId, 0,
 					0, _defaultTaxRate, 0, 0, Thread.CurrentThread.CurrentUICulture,
 					"", [], false, _defaultCurrency);
-				cacheItem = new CacheItem(basketCache, cartDetail);
-				_cartCacheManager.Add(basketCache, cacheItem, true);
+				cacheItem = _cartCacheManager.Add(basketCache, cartDetail, true);
+				_cartCacheManager.Add(basketCache, cartDetail, true);
 			}
 
-			return (ShoppingCartDetail)cacheItem.Value;
+			return cacheItem.GetValue<ShoppingCartDetail>();
 		}
 
 		public bool ValidateVoucher(in ShoppingCartSummary cartSummary, in string voucher, in long userId)
@@ -397,7 +396,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			ShoppingCartDetail cartDetail = ConvertShoppingCartDataRowToShoppingCartDetail(cart);
 
-			e.CachedItem = new CacheItem(e.Name, cartDetail);
+			e.CachedItem = cartDetail;
 		}
 
 		private ShoppingCartDetail ConvertShoppingCartDataRowToShoppingCartDetail(ShoppingCartDataRow shoppingCartData)

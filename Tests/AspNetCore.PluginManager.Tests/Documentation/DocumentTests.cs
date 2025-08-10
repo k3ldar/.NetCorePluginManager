@@ -65,11 +65,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
 		public void LoadXmlFile()
         {
             GetDocuments();
-            CacheItem cache = MemoryCache.GetCache().Get(consts.DocumentationListCache);
+            ICacheItem cache = MemoryCache.GetCache().Get(consts.DocumentationListCache);
 
             Assert.IsNotNull(cache);
-            Assert.IsInstanceOfType(cache.Value, typeof(List<Document>));
-            List<Document> documents = (List<Document>)cache.Value;
+            Assert.IsTrue(cache.IsType<List<Document>>());
+            List<Document> documents = cache.GetValue<List<Document>>();
 
             Assert.IsTrue(documents.Count > 10, $"Actual document count: {documents.Count}");
         }

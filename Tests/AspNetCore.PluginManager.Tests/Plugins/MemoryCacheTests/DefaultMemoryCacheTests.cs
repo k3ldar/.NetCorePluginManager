@@ -70,10 +70,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
             Assert.IsNotNull(sut.GetPermanentCache());
             Assert.IsNotNull(sut.GetShortCache());
 
-            sut.GetCache().Add("cache", new CacheItem("cache", true));
-            sut.GetExtendingCache().Add("extending cache", new CacheItem("extending cache", true));
-            sut.GetPermanentCache().Add("permanent cache", new CacheItem("permanent cache", true));
-            sut.GetShortCache().Add("short cache", new CacheItem("short cache", true));
+            sut.GetCache().Add("cache", true);
+            sut.GetExtendingCache().Add("extending cache", true);
+            sut.GetPermanentCache().Add("permanent cache", true);
+            sut.GetShortCache().Add("short cache", true);
 
             Assert.IsNotNull(sut.GetCache().Get("cache"));
             Assert.IsNotNull(sut.GetExtendingCache().Get("extending cache"));

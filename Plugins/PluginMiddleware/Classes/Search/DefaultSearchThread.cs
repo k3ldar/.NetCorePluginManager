@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 
+using Shared.Abstractions;
 using Shared.Classes;
 
 using SharedPluginFeatures;
@@ -41,7 +42,7 @@ namespace Middleware.Search
 
 		private readonly List<ISearchKeywordProvider> _searchKeywordProviders;
 		private readonly KeywordSearchOptions _keywordSearchOptions;
-		private static readonly CacheManager _searchCache = new("Search Cache", new TimeSpan(0, 20, 0), true, true);
+		private static readonly ICacheManager _searchCache = new CacheManager("Search Cache", new TimeSpan(0, 20, 0), true, true);
 		private static readonly object _lockObject = new();
 		private static readonly Timings _searchTimings = new();
 
@@ -67,7 +68,7 @@ namespace Middleware.Search
 		/// <summary>
 		/// Default search cache item
 		/// </summary>
-		public static CacheManager SearchCache
+		public static ICacheManager SearchCache
 		{
 			get
 			{
@@ -108,7 +109,7 @@ namespace Middleware.Search
 					throw new ArgumentNullException(nameof(keywordSearchOptions));
 				}
 
-				CacheItem cacheItem = _searchCache.Get(keywordSearchOptions.SearchName);
+				ICacheItem cacheItem = _searchCache.Get(keywordSearchOptions.SearchName);
 
 				using (TimedLock timedLock = TimedLock.Lock(_lockObject))
 				{
@@ -138,7 +139,7 @@ namespace Middleware.Search
 					}
 				}
 
-				return (List<SearchResponseItem>)cacheItem.Value;
+				return cacheItem.GetValue<List<SearchResponseItem>>();
 			}
 		}
 
@@ -159,7 +160,7 @@ namespace Middleware.Search
 					throw new ArgumentNullException(nameof(keywordSearchOptions));
 				}
 
-				CacheItem cacheItem = _searchCache.Get(keywordSearchOptions.SearchName);
+				ICacheItem cacheItem = _searchCache.Get(keywordSearchOptions.SearchName);
 
 				using (TimedLock timedLock = TimedLock.Lock(_lockObject))
 				{
@@ -194,7 +195,7 @@ namespace Middleware.Search
 					}
 				}
 
-				return (List<SearchResponseItem>)cacheItem.Value;
+				return cacheItem.GetValue<List<SearchResponseItem>>();
 			}
 		}
 
@@ -207,14 +208,14 @@ namespace Middleware.Search
 		{
 			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
 			{
-				CacheItem cache = _searchCache.Get(searchName);
+				ICacheItem cache = _searchCache.Get(searchName);
 
 				if (cache == null)
 				{
 					return null;
 				}
 
-				return (List<SearchResponseItem>)cache.Value;
+				return cache.GetValue<List<SearchResponseItem>>();
 			}
 		}
 
@@ -250,8 +251,7 @@ namespace Middleware.Search
 				}
 			}
 
-			CacheItem cacheItem = new(Name, Results);
-			_searchCache.Add(Name, cacheItem, true);
+			_searchCache.Add(Name, Results, true);
 
 			return false;
 		}

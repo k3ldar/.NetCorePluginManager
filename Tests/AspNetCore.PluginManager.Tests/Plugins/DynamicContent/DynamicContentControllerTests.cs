@@ -81,9 +81,45 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             "Content 7</p></div><div class=\"col-sm-4\"><p>This is html<br />Content 6</p></div><div class=\"col-sm-4\"><p>This is html<br />Content 5</p></div><div class=\"col-sm-4\"><p>" +
             "This is html<br />Content 4</p></div><div class=\"col-sm-4\"><p>This is html<br />Content 3</p></div><div class=\"col-sm-4\"><p>This is html<br />Content 10</p></div>";
 
-        #endregion Private Members
+		#endregion Private Members
 
-        [TestInitialize]
+		private class TestCacheItem : ICacheItem
+		{
+			public TestCacheItem(string name, object value)
+			{
+				Name = name ?? throw new ArgumentNullException(nameof(name));
+				Value = value;
+				Created = DateTime.UtcNow;
+				LastUpdated = DateTime.UtcNow;
+			}
+			public DateTime Created { get; set; }
+
+			public DateTime LastUpdated { get; set; }
+
+			public string Name { get; set; }
+
+			public object Value { get; set; }
+
+			public bool IsNull => Value == null;
+
+			public object GetValue(bool ignoreReset = false)
+			{
+				throw new NotImplementedException("This is deprecated");
+			}
+
+			public T GetValue<T>(bool ignoreReset = false)
+			{
+				return (T)Value;
+			}
+
+			public bool IsType<T>()
+			{
+				return Value is T;
+			}
+		}
+
+
+		[TestInitialize]
         public void InitializeDynamicContentControllerTests()
         {
 			string appSettingsFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "appsettings.json");
@@ -142,7 +178,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Index_PathFoundInCache_InvalidCacheItem_Returns404Response()
         {
-            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add("mypage", new CacheItem("mypage", "test"));
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add("mypage", "test");
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
             DynamicContentController sut = CreateDynamicContentController();
@@ -161,7 +197,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
             MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);
             IDynamicContentPage page = mockDynamicContentProvider.GetCustomPages()[0];
-            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, page);
 
             DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
             IActionResult response = sut.Index(page.RouteName);
@@ -205,7 +241,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             };
             page.Content.Add(checkBox);
 
-            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, page);
 
             DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
             IActionResult response = sut.Index(page.RouteName);
@@ -235,7 +271,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             IDynamicContentPage page = mockDynamicContentProvider.GetCustomPages()[0];
             page.BackgroundColor = "#294b6y;";
             page.BackgroundImage = "/images/custombackground.jpg";
-            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, page);
 
             DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
             IActionResult response = sut.Index(page.RouteName);
@@ -262,7 +298,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);
             IDynamicContentPage page = mockDynamicContentProvider.GetCustomPages()[0];
             page.BackgroundColor = "#294b6y;";
-            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName,	page);
 
             DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
             IActionResult response = sut.Index("PaGe-1");
@@ -290,7 +326,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             IDynamicContentPage page = mockDynamicContentProvider.GetCustomPages()[0];
             page.BackgroundColor = null;
             page.BackgroundImage = "/images/custombackground.jpg";
-            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, page);
 
             DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
             IActionResult response = sut.Index("Page-1");
@@ -367,7 +403,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void SubmitData_PathFoundInCache_InvalidCacheItem_Returns404Response()
         {
-            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add("mypage", new CacheItem("mypage", "test"));
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add("mypage", "test");
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
             DynamicContentController sut = CreateDynamicContentController();
@@ -386,7 +422,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
             MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);
             IDynamicContentPage page = mockDynamicContentProvider.GetCustomPages()[0];
-            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, page);
 
             DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
             IActionResult response = sut.SubmitData(page.RouteName, "");
@@ -429,7 +465,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             };
             page.Content.Add(checkBox);
 
-            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, page);
 
             DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
             IActionResult response = sut.SubmitData(page.RouteName, "");
@@ -458,7 +494,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             IDynamicContentPage page = mockDynamicContentProvider.GetCustomPages()[0];
             page.BackgroundColor = "#294b6y;";
             page.BackgroundImage = "/images/custombackground.jpg";
-            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, page);
 
             DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
             IActionResult response = sut.SubmitData(page.RouteName, "some data");
@@ -484,7 +520,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);
             IDynamicContentPage page = mockDynamicContentProvider.GetCustomPages()[0];
             page.BackgroundColor = "#294b6y;";
-            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, page);
 
             DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
             IActionResult response = sut.SubmitData(page.RouteName, "");
@@ -511,7 +547,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             IDynamicContentPage page = mockDynamicContentProvider.GetCustomPages()[0];
             page.BackgroundColor = null;
             page.BackgroundImage = "/images/custombackground.jpg";
-            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, page);
 
             DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
             IActionResult response = sut.SubmitData(page.RouteName, "");
@@ -999,7 +1035,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             ViewResult viewResult = editPageResponse as ViewResult;
             Assert.IsNotNull(viewResult.Model);
             EditPageModel editPageModel = viewResult.Model as EditPageModel;
-            memoryCache.GetExtendingCache().Add(editPageModel.CacheId, new CacheItem(editPageModel.CacheId, "a string"), true);
+            memoryCache.GetExtendingCache().Add(editPageModel.CacheId, "a string", true);
 
             IActionResult response = dynamicContentController.UpdateControlPosition(new UpdatePositionModel()
             {
@@ -1046,8 +1082,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.IsNotNull(sut);
             Assert.IsTrue(sut.Success);
 
-            CacheItem cacheItem = memoryCache.GetExtendingCache().Get(editPageModel.CacheId);
-            DynamicContentPage dynamicContentPage = cacheItem.Value as DynamicContentPage;
+            ICacheItem TestCacheItem = memoryCache.GetExtendingCache().Get(editPageModel.CacheId);
+            DynamicContentPage dynamicContentPage = TestCacheItem.GetValue<DynamicContentPage>();
             Assert.AreEqual(10, dynamicContentPage.Content[0].SortOrder);
             Assert.AreEqual(11, dynamicContentPage.Content[1].SortOrder);
             Assert.AreEqual(12, dynamicContentPage.Content[2].SortOrder);
@@ -1146,7 +1182,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
             EditPageModel editPageModel = viewResult.Model as EditPageModel;
 
-            defaultMemoryCache.GetExtendingCache().Add(editPageModel.CacheId, new CacheItem(editPageModel.CacheId, "string"), true);
+            defaultMemoryCache.GetExtendingCache().Add(editPageModel.CacheId, "string", true);
 
             IActionResult response = dynamicContentController.Preview(editPageModel.CacheId);
             StatusCodeResult sut = response as StatusCodeResult;
@@ -1276,7 +1312,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         public void TemplateEditor_InvalidCacheItem_NotDynamicContent_ReturnsNonSuccess()
         {
             DefaultMemoryCache defaultMemoryCache = new DefaultMemoryCache(new MockSettingsProvider(), true, DateTime.UtcNow.AddDays(10));
-            defaultMemoryCache.GetExtendingCache().Add("cachename", new CacheItem("cachename", new List<string>()));
+            defaultMemoryCache.GetExtendingCache().Add("cachename", new List<string>());
             DynamicContentController dynamicContentController = CreateDynamicContentController(defaultMemoryCache);
 
             IActionResult response = dynamicContentController.TemplateEditor("cachename", "my-control");
@@ -1545,7 +1581,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache defaultMemoryCache = new DefaultMemoryCache(settingsProvider, true, DateTime.UtcNow.AddDays(10));
-            defaultMemoryCache.GetExtendingCache().Add("test", new CacheItem("test", "string"));
+            defaultMemoryCache.GetExtendingCache().Add("test", "string");
             DynamicContentController dynamicContentController = CreateDynamicContentController(defaultMemoryCache);
 
             EditTemplateModel model = new EditTemplateModel()
@@ -2007,11 +2043,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.IsTrue(sut.Success);
 
 
-            CacheItem cacheItem = memoryCache.GetExtendingCache().Get(model.CacheId);
+            ICacheItem TestCacheItem = memoryCache.GetExtendingCache().Get(model.CacheId);
 
-            Assert.IsNotNull(cacheItem);
+            Assert.IsNotNull(TestCacheItem);
 
-            DynamicContentPage dynamicContentPage = cacheItem.Value as DynamicContentPage;
+			Assert.IsTrue(TestCacheItem.IsType<DynamicContentPage>());
+			DynamicContentPage dynamicContentPage = TestCacheItem.GetValue<DynamicContentPage>();
 
             Assert.IsNotNull(dynamicContentPage);
 
@@ -2177,7 +2214,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache defaultMemoryCache = new DefaultMemoryCache(settingsProvider, true, DateTime.UtcNow.AddDays(10));
-            defaultMemoryCache.GetExtendingCache().Add("cachename", new CacheItem("cachename", "string"));
+            defaultMemoryCache.GetExtendingCache().Add("cachename", "string");
             DynamicContentController dynamicContentController = CreateDynamicContentController(defaultMemoryCache);
 
             IActionResult response = dynamicContentController.DeleteControl("cachename", "controlname");
@@ -2411,7 +2448,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache defaultMemoryCache = new DefaultMemoryCache(settingsProvider, true, DateTime.UtcNow.AddDays(10));
-            defaultMemoryCache.GetExtendingCache().Add("test", new CacheItem("test", "string"));
+            defaultMemoryCache.GetExtendingCache().Add("test", "string");
             DynamicContentController dynamicContentController = CreateDynamicContentController(defaultMemoryCache);
 
             DeleteControlModel deleteControlModel = new DeleteControlModel()
@@ -2479,8 +2516,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.IsNotNull(viewResult.Model);
             EditPageModel editPageModel = viewResult.Model as EditPageModel;
 
-            CacheItem cacheItem = memoryCache.GetExtendingCache().Get(editPageModel.CacheId);
-            DynamicContentPage dynamicContentPage = cacheItem.Value as DynamicContentPage;
+            ICacheItem TestCacheItem = memoryCache.GetExtendingCache().Get(editPageModel.CacheId);
+            DynamicContentPage dynamicContentPage = TestCacheItem.GetValue<DynamicContentPage>();
 
             Assert.IsNotNull(dynamicContentPage);
             Assert.AreEqual(10, dynamicContentPage.Content.Count);
@@ -2704,7 +2741,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.IsNotNull(viewResult.Model);
             EditPageModel editPageModel = viewResult.Model as EditPageModel;
 
-            memoryCache.GetExtendingCache().Add(editPageModel.CacheId, new CacheItem(editPageModel.CacheId, "a string"), true);
+            memoryCache.GetExtendingCache().Add(editPageModel.CacheId, "a string", true);
 
             AddControlModel model = new AddControlModel()
             {
@@ -2854,8 +2891,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider, true, DateTime.UtcNow.AddDays(10));
-            memoryCache.GetExtendingCache().Add("notIDynamicContentPage",
-                new CacheItem("notIDynamicContentPage", new List<string>()));
+            memoryCache.GetExtendingCache().Add("notIDynamicContentPage", new List<string>());
             EditPageModel model = new EditPageModel()
             {
                 CacheId = "notIDynamicContentPage"
@@ -2883,7 +2919,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
                 RouteName = "my-route-2"
             };
 
-            memoryCache.GetExtendingCache().Add("abc", new CacheItem("abc", cachedPage));
+            memoryCache.GetExtendingCache().Add("abc", cachedPage);
 
 
             IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
@@ -2930,7 +2966,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
                 RouteName = "my-route-2"
             };
 
-            memoryCache.GetExtendingCache().Add("abc", new CacheItem("abc", cachedPage));
+            memoryCache.GetExtendingCache().Add("abc", cachedPage);
 
 
             IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
@@ -2975,7 +3011,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
                 RouteName = "my-route-2"
             };
 
-            memoryCache.GetExtendingCache().Add("abc", new CacheItem("abc", cachedPage));
+            memoryCache.GetExtendingCache().Add("abc", cachedPage);
 
 
             IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
@@ -3016,7 +3052,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
                 RouteName = "my-route-2"
             };
 
-            memoryCache.GetExtendingCache().Add("abc", new CacheItem("abc", cachedPage));
+            memoryCache.GetExtendingCache().Add("abc", cachedPage);
 
 
             IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
@@ -3065,7 +3101,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
                 ActiveTo = DateTime.MaxValue,
             };
 
-            memoryCache.GetExtendingCache().Add("abc", new CacheItem("abc", cachedPage));
+            memoryCache.GetExtendingCache().Add("abc", cachedPage);
 
             IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
             MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);

@@ -157,8 +157,7 @@ namespace DynamicContent.Plugin.Internal
 
 				if (dynamicContentPage.ActiveFrom <= processTime && dynamicContentPage.ActiveTo >= processTime)
 				{
-					CacheItem cacheItem = new(dynamicContentPage.RouteName.ToLower(), dynamicContentPage);
-					PluginInitialisation.DynamicContentCache.Add(dynamicContentPage.RouteName.ToLower(), cacheItem, true);
+					PluginInitialisation.DynamicContentCache.Add(dynamicContentPage.RouteName.ToLower(), dynamicContentPage, true);
 				}
 			}
 

@@ -58,7 +58,7 @@ namespace WebSmokeTest.Plugin
 	{
 		#region Private Members
 
-		private static readonly CacheManager _testCache = new("Web Smoke Test Cache", new TimeSpan(0, 10, 0), true);
+		private static readonly ICacheManager _testCache = new CacheManager("Web Smoke Test Cache", new TimeSpan(0, 10, 0), true);
 		private readonly string _savedData = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.tmp");
 		private readonly RequestDelegate _next;
 		internal readonly static Timings _timings = new();
@@ -206,7 +206,7 @@ namespace WebSmokeTest.Plugin
 		{
 			get
 			{
-				CacheItem smokeTests = _testCache.Get(nameof(SmokeTests));
+				ICacheItem smokeTests = _testCache.Get(nameof(SmokeTests));
 
 				if (smokeTests == null)
 				{
@@ -226,11 +226,11 @@ namespace WebSmokeTest.Plugin
 					}
 
 					List<WebSmokeTestItem> cacheData = JsonSerializer.Deserialize<List<WebSmokeTestItem>>(Encoding.UTF8.GetString(bytes));
-					smokeTests = new CacheItem(nameof(SmokeTests), cacheData);
-					_testCache.Add(nameof(SmokeTests), smokeTests, true);
+					_testCache.Add(nameof(SmokeTests), cacheData, true);
+					smokeTests = _testCache.Get(nameof(SmokeTests));
 				}
 
-				return (List<WebSmokeTestItem>)smokeTests.Value;
+				return smokeTests.GetValue<List<WebSmokeTestItem>>();
 			}
 
 			private set
@@ -239,7 +239,7 @@ namespace WebSmokeTest.Plugin
 				_testDataStream.Write(fileData, 0, fileData.Length);
 				_testDataStream.Flush();
 
-				_testCache.Add(nameof(SmokeTests), new CacheItem(nameof(SmokeTests), value));
+				_testCache.Add(nameof(SmokeTests), value);
 			}
 		}
 

@@ -82,7 +82,7 @@ namespace LoginPlugin.Controllers
 		private readonly IClaimsProvider _claimsProvider;
 		private readonly IMemoryCache _memoryCache;
 
-		private static readonly CacheManager _loginCache = new("Login Cache", new TimeSpan(0, 30, 0));
+		private static readonly ICacheManager _loginCache = new CacheManager("Login Cache", new TimeSpan(0, 30, 0));
 
 		#endregion Private Members
 
@@ -364,12 +364,12 @@ namespace LoginPlugin.Controllers
 			if (String.IsNullOrEmpty(cacheName))
 				return null;
 
-			CacheItem item = _loginCache.Get(cacheName);
+			ICacheItem item = _loginCache.Get(cacheName);
 
 			if (item == null)
 				return null;
 
-			return (LoginCacheItem)item.Value;
+			return item.GetValue<LoginCacheItem>();
 		}
 
 		#endregion Internal Testing Methods
@@ -415,7 +415,7 @@ namespace LoginPlugin.Controllers
 		{
 			string cacheId = GetCoreSessionId();
 
-			CacheItem loginCache = _loginCache.Get(cacheId);
+			ICacheItem loginCache = _loginCache.Get(cacheId);
 
 			if (loginCache != null)
 			{
@@ -429,17 +429,16 @@ namespace LoginPlugin.Controllers
 
 			string cacheId = GetCoreSessionId();
 
-			CacheItem loginCache = _loginCache.Get(cacheId);
+			ICacheItem loginCache = _loginCache.Get(cacheId);
 
 			if (loginCache != null)
 			{
-				Result = (LoginCacheItem)loginCache.Value;
+				Result = loginCache.GetValue<LoginCacheItem>();
 			}
 			else if (createIfNotExist)
 			{
 				Result = new LoginCacheItem();
-				loginCache = new CacheItem(cacheId, Result);
-				_loginCache.Add(cacheId, loginCache);
+				_loginCache.Add(cacheId, Result);
 			}
 
 			return Result;

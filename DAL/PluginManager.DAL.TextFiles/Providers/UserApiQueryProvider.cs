@@ -37,7 +37,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 	internal class UserApiQueryProvider : IUserApiQueryProvider
 	{
 		private readonly ISimpleDBOperations<UserApiDataRow> _userApiDataRow;
-		private readonly CacheManager _memoryCacheManager;
+		private readonly ICacheManager _memoryCacheManager;
 
 		public UserApiQueryProvider(ISimpleDBOperations<UserApiDataRow> userApiDataRow, IMemoryCache memoryCache)
 		{
@@ -61,7 +61,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 			string cacheName = $"api {merchantId} {apiKey}";
 
-			CacheItem cacheItem = _memoryCacheManager.Get(cacheName);
+			ICacheItem cacheItem = _memoryCacheManager.Get(cacheName);
 
 			if (cacheItem == null)
 			{
@@ -72,11 +72,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 				if (row == null)
 					return false;
 
-				cacheItem = new CacheItem(cacheName, row.Secret);
-				_memoryCacheManager.Add(cacheName, cacheItem);
+				cacheItem = _memoryCacheManager.Add(cacheName, row.Secret);
 			}
 
-			secret = (string)cacheItem.Value;
+			secret = cacheItem.GetValue<string>();
 
 			return true;
 		}

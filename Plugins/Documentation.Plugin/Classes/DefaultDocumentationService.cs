@@ -84,22 +84,18 @@ namespace DocumentationPlugin.Classes
 
 		public List<string> GetDocumentationFiles()
 		{
-			CacheItem cache = _memoryCache.GetPermanentCache().Get(DocumentationFileCache);
+			ICacheItem cache = _memoryCache.GetPermanentCache().Get(DocumentationFileCache);
 
-			if (cache == null)
-			{
-				cache = new CacheItem(DocumentationFileCache, GetDocumentationFileNames());
-				_memoryCache.GetExtendingCache().Add(DocumentationFileCache, cache);
-			}
+			cache ??= _memoryCache.GetExtendingCache().Add(DocumentationFileCache, GetDocumentationFileNames());
 
-			return (List<string>)cache.Value;
+			return cache.GetValue<List<string>>();
 		}
 
 		public List<Document> GetDocuments()
 		{
 			using (TimedLock doclock = TimedLock.Lock(_lockObject))
 			{
-				CacheItem cache = _memoryCache.GetCache().Get(DocumentationListCache);
+				ICacheItem cache = _memoryCache.GetCache().Get(DocumentationListCache);
 
 				if (cache == null)
 				{
@@ -132,11 +128,10 @@ namespace DocumentationPlugin.Classes
 
 					SetPreviousNext(documents);
 
-					cache = new CacheItem(DocumentationListCache, documents);
-					_memoryCache.GetCache().Add(DocumentationListCache, cache);
+					cache = _memoryCache.GetCache().Add(DocumentationListCache, documents);
 				}
 
-				return (List<Document>)cache.Value;
+				return cache.GetValue<List<Document>>();
 			}
 		}
 

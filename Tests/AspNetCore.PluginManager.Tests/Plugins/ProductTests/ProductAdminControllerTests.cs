@@ -492,7 +492,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         public void SaveProduct_ProductSaved_RedirectsToIndex()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
-            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            mockMemoryCache.GetShortCache().Add("test", true);
             MockProductProvider mockProductProvider = new MockProductProvider();
             ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
             EditProductModel editProductModel = new EditProductModel()
@@ -534,7 +534,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         public void ViewDeleteProduct_ProductNotFound_RedirectsToIndex()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
-            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            mockMemoryCache.GetShortCache().Add("test", true);
             MockProductProvider mockProductProvider = new MockProductProvider();
             ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
 
@@ -559,7 +559,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         public void ViewDeleteProduct_ProductFound_ReturnsPartialView()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
-            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            mockMemoryCache.GetShortCache().Add("test", true);
             MockProductProvider mockProductProvider = new MockProductProvider();
             ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
 
@@ -595,7 +595,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         public void DeleteProduct_ModelIsNull_RedirectsToIndex()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
-            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            mockMemoryCache.GetShortCache().Add("test", true);
             MockProductProvider mockProductProvider = new MockProductProvider();
             ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
 
@@ -619,7 +619,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         public void DeleteProduct_ProductNotFound_ReturnsBadResponse()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
-            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            mockMemoryCache.GetShortCache().Add("test", true);
             MockProductProvider mockProductProvider = new MockProductProvider();
             ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
 
@@ -643,7 +643,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         public void DeleteProduct_DeletionNotConfirmed_ReturnsModelWithModelStateError()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
-            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            mockMemoryCache.GetShortCache().Add("test", true);
             MockProductProvider mockProductProvider = new MockProductProvider();
             ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
             ProductDeleteModel model = new ProductDeleteModel(1);
@@ -668,7 +668,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         public void DeleteProduct_ProductProviderWillNotAllowDeletion_AddsModelError()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
-            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            mockMemoryCache.GetShortCache().Add("test", true);
             MockProductProvider mockProductProvider = new MockProductProvider();
             mockProductProvider.ProductDeleteError = "Failed to Delete";
             ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
@@ -695,7 +695,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         public void DeleteProduct_ProductDeleted_ReturnsResponse200()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
-            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            mockMemoryCache.GetShortCache().Add("test", true);
             MockProductProvider mockProductProvider = new MockProductProvider();
             ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
             ProductDeleteModel model = new ProductDeleteModel(1);
@@ -760,7 +760,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         public void ViewDeleteProductGroup_ProductGroupNotFound_Returns400()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
-            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            mockMemoryCache.GetShortCache().Add("test", true);
             MockProductProvider mockProductProvider = new MockProductProvider();
             ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
 
@@ -796,7 +796,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         public void DeleteProductGroup_InvalidModel_Returns400()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
-            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            mockMemoryCache.GetShortCache().Add("test", true);
             MockProductProvider mockProductProvider = new MockProductProvider();
             ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
 
@@ -820,7 +820,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         public void DeleteProductGroup_ProductGroupNotFound_ReturnsBadRequest()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
-            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            mockMemoryCache.GetShortCache().Add("test", true);
             MockProductProvider mockProductProvider = new MockProductProvider();
             ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
 
@@ -844,7 +844,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         public void DeleteProductGroup_DeletionNotConfirmed_ReturnsModelWithModelStateError()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
-            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            mockMemoryCache.GetShortCache().Add("test", true);
             MockProductProvider mockProductProvider = new MockProductProvider();
             ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
             ProductGroupDeleteModel model = new ProductGroupDeleteModel(1);
@@ -869,7 +869,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         public void DeleteProductGroup_ProductProviderWillNotAllowDeletion_AddsModelError()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
-            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            mockMemoryCache.GetShortCache().Add("test", true);
             MockProductProvider mockProductProvider = new MockProductProvider();
             mockProductProvider.ProductDeleteError = "Failed to Delete";
             ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
@@ -896,7 +896,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         public void DeleteProductGroup_ProductDeleted_ReturnsResponse200()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
-            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            mockMemoryCache.GetShortCache().Add("test", true);
             MockProductProvider mockProductProvider = new MockProductProvider();
             ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
             ProductGroupDeleteModel model = new ProductGroupDeleteModel(1);
@@ -937,7 +937,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         public void EditProductGroup_InvalidProductGroupId_RedirectsToGroupIndex()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
-            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            mockMemoryCache.GetShortCache().Add("test", true);
             MockProductProvider mockProductProvider = new MockProductProvider();
             ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
 
@@ -955,7 +955,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         public void EditProductGroup_ValidProductGroupId_ReturnsModelAndView()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
-            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            mockMemoryCache.GetShortCache().Add("test", true);
             MockProductProvider mockProductProvider = new MockProductProvider();
             ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
 
@@ -1061,7 +1061,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         public void SaveProductGroup_ProductGroupSaved_RedirectsToIndex()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
-            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            mockMemoryCache.GetShortCache().Add("test", true);
             ProductAdminController sut = CreateProductAdminController();
 
             EditProductGroupModel editProductGroupModel = new EditProductGroupModel()

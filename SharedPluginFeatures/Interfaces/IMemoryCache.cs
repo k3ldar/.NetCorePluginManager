@@ -46,7 +46,7 @@ namespace SharedPluginFeatures
 		/// There is no limit to the items that can be cached and cache retrieval is extremely quick.
 		/// </summary>
 		/// <returns>CacheManager instance</returns>
-		CacheManager GetShortCache();
+		ICacheManager GetShortCache();
 
 		/// <summary>
 		/// The long cache is inteded to hold items for upto 2 hours, after which items will expire.
@@ -57,7 +57,7 @@ namespace SharedPluginFeatures
 		/// There is no limit to the items that can be cached and cache retrieval is extremely quick.
 		/// </summary>
 		/// <returns>CacheManager instance</returns>
-		CacheManager GetCache();
+		ICacheManager GetCache();
 
 		/// <summary>
 		/// The extending cache is intended to cache items for 2 hours, after which items will expire.
@@ -68,7 +68,7 @@ namespace SharedPluginFeatures
 		/// There is no limit to the items that can be cached and cache retrieval is extremely quick.
 		/// </summary>
 		/// <returns>CacheManager instance</returns>
-		CacheManager GetExtendingCache();
+		ICacheManager GetExtendingCache();
 
 		/// <summary>
 		/// The permanent cache holds items in memory indefinitely.
@@ -76,7 +76,7 @@ namespace SharedPluginFeatures
 		/// There is no limit to the items that can be cached and cache retrieval is extremely quick.
 		/// </summary>
 		/// <returns>CacheManager instance</returns>
-		CacheManager GetPermanentCache();
+		ICacheManager GetPermanentCache();
 
 		/// <summary>
 		/// Resets all caches, clears all items.

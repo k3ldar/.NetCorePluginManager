@@ -161,7 +161,7 @@ namespace Sitemap.Plugin
 
 		private Dictionary<string, string> GetSitemaps(HttpContext context)
 		{
-			CacheItem sitemapCache = null;
+			ICacheItem sitemapCache = null;
 
 			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
 			{
@@ -169,12 +169,12 @@ namespace Sitemap.Plugin
 
 				if (sitemapCache == null)
 				{
-					sitemapCache = new CacheItem(Constants.CacheSitemaps, GetSitemaps(GetHost(context)));
-					_memoryCache.GetCache().Add(Constants.CacheSitemaps, sitemapCache);
+					_memoryCache.GetCache().Add(Constants.CacheSitemaps, GetSitemaps(GetHost(context)));
+					sitemapCache = _memoryCache.GetCache().Get(Constants.CacheSitemaps);
 				}
 			}
 
-			return (Dictionary<string, string>)sitemapCache.Value;
+			return sitemapCache.GetValue<Dictionary<string, string>>();
 		}
 
 		private Dictionary<string, string> GetSitemaps(string hostDomain)

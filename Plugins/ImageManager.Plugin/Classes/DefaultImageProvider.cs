@@ -52,7 +52,7 @@ namespace ImageManager.Plugin.Classes
 
 		private const string TempPathName = "Temp";
 		private readonly string _rootPath;
-		private static readonly CacheManager _imageProviderCache = new(nameof(DefaultImageProvider), new TimeSpan(12, 0, 0), false, true);
+		private static readonly ICacheManager _imageProviderCache = new CacheManager(nameof(DefaultImageProvider), new TimeSpan(12, 0, 0), false, true);
 
 		#endregion Private Members
 
@@ -91,8 +91,8 @@ namespace ImageManager.Plugin.Classes
 		/// <returns>List&lt;string&gt;</returns>
 		public Dictionary<string, List<string>> Groups()
 		{
-			string CacheNameGroups = "Default Image Provider - Groups";
-			CacheItem groupsCache = _imageProviderCache.Get(CacheNameGroups);
+			string cacheNameGroups = "Default Image Provider - Groups";
+			ICacheItem groupsCache = _imageProviderCache.Get(cacheNameGroups);
 
 			if (groupsCache == null)
 			{
@@ -110,11 +110,10 @@ namespace ImageManager.Plugin.Classes
 					Result.Add(Path.GetFileName(group), subGroups);
 				}
 
-				groupsCache = new CacheItem(CacheNameGroups, Result);
-				_imageProviderCache.Add(CacheNameGroups, groupsCache);
+				groupsCache = _imageProviderCache.Add(cacheNameGroups, Result);
 			}
 
-			return (Dictionary<string, List<string>>)groupsCache.Value;
+			return groupsCache.GetValue<Dictionary<string, List<string>>>();
 		}
 
 		/// <summary>
@@ -134,7 +133,7 @@ namespace ImageManager.Plugin.Classes
 				throw new ArgumentException($"{groupName} does not exist");
 
 			string cacheNameImageGroup = $"Default Image Provider Image Group - {groupName}";
-			CacheItem imageCache = _imageProviderCache.Get(cacheNameImageGroup);
+			ICacheItem imageCache = _imageProviderCache.Get(cacheNameImageGroup);
 
 			if (imageCache == null)
 			{
@@ -148,11 +147,10 @@ namespace ImageManager.Plugin.Classes
 					Result.Add(new ImageFile(uri, file));
 				}
 
-				imageCache = new CacheItem(cacheNameImageGroup, Result);
-				_imageProviderCache.Add(cacheNameImageGroup, imageCache);
+				imageCache = _imageProviderCache.Add(cacheNameImageGroup, Result);
 			}
 
-			return (List<ImageFile>)imageCache.Value;
+			return imageCache.GetValue<List<ImageFile>>();
 		}
 
 		/// <summary>
@@ -176,7 +174,7 @@ namespace ImageManager.Plugin.Classes
 				return [];
 
 			string cacheNameImageGroup = $"Default Image Provider Image Subgroup - {groupName} {subgroupName}";
-			CacheItem imageCache = _imageProviderCache.Get(cacheNameImageGroup);
+			ICacheItem imageCache = _imageProviderCache.Get(cacheNameImageGroup);
 
 			if (imageCache == null)
 			{
@@ -190,11 +188,10 @@ namespace ImageManager.Plugin.Classes
 					Result.Add(new ImageFile(uri, file));
 				}
 
-				imageCache = new CacheItem(cacheNameImageGroup, Result);
-				_imageProviderCache.Add(cacheNameImageGroup, imageCache);
+				imageCache = _imageProviderCache.Add(cacheNameImageGroup, Result);
 			}
 
-			return (List<ImageFile>)imageCache.Value;
+			return imageCache.GetValue<List<ImageFile>>();
 		}
 
 		/// <summary>
@@ -256,15 +253,11 @@ namespace ImageManager.Plugin.Classes
 			string groupPath = Path.Combine(_rootPath, ValidateUserInput(groupName, ValidationType.Path));
 
 			string cacheNameGroup = $"Default Image Provider Image Group Exists - {groupName}";
-			CacheItem imageCache = _imageProviderCache.Get(cacheNameGroup);
+			ICacheItem imageCache = _imageProviderCache.Get(cacheNameGroup);
 
-			if (imageCache == null)
-			{
-				imageCache = new CacheItem(cacheNameGroup, Directory.Exists(groupPath));
-				_imageProviderCache.Add(cacheNameGroup, imageCache);
-			}
+			imageCache ??= _imageProviderCache.Add(cacheNameGroup, Directory.Exists(groupPath));
 
-			return (bool)imageCache.Value;
+			return imageCache.GetValue<bool>();
 		}
 
 		/// <summary>
@@ -336,15 +329,11 @@ namespace ImageManager.Plugin.Classes
 			string groupPath = Path.Combine(_rootPath, ValidateUserInput(groupName, ValidationType.Path), ValidateUserInput(subgroupName, ValidationType.Path));
 
 			string cacheNameGroup = $"Default Image Provider Image Subgroup Exists - {groupName} {subgroupName}";
-			CacheItem imageCache = _imageProviderCache.Get(cacheNameGroup);
+			ICacheItem imageCache = _imageProviderCache.Get(cacheNameGroup);
 
-			if (imageCache == null)
-			{
-				imageCache = new CacheItem(cacheNameGroup, Directory.Exists(groupPath));
-				_imageProviderCache.Add(cacheNameGroup, imageCache);
-			}
+			imageCache ??= _imageProviderCache.Add(cacheNameGroup, Directory.Exists(groupPath));
 
-			return (bool)imageCache.Value;
+			return imageCache.GetValue<bool>();
 		}
 
 		/// <summary>
@@ -366,15 +355,11 @@ namespace ImageManager.Plugin.Classes
 			string fileName = Path.Combine(_rootPath, groupName, imageName);
 
 			string cacheNameImage = $"Default Image Provider ImageExists - {groupName} {imageName}";
-			CacheItem imageCache = _imageProviderCache.Get(cacheNameImage);
+			ICacheItem imageCache = _imageProviderCache.Get(cacheNameImage);
 
-			if (imageCache == null)
-			{
-				imageCache = new CacheItem(cacheNameImage, File.Exists(fileName));
-				_imageProviderCache.Add(cacheNameImage, imageCache);
-			}
+			imageCache ??= _imageProviderCache.Add(cacheNameImage, File.Exists(fileName));
 
-			return (bool)imageCache.Value;
+			return imageCache.GetValue<bool>();
 		}
 
 		/// <summary>

@@ -89,17 +89,17 @@ namespace SeoPlugin
 					route = route[..^1];
 
 				string cacheName = $"Seo Cache {route}";
-				CacheItem cacheItem = _memoryCache.GetCache().Get(cacheName);
+				ICacheItem cacheItem = _memoryCache.GetCache().Get(cacheName);
 
 				if (cacheItem == null)
 				{
 					_seoProvider.GetSeoDataForRoute(route, out string title, out string description,
 						out string author, out List<string> tags);
-					cacheItem = new CacheItem(cacheName, new SeoCacheItem(title, description, author, tags));
-					_memoryCache.GetCache().Add(cacheName, cacheItem);
+					_memoryCache.GetCache().Add(cacheName, new SeoCacheItem(title, description, author, tags));
+					cacheItem = _memoryCache.GetCache().Get(cacheName);
 				}
 
-				SeoCacheItem seoCache = (SeoCacheItem)cacheItem.Value;
+				SeoCacheItem seoCache = cacheItem.GetValue<SeoCacheItem>();
 				context.Items[SeoMetaAuthor] = seoCache.Author;
 				context.Items[SeoTitle] = seoCache.Title;
 				context.Items[SeoMetaDescription] = seoCache.Description;

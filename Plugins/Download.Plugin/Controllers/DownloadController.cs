@@ -54,7 +54,7 @@ namespace DownloadPlugin.Controllers
 
 		public const string Name = "Download";
 
-		private static readonly CacheManager _downloadCache = new("Downloads", new TimeSpan(0, 60, 0));
+		private static readonly ICacheManager _downloadCache = new CacheManager("Downloads", new TimeSpan(0, 60, 0));
 		private readonly IWebHostEnvironment _hostingEnvironment;
 		private readonly IDownloadProvider _downloadProvider;
 		private readonly List<DownloadCategory> _categories;
@@ -193,7 +193,7 @@ namespace DownloadPlugin.Controllers
 
 			string cacheName = $"FileInformation {fileName}";
 			FileInformation fileInformation;
-			CacheItem cacheItem = _downloadCache.Get(cacheName);
+			ICacheItem cacheItem = _downloadCache.Get(cacheName);
 
 			if (cacheItem == null)
 			{
@@ -212,11 +212,10 @@ namespace DownloadPlugin.Controllers
 				fileInformation.Version = versionInfo == null || versionInfo.ProductVersion == null ?
 					String.Empty : versionInfo.ProductVersion;
 
-				cacheItem = new CacheItem(cacheName, fileInformation);
-				_downloadCache.Add(cacheName, cacheItem);
+				cacheItem = _downloadCache.Add(cacheName, fileInformation);
 			}
 
-			fileInformation = (FileInformation)cacheItem.Value;
+			fileInformation = cacheItem.GetValue<FileInformation>();
 			version = fileInformation.Version ?? String.Empty;
 			size = fileInformation.Size ?? String.Empty;
 

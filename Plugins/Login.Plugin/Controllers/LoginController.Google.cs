@@ -63,7 +63,7 @@ namespace LoginPlugin.Controllers
 		{
 			UserSession userSession = GetUserSession();
 			string externalLoginCacheId = String.Format(ExternalLoginCacheItem, userSession.SessionID);
-			_memoryCache.GetShortCache().Add(externalLoginCacheId, new CacheItem(externalLoginCacheId, returnUrl));
+			_memoryCache.GetShortCache().Add(externalLoginCacheId, returnUrl);
 
 			string Googleurl = GoogleOAuthUri +
 				OAuthParamResponseTypeCode +
@@ -126,8 +126,8 @@ namespace LoginPlugin.Controllers
 
 				string externalLoginCacheId = String.Format(ExternalLoginCacheItem, userSession.SessionID);
 
-				CacheItem redirectCache = _memoryCache.GetShortCache().Get(externalLoginCacheId);
-				return LocalRedirect(redirectCache == null ? SharedPluginFeatures.Constants.ForwardSlash : (string)redirectCache.Value);
+				ICacheItem redirectCache = _memoryCache.GetShortCache().Get(externalLoginCacheId);
+				return LocalRedirect(redirectCache == null ? SharedPluginFeatures.Constants.ForwardSlash : redirectCache.GetValue<string>());
 			}
 
 			return RedirectToAction(nameof(Index));

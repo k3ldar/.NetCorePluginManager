@@ -235,7 +235,7 @@ namespace ImageManager.Plugin.Controllers
 			_virusScanner.ScanFile(cachedImageUpload.Files.ToArray());
 			string cacheName = GetCacheId();
 
-			_memoryCache.GetCache().Add(cacheName, new CacheItem(cacheName, cachedImageUpload));
+			_memoryCache.GetCache().Add(cacheName, cachedImageUpload);
 
 			return View("/Views/ImageManager/ImageUpload.cshtml", CreateImageUploadViewModel(model.GroupName, model.SubgroupName, null, cacheName));
 		}
@@ -251,14 +251,15 @@ namespace ImageManager.Plugin.Controllers
 			if (model.FileUploadId == null)
 				return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidImageCache);
 
-			CacheItem uploadCache = _memoryCache.GetCache().Get(model.FileUploadId);
+			ICacheItem uploadCache = _memoryCache.GetCache().Get(model.FileUploadId);
 
 			if (uploadCache == null)
 				return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidImageCache);
 
-			if (uploadCache.Value is not CachedImageUpload cachedImageUpload)
+			if (!uploadCache.IsType<CachedImageUpload>())
 				return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidImageCache);
 
+			CachedImageUpload cachedImageUpload = uploadCache.GetValue<CachedImageUpload>();
 			object notificationResponse = null;
 
 			_notificationService.RaiseEvent(Constants.NotificationEventImageUploaded, cachedImageUpload, model.AdditionalData, ref notificationResponse);

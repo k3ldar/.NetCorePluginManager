@@ -56,7 +56,7 @@ namespace ErrorManager.Plugin
 
 		private static readonly object _lockObject = new();
 		private static readonly Dictionary<string, uint> _missingPageCount = [];
-		private static readonly CacheManager _errorCacheManager = new("Error Manager", new TimeSpan(1, 0, 0), true, false);
+		private static readonly ICacheManager _errorCacheManager = new CacheManager("Error Manager", new TimeSpan(1, 0, 0), true, false);
 		private static readonly Timings _timingsExceptions = new();
 		private static readonly Timings _timingsMissingPages = new();
 
@@ -161,12 +161,12 @@ namespace ErrorManager.Plugin
 
 		internal static List<ErrorInformation> GetErrors()
 		{
-			List<CacheItem> cacheItems = _errorCacheManager.Items;
+			List<ICacheItem> cacheItems = _errorCacheManager.Items;
 
 			List<ErrorInformation> Result = [];
 
-			foreach (CacheItem item in cacheItems)
-				Result.Add((ErrorInformation)item.Value);
+			foreach (ICacheItem item in cacheItems)
+				Result.Add(item.GetValue<ErrorInformation>());
 
 			return Result;
 		}
@@ -197,16 +197,12 @@ namespace ErrorManager.Plugin
 			// has this error been logged before?
 			string errorIdentifier = $"{error.Message} {stackTrace}";
 
-			CacheItem cacheItem = _errorCacheManager.Get(errorIdentifier);
+			ICacheItem cacheItem = _errorCacheManager.Get(errorIdentifier);
 
-			if (cacheItem == null)
-			{
-				// not been logged before
-				cacheItem = new CacheItem(errorIdentifier, new ErrorInformation(error, errorIdentifier));
-				_errorCacheManager.Add(errorIdentifier, cacheItem);
-			}
+			// not been logged before
+			cacheItem ??= _errorCacheManager.Add(errorIdentifier, new ErrorInformation(error, errorIdentifier));
 
-			ErrorInformation errorInformation = (ErrorInformation)cacheItem.Value;
+			ErrorInformation errorInformation = cacheItem.GetValue<ErrorInformation>();
 			errorInformation.IncrementError();
 
 			// only inform about the error if it's the first time!
@@ -247,7 +243,7 @@ namespace ErrorManager.Plugin
 		private void ErrorCacheManager_ItemRemoved(object sender, Shared.CacheItemArgs e)
 		{
 			// when the error has expired, re-add it to the list of errors reported
-			ErrorInformation errorInformation = (ErrorInformation)e.CachedItem.Value;
+			ErrorInformation errorInformation = e.CachedItem.GetValue<ErrorInformation>();
 			errorInformation.Expired = true;
 			_errorThreadManager.AddError(errorInformation);
 		}
