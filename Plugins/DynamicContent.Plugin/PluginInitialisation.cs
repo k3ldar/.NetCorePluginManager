@@ -53,7 +53,7 @@ namespace DynamicContent.Plugin
 	public class PluginInitialisation : IPlugin, IInitialiseEvents, IClaimsService
 	{
 		private readonly IThreadManagerServices _threadManagerServices;
-		internal static readonly CacheManager DynamicContentCache = new(CacheNameDynamicContent, new TimeSpan(100, 0, 0, 0), true);
+		internal static readonly ICacheManager DynamicContentCache = new CacheManager(CacheNameDynamicContent, new TimeSpan(100, 0, 0, 0), true);
 
 		#region Constructors
 

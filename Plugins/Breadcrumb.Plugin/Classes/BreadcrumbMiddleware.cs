@@ -53,7 +53,7 @@ namespace Breadcrumb.Plugin
 		#region Private Members
 
 		private static readonly Dictionary<string, BreadcrumbRoute> _breadcrumbRoutes = [];
-		private static readonly CacheManager _breadcrumbCache = new("Breadcrumb Cache", new TimeSpan(0, 20, 0), true);
+		private static readonly ICacheManager _breadcrumbCache = new CacheManager("Breadcrumb Cache", new TimeSpan(0, 20, 0), true);
 		private readonly RequestDelegate _next;
 		private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
 		internal readonly static Timings _timings = new();
@@ -204,7 +204,7 @@ namespace Breadcrumb.Plugin
 		{
 			string cacheName = $"{route} {System.Threading.Thread.CurrentThread.CurrentUICulture} {routeParameters}";
 
-			CacheItem cacheItem = _breadcrumbCache.Get(cacheName);
+			ICacheItem cacheItem = _breadcrumbCache.Get(cacheName);
 
 			if (cacheItem == null)
 			{
@@ -230,11 +230,10 @@ namespace Breadcrumb.Plugin
 					}
 				}
 
-				cacheItem = new CacheItem(cacheName, Result);
-				_breadcrumbCache.Add(cacheName, cacheItem);
+				cacheItem = _breadcrumbCache.Add(cacheName, Result);
 			}
 
-			return (List<BreadcrumbItem>)cacheItem.Value;
+			return cacheItem.GetValue<List<BreadcrumbItem>>();
 		}
 
 		private void LoadBreadcrumbData(in IActionDescriptorCollectionProvider routeProvider,

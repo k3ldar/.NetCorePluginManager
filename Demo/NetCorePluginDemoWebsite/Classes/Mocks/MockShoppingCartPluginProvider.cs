@@ -47,7 +47,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 	{
 		#region Private Members
 
-		private static readonly CacheManager _cartCacheManager = new("Shopping Carts", new TimeSpan(0, 20, 0), true);
+		private static readonly ICacheManager _cartCacheManager = new CacheManager("Shopping Carts", new TimeSpan(0, 20, 0), true);
 		private static bool _cartHookedUp;
 		private static long _basketId = 0;
 		private readonly IProductProvider _productProvider;
@@ -117,18 +117,14 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 			string cacheName = $"Cart {shoppingCart.Id}";
 
-			CacheItem basket = _cartCacheManager.Get(cacheName);
+			ICacheItem basket = _cartCacheManager.Get(cacheName);
 
-			if (basket == null)
-			{
-				basket = new CacheItem(cacheName, cartDetail);
-				_cartCacheManager.Add(cacheName, basket, true);
-			}
+			basket ??= _cartCacheManager.Add(cacheName, cartDetail, true);
 
 			if (shoppingCart.Id == 0 && userSession.UserBasketId != shoppingCart.Id)
 				shoppingCart.ResetShoppingCartId(userSession.UserBasketId);
 
-			ShoppingCartDetail cart = basket.Value as ShoppingCartDetail;
+			ShoppingCartDetail cart = basket.GetValue<ShoppingCartDetail>();
 
 			cart.Add(product, count);
 
@@ -142,7 +138,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
 			string basketCache = $"Cart {shoppingCartId}";
 
-			CacheItem cacheItem = _cartCacheManager.Get(basketCache);
+			ICacheItem cacheItem = _cartCacheManager.Get(basketCache);
 
 			if (cacheItem == null)
 			{
@@ -162,11 +158,10 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 					product.RetailPrice, 20, 0, 10, System.Threading.Thread.CurrentThread.CurrentUICulture,
 					"Test Coupon", items, requiresShipping, "GBP");
 
-				cacheItem = new CacheItem(basketCache, cartDetail);
-				_cartCacheManager.Add(basketCache, cacheItem, true);
+				cacheItem = _cartCacheManager.Add(basketCache, cartDetail, true);
 			}
 
-			return (ShoppingCartDetail)cacheItem.Value;
+			return cacheItem.GetValue<ShoppingCartDetail>();
 		}
 
 		public bool ValidateVoucher(in ShoppingCartSummary cartSummary, in string voucher, in long userId)
@@ -255,7 +250,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 			if (product != null)
 				cartDetail.Add(product, 1);
 
-			e.CachedItem = new CacheItem(e.Name, cartDetail);
+			e.CachedItem = _cartCacheManager.Add(e.Name, cartDetail);
 		}
 
 		#endregion Private Methods

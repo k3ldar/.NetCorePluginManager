@@ -42,13 +42,10 @@ namespace MemoryCache.Plugin
 	{
 		#region Private Members
 
-		private static CacheManager _cacheShort;
-
-		private static CacheManager _cache;
-
-		private static CacheManager _extendingCache;
-
-		private static CacheManager _permanentCache;
+		private static ICacheManager _cacheShort;
+		private static ICacheManager _cache;
+		private static ICacheManager _extendingCache;
+		private static ICacheManager _permanentCache;
 
 		#endregion Private Members
 
@@ -121,22 +118,22 @@ namespace MemoryCache.Plugin
 
 		#region Public Methods
 
-		public CacheManager GetCache()
+		public ICacheManager GetCache()
 		{
 			return _cache;
 		}
 
-		public CacheManager GetShortCache()
+		public ICacheManager GetShortCache()
 		{
 			return _cacheShort;
 		}
 
-		public CacheManager GetExtendingCache()
+		public ICacheManager GetExtendingCache()
 		{
 			return _extendingCache;
 		}
 
-		public CacheManager GetPermanentCache()
+		public ICacheManager GetPermanentCache()
 		{
 			return _permanentCache;
 		}

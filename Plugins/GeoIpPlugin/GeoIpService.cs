@@ -42,7 +42,7 @@ namespace GeoIp.Plugin
 	{
 		#region Private Members
 
-		private readonly CacheManager _geoIpCache;
+		private readonly ICacheManager _geoIpCache;
 		private readonly GeoIpPluginSettings _geoIpSettings;
 		private IpCity[] _geoIpCityData;
 		private List<IpCity> _tempIpCity = [];
@@ -166,7 +166,7 @@ namespace GeoIp.Plugin
 
 			// WebNet77 data is not present, check to see if we have the ip in memory, if we do
 			// return that, if not, try and get it from ip provider
-			CacheItem geoCacheItem = null;
+			ICacheItem geoCacheItem = null;
 
 			using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timingsIpCache))
 			{
@@ -196,13 +196,13 @@ namespace GeoIp.Plugin
 						provider.GetIpAddressDetails(ipAddress, out countryCode, out region,
 							out cityName, out latitude, out longitude, out ipUniqueID, out long ipFrom, out long ipTo))
 					{
-						_geoIpCache.Add(ipAddress, new CacheItem(ipAddress, new IpCity(ipFrom, ipTo, countryCode)
+						_geoIpCache.Add(ipAddress, new IpCity(ipFrom, ipTo, countryCode)
 						{
 							Region = region,
 							CityName = cityName,
 							Latitude = latitude,
 							Longitude = longitude
-						}));
+						});
 
 						return true;
 					}
@@ -212,7 +212,7 @@ namespace GeoIp.Plugin
 			if (geoCacheItem == null)
 				return false;
 
-			IpCity city = (IpCity)geoCacheItem.Value;
+			IpCity city = geoCacheItem.GetValue<IpCity>();
 			countryCode = city.CountryCode;
 			region = city.Region;
 			cityName = city.CityName;

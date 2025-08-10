@@ -142,7 +142,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IMemoryCache memoryCache = provider.GetService<IMemoryCache>();
 					Assert.IsNotNull(memoryCache);
 
-					memoryCache.GetShortCache().Add("api testMerch testKey", new Shared.Classes.CacheItem("api testMerch testKey", "the secret"));
+					memoryCache.GetShortCache().Add("api testMerch testKey", "the secret");
 
 					IUserApiQueryProvider sut = provider.GetService<IUserApiQueryProvider>();
 					Assert.IsNotNull(sut);
@@ -236,9 +236,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 					IMemoryCache memoryCache = provider.GetService<IMemoryCache>();
 					Assert.IsNotNull(memoryCache);
 
-					CacheItem cacheItem = memoryCache.GetShortCache().Get("api testMerch testKey");
+					ICacheItem cacheItem = memoryCache.GetShortCache().Get("api testMerch testKey");
 					Assert.IsNotNull(cacheItem);
-					Assert.AreEqual("my secret", (string)cacheItem.Value);
+					Assert.AreEqual("my secret", cacheItem.GetValue<string>());
 				}
 			}
 			finally

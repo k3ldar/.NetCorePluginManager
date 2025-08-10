@@ -134,7 +134,7 @@ namespace ProductPlugin.Controllers
 			DefaultSearchThread.KeywordSearch(searchProvider, options);
 
 			string cacheName = $"Product Search View Model {model.SearchName}";
-			_memoryCache.GetExtendingCache().Add(cacheName, new CacheItem(cacheName, model), true);
+			_memoryCache.GetExtendingCache().Add(cacheName, model, true);
 
 			return Redirect($"/Search/Advanced/{LanguageStrings.Products}/{model.SearchName}/");
 		}
@@ -148,7 +148,7 @@ namespace ProductPlugin.Controllers
 			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
 			{
 				string cacheName = "Product Search Product Group Product Counts";
-				CacheItem cacheItem = _memoryCache.GetCache().Get(cacheName);
+				ICacheItem cacheItem = _memoryCache.GetCache().Get(cacheName);
 
 				if (cacheItem == null)
 				{
@@ -163,11 +163,11 @@ namespace ProductPlugin.Controllers
 							"Update product group product counts", System.Threading.ThreadPriority.Lowest);
 					}
 
-					cacheItem = new CacheItem(cacheName, productGroups);
-					_memoryCache.GetCache().Add(cacheName, cacheItem, true);
+					_memoryCache.GetCache().Add(cacheName, productGroups, true);
+					cacheItem = _memoryCache.GetCache().Get(cacheName);
 				}
 
-				return (List<string>)cacheItem.Value;
+				return cacheItem.GetValue<List<string>>();
 			}
 		}
 
@@ -176,7 +176,7 @@ namespace ProductPlugin.Controllers
 			using (TimedLock timedLock = TimedLock.Lock(_lockObject))
 			{
 				string cacheName = "Product Search Product With Video Product Counts";
-				CacheItem cacheItem = _memoryCache.GetCache().Get(cacheName);
+				ICacheItem cacheItem = _memoryCache.GetCache().Get(cacheName);
 
 				if (cacheItem == null)
 				{
@@ -193,11 +193,11 @@ namespace ProductPlugin.Controllers
 							"Update product with video product counts", System.Threading.ThreadPriority.Lowest);
 					}
 
-					cacheItem = new CacheItem(cacheName, videoCount);
-					_memoryCache.GetCache().Add(cacheName, cacheItem, true);
+					_memoryCache.GetCache().Add(cacheName, videoCount, true);
+					cacheItem = _memoryCache.GetCache().Get(cacheName);
 				}
 
-				return (int)cacheItem.Value;
+				return cacheItem.GetValue<int>();
 			}
 		}
 
@@ -207,7 +207,7 @@ namespace ProductPlugin.Controllers
 			{
 				CultureInfo culture = System.Threading.Thread.CurrentThread.CurrentUICulture;
 				string cacheName = $"Product Search Product Price Groups {culture.Name}";
-				CacheItem cacheItem = _memoryCache.GetCache().Get(cacheName);
+				ICacheItem cacheItem = _memoryCache.GetCache().Get(cacheName);
 
 				if (cacheItem == null)
 				{
@@ -264,11 +264,11 @@ namespace ProductPlugin.Controllers
 							$"Update price group product counts {culture.Name}", System.Threading.ThreadPriority.Lowest);
 					}
 
-					cacheItem = new CacheItem(cacheName, priceGroups);
-					_memoryCache.GetCache().Add(cacheName, cacheItem, true);
+					_memoryCache.GetCache().Add(cacheName, priceGroups, true);
+					cacheItem = _memoryCache.GetCache().Get(cacheName);
 				}
 
-				return (List<ProductPriceInfo>)cacheItem.Value;
+				return cacheItem.GetValue<List<ProductPriceInfo>>();
 			}
 		}
 
@@ -276,11 +276,11 @@ namespace ProductPlugin.Controllers
 		{
 			if (!String.IsNullOrEmpty(searchId))
 			{
-				CacheItem cacheItem = _memoryCache.GetExtendingCache().Get($"Product Search View Model {searchId}");
+				ICacheItem cacheItem = _memoryCache.GetExtendingCache().Get($"Product Search View Model {searchId}");
 
 				if (cacheItem != null)
 				{
-					return (ProductSearchViewModel)cacheItem.Value;
+					return cacheItem.GetValue<ProductSearchViewModel>();
 				}
 			}
 

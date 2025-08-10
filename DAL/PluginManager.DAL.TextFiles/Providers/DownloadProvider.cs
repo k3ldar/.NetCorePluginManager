@@ -64,7 +64,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 		{
 			string cacheName = $"{nameof(DownloadCategoriesGet)} {userId}";
 
-			CacheItem cacheItem = _memoryCache.GetExtendingCache().Get(cacheName);
+			ICacheItem cacheItem = _memoryCache.GetExtendingCache().Get(cacheName);
 
 			if (cacheItem == null)
 			{
@@ -88,18 +88,17 @@ namespace PluginManager.DAL.TextFiles.Providers
 					result.Add(new DownloadCategory(category.Id, category.Name, downloads));
 				}
 
-				cacheItem = new CacheItem(cacheName, result);
-				_memoryCache.GetExtendingCache().Add(cacheName, cacheItem);
+				cacheItem = _memoryCache.GetExtendingCache().Add(cacheName, result);
 			}
 
-			return (List<DownloadCategory>)cacheItem.Value;
+			return cacheItem.GetValue<List<DownloadCategory>>();
 		}
 
 		public List<DownloadCategory> DownloadCategoriesGet()
 		{
 			string cacheName = $"{nameof(DownloadCategoriesGet)} All Users";
 
-			CacheItem cacheItem = _memoryCache.GetExtendingCache().Get(cacheName);
+			ICacheItem cacheItem = _memoryCache.GetExtendingCache().Get(cacheName);
 
 			if (cacheItem == null)
 			{
@@ -121,11 +120,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 					result.Add(new DownloadCategory(category.Id, category.Name, downloads));
 				}
 
-				cacheItem = new CacheItem(cacheName, result);
-				_memoryCache.GetExtendingCache().Add(cacheName, cacheItem);
+				cacheItem = _memoryCache.GetExtendingCache().Add(cacheName, result);
 			}
 
-			return (List<DownloadCategory>)cacheItem.Value;
+			return cacheItem.GetValue<List<DownloadCategory>>();
 		}
 
 		public DownloadItem GetDownloadItem(in long fileId)

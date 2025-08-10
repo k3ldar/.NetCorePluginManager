@@ -98,7 +98,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
         public void Validate_MenuData_Success()
         {
             CacheManager testCache = new CacheManager("Test Cache", new TimeSpan());
-            testCache.Add("test item", new CacheItem("test item", null));
+            testCache.Add("test item", null);
 
             MemoryCacheMenu sut = new MemoryCacheMenu();
 

@@ -55,7 +55,7 @@ namespace Localization.Plugin
 	{
 		#region Internal Static Properties / Members
 
-		internal readonly static CacheManager CultureCacheManager = new("Available Cultures", new TimeSpan(24, 0, 0), true, true);
+		internal readonly static ICacheManager CultureCacheManager = new CacheManager("Available Cultures", new TimeSpan(24, 0, 0), true, true);
 
 		internal static string[] InstalledCultures { get; private set; }
 

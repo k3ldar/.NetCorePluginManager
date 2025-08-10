@@ -38,13 +38,13 @@ namespace AspNetCore.PluginManager.Tests.Shared
     {
         #region Private Members
 
-        private readonly CacheManager _cacheShort;
+        private readonly ICacheManager _cacheShort;
 
-        private readonly CacheManager _cache;
+        private readonly ICacheManager _cache;
 
-        private readonly CacheManager _extendingCache;
+        private readonly ICacheManager _extendingCache;
 
-        private readonly CacheManager _permanentCache;
+        private readonly ICacheManager _permanentCache;
 
         #endregion Private Members
 
@@ -67,11 +67,11 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
         #region Private Methods
 
-        private CacheManager CreateCache(string name)
+        private ICacheManager CreateCache(string name)
         {
             ICacheManagerFactory cacheManagerFactory = new CacheManagerFactory();
 
-            CacheManager Result = cacheManagerFactory.GetCacheIfExists(name);
+            ICacheManager Result = cacheManagerFactory.GetCacheIfExists(name);
 
             if (Result == null)
             {
@@ -87,22 +87,22 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
         #region Public Methods
 
-        public CacheManager GetCache()
+        public ICacheManager GetCache()
         {
             return _cache;
         }
 
-        public CacheManager GetShortCache()
+        public ICacheManager GetShortCache()
         {
             return _cacheShort;
         }
 
-        public CacheManager GetExtendingCache()
+        public ICacheManager GetExtendingCache()
         {
             return _extendingCache;
         }
 
-        public CacheManager GetPermanentCache()
+        public ICacheManager GetPermanentCache()
         {
             return _permanentCache;
         }

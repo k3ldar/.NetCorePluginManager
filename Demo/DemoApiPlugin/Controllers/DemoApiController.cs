@@ -78,17 +78,13 @@ namespace DemoApiPlugin.Controllers
 		[HttpGet]
 		public ActionResult<IEnumerable<string>> Get()
 		{
-			CacheItem hitCount = _memoryCache.GetCache().Get("Demo API Controller, Get Count");
+			ICacheItem hitCount = _memoryCache.GetCache().Get("Demo API Controller, Get Count");
 
-			if (hitCount == null)
-			{
-				hitCount = new CacheItem("Demo API Controller, Get Count", new HitCount());
-				_memoryCache.GetCache().Add("Demo API Controller, Get Count", hitCount);
-			}
+			hitCount ??= _memoryCache.GetCache().Add("Demo API Controller, Get Count", new HitCount());
 
-			((HitCount)hitCount.Value).Count++;
+			hitCount.GetValue<HitCount>().Count++;
 
-			return new string[] { "Demo Api Plugin", $"This Api has been called {((HitCount)hitCount.Value).Count} times" };
+			return new string[] { "Demo Api Plugin", $"This Api has been called {hitCount.GetValue<HitCount>().Count} times" };
 		}
 
 		// GET api/values/5

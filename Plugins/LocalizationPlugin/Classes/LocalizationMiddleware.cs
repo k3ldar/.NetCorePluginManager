@@ -48,7 +48,7 @@ namespace Localization.Plugin
 
 		private readonly RequestDelegate _next;
 		private static readonly Timings _timings = new();
-		private readonly CacheManager _cultureCache;
+		private readonly ICacheManager _cultureCache;
 
 		#endregion Private Members
 
@@ -105,15 +105,15 @@ namespace Localization.Plugin
 			if (String.IsNullOrEmpty(culture))
 				throw new ArgumentNullException(nameof(culture));
 
-			CacheItem cacheItem = _cultureCache.Get(culture);
+			ICacheItem cacheItem = _cultureCache.Get(culture);
 
 			if (cacheItem == null)
 			{
-				cacheItem = new CacheItem(culture, new CultureInfo(culture));
-				_cultureCache.Add(culture, cacheItem);
+				_cultureCache.Add(culture, new CultureInfo(culture));
+				cacheItem = _cultureCache.Get(culture);
 			}
 
-			CultureInfo cultureInfo = (CultureInfo)cacheItem.Value;
+			CultureInfo cultureInfo = cacheItem.GetValue<CultureInfo>();
 
 			System.Threading.Thread.CurrentThread.CurrentCulture = cultureInfo;
 			System.Threading.Thread.CurrentThread.CurrentUICulture = cultureInfo;

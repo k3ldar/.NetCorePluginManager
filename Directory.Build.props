@@ -37,12 +37,12 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <SharedVer>3.17.0</SharedVer>
-    <SharedWinVer>1.7.0</SharedWinVer>
+    <SharedVer>4.0.1</SharedVer>
+    <SharedWinVer>1.8.1</SharedWinVer>
   </PropertyGroup>
   
   <PropertyGroup>
-    <Version>5.8.0</Version>
+    <Version>5.9.0</Version>
 	  <AssemblyVersion>$(Version).0</AssemblyVersion>
     <LangVersion>latest</LangVersion>
     <Authors>Simon Carter (s1cart3r@gmail.com)</Authors>

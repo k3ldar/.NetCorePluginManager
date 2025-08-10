@@ -848,10 +848,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
                 Assert.IsTrue(result.Url.StartsWith("/Search/Advanced/P"));
                 Assert.IsFalse(result.Permanent);
 
-                CacheItem cacheItem = mockMemoryCache.GetCache().Get("Product Search Product Price Groups en-GB");
+                ICacheItem cacheItem = mockMemoryCache.GetCache().Get("Product Search Product Price Groups en-GB");
 
                 Assert.IsNotNull(cacheItem);
-                List<ProductPriceInfo> productPrices = (List<ProductPriceInfo>)cacheItem.Value;
+                List<ProductPriceInfo> productPrices = cacheItem.GetValue<List<ProductPriceInfo>>();
                 Assert.AreEqual(6, productPrices.Count);
 
                 Assert.AreEqual(5.00m, productPrices[0].MaxValue);
@@ -906,7 +906,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
                 Assert.IsTrue(result.Url.StartsWith("/Search/Advanced/P"));
                 Assert.IsFalse(result.Permanent);
 
-                CacheItem cacheItem = mockMemoryCache.GetExtendingCache().Get($"Product Search View Model {model.SearchName}");
+                ICacheItem cacheItem = mockMemoryCache.GetExtendingCache().Get($"Product Search View Model {model.SearchName}");
                 Assert.IsNotNull(cacheItem);
 
                 sut.Search(model.SearchName);

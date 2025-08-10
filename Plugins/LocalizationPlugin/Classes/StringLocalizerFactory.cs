@@ -58,28 +58,28 @@ namespace Localization.Plugin
 
 		public IStringLocalizer Create(Type resourceSource)
 		{
-			CacheItem cacheItem = PluginInitialisation.CultureCacheManager.Get(_cacheName);
+			ICacheItem cacheItem = PluginInitialisation.CultureCacheManager.Get(_cacheName);
 
 			if (cacheItem == null)
 			{
-				cacheItem = new CacheItem(_cacheName, new StringLocalizer(_logger, _pluginClassesService));
-				PluginInitialisation.CultureCacheManager.Add(_cacheName, cacheItem);
+				PluginInitialisation.CultureCacheManager.Add(_cacheName, new StringLocalizer(_logger, _pluginClassesService));
+				cacheItem = PluginInitialisation.CultureCacheManager.Get(_cacheName);
 			}
 
-			return (IStringLocalizer)cacheItem.Value;
+			return cacheItem.GetValue<IStringLocalizer>();
 		}
 
 		public IStringLocalizer Create(string baseName, string location)
 		{
-			CacheItem cacheItem = PluginInitialisation.CultureCacheManager.Get(_cacheName);
+			ICacheItem cacheItem = PluginInitialisation.CultureCacheManager.Get(_cacheName);
 
 			if (cacheItem == null)
 			{
-				cacheItem = new CacheItem(_cacheName, new StringLocalizer(_logger, _pluginClassesService));
-				PluginInitialisation.CultureCacheManager.Add(_cacheName, cacheItem);
+				PluginInitialisation.CultureCacheManager.Add(_cacheName, new StringLocalizer(_logger, _pluginClassesService));
+				cacheItem = PluginInitialisation.CultureCacheManager.Get(_cacheName);
 			}
 
-			return (IStringLocalizer)cacheItem.Value;
+			return cacheItem.GetValue<IStringLocalizer>();
 		}
 
 		#endregion IStringLocalizerFactory Methods

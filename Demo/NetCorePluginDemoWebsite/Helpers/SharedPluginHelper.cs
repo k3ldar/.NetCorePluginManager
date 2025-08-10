@@ -64,15 +64,11 @@ namespace AspNetCore.PluginManager.DemoWebsite.Helpers
 
 		public List<MainMenuItem> BuildMainMenu()
 		{
-			CacheItem cache = _memoryCache.GetExtendingCache().Get(MainMenuCache);
+			ICacheItem cache = _memoryCache.GetExtendingCache().Get(MainMenuCache);
 
-			if (cache == null)
-			{
-				cache = new CacheItem(MainMenuCache, _pluginClassesService.GetPluginClasses<MainMenuItem>());
-				_memoryCache.GetExtendingCache().Add(MainMenuCache, cache);
-			}
+			cache ??= _memoryCache.GetExtendingCache().Add(MainMenuCache, _pluginClassesService.GetPluginClasses<MainMenuItem>());
 
-			return (List<MainMenuItem>)cache.Value;
+			return cache.GetValue<List<MainMenuItem>>();
 		}
 	}
 }

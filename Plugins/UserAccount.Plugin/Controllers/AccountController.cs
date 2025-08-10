@@ -62,7 +62,7 @@ namespace UserAccount.Plugin.Controllers
 		private readonly ICultureProvider _cultureProvider;
 		private readonly bool _blogLoaded;
 
-		private static readonly CacheManager _createAccountCache = new("Create Account Cache", new TimeSpan(0, 30, 0));
+		private static readonly ICacheManager _createAccountCache = new CacheManager("Create Account Cache", new TimeSpan(0, 30, 0));
 
 		#endregion Private Members
 

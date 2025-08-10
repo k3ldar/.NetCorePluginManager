@@ -46,7 +46,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 		private const int StatusOnHold = 2;
 		private const int SupportDepartment = 2;
 
-		private static readonly CacheManager _memoryCache = new("Helpdesk", new TimeSpan(0, 30, 0), true, true);
+		private static readonly ICacheManager _memoryCache = new CacheManager("Helpdesk", new TimeSpan(0, 30, 0), true, true);
 
 		private readonly ISimpleDBOperations<FeedbackDataRow> _feedbackDataRow;
 		private readonly ISimpleDBOperations<FaqDataRow> _faqDataRow;
@@ -97,26 +97,18 @@ namespace PluginManager.DAL.TextFiles.Providers
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
 		public List<Feedback> GetFeedback(in bool publiclyVisible)
 		{
-			CacheItem feedbackCache = _memoryCache.Get(nameof(GetFeedback));
+			List<FeedbackDataRow> allFeedback = null;
 
-			if (feedbackCache == null)
-			{
-				List<FeedbackDataRow> allFeedback = null;
+			if (publiclyVisible)
+				allFeedback = _feedbackDataRow.Select().Where(pv => pv.ShowOnWebsite).ToList();
+			else
+				allFeedback = [.. _feedbackDataRow.Select()];
 
-				if (publiclyVisible)
-					allFeedback = _feedbackDataRow.Select().Where(pv => pv.ShowOnWebsite).ToList();
-				else
-					allFeedback = [.. _feedbackDataRow.Select()];
+			List<Feedback> Result = [];
 
-				List<Feedback> Result = [];
+			allFeedback.ForEach(f => Result.Add(new Feedback(f.Id, f.UserName, f.Message, f.ShowOnWebsite)));
 
-				allFeedback.ForEach(f => Result.Add(new Feedback(f.Id, f.UserName, f.Message, f.ShowOnWebsite)));
-
-				feedbackCache = new CacheItem(nameof(GetFeedback), Result);
-
-			}
-
-			return (List<Feedback>)feedbackCache.Value;
+			return Result;
 		}
 
 		public bool SubmitFeedback(in long userId, in string name, in string feedback)
@@ -138,7 +130,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 		public List<LookupListItem> GetTicketDepartments()
 		{
-			CacheItem cacheItem = _memoryCache.Get(nameof(GetTicketDepartments));
+			ICacheItem cacheItem = _memoryCache.Get(nameof(GetTicketDepartments));
 
 			if (cacheItem == null)
 			{
@@ -148,15 +140,15 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 				departments.ForEach(d => Result.Add(new LookupListItem((int)d.Id, d.Description)));
 
-				cacheItem = new CacheItem(nameof(GetTicketDepartments), Result);
+				cacheItem = _memoryCache.Add(nameof(GetTicketDepartments), Result);
 			}
 
-			return (List<LookupListItem>)cacheItem.Value;
+			return cacheItem.GetValue<List<LookupListItem>>();
 		}
 
 		public List<LookupListItem> GetTicketPriorities()
 		{
-			CacheItem cacheItem = _memoryCache.Get(nameof(GetTicketPriorities));
+			ICacheItem cacheItem = _memoryCache.Get(nameof(GetTicketPriorities));
 
 			if (cacheItem == null)
 			{
@@ -166,15 +158,15 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 				departments.ForEach(d => Result.Add(new LookupListItem((int)d.Id, d.Description)));
 
-				cacheItem = new CacheItem(nameof(GetTicketPriorities), Result);
+				cacheItem = _memoryCache.Add(nameof(GetTicketPriorities), Result);
 			}
 
-			return (List<LookupListItem>)cacheItem.Value;
+			return cacheItem.GetValue<List<LookupListItem>>();
 		}
 
 		public List<LookupListItem> GetTicketStatus()
 		{
-			CacheItem cacheItem = _memoryCache.Get(nameof(GetTicketStatus));
+			ICacheItem cacheItem = _memoryCache.Get(nameof(GetTicketStatus));
 
 			if (cacheItem == null)
 			{
@@ -184,10 +176,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 				departments.ForEach(d => Result.Add(new LookupListItem((int)d.Id, d.Description)));
 
-				cacheItem = new CacheItem(nameof(GetTicketStatus), Result);
+				cacheItem = _memoryCache.Add(nameof(GetTicketStatus), Result);
 			}
 
-			return (List<LookupListItem>)cacheItem.Value;
+			return cacheItem.GetValue<List<LookupListItem>>();
 		}
 		public bool SubmitTicket(in long userId, in int department, in int priority,
 			in string userName, in string email, in string subject, in string message,
@@ -334,7 +326,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 		public List<KnowledgeBaseGroup> GetKnowledgebaseGroups(in long userId, in KnowledgeBaseGroup parent)
 		{
 			string cacheName = $"{nameof(GetKnowledgebaseGroups)} {(parent == null ? 0 : parent.Id)}";
-			CacheItem cacheItem = _memoryCache.Get(cacheName);
+			ICacheItem cacheItem = _memoryCache.Get(cacheName);
 
 			if (cacheItem == null)
 			{
@@ -343,12 +335,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 				long parentId = parent == null ? 0 : parent.Id;
 				items = ConvertFaqDataListToKbGroupList(_faqDataRow.Select().Where(f => f.Parent.Equals(parentId)), parent);
 
-				cacheItem = new CacheItem(cacheName, items);
-
-				_memoryCache.Add(cacheName, cacheItem);
+				cacheItem = _memoryCache.Add(cacheName, items);
 			}
 
-			return (List<KnowledgeBaseGroup>)cacheItem.Value;
+			return cacheItem.GetValue<List<KnowledgeBaseGroup>>();
 		}
 
 		public KnowledgeBaseGroup GetKnowledgebaseGroup(in long userId, in long id)
@@ -362,7 +352,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 				return null;
 
 			string cacheName = $"{nameof(GetKnowledgebaseGroup)} {id}";
-			CacheItem cacheItem = _memoryCache.Get(cacheName);
+			ICacheItem cacheItem = _memoryCache.Get(cacheName);
 
 			if (cacheItem == null)
 			{
@@ -373,12 +363,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 				KnowledgeBaseGroup item = ConvertFaqDataRowToKbGroup(faqDataRow, InternalGetKnowledgebaseGroup(faqDataRow.Parent, ++recursionDepth));
 
-				cacheItem = new CacheItem(cacheName, item);
-
-				_memoryCache.Add(cacheName, cacheItem);
+				cacheItem = _memoryCache.Add(cacheName, item);
 			}
 
-			return (KnowledgeBaseGroup)cacheItem.Value;
+			return cacheItem.GetValue<KnowledgeBaseGroup>();
 		}
 
 		public bool GetKnowledgebaseItem(in long userId, in long id,

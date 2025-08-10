@@ -107,17 +107,16 @@ namespace UserAccount.Plugin.Controllers
 
 			string cacheId = GetIpAddress();
 
-			CacheItem loginCache = _createAccountCache.Get(cacheId);
+			ICacheItem loginCache = _createAccountCache.Get(cacheId);
 
 			if (loginCache != null)
 			{
-				Result = (CreateAccountCacheItem)loginCache.Value;
+				Result = loginCache.GetValue<CreateAccountCacheItem>();
 			}
 			else if (createIfNotExist)
 			{
 				Result = new CreateAccountCacheItem();
-				loginCache = new CacheItem(cacheId, Result);
-				_createAccountCache.Add(cacheId, loginCache);
+				_createAccountCache.Add(cacheId, Result);
 			}
 
 			return (Result);

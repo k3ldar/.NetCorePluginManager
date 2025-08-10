@@ -57,7 +57,7 @@ namespace HelpdeskPlugin.Controllers
 
 		#region Private Members
 
-		private static readonly CacheManager _helpdeskCache = new("Helpdesk Cache", new TimeSpan(0, 30, 0));
+		private static readonly ICacheManager _helpdeskCache = new CacheManager("Helpdesk Cache", new TimeSpan(0, 30, 0));
 		private readonly IHelpdeskProvider _helpdeskProvider;
 		private readonly HelpdeskSettings _settings;
 
@@ -141,17 +141,16 @@ namespace HelpdeskPlugin.Controllers
 
 			string cacheId = GetSessionId();
 
-			CacheItem helpdeskCache = _helpdeskCache.Get(cacheId);
+			ICacheItem helpdeskCache = _helpdeskCache.Get(cacheId);
 
 			if (helpdeskCache != null)
 			{
-				Result = (HelpdeskCacheItem)helpdeskCache.Value;
+				Result = helpdeskCache.GetValue<HelpdeskCacheItem>();
 			}
 			else if (createIfNotExist)
 			{
 				Result = new HelpdeskCacheItem();
-				helpdeskCache = new CacheItem(cacheId, Result);
-				_helpdeskCache.Add(cacheId, helpdeskCache);
+				_helpdeskCache.Add(cacheId, Result);
 			}
 
 			return Result;

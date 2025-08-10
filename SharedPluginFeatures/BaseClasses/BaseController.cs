@@ -344,11 +344,11 @@ namespace SharedPluginFeatures
 			{
 				string cacheName = $"{UserId()}{GrowlTempDataKeyName}";
 
-				CacheItem tempCache = memoryCache.GetShortCache().Get(cacheName);
+				ICacheItem tempCache = memoryCache.GetShortCache().Get(cacheName);
 
 				if (tempCache != null)
 				{
-					Result = tempCache.Value as string;
+					Result = tempCache.GetValue<string>();
 					memoryCache.GetShortCache().Remove(tempCache);
 				}
 			}
@@ -373,7 +373,7 @@ namespace SharedPluginFeatures
 			if (HttpContext.RequestServices.GetService(typeof(IMemoryCache)) is IMemoryCache memoryCache)
 			{
 				string cacheName = $"{UserId()}{GrowlTempDataKeyName}";
-				memoryCache.GetShortCache().Add(cacheName, new CacheItem(cacheName, s));
+				memoryCache.GetShortCache().Add(cacheName, s);
 			}
 			else
 			{
@@ -548,7 +548,7 @@ namespace SharedPluginFeatures
 		/// Returns basic model data to populate BaseModel.
 		/// </summary>
 		/// <returns>BaseModelData instance.</returns>
-		protected IBaseModelData GetModelData()
+		protected virtual IBaseModelData GetModelData()
 		{
 			return new BaseModelData(
 				GetBreadcrumbs(),
