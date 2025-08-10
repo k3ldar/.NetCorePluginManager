@@ -31,7 +31,7 @@ namespace SharedPluginFeatures
 	/// <summary>
 	/// Generic model data that can be displayed on all web pages.
 	/// </summary>
-	public sealed class BaseModelData : IBaseModelData
+	internal sealed class BaseModelData : IBaseModelData
 	{
 		#region Constructors
 
