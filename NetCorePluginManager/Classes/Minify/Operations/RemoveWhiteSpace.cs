@@ -67,7 +67,6 @@ namespace AspNetCore.PluginManager.Classes.Minify
 
 				char currentChar = data[i];
 
-
 				if (currentChar == ' ' && peekBackwards && Result[^1] == '\n')
 					continue;
 
@@ -108,7 +107,6 @@ namespace AspNetCore.PluginManager.Classes.Minify
 				{
 					continue;
 				}
-
 
 				Result.Append(currentChar);
 			}

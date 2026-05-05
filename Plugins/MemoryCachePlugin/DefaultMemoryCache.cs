@@ -86,10 +86,12 @@ namespace MemoryCache.Plugin
 
 				if (_cacheShort != null)
 					CacheManager.RemoveCacheManager(_cacheShort.Name);
+
 				_cacheShort = null;
 
 				if (_extendingCache != null)
 					CacheManager.RemoveCacheManager(_extendingCache.Name);
+				
 				_extendingCache = null;
 
 				if (_permanentCache != null)

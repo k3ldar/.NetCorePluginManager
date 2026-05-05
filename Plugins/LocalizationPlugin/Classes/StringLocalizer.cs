@@ -67,7 +67,6 @@ namespace Localization.Plugin
 			}
 		}
 
-
 		#endregion Constructors
 
 		#region IStringLocalizer Methods

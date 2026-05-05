@@ -37,7 +37,6 @@ namespace UserAccount.Plugin.Models
 
 		public CreateAccountViewModel()
 		{
-
 		}
 
 		public CreateAccountViewModel(in IBaseModelData baseModelData, string returnUrl)

@@ -40,7 +40,6 @@ namespace UserSessionMiddleware.Plugin.Classes.SessionData
 		/// </summary>
 		public SessionInitialReferrer()
 		{
-
 		}
 
 		internal SessionInitialReferrer(in string hash, in string referrerUrl)

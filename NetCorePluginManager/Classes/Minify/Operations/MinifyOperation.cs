@@ -48,7 +48,6 @@ namespace AspNetCore.PluginManager.Classes.Minify
 			if (preserveBlocks == null)
 				throw new ArgumentNullException(nameof(preserveBlocks));
 
-
 			for (int i = 0; i < preserveBlocks.Count; i++)
 			{
 				if (currentPosition >= preserveBlocks[i].BlockStart && currentPosition <= preserveBlocks[i].BlockEnd)
@@ -60,6 +59,5 @@ namespace AspNetCore.PluginManager.Classes.Minify
 
 			return false;
 		}
-
 	}
 }

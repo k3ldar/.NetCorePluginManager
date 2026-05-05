@@ -36,7 +36,6 @@ namespace HelpdeskPlugin.Models
 
 		public TicketResponseViewModel()
 		{
-
 		}
 
 		public TicketResponseViewModel(long id, string name)

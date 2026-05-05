@@ -58,6 +58,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 		public BotVisitsDailySubMenu(ISettingsProvider settingsProvider, ISessionStatisticsProvider sessionStatisticsProvider)
 		{
 			_sessionStatisticsProvider = sessionStatisticsProvider ?? throw new ArgumentNullException(nameof(sessionStatisticsProvider));
+
 			if (settingsProvider == null)
 				throw new ArgumentNullException(nameof(settingsProvider));
 

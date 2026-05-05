@@ -37,7 +37,6 @@ namespace HelpdeskPlugin.Models
 
 		public LeaveFeedbackViewModel()
 		{
-
 		}
 
 		public LeaveFeedbackViewModel(in IBaseModelData modelData,

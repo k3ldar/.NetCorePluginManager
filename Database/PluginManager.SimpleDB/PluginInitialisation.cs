@@ -30,6 +30,8 @@ using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
+using System.Linq;
+
 namespace SimpleDB
 {
 	/// <summary>
@@ -111,7 +113,7 @@ namespace SimpleDB
 		/// <param name="services"></param>
 		public void BeforeConfigureServices(in IServiceCollection services)
 		{
-			services.AddSimpleDB();
+			// from interface but unused in this context
 		}
 
 		/// <summary>
@@ -120,7 +122,10 @@ namespace SimpleDB
 		/// <param name="services"></param>
 		public void AfterConfigureServices(in IServiceCollection services)
 		{
-			// from interface but unused in this context
+			// Only register the default file-based backend if no ISimpleDBManager has
+			// already been registered (e.g. by AddSimpleDBSqlServer or a custom backend).
+			if (services != null && !services.Any(sd => sd.ServiceType == typeof(ISimpleDBManager)))
+				services.AddSimpleDB();
 		}
 
 		#endregion IInitialiseEvents Methods

@@ -38,7 +38,6 @@ namespace UserAccount.Plugin.Models
 
 		public ViewLicenceViewModel()
 		{
-
 		}
 
 		public ViewLicenceViewModel(in IBaseModelData baseModelData,

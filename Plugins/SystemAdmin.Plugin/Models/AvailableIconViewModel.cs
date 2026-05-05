@@ -39,7 +39,6 @@ namespace SystemAdmin.Plugin.Models
 		public AvailableIconViewModel(in IBaseModelData modelData)
 			: base(modelData)
 		{
-
 		}
 
 		public AvailableIconViewModel(in IBaseModelData modelData,

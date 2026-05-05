@@ -16,7 +16,6 @@ namespace AspNetCore.PluginManager.Handlers
 		/// </summary>
 		public ApiAuthorizationHandler1()
 		{
-
 		}
 
 		/// <summary>

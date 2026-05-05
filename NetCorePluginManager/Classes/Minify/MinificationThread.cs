@@ -99,12 +99,10 @@ namespace AspNetCore.PluginManager.Classes.Minify
 						{
 							_logger.AddToLog(LogLevel.Error, nameof(MinificationThread), minifyError, $"Error minifying {file}");
 						}
-
 					}
 
 					_logger.AddToLog(LogLevel.Information, $"Total Time: {fileTimings.Fastest}ms; Minify {file}");
 				}
-
 			}
 
 			_logger.AddToLog(LogLevel.Information, nameof(MinificationThread), $"Total minified bytes removed: {totalBytesSaved}; Total Time: {minifyTimings.Fastest}ms");

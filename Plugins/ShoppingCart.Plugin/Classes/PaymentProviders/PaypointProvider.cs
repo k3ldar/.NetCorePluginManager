@@ -79,7 +79,6 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
 			if (order == null)
 				throw new InvalidOperationException("Invalid Order, can not find order during payment (Paypoint)");
 
-
 			if (order.Total > 0.00m)
 			{
 				PaypointHelper vc = new(order.Id.ToString(), order.Total,

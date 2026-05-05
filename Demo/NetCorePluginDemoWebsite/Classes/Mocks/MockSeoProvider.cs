@@ -93,8 +93,10 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 			}
 
 			foreach (string s in keywords)
+			{
 				if (!keywordList.Contains(s))
 					keywordList.Add(s);
+			}
 
 			return true;
 		}

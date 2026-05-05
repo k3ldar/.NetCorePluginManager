@@ -38,7 +38,6 @@ namespace UserAccount.Plugin.Models
 
 		public ChangePasswordViewModel()
 		{
-
 		}
 
 		public ChangePasswordViewModel(in IBaseModelData baseModelData)

@@ -189,8 +189,10 @@ namespace BadEgg.Plugin.WebDefender
 			string Result = String.Empty;
 
 			foreach (Enum value in Enum.GetValues(typeof(ValidateRequestResult)))
+			{
 				if (Results.HasFlag(value))
 					Result += $"{value} ";
+			}
 
 			return Result;
 		}

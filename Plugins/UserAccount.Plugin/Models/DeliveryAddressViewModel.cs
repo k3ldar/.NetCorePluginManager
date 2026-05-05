@@ -40,13 +40,11 @@ namespace UserAccount.Plugin.Models
 
 		public DeliveryAddressViewModel()
 		{
-
 		}
 
 		public DeliveryAddressViewModel(in IBaseModelData baseModelData)
 			: base(baseModelData)
 		{
-
 		}
 
 		public DeliveryAddressViewModel(in IBaseModelData baseModelData,

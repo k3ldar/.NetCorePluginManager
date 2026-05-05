@@ -105,7 +105,6 @@ namespace UserSessionMiddleware.Plugin.Classes
 		private DefaultUserSessionService()
 			: base(null, new TimeSpan(0, 0, 30))
 		{
-
 		}
 
 		/// <summary>
@@ -468,7 +467,6 @@ namespace UserSessionMiddleware.Plugin.Classes
 
 			if (sessionData is IUrlHash sessionHash)
 				sessionHash.SetUrlHash(this);
-
 		}
 
 		private static T CopySessionData<T>(object value)

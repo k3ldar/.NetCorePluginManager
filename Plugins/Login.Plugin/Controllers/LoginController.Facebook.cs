@@ -153,7 +153,6 @@ namespace LoginPlugin.Controllers
 				return Ok(new { url = confirmationUrl, confirmation_code = fbUser.UserId });
 			}
 
-
 			return null;
 		}
 

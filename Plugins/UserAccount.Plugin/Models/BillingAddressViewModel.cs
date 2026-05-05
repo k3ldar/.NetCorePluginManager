@@ -37,13 +37,11 @@ namespace UserAccount.Plugin.Models
 
 		public BillingAddressViewModel()
 		{
-
 		}
 
 		public BillingAddressViewModel(in IBaseModelData baseModelData)
 			: base(baseModelData)
 		{
-
 		}
 
 		#endregion Constructors

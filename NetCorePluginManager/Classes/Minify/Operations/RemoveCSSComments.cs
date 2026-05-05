@@ -31,7 +31,6 @@ namespace AspNetCore.PluginManager.Classes.Minify
 		public RemoveCssComments()
 			: base("/*", "*/")
 		{
-
 		}
 	}
 }

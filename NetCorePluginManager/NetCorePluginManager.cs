@@ -110,7 +110,6 @@ namespace AspNetCore.PluginManager
 
 		protected override void PluginLoading(in Assembly pluginFile)
 		{
-
 		}
 
 		protected override void PostConfigurePluginServices(in IServiceCollection serviceProvider)

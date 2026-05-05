@@ -97,8 +97,6 @@ namespace SystemAdmin.Plugin.Controllers
 
 			_seoProvider.AddKeywords(model.SeoUrl, [.. model.SeoTags.Split(' ', StringSplitOptions.RemoveEmptyEntries)]);
 
-
-
 			if (IsUriLocalToHost(model.SeoUrl))
 				return Redirect(model.SeoUrl);
 

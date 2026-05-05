@@ -48,7 +48,6 @@ namespace PluginManager
 		public PluginManagerConfiguration()
 			: this(new DefaultLogger(), new LoadSettingsService())
 		{
-
 		}
 
 		/// <summary>
@@ -58,7 +57,6 @@ namespace PluginManager
 		public PluginManagerConfiguration(in ILogger logger)
 			: this(logger, new LoadSettingsService())
 		{
-
 		}
 
 		/// <summary>
@@ -69,7 +67,6 @@ namespace PluginManager
 		public PluginManagerConfiguration(in ILoadSettingsService loadSettingsService)
 			: this(new DefaultLogger(), loadSettingsService)
 		{
-
 		}
 
 		/// <summary>

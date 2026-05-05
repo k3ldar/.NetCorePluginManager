@@ -804,7 +804,6 @@ namespace BadEgg.Plugin.WebDefender
 
 					if (weight > HackAttempt)
 						break;
-
 				}
 
 				if (weight > HackAttempt)

@@ -39,7 +39,19 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
   </PropertyGroup>
 	
-  <ItemGroup>
+	<ItemGroup>
+		<Content Remove="wwwroot\favicon.ico" />
+		<Content Remove="wwwroot\**\site.*" />
+		<Content Remove="wwwroot\**\site.min.*" />
+		<Content Remove="wwwroot\lib\bootstrap\**" />
+		<Content Remove="wwwroot\lib\jquery\**" />
+		<Content Remove="wwwroot\lib\jquery-bootgrid\**" />
+		<Content Remove="wwwroot\lib\popper\**" />
+		<Content Remove="wwwroot\lib\jquery-validation\**" />
+		<Content Remove="wwwroot\lib\jquery-validation-unobtrusive\**" />
+	</ItemGroup>
+
+	<ItemGroup>
     <None Include="readme.md" Pack="true" PackagePath="" />
   </ItemGroup>	
 

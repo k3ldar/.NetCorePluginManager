@@ -39,7 +39,6 @@ namespace UserAccount.Plugin.Models
 
 		public EditDeliveryAddressViewModel()
 		{
-
 		}
 
 		public EditDeliveryAddressViewModel(string returnUrl)
@@ -50,7 +49,6 @@ namespace UserAccount.Plugin.Models
 		public EditDeliveryAddressViewModel(in IBaseModelData baseModelData)
 			: base(baseModelData)
 		{
-
 		}
 
 		#endregion Constructors

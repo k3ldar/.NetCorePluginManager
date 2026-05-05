@@ -36,7 +36,6 @@ namespace SystemAdmin.Plugin.Models
 		public PermissionsModel(in IBaseModelData modelData)
 			: base(modelData)
 		{
-
 		}
 
 		#endregion Constructors

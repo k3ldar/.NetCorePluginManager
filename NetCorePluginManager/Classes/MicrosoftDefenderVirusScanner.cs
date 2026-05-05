@@ -149,6 +149,7 @@ namespace AspNetCore.PluginManager.Internal
 		private bool IsDefenderInstalled()
 		{
 			string defenderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), DefenderPath);
+			
 			if (!Directory.Exists(defenderPath))
 				return false;
 

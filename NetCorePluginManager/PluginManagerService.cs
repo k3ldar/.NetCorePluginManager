@@ -104,7 +104,6 @@ namespace AspNetCore.PluginManager
 
 				_pluginManagerInstance = new NetCorePluginManager(configuration, _pluginSettings);
 
-
 				if (_rootPath.StartsWith(Directory.GetCurrentDirectory(), StringComparison.CurrentCultureIgnoreCase))
 					_rootPath = Directory.GetCurrentDirectory();
 
@@ -140,8 +139,6 @@ namespace AspNetCore.PluginManager
 
 				if (!String.IsNullOrEmpty(pluginSearchPath) && Directory.Exists(pluginSearchPath))
 					files = Directory.GetFiles(pluginSearchPath, "*.*", SearchOption.TopDirectoryOnly);
-
-
 
 				if (_pluginSettings.PluginFiles != null && files.Length > 0)
 				{

@@ -38,7 +38,30 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\**" />
+		<Content Remove="wwwroot\**\Blog.*" />
+		<Content Remove="wwwroot\**\Cart.*" />
+		<Content Remove="wwwroot\**\Documentation.*" />
+		<Content Remove="wwwroot\**\Downloads.*" />
+		<Content Remove="wwwroot\**\DynamicContent.*" />
+		<Content Remove="wwwroot\**\Error.*" />
+		<Content Remove="wwwroot\**\Helpdesk.*" />
+		<Content Remove="wwwroot\**\ImageManager.*" />
+		<Content Remove="wwwroot\**\Login.*" />
+		<Content Remove="wwwroot\**\products.*" />
+		<Content Remove="wwwroot\**\resources.*" />
+		<Content Remove="wwwroot\**\search.*" />
+		<Content Remove="wwwroot\**\SystemAdmin.*" />
+		<Content Remove="wwwroot\**\vs.css" />
+		<Content Remove="wwwroot\images\dynamiccontent\**\*" />
+		<Content Remove="wwwroot\images\error\**\*" />
+		<Content Remove="wwwroot\images\Blog\**\*" />
+		<Content Remove="wwwroot\images\Cart\**\*" />
+		<Content Remove="wwwroot\images\Download\**\*" />
+		<Content Remove="wwwroot\images\Error\**\*" />
+		<Content Remove="wwwroot\images\Products\**\*" />
+		<Content Remove="wwwroot\images\SystemAdmin\**\*" />
+		<Content Remove="wwwroot\js\markdown-toolbar.js" />
+		<Compile Remove="Models\**" />
     <Compile Remove="Plugin\**" />
     <Compile Remove="Views\Account\**" />
     <Content Remove="Models\**" />
@@ -52,6 +75,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\css\Account.css" />
     <Content Remove="wwwroot\images\CustomPlugin.png" />
     <Content Remove="wwwroot\images\DependencyInjection.png" />
     <Content Remove="wwwroot\images\EmbeddedResources.png" />
@@ -108,7 +132,7 @@
     <PackageReference Include="SC.Shared.Library.Core" Version="$(SharedVer)" />
     <PackageReference Include="ApplicationSettings" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="9.0.0" />
-    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="10.3.2" />
+    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="10.3.4" />
     <PackageReference Include="SC.Shared.Library.Core.Windows" Version="$(SharedWinVer)" />
   </ItemGroup>
 

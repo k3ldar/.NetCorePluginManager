@@ -37,13 +37,11 @@ namespace UserAccount.Plugin.Models
 
 		public CreateLicenceViewModel()
 		{
-
 		}
 
 		public CreateLicenceViewModel(in IBaseModelData baseModelData)
 			: base(baseModelData)
 		{
-
 		}
 
 		#endregion Constructors

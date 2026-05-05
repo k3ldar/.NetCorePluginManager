@@ -134,7 +134,6 @@ namespace BadEgg.Plugin
 				return;
 			}
 
-
 			string route = RouteLowered(context);
 
 			using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
@@ -209,7 +208,6 @@ namespace BadEgg.Plugin
 
 							if (String.IsNullOrEmpty(route))
 								continue;
-
 
 							_managedRoutes.Add(new ManagedRoute($"{route.ToLower()}", attribute.ValidateQueryFields, attribute.ValidateFormFields));
 						}

@@ -145,11 +145,7 @@ namespace SimpleDB.Internal
 			_simleDBManager = readerWriterInitializer ?? throw new ArgumentNullException(nameof(readerWriterInitializer));
 			_foreignKeyManager = foreignKeyManager ?? throw new ArgumentNullException(nameof(foreignKeyManager));
 
-			_tableAttributes = GetTableAttributes();
-
-			if (_tableAttributes == null)
-				throw new InvalidOperationException($"TableAttribute is missing from class {typeof(T).FullName}");
-
+			_tableAttributes = GetTableAttributes() ?? throw new InvalidOperationException($"TableAttribute is missing from class {typeof(T).FullName}");
 			_isMemoryCaching = _tableAttributes.CachingStrategy == CachingStrategy.Memory ||
 				_tableAttributes.CachingStrategy == CachingStrategy.SlidingMemory ||
 				_tableAttributes.WriteStrategy == WriteStrategy.Lazy;

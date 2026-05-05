@@ -37,7 +37,6 @@ namespace HelpdeskPlugin.Models
 
 		public FindTicketViewModel()
 		{
-
 		}
 
 		public FindTicketViewModel(in IBaseModelData modelData,

@@ -206,7 +206,6 @@ namespace PluginManager.Internal
 					}
 
 					counter++;
-
 				} while (counter < MaxQueueItems && queueItem != null);
 			}
 

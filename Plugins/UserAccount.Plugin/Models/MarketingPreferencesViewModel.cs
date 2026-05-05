@@ -37,13 +37,11 @@ namespace UserAccount.Plugin.Models
 
 		public MarketingPreferencesViewModel()
 		{
-
 		}
 
 		public MarketingPreferencesViewModel(in IBaseModelData baseModelData)
 			: base(baseModelData)
 		{
-
 		}
 
 		#endregion Constructors

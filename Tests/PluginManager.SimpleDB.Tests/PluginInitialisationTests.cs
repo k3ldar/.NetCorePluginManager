@@ -131,14 +131,12 @@ namespace SimpleDB.Tests
 		[TestCategory(GeneralTestsCategory)]
 		public void BeforeConfigureServices_RegistersCorrectServices_Success()
 		{
-			const int RegisteredService = 4;
-
 			PluginInitialisation sut = new();
 			MockServiceCollection mockServiceCollection = [];
 
 			sut.BeforeConfigureServices(mockServiceCollection);
 
-			Assert.AreEqual(RegisteredService, mockServiceCollection.Count);
+			Assert.AreEqual(0, mockServiceCollection.Count);
 		}
 
 		[TestMethod]
@@ -157,12 +155,14 @@ namespace SimpleDB.Tests
 		[TestCategory(GeneralTestsCategory)]
 		public void AfterConfigureServices_DoesNotThrowException_Success()
 		{
+			const int RegisteredService = 4;
+
 			PluginInitialisation sut = new();
 			MockServiceCollection mockServiceCollection = [];
 
 			sut.AfterConfigureServices(mockServiceCollection);
 
-			Assert.AreEqual(0, mockServiceCollection.Count);
+			Assert.AreEqual(RegisteredService, mockServiceCollection.Count);
 		}
 	}
 }

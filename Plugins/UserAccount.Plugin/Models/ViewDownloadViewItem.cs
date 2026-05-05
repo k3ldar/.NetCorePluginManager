@@ -35,7 +35,6 @@ namespace UserAccount.Plugin.Models
 
 		public ViewDownloadViewItem()
 		{
-
 		}
 
 		public ViewDownloadViewItem(in IBaseModelData baseModelData,

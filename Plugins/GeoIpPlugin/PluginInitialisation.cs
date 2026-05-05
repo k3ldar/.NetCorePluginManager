@@ -40,7 +40,6 @@ namespace GeoIp.Plugin
 	public class PluginInitialisation : IPlugin
 	{
 		#region Internal Static Properties
-
 		internal static ILogger GetLogger { get; private set; }
 
 		#endregion Internal Static Properties

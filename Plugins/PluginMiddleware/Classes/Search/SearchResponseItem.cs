@@ -71,9 +71,7 @@ namespace Middleware.Search
 		public SearchResponseItem(in string responseType, in string response, in int offset, string displayName)
 			: this(responseType, response, offset, null, displayName, null)
 		{
-
 		}
-
 
 		/// <summary>
 		/// Constructor

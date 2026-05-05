@@ -274,7 +274,6 @@ namespace ProductPlugin.Controllers
 			if (productGroup == null)
 				return GenerateJsonErrorResponse(HtmlResponseBadRequest, ProductGroupNotFound);
 
-
 			if (String.IsNullOrEmpty(model.Confirmation) || !model.Confirmation.Equals("CONFIRM", StringComparison.InvariantCultureIgnoreCase))
 			{
 				return GenerateJsonErrorResponse(HtmlResponseBadRequest, LanguageStrings.ConfirmDeleteWord);

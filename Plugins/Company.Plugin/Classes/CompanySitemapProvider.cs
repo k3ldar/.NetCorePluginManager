@@ -139,7 +139,6 @@ namespace Company.Plugin.Classes
 						SitemapChangeFrequency.Monthly));
 			}
 
-
 			return Result;
 		}
 	}

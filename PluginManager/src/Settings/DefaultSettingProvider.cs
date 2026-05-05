@@ -51,7 +51,6 @@ namespace PluginManager.Internal
 		public DefaultSettingProvider(in string rootPath)
 			: this(rootPath, null, null)
 		{
-
 		}
 
 		public DefaultSettingProvider(in string rootPath, IApplicationOverride appOverride, ISettingError settingsError)

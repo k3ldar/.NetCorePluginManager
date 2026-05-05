@@ -138,8 +138,6 @@ namespace PluginManager
 			return [.. Result];
 		}
 
-
 		#endregion Private Methods
-
 	}
 }

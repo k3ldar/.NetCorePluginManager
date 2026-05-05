@@ -234,8 +234,10 @@ namespace SharedPluginFeatures
 				throw new ArgumentNullException(nameof(context));
 
 			foreach (string key in Constants.ForwardForHeader)
+			{
 				if (context.Request.Headers.TryGetValue(key, out StringValues headerValue))
 					return headerValue;
+			}
 
 			string Result = context.Request.HttpContext.Connection.RemoteIpAddress.ToString();
 

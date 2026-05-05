@@ -41,7 +41,6 @@ namespace ProductPlugin.Models
 		/// </summary>
 		public EditProductGroupModel()
 		{
-
 		}
 
 

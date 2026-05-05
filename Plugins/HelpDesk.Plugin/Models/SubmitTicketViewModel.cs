@@ -41,7 +41,6 @@ namespace HelpdeskPlugin.Models
 
 		public SubmitTicketViewModel()
 		{
-
 		}
 
 		public SubmitTicketViewModel(in IBaseModelData modelData,

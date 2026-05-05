@@ -246,7 +246,6 @@ namespace Blog.Plugin.Controllers
 			if (blogItem == null)
 				return RedirectToAction(nameof(Index));
 
-
 			if (ModelState.IsValid)
 			{
 				UserSession user = GetUserSession();

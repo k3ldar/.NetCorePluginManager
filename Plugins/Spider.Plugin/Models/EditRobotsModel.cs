@@ -39,7 +39,6 @@ namespace Spider.Plugin.Models
 
 		public EditRobotsModel()
 		{
-
 		}
 
 		public EditRobotsModel(IBaseModelData modelData, List<string> agents, List<CustomAgentModel> routes)

@@ -196,7 +196,6 @@ namespace ShoppingCartPlugin.Controllers
 
 			DeliveryAddress shippingAddress = _accountProvider.GetDeliveryAddress(GetUserSession().UserID, shippingId.Value);
 
-
 			if (shippingAddress != null)
 				cartDetail.SetDeliveryAddress(shippingAddress);
 

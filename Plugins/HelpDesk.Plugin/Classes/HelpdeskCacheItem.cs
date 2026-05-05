@@ -32,7 +32,6 @@ namespace HelpdeskPlugin.Classes
 	{
 		public HelpdeskCacheItem()
 		{
-
 		}
 
 		public string CaptchaText { get; set; }

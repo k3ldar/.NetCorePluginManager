@@ -42,7 +42,6 @@ namespace PluginManager
 		/// </summary>
 		public PluginSetting()
 		{
-
 		}
 
 		/// <summary>

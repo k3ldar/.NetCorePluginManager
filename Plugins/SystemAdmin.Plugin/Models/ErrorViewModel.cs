@@ -35,7 +35,6 @@ namespace SystemAdmin.Plugin.Models
 
 		public ErrorViewModel()
 		{
-
 		}
 
 		public ErrorViewModel(in IBaseModelData modelData,

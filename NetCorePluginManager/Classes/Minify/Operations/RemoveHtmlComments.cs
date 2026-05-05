@@ -30,7 +30,6 @@ namespace AspNetCore.PluginManager.Classes.Minify
 		public RemoveHtmlComments()
 			: base("<!--", "-->")
 		{
-
 		}
 	}
 }

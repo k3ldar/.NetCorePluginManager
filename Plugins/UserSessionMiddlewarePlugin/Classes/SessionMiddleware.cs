@@ -155,6 +155,7 @@ namespace UserSessionMiddleware.Plugin
 				}
 				else
 				{
+					
 					userSession = GetUserSession(context, cookieSessionID);
 					GetSessionCulture(context, userSession);
 				}
@@ -200,7 +201,6 @@ namespace UserSessionMiddleware.Plugin
 						context.Response.Redirect($"{partialMatch.RedirectPath}?returnUrl={context.Request.Path}", false);
 						return;
 					}
-
 				}
 			}
 

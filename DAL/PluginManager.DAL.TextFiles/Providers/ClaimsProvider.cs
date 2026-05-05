@@ -81,7 +81,6 @@ namespace PluginManager.DAL.TextFiles.Providers
 			UserDataRow user = _users.Select(userId);
 			List<Claim> userClaims = [];
 
-
 			if (user == null)
 			{
 				ExternalUsersDataRow externalUser = _externalUsers.Select(userId);

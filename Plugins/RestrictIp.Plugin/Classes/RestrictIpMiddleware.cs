@@ -217,7 +217,6 @@ namespace RestrictIp.Plugin
 
 		#endregion Private Methods
 	}
-
 }
 
 #pragma warning restore CS1591, IDE0056, IDE0057

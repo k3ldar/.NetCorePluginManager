@@ -321,8 +321,10 @@ namespace SharedPluginFeatures
 		protected string GetIpAddress()
 		{
 			foreach (string key in Constants.ForwardForHeader)
+			{
 				if (HttpContext.Request.Headers.TryGetValue(key, out StringValues headerValue))
 					return headerValue;
+			}
 
 			return HttpContext.Connection.RemoteIpAddress.ToString();
 		}
@@ -338,7 +340,6 @@ namespace SharedPluginFeatures
 		protected string GrowlGet()
 		{
 			string Result = String.Empty;
-
 
 			if (HttpContext.RequestServices.GetService(typeof(IMemoryCache)) is IMemoryCache memoryCache)
 			{

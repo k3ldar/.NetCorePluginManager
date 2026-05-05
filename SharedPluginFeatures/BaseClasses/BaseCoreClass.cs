@@ -75,6 +75,7 @@ namespace SharedPluginFeatures
 
 				case ValidationType.Email:
 					EmailAddressAttribute emailAddressAttribute = new();
+					
 					if (emailAddressAttribute.IsValid(userInput))
 						return userInput;
 

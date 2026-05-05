@@ -107,7 +107,6 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 				Result.Add(new LookupListItem((int)GetPage10().Id, GetPage10().Name));
 			}
 
-
 			_dynamicContent.ForEach(dc => Result.Add(new LookupListItem((int)dc.Id, dc.Name)));
 
 			return Result;

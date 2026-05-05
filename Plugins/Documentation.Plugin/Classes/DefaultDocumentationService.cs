@@ -439,7 +439,6 @@ namespace DocumentationPlugin.Classes
 				{
 					DocumentData data = (DocumentData)doc.Tag;
 
-
 					if (doc == selected)
 					{
 						allReferences.Append("<ul>");

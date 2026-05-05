@@ -69,7 +69,6 @@ namespace HelpdeskPlugin.Classes
 			IUserSearch userSearch, ISettingsProvider settingsProvider, ILogger logger)
 			: this(helpdeskProvider, pop3ClientFactory, userSearch, settingsProvider, logger, TimeSpan.FromMinutes(1))
 		{
-
 		}
 
 		/// <summary>

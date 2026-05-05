@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.1.32414.318
+# Visual Studio Version 18
+VisualStudioVersion = 18.5.11619.145 insiders
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.PluginManager", "NetCorePluginManager\AspNetCore.PluginManager.csproj", "{59FE93CB-B341-48E0-B161-6DDC79967ABD}"
 EndProject

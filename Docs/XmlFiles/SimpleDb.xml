@@ -903,6 +903,171 @@
             </summary>
             <typeparam name="T"></typeparam>
         </member>
+        <member name="T:SimpleDB.Internal.SQLImplementations.SqlServer.ColumnDefinition">
+            <summary>
+            Describes a single SQL Server column mapped from a C# property
+            </summary>
+        </member>
+        <member name="P:SimpleDB.Internal.SQLImplementations.SqlServer.ColumnDefinition.ColumnName">
+            <summary>Column name in SQL Server (same as the C# property name)</summary>
+        </member>
+        <member name="P:SimpleDB.Internal.SQLImplementations.SqlServer.ColumnDefinition.SqlType">
+            <summary>SQL type string, e.g. BIGINT, NVARCHAR(MAX), DECIMAL(18,4)</summary>
+        </member>
+        <member name="P:SimpleDB.Internal.SQLImplementations.SqlServer.ColumnDefinition.Property">
+            <summary>Reflected property info used for reading and writing values</summary>
+        </member>
+        <member name="P:SimpleDB.Internal.SQLImplementations.SqlServer.ColumnDefinition.IsNullable">
+            <summary>Whether the SQL column permits NULL</summary>
+        </member>
+        <member name="P:SimpleDB.Internal.SQLImplementations.SqlServer.ColumnDefinition.IsPrimaryKey">
+            <summary>Whether this column is the primary key (i.e. the Id column)</summary>
+        </member>
+        <member name="P:SimpleDB.Internal.SQLImplementations.SqlServer.ColumnDefinition.IsUniqueIndex">
+            <summary>Whether this column participates in a unique index</summary>
+        </member>
+        <member name="P:SimpleDB.Internal.SQLImplementations.SqlServer.ColumnDefinition.UniqueIndexName">
+            <summary>Name of the unique index this column belongs to (null when IsUniqueIndex is false)</summary>
+        </member>
+        <member name="P:SimpleDB.Internal.SQLImplementations.SqlServer.ColumnDefinition.IndexType">
+            <summary>Sort direction of the index</summary>
+        </member>
+        <member name="T:SimpleDB.Internal.SQLImplementations.SqlServer.SchemaMapper">
+            <summary>
+            Derives SQL Server schema from a TableRowDefinition subclass using reflection and
+            ensures the live database matches that schema at startup.
+            </summary>
+        </member>
+        <member name="M:SimpleDB.Internal.SQLImplementations.SqlServer.SchemaMapper.GetTableName``1">
+            <summary>
+            Returns the SQL schema name and table name for <typeparamref name="T"/>.
+            Domain maps to schema (defaults to "dbo"); TableAttribute.TableName maps to table.
+            </summary>
+        </member>
+        <member name="M:SimpleDB.Internal.SQLImplementations.SqlServer.SchemaMapper.GetTableAttributes``1">
+            <summary>
+            Reads the TableAttribute from <typeparamref name="T"/>.
+            </summary>
+        </member>
+        <member name="M:SimpleDB.Internal.SQLImplementations.SqlServer.SchemaMapper.GetColumns``1">
+            <summary>
+            Builds the ordered list of ColumnDefinitions for <typeparamref name="T"/> by
+            reflecting all public instance properties that should be persisted.
+            </summary>
+        </member>
+        <member name="M:SimpleDB.Internal.SQLImplementations.SqlServer.SchemaMapper.EnsureTable(System.String,System.String,System.String,System.Collections.Generic.IReadOnlyList{SimpleDB.Internal.SQLImplementations.SqlServer.ColumnDefinition})">
+            <summary>
+            Ensures that the SQL Server table exists and is
+            up-to-date with the current column set.  Any columns present in C# but missing
+            from the database are added as nullable.  Columns that no longer exist in C#
+            are left in place (no destructive changes are ever made automatically).
+            </summary>
+            <returns>True if the table was newly created; false if it already existed.</returns>
+        </member>
+        <member name="M:SimpleDB.Internal.SQLImplementations.SqlServer.SchemaMapper.MigrateTable(Microsoft.Data.SqlClient.SqlConnection,System.String,System.String,System.Collections.Generic.IReadOnlyList{SimpleDB.Internal.SQLImplementations.SqlServer.ColumnDefinition})">
+            <summary>
+            Adds columns that exist in the C# class but are missing from the database.
+            Always adds as nullable to avoid breaking existing rows.
+            </summary>
+        </member>
+        <member name="M:SimpleDB.Internal.SQLImplementations.SqlServer.SchemaMapper.SanitizeIdentifier(System.String)">
+            <summary>
+            Strips characters that would break a bracketed SQL identifier.
+            Property names in C# are already safe, but Domain values come from user-supplied attributes.
+            </summary>
+        </member>
+        <member name="M:SimpleDB.SqlServer.Internal.SequenceManager.EnsureTable(System.String)">
+            <summary>
+            Ensures the shared [dbo].[__sequences] table exists.
+            Safe to call repeatedly; uses IF NOT EXISTS.
+            </summary>
+        </member>
+        <member name="M:SimpleDB.SqlServer.Internal.SequenceManager.GetOrCreate(System.String,System.String,System.Int64,System.Int64)">
+            <summary>
+            Returns the current primary and secondary sequences for the given table,
+            inserting a row with default values if none exists yet.
+            </summary>
+        </member>
+        <member name="M:SimpleDB.SqlServer.Internal.SequenceManager.IncrementPrimary(System.String,System.String,System.Int64)">
+            <summary>
+            Atomically increments PrimarySeq by <paramref name="increment"/> and
+            returns the new value.
+            </summary>
+        </member>
+        <member name="M:SimpleDB.SqlServer.Internal.SequenceManager.IncrementSecondary(System.String,System.String,System.Int64)">
+            <summary>
+            Atomically increments SecondarySeq by <paramref name="increment"/> and
+            returns the new value.
+            </summary>
+        </member>
+        <member name="M:SimpleDB.SqlServer.Internal.SequenceManager.Reset(System.String,System.String,System.Int64,System.Int64)">
+            <summary>
+            Resets both sequences to the specified values.
+            </summary>
+        </member>
+        <member name="T:SimpleDB.SqlServer.Internal.SqlServerDBOperations`1">
+            <summary>
+            SQL Server implementation of ISimpleDBOperations&lt;T&gt; and ISimpleDBTable.
+            Each CRUD operation maps directly to individual SQL statements; the schema is
+            created or migrated automatically at startup using SchemaMapper.
+            </summary>
+        </member>
+        <member name="P:SimpleDB.SqlServer.Internal.SqlServerDBOperations`1.DataLength">
+            <summary>Not applicable for the SQL Server backend; always returns 0.</summary>
+        </member>
+        <member name="P:SimpleDB.SqlServer.Internal.SqlServerDBOperations`1.CompactPercent">
+            <summary>Not applicable for the SQL Server backend; always returns 0.</summary>
+        </member>
+        <member name="M:SimpleDB.SqlServer.Internal.SqlServerDBOperations`1.ForceWrite">
+            <summary>
+            All writes in the SQL Server backend are immediately committed to the database.
+            This method is intentionally a no-op for the SQL Server provider.
+            </summary>
+        </member>
+        <member name="M:SimpleDB.SqlServer.Internal.SqlServerDBOperations`1.MapRecords(Microsoft.Data.SqlClient.SqlDataReader)">
+            <summary>
+            Maps every row from the open SqlDataReader into T instances.
+            Properties with a public setter are mapped by column name (case-insensitive).
+            After populating all properties, Immutable and Loaded are set via InternalsVisibleTo
+            so that subsequent property mutations correctly raise HasChanged.
+            </summary>
+        </member>
+        <member name="T:SimpleDB.SqlServer.SqlServerSimpleDBHelper">
+            <summary>
+            Extension methods for registering SimpleDB with a SQL Server backend
+            </summary>
+        </member>
+        <member name="M:SimpleDB.SqlServer.SqlServerSimpleDBHelper.AddSimpleDBSqlServer(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+            <summary>
+            Registers all SimpleDB services using SQL Server as the storage backend.
+            Replace the existing AddSimpleDB() call with this method to switch backends;
+            all consumers of ISimpleDBOperations&lt;T&gt; remain unchanged.
+            </summary>
+            <param name="services">The service collection</param>
+            <param name="connectionString">SQL Server connection string</param>
+            <returns>IServiceCollection</returns>
+        </member>
+        <member name="P:SimpleDB.SqlServer.SqlServerSimpleDBManager.ConnectionString">
+            <summary>
+            SQL Server connection string used by this manager
+            </summary>
+        </member>
+        <member name="P:SimpleDB.SqlServer.SqlServerSimpleDBManager.Path">
+            <summary>
+            Not applicable for the SQL Server backend; always returns null.
+            </summary>
+        </member>
+        <member name="T:SimpleDB.SqlServer.SqlServerSimpleDBSettings">
+            <summary>
+            Settings for the SimpleDB SQL Server provider
+            </summary>
+        </member>
+        <member name="P:SimpleDB.SqlServer.SqlServerSimpleDBSettings.ConnectionString">
+            <summary>
+            SQL Server connection string
+            </summary>
+            <value>string</value>
+        </member>
         <member name="T:SimpleDB.ObservableDictionary`2">
             <summary>
             Observable dictionary which notifies table of updated/new records
