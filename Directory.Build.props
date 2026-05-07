@@ -42,7 +42,7 @@
   </PropertyGroup>
   
   <PropertyGroup>
-    <Version>5.9.0</Version>
+    <Version>5.10.0</Version>
 	  <AssemblyVersion>$(Version).0</AssemblyVersion>
     <LangVersion>latest</LangVersion>
     <Authors>Simon Carter (s1cart3r@gmail.com)</Authors>
