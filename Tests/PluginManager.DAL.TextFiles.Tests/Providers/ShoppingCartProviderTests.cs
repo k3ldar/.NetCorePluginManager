@@ -44,7 +44,6 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 using System.Globalization;
-using PluginManager.Tests.Mocks;
 
 #pragma warning disable S2971, S6608
 

@@ -30,8 +30,6 @@ using Cron.Plugin.Classes;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using PluginManager.Tests.Mocks;
-
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.Cron

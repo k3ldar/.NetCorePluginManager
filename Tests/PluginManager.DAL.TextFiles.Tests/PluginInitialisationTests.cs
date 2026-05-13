@@ -24,12 +24,16 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Diagnostics.CodeAnalysis;
+
+using AspNetCore.PluginManager.Tests.Shared;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
-using PluginManager.Tests.Mocks;
+
+using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tests
 {

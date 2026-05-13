@@ -37,7 +37,6 @@ using Middleware.DynamicContent;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 using SimpleDB;
-using PluginManager.Tests.Mocks;
 
 using SharedPluginFeatures;
 using SharedPluginFeatures.DynamicContent;

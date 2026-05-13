@@ -36,8 +36,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware.Classes;
 
-using PluginManager.Tests.Mocks;
-
 namespace AspNetCore.PluginManager.Tests.Plugins.PluginMiddlewareTests.EmailSender
 {
     [TestClass]

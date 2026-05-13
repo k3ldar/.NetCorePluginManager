@@ -43,7 +43,6 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.Abstractions;
-using PluginManager.Tests.Mocks;
 
 using Shared.Abstractions;
 using Shared.Classes;

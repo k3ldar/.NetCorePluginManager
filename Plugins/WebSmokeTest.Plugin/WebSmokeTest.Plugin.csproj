@@ -51,12 +51,15 @@
     <PackageReference Include="ApplicationSettings" Version="2.3.0" />
 	<PackageReference Include="SC.Shared.Library.Core" Version="$(SharedVer)" />
   </ItemGroup>
+	
+  <ItemGroup>
+	<PackageReference Include="PluginManager" Version="5.10.0" />
+	<PackageReference Include="SharedPluginFeatures" Version="5.10.0" />
+	<PackageReference Include="Middleware" Version="5.10.0" />
+  </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\..\Languages\Languages.csproj" />
-    <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
-    <ProjectReference Include="..\PluginMiddleware\PluginMiddleware.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -36,7 +36,6 @@ using Middleware.Interfaces;
 
 using PluginManager.Abstractions;
 using PluginManager.Internal;
-using PluginManager.Tests.Mocks;
 
 using ProductPlugin;
 using ProductPlugin.Classes;

@@ -40,8 +40,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Middleware;
 using Middleware.Resources;
 
-using PluginManager.Tests.Mocks;
-
 using Resources.Plugin.Controllers;
 using Resources.Plugin.Models;
 

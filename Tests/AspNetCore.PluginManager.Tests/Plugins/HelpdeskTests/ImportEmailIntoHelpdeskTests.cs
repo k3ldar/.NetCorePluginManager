@@ -40,8 +40,6 @@ using Middleware.Users;
 
 using PluginManager.Internal;
 
-using PluginManager.Tests.Mocks;
-
 namespace AspNetCore.PluginManager.Tests.Plugins.HelpdeskTests
 {
 	[TestClass]

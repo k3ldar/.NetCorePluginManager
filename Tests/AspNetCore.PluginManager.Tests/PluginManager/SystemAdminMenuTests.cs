@@ -37,8 +37,6 @@ using AspNetCore.PluginManager.Tests.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using PluginManager.Tests.Mocks;
-
 using Shared.Classes;
 
 using SharedPluginFeatures;

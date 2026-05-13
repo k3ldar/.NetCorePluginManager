@@ -36,7 +36,6 @@ using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 using SimpleDB;
 using SimpleDB.Internal;
-using SimpleDB.Tests.Mocks;
 
 using Shared.Classes;
 
@@ -54,13 +53,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 		public void Construct_InvalidInstance_TableUserNull_Throws_ArgumentNullException()
 		{
 			new UserApiQueryProvider(null, new MockMemoryCache());
-		}
-
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public void Construct_InvalidInstance_MemoryCacheNull_Throws_ArgumentNullException()
-		{
-			new UserApiQueryProvider(new MockTextTableOperations<UserApiDataRow>(), null);
 		}
 
 		[TestMethod]

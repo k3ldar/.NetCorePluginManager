@@ -32,7 +32,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.Abstractions;
-using PluginManager.Tests.Mocks;
 
 using SeoPlugin;
 

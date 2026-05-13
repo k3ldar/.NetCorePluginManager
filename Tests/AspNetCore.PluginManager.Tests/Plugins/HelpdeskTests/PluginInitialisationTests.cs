@@ -36,7 +36,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Middleware.Interfaces;
 
 using PluginManager.Abstractions;
-using PluginManager.Tests.Mocks;
 
 using Shared.Classes;
 

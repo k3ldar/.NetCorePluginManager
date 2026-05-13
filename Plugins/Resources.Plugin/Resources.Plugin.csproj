@@ -89,12 +89,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Languages\Languages.csproj" />
-    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
-    <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
-    <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
-    <ProjectReference Include="..\PluginMiddleware\PluginMiddleware.csproj" />
   </ItemGroup>
-
+	
+  <ItemGroup>
+	<PackageReference Include="PluginManager" Version="5.10.0" />
+	<PackageReference Include="SharedPluginFeatures" Version="5.10.0" />
+	<PackageReference Include="Middleware" Version="5.10.0" />
+	<PackageReference Include="AspNetCore.PluginManager" Version="5.10.0" />
+  </ItemGroup>
+	
   <ItemGroup>
     <PackageReference Include="SC.Shared.Library.Core" Version="$(SharedVer)" />
     <PackageReference Include="ApplicationSettings" Version="2.3.0" />

@@ -36,7 +36,6 @@ using Middleware.Users;
 
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.Tests.Mocks;
 
 using SimpleDB;
 

@@ -35,7 +35,6 @@ using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 using SimpleDB;
-using PluginManager.Tests.Mocks;
 using Shared.Classes;
 using System.Diagnostics.CodeAnalysis;
 

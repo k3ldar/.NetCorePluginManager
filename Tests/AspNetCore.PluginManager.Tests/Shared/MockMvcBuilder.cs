@@ -29,8 +29,6 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.DependencyInjection;
 
-using PluginManager.Tests.Mocks;
-
 namespace AspNetCore.PluginManager.Tests.Shared
 {
     [ExcludeFromCodeCoverage]

@@ -36,7 +36,6 @@ using Middleware.SessionData;
 
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.Tests.Mocks;
 
 using Shared.Classes;
 

@@ -40,7 +40,6 @@ using SimpleDB;
 using Shared.Classes;
 
 using SharedPluginFeatures;
-using PluginManager.Tests.Mocks;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {

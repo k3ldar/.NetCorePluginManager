@@ -51,12 +51,12 @@
     <PackageReference Include="ApplicationSettings" Version="2.3.0" />
     <PackageReference Include="SC.Shared.Library.Core" Version="$(SharedVer)" />
   </ItemGroup>
-
+	
   <ItemGroup>
-    <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
-    <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
+	<PackageReference Include="PluginManager" Version="5.10.0" />
+	<PackageReference Include="SharedPluginFeatures" Version="5.10.0" />
   </ItemGroup>
-
+	
   <ItemGroup>
     <None Update="readme.md">
       <Pack>True</Pack>

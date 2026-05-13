@@ -34,13 +34,19 @@
   </ItemGroup>	
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.10" />
     <PackageReference Include="SC.Shared.Library.Core" Version="$(SharedVer)" />
   </ItemGroup>
-
+	
   <ItemGroup>
-    <ProjectReference Include="..\..\Database\PluginManager.SimpleDB\SimpleDB.csproj" />
+	<PackageReference Include="PluginManager" Version="5.10.0" />
+	<PackageReference Include="SharedPluginFeatures" Version="5.10.0" />
+	<PackageReference Include="Middleware" Version="5.10.0" />
+	<PackageReference Include="SimpleDb" Version="5.10.0" />
+  </ItemGroup>
+	
+  <ItemGroup>
     <ProjectReference Include="..\..\Languages\Languages.csproj" />
-    <ProjectReference Include="..\..\Plugins\PluginMiddleware\PluginMiddleware.csproj" />
   </ItemGroup>
   
   <ItemGroup>

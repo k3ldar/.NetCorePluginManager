@@ -35,7 +35,6 @@ using Middleware.Downloads;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 using SimpleDB;
-using PluginManager.Tests.Mocks;
 using Shared.Classes;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers

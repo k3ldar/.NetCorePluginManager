@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.5.11619.145 insiders
+VisualStudioVersion = 18.5.11619.145
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.PluginManager", "NetCorePluginManager\AspNetCore.PluginManager.csproj", "{59FE93CB-B341-48E0-B161-6DDC79967ABD}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserSessionMiddleware.Plugin", "Plugins\UserSessionMiddlewarePlugin\UserSessionMiddleware.Plugin.csproj", "{653B2702-1F94-42DA-9547-A289BFF54AA4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemoryCachePlugin", "Plugins\MemoryCachePlugin\MemoryCachePlugin.csproj", "{AC3E8463-45A9-4E03-8229-6FC081C6EFCC}"
@@ -31,8 +29,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Login.Plugin", "Plugins\Log
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserAccount.Plugin", "Plugins\UserAccount.Plugin\UserAccount.Plugin.csproj", "{B14B5FCA-F7F9-4903-84AE-A5FC928D2EA2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginMiddleware", "Plugins\PluginMiddleware\PluginMiddleware.csproj", "{708ABA14-E3A2-430D-BEA9-C898D6737937}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompanyPlugin", "Plugins\Company.Plugin\CompanyPlugin.csproj", "{D916B1D6-AF17-4DC4-8235-353A304ECAF2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Localization.Plugin", "Plugins\LocalizationPlugin\Localization.Plugin.csproj", "{821952FF-1AB7-4126-8CAB-0AF2F5DD620B}"
@@ -57,15 +53,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Documentation.Plugin", "Plu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.PluginManager.DemoWebsite", "Demo\NetCorePluginDemoWebsite\AspNetCore.PluginManager.DemoWebsite.csproj", "{5E7A0D92-5C09-4B5B-9E58-BEDCD1952EBE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedPluginFeatures", "SharedPluginFeatures\SharedPluginFeatures.csproj", "{35AAA3B7-AB87-49F4-8D5F-CACA13F2C1DD}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Plugin", "Plugins\Blog.Plugin\Blog.Plugin.csproj", "{AFFFF1F4-0820-42DA-B8E7-3955EB61D825}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sitemap.Plugin", "Plugins\Sitemap.Plugin\Sitemap.Plugin.csproj", "{C0C474D5-0B2C-49D1-A4F4-201AFF0A8403}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginManager", "PluginManager\src\PluginManager.csproj", "{B5B1D1B4-B2B6-4BC5-868A-25A837D51DCA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginManager.Tests", "Tests\PluginManager.Tests\PluginManager.Tests.csproj", "{D8695188-F19C-4A12-B01B-784860A8CC7E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9D6C1367-C141-4577-8E9C-5710C9D5E516}"
 	ProjectSection(SolutionItems) = preProject
@@ -94,16 +84,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{CB762EBF-E92
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginManager.DAL.TextFiles", "DAL\PluginManager.DAL.TextFiles\PluginManager.DAL.TextFiles.csproj", "{17422B82-BF9A-42FE-ABB8-4497BDFE99B7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{8522A683-113C-49D8-BA64-E6677D72A5E9}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleDB", "Database\PluginManager.SimpleDB\SimpleDB.csproj", "{615AE0C8-2986-49AB-9B84-139E252CCB59}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{19AFBC9B-7D1B-4405-871F-00763C364C86}"
 	ProjectSection(SolutionItems) = preProject
 		Tests\Directory.Build.props = Tests\Directory.Build.props
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleDB.Tests", "Tests\PluginManager.SimpleDB.Tests\SimpleDB.Tests.csproj", "{59B9833B-8752-4257-AB07-244555F71E96}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginManager.DAL.TextFiles.Tests", "Tests\PluginManager.DAL.TextFiles.Tests\PluginManager.DAL.TextFiles.Tests.csproj", "{2CA6425F-5474-43CC-AC87-47A4D49A8ADA}"
 EndProject
@@ -127,10 +111,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{59FE93CB-B341-48E0-B161-6DDC79967ABD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59FE93CB-B341-48E0-B161-6DDC79967ABD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59FE93CB-B341-48E0-B161-6DDC79967ABD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59FE93CB-B341-48E0-B161-6DDC79967ABD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{653B2702-1F94-42DA-9547-A289BFF54AA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{653B2702-1F94-42DA-9547-A289BFF54AA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{653B2702-1F94-42DA-9547-A289BFF54AA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -183,10 +163,6 @@ Global
 		{B14B5FCA-F7F9-4903-84AE-A5FC928D2EA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B14B5FCA-F7F9-4903-84AE-A5FC928D2EA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B14B5FCA-F7F9-4903-84AE-A5FC928D2EA2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{708ABA14-E3A2-430D-BEA9-C898D6737937}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{708ABA14-E3A2-430D-BEA9-C898D6737937}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{708ABA14-E3A2-430D-BEA9-C898D6737937}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{708ABA14-E3A2-430D-BEA9-C898D6737937}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D916B1D6-AF17-4DC4-8235-353A304ECAF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D916B1D6-AF17-4DC4-8235-353A304ECAF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D916B1D6-AF17-4DC4-8235-353A304ECAF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -235,10 +211,6 @@ Global
 		{5E7A0D92-5C09-4B5B-9E58-BEDCD1952EBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E7A0D92-5C09-4B5B-9E58-BEDCD1952EBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E7A0D92-5C09-4B5B-9E58-BEDCD1952EBE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{35AAA3B7-AB87-49F4-8D5F-CACA13F2C1DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{35AAA3B7-AB87-49F4-8D5F-CACA13F2C1DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{35AAA3B7-AB87-49F4-8D5F-CACA13F2C1DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{35AAA3B7-AB87-49F4-8D5F-CACA13F2C1DD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AFFFF1F4-0820-42DA-B8E7-3955EB61D825}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AFFFF1F4-0820-42DA-B8E7-3955EB61D825}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFFFF1F4-0820-42DA-B8E7-3955EB61D825}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -247,14 +219,6 @@ Global
 		{C0C474D5-0B2C-49D1-A4F4-201AFF0A8403}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0C474D5-0B2C-49D1-A4F4-201AFF0A8403}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0C474D5-0B2C-49D1-A4F4-201AFF0A8403}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B5B1D1B4-B2B6-4BC5-868A-25A837D51DCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B5B1D1B4-B2B6-4BC5-868A-25A837D51DCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B5B1D1B4-B2B6-4BC5-868A-25A837D51DCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B5B1D1B4-B2B6-4BC5-868A-25A837D51DCA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D8695188-F19C-4A12-B01B-784860A8CC7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D8695188-F19C-4A12-B01B-784860A8CC7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D8695188-F19C-4A12-B01B-784860A8CC7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D8695188-F19C-4A12-B01B-784860A8CC7E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{70C2B003-79EB-4A0B-93BF-A499D19B8763}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{70C2B003-79EB-4A0B-93BF-A499D19B8763}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70C2B003-79EB-4A0B-93BF-A499D19B8763}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -283,14 +247,6 @@ Global
 		{17422B82-BF9A-42FE-ABB8-4497BDFE99B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17422B82-BF9A-42FE-ABB8-4497BDFE99B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17422B82-BF9A-42FE-ABB8-4497BDFE99B7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{615AE0C8-2986-49AB-9B84-139E252CCB59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{615AE0C8-2986-49AB-9B84-139E252CCB59}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{615AE0C8-2986-49AB-9B84-139E252CCB59}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{615AE0C8-2986-49AB-9B84-139E252CCB59}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59B9833B-8752-4257-AB07-244555F71E96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59B9833B-8752-4257-AB07-244555F71E96}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59B9833B-8752-4257-AB07-244555F71E96}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59B9833B-8752-4257-AB07-244555F71E96}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2CA6425F-5474-43CC-AC87-47A4D49A8ADA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2CA6425F-5474-43CC-AC87-47A4D49A8ADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CA6425F-5474-43CC-AC87-47A4D49A8ADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -309,10 +265,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3365733A-7BCF-44EF-B30F-7DA94BBE4E74} = {19AFBC9B-7D1B-4405-871F-00763C364C86}
-		{D8695188-F19C-4A12-B01B-784860A8CC7E} = {19AFBC9B-7D1B-4405-871F-00763C364C86}
 		{17422B82-BF9A-42FE-ABB8-4497BDFE99B7} = {CB762EBF-E92F-4B74-9877-9DD34FADBC78}
-		{615AE0C8-2986-49AB-9B84-139E252CCB59} = {8522A683-113C-49D8-BA64-E6677D72A5E9}
-		{59B9833B-8752-4257-AB07-244555F71E96} = {19AFBC9B-7D1B-4405-871F-00763C364C86}
 		{2CA6425F-5474-43CC-AC87-47A4D49A8ADA} = {19AFBC9B-7D1B-4405-871F-00763C364C86}
 		{0B6CC20A-FE83-4CC7-A836-06CE25C5F24C} = {9D6C1367-C141-4577-8E9C-5710C9D5E516}
 		{30CA931F-8150-451B-8720-11D53C7C9749} = {0B6CC20A-FE83-4CC7-A836-06CE25C5F24C}

@@ -22,12 +22,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\DAL\PluginManager.DAL.TextFiles\PluginManager.DAL.TextFiles.csproj" />
-    <ProjectReference Include="..\..\Database\PluginManager.SimpleDB\SimpleDB.csproj" />
-    <ProjectReference Include="..\..\Tests\AspNetCore.PluginManager.Tests\AspNetCore.PluginManager.Tests.csproj" />
-    <ProjectReference Include="..\..\Tests\PluginManager.Tests\PluginManager.Tests.csproj" />
-    <ProjectReference Include="..\PluginManager.SimpleDB.Tests\SimpleDB.Tests.csproj" />
+    <ProjectReference Include="..\AspNetCore.PluginManager.Tests\AspNetCore.PluginManager.Tests.csproj" />
   </ItemGroup>
-
+	
+  <ItemGroup>
+	<PackageReference Include="PluginManager" Version="5.10.0" />
+	<PackageReference Include="SharedPluginFeatures" Version="5.10.0" />
+	<PackageReference Include="AspNetCore.PluginManager" Version="5.10.0" />
+  </ItemGroup>
+	
   <ItemGroup>
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Update="MSTest.TestAdapter" Version="3.6.4" />

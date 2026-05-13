@@ -37,12 +37,11 @@ using SimpleDB;
 using SharedPluginFeatures;
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Tables;
-using DynamicContent.Plugin.Templates;
 using PluginManager.DAL.TextFiles.Tables.Products;
-using PluginManager.Tests.Mocks;
 using PluginManager.DAL.TextFiles.Tables.Sessions;
 using Shared.Classes;
 using PluginManager.DAL.TextFiles.Tables.Stock;
+using DynamicContent.Plugin.Templates;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {

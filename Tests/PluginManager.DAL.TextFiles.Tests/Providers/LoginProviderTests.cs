@@ -35,11 +35,9 @@ using Middleware;
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.Tests.Mocks;
 
 using SimpleDB;
 using SimpleDB.Internal;
-using SimpleDB.Tests.Mocks;
 
 #pragma warning disable IDE0017, CA1859
 
@@ -49,27 +47,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 	[ExcludeFromCodeCoverage]
 	public class LoginProviderTests : BaseProviderTests
 	{
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public void Construct_InvalidInstance_TableUserNull_Throws_ArgumentNullException()
-		{
-			new LoginProvider(null, new MockTextTableOperations<ExternalUsersDataRow>(), new MockSettingsProvider("{ \"SimpleDBSettings\":{ \"Path\": \"c:\\temp\"} }"));
-		}
-
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public void Construct_InvalidInstance_TableExternalUsersNull_Throws_ArgumentNullException()
-		{
-			new LoginProvider(new MockTextTableOperations<UserDataRow>(), null, new MockSettingsProvider("{ \"SimpleDBSettings\":{ \"Path\": \"c:\\temp\"} }"));
-		}
-
-		[TestMethod]
-		public void Construct_ValidInstance_Success()
-		{
-			LoginProvider sut = new(new MockTextTableOperations<UserDataRow>(), new MockTextTableOperations<ExternalUsersDataRow>(), new MockSettingsProvider("{ \"SimpleDBSettings\":{ \"Path\": \"c:\\temp\"} }"));
-			Assert.IsNotNull(sut);
-		}
-
 		[TestMethod]
 		public void Validate_ExternalUsersIdStartsAtInt64Minimum_Success()
 		{

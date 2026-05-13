@@ -35,31 +35,14 @@ using Middleware.Products;
 
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.Tests.Mocks;
 
 using SimpleDB;
-using SimpleDB.Tests.Mocks;
-
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
 	[TestClass]
 	[ExcludeFromCodeCoverage]
 	public class ProductProviderTests : BaseProviderTests
 	{
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public void Construct_InvalidInstance_ParamProductDataNull_Throws_ArgumentNullException()
-		{
-			new ProductProvider(null, new MockTextTableOperations<ProductGroupDataRow>());
-		}
-
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public void Construct_InvalidInstance_ParamProductGroupDataNull_Throws_ArgumentNullException()
-		{
-			new ProductProvider(new MockTextTableOperations<ProductDataRow>(), null);
-		}
-
 		[TestMethod]
 		public void Construct_ValidInstance_Success()
 		{

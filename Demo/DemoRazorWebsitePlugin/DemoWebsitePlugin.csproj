@@ -34,12 +34,15 @@
     <SignAssembly>$(SignAssembly)</SignAssembly>
     <AssemblyOriginatorKeyFile>$(AssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-
+	
   <ItemGroup>
-    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
-    <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+	<PackageReference Include="PluginManager" Version="5.10.0" />
+	<PackageReference Include="SharedPluginFeatures" Version="5.10.0" />
+	<PackageReference Include="AspNetCore.PluginManager" Version="5.10.0" />
+  </ItemGroup>
+	
+  <ItemGroup>
     <ProjectReference Include="..\..\Languages\Languages.csproj" />
-    <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
   </ItemGroup>
 
 	<ItemGroup>

@@ -26,9 +26,9 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AspNetCore.PluginManager.Tests.Shared;
 
-using PluginManager.Tests.Mocks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using SystemAdmin.Plugin;
 

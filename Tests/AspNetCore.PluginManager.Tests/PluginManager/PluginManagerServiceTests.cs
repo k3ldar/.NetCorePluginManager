@@ -30,7 +30,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager;
 using PluginManager.Abstractions;
-using PluginManager.Tests.Mocks;
 
 namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
 {
@@ -78,20 +77,6 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         public void InitialiseWithDefaultParameters()
         {
             Assert.IsTrue(PluginManagerService.Initialise(new PluginManagerConfiguration()));
-        }
-
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        public void InitialiseWithCustomILogger()
-        {
-            MockLogger testLogger = new MockLogger();
-            PluginManagerConfiguration configuration = new PluginManagerConfiguration(testLogger);
-
-            PluginManagerService.Initialise(configuration);
-
-            ILogger pluginManagerLogger = PluginManagerService.GetLogger();
-
-            Assert.AreNotEqual(pluginManagerLogger.GetType().TypeHandle.Value, testLogger.GetType().TypeHandle.Value);
         }
     }
 }

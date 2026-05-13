@@ -37,12 +37,12 @@ using Languages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Middleware;
-using Middleware.Resources;
-
 using Resources.Plugin.Models;
 
 using SharedPluginFeatures;
+
+using Middleware;
+using Middleware.Resources;
 
 #pragma warning disable CS1591
 

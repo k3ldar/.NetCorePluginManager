@@ -27,6 +27,8 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 
+using AspNetCore.PluginManager.Tests.Shared;
+
 using DynamicContent.Plugin;
 
 using Microsoft.AspNetCore;
@@ -36,8 +38,6 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using PluginManager.Tests.Mocks;
 
 using Shared.Classes;
 

@@ -86,15 +86,18 @@
       <_Parameter1>AspNetCore.PluginManager.Tests</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
-
+	
   <ItemGroup>
-    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
-    <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+	<PackageReference Include="PluginManager" Version="5.10.0" />
+	<PackageReference Include="SharedPluginFeatures" Version="5.10.0" />
+	<PackageReference Include="AspNetCore.PluginManager" Version="5.10.0" />
+	<PackageReference Include="Middleware" Version="5.10.0" />
+  </ItemGroup>
+	
+  <ItemGroup>
     <ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
     <ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
-    <ProjectReference Include="..\PluginMiddleware\PluginMiddleware.csproj" />
     <ProjectReference Include="..\..\Languages\Languages.csproj" />
-    <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -35,7 +35,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.Abstractions;
-using PluginManager.Tests.Mocks;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 {

@@ -34,7 +34,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Middleware;
 
 using PluginManager.DAL.TextFiles.Providers;
-using PluginManager.Tests.Mocks;
 
 using Shared.Classes;
 

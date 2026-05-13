@@ -37,7 +37,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Middleware.DynamicContent;
 
 using PluginManager.Abstractions;
-using PluginManager.Tests.Mocks;
 
 using SharedPluginFeatures;
 

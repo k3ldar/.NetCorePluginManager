@@ -80,13 +80,18 @@
 	  <PackageReference Include="ApplicationSettings" Version="2.3.0" />
 	  <PackageReference Include="System.IO.Pipelines" Version="9.0.0" />
   </ItemGroup>
-
+	
+  <ItemGroup>
+	<PackageReference Include="PluginManager" Version="5.10.0" />
+	<PackageReference Include="SharedPluginFeatures" Version="5.10.0" />
+	<PackageReference Include="Middleware" Version="5.10.0" />
+	<PackageReference Include="AspNetCore.PluginManager" Version="5.10.0" />
+	<PackageReference Include="SimpleDb" Version="5.10.0" />
+  </ItemGroup>
+	
   <ItemGroup>
     <ProjectReference Include="..\..\Demo\NetCorePluginDemoWebsite\AspNetCore.PluginManager.DemoWebsite.csproj" />
     <ProjectReference Include="..\..\Plugins\Resources.Plugin\Resources.Plugin.csproj" />
-    <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
-    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
-    <ProjectReference Include="..\..\Plugins\PluginMiddleware\PluginMiddleware.csproj" />
     <ProjectReference Include="..\..\Plugins\Products.Plugin\ProductsPlugin.csproj" />
     <ProjectReference Include="..\..\Plugins\ShoppingCart.Plugin\ShoppingCart.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\Helpdesk.Plugin\HelpdeskPlugin.csproj" />
@@ -109,7 +114,6 @@
     <ProjectReference Include="..\..\Plugins\SeoPlugin\SeoPlugin.csproj" />
     <ProjectReference Include="..\..\Plugins\Spider.Plugin\Spider.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\UserSessionMiddlewarePlugin\UserSessionMiddleware.Plugin.csproj" />
-    <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
     <ProjectReference Include="..\..\Plugins\Search.Plugin\Search.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\WebSmokeTest.Plugin\WebSmokeTest.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\GeoIpPlugin\GeoIpPlugin.csproj" />
@@ -117,7 +121,6 @@
     <ProjectReference Include="..\..\Plugins\ImageManager.Plugin\ImageManager.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\DynamicContent.Plugin\DynamicContent.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\ApiAuthorization.Plugin\ApiAuthorization.Plugin.csproj" />
-		<ProjectReference Include="..\PluginManager.Tests\PluginManager.Tests.csproj" />
   </ItemGroup>
 
   <ItemGroup>

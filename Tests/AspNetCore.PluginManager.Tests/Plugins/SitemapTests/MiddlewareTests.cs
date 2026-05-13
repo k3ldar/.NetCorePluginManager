@@ -40,8 +40,6 @@ using HelpdeskPlugin.Classes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using PluginManager.Tests.Mocks;
-
 using Sitemap.Plugin;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests

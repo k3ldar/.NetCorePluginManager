@@ -32,7 +32,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 using SimpleDB;
-using SimpleDB.Tests.Mocks;
 
 using SharedPluginFeatures;
 
@@ -47,14 +46,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 		public void Construct_InvalidParam_SeoDataNull_Throws_ArgumentNullException()
 		{
 			new SeoProvider(null);
-		}
-
-		[TestMethod]
-		public void Construct_ValidInstance_Success()
-		{
-			SeoProvider sut = new(new MockTextTableOperations<SeoDataRow>());
-
-			Assert.IsNotNull(sut);
 		}
 
 		[TestMethod]

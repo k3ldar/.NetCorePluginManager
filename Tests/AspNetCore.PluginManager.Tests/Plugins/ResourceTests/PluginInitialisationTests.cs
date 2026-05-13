@@ -46,7 +46,6 @@ using Middleware.Interfaces;
 
 using PluginManager.Abstractions;
 using PluginManager.Internal;
-using PluginManager.Tests.Mocks;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.ResourceTests
 {

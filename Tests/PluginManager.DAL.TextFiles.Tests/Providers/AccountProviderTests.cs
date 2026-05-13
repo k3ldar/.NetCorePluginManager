@@ -42,7 +42,7 @@ using SimpleDB;
 
 using SharedPluginFeatures;
 using System.Globalization;
-using PluginManager.Tests.Mocks;
+using AspNetCore.PluginManager.Tests;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
